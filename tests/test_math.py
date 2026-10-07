@@ -148,5 +148,15 @@ class TestLabelsMath(unittest.TestCase):
         np.testing.assert_array_equal(_window_any(flags, 2)[:, 0], [False, False, True, True, False, False])
 
 
+class TestSpecSync(unittest.TestCase):
+    def test_feature_spec_is_current(self):
+        import subprocess  # noqa: PLC0415
+        import sys  # noqa: PLC0415
+        from pathlib import Path  # noqa: PLC0415
+        tool = Path(__file__).resolve().parents[1] / "tools" / "gen_feature_spec.py"
+        r = subprocess.run([sys.executable, str(tool), "--check"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+
 if __name__ == "__main__":
     unittest.main()

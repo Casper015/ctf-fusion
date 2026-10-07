@@ -1,6 +1,7 @@
-"""Train the board value network V(s, team) for one tier.
+"""Train the board value network V(s, team) for one model of the matrix (profiles/).
 
-    python -m training.train_value --shards data/shards --tier m31 --out runs/value_m31
+    python -m training.train_value --model general --out runs/value_general
+    python -m training.train_value --model n08 --init runs/value_general --out runs/value_n08
 
 Main target: the final pairwise outcome of the row's team (win 1, draw .5,
 loss 0, averaged over opponents), the quantity the Bradley-Terry rating
@@ -17,7 +18,8 @@ import numpy as np
 from fusion.models import ValueNet, value_inputs
 from fusion.nn import Adam
 from fusion.schema import layout as feature_layout
-from training.common import Run, batches, fit, subset
+from fusion.paths import model_counts
+from training.common import Run, add_training_args, batches, data_manifest, fit, subset, warm_start
 from training.dataset import load
 
 
@@ -46,31 +48,24 @@ def fit_value_temperature(z: np.ndarray, y: np.ndarray, w: np.ndarray, lo=0.05, 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--shards", default="data/shards")
-    ap.add_argument("--tier", required=True)
-    ap.add_argument("--out", required=True)
-    ap.add_argument("--epochs", type=int, default=8)
-    ap.add_argument("--patience", type=int, default=2)
-    ap.add_argument("--batch", type=int, default=2048)
-    ap.add_argument("--lr", type=float, default=1e-3)
-    ap.add_argument("--weight-decay", type=float, default=1e-5)
+    add_training_args(ap, batch=2048)
     ap.add_argument("--aux-weight", type=float, default=0.25)
     ap.add_argument("--hidden", default="128,16")
-    ap.add_argument("--max-rows", type=int, default=0)
-    ap.add_argument("--seed", type=int, default=1)
-    ap.add_argument("--val-split", default="val", help="split for early stopping and calibration")
     a = ap.parse_args(argv)
     rng = np.random.default_rng(a.seed)
     fields = ("rec", "v_y", "weight", "teams", "match", "turn")
-    train, val = load(a.shards, a.tier, "train", fields), load(a.shards, a.tier, a.val_split, fields)
+    counts = model_counts(a.model)
+    train, val = load(a.shards, counts, "train", fields), load(a.shards, counts, a.val_split, fields)
     if a.max_rows and len(train["rec"]) > a.max_rows:
         train = subset(train, np.sort(rng.choice(len(train["rec"]), a.max_rows, replace=False)))
     layout = feature_layout()
     hidden = [int(h) for h in a.hidden.split(",")]
     model = ValueNet(layout, rng, hidden)
+    init = warm_start(model, a.init)
     opt = Adam(model.params, lr=a.lr, weight_decay=a.weight_decay)
     cfg = {"aux_weight": a.aux_weight}
-    run = Run(a.out, {"kind": "value", "tier": a.tier, "hidden": hidden, "args": vars(a),
+    run = Run(a.out, {"kind": "value", "model": a.model, "hidden": hidden, "args": vars(a), "seed": a.seed,
+                      "init": init, "data": data_manifest(a.shards, counts),
                       "rows": {"train": len(train["rec"]), "val": len(val["rec"])},
                       "spec_version": layout.schema["spec_version"]})
 
@@ -85,7 +80,7 @@ def main(argv=None):
             wsum += float(w.sum())
         return total / wsum
 
-    best = fit(model, train_epoch, lambda: evaluate(model, layout, val, cfg), a.epochs, a.patience, run, rng)
+    best = fit(model, train_epoch, lambda: evaluate(model, layout, val, cfg), a, run, rng, opt)
     z = np.concatenate([model.logits(value_inputs(val["rec"][i], layout))[:, 0] for i in batches(len(val["rec"]), 8192, None)])
     beta = fit_value_temperature(z.astype(np.float64), val["v_y"][:, 0].astype(np.float64), val["weight"].astype(np.float64))
     run.log(stage="calibrated", beta=beta)

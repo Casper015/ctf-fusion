@@ -1,15 +1,19 @@
-// Public game state and static board geometry shared by the feature encoders.
+// Public game state and static board geometry shared by the feature encoders
+// and the simulator.
 //
 // Pure data and geometry: no I/O, standard library only, so a bot can include
 // it next to its own parser (tools/stream.hpp is the parser the tools use).
 // Every rule mirrored here comes from the official engine
 // (ctf-arena/Player7/workspace/engine.py); comments name the engine function.
+//
+// Allocation: Board::init allocates once (turn 1, inside the 2 s budget).
+// makeView() reuses a TurnView's buffers, so after the first turn of a match
+// nothing on the per-turn path touches the heap.
 #ifndef FUSION_STATE_HPP
 #define FUSION_STATE_HPP
 #include <algorithm>
 #include <array>
 #include <cstdlib>
-#include <deque>
 #include <vector>
 
 namespace fusion {
@@ -19,6 +23,9 @@ inline constexpr int kDX[kMoves] = {0, 0, 0, -1, 1};
 inline constexpr int kDY[kMoves] = {0, -1, 1, 0, 0};
 inline constexpr char kMoveChar[kMoves] = {'S', 'U', 'D', 'L', 'R'};
 inline constexpr int kUnreachable = 1 << 20;
+inline constexpr int kMaxTeams = 15;
+inline constexpr int kMaxUnits = 3 * kMaxTeams;
+inline constexpr int kMaxFlags = 8;  // max(2, ceil(15 / 2))
 
 enum FlagStatus { kHome = 0, kCarried = 1, kDropped = 2, kCooldown = 3 };
 
@@ -45,11 +52,12 @@ struct State {
 struct Board {
     int n = 0, teams = 0, turns = 400, center = 0;
     std::vector<unsigned char> wall;
-    std::vector<int> baseCell;                 // base center cell per team
     std::vector<std::array<int, kMoves>> nb;  // destination per move, -1 = wall
     std::vector<std::vector<int>> home;       // BFS distance to each team's base cells
     std::vector<std::array<int, 9>> spawnOrder;
     std::vector<int> baseOf;                  // owning team of a base cell, -1 elsewhere
+    std::vector<int> baseCell;                // base center cell per team
+    mutable std::vector<int> queue;           // BFS scratch, n*n
 
     int cell(int x, int y) const { return y * n + x; }
     int man(int a, int b) const { return std::abs(a % n - b % n) + std::abs(a / n - b / n); }
@@ -66,20 +74,21 @@ struct Board {
         return true;
     }
 
-    std::vector<int> bfs(const std::vector<int>& sources) const {
-        std::vector<int> d(n * n, kUnreachable);
-        std::deque<int> q;
-        for (int s : sources)
-            if (open(s) && d[s] != 0) { d[s] = 0; q.push_back(s); }
-        while (!q.empty()) {
-            const int c = q.front();
-            q.pop_front();
+    // Multi-source BFS over open cells into `dist` (resized to n*n; no allocation once sized).
+    void bfs(const int* sources, int count, std::vector<int>& dist) const {
+        dist.assign(n * n, kUnreachable);
+        int head = 0, tail = 0;
+        for (int i = 0; i < count; i++) {
+            const int s = sources[i];
+            if (open(s) && dist[s] != 0) { dist[s] = 0; queue[tail++] = s; }
+        }
+        while (head < tail) {
+            const int c = queue[head++];
             for (int m = 1; m < kMoves; m++) {
                 const int t = nb[c][m];
-                if (t >= 0 && d[t] > d[c] + 1) { d[t] = d[c] + 1; q.push_back(t); }
+                if (t >= 0 && dist[t] > dist[c] + 1) { dist[t] = dist[c] + 1; queue[tail++] = t; }
             }
         }
-        return d;
     }
 
     void init(const Static& s) {
@@ -88,6 +97,7 @@ struct Board {
         turns = s.turns;
         wall = s.wall;
         center = cell(n / 2, n / 2);
+        queue.assign(n * n, 0);
         nb.assign(n * n, {});
         for (int y = 0; y < n; y++)
             for (int x = 0; x < n; x++)
@@ -108,7 +118,7 @@ struct Board {
             for (int dy = -1; dy <= 1; dy++)
                 for (int dx = -1; dx <= 1; dx++) order[k++] = cell(bx + dx, by + dy);
             for (int c : order) baseOf[c] = t;
-            home[t] = bfs(std::vector<int>(order.begin(), order.end()));
+            bfs(order.data(), 9, home[t]);
             // engine Game.__init__ spawn_order: stable sort by
             // (distance to map center, |dx| + 2|dy| from the base center).
             std::stable_sort(order.begin(), order.end(), [&](int a, int b) {
@@ -130,6 +140,7 @@ struct TurnView {
     std::vector<int> flagDist;          // BFS distance to the nearest available flag
     std::vector<int> occupant;          // unit standing on a cell, -1 if none
     std::vector<int> hitsTaken;         // attack events on each unit in the previous settlement
+    std::vector<unsigned char> occupied;  // scratch
 };
 
 // A flag an unladen unit can pick up this turn: home, or dropped and not
@@ -138,31 +149,37 @@ inline bool available(const Flag& f, int turn) {
     return f.status == kHome || (f.status == kDropped && turn < f.returnAt);
 }
 
-inline TurnView makeView(const Board& b, const State& s, const State* prev) {
-    TurnView v;
+// engine Game.step phase 1: dead units whose respawn time has come take the
+// first free cell of their team's spawn order, in ascending unit id. Fills
+// origin (current cell, spawn cell, or -1) and immune.
+inline void respawnOrigins(const Board& b, const State& s, std::vector<int>& origin, std::vector<unsigned char>& immune,
+                           std::vector<unsigned char>& occupied) {
     const int U = static_cast<int>(s.units.size());
-    v.origin.assign(U, -1);
-    v.immune.assign(U, 0);
-    v.prevCell.assign(U, -1);
-    v.hitsTaken.assign(U, 0);
-    v.occupant.assign(b.n * b.n, -1);
-    std::vector<unsigned char> occupied(b.n * b.n, 0);
+    origin.assign(U, -1);
+    immune.assign(U, 0);
+    occupied.assign(b.n * b.n, 0);
     for (const Unit& u : s.units)
         if (u.x >= 0) {
-            v.origin[u.id] = b.cell(u.x, u.y);
-            occupied[v.origin[u.id]] = 1;
+            origin[u.id] = b.cell(u.x, u.y);
+            occupied[origin[u.id]] = 1;
         }
-    // engine Game.step phase 1: dead units whose respawn time has come take the
-    // first free cell of their team's spawn order, in ascending unit id.
     for (const Unit& u : s.units)
         if (u.x < 0 && u.respawnAt >= 0 && s.turn >= u.respawnAt)
             for (int c : b.spawnOrder[u.team])
                 if (!occupied[c]) {
-                    v.origin[u.id] = c;
-                    v.immune[u.id] = 1;
+                    origin[u.id] = c;
+                    immune[u.id] = 1;
                     occupied[c] = 1;
                     break;
                 }
+}
+
+inline void makeView(const Board& b, const State& s, const State* prev, TurnView& v) {
+    const int U = static_cast<int>(s.units.size());
+    respawnOrigins(b, s, v.origin, v.immune, v.occupied);
+    v.prevCell.assign(U, -1);
+    v.hitsTaken.assign(U, 0);
+    v.occupant.assign(b.n * b.n, -1);
     for (int i = 0; i < U; i++)
         if (v.origin[i] >= 0) v.occupant[v.origin[i]] = i;
     if (prev && prev->units.size() == s.units.size())
@@ -171,15 +188,15 @@ inline TurnView makeView(const Board& b, const State& s, const State* prev) {
     for (const Attack& a : s.attacks)
         if (a.target >= 0 && a.target < U) v.hitsTaken[a.target]++;
     v.flagCell.assign(b.n * b.n, 0);
-    std::vector<int> sources;
+    std::array<int, kMaxFlags> sources{};
+    int count = 0;
     for (const Flag& f : s.flags)
-        if (available(f, s.turn) && f.x >= 0) {
+        if (available(f, s.turn) && f.x >= 0 && count < kMaxFlags) {
             const int c = b.cell(f.x, f.y);
             v.flagCell[c] = 1;
-            sources.push_back(c);
+            sources[count++] = c;
         }
-    v.flagDist = b.bfs(sources);
-    return v;
+    b.bfs(sources.data(), count, v.flagDist);
 }
 
 }  // namespace fusion

@@ -1,6 +1,7 @@
-"""Turn raw match files into training shards (docs/DATA_FORMAT.md).
+"""Turn raw match files into training shards (training/specs/DATA_FORMAT.md).
 
-    python -m training.dataset --raw data/raw --out data/shards --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --workers 8
+    python -m training.dataset --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --workers 8
+    python -m training.dataset --teams ... --append      # phase 2: add new matches, keep every existing shard
 
 For every match: rebuild a seat stream, run the C++ feature extractor (the
 same encoder the bot runs), label every (turn, team) row from the reply lines,
@@ -14,6 +15,13 @@ Rows are split by match: train / val / test from a hash of the match id, so
 no match ever feeds two splits. --holdout-family moves every row whose acting
 team belongs to a family into an extra `ood` split (generalization to an
 unseen opponent family); `ood` rows never enter training.
+
+Shards are stored per team count (data/shards/nXX/<split>/), so the general
+model and every dedicated model read the same files without duplication.
+--append processes only matches the index does not list yet and writes new
+shard files next to the old ones; sampling options must match the index.
+index.json carries the dataset manifest: matches per team count, seat and
+family distribution, AI_Test and repository commits, collection seeds.
 """
 from __future__ import annotations
 
@@ -21,6 +29,7 @@ import argparse
 import hashlib
 import json
 import multiprocessing as mp
+import time
 from collections import defaultdict
 from pathlib import Path
 
@@ -28,7 +37,7 @@ import numpy as np
 
 from fusion import matchlog, native
 from fusion.labels import STRATA, label_match
-from fusion.paths import REPO, load_profile
+from fusion.paths import REPO, git_commit
 from fusion.schema import Layout
 
 SPLITS = (("train", 0.8), ("val", 0.1), ("test", 0.1))
@@ -71,38 +80,75 @@ def process(job):
         "team": team[take].astype(np.int8), "teams": np.full(int(take.sum()), n, np.int8)}
     rows["family_name"] = [families[t] for t in team[take]]
     meta = {"match_id": match["match_id"], "file": str(path), "teams": n, "split": split_of(match["match_id"]),
-            "families": families, "seats": [s["name"] for s in match["seats"]], "faults": len(match["faults"])}
+            "families": families, "seats": [s["name"] for s in match["seats"]], "faults": len(match["faults"]),
+            "ai_test_commit": match.get("ai_test_commit", "unknown")}
     ood = np.array([f in holdout for f in rows["family_name"]], bool)
     return meta, rows, ood
 
 
-def write_shards(out_dir: Path, buffers, families, matches, args):
-    out_dir.mkdir(parents=True, exist_ok=True)
-    counts = {}
-    for (tier, split), parts in sorted(buffers.items()):
-        d = out_dir / tier / split
+def count_key(teams: int) -> str:
+    return f"n{teams:02d}"
+
+
+def manifest(index: dict) -> dict:
+    from collections import Counter  # noqa: PLC0415
+    matches = index["matches"]
+    seeds = Counter(m["match_id"].split("-")[1] for m in matches)
+    return {
+        "matches": len(matches),
+        "matches_by_count": dict(sorted(Counter(count_key(m["teams"]) for m in matches).items())),
+        "matches_by_split": dict(Counter(m["split"] for m in matches)),
+        "seats_by_bot": dict(Counter(b for m in matches for b in m["seats"]).most_common()),
+        "seats_by_family": dict(Counter(f for m in matches for f in m["families"]).most_common()),
+        "ai_test_commits": sorted({m.get("ai_test_commit", "unknown") for m in matches}),
+        "collection_seeds": dict(seeds),
+        "repo_commit": git_commit(REPO),
+    }
+
+
+def data_digest(index: dict, counts) -> str:
+    """Fingerprint of the matches behind some team counts (recorded in every run's config)."""
+    ids = sorted(m["match_id"] for m in index["matches"] if m["teams"] in set(counts))
+    return hashlib.sha256("\n".join(ids).encode()).hexdigest()[:16]
+
+
+def write_shards(out_dir: Path, buffers, index, args):
+    for (key, split), parts in sorted(buffers.items()):
+        d = out_dir / key / split
         d.mkdir(parents=True, exist_ok=True)
         merged = {k: np.concatenate([p[k] for p in parts]) for k in FIELDS}
         n = len(merged["rec"])
-        counts[f"{tier}/{split}"] = n
-        for i, start in enumerate(range(0, max(n, 1), args.shard_rows)):
-            np.savez_compressed(d / f"shard_{i:04d}.npz", **{k: v[start:start + args.shard_rows] for k, v in merged.items()})
-    index = {"schema": native.schema(), "families": families, "matches": matches, "counts": counts,
-             "options": {"stride": args.stride, "keep": args.keep_map, "holdout_family": args.holdout_family}}
-    (out_dir / "index.json").write_text(json.dumps(index, indent=1))
-    return counts
+        first = len(list(d.glob("shard_*.npz")))
+        for i, start in enumerate(range(0, n, args.shard_rows)):
+            np.savez_compressed(d / f"shard_{first + i:04d}.npz", **{k: v[start:start + args.shard_rows] for k, v in merged.items()})
+        index["counts"][f"{key}/{split}"] = index["counts"].get(f"{key}/{split}", 0) + n
+    index["manifest"] = manifest(index)
+    index["history"].append({"time": time.strftime("%Y-%m-%dT%H:%M:%S"), "matches": len(index["matches"]),
+                             "added": sum(len(p["rec"]) for parts in buffers.values() for p in parts)})
+    (out_dir / "index.json").write_text(json.dumps(index, indent=1), encoding="utf-8")
 
 
-def load(shard_dir, tier: str, split: str, fields=FIELDS) -> dict[str, np.ndarray]:
-    """Concatenate one tier's split. Adds `qh` when training.heuristic_baseline has run."""
-    d = Path(shard_dir) / tier / split
-    parts = [dict(np.load(p)) for p in sorted(d.glob("shard_*.npz"))]
+def load_index(shard_dir) -> dict:
+    return json.loads((Path(shard_dir) / "index.json").read_text(encoding="utf-8"))
+
+
+def load(shard_dir, counts, split: str, fields=FIELDS) -> dict[str, np.ndarray]:
+    """Concatenate one split over team counts. Adds `qh` when training.heuristic_baseline has run on every shard."""
+    if isinstance(counts, int):
+        counts = [counts]
+    parts, qh = [], []
+    for t in counts:
+        d = Path(shard_dir) / count_key(t) / split
+        shards = sorted(d.glob("shard_*.npz"))
+        for shard in shards:
+            parts.append({k: v for k, v in np.load(shard).items() if k in fields})
+            q = d / shard.name.replace("shard_", "qh_").replace(".npz", ".npy")
+            qh.append(np.load(q) if q.exists() else None)
     if not parts:
-        raise SystemExit(f"no shards in {d}")
+        raise SystemExit(f"no {split} shards for team counts {list(counts)} in {shard_dir}")
     out = {k: np.concatenate([p[k] for p in parts]) for k in fields}
-    qh = sorted(d.glob("qh_*.npy"))
-    if qh and len(qh) == len(parts):
-        out["qh"] = np.concatenate([np.load(p) for p in qh])
+    if all(q is not None for q in qh):
+        out["qh"] = np.concatenate(qh)
     return out
 
 
@@ -130,14 +176,27 @@ def main(argv=None):
     ap.add_argument("--holdout-family", nargs="*", default=[])
     ap.add_argument("--shard-rows", type=int, default=200_000)
     ap.add_argument("--workers", type=int, default=1)
+    ap.add_argument("--append", action="store_true", help="add matches missing from an existing index")
     args = ap.parse_args(argv)
     args.keep_map = DEFAULT_KEEP | {k: float(v) for k, v in (kv.split("=") for kv in args.keep.split(",") if kv)}
-    tiers = {t: load_profile(t)["tier"] for t in args.teams}
-    files = list(matchlog.iter_matches(args.raw, args.teams))
-    print(f"[dataset] {len(files)} matches", flush=True)
+    out_dir = Path(args.out)
+    options = {"stride": args.stride, "keep": args.keep_map, "holdout_family": sorted(args.holdout_family)}
+    index = {"schema": native.schema(), "options": options, "families": [], "matches": [], "counts": {}, "history": []}
+    if (out_dir / "index.json").exists():
+        if not args.append:
+            raise SystemExit(f"{out_dir} already holds a dataset; pass --append to extend it or choose another --out")
+        index = load_index(out_dir)
+        if index["options"] != options:
+            raise SystemExit(f"--append needs the same sampling options as the index: {index['options']}")
+        if index["schema"] != native.schema():
+            raise SystemExit("the feature schema changed since this dataset was built; rebuild it into a new --out")
+    known = {m["match_id"] for m in index["matches"]}
+    files = [f for f in matchlog.iter_matches(args.raw, args.teams) if f.name.split(".")[0] not in known]
+    print(f"[dataset] {len(files)} new matches ({len(known)} already indexed)", flush=True)
     native.extractor()  # compile before forking
     jobs = [(f, args.stride, args.keep_map, set(args.holdout_family)) for f in files]
-    buffers, families, matches = defaultdict(list), [], []
+    buffers = defaultdict(list)
+    families, matches = index["families"], index["matches"]
     pool = mp.Pool(args.workers) if args.workers > 1 else None
     results = pool.imap(process, jobs, chunksize=4) if pool else map(process, jobs)
     for i, (meta, rows, ood) in enumerate(results):
@@ -148,16 +207,15 @@ def main(argv=None):
                 families.append(name)
         fam = np.array([families.index(f) for f in rows.pop("family_name")], np.int16)
         rows |= {"family": fam, "match": np.full(len(fam), midx, np.int32)}
-        tier = tiers[meta["teams"]]
         for split, sel in ((meta["split"], ~ood), ("ood", ood)):
             if sel.any():
-                buffers[(tier, split)].append({k: v[sel] for k, v in rows.items()})
+                buffers[(count_key(meta["teams"]), split)].append({k: v[sel] for k, v in rows.items()})
         if (i + 1) % 200 == 0:
             print(f"[dataset] {i + 1}/{len(files)}", flush=True)
     if pool:
         pool.close()
-    counts = write_shards(Path(args.out), buffers, families, matches, args)
-    for k, v in counts.items():
+    write_shards(out_dir, buffers, index, args)
+    for k, v in sorted(index["counts"].items()):
         print(f"[dataset] {k}: {v} rows")
 
 

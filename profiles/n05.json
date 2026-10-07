@@ -1,8 +1,39 @@
 {
- "teams": 5,
- "tier": "m31",
+ "team_count": 5,
+ "map_size": 31,
+ "model": "n05",
+ "weights": "weights_n05.hpp",
+ "init_from": "general",
+ "search": {
+  "status": "proposal: starting points from docs/DESIGN.md, not yet read by the C++ search (search::configFor)",
+  "focus": "return vs combat exposure; penalize over-conservative detours",
+  "search_depth": 2,
+  "depth_extension": "3 on critical events",
+  "root_candidates": [
+   12,
+   20
+  ],
+  "enemy_scenarios": [
+   48,
+   160
+  ],
+  "return_dp_horizon": [
+   6,
+   8
+  ],
+  "return_dp_enabled": false
+ },
+ "turn_budget_ms": {
+  "search": 30,
+  "compute_target": 35,
+  "output_cutoff": 40,
+  "engine_limit": 50,
+  "first_turn_limit": 2000,
+  "_comment": "search = the separated search budget (AI_Test rule); compute_target and output_cutoff bound the whole turn"
+ },
  "collect": {
   "matches": 1500,
+  "phase2_matches": 7500,
   "pool": "default",
   "anchors": [
    "Player5_Omega_LIT",

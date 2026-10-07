@@ -2,8 +2,8 @@
 
 > The original design brief for this repository, reformatted. It targets the AI_Test `player7-nextgen` code
 > (cdb45c5) under a 50 ms per-turn CPU limit. It was written before any implementation or benchmark.
-> [REVIEW.md](REVIEW.md) records which parts the implementation adopted, which it changed and why. Literature is in
-> [SOURCES.md](SOURCES.md).
+> [REVIEW.md](REVIEW.md) records which parts the implementation adopted, which it changed and why; the contracts
+> are in [training/specs/](../training/specs/README.md). Literature is in [SOURCES.md](SOURCES.md).
 
 ## 1. Keep three quantities distinct
 

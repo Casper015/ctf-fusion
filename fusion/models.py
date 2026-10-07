@@ -214,7 +214,7 @@ class ValueNet:
 
 
 class QuantizedTier:
-    """Python emulation of an exported tier (inference/models/<tier>.npz), bit-exact with the C++."""
+    """Python emulation of an exported model (inference/models/weights_<model>.npz), bit-exact with the C++."""
 
     NETS = ("mover", "squad", "act", "target", "value")
 

@@ -10,19 +10,22 @@ One gzip JSON object per match, written by `training/collect.py`. It stores what
 | `teams`, `map_seed`, `flag_seed` | Rebuild the engine game: `engine.Game(teams, map_seed, flag_seed=flag_seed)`. |
 | `seats` | Per seat: `name`, `family` and the bot source's `sha256`. |
 | `engine_sha256`, `limits_ms` | Engine file hash, and the (turn 1, later turns) time limits used. |
+| `ai_test_commit`, `platform` | AI_Test checkout commit and the collecting host's platform. |
 | `init` | Seat 0's INIT block. Seats differ only in the third token (`me`); see `matchlog.init_for_seat`. |
 | `blocks[t-1]` | The TURN block every seat received before turn `t` settled. It is identical for all seats; `collect.py` asserts this every turn. |
 | `final_block` | The state after the last settlement (TURN 401). Bots never receive it; labels use its events and score. |
 | `replies[t-1][seat]` | The reply line exactly as sent, or `null` for a timeout or a dead process. |
 | `faults` | `[turn, seat, reason]` for every strike, including malformed lines. |
 | `result` | Final `score`, `ranks` and per-team engine `stats`. |
-| `bots` | Per seat: timing (`avg_ms`, `max_ms`, `first_ms`), fault count and stderr tail. |
+| `bots` | Per seat: timing (`first_ms`, `avg_ms`, `p50_ms`, `p95_ms`, `p99_ms`, `max_ms`, `late`), fault count, stderr tail. |
 
 `matchlog.seat_stream(match, me)` rebuilds the exact stdin of seat `me`. The legacy forecast replay and the parity driver both consume it.
 
-## Shards: `data/shards/<tier>/<split>/shard_XXXX.npz`
+## Shards: `data/shards/nXX/<split>/shard_XXXX.npz`
 
-Written by `training/dataset.py`. Rows are `(turn, team)` pairs from the kept turns.
+Written by `training/dataset.py`, one directory per team count. The general model and every dedicated model read the same files ([MODEL_MATRIX.md](MODEL_MATRIX.md)). Rows are `(turn, team)` pairs from the kept turns.
+
+`--append` adds only matches the index does not list yet, as new shard files. It refuses changed sampling options or a changed feature schema, so phase-1 rows stay valid when phase 2 arrives.
 
 | Array | Shape, type | Meaning |
 |---|---|---|
@@ -39,7 +42,15 @@ Written by `training/dataset.py`. Rows are `(turn, team)` pairs from the kept tu
 | `match`, `teams`, `family`, `turn`, `team` | (R,) | Index into `index.json` matches and families; team count; acting team's bot family |
 | `qh_XXXX.npy` | (R, 3, 5) float32 | Optional, from `heuristic_baseline.py`: legacy forecast move marginals (NaN = no entry) |
 
-`data/shards/index.json` holds the extractor schema, the match table (id, file, split, families, seats), the family names, the options and the row counts.
+`data/shards/index.json` holds:
+- the extractor schema and sampling options;
+- the match table (id, file, split, seats, families, AI_Test commit);
+- the family names;
+- row counts per `nXX/split`;
+- the append history;
+- the **dataset manifest**: matches per team count and split, seat distribution by bot and by family, AI_Test commits, collection seeds and the repository commit.
+
+Every training run records the manifest of its team counts, with a digest of their match ids, in its `config.json`.
 
 ## Leakage rules
 

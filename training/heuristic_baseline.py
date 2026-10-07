@@ -1,6 +1,6 @@
 """Attach the legacy heuristic opponent forecast q_H to shard rows.
 
-    python -m training.heuristic_baseline --ai-test ~/code/AI_Test --shards data/shards --tier m31 --split val test
+    python -m training.heuristic_baseline --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --split val test
 
 q_H is the multi-team planner's own forecast (`multi::Planner::forecast` in
 AI_Test nextgen/master.cpp: a softmax over each enemy unit's open moves with
@@ -54,10 +54,11 @@ def make_forecaster(binary: Path):
     def forecast(match_file: str, observer: int):
         match = matchlog.load(match_file)
         stream = matchlog.seat_stream(match, observer)
-        r = subprocess.run([str(binary)], input=stream, capture_output=True, text=True, timeout=600)
+        # Bytes in and out: text mode would turn \n into \r\n on Windows.
+        r = subprocess.run([str(binary)], input=stream.encode(), capture_output=True, timeout=600)
         if r.returncode != 0:
-            raise RuntimeError(f"forecast_dump failed on {match_file}: {r.stderr[-500:]}")
-        return parse_dump(r.stdout)
+            raise RuntimeError(f"forecast_dump failed on {match_file}: {r.stderr.decode(errors='replace')[-500:]}")
+        return parse_dump(r.stdout.decode())
     return forecast
 
 
@@ -105,22 +106,24 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--ai-test")
     ap.add_argument("--shards", default="data/shards")
-    ap.add_argument("--tier", required=True)
+    ap.add_argument("--teams", type=int, nargs="+", required=True)
     ap.add_argument("--split", nargs="+", default=["val", "test"])
     a = ap.parse_args(argv)
     root = ai_test_root(a.ai_test)
     forecast = make_forecaster(native.forecast_dump(root))
     layout = feature_layout()
-    index = json.loads((Path(a.shards) / "index.json").read_text())
-    for split in a.split:
-        d = Path(a.shards) / a.tier / split
+    index = json.loads((Path(a.shards) / "index.json").read_text(encoding="utf-8"))
+    for split, teams in ((s, t) for s in a.split for t in a.teams):
+        d = Path(a.shards) / f"n{teams:02d}" / split
+        if not d.is_dir():
+            continue
         totals = {"units": 0, "missing": 0, "off_grid": 0}
         for shard in sorted(d.glob("shard_*.npz")):
             rows = dict(np.load(shard))
             qh, stats = marginals(rows, layout, index["matches"], forecast)
             np.save(d / shard.name.replace("shard_", "qh_").replace(".npz", ".npy"), qh)
             totals = {k: totals[k] + stats[k] for k in totals}
-        print(f"[heuristic] {a.tier}/{split}: {totals}", flush=True)
+        print(f"[heuristic] n{teams:02d}/{split}: {totals}", flush=True)
 
 
 if __name__ == "__main__":

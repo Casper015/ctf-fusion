@@ -5,124 +5,141 @@ Opponent policy and board value networks for the multi-team Capture The Flag bot
 - data collection;
 - training;
 - calibration against the legacy heuristic;
-- integer export to standalone C++ headers.
+- integer export to standalone C++ headers;
+- an engine-exact forward simulator.
 
-[docs/DESIGN.md](docs/DESIGN.md) is the design brief. [docs/REVIEW.md](docs/REVIEW.md) explains what was built, what changed from the brief and why, and the experiment order.
+**Design and decisions:**
+- [docs/DESIGN.md](docs/DESIGN.md): the design brief.
+- [docs/REVIEW.md](docs/REVIEW.md): decisions and experiment order.
+- [training/specs/](training/specs/README.md): the contracts — features, action indexing, data format, the 22-model matrix, simulator audit, environment.
 
 **Status:**
-- **Done and tested:** the pipeline runs end to end. It has been tested on seeded random bots and on two matches between real judge bots.
-- **Not done yet:**
-  - no model has been trained on real data;
-  - nothing is integrated into a bot;
-  - no latency has been measured.
+- **Done:**
+  - the pipeline, simulator and runtime contracts are built and tested on this machine (macOS), with seeded test bots and two real judge-bot matches.
+- **Not yet done:**
+  - no model trained on real data;
+  - nothing integrated into a bot;
+  - no Windows run;
+  - no host latency baseline.
 
-Strength and timing are measured on the external cluster, never on a development machine.
+The baseline comes from `tools/env_check.py` on the target host, never from a development machine.
 
 ## How it fits together
 
 ```text
-AI_Test engine + bots ──collect.py──▶ data/raw/nXX/*.json.gz   (protocol text + reply lines, lossless)
-                                          │ dataset.py: C++ extractor (inference/features.hpp) + labels
+AI_Test engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶ data/raw/nXX/*.json.gz   (protocol text + replies)
+                                          │ dataset.py: C++ extractor (inference/features.hpp) + labels, --append for phase 2
                                           ▼
-                                   data/shards/<tier>/<split>/*.npz
+                                   data/shards/nXX/<split>/*.npz  (+ index.json manifest)
              heuristic_baseline.py ──▶ qh_*.npy  (legacy forecast q_H, replayed from AI_Test nextgen)
-                                          │ train_policy.py / train_value.py   (numpy, CPU)
+                                          │ train_policy.py / train_value.py  --model general, then --model nXX --init general
                                           ▼
-                                   runs/<name>/model.npz
-                                          │ evaluate_offline.py ──▶ reports/<tier>.md + alpha per team count
+                                   runs/<policy|value>_<model>/  (model.npz + config.json with data digest, seed, commits)
+                                          │ evaluate_offline.py ──▶ reports/<model>.md/.json  (alpha + use gate per team count)
                                           │ export_weights.py
                                           ▼
-                     inference/models/<tier>.hpp   (int16 constexpr arrays, std-only C++20)
+              inference/models/weights_<model>.hpp, MANIFEST.json, registry.hpp (forTeams dispatch)
 ```
 
-**One feature implementation.** Features exist once, in C++ (`inference/features.hpp`). The training extractor and the bot run the same code, so they cannot disagree.
+**The model matrix** ([MODEL_MATRIX.md](training/specs/MODEL_MATRIX.md)):
+- dedicated P and V models for 2, 3, 4, 5, 6, 7, 8, 10, 12 and 15 teams;
+- a general P and V, pretrained on every count, which warm-starts the dedicated models and serves 9, 11, 13 and 14 — 22 artifacts in all.
 
-**Exact integer inference.** Inference is integer end to end, and `tests/test_pipeline.py` proves the C++ output bit-identical to the Python emulation.
+`profiles/nXX.json` and `profiles/general.json` define the matrix, so there is no per-model code.
 
-**Tiers.** Models are trained per map size, with team count as an input:
-
-| Tier | Map | Team counts |
-|---|---|---|
-| `m23` | 23 × 23 | 2 |
-| `m31` | 31 × 31 | 3–5 |
-| `m41` | 41 × 41 | 6–10 |
-| `m49` | 49 × 49 | 11–15 |
-
-The mixture weight α is fitted per team count.
+**Safety properties, each enforced by a test:**
+- **One feature implementation.** Features exist once, in C++ (`inference/features.hpp`), shared by the extractor and the bot.
+- **Exact integer inference.** Inference is integer and bit-identical to the Python emulation. The incremental value accumulator equals the full pass.
+- **No heap use per turn.** Nothing allocates on the per-turn path after turn 1.
+- **Engine-exact simulator.** `inference/sim.hpp` reproduces every recorded engine turn.
+- **Safe fallback.** A team count whose model does not beat the legacy forecast on held-out data exports α = 0, which is exactly the legacy bot.
 
 ## Layout
 
 ```text
-docs/        DESIGN (brief), REVIEW (decisions + plan), FEATURES (spec v1), DATA_FORMAT, SOURCES
-profiles/    nXX.json per team count (tier, collection plan), pool.json (opponent bots and families)
-fusion/      library: paths, native (C++ tool builds), schema, matchlog, protocol, labels,
-             nn (numpy MLP + Adam), models, quant (integer format + exact emulation), mixture, metrics
-training/    collect, dataset, heuristic_baseline, train_policy, train_value, export_weights, evaluate_offline
-inference/   state.hpp, features.hpp, mlp.hpp, policy.hpp, value.hpp; models/<tier>.hpp (generated)
-tools/       extract_features.cpp, infer_check.cpp (parity driver), stream.hpp (protocol parser), random_bot.py
-tests/       test_math (gradients, quantization, convex fits), test_pipeline (engine cross-checks, parity)
+docs/             DESIGN (brief), REVIEW (decisions + plan), SOURCES
+training/specs/   FEATURES (generated), ACTIONS, DATA_FORMAT, MODEL_MATRIX, SIMULATOR_AUDIT, ENVIRONMENT
+profiles/         n02.json ... n15.json, general.json (matrix, search proposals, budgets, collection), pool.json (opponents)
+fusion/           paths, runner (Windows-safe bots), native (C++ tool builds), schema, matchlog, protocol, labels,
+                  nn (numpy MLP + Adam), models, quant (integer format + exact emulation), mixture, metrics
+training/         collect, dataset, heuristic_baseline, train_policy, train_value, evaluate_offline, export_weights, common
+inference/        state.hpp, features.hpp, mlp.hpp, policy.hpp, value.hpp (accumulator), sim.hpp (simulator);
+                  models/weights_<model>.hpp + registry.hpp (generated)
+tools/            extract_features, infer_check, runtime_check, sim_check, registry_check, bench_inference (C++);
+                  env_check.py (host check), gen_feature_spec.py, random_bot.py (test bot), stream.hpp
+tests/            test_math (gradients, quantization, convex fits, spec sync), test_pipeline (end to end)
 ```
 
 ## Requirements
 
-- Python 3.10+ and numpy. PyTorch is optional; the models are small enough for numpy on CPU.
-- A C++20 compiler: g++ 11+ or clang 14+; `CXX` overrides the choice.
-- A checkout of AI_Test `main`, which provides the engine, the match runner, every opponent bot and the legacy planner for q_H. Set its path once:
+**Software:**
+- Python 3.10+ and numpy. PyTorch with CUDA is optional; see [ENVIRONMENT.md](training/specs/ENVIRONMENT.md).
+- A C++20 compiler: g++ 11+, clang 14+, or w64devkit on Windows. `CXX` overrides the choice.
+- A checkout of AI_Test `main`, which provides the engine, every opponent bot, and the legacy planner for q_H.
+
+**Placement.** Keep this repository outside OneDrive.
 
 ```bash
 export AI_TEST_ROOT=~/code/AI_Test
 ```
 
-## Smoke test (about a minute, light load)
-
-Seeded random bots answer in microseconds, so this checks the whole chain without any timing pressure:
+## Tests (about 25 s, light load)
 
 ```bash
 python -m unittest discover -s tests -t .
 ```
 
-The same steps by hand:
+The suite plays 18 short matches between instant test bots and checks:
+- features against the engine;
+- the simulator against every turn;
+- labels;
+- appends;
+- the model matrix: general, a warm-started dedicated model, export, registry, parity, the runtime contract;
+- the legacy baseline;
+- learnability.
+
+## On the Windows host
 
 ```bash
-python -m training.collect --teams 2 3 4 --matches 10 --bots Random --out data/smoke/raw
-python -m training.dataset --raw data/smoke/raw --out data/smoke/shards --teams 2 3 4 --stride 1
-python -m training.heuristic_baseline --shards data/smoke/shards --tier m31 --split val test
-python -m training.train_policy --shards data/smoke/shards --tier m31 --out runs/smoke_policy --epochs 2
-python -m training.train_value --shards data/smoke/shards --tier m31 --out runs/smoke_value --epochs 2
-python -m training.evaluate_offline --shards data/smoke/shards --tier m31 --policy runs/smoke_policy --value runs/smoke_value --out reports/smoke_m31
-python -m training.export_weights --tier m31 --policy runs/smoke_policy --value runs/smoke_value --alpha reports/smoke_m31.json --out data/smoke/models
+python tools/env_check.py --ai-test C:/path/to/AI_Test --teams 2 6 15
 ```
 
-Random bots are unpredictable, so their policy log-loss sits at the uniform value; the smoke test checks plumbing, not learning.
+It builds every pool bot, plays headless matches under the real limits, checks the protocol, records each bot's first-turn and p50/p95/p99/max latency, replays the matches through the simulator, and times the inference. The output is `reports/env_check_<host>.md`.
 
-## Full run (cluster)
+## Full run
 
 ```bash
-# E0: data. 1,500 matches per team count from profiles/; resumable; fixtures are deterministic.
-python -m training.collect --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --workers 32
-python -m training.dataset --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --workers 32
-for t in m23 m31 m41 m49; do python -m training.heuristic_baseline --tier $t --split val test; done
+# E0: data (phase 1: 1,500 matches per count; profiles/ define pools). Resumable, deterministic fixtures.
+python -m training.collect --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --workers 8
+python -m training.dataset --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --workers 8
+python -m training.heuristic_baseline --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --split val test
 
-# E1: offline models, per tier
-for t in m31 m41 m49; do
-  python -m training.train_policy --tier $t --out runs/policy_$t
-  python -m training.train_value  --tier $t --out runs/value_$t
-  python -m training.evaluate_offline --tier $t --policy runs/policy_$t --value runs/value_$t --out reports/$t
-  python -m training.export_weights --tier $t --policy runs/policy_$t --value runs/value_$t --alpha reports/$t.json
-  python -m training.evaluate_offline --tier $t --policy runs/policy_$t --value runs/value_$t \
-      --quantized inference/models/$t.npz --out reports/$t
+# E1: general model, then each dedicated model warm-started from it
+python -m training.train_policy --model general --out runs/policy_general
+python -m training.train_value  --model general --out runs/value_general
+for m in n02 n03 n04 n05 n06 n07 n08 n10 n12 n15; do
+  python -m training.train_policy --model $m --init runs/policy_general --out runs/policy_$m
+  python -m training.train_value  --model $m --init runs/value_general  --out runs/value_$m
 done
+for m in general n02 n03 n04 n05 n06 n07 n08 n10 n12 n15; do
+  python -m training.evaluate_offline --model $m --policy runs/policy_$m --value runs/value_$m --out reports/$m
+  python -m training.export_weights   --model $m --policy runs/policy_$m --value runs/value_$m --report reports/$m.json
+done
+
+# Phase 2 for a count that needs more data (keeps every phase-1 shard)
+python -m training.collect --teams 8 --start 1500 --matches 6000 --workers 8
+python -m training.dataset --teams 8 --append
 ```
 
-**Other options:**
-- `--workers`: every match runs one process per team, all searching at once. Keep `workers × teams` at or below the physical core count, or collection itself causes the timeouts it records.
-- `--turn-ms` relaxes the per-turn limit during collection if the machine is oversubscribed. Faults are recorded either way, and missing replies never become labels.
+**Options:**
+- `--workers`: every match runs one process per team, all searching at once. Keep `workers × teams` at or below the physical core count, or collection causes the timeouts it records.
+- `--turn-ms` relaxes the limit on an oversubscribed machine. Faults are recorded either way, and missing replies never become labels.
 - `--holdout-family <family>` in `dataset.py` keeps one opponent family out of training, for an out-of-distribution report.
 
-**The decision rule:** integrate q_θ for a team count only where `reports/<tier>.md` shows it beating the legacy forecast. Then compare `Player5_Omega_LIT` with and without it in paired matches, per size ([REVIEW.md](docs/REVIEW.md) §4–5).
+**Decision rule.** A count uses q_θ only where its report gate says `use`. Then compare `Player5_Omega_LIT` with and without it in paired matches, per size ([REVIEW.md](docs/REVIEW.md) §4–5).
 
 ## Rules carried over from AI_Test
 
-- **Budget.** The search keeps its 30 ms per-turn budget; inference must fit inside it, not extend it.
-- **Where to test.** No latency tests or large match batches on development machines; the cluster measures strength and timing.
+- **Budget.** The search keeps its 30 ms budget, inside the 35 ms compute target and the 40 ms output cutoff of `turn_budget_ms`. Inference must fit inside it.
+- **Where to test.** No latency tests or large match batches on development machines; the host and cluster measure strength and timing.
 - **Language.** Everything in this repository is English.

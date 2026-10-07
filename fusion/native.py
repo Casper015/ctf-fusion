@@ -4,7 +4,6 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-import shutil
 import subprocess
 from functools import lru_cache
 from pathlib import Path
@@ -12,18 +11,16 @@ from pathlib import Path
 import numpy as np
 
 from .paths import BUILD, NEXTGEN_REL, REPO
+from .runner import CXX_FLAGS, EXE, find_compiler
 
-FLAGS = ("-std=c++20", "-O2")
+FLAGS = tuple(CXX_FLAGS)  # -std=c++20 -O2, plus -static on Windows
 
 
 def compiler() -> str:
-    override = os.environ.get("CXX")
-    if override and shutil.which(override):
-        return override
-    for name in ("g++-16", "g++", "clang++"):
-        if shutil.which(name):
-            return name
-    raise SystemExit("no C++ compiler found (set CXX)")
+    cxx = find_compiler()
+    if not cxx:
+        raise SystemExit("no C++ compiler found (install g++/clang++ or w64devkit, or set CXX)")
+    return cxx
 
 
 def _digest(paths, extra) -> str:
@@ -39,16 +36,16 @@ def build(source: Path, name: str, deps=(), defines=(), includes=()) -> Path:
     source = Path(source)
     deps = [source, *deps, *sorted((REPO / "inference").glob("*.hpp")), *sorted((REPO / "tools").glob("*.hpp"))]
     key = _digest(deps, (FLAGS, tuple(defines), tuple(map(str, includes)), compiler()))
-    out = BUILD / f"{name}-{key}"
+    out = BUILD / f"{name}-{key}{EXE}"
     if out.is_file():
         return out
     BUILD.mkdir(parents=True, exist_ok=True)
-    tmp = out.with_suffix(f".tmp{os.getpid()}")
+    tmp = BUILD / f"{name}-{key}.tmp{os.getpid()}{EXE}"
     cmd = [compiler(), *FLAGS, *[f"-D{d}" for d in defines], *[f"-I{i}" for i in includes], str(source), "-o", str(tmp)]
-    r = subprocess.run(cmd, capture_output=True, text=True)
+    r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
     if r.returncode != 0:
         raise RuntimeError(f"compile failed: {' '.join(cmd)}\n{r.stderr[-4000:]}")
-    tmp.replace(out)
+    os.replace(tmp, out)
     return out
 
 
@@ -59,7 +56,7 @@ def extractor() -> Path:
 
 @lru_cache(maxsize=1)
 def schema() -> dict:
-    return json.loads(subprocess.run([str(extractor()), "--schema"], capture_output=True, text=True, check=True).stdout)
+    return json.loads(subprocess.run([str(extractor()), "--schema"], capture_output=True, check=True).stdout.decode())
 
 
 def extract(stream_text: str) -> np.ndarray:
@@ -74,12 +71,36 @@ def extract(stream_text: str) -> np.ndarray:
     return data.reshape(-1, width)
 
 
+def model_tool(tool: str, model_header: Path, namespace: str) -> Path:
+    """Build a tool that takes one exported model header (infer_check, runtime_check)."""
+    model_header = Path(model_header).resolve()
+    return build(REPO / "tools" / f"{tool}.cpp", f"{tool}_{namespace.split('::')[-1]}", deps=[model_header],
+                 defines=[f'FUSION_MODEL_HEADER="{model_header.as_posix()}"', f"FUSION_MODEL_NS={namespace}"],
+                 includes=[REPO / "inference"])
+
+
 def infer_check(model_header: Path, namespace: str) -> Path:
     """Parity driver for one exported model header (see tools/infer_check.cpp)."""
-    model_header = Path(model_header).resolve()
-    return build(REPO / "tools" / "infer_check.cpp", f"infer_check_{namespace.split('::')[-1]}", deps=[model_header],
-                 defines=[f'FUSION_MODEL_HEADER="{model_header}"', f"FUSION_MODEL_NS={namespace}"],
-                 includes=[REPO / "inference"])
+    return model_tool("infer_check", model_header, namespace)
+
+
+def run_tool(binary: Path, stdin: bytes = b"", args=()) -> subprocess.CompletedProcess:
+    return subprocess.run([str(binary), *map(str, args)], input=stdin, capture_output=True)
+
+
+@lru_cache(maxsize=1)
+def sim_check() -> Path:
+    return build(REPO / "tools" / "sim_check.cpp", "sim_check")
+
+
+def sim_check_match(match: dict, workdir: Path) -> tuple[bool, str]:
+    """Replay a recorded match through inference/sim.hpp; (exact, summary line)."""
+    from . import matchlog  # noqa: PLC0415
+    stream, replies = Path(workdir) / "sim_stream.txt", Path(workdir) / "sim_replies.txt"
+    stream.write_bytes(matchlog.seat_stream(match, 0, final=True).encode())
+    replies.write_bytes(("\n".join("-" if l is None else l for row in match["replies"] for l in row) + "\n").encode())
+    r = run_tool(sim_check(), args=(stream, replies))
+    return r.returncode == 0, (r.stdout.decode() + r.stderr.decode()).strip()
 
 
 def run_infer_check(binary: Path, stream_text: str) -> np.ndarray:
@@ -95,3 +116,10 @@ def forecast_dump(ai_test: Path) -> Path:
     src = nextgen / "tests" / "forecast_dump.cpp"
     deps = [nextgen / "master.cpp", *sorted((nextgen / "modules").glob("*.inc")), *sorted((nextgen / "search").glob("*.hpp"))]
     return build(src, "forecast_dump", deps=[d for d in deps if d.is_file()])
+
+
+def registry_check(models_dir: Path) -> Path:
+    """Dispatch printer compiled against <models_dir>/registry.hpp (tools/registry_check.cpp)."""
+    models_dir = Path(models_dir).resolve()
+    deps = sorted(models_dir.glob("*.hpp"))
+    return build(REPO / "tools" / "registry_check.cpp", "registry_check", deps=deps, includes=[models_dir, REPO / "inference"])

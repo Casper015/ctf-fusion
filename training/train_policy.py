@@ -1,6 +1,7 @@
-"""Train the opponent squad policy q_theta(b|s) for one tier.
+"""Train the opponent squad policy q_theta(b|s) for one model of the matrix (profiles/).
 
-    python -m training.train_policy --shards data/shards --tier m31 --out runs/policy_m31
+    python -m training.train_policy --model general --out runs/policy_general
+    python -m training.train_policy --model n08 --init runs/policy_general --out runs/policy_n08
 
 Supervised on the requested joint moves (125-way, masked to legal joint
 moves), the conditional action head and the attack-target head. After
@@ -17,14 +18,15 @@ from fusion.mixture import fit_temperature
 from fusion.models import PolicyNet, policy_batch
 from fusion.nn import Adam
 from fusion.schema import layout as feature_layout
-from training.common import Run, batches, fit, subset
+from fusion.paths import model_counts
+from training.common import Run, add_training_args, batches, data_manifest, fit, subset, warm_start
 from training.dataset import load
 
 LABELS = ("y_move", "y_joint", "y_act", "y_tgt")
 
 
-def prepare(shards, tier, split, max_rows, rng, families=None):
-    d = load(shards, tier, split)
+def prepare(shards, counts, split, max_rows, rng, families=None):
+    d = load(shards, counts, split)
     keep = d["valid"].copy()
     if families is not None:
         keep &= np.isin(d["family"], families)
@@ -82,32 +84,25 @@ def calibrate(model, layout, d):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--shards", default="data/shards")
-    ap.add_argument("--tier", required=True)
-    ap.add_argument("--out", required=True)
-    ap.add_argument("--epochs", type=int, default=8)
-    ap.add_argument("--patience", type=int, default=2)
-    ap.add_argument("--batch", type=int, default=1024)
-    ap.add_argument("--lr", type=float, default=1e-3)
-    ap.add_argument("--weight-decay", type=float, default=1e-5)
+    add_training_args(ap, batch=1024)
     ap.add_argument("--smoothing", type=float, default=0.01)
     ap.add_argument("--act-weight", type=float, default=0.5)
     ap.add_argument("--target-weight", type=float, default=0.5)
     ap.add_argument("--hidden-squad", default="64,32")
-    ap.add_argument("--max-rows", type=int, default=0, help="subsample the training split (0 = all)")
-    ap.add_argument("--seed", type=int, default=1)
-    ap.add_argument("--val-split", default="val", help="split for early stopping and calibration")
     a = ap.parse_args(argv)
     rng = np.random.default_rng(a.seed)
-    train = prepare(a.shards, a.tier, "train", a.max_rows, rng)
-    val = prepare(a.shards, a.tier, a.val_split, 0, rng)
+    counts = model_counts(a.model)
+    train = prepare(a.shards, counts, "train", a.max_rows, rng)
+    val = prepare(a.shards, counts, a.val_split, 0, rng)
     layout = feature_layout()
     check_labels(train, layout)
     hidden = {"mover": [16], "squad": [int(h) for h in a.hidden_squad.split(",")], "act": [16], "target": [8]}
     model = PolicyNet(layout, rng, hidden)
+    init = warm_start(model, a.init)
     opt = Adam(model.params, lr=a.lr, weight_decay=a.weight_decay)
     cfg = {"smoothing": a.smoothing, "act_weight": a.act_weight, "target_weight": a.target_weight}
-    run = Run(a.out, {"kind": "policy", "tier": a.tier, "hidden": hidden, "args": vars(a),
+    run = Run(a.out, {"kind": "policy", "model": a.model, "hidden": hidden, "args": vars(a), "seed": a.seed,
+                      "init": init, "data": data_manifest(a.shards, counts),
                       "rows": {"train": len(train["rec"]), "val": len(val["rec"])},
                       "spec_version": layout.schema["spec_version"]})
 
@@ -123,7 +118,7 @@ def main(argv=None):
             wsum += float(w.sum())
         return total / wsum
 
-    best = fit(model, train_epoch, lambda: evaluate(model, layout, val, cfg)[0], a.epochs, a.patience, run, rng)
+    best = fit(model, train_epoch, lambda: evaluate(model, layout, val, cfg)[0], a, run, rng, opt)
     calibrate(model, layout, val)
     model.calibrated = True
     _, parts = evaluate(model, layout, val, cfg | {"smoothing": 0.0})

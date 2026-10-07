@@ -1,8 +1,39 @@
 {
- "teams": 7,
- "tier": "m41",
+ "team_count": 7,
+ "map_size": 41,
+ "model": "n07",
+ "weights": "weights_n07.hpp",
+ "init_from": "general",
+ "search": {
+  "status": "proposal: starting points from docs/DESIGN.md, not yet read by the C++ search (search::configFor)",
+  "focus": "mid-scale; calibrate congestion and crossfire separately",
+  "search_depth": 2,
+  "depth_extension": null,
+  "root_candidates": [
+   10,
+   16
+  ],
+  "enemy_scenarios": [
+   32,
+   128
+  ],
+  "return_dp_horizon": [
+   6,
+   8
+  ],
+  "return_dp_enabled": true
+ },
+ "turn_budget_ms": {
+  "search": 30,
+  "compute_target": 35,
+  "output_cutoff": 40,
+  "engine_limit": 50,
+  "first_turn_limit": 2000,
+  "_comment": "search = the separated search budget (AI_Test rule); compute_target and output_cutoff bound the whole turn"
+ },
  "collect": {
   "matches": 1500,
+  "phase2_matches": 7500,
   "pool": "default",
   "anchors": [
    "Player5_Omega_LIT",

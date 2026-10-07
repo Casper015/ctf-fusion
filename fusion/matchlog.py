@@ -1,4 +1,4 @@
-"""Raw match files (schema ctf-fusion-match-1, docs/DATA_FORMAT.md).
+"""Raw match files (schema ctf-fusion-match-1, training/specs/DATA_FORMAT.md).
 
 One gzip JSON file per match. It keeps exactly what crossed the protocol: the
 INIT block, every TURN block (identical for all seats), every seat's reply

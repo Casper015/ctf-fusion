@@ -1,11 +1,15 @@
 """End-to-end pipeline tests against the official engine (needs AI_TEST_ROOT).
 
-Plays a few matches between seeded random bots (each takes about a second),
+Plays a few matches between seeded test bots (each takes about a second),
 then checks:
   * the C++ features against the engine's own geometry (walls, can_attack,
     spawn order) and against what actually happened next turn (respawns);
+  * the standalone simulator (inference/sim.hpp) against every recorded turn;
   * requested-action labels against the reply lines and the next positions;
-  * training, export and bit-exact C++/Python parity of the integer models;
+  * per-count shards and phase-2 appends;
+  * the model matrix: general model, a dedicated model warm-started from it,
+    export, the dispatch registry, bit-exact C++/Python parity, and the
+    runtime contract (no per-turn allocation, exact incremental value);
   * the legacy forecast baseline;
   * that the policy network can learn a deterministic labeling.
 """
@@ -38,7 +42,7 @@ class TestPipeline(unittest.TestCase):
         collect.main(["--teams", *map(str, TEAMS), "--matches", "6", "--bots", "Random", "--out", str(cls.raw)])
         dataset.main(["--raw", str(cls.raw), "--out", str(cls.shards), "--teams", *map(str, TEAMS),
                       "--stride", "1", "--keep", "quiet=1,respawn=1"])
-        cls.engine, _ = load_engine(ai_test_root())
+        cls.engine = load_engine(ai_test_root())
         cls.layout = layout()
 
     @classmethod
@@ -107,6 +111,29 @@ class TestPipeline(unittest.TestCase):
                             checked += 1
         self.assertGreater(checked, 1000)
 
+    def test_simulator_matches_engine(self):
+        for m, _ in self.matches():
+            exact, summary = native.sim_check_match(m, self.tmp)
+            self.assertTrue(exact, f"{m['match_id']}: {summary}")
+            self.assertIn("skipped 0", summary)
+
+    def test_append_keeps_existing_shards(self):
+        out = self.tmp / "append"
+        dataset.main(["--raw", str(self.raw), "--out", str(out), "--teams", "2", "--stride", "1", "--keep", "quiet=1,respawn=1"])
+        before = sorted(p.relative_to(out) for p in out.rglob("shard_*.npz"))
+        dataset.main(["--raw", str(self.raw), "--out", str(out), "--teams", "2", "3", "--stride", "1",
+                      "--keep", "quiet=1,respawn=1", "--append"])
+        after = sorted(p.relative_to(out) for p in out.rglob("shard_*.npz"))
+        self.assertTrue(set(before) <= set(after))
+        full = dataset.load_index(self.shards)["counts"]
+        index = dataset.load_index(out)
+        self.assertEqual({k: v for k, v in index["counts"].items() if k[:3] in ("n02", "n03")},
+                         {k: v for k, v in full.items() if k[:3] in ("n02", "n03")})
+        self.assertEqual(len(index["history"]), 2)
+        self.assertEqual(index["manifest"]["matches_by_count"], {"n02": 6, "n03": 6})
+        with self.assertRaises(SystemExit):  # different sampling options cannot extend the dataset
+            dataset.main(["--raw", str(self.raw), "--out", str(out), "--teams", "5", "--stride", "2", "--append"])
+
     def test_labels(self):
         L = self.layout
         for m, rec in self.matches():
@@ -134,32 +161,42 @@ class TestPipeline(unittest.TestCase):
                     nxt_ok += 1
             self.assertEqual(len(rec), len(m["blocks"]) * n)
 
-    def test_train_export_parity(self):
-        runs = self.tmp / "runs"
-        for tier in ("m23", "m31"):
-            pol, val = runs / f"policy_{tier}", runs / f"value_{tier}"
-            train_policy.main(["--shards", str(self.shards), "--tier", tier, "--out", str(pol), "--epochs", "1", "--batch", "512",
-                              "--val-split", "train"])
-            train_value.main(["--shards", str(self.shards), "--tier", tier, "--out", str(val), "--epochs", "1", "--batch", "512",
-                              "--val-split", "train"])
-            models = self.tmp / "models"
-            export_weights.main(["--tier", tier, "--policy", str(pol), "--value", str(val), "--out", str(models)])
-            binary = native.infer_check(models / f"{tier}.hpp", f"fusion::models::{tier}")
-            q = QuantizedTier(dict(np.load(models / f"{tier}.npz")))
+    def test_model_matrix_export_parity(self):
+        runs, models = self.tmp / "runs", self.tmp / "models"
+        common = ["--shards", str(self.shards), "--epochs", "1", "--batch", "512", "--val-split", "train"]
+        for kind, trainer in (("policy", train_policy), ("value", train_value)):
+            trainer.main([*common, "--model", "general", "--out", str(runs / f"{kind}_general")])
+            trainer.main([*common, "--model", "n03", "--init", str(runs / f"{kind}_general"), "--out", str(runs / f"{kind}_n03")])
+        for model, counts in (("general", ["2", "3", "5"]), ("n03", ["3"])):
+            pol, val = runs / f"policy_{model}", runs / f"value_{model}"
+            report = self.tmp / "reports" / model
+            evaluate_offline.main(["--shards", str(self.shards), "--model", model, "--teams", *counts, "--policy", str(pol),
+                                   "--value", str(val), "--split", "train", "--fit-split", "train", "--out", str(report)])
+            export_weights.main(["--model", model, "--policy", str(pol), "--value", str(val),
+                                 "--report", str(report.with_suffix(".json")), "--out", str(models)])
+            header = models / f"weights_{model}.hpp"
+            q = QuantizedTier(dict(np.load(models / f"weights_{model}.npz")))
+            parity = native.infer_check(header, f"fusion::models::{model}")
+            runtime = native.model_tool("runtime_check", header, f"fusion::models::{model}")
             for m, rec in self.matches():
-                if (m["teams"] == 2) != (tier == "m23"):
-                    continue
-                stream = matchlog.seat_stream(m, 0)
-                cpp = native.run_infer_check(binary, stream).reshape(len(rec), -1)
+                stream = matchlog.seat_stream(m, 0).encode()
+                cpp = np.frombuffer(native.run_tool(parity, stream).stdout, "<i4").reshape(len(rec), -1)
                 np.testing.assert_array_equal(cpp, q.raw(rec, self.layout))
-            evaluate_offline.main(["--shards", str(self.shards), "--tier", tier, "--policy", str(pol), "--value", str(val),
-                                   "--quantized", str(models / f"{tier}.npz"), "--split", "train", "--fit-split", "train",
-                                   "--out", str(self.tmp / "reports" / tier)])
-            self.assertTrue((self.tmp / "reports" / f"{tier}.md").is_file())
+                r = native.run_tool(runtime, stream)
+                self.assertEqual(r.returncode, 0, r.stdout.decode() + r.stderr.decode())
+                self.assertIn("allocating_turns 0", r.stdout.decode())
+        config = __import__("json").loads((runs / "policy_n03" / "config.json").read_text(encoding="utf-8"))
+        self.assertEqual(config["init"], str(runs / "policy_general"))
+        self.assertEqual(config["data"]["team_counts"], [3])
+        out = native.run_tool(native.registry_check(models)).stdout.decode().split("\n")
+        served = dict(line.split()[:2] for line in out if line)
+        self.assertEqual(served["3"], "n03")      # dedicated model exported
+        self.assertEqual(served["2"], "general")  # n02 not exported: falls back to general
+        self.assertEqual(served["9"], "general")  # no dedicated model by design
 
     def test_heuristic_baseline(self):
-        heuristic_baseline.main(["--shards", str(self.shards), "--tier", "m31", "--split", "train"])
-        d = dataset.load(self.shards, "m31", "train")
+        heuristic_baseline.main(["--shards", str(self.shards), "--teams", "3", "5", "--split", "train"])
+        d = dataset.load(self.shards, [3, 5], "train")
         qh = d["qh"]
         ok = ~np.isnan(qh).any(-1)
         self.assertGreater(ok.mean(), 0.99)
@@ -170,7 +207,7 @@ class TestPipeline(unittest.TestCase):
     def test_policy_learns_deterministic_labels(self):
         """Label every unit with 'continue last displacement' (stay if blocked by a wall): learnable exactly."""
         L = self.layout
-        d = dataset.load(self.shards, "m31", "train")
+        d = dataset.load(self.shards, [3, 5], "train")
         rec = d["rec"][:4000]
         cont = evaluate_offline.cont_move(rec, L)
         legal = L.get(rec, "legal").astype(bool)

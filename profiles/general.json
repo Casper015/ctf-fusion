@@ -1,0 +1,36 @@
+{
+ "model": "general",
+ "weights": "weights_general.hpp",
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "serves": [
+  9,
+  11,
+  13,
+  14
+ ],
+ "init_from": null,
+ "role": "pretrained on every team count; warm start for every dedicated model; serves 9, 11, 13 and 14, which have no dedicated model",
+ "turn_budget_ms": {
+  "search": 30,
+  "compute_target": 35,
+  "output_cutoff": 40,
+  "engine_limit": 50,
+  "first_turn_limit": 2000,
+  "_comment": "search = the separated search budget (AI_Test rule); compute_target and output_cutoff bound the whole turn"
+ }
+}

@@ -2,7 +2,8 @@
 // stream and writes the raw int32 accumulators to stdout, so the Python
 // emulation (fusion/quant.py) can be compared bit for bit.
 //
-//   g++ -std=c++20 -O2 -DFUSION_MODEL_HEADER='"models/m31.hpp"' -DFUSION_MODEL_NS=fusion::models::m31 \
+// Built by fusion.native.infer_check (tests/test_pipeline.py):
+//   g++ -std=c++20 -O2 -DFUSION_MODEL_HEADER="<weights_n08.hpp>" -DFUSION_MODEL_NS=fusion::models::n08
 //       -Iinference tools/infer_check.cpp -o build/infer_check
 //
 // Record per (turn, team), int32: mover[3][5], squad[125], act[3][5][4],
@@ -30,11 +31,12 @@ int main() {
     State prev, now;
     bool havePrev = false;
     PolicyFeatures pf;
+    TurnView view;
     ValueFeatures vf;
     int32_t x[kMaxWidth], acc[kMaxWidth];
     std::vector<int32_t> rec;
     while (readTurn(std::cin, now)) {
-        const TurnView view = makeView(board, now, havePrev ? &prev : nullptr);
+        makeView(board, now, havePrev ? &prev : nullptr, view);
         for (int team = 0; team < st.teams; team++) {
             encodePolicy(board, now, view, team, pf);
             encodeValue(board, now, view, team, vf);

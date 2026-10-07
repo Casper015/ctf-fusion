@@ -1,10 +1,12 @@
-"""Play matches and record every seat's view and requests (docs/DATA_FORMAT.md).
+"""Play matches and record every seat's view and requests (training/specs/DATA_FORMAT.md).
 
     python -m training.collect --ai-test ~/code/AI_Test --teams 2 3 4 --workers 8
     python -m training.collect --ai-test ... --teams 2 --matches 10 --bots Random,Random   # smoke test
 
-Matches run under the official engine and match runner (engine.py, core.py)
-with the real time limits unless --turn-ms says otherwise. Fixtures are a
+Matches run under the official engine (AI_Test engine.py) with the real time
+limits unless --turn-ms says otherwise. Bot processes run through
+fusion/runner.py, a thread-based mirror of the original arena core that also
+works on Windows. Fixtures are a
 pure function of (--seed, team count, match index), so an interrupted run
 resumes by skipping files that already exist, and another machine can
 produce exactly the same fixture list.
@@ -21,8 +23,8 @@ import time
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
-from fusion import matchlog
-from fusion.paths import REPO, ai_test_root, bot_path, load_engine, load_json, load_profile, sha256
+from fusion import matchlog, runner
+from fusion.paths import REPO, ai_test_root, bot_path, git_commit, load_engine, load_json, load_profile, sha256
 
 
 @dataclass
@@ -86,16 +88,13 @@ def schedule(teams: int, count: int, start: int, seed: int, profile: dict, pool:
 def play(job) -> dict:
     """Run one fixture and return its match record (schema ctf-fusion-match-1)."""
     fx, commands, info, root, limits = job
-    engine, core = load_engine(Path(root))
+    engine = load_engine(Path(root))
     game = engine.Game(fx.teams, fx.map_seed, flag_seed=fx.flag_seed)
-    bots = [core.Bot(commands[name], name) for name in fx.seats]
+    bots = [runner.Bot(commands[name], name, tuple(limits)) for name in fx.seats]
     init_text, blocks, replies, faults = None, [], [], []
-    for b in bots:
-        b.start()
     try:
         while not game.done:
             turn = game.turn + 1
-            limit = limits[0] if turn == 1 else limits[1]
             inputs = [game.encode(i) for i in range(fx.teams)]
             if turn == 1:
                 init_text, block = matchlog.split_init(inputs[0])
@@ -108,35 +107,36 @@ def play(job) -> dict:
                     raise RuntimeError("TURN blocks differ between seats")
             blocks.append(block)
             starts = [b.send(text) for b, text in zip(bots, inputs)]
-            lines = [b.recv(t0, limit, turn) for b, t0 in zip(bots, starts)]
+            lines = [b.receive(t0, turn) for b, t0 in zip(bots, starts)]
             replies.append(lines)
             orders = {}
             for i, (b, line) in enumerate(zip(bots, lines)):
                 if line is None:
+                    orders[i] = {}
                     continue
                 try:
                     orders[i] = game.decode(i, line)
+                    b.ok()
                 except ValueError as exc:
-                    b.strike(turn, f"Malformed output: {exc}")
+                    orders[i] = {}
+                    b.strike(turn, f"malformed output: {exc}")
             game.step(orders)
-            faults += [[turn, i, b.faults[-1][1]] for i, b in enumerate(bots) if b.faults and b.faults[-1][0] == turn]
+            faults += [[turn, i, reason] for i, b in enumerate(bots) for t, reason in b.faults if t == turn]
         final_block = game.encode(0)
     finally:
         for b in bots:
             b.close()
     result = game.result()
     score = result["score"]
-    stats = [b.stats() for b in bots]
-    for st in stats:
-        st["faults"] = len(st["faults"])
     return {
         "schema": matchlog.SCHEMA, "match_id": fx.match_id, "teams": fx.teams,
         "map_seed": fx.map_seed, "flag_seed": fx.flag_seed,
         "seats": [{"name": n, "family": info[n]["family"], "sha256": info[n]["sha256"]} for n in fx.seats],
-        "engine_sha256": info["__engine__"], "limits_ms": [1000 * limits[0], 1000 * limits[1]],
+        "engine_sha256": info["__engine__"], "ai_test_commit": info["__commit__"],
+        "limits_ms": [1000 * limits[0], 1000 * limits[1]], "platform": sys.platform,
         "init": init_text, "blocks": blocks, "final_block": final_block, "replies": replies, "faults": faults,
         "result": {"score": score, "ranks": [1 + sum(s > x for s in score) for x in score], "stats": result["stats"]},
-        "bots": stats, "created": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "bots": [b.report() for b in bots], "created": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }
 
 
@@ -162,7 +162,7 @@ def main(argv=None):
     ap.add_argument("--first-ms", type=float, help="turn-1 limit (default: engine, 2000 ms)")
     a = ap.parse_args(argv)
     root = ai_test_root(a.ai_test)
-    engine, core = load_engine(root)
+    engine = load_engine(root)
     bots = a.bots.split(",") if a.bots else None
     pool = resolve_pool(load_json(a.pool), root, set(bots) if bots else None)
     limits = list(getattr(engine.Game, "TIME_LIMITS", (2.0, 0.05)))
@@ -181,9 +181,10 @@ def main(argv=None):
                 jobs.append((fx, out))
                 needed |= set(fx.seats)
     # Compile once in this process; workers reuse the content-hashed binaries.
-    commands = {n: core.command_for(Path(pool[n]["abs"]), REPO / "build" / "bots") for n in needed}
+    commands = {n: runner.command_for(Path(pool[n]["abs"]), REPO / "build" / "bots") for n in needed}
     info = {n: {"family": pool[n]["family"], "sha256": sha256(pool[n]["abs"])} for n in needed}
     info["__engine__"] = sha256(Path(engine.__file__))
+    info["__commit__"] = git_commit(root)
     work = [(fx, commands, info, str(root), limits, str(out)) for fx, out in jobs]
     print(f"[collect] {len(work)} matches to play ({len(a.teams)} team counts), {a.workers} workers", flush=True)
     t0, done = time.time(), 0
@@ -194,7 +195,7 @@ def main(argv=None):
     manifest = Path(a.out) / "fixtures.jsonl"
     with manifest.open("a") as f:
         for fx, out in jobs:
-            f.write(json.dumps(asdict(fx) | {"file": str(out.relative_to(a.out))}) + "\n")
+            f.write(json.dumps(asdict(fx) | {"file": out.relative_to(a.out).as_posix()}) + "\n")
 
 
 class _Serial:

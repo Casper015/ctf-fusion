@@ -37,7 +37,7 @@ class Run:
         self.dir.mkdir(parents=True, exist_ok=True)
         self.config = config | {"repo_commit": repo_commit(), "started": time.strftime("%Y-%m-%dT%H:%M:%S")}
         self.log_path = self.dir / "log.jsonl"
-        self.log_path.write_text("")
+        self.log_path.write_text("", encoding="utf-8")
 
     def log(self, **row):
         print("  ".join(f"{k}={v:.5f}" if isinstance(v, float) else f"{k}={v}" for k, v in row.items()), flush=True)
@@ -46,24 +46,82 @@ class Run:
 
     def save(self, state: dict, **extra):
         np.savez(self.dir / "model.npz", **state)
-        (self.dir / "config.json").write_text(json.dumps(self.config | extra, indent=1))
+        (self.dir / "config.json").write_text(json.dumps(self.config | extra, indent=1), encoding="utf-8")
 
 
-def fit(model, train_step, val_loss, epochs: int, patience: int, run: Run, rng):
-    """Generic loop: train_step(epoch) runs one epoch, val_loss() -> float. Keeps the best state."""
-    best, best_state, waited = float("inf"), None, 0
-    for epoch in range(1, epochs + 1):
+def add_training_args(ap, batch: int):
+    """Arguments shared by train_policy and train_value."""
+    ap.add_argument("--shards", default="data/shards")
+    ap.add_argument("--model", required=True, help="model id from profiles/: n02 ... n15 or general")
+    ap.add_argument("--out", required=True, help="run directory (convention: runs/<policy|value>_<model>)")
+    ap.add_argument("--init", help="run directory to warm-start from (convention: the profile's init_from model)")
+    ap.add_argument("--epochs", type=int, default=8)
+    ap.add_argument("--patience", type=int, default=2, help="epochs without improvement before a decay or a stop")
+    ap.add_argument("--plateau-decay", type=int, default=1, help="times the learning rate halves on a plateau before stopping")
+    ap.add_argument("--lr-schedule", choices=("constant", "cosine"), default="cosine")
+    ap.add_argument("--lr", type=float, default=1e-3)
+    ap.add_argument("--min-lr", type=float, default=1e-4)
+    ap.add_argument("--batch", type=int, default=batch)
+    ap.add_argument("--weight-decay", type=float, default=1e-5)
+    ap.add_argument("--max-rows", type=int, default=0, help="subsample the training split (0 = all)")
+    ap.add_argument("--seed", type=int, default=1)
+    ap.add_argument("--val-split", default="val", help="split for early stopping and calibration")
+
+
+def data_manifest(shards, counts) -> dict:
+    """What a run trained on: the dataset manifest restricted to its team counts, plus a fingerprint."""
+    from training.dataset import data_digest, load_index  # noqa: PLC0415
+    index = load_index(shards)
+    man = index.get("manifest", {})
+    keys = {f"n{t:02d}" for t in counts}
+    return {"team_counts": list(counts), "digest": data_digest(index, counts),
+            "matches_by_count": {k: v for k, v in man.get("matches_by_count", {}).items() if k in keys},
+            "rows": {k: v for k, v in index["counts"].items() if k.split("/")[0] in keys},
+            "ai_test_commits": man.get("ai_test_commits"), "options": index["options"]}
+
+
+def warm_start(model, init_run) -> str | None:
+    if not init_run:
+        return None
+    state = dict(np.load(Path(init_run) / "model.npz"))
+    mine = model.state()
+    for k, v in mine.items():
+        if k in state and np.shape(state[k]) != np.shape(v):
+            raise SystemExit(f"--init {init_run}: {k} has shape {np.shape(state[k])}, this model needs {np.shape(v)}")
+    model.load({k: state.get(k, v) for k, v in mine.items()})
+    return str(init_run)
+
+
+def fit(model, train_step, val_loss, args, run: Run, rng, opt):
+    """Epoch loop with a learning-rate schedule, plateau decay and early stopping. Keeps the best state.
+
+    On `patience` epochs without improvement the learning rate halves (up to
+    --plateau-decay times) and training continues from the best state; after
+    that it stops.
+    """
+    best, best_state, waited, decays = float("inf"), None, 0, 0
+    scale = 1.0
+    for epoch in range(1, args.epochs + 1):
+        if args.lr_schedule == "cosine":
+            lr = args.min_lr + 0.5 * (args.lr - args.min_lr) * (1 + np.cos(np.pi * (epoch - 1) / max(args.epochs - 1, 1)))
+        else:
+            lr = args.lr
+        opt.lr = lr * scale
         t0 = time.time()
         train = train_step(rng)
         val = val_loss()
         if not (np.isfinite(train) and np.isfinite(val)):
             raise FloatingPointError(f"non-finite loss at epoch {epoch}: train {train}, val {val}")
-        run.log(epoch=epoch, train=train, val=val, seconds=round(time.time() - t0, 1))
+        run.log(epoch=epoch, lr=float(opt.lr), train=train, val=val, seconds=round(time.time() - t0, 1))
         if val < best - 1e-5:
             best, best_state, waited = val, {k: v.copy() for k, v in model.state().items()}, 0
-        else:
-            waited += 1
-            if waited >= patience:
-                break
+            continue
+        waited += 1
+        if waited < args.patience:
+            continue
+        if decays >= args.plateau_decay:
+            break
+        decays, waited, scale = decays + 1, 0, scale * 0.5
+        model.load(best_state)
     model.load(best_state)
     return best

@@ -1,8 +1,39 @@
 {
- "teams": 3,
- "tier": "m31",
+ "team_count": 3,
+ "map_size": 31,
+ "model": "n03",
+ "weights": "weights_n03.hpp",
+ "init_from": "general",
+ "search": {
+  "status": "proposal: starting points from docs/DESIGN.md, not yet read by the C++ search (search::configFor)",
+  "focus": "crossfire between opponents, pickup/intercept transitions",
+  "search_depth": 2,
+  "depth_extension": "3 for close flag fights",
+  "root_candidates": [
+   16,
+   24
+  ],
+  "enemy_scenarios": [
+   64,
+   192
+  ],
+  "return_dp_horizon": [
+   8,
+   10
+  ],
+  "return_dp_enabled": true
+ },
+ "turn_budget_ms": {
+  "search": 30,
+  "compute_target": 35,
+  "output_cutoff": 40,
+  "engine_limit": 50,
+  "first_turn_limit": 2000,
+  "_comment": "search = the separated search budget (AI_Test rule); compute_target and output_cutoff bound the whole turn"
+ },
  "collect": {
   "matches": 1500,
+  "phase2_matches": 7500,
   "pool": "default",
   "anchors": [
    "Player5_Omega_LIT",

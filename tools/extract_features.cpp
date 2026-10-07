@@ -91,9 +91,10 @@ int main(int argc, char** argv) {
     bool havePrev = false;
     std::vector<int16_t> rec(width());
     PolicyFeatures pf;
+    TurnView view;
     ValueFeatures vf;
     while (readTurn(std::cin, now)) {
-        const TurnView view = makeView(board, now, havePrev ? &prev : nullptr);
+        makeView(board, now, havePrev ? &prev : nullptr, view);
         for (int team = 0; team < st.teams; team++) {
             encodePolicy(board, now, view, team, pf);
             encodeValue(board, now, view, team, vf);

@@ -1,16 +1,17 @@
-// Feature encoders, feature spec v1 (see docs/FEATURES.md).
+// Feature encoders, feature spec v1 (see training/specs/FEATURES.md).
 //
 // This header is the single source of truth for every model input: the
 // training extractor (tools/extract_features.cpp) and the bot call the same
 // functions, so training and inference cannot drift apart. Every feature is a
 // clipped small integer; training divides by `scale`, and the exporter folds
 // that division into the first layer, so inference stays integer and exact.
+// No encoder allocates: all scratch is fixed-size and on the stack.
 #ifndef FUSION_FEATURES_HPP
 #define FUSION_FEATURES_HPP
 #include <algorithm>
 #include <array>
 #include <cstdint>
-#include <vector>
+#include <utility>
 
 #include "state.hpp"
 
@@ -190,12 +191,13 @@ inline void encodePolicy(const Board& b, const State& s, const TurnView& v, int 
         }
 
         // Attack candidates: hittable enemies within kCandRange, nearest first.
-        std::vector<std::pair<int, int>> near;
+        std::array<std::pair<int, int>, kMaxUnits> near{};
+        int found = 0;
         for (const Unit& w : s.units)
-            if (w.team != team && detail::hittable(v, w.id) && b.man(p, v.origin[w.id]) <= kCandRange)
-                near.push_back({b.man(p, v.origin[w.id]), w.id});
-        std::sort(near.begin(), near.end());
-        const int count = std::min<int>(kCand, near.size());
+            if (w.team != team && detail::hittable(v, w.id) && b.man(p, v.origin[w.id]) <= kCandRange && found < kMaxUnits)
+                near[found++] = {b.man(p, v.origin[w.id]), w.id};
+        std::sort(near.begin(), near.begin() + found);
+        const int count = std::min(kCand, found);
         for (int c = 0; c < count; c++) {
             const int t = near[c].second, r = v.origin[t];
             int support = 0, attackedBy = 0;
@@ -231,7 +233,8 @@ inline void encodeValue(const Board& b, const State& s, const TurnView& v, int t
     detail::encodeGlobal(b, s, v, team, out.data());
     int16_t* unit = out.data() + kG;
     int ownCarrierHome = 99, escortThreat = 0, carrierShots = 0;
-    std::vector<int> ownCells;
+    std::array<int, 3> ownCells{};
+    int owned = 0;
     for (int k = 0; k < 3; k++) {
         const int id = 3 * team + k;
         const Unit& u = s.units[id];
@@ -241,7 +244,7 @@ inline void encodeValue(const Board& b, const State& s, const TurnView& v, int t
             f[3] = clip(u.respawnAt >= 0 ? u.respawnAt - s.turn : 0, kValueUnitSpec[3]);
             continue;
         }
-        ownCells.push_back(p);
+        ownCells[owned++] = p;
         const detail::UnitFacts uf = detail::unitFacts(b, s, v, id);
         const int vals[kVU] = {1, v.immune[id] ? 100 : u.hp, u.flag >= 0, 0, detail::capped(b.home[team][p]),
                                detail::capped(v.flagDist[p]), uf.nearestEnemy, uf.threatenedBy, uf.enemiesR3};
@@ -265,14 +268,14 @@ inline void encodeValue(const Board& b, const State& s, const TurnView& v, int t
         }
         nearBase += b.man(r, b.baseCell[team]) <= 5;
         bool close = false;
-        for (int c : ownCells) close = close || b.man(r, c) <= 6;
+        for (int i = 0; i < owned; i++) close = close || b.man(r, ownCells[i]) <= 6;
         r6 += close;
     }
     int droppedNear = 0;
     for (const Flag& f : s.flags)
         if (f.status == kDropped && available(f, s.turn)) {
             bool close = false;
-            for (int c : ownCells) close = close || b.man(b.cell(f.x, f.y), c) <= 5;
+            for (int i = 0; i < owned; i++) close = close || b.man(b.cell(f.x, f.y), ownCells[i]) <= 5;
             droppedNear += close;
         }
     const int agg[kVA] = {enemyCarriers, enemyCarrierHome, nearBase, escortThreat,

@@ -1,8 +1,39 @@
 {
- "teams": 2,
- "tier": "m23",
+ "team_count": 2,
+ "map_size": 23,
+ "model": "n02",
+ "weights": "weights_n02.hpp",
+ "init_from": "general",
+ "search": {
+  "status": "proposal: starting points from docs/DESIGN.md, not yet read by the C++ search (search::configFor)",
+  "focus": "3-unit coordination, focus fire, no overkill, flag interception; keep the 1v1 heuristics",
+  "search_depth": 2,
+  "depth_extension": "3, and 4 on explicit delivery/kill",
+  "root_candidates": [
+   16,
+   24
+  ],
+  "enemy_scenarios": [
+   64,
+   256
+  ],
+  "return_dp_horizon": [
+   10,
+   12
+  ],
+  "return_dp_enabled": true
+ },
+ "turn_budget_ms": {
+  "search": 30,
+  "compute_target": 35,
+  "output_cutoff": 40,
+  "engine_limit": 50,
+  "first_turn_limit": 2000,
+  "_comment": "search = the separated search budget (AI_Test rule); compute_target and output_cutoff bound the whole turn"
+ },
  "collect": {
   "matches": 1500,
+  "phase2_matches": 7500,
   "pool": [
    "Astra",
    "Sol",

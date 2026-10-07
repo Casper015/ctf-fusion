@@ -10,7 +10,7 @@ This page reviews [DESIGN.md](DESIGN.md) against the benchmark evidence and the 
 
 Five changes matter most:
 1. stay inside the existing 30 ms search budget;
-2. train one model per map size instead of 22 parameter sets, covering all 14 rated team counts;
+2. cover all 14 rated team counts (the 22-artifact matrix stands; see 3.2);
 3. compute every feature in one C++ header shared by training and the bot;
 4. integrate the opponent policy before the value network;
 5. leave the duel planner alone at first.
@@ -43,7 +43,7 @@ The last row is two matches and only an indication. It says the legacy forecast 
 | No leakage | features see only the public stream up to the current block; replies are labels only; splits are by match |
 | Value target = pairwise final outcome; auxiliary event heads | `labels.py`: outcome, capture within 20, own death within 10 |
 | Stratified sampling with weights | per-stratum keep rates; importance weights restore the natural distribution in every metric |
-| Integer weights in C++ arrays, checksums, metadata | `export_weights.py` → `inference/models/<tier>.hpp` + `MANIFEST.json` |
+| Integer weights in C++ arrays, checksums, metadata | `export_weights.py` → `inference/models/weights_<model>.hpp` + `MANIFEST.json` + `registry.hpp` |
 | Small smoke test | README "Smoke test" |
 
 ## 3. Changed, and why
@@ -61,20 +61,23 @@ The last row is two matches and only an indication. It says the legacy forecast 
 
 **Latency is unmeasured.** None of this has been timed; latency must be measured on the cluster, not here.
 
-### 3.2 One model per map size, all 14 team counts
+### 3.2 The model matrix: 22 artifacts, all 14 team counts
 
-**Every team count counts equally.** The rating weights every count from 2 to 15 equally, so 9, 11, 13 and 14 count as much as 8 or 10.
+**First proposal.** This review first proposed one model per map size (four tiers), for data efficiency.
 
-**Map size moves at exactly three boundaries.** `engine.map_size` is 23 for 2 teams, 31 for 3–5, 41 for 6–10 and 49 for 11–15.
+**The decision.** The follow-up brief fixed the matrix at 22 artifacts:
+- dedicated P and V for 2, 3, 4, 5, 6, 7, 8, 10, 12 and 15 teams;
+- a general P and V pretrained on all counts, serving 9, 11, 13 and 14.
 
-**So: four tiers, data for every count:**
-- one model pair per map size (tiers `m23`, `m31`, `m41`, `m49`), with the team count as an input feature;
-- data from all 14 counts;
-- one α per team count.
+The pipeline implements that ([MODEL_MATRIX.md](../training/specs/MODEL_MATRIX.md)).
 
-Compared with 22 parameter sets, each model sees about four times more data. Each tier's source is about 200 KiB (the smoke export was 196 KiB), against several MiB for 22 sets.
+**The concern survives, as warm-starting.** Each dedicated model warm-starts from `general`, which has seen every count. A small dedicated dataset therefore refines the general model instead of starting cold.
 
-A per-count model is still one line away: set `"tier": "n08"` in `profiles/n08.json`. Do it only if that count's held-out loss shows the shared model underfits.
+**Where the matrix lives.** Profiles (`profiles/nXX.json`, `general.json`) define it, so changing it is a configuration edit. Point a count's `model` at `general` (or a shared id) to merge counts again.
+
+**Why every count matters.** The rating weights every count 2–15 equally, so data is collected for all 14, including the four served by `general`.
+
+**Source size.** About 200 KiB of header per exported model (the smoke export was 196 KiB), so about 2.2 MiB for all 11 models in one unified binary. Whether the judge limits source size is still an open question (section 6).
 
 ### 3.3 One feature implementation, in C++
 
@@ -86,7 +89,7 @@ A per-count model is still one line away: set `"tier": "n08"` in `profiles/n08.j
 
 ### 3.4 Dense relational value features, not an NNUE sparse accumulator (v1)
 
-**Why not sparse cells.** Maps are random per seed (pillars), so absolute-cell one-hot inputs — the NNUE pattern — would learn map-specific noise. A 49 × 49 × relation sparse table is also millions of weights, several MiB of source per tier.
+**Why not sparse cells.** Maps are random per seed (pillars), so absolute-cell one-hot inputs — the NNUE pattern — would learn map-specific noise. A 49 × 49 × relation sparse table is also millions of weights, several MiB of source per model.
 
 **What v1 uses instead.** V v1 reads 50 relational features: BFS distances, threats, carriers, score state. The network is 50 → 128 → 16 → 1. An incrementally updated accumulator only pays off once V runs inside rollouts, which section 3.1 rules out for now.
 
@@ -120,6 +123,8 @@ The brief's warning against factorizing applies in full to v2.
 
 ### 3.8 Things deliberately not built yet
 
+(The decoupled simulator that the brief asks for before deeper plies now exists: `inference/sim.hpp`. It is verified turn by turn against the engine; see [SIMULATOR_AUDIT.md](../training/specs/SIMULATOR_AUDIT.md).)
+
 - **Off-policy value states.** The brief requires states from suboptimal branches. Real counterfactual branching needs bot processes restarted from altered streams, and the search bots are clock-dependent.
 
   A cheap substitute is a proxy that perturbs a seat's replies with probability ε (random legal move for one unit). Not built yet.
@@ -127,18 +132,18 @@ The brief's warning against factorizing applies in full to v2.
 
   Note that this repository's own online habit module (`R3_HABITS_adaptive`) ranked 21st of 22, so it must be measured alone.
 - **Deeper search.** The brief's per-count depth table is a hypothesis. `G_PLAYOUT_4ply` (+346.9) did not beat the other genes, so depth does not look like the bottleneck. Keep two plies; tune scenario counts per size where measured.
-- **Ten per-count exports.** One unified bot with a per-size tier switch replaces them; `profiles/` already maps counts to tiers.
+- **Ten per-count exports.** One unified bot with `fusion::models::forTeams(teams)` (generated `registry.hpp`) replaces them; `profiles/` maps counts to models.
 
 ## 4. Integration plan (AI_Test `nextgen`)
 
-1. **Inline the headers.** Inline `inference/state.hpp`, `features.hpp`, `mlp.hpp`, `policy.hpp` and the tier headers into `master.cpp` exports, the way `build_exports.py` inlines `search/`. They use only `<algorithm> <array> <cmath> <cstdint> <cstdlib> <deque> <vector>`.
+1. **Inline the headers.** Inline `inference/state.hpp`, `features.hpp`, `mlp.hpp`, `policy.hpp`, `value.hpp`, `sim.hpp`, the `weights_*.hpp` headers and `registry.hpp` into `master.cpp` exports, the way `build_exports.py` inlines `search/`. They use only `<algorithm> <array> <cmath> <cstdint> <cstdlib> <utility> <vector>`.
 2. **Build the state.** In `multi::Planner::forecast`:
    - build `fusion::State` from `Game` (a few lines: units, flags, attack events, scores);
    - build `Board` once and `TurnView` once per turn;
-   - run `encodePolicy` + `jointPolicy` for each opponent team with a unit on the board.
+   - run `encodePolicy` + `jointPolicy` for each opponent team with a unit on the board, using `fusion::models::forTeams(teams)`.
 3. **Mix into the forecast**, per enemy unit and destination:
 
-   `prob = (1 - a) * prob + a * marginal[k][move]`, with `a = kAlpha[teams]`.
+   `prob = (1 - a) * prob + a * marginal[k][move]`, with `a = forTeams(teams)->alpha`.
 
    Do the same for `fire` with the act head's P(attack | destination), conditioned the way `MOD_FLAGSHOOT` conditions it today. The switch is `MOD_FUSION_P`, with a team-size mask like every other module.
 4. **Prove the null.** With `MOD_FUSION_P_SIZES = 0`, or α = 0, the stream-exactness check must report zero differences against the foundation.
@@ -161,5 +166,5 @@ The brief's warning against factorizing applies in full to v2.
 
 ## 6. Open questions for the user
 
-- **Source size.** Is there a judge-side size limit for `bot.cpp`? Four tiers add about 0.8 MiB of source. `RULES.md` names none.
+- **Source size.** Is there a judge-side size limit for `bot.cpp`? All 11 models add about 2.2 MiB of source (about 200 KiB each). `RULES.md` names none.
 - **The official field.** Are the official opponents the 11 judge bots (plus other submissions)? The opponent model is only as good as the overlap between the training pool (`profiles/pool.json`) and the real field.

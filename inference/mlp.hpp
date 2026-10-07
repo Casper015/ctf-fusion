@@ -34,22 +34,31 @@ struct Net {
 
 inline int32_t roundShift(int32_t v, int s) { return s > 0 ? (v + (int32_t(1) << (s - 1))) >> s : v; }
 
-// x has net.in() entries; acc receives net.out() raw accumulators.
-inline void forwardRaw(const Net& net, const int32_t* x, int32_t* acc) {
+// One layer's activation of a raw accumulator.
+inline int32_t activate(const Layer& L, int32_t acc) {
+    return L.hidden ? std::clamp(roundShift(acc, L.shift), int32_t(0), kActOne) : acc;
+}
+
+// Layers first..count-1 on `x` (the input of layer `first`); acc receives the
+// last layer's raw accumulators. Fixed stack buffers only, no allocation.
+inline void forwardFrom(const Net& net, int first, const int32_t* x, int32_t* acc) {
     int32_t bufA[kMaxWidth], bufB[kMaxWidth];
     const int32_t* src = x;
-    for (int l = 0; l < net.count; l++) {
+    for (int l = first; l < net.count; l++) {
         const Layer& L = net.layers[l];
         int32_t* dst = l + 1 == net.count ? acc : (l % 2 == 0 ? bufA : bufB);
         for (int o = 0; o < L.out; o++) {
             const int16_t* row = L.w + o * L.in;
             int32_t s = L.b[o];
             for (int i = 0; i < L.in; i++) s += int32_t(row[i]) * src[i];
-            dst[o] = L.hidden ? std::clamp(roundShift(s, L.shift), int32_t(0), kActOne) : s;
+            dst[o] = activate(L, s);
         }
         src = dst;
     }
 }
+
+// x has net.in() entries; acc receives net.out() raw accumulators.
+inline void forwardRaw(const Net& net, const int32_t* x, int32_t* acc) { forwardFrom(net, 0, x, acc); }
 
 inline double toReal(const Net& net, int32_t acc) { return std::ldexp(static_cast<double>(acc), -net.outExp); }
 

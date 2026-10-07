@@ -1,8 +1,10 @@
-"""Offline evaluation report for one tier (Markdown + JSON).
+"""Offline evaluation report for one model of the matrix (Markdown + JSON).
 
-    python -m training.evaluate_offline --shards data/shards --tier m31 \
-        --policy runs/policy_m31 --value runs/value_m31 [--quantized inference/models/m31.npz] \
-        --out reports/m31
+    python -m training.evaluate_offline --model n08 --policy runs/policy_n08 --value runs/value_n08 \
+        [--quantized inference/models/weights_n08.npz] --out reports/n08
+
+The model is evaluated on every team count it serves (profiles/); the general
+model on the counts without a dedicated model, unless --teams says otherwise.
 
 Everything that is fitted here (inertia rate, mixture weight alpha) is fitted
 on --fit-split (default val) and reported on --split (default test), so the
@@ -14,6 +16,11 @@ reported losses are held out. Predictors of the opponent joint move:
   learned     q_theta, float, temperature-calibrated
   quantized   q_theta as the C++ computes it (integer export)
   mixture     (1 - alpha) q_H + alpha q_theta, alpha fitted per team count
+
+Safe fallback: a team count gets `use: true` only if the mixture beats the
+baseline (heuristic, else inertia) on the evaluation split by --min-gain nats.
+The exporter writes alpha = 0 for every other count, and alpha = 0 is exactly
+the legacy bot.
 
 Offline log-loss says nothing about match strength; paired matches decide.
 """
@@ -30,6 +37,7 @@ from fusion.labels import STRATA
 from fusion.mixture import fit_alpha, mixture_loss
 from fusion.models import JOINT, QuantizedTier, policy_batch, value_inputs
 from fusion.nn import masked_log_softmax
+from fusion.paths import model_counts, served_counts
 from fusion.schema import layout as feature_layout
 from training.common import batches
 from training.dataset import load
@@ -135,7 +143,7 @@ def heads(model, d, layout):
     return out
 
 
-def policy_section(model, d_fit, d_eval, layout, quantized):
+def policy_section(model, d_fit, d_eval, layout, quantized, min_gain=0.01):
     rho = fit_inertia(d_fit, layout)
     have_qh = "qh" in d_eval and "qh" in d_fit
     preds = {}
@@ -171,6 +179,9 @@ def policy_section(model, d_fit, d_eval, layout, quantized):
         if a is not None:
             row["mixture"] = mixture_loss(a, preds[base_name][se], preds["learned"][se], w[se])
         row["alpha"] = a
+        gain = row[base_name] - row["mixture"] if a is not None else None
+        alpha[int(t)] |= {"use": bool(gain is not None and gain > min_gain and a > 0), "gain": gain}
+        row["use"] = alpha[int(t)]["use"]
         row["top1"] = metrics.rate(correct[se], w[se])
         row["ece"] = metrics.ece(conf[se], correct[se].astype(float), w[se])
         by_teams.append(row)
@@ -216,20 +227,20 @@ def value_section(model, beta, d, layout, quantized):
     return out
 
 
-def markdown(tier, split, pol, val, sizes) -> str:
+def markdown(model, split, pol, val, sizes) -> str:
     def f(v):
         return "-" if v is None else f"{v:.4f}" if isinstance(v, float) else str(v)
 
     names = [k for k in ("uniform", "inertia", "heuristic", "learned", "quantized", "mixture") if any(k in r for r in pol["by_teams"])]
-    lines = [f"# Offline evaluation: tier {tier}, split {split}", "",
+    lines = [f"# Offline evaluation: model {model}, split {split}", "",
              "Log-loss is nats per joint opponent move (lower is better), weighted back to the natural turn "
              "distribution. alpha is fitted on the fit split and applied here. Offline numbers rank predictors; "
              "only paired matches measure strength.", "", "## Opponent joint-move prediction", "",
-             "| teams | rows | " + " | ".join(names) + " | alpha | top-1 | ECE |",
-             "|---:|---:|" + "---:|" * (len(names) + 3)]
+             "| teams | rows | " + " | ".join(names) + " | alpha | use | top-1 | ECE |",
+             "|---:|---:|" + "---:|" * (len(names) + 4)]
     for r in pol["by_teams"]:
         lines.append(f"| {r['teams']} | {r['rows']} | " + " | ".join(f(r.get(n)) for n in names) +
-                     f" | {f(r['alpha'])} | {f(r['top1'])} | {f(r['ece'])} |")
+                     f" | {f(r['alpha'])} | {'yes' if r['use'] else 'no'} | {f(r['top1'])} | {f(r['ece'])} |")
     lines += ["", f"Mixture baseline: {pol['alpha'][next(iter(pol['alpha']))]['baseline'] if pol['alpha'] else '-'}. "
               f"Inertia rates: {', '.join(f'{t}: {v:.3f}' for t, v in pol['inertia_rate'].items())}. "
               f"Unit move accuracy (marginal argmax): {pol['unit_move_accuracy']:.4f}. "
@@ -263,10 +274,12 @@ def markdown(tier, split, pol, val, sizes) -> str:
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--shards", default="data/shards")
-    ap.add_argument("--tier", required=True)
+    ap.add_argument("--model", required=True)
+    ap.add_argument("--teams", type=int, nargs="*", help="team counts to evaluate (default: those the model serves)")
     ap.add_argument("--policy", required=True)
     ap.add_argument("--value", required=True)
-    ap.add_argument("--quantized", help="exported <tier>.npz to evaluate the integer model too")
+    ap.add_argument("--quantized", help="exported weights_<model>.npz to evaluate the integer model too")
+    ap.add_argument("--min-gain", type=float, default=0.01, help="nats the mixture must beat the baseline by to be used")
     ap.add_argument("--split", default="test")
     ap.add_argument("--fit-split", default="val")
     ap.add_argument("--out", required=True, help="output path without extension (.md and .json are written)")
@@ -276,22 +289,23 @@ def main(argv=None):
     policy.calibrated = True
     value, beta = load_value(Path(a.value), layout)
     quantized = QuantizedTier(dict(np.load(a.quantized))) if a.quantized else None
-    d_eval_all = load(a.shards, a.tier, a.split)
-    d_fit_all = load(a.shards, a.tier, a.fit_split)
+    counts = a.teams or served_counts(a.model) or model_counts(a.model)
+    d_eval_all = load(a.shards, counts, a.split)
+    d_fit_all = load(a.shards, counts, a.fit_split)
     pick = lambda d: {k: v[d["valid"]] for k, v in d.items()}
-    pol = policy_section(policy, pick(d_fit_all), pick(d_eval_all), layout, quantized)
+    pol = policy_section(policy, pick(d_fit_all), pick(d_eval_all), layout, quantized, a.min_gain)
     val = value_section(value, beta, d_eval_all, layout, quantized)
     sizes = None
     manifest = Path(a.quantized).parent / "MANIFEST.json" if a.quantized else None
     if manifest and manifest.exists():
-        sizes = json.loads(manifest.read_text()).get(a.tier)
+        sizes = json.loads(manifest.read_text(encoding="utf-8")).get(a.model)
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.with_suffix(".md").write_text(markdown(a.tier, a.split, pol, val, sizes))
-    out.with_suffix(".json").write_text(json.dumps({"tier": a.tier, "split": a.split, "fit_split": a.fit_split,
-                                                    "alpha": {str(k): v for k, v in pol["alpha"].items()},
-                                                    "policy": pol, "value": val}, indent=1, default=float))
-    print(out.with_suffix(".md").read_text())
+    out.with_suffix(".md").write_text(markdown(a.model, a.split, pol, val, sizes), encoding="utf-8")
+    report = {"model": a.model, "team_counts": counts, "split": a.split, "fit_split": a.fit_split,
+              "alpha": {str(k): v for k, v in pol["alpha"].items()}, "policy": pol, "value": val}
+    out.with_suffix(".json").write_text(json.dumps(report, indent=1, default=float), encoding="utf-8")
+    print(out.with_suffix(".md").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":
