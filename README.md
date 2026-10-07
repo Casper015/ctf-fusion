@@ -57,7 +57,8 @@ AI_Test engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶
 ## Layout
 
 ```text
-docs/             DESIGN (brief), REVIEW (decisions + plan), SOURCES
+docs/             DESIGN (brief), REVIEW (decisions + plan), SOURCES, BENCHMARK_REVIEW / BENCHMARK_5PLUS (heuristic benchmark analysis)
+benchmarks/       games_5plus.csv.gz: cleaned per-game rows (5+ teams) of AI_Test ctf-benchmark-v3
 training/specs/   FEATURES (generated), ACTIONS, DATA_FORMAT, MODEL_MATRIX, SIMULATOR_AUDIT, ENVIRONMENT
 profiles/         n02.json ... n15.json, general.json (matrix, search proposals, budgets, collection), pool.json (opponents)
 fusion/           paths, runner (Windows-safe bots), native (C++ tool builds), schema, matchlog, protocol, labels,
