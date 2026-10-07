@@ -74,6 +74,34 @@ Neither track ever played 7, 12, 13 or 14 teams, so nothing can be said about th
 
 **The pattern.** Risk aversion (RISK) and opponent modeling (habits) gain value as the board gets more crowded. Combining every search gene (LIT), deeper playouts (PLAYOUT) and our CFL prediction lose value.
 
+## 1b. All 22 C-series variants by size
+
+Full table (win %, rank, delta vs Control_Hybrid and vs Omega for every variant and size): [BENCHMARK_5PLUS_TABLES.md](BENCHMARK_5PLUS_TABLES.md#every-c-series-variant-pairwise-win--rank-of-22--pp-vs-control_hybrid--pp-vs-omega).
+
+**Top three by pairwise win rate:**
+
+| Teams | 1st | 2nd | 3rd | Last |
+|---:|---|---|---|---|
+| 5 | Omega 65.7 | Omega LIT 65.5 | RISK 65.1 | FLAGS 55.3 |
+| 6 | Tuned weights, no search (C22) 59.3 | Expectimax 58.1 | Expectimax copy 58.0 | FLAGS 49.7 |
+| 8 | SH 67.2 | RISK 66.5 | Omega 65.8 | FLAGS 53.6 |
+| 10 | Expectimax 68.4 | RISK 68.3 | Expectimax copy 67.2 | FLAGS 57.8 |
+| 15 | RISK 64.0 | ASYM 63.7 | PLAYOUT 63.2 | FLAGS 53.4 |
+
+**Findings:**
+- **RISK is the most consistent variant.**
+  - Top 3 at 5, 8, 10 and 15 teams; 5th at 6.
+  - Significantly above Hybrid at 5, 10 and 15 (+5.0, +4.9, +3.5).
+  - Never meaningfully below Omega (worst -0.5, at 5).
+- **6 teams favors no-search builds with tuned weights.**
+  - The plain base build with tuned weights (C22) is best, and the Omega family sits below Hybrid.
+  - Every base-build variant with *default* weights is 3.7–4.7 points below Hybrid at 6 (significant): the default weights fail there.
+- **5 teams rewards search alone.**
+  - Every Omega-family build is +4.2 to +5.5 over Hybrid (significant).
+  - The no-search C22 is no better than Hybrid (-0.3).
+- **At 15 teams the genes help one at a time** (RISK, ASYM, PLAYOUT are the top 3). Together (LIT) they are -3.1 vs Omega, and DROP is -3.3 vs Omega.
+- **No single module on the no-search base build** (CDP, TERMINAL, DROP, ESCORT, HEALTHY, CFL, HABITS) is significantly better than Hybrid at any size from 5 up.
+
 ## 2. Timeouts as the team count grows
 
 **Timeouts per 100 games:**

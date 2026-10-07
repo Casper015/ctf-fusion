@@ -166,13 +166,18 @@ def main():
             "captures": {s: cell(tracks[t], v, c, s, "captures") for s in sizes}} for t, l, v, c in KEY]
     ranked = [{"track": t, "name": n, "variant": v, "control": c, "pair": {s: cell(tracks[t], v, c, s) for s in sizes}}
               for t, n, v, c in RANKED]
+    cseries = {c: {sz: {"pair_win": sum(x["pair_win"] for x in fx.values() if x["size"] == sz) /
+                         max(1, sum(1 for x in fx.values() if x["size"] == sz)),
+                         "vs_hybrid": cell(tracks["C"], c, "C01_Control_Hybrid", sz) if c != "C01_Control_Hybrid" else None,
+                         "vs_omega": cell(tracks["C"], c, "C07_Player5_Omega", sz) if c != "C07_Player5_Omega" else None}
+                    for sz in sizes} for c, fx in tracks["C"].items() if c != "EXPECTIMAX_MEAN"}
     ev = {f"{t}:{b}": {s: events(tracks[t][b], s) for s in sizes} for t, b in EVENT_BOTS}
     timeouts_all = {f"{t}:{b}": {s: events(fx, s)["timeouts_per_100_games"] for s in sizes}
                     for t, g in tracks.items() for b, fx in g.items() if b != "EXPECTIMAX_MEAN"}
     rows = write_clean(tracks, REPO / "benchmarks" / "games_5plus.csv.gz")
     manifest = json.loads((REPO / "data" / "benchmark_raw" / "MANIFEST.json").read_text(encoding="utf-8"))
     summary = {"source_commit": manifest["commit"], "sizes_played": sizes, "sizes_not_played": missing, "clean_rows": rows,
-               "key": key, "ranked": ranked, "events": ev, "timeouts_per_100_games": timeouts_all}
+               "key": key, "ranked": ranked, "cseries": cseries, "events": ev, "timeouts_per_100_games": timeouts_all}
     (REPO / "docs" / "benchmark_5plus.json").write_text(json.dumps(summary, indent=1, default=str), encoding="utf-8")
     (REPO / "docs" / "BENCHMARK_5PLUS_TABLES.md").write_text(render(summary, sizes, missing), encoding="utf-8")
     print(f"{rows} clean rows; sizes {sizes}; not played {missing}")
@@ -202,6 +207,13 @@ def render(s, sizes, missing) -> str:
             ranks[(r["name"], x)] = i
     for r in s["ranked"]:
         out.append(f"| {r['track']} | {r['name']} | " + " | ".join(f"{pp(r['pair'][x])} ({ranks[(r['name'], x)]})" for x in sizes) + " |")
+    out += ["", "## Every C-series variant: pairwise win % (rank of 22) / pp vs Control_Hybrid / pp vs Omega", "",
+            f"| Variant | {head} |", "|---|" + "---:|" * len(sizes)]
+    cs = s["cseries"]
+    crank = {x: {c: i for i, c in enumerate(sorted(cs, key=lambda c: -cs[c][x]["pair_win"]), 1)} for x in sizes}
+    for c in sorted(cs):
+        out.append(f"| {c} | " + " | ".join(f"{100 * cs[c][x]['pair_win']:.1f} ({crank[x][c]}) / {pp(cs[c][x]['vs_hybrid'])} / "
+                                            f"{pp(cs[c][x]['vs_omega'])}" for x in sizes) + " |")
     out += ["", "## Timeouts per 100 games, every candidate", "", f"| Candidate | {head} |", "|---|" + "---:|" * len(sizes)]
     for b, row in sorted(s["timeouts_per_100_games"].items(), key=lambda kv: -sum(kv[1].values())):
         out.append(f"| {b} | " + " | ".join(f"{row[x]:.1f}" for x in sizes) + " |")
