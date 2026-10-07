@@ -1,0 +1,13 @@
+{
+ "teams": 12,
+ "tier": "m49",
+ "collect": {
+  "matches": 1500,
+  "pool": "default",
+  "anchors": [
+   "Player5_Omega_LIT",
+   "Player2_v005"
+  ],
+  "anchor_share": 0.5
+ }
+}

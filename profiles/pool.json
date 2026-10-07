@@ -1,0 +1,120 @@
+{
+ "_comment": "Opponent pool for data collection. Paths are relative to the AI_Test root ('@repo/' = this repository). weight is the relative sampling weight (0 = only when named explicitly); optional bots are skipped when missing.",
+ "bots": [
+  {
+   "name": "Astra",
+   "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+   "family": "astra",
+   "weight": 1
+  },
+  {
+   "name": "Sol",
+   "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+   "family": "sol",
+   "weight": 1
+  },
+  {
+   "name": "Fable",
+   "path": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+   "family": "fable",
+   "weight": 1
+  },
+  {
+   "name": "Sonnet",
+   "path": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+   "family": "sonnet",
+   "weight": 1
+  },
+  {
+   "name": "Opus",
+   "path": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+   "family": "opus",
+   "weight": 1
+  },
+  {
+   "name": "DeepSeek",
+   "path": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+   "family": "deepseek",
+   "weight": 1
+  },
+  {
+   "name": "Qwen",
+   "path": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+   "family": "qwen",
+   "weight": 1
+  },
+  {
+   "name": "MiMo",
+   "path": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "family": "mimo",
+   "weight": 1
+  },
+  {
+   "name": "Kimi",
+   "path": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+   "family": "kimi",
+   "weight": 1
+  },
+  {
+   "name": "GLM",
+   "path": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+   "family": "glm",
+   "weight": 1
+  },
+  {
+   "name": "Doubao",
+   "path": "ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+   "family": "doubao",
+   "weight": 1
+  },
+  {
+   "name": "Control_Hybrid",
+   "path": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+   "family": "player5",
+   "weight": 1
+  },
+  {
+   "name": "Player5_Omega",
+   "path": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+   "family": "player7",
+   "weight": 1
+  },
+  {
+   "name": "Player5_Omega_LIT",
+   "path": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega_LIT.cpp",
+   "family": "player7",
+   "weight": 1
+  },
+  {
+   "name": "R3_CFL_conditional",
+   "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CFL_conditional.cpp",
+   "family": "player7",
+   "weight": 1
+  },
+  {
+   "name": "Player2_v005",
+   "path": "ctf-benchmark-v3/track1_10k_suite/bots/B2_Player2_v005.cpp",
+   "family": "player2",
+   "weight": 1
+  },
+  {
+   "name": "Astra_Full",
+   "path": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Full.cpp",
+   "family": "player7_astra",
+   "weight": 1
+  },
+  {
+   "name": "Baseline",
+   "path": "ctf-arena/Player7/workspace/baseline",
+   "family": "baseline",
+   "weight": 1,
+   "optional": true
+  },
+  {
+   "name": "Random",
+   "path": "@repo/tools/random_bot.py",
+   "family": "random",
+   "weight": 0
+  }
+ ]
+}

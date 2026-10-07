@@ -1,0 +1,145 @@
+# Feature spec v1
+
+`inference/features.hpp` is the only implementation. The training extractor (`tools/extract_features.cpp`) and the bot call
+the same functions, and `extract_features --schema` prints the authoritative layout; this page is generated from it.
+Every feature is a clipped integer in [lo, hi]. Training divides by `scale`; the exporter folds that into the first layer.
+
+Facts shared by all features of a turn (`makeView` in `inference/state.hpp`):
+
+- **origin**: the cell a unit moves from this turn. A dead unit whose respawn time has come takes the first free cell of its
+  team's spawn order (engine phase 1, ascending unit id); it is `immune` this turn. `tests/test_pipeline.py` checks every
+  prediction against the engine's actual respawn events.
+- **available flag**: home, or dropped with `turn < return_at` (a dropped flag at its return time moves to a random spot
+  in phase 1, so it cannot be picked up this turn).
+- **shooter**: on the board, not respawning, not carrying. **hittable**: on the board, not respawning.
+- Distances: BFS over open cells for base and flag distances, Manhattan for ranges, `canAttack` = engine `Game.can_attack`.
+
+Model inputs (`inference/policy.hpp`, `fusion/models.py`):
+
+| net | input |
+|---|---|
+| mover (per unit, per legal move) | global + unit k + move (k, m) |
+| squad (per team) | global + 3 units + 15 moves |
+| act (per unit, per move) | same as mover; output wait, pickup, drop, attack, masked by `act_legal` |
+| target (per unit, per candidate, per move) | dist, hp, carrying, support, hit bit of the move, attacked_by_team, target_home |
+| value (per team) | global + 3 value units + value aggregates |
+
+## Global (per team)
+
+| # | name | lo | hi | scale | meaning |
+|---:|---|---:|---:|---:|---|
+| 0 | `teams` | 2 | 15 | 15 | team count of the match |
+| 1 | `turn` | 0 | 400 | 400 | turn about to settle (1-400) |
+| 2 | `remaining` | 0 | 400 | 400 | turns left including this one |
+| 3 | `own_score` | 0 | 63 | 10 | captures so far |
+| 4 | `best_enemy_score` | 0 | 63 | 10 | highest other score |
+| 5 | `own_rank` | 1 | 15 | 15 | 1 + teams with a strictly higher score |
+| 6 | `margin` | -20 | 20 | 10 | own score minus best other score |
+| 7 | `flags_home` | 0 | 8 | 8 | flags at home |
+| 8 | `flags_dropped` | 0 | 8 | 8 | dropped flags that do not return in this settlement |
+| 9 | `flags_carried_own` | 0 | 3 | 3 | flags our units carry |
+| 10 | `flags_carried_enemy` | 0 | 8 | 8 | flags other teams carry |
+| 11 | `flags_unavailable` | 0 | 8 | 8 | cooldown flags and dropped flags returning now |
+| 12 | `map_size` | 23 | 49 | 49 | board width |
+| 13 | `own_active` | 0 | 3 | 3 | own units on the board this turn (incl. respawning) |
+| 14 | `enemy_active` | 0 | 42 | 42 | other units on the board this turn |
+
+## Unit (per own unit, 3 rows by id)
+
+| # | name | lo | hi | scale | meaning |
+|---:|---|---:|---:|---:|---|
+| 0 | `active` | 0 | 1 | 1 | on the board this turn (alive, or respawning now) |
+| 1 | `immune` | 0 | 1 | 1 | respawns in this settlement: cannot shoot or be shot |
+| 2 | `dead_wait` | 0 | 10 | 10 | turns until respawn when off the board |
+| 3 | `hp` | 0 | 100 | 100 | hit points (100 when respawning) |
+| 4 | `carrying` | 0 | 1 | 1 | holds a flag |
+| 5 | `home_dist` | 0 | 99 | 50 | BFS distance to own base |
+| 6 | `flag_dist` | 0 | 99 | 50 | BFS distance to nearest available flag |
+| 7 | `nearest_enemy` | 0 | 20 | 20 | Manhattan distance to nearest hittable enemy |
+| 8 | `enemies_r3` | 0 | 15 | 5 | enemies within Manhattan 3 |
+| 9 | `allies_r3` | 0 | 2 | 2 | teammates within Manhattan 3 |
+| 10 | `threatened_by` | 0 | 15 | 5 | enemies able to shoot this cell now |
+| 11 | `last_dx` | -1 | 1 | 1 | x step since the previous block |
+| 12 | `last_dy` | -1 | 1 | 1 | y step since the previous block |
+| 13 | `hits_taken` | 0 | 15 | 3 | attack events on this unit last settlement |
+
+## Move (per own unit and move S U D L R)
+
+| # | name | lo | hi | scale | meaning |
+|---:|---|---:|---:|---:|---|
+| 0 | `legal` | 0 | 1 | 1 | destination is open |
+| 1 | `d_home` | -1 | 1 | 1 | change of own-base BFS distance |
+| 2 | `d_flag` | -1 | 1 | 1 | change of nearest-flag BFS distance |
+| 3 | `shooters` | 0 | 15 | 5 | enemies able to shoot the destination from where they stand |
+| 4 | `enemies_r2` | 0 | 15 | 5 | enemies within Manhattan 2 of the destination |
+| 5 | `flag_cell` | 0 | 1 | 1 | available flag on the destination |
+| 6 | `own_base` | 0 | 1 | 1 | destination is an own base cell |
+| 7 | `occupied` | 0 | 1 | 1 | another unit stands on the destination now |
+| 8 | `continues` | 0 | 1 | 1 | repeats the last step |
+| 9 | `carrier_targets` | 0 | 8 | 2 | enemy carriers shootable from the destination |
+| 10 | `targets` | 0 | 15 | 5 | enemies shootable from the destination |
+
+## Attack candidate (per own unit, up to 8 hittable enemies within 4, nearest first)
+
+| # | name | lo | hi | scale | meaning |
+|---:|---|---:|---:|---:|---|
+| 0 | `dist` | 0 | 4 | 4 | Manhattan distance from the unit (candidates are within 4) |
+| 1 | `hp` | 0 | 100 | 100 | target hit points |
+| 2 | `carrying` | 0 | 1 | 1 | target holds a flag |
+| 3 | `support` | 0 | 2 | 2 | teammates that can shoot the target now |
+| 4 | `hit_S` | 0 | 1 | 1 | shootable from the destination of S |
+| 5 | `hit_U` | 0 | 1 | 1 | ... of U |
+| 6 | `hit_D` | 0 | 1 | 1 | ... of D |
+| 7 | `hit_L` | 0 | 1 | 1 | ... of L |
+| 8 | `hit_R` | 0 | 1 | 1 | ... of R |
+| 9 | `attacked_by_team` | 0 | 3 | 3 | our attack events on the target last settlement |
+| 10 | `target_home` | 0 | 99 | 50 | carrier's BFS distance to its base (99 if not carrying) |
+
+## Value: own unit (same meaning as the policy unit features)
+
+| # | name | lo | hi | scale | meaning |
+|---:|---|---:|---:|---:|---|
+| 0 | `active` | 0 | 1 | 1 |  |
+| 1 | `hp` | 0 | 100 | 100 |  |
+| 2 | `carrying` | 0 | 1 | 1 |  |
+| 3 | `dead_wait` | 0 | 10 | 10 |  |
+| 4 | `home_dist` | 0 | 99 | 50 |  |
+| 5 | `flag_dist` | 0 | 99 | 50 |  |
+| 6 | `nearest_enemy` | 0 | 20 | 20 |  |
+| 7 | `threatened_by` | 0 | 15 | 5 |  |
+| 8 | `enemies_r3` | 0 | 15 | 5 |  |
+
+## Value: aggregates
+
+| # | name | lo | hi | scale | meaning |
+|---:|---|---:|---:|---:|---|
+| 0 | `enemy_carriers` | 0 | 8 | 8 | other teams' carriers |
+| 1 | `enemy_carrier_home` | 0 | 99 | 50 | nearest enemy carrier's BFS distance to its base |
+| 2 | `enemies_near_base` | 0 | 42 | 10 | enemies within Manhattan 5 of our base center |
+| 3 | `escort_threat` | 0 | 30 | 10 | enemies within 3 of our carriers (sum) |
+| 4 | `own_carrier_home` | 0 | 99 | 50 | our nearest carrier's BFS distance to base |
+| 5 | `dropped_near` | 0 | 8 | 4 | available dropped flags within 5 of our units |
+| 6 | `enemies_r6` | 0 | 42 | 10 | enemies within 6 of any of our units |
+| 7 | `carrier_shots` | 0 | 3 | 3 | our units able to shoot an enemy carrier now |
+
+## Record layout (int16, one record per turn and team)
+
+| block | offset | shape |
+|---|---:|---|
+| `turn` | 0 | 1 |
+| `team` | 1 | 1 |
+| `g` | 2 | 15 |
+| `u` | 17 | 3 x 14 |
+| `m` | 59 | 3 x 5 x 11 |
+| `legal` | 224 | 3 x 5 |
+| `act_legal` | 239 | 3 x 5 x 4 |
+| `origin` | 299 | 3 |
+| `cand` | 302 | 3 x 8 |
+| `cand_f` | 326 | 3 x 8 x 11 |
+| `v` | 590 | 50 |
+
+Record width 640 int16. `legal`, `act_legal` are 0/1 masks; `origin` is a cell index (y*size+x, -1
+off the board); `cand` holds enemy unit ids (-1 = empty slot).
+
+Changing any feature, range or order is a new spec version: bump `kSpecVersion`, retrain, re-export. Exported headers
+`static_assert` the version they were trained on.

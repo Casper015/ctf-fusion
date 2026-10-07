@@ -1,0 +1,21 @@
+{
+ "teams": 2,
+ "tier": "m23",
+ "collect": {
+  "matches": 1500,
+  "pool": [
+   "Astra",
+   "Sol",
+   "Fable",
+   "Player5_Omega_LIT",
+   "Player2_v005",
+   "Control_Hybrid",
+   "Baseline"
+  ],
+  "anchors": [
+   "Player5_Omega_LIT",
+   "Player2_v005"
+  ],
+  "anchor_share": 0.5
+ }
+}
