@@ -41,7 +41,10 @@
    "Player5_Omega_LIT",
    "Player2_v005",
    "Control_Hybrid",
-   "Baseline"
+   "Player5",
+   "Player4",
+   "Baseline",
+   "Noise"
   ],
   "anchors": [
    "Player5_Omega_LIT",

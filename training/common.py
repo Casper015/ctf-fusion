@@ -68,6 +68,18 @@ def add_training_args(ap, batch: int):
     ap.add_argument("--val-split", default="val", help="split for early stopping and calibration")
 
 
+def policy_rows(d: dict, shards, keep_unlabeled: bool = False) -> np.ndarray:
+    """Rows that are opponent-policy samples: a valid reply, from a family that gives labels."""
+    from fusion.paths import unlabeled_families  # noqa: PLC0415
+    from training.dataset import load_index  # noqa: PLC0415
+    keep = d["valid"].copy()
+    if not keep_unlabeled:
+        names = load_index(shards)["families"]
+        drop = [i for i, name in enumerate(names) if name in unlabeled_families()]
+        keep &= ~np.isin(d["family"], drop)
+    return keep
+
+
 def data_manifest(shards, counts) -> dict:
     """What a run trained on: the dataset manifest restricted to its team counts, plus a fingerprint."""
     from training.dataset import data_digest, load_index  # noqa: PLC0415

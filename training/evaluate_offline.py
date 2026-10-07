@@ -39,7 +39,7 @@ from fusion.models import JOINT, QuantizedTier, policy_batch, value_inputs
 from fusion.nn import masked_log_softmax
 from fusion.paths import model_counts, served_counts
 from fusion.schema import layout as feature_layout
-from training.common import batches
+from training.common import batches, policy_rows
 from training.dataset import load
 from training.export_weights import load_policy, load_value
 
@@ -292,7 +292,7 @@ def main(argv=None):
     counts = a.teams or served_counts(a.model) or model_counts(a.model)
     d_eval_all = load(a.shards, counts, a.split)
     d_fit_all = load(a.shards, counts, a.fit_split)
-    pick = lambda d: {k: v[d["valid"]] for k, v in d.items()}
+    pick = lambda d: {k: v[policy_rows(d, a.shards)] for k, v in d.items()}  # real opponents only
     pol = policy_section(policy, pick(d_fit_all), pick(d_eval_all), layout, quantized, a.min_gain)
     val = value_section(value, beta, d_eval_all, layout, quantized)
     sizes = None

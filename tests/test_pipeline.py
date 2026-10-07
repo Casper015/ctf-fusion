@@ -134,6 +134,21 @@ class TestPipeline(unittest.TestCase):
         with self.assertRaises(SystemExit):  # different sampling options cannot extend the dataset
             dataset.main(["--raw", str(self.raw), "--out", str(out), "--teams", "5", "--stride", "2", "--append"])
 
+    def test_noise_rows_are_value_data_not_policy_labels(self):
+        from training.common import policy_rows
+        raw, shards = self.tmp / "noise_raw", self.tmp / "noise_shards"
+        collect.main(["--teams", "3", "--matches", "1", "--bots", "Random,Noise,Random", "--out", str(raw)])
+        dataset.main(["--raw", str(raw), "--out", str(shards), "--teams", "3", "--stride", "1", "--keep", "quiet=1,respawn=1"])
+        families = dataset.load_index(shards)["families"]
+        rows = {k: np.concatenate([dataset.load(shards, [3], s)[k] for s in ("train", "val", "test")
+                                   if (shards / "n03" / s).is_dir()]) for k in ("valid", "family")}
+        noise = rows["family"] == families.index("noise")
+        self.assertTrue(noise.any())
+        keep = policy_rows(rows, shards)
+        self.assertFalse((keep & noise).any())
+        self.assertTrue(keep[~noise].all())
+        self.assertTrue(policy_rows(rows, shards, keep_unlabeled=True)[noise].all())
+
     def test_labels(self):
         L = self.layout
         for m, rec in self.matches():

@@ -1,11 +1,12 @@
 """Host readiness and latency smoke test. Run it on the machine that will collect data and host the bots.
 
-    python tools/env_check.py --ai-test C:/path/to/AI_Test
-    python tools/env_check.py --ai-test ... --teams 2 6 15 --bots Astra,Sol,Fable,Player5_Omega_LIT,Player2_v005,Baseline
+    python tools/env_check.py --ai-test C:/path/to/AI_Test                 # every pool bot, matches of 2, 6 and 15 teams
+    python tools/env_check.py --ai-test ... --bots Astra,Sol,Player5,Player4 --teams 2 4
 
 It answers, in reports/env_check_<host>.md and .json:
   1. Host: OS, CPU, Python, numpy, compiler, optional PyTorch/CUDA for training.
-  2. Build: every listed bot compiles (-std=c++20 -O2, -static on Windows); compile times.
+  2. Build: every listed bot (default: every pool bot with weight > 0) compiles
+     (-std=c++20 -O2, -static on Windows); compile times.
   3. Headless launch and protocol: one match per --teams under the real limits
      (2 s first turn, 50 ms later), through fusion/runner.py (thread-based
      pipes, Windows-safe). Every reply must parse under the engine's rules.
@@ -41,7 +42,6 @@ from fusion.paths import BUILD, ai_test_root, load_engine, load_json  # noqa: E4
 from fusion.schema import layout as feature_layout  # noqa: E402
 from training import collect, export_weights  # noqa: E402
 
-DEFAULT_BOTS = "Astra,Sol,Fable,Player5_Omega_LIT,Player2_v005,Baseline"
 
 
 def host_profile() -> dict:
@@ -77,8 +77,9 @@ def placeholder_model(out_dir: Path) -> tuple[Path, str]:
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--ai-test")
-    ap.add_argument("--bots", default=DEFAULT_BOTS, help="pool names; seats cycle through them")
-    ap.add_argument("--teams", type=int, nargs="+", default=[2, 6])
+    ap.add_argument("--bots", help="pool names (default: every pool bot with weight > 0); seats cycle through them")
+    ap.add_argument("--teams", type=int, nargs="+", default=[2, 6, 15],
+                    help="one match per entry; seats continue the cycle across matches so every bot plays")
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--model", help="exported weights_<model>.hpp for the inference benchmark (default: placeholder)")
     ap.add_argument("--out", default=str(REPO / "reports"))
@@ -89,8 +90,9 @@ def main(argv=None):
               "limits_ms": [1000 * x for x in getattr(engine.Game, "TIME_LIMITS", (2.0, 0.05))]}
     print(json.dumps(report["profile"], indent=1), flush=True)
 
-    names = a.bots.split(",")
-    pool = collect.resolve_pool(load_json(REPO / "profiles" / "pool.json"), root, set(names))
+    pool_json = load_json(REPO / "profiles" / "pool.json")
+    names = a.bots.split(",") if a.bots else [b["name"] for b in pool_json["bots"] if b.get("weight", 1) > 0]
+    pool = collect.resolve_pool(pool_json, root, set(names))
     commands = {}
     for n in names:
         if n not in pool:
@@ -112,9 +114,10 @@ def main(argv=None):
     info["__commit__"] = "-"
     limits = list(getattr(engine.Game, "TIME_LIMITS", (2.0, 0.05)))
     tmp = Path(tempfile.mkdtemp(prefix="env_check_"))
-    biggest = None
+    biggest, cursor = None, 0
     for teams in a.teams:
-        seats = [seats_pool[i % len(seats_pool)] for i in range(teams)]
+        seats = [seats_pool[(cursor + i) % len(seats_pool)] for i in range(teams)]
+        cursor += teams
         fx = collect.Fixture(f"env-n{teams:02d}", teams, collect.derive(a.seed, teams, "map"),
                              collect.derive(a.seed, teams, "flag", bits=63), seats)
         t0 = time.time()
@@ -143,8 +146,11 @@ def main(argv=None):
 
     first_limit, turn_limit = report["limits_ms"]
     bots = [b for m in report["matches"] for b in m["bots"]]
+    seated = {n for m in report["matches"] for n in m["seats"]}
+    report["unseated"] = sorted(set(seats_pool) - seated)
     report["verdict"] = {
         "all_bots_built": all(v["ok"] for v in report["build"].values()),
+        "every_bot_played": not report["unseated"],
         "protocol_clean": all(m["malformed_lines"] == 0 for m in report["matches"]),
         "first_turn_within_limit": all(b["first_ms"] < first_limit for b in bots),
         "no_timeouts": all(m["timeouts"] == 0 for m in report["matches"]),

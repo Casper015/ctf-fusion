@@ -1,5 +1,5 @@
 {
- "_comment": "Opponent pool for data collection. Paths are relative to the AI_Test root ('@repo/' = this repository). weight is the relative sampling weight (0 = only when named explicitly); optional bots are skipped when missing.",
+ "_comment": "Opponent pool for data collection. Paths are relative to the AI_Test root ('@repo/' = this repository). weight is the relative sampling weight (0 = only when named explicitly); optional bots are skipped when missing. policy_labels false: the bot's own requests are not opponent-policy labels (its rows still train the value net). Doubao is left out of the pool by request.",
  "bots": [
   {
    "name": "Astra",
@@ -62,12 +62,6 @@
    "weight": 1
   },
   {
-   "name": "Doubao",
-   "path": "ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
-   "family": "doubao",
-   "weight": 1
-  },
-  {
    "name": "Control_Hybrid",
    "path": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
    "family": "player5",
@@ -104,11 +98,29 @@
    "weight": 1
   },
   {
+   "name": "Player5",
+   "path": "ctf-stress-pack/bots/Player5.cpp",
+   "family": "player5",
+   "weight": 1
+  },
+  {
+   "name": "Player4",
+   "path": "ctf-stress-pack/bots/Player4.cpp",
+   "family": "player4",
+   "weight": 1
+  },
+  {
    "name": "Baseline",
-   "path": "ctf-arena/Player7/workspace/baseline",
+   "path": "ctf-stress-pack/bots/baseline.cpp",
    "family": "baseline",
-   "weight": 1,
-   "optional": true
+   "weight": 1
+  },
+  {
+   "name": "Noise",
+   "path": "@repo/tools/noise_bot.py",
+   "family": "noise",
+   "weight": 0.25,
+   "policy_labels": false
   },
   {
    "name": "Random",

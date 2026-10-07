@@ -101,6 +101,12 @@ def load_pool() -> dict:
     return load_json(PROFILES / "pool.json")
 
 
+def unlabeled_families(pool: dict | None = None) -> set[str]:
+    """Families whose own requests are not opponent-policy labels (pool.json "policy_labels": false), e.g. noise."""
+    pool = pool or load_pool()
+    return {b["family"] for b in pool["bots"] if b.get("policy_labels", True) is False}
+
+
 def bot_path(entry: dict, root: Path) -> Path:
     """Pool paths are relative to the AI_Test root; '@repo/' marks a path inside this repository."""
     rel = entry["path"]

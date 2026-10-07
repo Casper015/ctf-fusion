@@ -167,4 +167,4 @@ The brief's warning against factorizing applies in full to v2.
 ## 6. Open questions for the user
 
 - **Source size.** Is there a judge-side size limit for `bot.cpp`? All 11 models add about 2.2 MiB of source (about 200 KiB each). `RULES.md` names none.
-- **The official field.** Are the official opponents the 11 judge bots (plus other submissions)? The opponent model is only as good as the overlap between the training pool (`profiles/pool.json`) and the real field.
+- **The official field.** Are the official opponents the judge bots (plus other submissions)? The opponent model is only as good as the overlap between the training pool and the real field. The pool (`profiles/pool.json`) now holds the judge bots without Doubao, the original Player5 and Player4, our lineage, Baseline, and a random-movement Noise bot whose own moves are not policy labels.

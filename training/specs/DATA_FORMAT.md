@@ -1,5 +1,21 @@
 # Data format
 
+## Opponent pool (`profiles/pool.json`)
+
+| Group | Bots | Source in AI_Test |
+|---|---|---|
+| Judge field (Doubao excluded by request) | Astra, Sol, Fable, Sonnet, Opus, DeepSeek, Qwen, MiMo, Kimi, GLM | `ctf-arena/Player7/judge/ctf/bots/` |
+| Earlier players | Player5 (the original, track 1's +347.3 reference), Player4 | `ctf-stress-pack/bots/` |
+| Our lineage | Control_Hybrid, Player5_Omega, Player5_Omega_LIT, R3_CFL_conditional, Player2_v005, Astra_Full | `round3/export/`, `ctf-benchmark-v3/track1_10k_suite/bots/` |
+| Reference | Baseline | `ctf-stress-pack/bots/baseline.cpp` |
+| Noise | Noise: uniformly random moves (`tools/noise_bot.py`), weight 0.25 | this repository |
+
+**Seat sampling.** Seats are drawn by weight without replacement, so each seat goes to a different bot when possible. At weight 0.25, Noise sits in about 4% of duels, 3% of 3-team, 12% of 8-team and 29% of 15-team matches (measured on 4,000 scheduled fixtures per count).
+
+**Noise labels.** Noise has `"policy_labels": false`. Its own requests are excluded from opponent-policy training and evaluation (`training.common.policy_rows`; `--keep-unlabeled` overrides). Its rows still train the value net, and its random movement shapes everyone else's states.
+
+**Required AI_Test version.** Collection needs an AI_Test checkout at `main` c840ab5 or later, which has the exports and benchmark bots.
+
 ## Raw matches: `data/raw/nXX/<match_id>.json.gz` (schema `ctf-fusion-match-1`)
 
 One gzip JSON object per match, written by `training/collect.py`. It stores what crossed the protocol and nothing derived.

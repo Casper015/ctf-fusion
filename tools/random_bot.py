@@ -1,16 +1,18 @@
-"""Seeded test bot: mostly greedy toward flags and home, sometimes random.
+"""Seeded test bot: greedy toward flags and home with probability `greed`, else a random move.
 
-It plays fast, legal and varied games (moves, collisions, pickups, captures,
-drops, attacks), so tests exercise every label and simulator path in about a
-second per match without loading the machine. It is not a real opponent.
+With the default greed it plays fast, legal and varied games (moves,
+collisions, pickups, captures, drops, attacks), so tests exercise every label
+and simulator path in about a second per match. tools/noise_bot.py runs it
+with greed 0 as the pool's random-movement noise opponent. Not a real opponent.
 """
 import random
 import sys
+import zlib
 
 DELTAS = {"S": (0, 0), "U": (0, -1), "D": (0, 1), "L": (-1, 0), "R": (1, 0)}
 
 
-def main():
+def main(greed: float = 0.7):
     rng = random.Random(7)
     lines = iter(sys.stdin.readline, "")
     walls, me, size, bases = set(), 0, 0, []
@@ -22,9 +24,10 @@ def main():
             me, size = int(tok[2]), int(tok[3])
             rng.seed(1000 + me)
         elif tok[0] == "MAP":
-            for y in range(size):
-                row = next(lines)
+            rows = [next(lines) for _ in range(size)]
+            for y, row in enumerate(rows):
                 walls |= {(x, y) for x, c in enumerate(row) if c == "#"}
+            rng.seed(zlib.crc32("".join(rows).encode()) * 16 + me)  # differs per map and seat, reproducible
         elif tok[0] == "BASES":
             bases = [tuple(int(v) for v in next(lines).split()) for _ in range(int(tok[1]))]
         elif tok[0] == "TURN":
@@ -47,7 +50,7 @@ def main():
                     continue
                 moves = [m for m, (dx, dy) in DELTAS.items() if (x + dx, y + dy) not in walls]
                 goal = bases[team] if flag >= 0 else min(ground, key=lambda g: abs(g[0] - x) + abs(g[1] - y), default=None)
-                if goal is not None and rng.random() < 0.7:
+                if goal is not None and rng.random() < greed:
                     move = min(moves, key=lambda m: (abs(x + DELTAS[m][0] - goal[0]) + abs(y + DELTAS[m][1] - goal[1]), rng.random()))
                 else:
                     move = rng.choice(moves)

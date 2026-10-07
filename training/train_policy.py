@@ -19,17 +19,16 @@ from fusion.models import PolicyNet, policy_batch
 from fusion.nn import Adam
 from fusion.schema import layout as feature_layout
 from fusion.paths import model_counts
-from training.common import Run, add_training_args, batches, data_manifest, fit, subset, warm_start
+from training.common import Run, add_training_args, batches, data_manifest, fit, policy_rows, subset, warm_start
 from training.dataset import load
 
 LABELS = ("y_move", "y_joint", "y_act", "y_tgt")
 
 
-def prepare(shards, counts, split, max_rows, rng, families=None):
+def prepare(shards, counts, split, max_rows, rng, keep_unlabeled=False):
+    """Policy rows of a split: valid replies from families that give labels (not the noise bot)."""
     d = load(shards, counts, split)
-    keep = d["valid"].copy()
-    if families is not None:
-        keep &= np.isin(d["family"], families)
+    keep = policy_rows(d, shards, keep_unlabeled)
     idx = np.nonzero(keep)[0]
     if max_rows and len(idx) > max_rows:
         idx = np.sort(rng.choice(idx, max_rows, replace=False))
@@ -89,11 +88,13 @@ def main(argv=None):
     ap.add_argument("--act-weight", type=float, default=0.5)
     ap.add_argument("--target-weight", type=float, default=0.5)
     ap.add_argument("--hidden-squad", default="64,32")
+    ap.add_argument("--keep-unlabeled", action="store_true",
+                    help="also learn from families marked policy_labels false in pool.json (the noise bot)")
     a = ap.parse_args(argv)
     rng = np.random.default_rng(a.seed)
     counts = model_counts(a.model)
-    train = prepare(a.shards, counts, "train", a.max_rows, rng)
-    val = prepare(a.shards, counts, a.val_split, 0, rng)
+    train = prepare(a.shards, counts, "train", a.max_rows, rng, a.keep_unlabeled)
+    val = prepare(a.shards, counts, a.val_split, 0, rng, a.keep_unlabeled)
     layout = feature_layout()
     check_labels(train, layout)
     hidden = {"mover": [16], "squad": [int(h) for h in a.hidden_squad.split(",")], "act": [16], "target": [8]}

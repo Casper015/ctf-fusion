@@ -32,7 +32,8 @@ It writes `reports/env_check_<host>.md` and `.json`, with a verdict per line:
 
 | Check | Pass condition |
 |---|---|
-| `all_bots_built` | Astra, Sol, Fable, Player5_Omega_LIT, Player2_v005 and Baseline (or `--bots`) compile |
+| `all_bots_built` | Every pool bot with weight > 0 (or `--bots`) compiles |
+| `every_bot_played` | Every built bot was seated in at least one match (seats continue across the 2-, 6- and 15-team matches) |
 | `protocol_clean` | Every reply parses under the engine's rules (correct turn number, 3 × move + act) |
 | `first_turn_within_limit` | Every bot's first reply < 2.0 s |
 | `no_timeouts` | No reply later than 50 ms |
