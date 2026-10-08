@@ -1,0 +1,358 @@
+{
+ "host": "DESKTOP-G60OJUD",
+ "time": "2026-10-08T16:06:22",
+ "safety": 1.5,
+ "value_calls": 24,
+ "max_width_built": 8192,
+ "counts": [
+  {
+   "teams": 15,
+   "source": "n15-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "kernels": {
+    "simd": {
+     "XL": {
+      "policy_p99_ms": 0.72,
+      "policy_max_ms": 0.993,
+      "policy_joint_p99_ms": 0.499,
+      "value_turn_p99_ms": 0.201,
+      "value_node_us": 5.149374999999999,
+      "value_full_us": 10.02,
+      "need_ms": 1.3815,
+      "fits": true,
+      "policy_fits": true,
+      "value_nodes_affordable": 507,
+      "seats": 16,
+      "turns": 12768
+     },
+     "XXL": {
+      "policy_p99_ms": 1.298,
+      "policy_max_ms": 1.497,
+      "policy_joint_p99_ms": 0.954,
+      "value_turn_p99_ms": 0.527,
+      "value_node_us": 13.447,
+      "value_full_us": 25.643,
+      "need_ms": 2.7375000000000003,
+      "fits": true,
+      "policy_fits": true,
+      "value_nodes_affordable": 151,
+      "seats": 16,
+      "turns": 12768
+     },
+     "3XL": {
+      "policy_p99_ms": 8.264,
+      "policy_max_ms": 12.506,
+      "policy_joint_p99_ms": 7.564,
+      "value_turn_p99_ms": 7.093,
+      "value_node_us": 63.8196875,
+      "value_full_us": 94.971,
+      "need_ms": 23.0355,
+      "fits": false,
+      "policy_fits": false,
+      "value_nodes_affordable": 0,
+      "seats": 16,
+      "turns": 12768
+     },
+     "4XL": {
+      "policy_p99_ms": 45.789,
+      "policy_max_ms": 53.544,
+      "policy_joint_p99_ms": 44.378,
+      "value_turn_p99_ms": 81.879,
+      "value_node_us": 2462.2713750000003,
+      "value_full_us": 2668.392,
+      "need_ms": 191.502,
+      "fits": false,
+      "policy_fits": false,
+      "value_nodes_affordable": 0,
+      "seats": 16,
+      "turns": 12768
+     }
+    },
+    "scalar": {
+     "XL": {
+      "policy_p99_ms": 0.837,
+      "policy_max_ms": 1.155,
+      "policy_joint_p99_ms": 0.586,
+      "value_turn_p99_ms": 0.309,
+      "value_node_us": 7.555375,
+      "value_full_us": 11.894,
+      "need_ms": 1.7189999999999999,
+      "fits": true,
+      "policy_fits": true,
+      "value_nodes_affordable": 330,
+      "seats": 16,
+      "turns": 12768
+     },
+     "XXL": {
+      "policy_p99_ms": 1.706,
+      "policy_max_ms": 2.158,
+      "policy_joint_p99_ms": 1.251,
+      "value_turn_p99_ms": 0.88,
+      "value_node_us": 21.7623125,
+      "value_full_us": 33.577,
+      "need_ms": 3.8789999999999996,
+      "fits": true,
+      "policy_fits": true,
+      "value_nodes_affordable": 74,
+      "seats": 16,
+      "turns": 12768
+     },
+     "3XL": {
+      "policy_p99_ms": 6.006,
+      "policy_max_ms": 12.053,
+      "policy_joint_p99_ms": 5.186,
+      "value_turn_p99_ms": 4.332,
+      "value_node_us": 83.515875,
+      "value_full_us": 111.489,
+      "need_ms": 15.507000000000001,
+      "fits": false,
+      "policy_fits": false,
+      "value_nodes_affordable": 0,
+      "seats": 16,
+      "turns": 12768
+     },
+     "4XL": {
+      "policy_p99_ms": 42.501,
+      "policy_max_ms": 49.41,
+      "policy_joint_p99_ms": 40.859,
+      "value_turn_p99_ms": 83.667,
+      "value_node_us": 1918.415375,
+      "value_full_us": 2094.923,
+      "need_ms": 189.252,
+      "fits": false,
+      "policy_fits": false,
+      "value_nodes_affordable": 0,
+      "seats": 16,
+      "turns": 12768
+     }
+    }
+   },
+   "seconds_by_kernel": {
+    "simd": 110.6,
+    "scalar": 87.2
+   },
+   "map_size": 49,
+   "tiers": {
+    "XL": {
+     "policy_p99_ms": 0.72,
+     "policy_max_ms": 0.993,
+     "policy_joint_p99_ms": 0.499,
+     "value_turn_p99_ms": 0.201,
+     "value_node_us": 5.149374999999999,
+     "value_full_us": 10.02,
+     "need_ms": 1.3815,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 507,
+     "seats": 16,
+     "turns": 12768
+    },
+    "XXL": {
+     "policy_p99_ms": 1.298,
+     "policy_max_ms": 1.497,
+     "policy_joint_p99_ms": 0.954,
+     "value_turn_p99_ms": 0.527,
+     "value_node_us": 13.447,
+     "value_full_us": 25.643,
+     "need_ms": 2.7375000000000003,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 151,
+     "seats": 16,
+     "turns": 12768
+    },
+    "3XL": {
+     "policy_p99_ms": 8.264,
+     "policy_max_ms": 12.506,
+     "policy_joint_p99_ms": 7.564,
+     "value_turn_p99_ms": 7.093,
+     "value_node_us": 63.8196875,
+     "value_full_us": 94.971,
+     "need_ms": 23.0355,
+     "fits": false,
+     "policy_fits": false,
+     "value_nodes_affordable": 0,
+     "seats": 16,
+     "turns": 12768
+    },
+    "4XL": {
+     "policy_p99_ms": 45.789,
+     "policy_max_ms": 53.544,
+     "policy_joint_p99_ms": 44.378,
+     "value_turn_p99_ms": 81.879,
+     "value_node_us": 2462.2713750000003,
+     "value_full_us": 2668.392,
+     "need_ms": 191.502,
+     "fits": false,
+     "policy_fits": false,
+     "value_nodes_affordable": 0,
+     "seats": 16,
+     "turns": 12768
+    }
+   },
+   "seconds": 110.6,
+   "largest_fit": "XXL"
+  }
+ ],
+ "host_profile": {
+  "cpu": "AMD Ryzen 9 7945HX with Radeon Graphics",
+  "logical_cpus": 32,
+  "os": "Windows-10-10.0.19045-SP0",
+  "machine": "AMD64"
+ },
+ "kernels": [
+  "simd",
+  "scalar"
+ ],
+ "kernel_check": "kernel_check active avx2 paths scalar sse2 avx2 checks 3139 mismatches 0",
+ "seats_arg": 16,
+ "tiers": {
+  "XL": {
+   "widths": {
+    "mover": [
+     128
+    ],
+    "squad": [
+     512,
+     128
+    ],
+    "act": [
+     128
+    ],
+    "target": [
+     32
+    ],
+    "value": [
+     1024,
+     64
+    ]
+   },
+   "static": {
+    "params": {
+     "mover": 5377,
+     "squad": 195965,
+     "act": 5764,
+     "target": 289,
+     "value": 121985
+    },
+    "macs_per_opponent_team": 273920,
+    "value_macs": 120896,
+    "header_kib": 2524.201171875,
+    "all_models_mib": 27.115442276000977,
+    "widest_layer": 1024,
+    "max_width": 1024
+   }
+  },
+  "XXL": {
+   "widths": {
+    "mover": [
+     256
+    ],
+    "squad": [
+     1024,
+     256
+    ],
+    "act": [
+     256
+    ],
+    "target": [
+     32
+    ],
+    "value": [
+     2048,
+     128
+    ]
+   },
+   "static": {
+    "params": {
+     "mover": 10753,
+     "squad": 522877,
+     "act": 11524,
+     "target": 289,
+     "value": 375041
+    },
+    "macs_per_opponent_team": 678912,
+    "value_macs": 372864,
+    "header_kib": 6657.162109375,
+    "all_models_mib": 71.51248359680176,
+    "widest_layer": 2048,
+    "max_width": 2048
+   }
+  },
+  "3XL": {
+   "widths": {
+    "mover": [
+     512
+    ],
+    "squad": [
+     2048,
+     512
+    ],
+    "act": [
+     512
+    ],
+    "target": [
+     64
+    ],
+    "value": [
+     4096,
+     256
+    ]
+   },
+   "static": {
+    "params": {
+     "mover": 21505,
+     "squad": 1569917,
+     "act": 23044,
+     "target": 577,
+     "value": 1274369
+    },
+    "macs_per_opponent_team": 1882112,
+    "value_macs": 1270016,
+    "header_kib": 19601.5361328125,
+    "all_models_mib": 210.56337642669678,
+    "widest_layer": 4096,
+    "max_width": 4096
+   }
+  },
+  "4XL": {
+   "widths": {
+    "mover": [
+     1024
+    ],
+    "squad": [
+     4096,
+     1024
+    ],
+    "act": [
+     1024
+    ],
+    "target": [
+     64
+    ],
+    "value": [
+     8192,
+     512
+    ]
+   },
+   "static": {
+    "params": {
+     "mover": 43009,
+     "squad": 5236861,
+     "act": 46084,
+     "target": 577,
+     "value": 4645889
+    },
+    "macs_per_opponent_team": 5861376,
+    "value_macs": 4637184,
+    "header_kib": 62609.7314453125,
+    "all_models_mib": 672.5654745101929,
+    "widest_layer": 8192,
+    "max_width": 8192
+   }
+  }
+ },
+ "budget_ms": 5,
+ "simd_path": "avx2",
+ "ceiling": "XXL"
+}
