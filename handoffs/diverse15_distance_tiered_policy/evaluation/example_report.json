@@ -1,0 +1,568 @@
+{
+  "schema": "ctf-scorecard-report-1",
+  "plan": {
+    "schema": "ctf-scorecard-plan-1",
+    "team_counts": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "stratum_weights_by_suite": {
+      "main": {
+        "elite": 0.7,
+        "mixed": 0.3
+      },
+      "ood": {
+        "reserved_family": 1.0
+      },
+      "stress": {
+        "tactical": 1.0
+      }
+    },
+    "bootstrap_reps": 4000,
+    "confidence": 0.95,
+    "bootstrap_seed": 20261008,
+    "minimum_independent_groups_total": 10000,
+    "minimum_independent_groups_per_count": 500,
+    "comparisons": {
+      "p_nll_gain": [
+        "p_baseline",
+        "p_candidate"
+      ],
+      "v_mse_gain": [
+        "v_baseline",
+        "v_candidate"
+      ],
+      "regret_gain": [
+        "regret_baseline",
+        "regret_candidate"
+      ]
+    },
+    "_comment": "Freeze this before confirmation. Positive gains favor candidate. Suggested evaluation weights differ from 60/30/10 training quotas; random/exploration games do not enter main confirmation. Prefer the official frozen roster distribution when available. Missing strata/counts produce missing overall estimates. No automatic deployment authorization."
+  },
+  "suites": {
+    "main": {
+      "by_count": {
+        "2": {
+          "fixtures": 4,
+          "groups": 4,
+          "independent_play_groups": 4,
+          "metrics": {
+            "p_baseline": {
+              "mean": 1.3862943611198906,
+              "ci": [
+                1.3862943611198906,
+                1.3862943611198906
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "p_candidate": {
+              "mean": 0.6931471805599453,
+              "ci": [
+                0.6931471805599453,
+                0.6931471805599453
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "p_nll_gain": {
+              "mean": 0.6931471805599453,
+              "ci": [
+                0.6931471805599453,
+                0.6931471805599453
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "play_baseline": {
+              "mean": 0.0,
+              "ci": [
+                0.0,
+                0.0
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "play_candidate": {
+              "mean": 0.5,
+              "ci": [
+                0.5,
+                0.5
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "play_gain": {
+              "mean": 0.5,
+              "ci": [
+                0.5,
+                0.5
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "regret_baseline": {
+              "mean": 0.09999999999999999,
+              "ci": [
+                0.09999999999999999,
+                0.09999999999999999
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "regret_candidate": {
+              "mean": 0.06,
+              "ci": [
+                0.06,
+                0.06
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "regret_gain": {
+              "mean": 0.04000000000000001,
+              "ci": [
+                0.04000000000000001,
+                0.04000000000000001
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "v_baseline": {
+              "mean": 0.09,
+              "ci": [
+                0.09,
+                0.09
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "v_candidate": {
+              "mean": 0.009999999999999998,
+              "ci": [
+                0.009999999999999998,
+                0.009999999999999998
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "v_mse_gain": {
+              "mean": 0.07999999999999999,
+              "ci": [
+                0.07999999999999999,
+                0.07999999999999999
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            }
+          },
+          "runtime": {
+            "complete": true,
+            "fixtures_with_timing": 4,
+            "fixtures": 4,
+            "baseline": {
+              "first_max_ms": 100.0,
+              "first_late": 0,
+              "post_startup_turns": 16,
+              "post_startup_late": 0,
+              "post_startup_late_rate": 0.0,
+              "post_startup_quantiles_ms": {
+                "p50": 3.5,
+                "p95": 5.0,
+                "p99": 5.0,
+                "p99_9": 5.0,
+                "max": 5.0
+              },
+              "late_cluster_count": 0,
+              "fault_cluster_count": 0,
+              "faults": 0,
+              "late_or_fault_cluster_rate": 0.0,
+              "zero_late_cluster_upper95": 0.5271291954984121
+            },
+            "candidate": {
+              "first_max_ms": 100.0,
+              "first_late": 0,
+              "post_startup_turns": 16,
+              "post_startup_late": 0,
+              "post_startup_late_rate": 0.0,
+              "post_startup_quantiles_ms": {
+                "p50": 3.5,
+                "p95": 5.0,
+                "p99": 5.0,
+                "p99_9": 5.0,
+                "max": 5.0
+              },
+              "late_cluster_count": 0,
+              "fault_cluster_count": 0,
+              "faults": 0,
+              "late_or_fault_cluster_rate": 0.0,
+              "zero_late_cluster_upper95": 0.5271291954984121
+            }
+          }
+        },
+        "3": {
+          "fixtures": 4,
+          "groups": 4,
+          "independent_play_groups": 4,
+          "metrics": {
+            "p_baseline": {
+              "mean": 1.3862943611198906,
+              "ci": [
+                1.3862943611198906,
+                1.3862943611198906
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "p_candidate": {
+              "mean": 0.6931471805599453,
+              "ci": [
+                0.6931471805599453,
+                0.6931471805599453
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "p_nll_gain": {
+              "mean": 0.6931471805599453,
+              "ci": [
+                0.6931471805599453,
+                0.6931471805599453
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "play_baseline": {
+              "mean": 0.0,
+              "ci": [
+                0.0,
+                0.0
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "play_candidate": {
+              "mean": 0.5,
+              "ci": [
+                0.5,
+                0.5
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "play_gain": {
+              "mean": 0.5,
+              "ci": [
+                0.5,
+                0.5
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "regret_baseline": {
+              "mean": 0.09999999999999999,
+              "ci": [
+                0.09999999999999999,
+                0.09999999999999999
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "regret_candidate": {
+              "mean": 0.06,
+              "ci": [
+                0.06,
+                0.06
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "regret_gain": {
+              "mean": 0.04000000000000001,
+              "ci": [
+                0.04000000000000001,
+                0.04000000000000001
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "v_baseline": {
+              "mean": 0.09,
+              "ci": [
+                0.09,
+                0.09
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "v_candidate": {
+              "mean": 0.009999999999999998,
+              "ci": [
+                0.009999999999999998,
+                0.009999999999999998
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            },
+            "v_mse_gain": {
+              "mean": 0.07999999999999999,
+              "ci": [
+                0.07999999999999999,
+                0.07999999999999999
+              ],
+              "groups": 4,
+              "complete": true,
+              "invalid_bootstrap_draws": 0,
+              "degenerate_bootstrap": true
+            }
+          },
+          "runtime": {
+            "complete": true,
+            "fixtures_with_timing": 4,
+            "fixtures": 4,
+            "baseline": {
+              "first_max_ms": 100.0,
+              "first_late": 0,
+              "post_startup_turns": 16,
+              "post_startup_late": 0,
+              "post_startup_late_rate": 0.0,
+              "post_startup_quantiles_ms": {
+                "p50": 3.5,
+                "p95": 5.0,
+                "p99": 5.0,
+                "p99_9": 5.0,
+                "max": 5.0
+              },
+              "late_cluster_count": 0,
+              "fault_cluster_count": 0,
+              "faults": 0,
+              "late_or_fault_cluster_rate": 0.0,
+              "zero_late_cluster_upper95": 0.5271291954984121
+            },
+            "candidate": {
+              "first_max_ms": 100.0,
+              "first_late": 0,
+              "post_startup_turns": 16,
+              "post_startup_late": 0,
+              "post_startup_late_rate": 0.0,
+              "post_startup_quantiles_ms": {
+                "p50": 3.5,
+                "p95": 5.0,
+                "p99": 5.0,
+                "p99_9": 5.0,
+                "max": 5.0
+              },
+              "late_cluster_count": 0,
+              "fault_cluster_count": 0,
+              "faults": 0,
+              "late_or_fault_cluster_rate": 0.0,
+              "zero_late_cluster_upper95": 0.5271291954984121
+            }
+          }
+        },
+        "4": {
+          "missing": true
+        },
+        "5": {
+          "missing": true
+        },
+        "6": {
+          "missing": true
+        },
+        "7": {
+          "missing": true
+        },
+        "8": {
+          "missing": true
+        },
+        "9": {
+          "missing": true
+        },
+        "10": {
+          "missing": true
+        },
+        "11": {
+          "missing": true
+        },
+        "12": {
+          "missing": true
+        },
+        "13": {
+          "missing": true
+        },
+        "14": {
+          "missing": true
+        },
+        "15": {
+          "missing": true
+        }
+      },
+      "overall_equal_count": {
+        "p_baseline": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        },
+        "p_candidate": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        },
+        "p_nll_gain": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        },
+        "play_baseline": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        },
+        "play_candidate": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        },
+        "play_gain": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        },
+        "regret_baseline": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        },
+        "regret_candidate": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        },
+        "regret_gain": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        },
+        "v_baseline": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        },
+        "v_candidate": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        },
+        "v_mse_gain": {
+          "mean": null,
+          "ci": null,
+          "groups": 8,
+          "complete": false,
+          "invalid_bootstrap_draws": 4000,
+          "degenerate_bootstrap": false
+        }
+      }
+    }
+  },
+  "method": "fixed-sample paired cluster percentile bootstrap, stratified by frozen count/roster",
+  "deployment_authorized": false,
+  "limits": "Approximate intervals conditional on frozen weights and roster; no training-seed uncertainty, BT fit, hash verification or export authorization.",
+  "independent_main_play_groups": 8,
+  "confirmation_sample_complete": false,
+  "provenance": {
+    "plan_sha256": "81a2ffc209063c172c0b5cbbb98f779dd38b4a79565d0190fdbe2cc5a619973a",
+    "input_sha256": "02bdf807aeb1e1e0dbffa4f167e862380d211ff10c6baaa5c29888cb0a9f4248",
+    "calculator_sha256": "90726fc9048078fcf4a7b8c503584ad6da1f33cf12a3de6e7ec22369d2867026"
+  }
+}

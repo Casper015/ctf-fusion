@@ -1,0 +1,1314 @@
+{
+  "schema": "ctf-bot-inventory-1",
+  "scan_dirs": [
+    "ctf-arena/Player7/judge/ctf/bots",
+    "ctf-arena/Player7/workspace/experiments/round3/export",
+    "ctf-stress-pack/bots",
+    "ctf-stress-pack/bots_v2",
+    "ctf-stress-pack/bots_v3",
+    "ctf-stress-pack/bots_c_pending",
+    "ctf-stress-pack/bots_10k_suite",
+    "ctf-benchmark-v3/track1_10k_suite/bots",
+    "ctf-benchmark-v3/track2_2k_c_series/bots",
+    "ctf-s1-controls/exports",
+    "New_AI_Test/Player0/workspace/bots"
+  ],
+  "missing_dirs": [],
+  "bots": [
+    {
+      "id": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+      "path": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+      "source_sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825",
+      "source_bytes": 26178,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+      "path": "ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+      "source_sha256": "79a762bdabf318e8c91f94895593036bb16731f88239434dd0ef1cc7bcddfd39",
+      "source_bytes": 10201,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+      "path": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+      "source_sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04",
+      "source_bytes": 28946,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+      "path": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+      "source_sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e",
+      "source_bytes": 31718,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+      "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+      "source_sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740",
+      "source_bytes": 35146,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+      "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+      "source_sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de",
+      "source_bytes": 36401,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+      "path": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+      "source_sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b",
+      "source_bytes": 28804,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+      "path": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+      "source_sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85",
+      "source_bytes": 19577,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+      "path": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+      "source_sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b",
+      "source_bytes": 25846,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+      "path": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+      "source_sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410",
+      "source_bytes": 29899,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+      "path": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+      "source_sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6",
+      "source_bytes": 26256,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+      "source_sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
+      "source_bytes": 79920,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/Control_NG_foundation.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/Control_NG_foundation.cpp",
+      "source_sha256": "843540b6658c82041270d11beb3c20e3a09e06eba04d3791e2c90f5694cd82e1",
+      "source_bytes": 86757,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+      "source_sha256": "b8c6562057a3b27643e2c9f69480df8b2df0bbea2200509e14aec69e84e1a44b",
+      "source_bytes": 116534,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega_defaultWeights.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega_defaultWeights.cpp",
+      "source_sha256": "3c7a5e507c60506b77ba61dc19758323c888b1510693f89db01428baa33247b6",
+      "source_bytes": 116301,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega_hybridMacro.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega_hybridMacro.cpp",
+      "source_sha256": "b1e32cd98714191d3749f00adc0f1d536e90ef33aa6e6d8ad747b5cbd80da43c",
+      "source_bytes": 116501,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CDP_horizon.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CDP_horizon.cpp",
+      "source_sha256": "27ffc3e9dda2cf7e653ef12994ff2989c932368677bc6af04927c9d97fe91e83",
+      "source_bytes": 93170,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CFL_conditional.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CFL_conditional.cpp",
+      "source_sha256": "5a43e62501643a8ecd9db017d400ef149f8ec98aed66bab8010fedda8a660c3a",
+      "source_bytes": 90219,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CL_terminal.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CL_terminal.cpp",
+      "source_sha256": "e1c687354b97420bbc6cc052bb6e5a472a7a774f9b9152b8b3eb565d9202054b",
+      "source_bytes": 88630,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_DROP_scored.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_DROP_scored.cpp",
+      "source_sha256": "1c05fef571b6308e17dbfcda9dcfb0aeda70e14c82d1a35e3055cd6e554b4d49",
+      "source_bytes": 93425,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_ESCORT_mech.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_ESCORT_mech.cpp",
+      "source_sha256": "aae5203d11df5b02f13a5ae5138b249271d3437612c1747a955f8a88f5855604",
+      "source_bytes": 89522,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_EXPECTIMAX_sampled.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_EXPECTIMAX_sampled.cpp",
+      "source_sha256": "e5d7b750bce2c3da006110eff2e6c371470ab6fb5d2c461430bf44b443ede0f7",
+      "source_bytes": 107652,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_FLAGS_joint.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_FLAGS_joint.cpp",
+      "source_sha256": "0a0fbc7a6bbf67023d82222fec2fae065512240b04560058441959ba3e20c559",
+      "source_bytes": 88915,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_HABITS_adaptive.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_HABITS_adaptive.cpp",
+      "source_sha256": "e025c08abb1b7f93a757cc6faa25c1cd17d6fba4c63149fbd94b98c93bbdadf0",
+      "source_bytes": 105950,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_HEALTHY_pickup.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_HEALTHY_pickup.cpp",
+      "source_sha256": "8948544eaf9ddbcf440f045d2d63db8f6939b55b36374240ccf748f69fdb2052",
+      "source_bytes": 87729,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_WEIGHTS_tuned.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_WEIGHTS_tuned.cpp",
+      "source_sha256": "ae489ad28328a12a36d09165c7fcb29bfb955e9574070134f8f002381798fdad",
+      "source_bytes": 86853,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_Hybrid.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_Hybrid.cpp",
+      "source_sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
+      "source_bytes": 79920,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_external_CL.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_external_CL.cpp",
+      "source_sha256": "96a4dec9c3543fe4d16b8b4b89714318444eb645beb85df59122e426529a55fb",
+      "source_bytes": 47140,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CFL_conditional.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CFL_conditional.cpp",
+      "source_sha256": "1e9c6e0d0ebdc26e8e0b83de91a36ff26bf0732cfa7c2b41eaed9480499466b9",
+      "source_bytes": 45817,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_checked.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_checked.cpp",
+      "source_sha256": "294846930414df71594e8a3f72aab3ee9158507ed81bd2d50a5d9c644082505d",
+      "source_bytes": 45536,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_terminal.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_terminal.cpp",
+      "source_sha256": "27e0863e6ae9dfe424aa7e9f1430cbedcd77f13c57a78f89e68d115cc60ad02a",
+      "source_bytes": 46390,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CML_macro.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CML_macro.cpp",
+      "source_sha256": "ec505cbe8d4757ed2c3ea1964ab4701d7eecf914d57078beb4aae83da6974383",
+      "source_bytes": 50788,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_DROP_scored.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_DROP_scored.cpp",
+      "source_sha256": "5c883b2ec67824714e91a19df30351c7e82952daad19897c1b92f98787b269c2",
+      "source_bytes": 49525,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_HABITS_adaptive.cpp",
+      "path": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_HABITS_adaptive.cpp",
+      "source_sha256": "e94232e82cdee39878c4459bea0c4268523c1b9e0c83e1e444bcd37ea6afd855",
+      "source_bytes": 54923,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track1_10k_suite/bots/A0_Control_Hybrid_AA.cpp",
+      "path": "ctf-benchmark-v3/track1_10k_suite/bots/A0_Control_Hybrid_AA.cpp",
+      "source_sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
+      "source_bytes": 79920,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Carrier.cpp",
+      "path": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Carrier.cpp",
+      "source_sha256": "1e815569be7e1178b3a33e60246204ce35822d6d72cbd6ab2f057e1a324b7827",
+      "source_bytes": 148686,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Full.cpp",
+      "path": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Full.cpp",
+      "source_sha256": "96527873c384b31c71cda7a12216941547af48b051a5becdf8041c1d3957fa7c",
+      "source_bytes": 168370,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Habits.cpp",
+      "path": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Habits.cpp",
+      "source_sha256": "7b4baf61fb3f4d30af225462f1cba902b10101f48ea8841327814c7110bfd17a",
+      "source_bytes": 161710,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Joint.cpp",
+      "path": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Joint.cpp",
+      "source_sha256": "624e7f46d6bc0a4cae88ef908c8154ac4177e978ed24eeed118e7be6f7cfb7b9",
+      "source_bytes": 142014,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track1_10k_suite/bots/B0_Control_Hybrid.cpp",
+      "path": "ctf-benchmark-v3/track1_10k_suite/bots/B0_Control_Hybrid.cpp",
+      "source_sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
+      "source_bytes": 79920,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track1_10k_suite/bots/B1_Player5_Omega_r3.cpp",
+      "path": "ctf-benchmark-v3/track1_10k_suite/bots/B1_Player5_Omega_r3.cpp",
+      "source_sha256": "b8c6562057a3b27643e2c9f69480df8b2df0bbea2200509e14aec69e84e1a44b",
+      "source_bytes": 116534,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track1_10k_suite/bots/B2_Player2_v005.cpp",
+      "path": "ctf-benchmark-v3/track1_10k_suite/bots/B2_Player2_v005.cpp",
+      "source_sha256": "5e80d9a725c64fb09ecc024e80c8564e02bffbd72093629e513cc481d31adc8d",
+      "source_bytes": 82646,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track1_10k_suite/bots/Control_Omega.cpp",
+      "path": "ctf-benchmark-v3/track1_10k_suite/bots/Control_Omega.cpp",
+      "source_sha256": "7a7b13e987460caeb7d4d4b55544661795792819586967aa3cd88f54f5a4dc91",
+      "source_bytes": 140321,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C01_Control_Hybrid.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C01_Control_Hybrid.cpp",
+      "source_sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
+      "source_bytes": 79920,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C02_Control_NG_foundation.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C02_Control_NG_foundation.cpp",
+      "source_sha256": "82026ffe6d23f8615b5387aad1d4d4a2a87079a084cecdb24284979a7c445fa1",
+      "source_bytes": 86834,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C03_G_ASYM_plans.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C03_G_ASYM_plans.cpp",
+      "source_sha256": "c5f060b1d2144d8194d3a677f7cad5bffd960890dc93397e0187c43965a69ba1",
+      "source_bytes": 143135,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp",
+      "source_sha256": "a7128273ba8039327299a2fa6d544ca9ef4d10f16062eb72e41b2ee0d980bc24",
+      "source_bytes": 141023,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C05_G_RISK_entropic.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C05_G_RISK_entropic.cpp",
+      "source_sha256": "86440ec78610ffada097a16b7f8b2e22fb862d0dda35e06dafe4815b3bd1c174",
+      "source_bytes": 141002,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C06_G_SH_halving.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C06_G_SH_halving.cpp",
+      "source_sha256": "fa152b542d8046d9ac0966c0b85d54c017da976f94c439199aad5c7b7878aa74",
+      "source_bytes": 141130,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C07_Player5_Omega.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C07_Player5_Omega.cpp",
+      "source_sha256": "e6cc85725c153dff0662aac6005244f512ffacb328cfecc0dd6d7c349620e897",
+      "source_bytes": 140955,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C08_Player5_Omega_LIT.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C08_Player5_Omega_LIT.cpp",
+      "source_sha256": "953530cd620626a66ca331191508c337dcdae0095fc141e477ae318577a804a7",
+      "source_bytes": 143538,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C09_Player5_Omega_defaultWeights.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C09_Player5_Omega_defaultWeights.cpp",
+      "source_sha256": "3de40f983e3f7ab445ae4fcd3d725969da9ae3a9cf19e353225f0a549d55a2a4",
+      "source_bytes": 140722,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C10_Player5_Omega_hybridMacro.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C10_Player5_Omega_hybridMacro.cpp",
+      "source_sha256": "3e76237a1d9b80b5f0b5efaf4e51d0fee457cd0b7aca8af36087c4e6a94766b7",
+      "source_bytes": 140922,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C11_R3_CDP_horizon.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C11_R3_CDP_horizon.cpp",
+      "source_sha256": "d787af60d44f5eeff472c8f48e20ddbf021cfde90d805b14ce876dd60225fb9e",
+      "source_bytes": 93247,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C12_R3_CFL_conditional.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C12_R3_CFL_conditional.cpp",
+      "source_sha256": "5bb6101a8235abd65d7b67786e134d291b51ca2a411b2753ce27e7644c66fa58",
+      "source_bytes": 90296,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C13_R3_CL_terminal.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C13_R3_CL_terminal.cpp",
+      "source_sha256": "1cef4a35aeeeb11defd6649203b23da23b1346bc37ed6efe646d03b56cae70a5",
+      "source_bytes": 88707,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C14_R3_DROP_scored.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C14_R3_DROP_scored.cpp",
+      "source_sha256": "37da6c6de8106e788508a72f102176633535561d35d77314d24eb04f4ec57b7a",
+      "source_bytes": 93502,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C15_R3_ESCORT_healthy.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C15_R3_ESCORT_healthy.cpp",
+      "source_sha256": "5b3e59e7fe2ca4fc8f107ceb279941076a4bb2e88a086063621a00e6a8ac0d8d",
+      "source_bytes": 90536,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C16_R3_ESCORT_mech.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C16_R3_ESCORT_mech.cpp",
+      "source_sha256": "11f1b51d186321452288d275cf9e90e348842d10dd81e16bebdb532c36d9f371",
+      "source_bytes": 89599,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C17_R3_EXPECTIMAX_anytime.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C17_R3_EXPECTIMAX_anytime.cpp",
+      "source_sha256": "43a18c071abcc4f8116d935a2a40a39db2dcfae55ba0d32ee538e6fc5232d6ce",
+      "source_bytes": 132112,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C18_R3_EXPECTIMAX_sampled.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C18_R3_EXPECTIMAX_sampled.cpp",
+      "source_sha256": "80f51ca6d74b3ce2da7a5cb0f618aee630313bd10e4127567bb869260e169739",
+      "source_bytes": 132073,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C19_R3_FLAGS_joint.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C19_R3_FLAGS_joint.cpp",
+      "source_sha256": "e5a6dbf07eb8680ebe79f97324297ac238f051e5224236239bc0d4a2b0cff500",
+      "source_bytes": 88992,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C20_R3_HABITS_adaptive.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C20_R3_HABITS_adaptive.cpp",
+      "source_sha256": "0dfebf565999d63113ad0290ba77a1ebf3e1085de5ae4abc6beb5d1eb5bda464",
+      "source_bytes": 106027,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C21_R3_HEALTHY_pickup.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C21_R3_HEALTHY_pickup.cpp",
+      "source_sha256": "47fcb335c989c4e69be6acf6fadd78afc8484bc5c667ee1ce7a3ede7aeca7eaf",
+      "source_bytes": 87806,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C22_R3_WEIGHTS_tuned.cpp",
+      "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C22_R3_WEIGHTS_tuned.cpp",
+      "source_sha256": "4ca932ad02696de50c913c3d4f2b8ff04546f702d2d5acac7dc28e0930355a80",
+      "source_bytes": 86930,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-s1-controls/exports/S1_A_Conservative.cpp",
+      "path": "ctf-s1-controls/exports/S1_A_Conservative.cpp",
+      "source_sha256": "a84d85f83a5712f5331b88387d9285d9053991fa48980da424e1270580923dcb",
+      "source_bytes": 147066,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-s1-controls/exports/S1_B_DuelPlus.cpp",
+      "path": "ctf-s1-controls/exports/S1_B_DuelPlus.cpp",
+      "source_sha256": "a44d923f30c36b408fe80f084858e8e813d433c05e7631c67382de51accad292",
+      "source_bytes": 147059,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-s1-controls/exports/S1_C_Adaptive6p_Fast15.cpp",
+      "path": "ctf-s1-controls/exports/S1_C_Adaptive6p_Fast15.cpp",
+      "source_sha256": "6659989e2413364142836ed0dbe1d993baa3881b9753baf0d2f4c1e360452444",
+      "source_bytes": 147193,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-s1-controls/exports/S1_D_CrowdHabit.cpp",
+      "path": "ctf-s1-controls/exports/S1_D_CrowdHabit.cpp",
+      "source_sha256": "426089a6905acc94a76e2347758d2ca27c22f5a7cc2609217758d15f3193c9cf",
+      "source_bytes": 174082,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-s1-controls/exports/S2_1_StepGuard.cpp",
+      "path": "ctf-s1-controls/exports/S2_1_StepGuard.cpp",
+      "source_sha256": "e496259b277c9d6b6308bf8bcfd44ebe4b8d44ba4c0b5bd666b7779642e2472e",
+      "source_bytes": 147676,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-s1-controls/exports/S2_2_Fast15All.cpp",
+      "path": "ctf-s1-controls/exports/S2_2_Fast15All.cpp",
+      "source_sha256": "85d9de494001aef3a54d03f47bf069473aef31ed51575bbfc44a3739779f2378",
+      "source_bytes": 147082,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-s1-controls/exports/S2_3_RiskStrong.cpp",
+      "path": "ctf-s1-controls/exports/S2_3_RiskStrong.cpp",
+      "source_sha256": "939610672ae41ea1ca7665a41c44e7bd0faa38bcd0d2c836f1488eecfb44de27",
+      "source_bytes": 147133,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-s1-controls/exports/S2_4_ReturnAware.cpp",
+      "path": "ctf-s1-controls/exports/S2_4_ReturnAware.cpp",
+      "source_sha256": "f9b0fdf70e0fe93d8159097c2fbeef268479ca6016e559e060dfd1e4773c8820",
+      "source_bytes": 147827,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-s1-controls/exports/S2_5_Risk3plus.cpp",
+      "path": "ctf-s1-controls/exports/S2_5_Risk3plus.cpp",
+      "source_sha256": "6345471e6dac6fe6f850f83a1a0fd9a901df73fe81e0e4d8ef2c75c15c30710d",
+      "source_bytes": 147046,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/Player1.cpp",
+      "path": "ctf-stress-pack/bots/Player1.cpp",
+      "source_sha256": "fda911b516f84fb04c27e23476c9cb674dd043dbcbdfd0a24626b3ca78cd33a1",
+      "source_bytes": 18158,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/Player2.cpp",
+      "path": "ctf-stress-pack/bots/Player2.cpp",
+      "source_sha256": "c953fc91557399efb957e7f3627a5670413ea99ce5311807366e851a6436c18f",
+      "source_bytes": 28832,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/Player3.cpp",
+      "path": "ctf-stress-pack/bots/Player3.cpp",
+      "source_sha256": "a31cf6cdd04e6b2b83efded5ac60402fb7c26040b249629a4cd3759faf452f6e",
+      "source_bytes": 27580,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/Player4.cpp",
+      "path": "ctf-stress-pack/bots/Player4.cpp",
+      "source_sha256": "2058f78e5979a51f40dcb7dac4ee66e22f8ab816176822e3388caa6732f1453a",
+      "source_bytes": 39593,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/Player5.cpp",
+      "path": "ctf-stress-pack/bots/Player5.cpp",
+      "source_sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9",
+      "source_bytes": 30667,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/Player6.cpp",
+      "path": "ctf-stress-pack/bots/Player6.cpp",
+      "source_sha256": "155e464bb0afaf4560eba8fc6f9ffd7299561bc89b9f7fd68e14e3ae3bcff969",
+      "source_bytes": 28550,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/baseline.cpp",
+      "path": "ctf-stress-pack/bots/baseline.cpp",
+      "source_sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42",
+      "source_bytes": 12361,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/deepseek-v4.1-flash.cpp",
+      "path": "ctf-stress-pack/bots/deepseek-v4.1-flash.cpp",
+      "source_sha256": "f46e8400e15608d020aa7b252f484557085044002f75e19cb3544040a3b9fe44",
+      "source_bytes": 27572,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/fable-5.1.cpp",
+      "path": "ctf-stress-pack/bots/fable-5.1.cpp",
+      "source_sha256": "4c0597ffb12a94d04b69ebaf43fc7b682e0ef6f4d793610ced6172218ac777e9",
+      "source_bytes": 30887,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/glm-5.3.cpp",
+      "path": "ctf-stress-pack/bots/glm-5.3.cpp",
+      "source_sha256": "118af29ff87ffe2ec2d81dd242905c693033e5d4e36d666b60717aef5e3340d6",
+      "source_bytes": 35302,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/gpt-6-astra.cpp",
+      "path": "ctf-stress-pack/bots/gpt-6-astra.cpp",
+      "source_sha256": "0ce073fa642b997ccd111d797234cacd65d1462cf55f2605171526734f5f3ee3",
+      "source_bytes": 35584,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/gpt-6.1-sol.cpp",
+      "path": "ctf-stress-pack/bots/gpt-6.1-sol.cpp",
+      "source_sha256": "7b4641e3fd6ef3e9e9c6addbc0ce28625cc08d2ed81c1b57d2272ba79844c4c5",
+      "source_bytes": 36839,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/kimi-k3.cpp",
+      "path": "ctf-stress-pack/bots/kimi-k3.cpp",
+      "source_sha256": "50e1dbf60a3baeb08f0123a0541002646b85ee10c104303cda78c54a1bd36a8d",
+      "source_bytes": 30599,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/modular_bot.cpp",
+      "path": "ctf-stress-pack/bots/modular_bot.cpp",
+      "source_sha256": "0b41930db0442d93ebf823065876fe5a547bad1e60a1c30a7ce3130eccd267e6",
+      "source_bytes": 46455,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/modular_bot_clean.cpp",
+      "path": "ctf-stress-pack/bots/modular_bot_clean.cpp",
+      "source_sha256": "6307bd47034e0a8022f59ada578aba44d5ed64930f2b8d1316232630d0610320",
+      "source_bytes": 45441,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/modular_bot_v3.cpp",
+      "path": "ctf-stress-pack/bots/modular_bot_v3.cpp",
+      "source_sha256": "2139361e9bef6e31f7a245cd54d45b6f07ccbe3e320f38dec93a0006705de925",
+      "source_bytes": 47901,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/opus-5.5.cpp",
+      "path": "ctf-stress-pack/bots/opus-5.5.cpp",
+      "source_sha256": "8f1fd1aa6f8ca2a9441861edefd098e452e9f56899495f763e490974560309e0",
+      "source_bytes": 26615,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots/sonnet-5.5.cpp",
+      "path": "ctf-stress-pack/bots/sonnet-5.5.cpp",
+      "source_sha256": "1b044d530b6e8a0b9ceacc9c55d30c9b5b75d07c5053320d8dde73ced5e064b1",
+      "source_bytes": 27559,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_10k_suite/A0_Control_Hybrid_AA.cpp",
+      "path": "ctf-stress-pack/bots_10k_suite/A0_Control_Hybrid_AA.cpp",
+      "source_sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
+      "source_bytes": 79920,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_10k_suite/Astra_Carrier.cpp",
+      "path": "ctf-stress-pack/bots_10k_suite/Astra_Carrier.cpp",
+      "source_sha256": "1e815569be7e1178b3a33e60246204ce35822d6d72cbd6ab2f057e1a324b7827",
+      "source_bytes": 148686,
+      "byte_identical_source_of": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Carrier.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_10k_suite/Astra_Full.cpp",
+      "path": "ctf-stress-pack/bots_10k_suite/Astra_Full.cpp",
+      "source_sha256": "96527873c384b31c71cda7a12216941547af48b051a5becdf8041c1d3957fa7c",
+      "source_bytes": 168370,
+      "byte_identical_source_of": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Full.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_10k_suite/Astra_Habits.cpp",
+      "path": "ctf-stress-pack/bots_10k_suite/Astra_Habits.cpp",
+      "source_sha256": "7b4baf61fb3f4d30af225462f1cba902b10101f48ea8841327814c7110bfd17a",
+      "source_bytes": 161710,
+      "byte_identical_source_of": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Habits.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_10k_suite/Astra_Joint.cpp",
+      "path": "ctf-stress-pack/bots_10k_suite/Astra_Joint.cpp",
+      "source_sha256": "624e7f46d6bc0a4cae88ef908c8154ac4177e978ed24eeed118e7be6f7cfb7b9",
+      "source_bytes": 142014,
+      "byte_identical_source_of": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Joint.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_10k_suite/B0_Control_Hybrid.cpp",
+      "path": "ctf-stress-pack/bots_10k_suite/B0_Control_Hybrid.cpp",
+      "source_sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
+      "source_bytes": 79920,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_10k_suite/B1_Player5_Omega_r3.cpp",
+      "path": "ctf-stress-pack/bots_10k_suite/B1_Player5_Omega_r3.cpp",
+      "source_sha256": "b8c6562057a3b27643e2c9f69480df8b2df0bbea2200509e14aec69e84e1a44b",
+      "source_bytes": 116534,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_10k_suite/B2_Player2_v005.cpp",
+      "path": "ctf-stress-pack/bots_10k_suite/B2_Player2_v005.cpp",
+      "source_sha256": "5e80d9a725c64fb09ecc024e80c8564e02bffbd72093629e513cc481d31adc8d",
+      "source_bytes": 82646,
+      "byte_identical_source_of": "ctf-benchmark-v3/track1_10k_suite/bots/B2_Player2_v005.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_10k_suite/Control_Omega.cpp",
+      "path": "ctf-stress-pack/bots_10k_suite/Control_Omega.cpp",
+      "source_sha256": "7a7b13e987460caeb7d4d4b55544661795792819586967aa3cd88f54f5a4dc91",
+      "source_bytes": 140321,
+      "byte_identical_source_of": "ctf-benchmark-v3/track1_10k_suite/bots/Control_Omega.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C01_Control_Hybrid.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C01_Control_Hybrid.cpp",
+      "source_sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
+      "source_bytes": 79920,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C02_Control_NG_foundation.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C02_Control_NG_foundation.cpp",
+      "source_sha256": "82026ffe6d23f8615b5387aad1d4d4a2a87079a084cecdb24284979a7c445fa1",
+      "source_bytes": 86834,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C02_Control_NG_foundation.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C03_G_ASYM_plans.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C03_G_ASYM_plans.cpp",
+      "source_sha256": "c5f060b1d2144d8194d3a677f7cad5bffd960890dc93397e0187c43965a69ba1",
+      "source_bytes": 143135,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C03_G_ASYM_plans.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C04_G_PLAYOUT_4ply.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C04_G_PLAYOUT_4ply.cpp",
+      "source_sha256": "a7128273ba8039327299a2fa6d544ca9ef4d10f16062eb72e41b2ee0d980bc24",
+      "source_bytes": 141023,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C05_G_RISK_entropic.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C05_G_RISK_entropic.cpp",
+      "source_sha256": "86440ec78610ffada097a16b7f8b2e22fb862d0dda35e06dafe4815b3bd1c174",
+      "source_bytes": 141002,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C05_G_RISK_entropic.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C06_G_SH_halving.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C06_G_SH_halving.cpp",
+      "source_sha256": "fa152b542d8046d9ac0966c0b85d54c017da976f94c439199aad5c7b7878aa74",
+      "source_bytes": 141130,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C06_G_SH_halving.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C07_Player5_Omega.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C07_Player5_Omega.cpp",
+      "source_sha256": "e6cc85725c153dff0662aac6005244f512ffacb328cfecc0dd6d7c349620e897",
+      "source_bytes": 140955,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C07_Player5_Omega.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C08_Player5_Omega_LIT.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C08_Player5_Omega_LIT.cpp",
+      "source_sha256": "953530cd620626a66ca331191508c337dcdae0095fc141e477ae318577a804a7",
+      "source_bytes": 143538,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C08_Player5_Omega_LIT.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C09_Player5_Omega_defaultWeights.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C09_Player5_Omega_defaultWeights.cpp",
+      "source_sha256": "3de40f983e3f7ab445ae4fcd3d725969da9ae3a9cf19e353225f0a549d55a2a4",
+      "source_bytes": 140722,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C09_Player5_Omega_defaultWeights.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C10_Player5_Omega_hybridMacro.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C10_Player5_Omega_hybridMacro.cpp",
+      "source_sha256": "3e76237a1d9b80b5f0b5efaf4e51d0fee457cd0b7aca8af36087c4e6a94766b7",
+      "source_bytes": 140922,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C10_Player5_Omega_hybridMacro.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C11_R3_CDP_horizon.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C11_R3_CDP_horizon.cpp",
+      "source_sha256": "d787af60d44f5eeff472c8f48e20ddbf021cfde90d805b14ce876dd60225fb9e",
+      "source_bytes": 93247,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C11_R3_CDP_horizon.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C12_R3_CFL_conditional.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C12_R3_CFL_conditional.cpp",
+      "source_sha256": "5bb6101a8235abd65d7b67786e134d291b51ca2a411b2753ce27e7644c66fa58",
+      "source_bytes": 90296,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C12_R3_CFL_conditional.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C13_R3_CL_terminal.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C13_R3_CL_terminal.cpp",
+      "source_sha256": "1cef4a35aeeeb11defd6649203b23da23b1346bc37ed6efe646d03b56cae70a5",
+      "source_bytes": 88707,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C13_R3_CL_terminal.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C14_R3_DROP_scored.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C14_R3_DROP_scored.cpp",
+      "source_sha256": "37da6c6de8106e788508a72f102176633535561d35d77314d24eb04f4ec57b7a",
+      "source_bytes": 93502,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C14_R3_DROP_scored.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C15_R3_ESCORT_healthy.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C15_R3_ESCORT_healthy.cpp",
+      "source_sha256": "5b3e59e7fe2ca4fc8f107ceb279941076a4bb2e88a086063621a00e6a8ac0d8d",
+      "source_bytes": 90536,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C15_R3_ESCORT_healthy.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C16_R3_ESCORT_mech.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C16_R3_ESCORT_mech.cpp",
+      "source_sha256": "11f1b51d186321452288d275cf9e90e348842d10dd81e16bebdb532c36d9f371",
+      "source_bytes": 89599,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C16_R3_ESCORT_mech.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C17_R3_EXPECTIMAX_anytime.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C17_R3_EXPECTIMAX_anytime.cpp",
+      "source_sha256": "43a18c071abcc4f8116d935a2a40a39db2dcfae55ba0d32ee538e6fc5232d6ce",
+      "source_bytes": 132112,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C17_R3_EXPECTIMAX_anytime.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C18_R3_EXPECTIMAX_sampled.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C18_R3_EXPECTIMAX_sampled.cpp",
+      "source_sha256": "80f51ca6d74b3ce2da7a5cb0f618aee630313bd10e4127567bb869260e169739",
+      "source_bytes": 132073,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C18_R3_EXPECTIMAX_sampled.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C19_R3_FLAGS_joint.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C19_R3_FLAGS_joint.cpp",
+      "source_sha256": "e5a6dbf07eb8680ebe79f97324297ac238f051e5224236239bc0d4a2b0cff500",
+      "source_bytes": 88992,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C19_R3_FLAGS_joint.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C20_R3_HABITS_adaptive.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C20_R3_HABITS_adaptive.cpp",
+      "source_sha256": "0dfebf565999d63113ad0290ba77a1ebf3e1085de5ae4abc6beb5d1eb5bda464",
+      "source_bytes": 106027,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C20_R3_HABITS_adaptive.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C21_R3_HEALTHY_pickup.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C21_R3_HEALTHY_pickup.cpp",
+      "source_sha256": "47fcb335c989c4e69be6acf6fadd78afc8484bc5c667ee1ce7a3ede7aeca7eaf",
+      "source_bytes": 87806,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C21_R3_HEALTHY_pickup.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_c_pending/C22_R3_WEIGHTS_tuned.cpp",
+      "path": "ctf-stress-pack/bots_c_pending/C22_R3_WEIGHTS_tuned.cpp",
+      "source_sha256": "4ca932ad02696de50c913c3d4f2b8ff04546f702d2d5acac7dc28e0930355a80",
+      "source_bytes": 86930,
+      "byte_identical_source_of": "ctf-benchmark-v3/track2_2k_c_series/bots/C22_R3_WEIGHTS_tuned.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_v2/Player5.cpp",
+      "path": "ctf-stress-pack/bots_v2/Player5.cpp",
+      "source_sha256": "5e8ff70a7103e3cf6aff531271c1912e454097c4199b765aa201d95d88a8352f",
+      "source_bytes": 52430,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_v2/test_p5.cpp",
+      "path": "ctf-stress-pack/bots_v2/test_p5.cpp",
+      "source_sha256": "093c67fa8e0b2f1b52227ec9dae29b966b7c4cf0d40063a655bf0864f972b308",
+      "source_bytes": 53543,
+      "byte_identical_source_of": null,
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_v3/A0_Control_Hybrid_AA.cpp",
+      "path": "ctf-stress-pack/bots_v3/A0_Control_Hybrid_AA.cpp",
+      "source_sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
+      "source_bytes": 79920,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_v3/B0_Control_Hybrid.cpp",
+      "path": "ctf-stress-pack/bots_v3/B0_Control_Hybrid.cpp",
+      "source_sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
+      "source_bytes": 79920,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_v3/B1_Player5_Omega_r3.cpp",
+      "path": "ctf-stress-pack/bots_v3/B1_Player5_Omega_r3.cpp",
+      "source_sha256": "b8c6562057a3b27643e2c9f69480df8b2df0bbea2200509e14aec69e84e1a44b",
+      "source_bytes": 116534,
+      "byte_identical_source_of": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    },
+    {
+      "id": "ctf-stress-pack/bots_v3/B2_Player2_v005.cpp",
+      "path": "ctf-stress-pack/bots_v3/B2_Player2_v005.cpp",
+      "source_sha256": "5e80d9a725c64fb09ecc024e80c8564e02bffbd72093629e513cc481d31adc8d",
+      "source_bytes": 82646,
+      "byte_identical_source_of": "ctf-benchmark-v3/track1_10k_suite/bots/B2_Player2_v005.cpp",
+      "entrypoint_text_detected": true,
+      "assessment_status": "unmeasured",
+      "lineage_status": "needs_source_and_behavior_review"
+    }
+  ],
+  "source_candidates": 129,
+  "distinct_source_hashes": 89,
+  "limits": "Text entrypoint detection and source aliases are provisional; inspect dependencies/build options and evaluate behavior.",
+  "inventory_source": "Local AI_Test working tree; may include uncommitted candidates. Refresh on the executor host.",
+  "complete_inventory_claim": false
+}
