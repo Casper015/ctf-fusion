@@ -1,4 +1,7 @@
-"""Heuristic diverse-roster selection from measured evidence, not raw inventory.
+"""Heuristic fixed-size reference-panel selection from measured evidence.
+
+This tool does not gate the open training registry or impose a training size cap.
+Its global-distance/family constraints are optional panel choices, not admission rules.
 
 No generated roster certifies its upstream measurements. Multi-start greedy
 selection does not prove global optimality or infeasibility.

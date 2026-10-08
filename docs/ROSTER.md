@@ -1,8 +1,8 @@
-# Phase A: evaluating every candidate opponent and selecting a diverse 15
+# Phase A: opponent evidence, open training admission and frozen evaluation
 
-The `roster/` package implements Phase A of the handoff [`handoffs/diverse15_distance_tiered_policy`](../handoffs/diverse15_distance_tiered_policy/NEXT_AGENT_PROMPT.md). It inventories every candidate bot, freezes a probe suite, fingerprints behavior, measures distances and noise, screens strength, and turns the evidence into the selector's input and a hash-locked collection pool.
+The `roster/` package provides inventory, probes, behavior distances, strength evidence, assessments and a fixed-panel pool writer. The updated handoff now requires an **open training pool with no 15-bot cap**, plus a separate frozen evaluation roster: [admission plan](../handoffs/diverse15_distance_tiered_policy/BOT_SELECTION_PLAN.md), [grouping/sampling review](../handoffs/diverse15_distance_tiered_policy/BOT_GROUP_AND_SAMPLING_REVIEW.md).
 
-The tools are built and tested. Fingerprints, strength screens and the final selection must be produced on the host. No roster has been selected yet.
+The existing evidence tools are built and tested. Fingerprints, strength confirmation and reviewed admission remain host work. Open-registry admission and count/context hierarchical sampling are still implementation tasks; the fixed-size commands below are the current panel workflow, not a limit on training membership. No final pool or panel is claimed here.
 
 ## What runs where
 
@@ -15,10 +15,12 @@ The tools are built and tested. Fingerprints, strength screens and the final sel
 | 5. Strength | `roster.strength schedule / run / aggregate` | **host** (matches) | utility per team count with map-level intervals; reply times under official limits |
 | 6. Assessments | `roster.assess` | anywhere | one row per candidate (`all_bot_assessments.csv`) |
 | 7. Review | `roster.catalog --review-template` then a person | anywhere | eligibility, verified skills, contribution sentences |
-| 8. Catalog and selection | `roster.catalog`, then the handoff's `select_roster.py` | anywhere | `selected15.json` |
-| 9. Pool | `roster.pool` | anywhere | `profiles/pool_selected15.json`, source hashes enforced by `training.collect` |
+| 8. Catalog and optional panel selection | `roster.catalog`, then the handoff's `select_roster.py` | anywhere | A fixed-size reference panel; it does not gate open training admission. |
+| 9. Existing panel pool writer | `roster.pool` | anywhere | A hash-locked pool from that panel; hierarchical open training remains to be implemented. |
 
-## Host command sequence
+## Existing host command sequence for evidence and a reference panel
+
+Use the inventory/probe/fingerprint/strength/assessment stages for all candidates. The final `selected15.json`/`pool_selected15.json` steps demonstrate the legacy fixed-panel writer. They must not become the only input to the new open training registry. Reserve strict OOD families before collection and freeze evaluation fixtures separately from admission.
 
 ```bash
 export AI_TEST_ROOT=C:/path/to/AI_Test
@@ -85,7 +87,10 @@ Repeats give each bot's A/A noise. Two bots are equivalent at a team count when 
 
 **Review and selection.** The catalog takes every number from the measured files. Eligibility, verified skills and the one-sentence contribution come only from the human review file, which starts closed (`eligible: false`) with the measured hints. Bots with incomplete distances are dropped, worst coverage first, so one gap cannot remove the rest. The handoff's selector then enforces distinct clusters, at most three per lineage, a minimum pair distance, and the confirmation sample sizes.
 
+Those constraints describe the current optional panel selector. Open training admission instead retains reliable, useful specialists with explicit count/context evidence and weighted redundancy control. A source-lineage group is not a demonstrated style. Global averaging, connected-component chaining and high-noise thresholds need the safeguards in the linked review before they can justify equivalence or remove a policy from training.
+
 ## Not built yet
 
+- **Open training registry and hierarchical sampler.** Separate versioned `open_training_pool` membership from a frozen evaluation roster; record per-count/context weights, actual inclusion probabilities, continuing policy and OOD exclusions. Do not use a 15-member panel as a training cap.
 - **Legal alternate-state probes.** These are branches of a recorded state with different orders, continued through the engine. The replay probes and live screen matches cover the main need first.
 - **Validation of the selection itself.** This compares the diverse 15 against the 15 strongest and a broader pool, at an equal training budget, on held-out lineages. It needs trained models.
