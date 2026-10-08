@@ -270,11 +270,16 @@ class TestMultithreadingReport(unittest.TestCase):
             self.skipTest("committed capacity reports not present")
         r = g.compute(json.loads(multi.read_text(encoding="utf-8")), json.loads(single.read_text(encoding="utf-8")))
         self.assertEqual((r["seats_multi"], r["seats_single"]), (16, 1))
-        self.assertEqual(r["ceiling_multi"], "XL")
-        self.assertEqual(r["per_tier"]["XXL"]["fits_single"], list(range(2, 11)))
-        self.assertEqual(r["per_tier"]["XXL"]["fits_multi"], [])
+        # every statement follows the measurements (not pinned numbers: the reports are re-run as kernels change)
+        counts = [c["teams"] for c in json.loads(multi.read_text(encoding="utf-8"))["counts"]]
+        full = [t for t in r["tiers"] if r["per_tier"][t]["fits_multi"] == counts]
+        self.assertEqual(r["ceiling_multi"], full[-1] if full else None)
         text = g.markdown(r, [15])
-        self.assertIn("XXL** fits 2–10 teams with 1 seat but none with 16", text)
+        self.assertIn(f"**Largest tier fitting every team count**: {r['ceiling_multi'] or 'none'} with 16 seats", text)
+        for t in r["tiers"]:
+            pt = r["per_tier"][t]
+            if pt["fits_multi"] != pt["fits_single"]:
+                self.assertIn(f"**{t}** fits {g.ranges(pt['fits_single'])} teams with 1 seat but {g.ranges(pt['fits_multi'])} with 16", text)
         self.assertNotIn("5.4 GHz", text)
 
 
