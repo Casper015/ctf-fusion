@@ -78,7 +78,8 @@ tools/            extract_features, infer_check, runtime_check, sim_check, regis
                   bench_inference, size_bench (C++); env_check.py (host check), capacity_bench.py (how big the models can be),
                   generate_multithreading_report.py / analyze_multithreading.py (loaded vs isolated capacity runs),
                   gen_feature_spec.py, random_bot.py (test bot), stream.hpp
-roster/           Phase A: inventory, probes, fingerprint, distance, strength, assess, registry, sampling, catalog, pool (docs/ROSTER.md)
+roster/           Phase A: inventory, archive, probes, fingerprint, distance, strength, assess, registry, sampling, catalog, pool (docs/ROSTER.md)
+  bots/           every inventoried bot source by sha256, with manifest.json (roster.archive)
 tests/            test_math (gradients, quantization, convex fits, spec sync), test_contracts (binary records, v2 features,
                   adapter, widths, gate identity; no AI_Test needed), test_roster (Phase A tools), test_pipeline (end to end)
 ```

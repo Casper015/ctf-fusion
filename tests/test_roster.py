@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 
 from fusion.paths import REPO, TEAM_COUNTS
-from roster import assess, catalog, distance, inventory, pool, registry, sampling, strength
+from roster import archive, assess, catalog, distance, inventory, pool, registry, sampling, strength
 from roster.common import TAGS, load_json
 
 BOT = """#include <bits/stdc++.h>
@@ -443,6 +443,35 @@ class TestRegistry(unittest.TestCase):
         ev = registry.freeze_eval(inv, ["A", "Ood"], reg, "core", 1, 500, [3, 5])
         self.assertEqual([(b["in_training"], b["ood_lineage"]) for b in ev["bots"]], [(True, False), (False, True)])
         self.assertEqual(ev["training_registry"], reg["identity"])
+
+
+class TestArchive(unittest.TestCase):
+    def test_save_check_and_tamper(self):
+        from roster.common import sha256_file  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as tmp:
+            root, out = Path(tmp) / "ai", Path(tmp) / "archive"
+            a = write(root, "bots/a.cpp", "int main(){}\r\n")         # CRLF kept byte for byte
+            write(root, "bots/copy.cpp", "int main(){}\r\n")
+            entry = lambda rel, p: {"id": rel, "path": rel, "language": "cpp", "source_sha256": sha256_file(p), "local_includes": []}  # noqa: E731
+            inv = {"ai_test_commit": "c0ffee", "bots": [entry("bots/a.cpp", a), entry("bots/copy.cpp", root / "bots/copy.cpp"),
+                                                         {"id": "@repo/tools/noise_bot.py", "path": "@repo/tools/noise_bot.py",
+                                                          "language": "py", "source_sha256": "f" * 64}]}
+            r = archive.save(inv, root, out)
+            self.assertEqual((r["candidates"], r["stored_files"]), (3, 1))   # one content, stored once
+            stored = out / archive.stored_name(sha256_file(a), "a.cpp")
+            self.assertEqual(stored.read_bytes(), a.read_bytes())
+            pool_file = Path(tmp) / "pool.json"
+            pool_file.write_text(json.dumps({"bots": [{"name": "A", "source_sha256": sha256_file(a)},
+                                                      {"name": "Gone", "source_sha256": "0" * 64}, {"name": "Legacy"}]}))
+            res = archive.check(out, [str(pool_file)], root)
+            self.assertEqual(len(res["errors"]), 1)                        # Gone is not archived
+            self.assertEqual(len(res["untraced"]), 1)                      # Legacy has no hash
+            a.write_text("int main(){return 1;}")
+            self.assertEqual(archive.check(out, [], root)["changed_in_ai_test"], ["bots/a.cpp"])
+            stored.write_text("edited")
+            self.assertTrue(any("no longer matches" in e for e in archive.check(out)["errors"]))
+            with self.assertRaises(SystemExit):                            # a source changed since the inventory
+                archive.save(inv, root, Path(tmp) / "other")
 
 
 @unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to the AI_Test checkout")

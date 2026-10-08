@@ -9,6 +9,7 @@ The tools are built and tested on synthetic and replayed data. Fingerprints, str
 | Step | Tool | Where | Evidence it gives |
 |---|---|---|---|
 | 1. Inventory | `roster.inventory` | anywhere (compiles every candidate) | identities, builds, aliases, code lineage, exclusions |
+| 1b. Source archive | `roster.archive save / check` | anywhere | every inventoried source stored in `roster/bots/` by sha256; later checks need no AI_Test working tree |
 | 2. Probe suite | `roster.probes` | anywhere, from recorded matches | frozen states with event tags |
 | 3. Fingerprints | `roster.fingerprint` | **host** (hours of bot CPU) | requested moves, actions, targets on identical histories |
 | 4. Distances | `roster.distance` | anywhere | behavior distance, A/A noise, noise-corrected excess with probe-level uncertainty, joint-team distance, complete-linkage groups per team count |
@@ -78,6 +79,14 @@ After confirmation, re-run `roster.assess` and `roster.registry build` (a new `r
 | Lineage groups at 0.7 | 29 |
 
 All builds succeeded. Code aliases include the stress-pack copies of the judge bots, and C18 is the same code as C17 apart from comments. The largest 0.7 groups are our own Control_Hybrid family (64) and the Player2 `cand-002` series (12).
+
+**Source archive.** `python -m roster.archive save` copies every inventoried source into `roster/bots/src/<sha256>.<ext>`, once per content. That covers aliases and excluded candidates, plus local includes. `roster/bots/manifest.json` maps each candidate to its file, its AI_Test path and commit, lineage, alias and exclusion; bots already in this repository are recorded, not copied. `.gitattributes` marks the files `-text`, so no checkout converts line endings; 16 of the archived sources use CRLF. `python -m roster.archive check --pool profiles/open_training_pool.json --ai-test AI_TEST` verifies three things:
+
+- every stored file still hashes to its name;
+- every member of the given pools or rosters is archived;
+- which AI_Test files changed since archiving.
+
+Re-run `save` after each new inventory; entries accumulate. First archive: 191 candidates, 130 stored files, 8.5 MiB, from AI_Test `c9c115b`.
 
 **Probes.** A probe is one seat of one recorded match, replayed from turn 1, so a bot always sees a complete, valid history. Every bot answers the same probes. The history was produced by other bots' orders, which is the price of identical states; on-policy behavior comes from the screen's live matches, which `--keep-matches` stores.
 

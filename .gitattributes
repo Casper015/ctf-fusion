@@ -2,3 +2,4 @@
 *.npz binary
 *.npy binary
 *.gz binary
+roster/bots/src/** -text -diff linguist-vendored
