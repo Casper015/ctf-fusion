@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import subprocess
 from functools import lru_cache
 from pathlib import Path
@@ -89,8 +90,27 @@ def model_tool(tool: str, model_header: Path, namespace: str) -> Path:
     """Build a tool that takes one exported model header (infer_check, runtime_check)."""
     model_header = Path(model_header).resolve()
     return build(REPO / "tools" / f"{tool}.cpp", f"{tool}_{namespace.split('::')[-1]}", deps=[model_header],
-                 defines=[f'FUSION_MODEL_HEADER="{model_header.as_posix()}"', f"FUSION_MODEL_NS={namespace}"],
+                 defines=[f'FUSION_MODEL_HEADER="{model_header.as_posix()}"', f"FUSION_MODEL_NS={namespace}",
+                          f"FUSION_MAX_WIDTH={model_buffer_width(model_header)}"],
                  includes=[REPO / "inference"])
+
+
+def model_buffer_width(header: Path) -> int:
+    """Read the small generated preamble; do not scan millions of weight literals.
+
+    Support older generated headers' 'Widest layer' marker too. Native static
+    assertions remain authoritative if metadata understates the actual shapes.
+    """
+    from .capacity import buffer_width  # noqa: PLC0415
+    from .quant import MAX_WIDTH  # noqa: PLC0415
+    with Path(header).open(encoding="utf-8") as f:
+        for _, line in zip(range(64), f):
+            match = re.match(r"// FUSION_MAX_WIDTH_REQUIRED=(\d+)\s*$", line)
+            if not match:
+                match = re.match(r"// Widest layer (\d+)(?:[:.]|\s)", line)
+            if match:
+                return buffer_width([int(match.group(1))])
+    return MAX_WIDTH
 
 
 def infer_check(model_header: Path, namespace: str) -> Path:
@@ -185,4 +205,6 @@ def registry_check(models_dir: Path) -> Path:
     """Dispatch printer compiled against <models_dir>/registry.hpp (tools/registry_check.cpp)."""
     models_dir = Path(models_dir).resolve()
     deps = sorted(models_dir.glob("*.hpp"))
-    return build(REPO / "tools" / "registry_check.cpp", "registry_check", deps=deps, includes=[models_dir, REPO / "inference"])
+    width = max((model_buffer_width(p) for p in deps), default=256)
+    return build(REPO / "tools" / "registry_check.cpp", "registry_check", deps=deps,
+                 defines=[f"FUSION_MAX_WIDTH={width}"], includes=[models_dir, REPO / "inference"])

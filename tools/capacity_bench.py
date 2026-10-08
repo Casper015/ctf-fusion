@@ -4,6 +4,7 @@
     python tools/capacity_bench.py --raw data/raw --teams 2 6 10 15        # replay collected matches instead
     python tools/capacity_bench.py --ai-test ... --tiers S M L XL XXL --tier "W squad=192,64 value=384,32"
     python tools/capacity_bench.py --verify                                 # correctness only, no timing
+    python tools/capacity_bench.py --verify --tiers XXXL XXXXL --teams 2 --verify-turns 4 --value-calls 2
 
 Run the timing on the machine that will host the bot (or one like the judge's),
 with nothing else heavy running. Development machines only run --verify.
@@ -57,32 +58,41 @@ sys.path.insert(0, str(REPO))
 import numpy as np  # noqa: E402
 
 from fusion import hostinfo, matchlog, native, quant, synthetic  # noqa: E402
-from fusion.models import PolicyNet, ValueNet  # noqa: E402
+from fusion.capacity import NETS, TIERS, buffer_width, preset  # noqa: E402
+from fusion.models import TARGET_COLS, PolicyNet, ValueNet  # noqa: E402
 from fusion.paths import TEAM_COUNTS, load_profile  # noqa: E402
 from fusion.schema import layout as feature_layout  # noqa: E402
 
-# Hidden widths per network. S is today's default architecture; each step roughly doubles the cost.
-TIERS = {
-    "S": {"mover": [16], "squad": [64, 32], "act": [16], "target": [8], "value": [128, 16]},
-    "M": {"mover": [32], "squad": [128, 64], "act": [32], "target": [16], "value": [256, 32]},
-    "L": {"mover": [64], "squad": [256, 64], "act": [64], "target": [16], "value": [512, 64]},
-    "XL": {"mover": [128], "squad": [512, 128], "act": [128], "target": [32], "value": [1024, 64]},
-    "XXL": {"mover": [256], "squad": [1024, 256], "act": [256], "target": [32], "value": [2048, 128]},
-}
 EXPORTED_MODELS = 11  # 10 dedicated + general (training/specs/MODEL_MATRIX.md)
-NETS = ("mover", "squad", "act", "target", "value")
 
 
 def parse_tier(text: str) -> tuple[str, dict]:
     """'NAME squad=192,64 value=384,32': unspecified networks keep the S widths."""
     name, *parts = text.split()
-    widths = {k: list(v) for k, v in TIERS["S"].items()}
+    widths = preset("S")
     for kv in parts:
         key, val = kv.split("=")
         if key not in NETS:
             raise SystemExit(f"--tier {text!r}: unknown network {key!r} (known: {', '.join(NETS)})")
-        widths[key] = [int(w) for w in val.split(",")]
+        try:
+            widths[key] = [int(w) for w in val.split(",")]
+        except ValueError as exc:
+            raise SystemExit(f"--tier {text!r}: widths must be positive integers") from exc
+    validate_widths(widths)
     return name, widths
+
+
+def validate_widths(widths):
+    if set(widths) != set(NETS) or any(not v or any(type(w) is not int or w < 1 for w in v) for v in widths.values()):
+        raise SystemExit("every capacity head needs positive integer hidden widths")
+
+
+def required_width(widths, layout) -> int:
+    """Shape-only capacity: avoids allocating/exporting large synthetic weights for verification."""
+    validate_widths(widths)
+    g, u, m = (len(layout.names(n)) for n in ("global", "unit", "move"))
+    return buffer_width([g + u + m, g + 3*u + 15*m, len(TARGET_COLS), len(layout.value_scale()), 125, 4,
+                         *(w for v in widths.values() for w in v)])
 
 
 def tier_line(name: str, widths: dict) -> str:
@@ -92,6 +102,7 @@ def tier_line(name: str, widths: dict) -> str:
 def tier_static(widths: dict, layout) -> dict:
     """Size facts that need no timing: parameters, MACs, header bytes, the FUSION_MAX_WIDTH it needs."""
     from training import export_weights  # noqa: PLC0415
+    validate_widths(widths)
     rng = np.random.default_rng(0)
     policy = PolicyNet(layout, rng, {k: widths[k] for k in ("mover", "squad", "act", "target")})
     value = ValueNet(layout, rng, widths["value"])
@@ -159,18 +170,20 @@ def kernel_parity() -> str:
     return summary
 
 
-def verify(tiers: dict, teams_list: list[int]) -> int:
+def verify(tiers: dict, teams_list: list[int], turns: int = 12, value_calls: int = 24) -> int:
     """Correctness only (no timing): kernel parity, then incremental value == full pass for every tier."""
-    kernel_parity()
+    if turns < 3 or value_calls < 1:
+        raise SystemExit("verification needs at least 3 turns and 1 value call to exercise accumulator updates")
     layout = feature_layout()
-    width = max(tier_static(w, layout)["max_width"] for w in tiers.values())
+    width = max(required_width(w, layout) for w in tiers.values())
+    kernel_parity()
     binary = native.size_bench(width)
     failures = 0
     with tempfile.TemporaryDirectory(prefix="capacity_") as tmp:
         tiers_file = Path(tmp) / "tiers.txt"
         tiers_file.write_text("\n".join(tier_line(n, w) for n, w in tiers.items()) + "\n", encoding="utf-8")
         for teams in teams_list:
-            r = native.run_tool(binary, synthetic.stream(teams, turns=12).encode(), args=("--verify", 1, 24, tiers_file))
+            r = native.run_tool(binary, synthetic.stream(teams, turns=turns).encode(), args=("--verify", 1, value_calls, tiers_file))
             lines = [json.loads(l) for l in r.stdout.decode().splitlines() if l.strip()]
             ok = r.returncode == 0 and len(lines) == len(tiers) and all(l["verified"] for l in lines)
             failures += not ok
@@ -244,7 +257,7 @@ def main(argv=None):
     ap.add_argument("--ai-test", help="AI_Test checkout: plays one test-bot match per team count for its states")
     ap.add_argument("--raw", help="collected matches (data/raw) to replay instead")
     ap.add_argument("--teams", type=int, nargs="+", default=list(TEAM_COUNTS))
-    ap.add_argument("--tiers", nargs="+", default=["S", "M", "L", "XL"], help=f"named tiers: {', '.join(TIERS)}")
+    ap.add_argument("--tiers", nargs="+", choices=tuple(TIERS), default=["S", "M", "L", "XL"], help=f"named tiers: {', '.join(TIERS)}")
     ap.add_argument("--tier", action="append", default=[], help="extra tier: 'NAME squad=192,64 value=384,32 ...'")
     ap.add_argument("--seats", type=int, default=0, help="concurrent copies per match (default: the team count)")
     ap.add_argument("--repeat", type=int, default=2, help="passes over the recorded turns per copy")
@@ -254,12 +267,13 @@ def main(argv=None):
     ap.add_argument("--kernels", choices=("both", "simd", "scalar"), default="both",
                     help="time the SIMD kernels, the scalar loop, or both (verdicts use the first of simd, scalar)")
     ap.add_argument("--verify", action="store_true", help="correctness only, no timing (any machine)")
+    ap.add_argument("--verify-turns", type=int, default=12, help="synthetic turns for correctness checks, minimum 3")
     ap.add_argument("--tag", help="name the report capacity_<tag>_<host> (e.g. --seats 1 --tag 1seat for the isolated run)")
     ap.add_argument("--out", default=str(REPO / "reports"))
     a = ap.parse_args(argv)
-    tiers = {n: TIERS[n] for n in a.tiers} | dict(parse_tier(t) for t in a.tier)
+    tiers = {n: preset(n) for n in a.tiers} | dict(parse_tier(t) for t in a.tier)
     if a.verify:
-        return verify(tiers, a.teams)
+        return verify(tiers, a.teams, a.verify_turns, a.value_calls)
     parity = kernel_parity()
     layout = feature_layout()
     statics = {n: tier_static(w, layout) for n, w in tiers.items()}

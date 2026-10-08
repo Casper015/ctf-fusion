@@ -13,6 +13,8 @@ Opponent policy and board value networks for the multi-team Capture The Flag bot
 - [docs/REVIEW.md](docs/REVIEW.md): decisions and experiment order.
 - [training/specs/](training/specs/README.md): the contracts — features, action indexing, data format, the 22-model matrix, simulator audit, environment.
 - [docs/ROSTER.md](docs/ROSTER.md): Phase A, evaluating every candidate opponent, admitting an open training pool sampled by behavior group, and freezing evaluation rosters (`roster/`).
+- [docs/LARGER_MODEL_EXPERIMENTS.md](docs/LARGER_MODEL_EXPERIMENTS.md): shared S–XXXXL presets, independent P/V capacities, automatic native buffer sizing and the host experiment sequence.
+- [reports/SAMPLING_DATA_READINESS_REVIEW.md](reports/SAMPLING_DATA_READINESS_REVIEW.md): source audit of the open sampler, theoretical sample volume and remaining data/provenance gaps.
 
 **Status:**
 - **Done:**
@@ -58,7 +60,9 @@ AI_Test engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶
 - **No heap use per turn.** Nothing allocates on the per-turn path after turn 1.
 - **Engine-exact simulator.** `inference/sim.hpp` reproduces every recorded engine turn.
 - **Safe fallback, fail closed.** The gate scores the integer model the exporter ships, through the declared adapter (`inference/adapter.hpp`), against the legacy forecast. It needs the gain to clear two map-clustered standard errors on enough maps. A team count that fails, or lacks a complete legacy forecast, exports α = 0, which is exactly the legacy bot. The report names the artifact it approves (checkpoint hashes, weight digest, schema, adapter), and the exporter refuses any other.
-- **Bounded buffers.** Layers wider than the C++ buffers (256 by default, `-DFUSION_MAX_WIDTH` for more) are refused at training, export and compile time unless `--max-width` raises the limit for a bot built that wide.
+- **Bounded buffers.** Explicit capacity ceilings and generated native assertions enforce layer dimensions. The default is 256; named presets supply larger ceilings, evaluation/export infer actual shapes, and native artifact tools compile with the recorded capacity. A bot including inference headers before its registry must set `FUSION_MAX_WIDTH` globally first.
+
+**Capacity experiments.** Training accepts `--capacity S|M|L|XL|XXL|XXXL|XXXXL`; P and V can choose different presets and individual hidden flags still override them. Custom wide architectures without a preset retain explicit `--max-width` validation. The default model stays S. Wider models are experimental until trained quality and complete-turn timing are confirmed.
 
 ## Layout
 
