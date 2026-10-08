@@ -13,7 +13,9 @@ Five changes matter most:
 2. cover all 14 rated team counts (the 22-artifact matrix stands; see 3.2);
 3. compute every feature in one C++ header shared by training and the bot;
 4. integrate the opponent policy before the value network;
-5. leave the duel planner alone at first.
+5. treat duels like every other team count: the elite-duel data shows opponent modeling matters there too (§3.6).
+
+A source review of this repository (2026-10-08) found gaps between the gate and the deployed artifact; §7 lists them and the fixes.
 
 ## 1. Evidence this review uses
 
@@ -52,12 +54,14 @@ The last row is two matches and only an indication. It says the legacy forecast 
 
 **The brief asks for more time than the search has.** It budgets about 35 ms of compute and output by 40 ms. The search budget is 30 ms, the AI_Test operating rule. The C-series already shows that the 30 ms search variants have about **twice the 50 ms timeouts** of the non-search variants (479–657 against 306–335 per 2,000 matches).
 
-**What the policy costs** (sizes from the exporter):
+**What the policy costs** (sizes from the exporter; an estimate, not a measurement):
 - One opponent team's joint policy is about 30k multiply-accumulates (MACs).
-- At 15 teams that is 14 × 30k ≈ 0.42M MACs per turn, well under a millisecond on the cluster CPU.
+- At 15 teams that is 14 × 30k ≈ 0.42M MACs per turn. That should take well under a millisecond on the cluster CPU, but it is a hypothesis until the host check times it, and it excludes the parsing, search, output and startup of an integrated bot.
 - It runs once per turn, before the search, like today's forecast.
 
-**What the value net costs.** At about 8.5k MACs per state, V is too expensive to call per rollout sample: 24 plans × up to 512 samples ≈ 12k calls ≈ 100M MACs. It can only run at plan level (24 calls) or on the survivors of sequential halving.
+**What the value net costs.** At about 9k MACs per state, V is too expensive to call per rollout sample: 24 plans × up to 512 samples ≈ 12k calls ≈ 100M MACs. It can only run at plan level (24 calls) or on the survivors of sequential halving. Profile its feature update, accumulator and tail on real branch states before fixing how often it runs.
+
+**Ranking sampled plans with V.** A plan's value is `mean_j V(s'_j)` over its sampled successor states, not `V(mean_j features(s'_j))`: V is nonlinear, so the two differ. At a terminal state (after the last settlement) use the exact pairwise outcome instead of V (`inference/value.hpp` `nodeValue`).
 
 **Latency is unmeasured.** None of this has been timed; latency must be measured on the cluster, not here.
 
@@ -91,7 +95,7 @@ The pipeline implements that ([MODEL_MATRIX.md](../training/specs/MODEL_MATRIX.m
 
 **Why not sparse cells.** Maps are random per seed (pillars), so absolute-cell one-hot inputs — the NNUE pattern — would learn map-specific noise. A 49 × 49 × relation sparse table is also millions of weights, several MiB of source per model.
 
-**What v1 uses instead.** V v1 reads 50 relational features: BFS distances, threats, carriers, score state. The network is 50 → 128 → 16 → 1. An incrementally updated accumulator only pays off once V runs inside rollouts, which section 3.1 rules out for now.
+**What V uses instead.** V reads 54 relational features (feature spec v2): BFS distances, threats, carriers, and the score state. Spec v1 kept only own score, best rival, rank and margin, which cannot tell [5,6,4] from [5,6,5] for team 0 although the outcome target differs (0.5 against 0.25 if nobody scores again). v2 adds the tied count, the rivals one or two captures ahead and behind, and the current pairwise outcome. The network is 54 → 128 → 16 → 1. An incrementally updated accumulator only pays off once V runs inside rollouts, which section 3.1 rules out for now.
 
 ### 3.5 Policy before value
 
@@ -103,23 +107,26 @@ The brief proposes integrating V first. This repository recommends P first:
    V replaces the evaluator, whose terms are heuristic points blended 0.3 analytic / 0.7 sampled. That is exactly the probability-versus-score mixing the brief warns about, and every blend weight would need retuning.
 3. **A built-in null.** With α = 0 the bot is bit-identical to today's. The AI_Test stream-exactness harness can prove it before a single match.
 
-### 3.6 Leave the duel alone at first
+### 3.6 Duels: not saturated after all
 
-**The duel is saturated:**
-- Every top candidate wins 92.2% of duels.
-- The only variants that model opponent habits in duels lost 8.8 points.
+The first version of this section called the duel saturated: every top candidate won 92.2% of track-1 duels, and habit models lost 8.8 points. Those duels were all against Baseline. Against strong opponents the picture is different ([DUEL_REVIEW.md](DUEL_REVIEW.md); AI_Test `ctf-s1-controls/results/ANALYSIS.md`):
+- the duel ceiling is Astra and Sol (the control wins about 46–48%);
+- duel planners differ by several points against single opponents. CFL scores +6.2 over Player2's duel play against Player5 (pooled over 7,626 duels). CFL + expectimax scores +4.1 against Astra and +2.7 against Sol over CFL alone, but −5.1 against Baseline;
+- online habit models move duels opponent by opponent (+5.4 against Player5, −3.0 against Astra), for a net of zero.
 
-**What to do.** Collect 2-team data (cheap) and train `m23`, but integrate it only after 3–15 teams show a gain. The brief's own rule — "if the 2-team network does not beat the heuristic predictor, keep the heuristic" — likely applies.
+Opponent modeling clearly changes duel results, in both directions, so a learned 2-team opponent model (`n02`) is worth an experiment. It is gated like every other count: α = 0 unless it beats the legacy forecast on held-out duels, then paired duels against Astra and Sol specifically.
 
-### 3.7 Marginals first, joint samples second
+### 3.7 The deployment adapter: joint team samples (v2)
 
-**The sampler can't take a joint distribution yet.** The search samples each rival unit independently from its forecast marginals (`Rival.cell/prob`, `JointSampler`). A joint q_θ can therefore enter only through its marginals until the sampler draws joint per-team samples.
+**The first plan mixed marginals.** The search samples each rival unit independently from its forecast marginals (`Rival.cell/prob`, `JointSampler`), so v1 planned to mix q_H and q_θ unit by unit: `q(m) = Π_k [(1-α) qH_k + α qNN_k]`.
 
-**Plan:**
-- **v1:** marginals. `PolicyOutput.marginal` already provides them.
-- **v2:** joint team samples, as a separately measured change.
+**The gate scored a different distribution.** It fitted α for the joint mixture `(1-α) Π_k qH_k + α qNN(m)`. The two differ, and v1 throws away exactly what the squad network adds. Example: two units choose 0 or 1, the third waits; q_H is uniform over the four joint outcomes; the network puts ½ on (0,0) and ½ on (1,1). On labels split between (0,0) and (1,1), the joint mixture gains ln 2 nats per example at α = 1. Yet the network's unit marginals are uniform, so v1 reproduces q_H for every α. A positive gate would have approved a change that does nothing.
 
-The brief's warning against factorizing applies in full to v2.
+**The contract now** ([`inference/adapter.hpp`](../inference/adapter.hpp), [`fusion/mixture.py`](../fusion/mixture.py)):
+- **`joint-v2` (default).** One mixture choice per opponent team and scenario. With probability α the whole team move comes from the network's 125-way joint, and the team's actions from the network's act and target heads conditioned on those moves (`drawAct`). Otherwise every unit draws from q_H and fires as the legacy planner says.
+- **`marginal-v1`.** Kept as an option, and scored as itself: the gate then fits the product of the integer model's mixed marginals.
+- Both give each unit the same marginal, `(1-α) qH_k + α qNN_k` (`mixedMarginal`), so analytic search terms (expected incoming fire) use it under either.
+- The gate fits α for one adapter, the report records it, the exporter refuses a different one, and the header carries `kAdapter`. `tools/adapter_check.cpp` checks that the C++ probabilities equal the Python ones and that `drawTeam` samples them.
 
 ### 3.8 Things deliberately not built yet
 
@@ -133,6 +140,7 @@ The brief's warning against factorizing applies in full to v2.
   Note that this repository's own online habit module (`R3_HABITS_adaptive`) ranked 21st of 22, so it must be measured alone.
 - **Deeper search.** The brief's per-count depth table is a hypothesis. `G_PLAYOUT_4ply` (+346.9) did not beat the other genes, so depth does not look like the bottleneck. Keep two plies; tune scenario counts per size where measured.
 - **Ten per-count exports.** One unified bot with `fusion::models::forTeams(teams)` (generated `registry.hpp`) replaces them; `profiles/` maps counts to models.
+- **A delivery value.** V's targets are the final pairwise outcome (exported), a team capture within 20 turns and an own death within 10 (auxiliary, not exported). A team's near-term capture is not a given carrier's chance to deliver before death, drop or takeover. Per-flag transport episodes, possession-transition targets and counterfactual branch values are not built, so the carrier DP stays until a delivery head has labels, tests and a consumer.
 
 ## 4. Integration plan (AI_Test `nextgen`)
 
@@ -141,14 +149,14 @@ The brief's warning against factorizing applies in full to v2.
    - build `fusion::State` from `Game` (a few lines: units, flags, attack events, scores);
    - build `Board` once and `TurnView` once per turn;
    - run `encodePolicy` + `jointPolicy` for each opponent team with a unit on the board, using `fusion::models::forTeams(teams)`.
-3. **Mix into the forecast**, per enemy unit and destination:
+3. **Sample with the adapter the gate approved** (`kAdapter`, `alpha = forTeams(teams)->alpha`):
+   - **joint-v2:** in each scenario, draw each opponent team's move with `drawTeam`. A learned draw also takes the team's pickup / drop / attack from `drawAct`, conditioned on the sampled moves. A legacy draw keeps today's per-unit sampling and fire model. Analytic terms use `mixedMarginal`.
+   - **marginal-v1:** replace each unit's forecast by `mixedMarginal`, and fire by the matching mixture of the act head's P(attack | destination) and today's `MOD_FLAGSHOOT` conditioning.
 
-   `prob = (1 - a) * prob + a * marginal[k][move]`, with `a = forTeams(teams)->alpha`.
-
-   Do the same for `fire` with the act head's P(attack | destination), conditioned the way `MOD_FLAGSHOOT` conditions it today. The switch is `MOD_FUSION_P`, with a team-size mask like every other module.
-4. **Prove the null.** With `MOD_FUSION_P_SIZES = 0`, or α = 0, the stream-exactness check must report zero differences against the foundation.
+   The switch is `MOD_FUSION_P`, with a team-size mask like every other module.
+4. **Prove the null.** With `MOD_FUSION_P_SIZES = 0`, or α = 0, the stream-exactness check must report zero differences against the foundation. α only switches P. Any use of V goes behind its own switch (`MOD_FUSION_V`), off by default, with its own null check, because no gate approves V (`kValueApproved = false`).
 5. **Measure** on the cluster:
-   - p50/p99 turn time per size;
+   - first-turn startup and p50/p99 input-to-reply time per size, for the integrated bot;
    - paired matches, `Player5_Omega_LIT` against `Player5_Omega_LIT + P`, per size.
 
 ## 5. Experiment order (cluster)
@@ -156,11 +164,11 @@ The brief's warning against factorizing applies in full to v2.
 | Step | What | Decides |
 |---|---|---|
 | E0 | Collect 1,500 matches × 14 team counts (`profiles/`); build shards; legacy baseline on val/test | Data |
-| E1 | Train `m31`, `m41`, `m49` policies; offline report | Does q_θ beat q_H and inertia per team count? α per count. Stop here for any count where it does not. |
+| E1 | Train the general P, then a few representative dedicated P models (`n02`, `n05`, `n15`); offline report, strict holdout included | Does the integer q_θ beat q_H per team count, through the joint adapter? α per count. Stop for any count where it does not; scale to all 22 artifacts only after it does. |
 | E2 | `Omega_LIT + P(α)` against `Omega_LIT`, paired, per size; also α = 1 | Match strength of P |
 | E3 | Train V; offline Brier and ranking against a score-margin baseline | Whether V is worth integrating |
 | E4 | V at plan level (24 calls) inside `search::rank`, then on halving survivors | Match strength of V |
-| E5 | `m23` duel integration, only if E2 is positive | |
+| E5 | `n02` duel integration, paired against Astra and Sol | Whether opponent modeling lifts the duel ceiling (§3.6) |
 
 **Statistical design.** Paired fixtures make comparisons tight: the track-1 A/A pair agreed within 0.4 BT. Sequential stopping per size (stop once the CI excludes zero, or once it excludes the smallest effect worth shipping) will need far fewer than the brief's 10,000 matches per tier for clear results.
 
@@ -168,3 +176,26 @@ The brief's warning against factorizing applies in full to v2.
 
 - **Source size.** Is there a judge-side size limit for `bot.cpp`? All 11 models add about 2.2 MiB of source (about 200 KiB each). `RULES.md` names none.
 - **The official field.** Are the official opponents the judge bots (plus other submissions)? The opponent model is only as good as the overlap between the training pool and the real field. The pool (`profiles/pool.json`) now holds the judge bots without Doubao, the original Player5 and Player4, our lineage, Baseline, and a random-movement Noise bot whose own moves are not policy labels.
+
+## 7. Source review (2026-10-08) and what changed
+
+A static review of commit `34a83b0` checked the data and deployment contracts before the expensive training run. Every finding was confirmed in the code and fixed:
+
+| Finding | Fix | Checked by |
+|---|---|---|
+| **P1. Windows corrupts raw tool output.** `extract_features` and `infer_check` wrote binary records to a text-mode stdout; on Windows every `0x0A` byte becomes `0x0D 0x0A`. | Both switch stdout to `_O_BINARY` (`tools/stream.hpp` `binaryStdout`). `fusion.native` checks the byte count and every record's turn and team columns. | `test_contracts`: a stream whose records contain `0x0A`, `0x0D` and `0x1A`; `env_check.py` repeats the check on the host |
+| **The gate scored a different distribution from the planned adapter.** Joint mixture offline, independent unit mixtures at runtime (§3.7). | One declared adapter per artifact (`joint-v2` by default; `marginal-v1` scored as itself), in C++ and Python, recorded in the report and the header. | `test_contracts`: C++ probabilities equal Python's to 1e-12; 400k draws match them; the coordination example |
+| **Missing q_H switched the comparison to inertia**, so a model could be approved against the wrong baseline. | Without a complete, single-build q_H the gate stays closed; inertia is only a diagnostic. `heuristic_baseline` records the baseline's source digest per shard. | `test_pipeline`: an incomplete baseline closes the gate |
+| **The gate used float predictions.** | `evaluate_offline` quantizes the runs exactly as the exporter does and gates the integer model (temperatures folded in). | Report columns `learned` (float, diagnostic) and `quantized` |
+| **Any report could authorize any weights.** | The report carries the artifact identity (model, checkpoint hashes, integer weight digest, schema, adapter), plus dataset and baseline. The exporter recomputes it and stops on any difference. | `test_contracts`; `test_pipeline`: another model's report, or another adapter, is refused |
+| **V features collided.** [5,6,4] and [5,6,5] gave team 0 identical inputs. | Feature spec v2 adds tied, 1–2 ahead, 1–2 behind and the current pairwise outcome; terminal states use the exact outcome (`nodeValue`). Datasets, warm starts, evaluation and export refuse other spec versions. | `test_contracts`: the two score vectors now differ in exactly those features |
+| **The family holdout leaked.** Only the held-out family's own rows left training. | `--holdout-mode fixture` (default) reserves whole matches; `actor-row` remains, named as the weaker test. Splits group by map; gate errors are clustered by map; the gate needs 20 maps and a gain above two standard errors. | `test_pipeline`: fixture and actor-row holdouts |
+| **Wide layers overran the C++ buffers.** | Trainers and the exporter refuse widths above 256; headers `static_assert` every layer. | `test_contracts` |
+| **Simulator checks could pass without coverage.** | `sim_check` exits 3 when no turn was compared; the tests require every turn compared; `env_check` reports compared and skipped turns. | `test_pipeline` |
+| **Scope.** V is not a delivery value; latency is unmeasured; the duel was not saturated. | §3.8, §3.1 and §3.6 now say so; α gates only P (`kValueApproved = false`). | — |
+
+Order from here:
+1. Run `tools/env_check.py` on the Windows host: binary records, integer parity, runtime contract, simulator coverage, timing.
+2. Collect E0.
+3. Train the general P and a few dedicated models.
+4. Scale only what beats q_H through the declared adapter.

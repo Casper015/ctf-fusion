@@ -22,6 +22,7 @@ using namespace fusion;
 
 int main() {
     std::ios::sync_with_stdio(false);
+    binaryStdout();  // raw int32 records
     const PolicyModel& policy = FUSION_MODEL_NS::kPolicy;
     const ValueModel& valueModel = FUSION_MODEL_NS::kValue;
     Static st;

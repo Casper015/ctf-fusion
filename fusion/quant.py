@@ -15,6 +15,8 @@ int32 C++ arithmetic can never overflow; `quantize` proves this bound.
 """
 from __future__ import annotations
 
+import hashlib
+
 import numpy as np
 
 from .nn import MLP
@@ -23,6 +25,32 @@ ACT_BITS = 7                 # kActOne = 128
 ACT_ONE = 1 << ACT_BITS
 ACC_LIMIT = 1 << 30
 W_LIMIT = 32767
+MAX_WIDTH = 256              # inference/mlp.hpp kMaxWidth: every scratch buffer and the value accumulator
+
+
+def check_widths(q: dict, name: str) -> None:
+    """Every layer's input and output must fit the fixed C++ buffers (kMaxWidth).
+
+    The accumulator bound proves int32 never overflows; it says nothing about
+    array bounds, so a wider layer would write past the native scratch buffers.
+    """
+    for i, layer in enumerate(q["layers"]):
+        out, n_in = layer["w"].shape
+        if out > MAX_WIDTH or n_in > MAX_WIDTH:
+            raise ValueError(f"{name} layer {i} is {n_in} -> {out}; the C++ buffers hold {MAX_WIDTH} (inference/mlp.hpp kMaxWidth)")
+
+
+def digest(flat: dict) -> str:
+    """Content hash of exported integer weights (quant.flatten output): names, dtypes, shapes, values.
+
+    Unlike the .npz file hash it does not depend on zip timestamps, so the same
+    checkpoint quantized twice gives the same digest."""
+    h = hashlib.sha256()
+    for k in sorted(flat):
+        v = np.ascontiguousarray(flat[k])
+        h.update(f"{k}|{v.dtype.str}|{v.shape}|".encode())
+        h.update(v.tobytes())
+    return h.hexdigest()
 
 
 def _round(x):

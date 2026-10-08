@@ -1,7 +1,7 @@
-"""Offline evaluation report for one model of the matrix (Markdown + JSON).
+"""Offline evaluation report and deployment gate for one model of the matrix (Markdown + JSON).
 
-    python -m training.evaluate_offline --model n08 --policy runs/policy_n08 --value runs/value_n08 \
-        [--quantized inference/models/weights_n08.npz] --out reports/n08
+    python -m training.evaluate_offline --model n08 --policy runs/policy_n08 --value runs/value_n08 --out reports/n08 \
+        [--adapter joint-v2]
 
 The model is evaluated on every team count it serves (profiles/); the general
 model on the counts without a dedicated model, unless --teams says otherwise.
@@ -13,20 +13,32 @@ reported losses are held out. Predictors of the opponent joint move:
   uniform     uniform over legal joint moves
   inertia     each unit repeats its last displacement with a fitted rate (Player2's ply-2 rule)
   heuristic   the legacy planner forecast q_H (training.heuristic_baseline), product of unit marginals
-  learned     q_theta, float, temperature-calibrated
-  quantized   q_theta as the C++ computes it (integer export)
-  mixture     (1 - alpha) q_H + alpha q_theta, alpha fitted per team count
+  learned     q_theta in floating point (diagnostic only)
+  quantized   q_theta as the C++ computes it: the integer model the exporter ships, temperatures folded in
+  mixture     the deployment adapter (fusion/mixture.py, inference/adapter.hpp) applied to q_H and the
+              quantized q_theta, alpha fitted per team count
 
-Safe fallback: a team count gets `use: true` only if the mixture beats the
-baseline (heuristic, else inertia) on the evaluation split by --min-gain nats.
+Gate, fail closed. A team count gets `use: true` only if all of these hold:
+  * every fit and eval shard carries q_H from one legacy planner (same source
+    digest). Without it the legacy comparison is impossible: the inertia
+    mixture is then reported as a diagnostic and the gate stays closed;
+  * the mixture is the declared --adapter on the integer model;
+  * the gain over q_H exceeds --min-gain nats and is more than two standard
+    errors above zero, the error clustered by map;
+  * the eval split has at least --min-maps maps for that team count.
 The exporter writes alpha = 0 for every other count, and alpha = 0 is exactly
-the legacy bot.
+the legacy forecast. The report carries the artifact identity (model id,
+checkpoint hashes, integer weight digest, feature schema, adapter) plus the
+dataset and baseline it was measured on; training.export_weights refuses the
+report for any other artifact. Value metrics are diagnostics: no gate
+approves V.
 
 Offline log-loss says nothing about match strength; paired matches decide.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -34,14 +46,14 @@ import numpy as np
 
 from fusion import metrics
 from fusion.labels import STRATA
-from fusion.mixture import fit_alpha, mixture_loss
-from fusion.models import JOINT, QuantizedTier, policy_batch, value_inputs
+from fusion.mixture import ADAPTERS, adapter_inputs, adapter_prob, fit_alpha
+from fusion.models import QuantizedTier, policy_batch, value_inputs
 from fusion.nn import masked_log_softmax
 from fusion.paths import model_counts, served_counts
 from fusion.schema import layout as feature_layout
+from training import export_weights
 from training.common import batches, policy_rows
-from training.dataset import load
-from training.export_weights import load_policy, load_value
+from training.dataset import load, load_index, load_meta
 
 CONT = {(0, 0): 0, (0, -1): 1, (0, 1): 2, (-1, 0): 3, (1, 0): 4}
 
@@ -143,52 +155,101 @@ def heads(model, d, layout):
     return out
 
 
-def policy_section(model, d_fit, d_eval, layout, quantized, min_gain=0.01):
+def at_label(q_units: np.ndarray, y_move: np.ndarray) -> np.ndarray:
+    """(n, 3, 5) unit distributions -> (n, 3) probability of each unit's observed move."""
+    r = np.arange(len(q_units))[:, None]
+    return q_units[r, np.arange(3)[None, :], y_move.astype(np.int64)]
+
+
+def map_clusters(d, index) -> np.ndarray:
+    """Cluster id per row: its map seed (rows of one map are correlated), else its match."""
+    maps = np.array([m.get("map_seed", f"match-{m['match_id']}") for m in index["matches"]], dtype=object)
+    return np.array([str(v) for v in maps[d["match"].astype(np.int64)]])
+
+
+def baseline_status(shards, counts, splits) -> tuple[bool, str, list]:
+    """Is q_H present on every shard of these splits, from a single recorded legacy planner?"""
+    metas = [load_meta(shards, counts, s) for s in splits]
+    total, have = sum(m["shards"] for m in metas), sum(m["qh_shards"] for m in metas)
+    found = sorted({b for m in metas for b in m["baselines"]})
+    if have < total:
+        return False, f"legacy forecast q_H missing on {total - have} of {total} shards", found
+    if "unrecorded" in found:
+        return False, "q_H without a recorded baseline identity (rerun training.heuristic_baseline)", found
+    if len(found) != 1:
+        return False, f"q_H from {len(found)} different legacy planner builds", found
+    return True, "", found
+
+
+def policy_section(model, tier, d_fit, d_eval, layout, adapter: str, gate: dict, qh_ok: bool, qh_reason: str,
+                   clusters: np.ndarray):
     rho = fit_inertia(d_fit, layout)
-    have_qh = "qh" in d_eval and "qh" in d_fit
     preds = {}
     w = d_eval["weight"].astype(np.float64)
     jm = np.concatenate([policy_batch(d_eval["rec"][i], layout).joint_mask for i in batches(len(d_eval["rec"]), 8192, None)])
     preds["uniform"] = 1.0 / jm.sum(1)
-    preds["inertia"] = joint_of_units(unit_inertia(d_eval["rec"], layout, d_eval["teams"], rho), d_eval["y_move"])
+    inertia_eval = at_label(unit_inertia(d_eval["rec"], layout, d_eval["teams"], rho), d_eval["y_move"])
+    preds["inertia"] = inertia_eval.prod(1)
     missing = None
-    if have_qh:
+    if "qh" in d_eval:
         qh_units, missing = unit_heuristic(d_eval, layout)
-        preds["heuristic"] = joint_of_units(qh_units, d_eval["y_move"])
-    p_true, conf, correct, marg = learned_joint(model, d_eval, layout)
-    preds["learned"] = p_true
-    if quantized is not None:
-        preds["quantized"] = learned_joint(None, d_eval, layout, quantized)[0]
+        preds["heuristic"] = at_label(qh_units, d_eval["y_move"]).prod(1)
+    preds["learned"] = learned_joint(model, d_eval, layout)[0]
+    q_true, conf, correct, q_marg = learned_joint(None, d_eval, layout, tier)
+    preds["quantized"] = q_true
+    qf_true, _, _, qf_marg = learned_joint(None, d_fit, layout, tier)
 
-    # Mixture weights: fit on the fit split, evaluate here.
-    base_name = "heuristic" if have_qh else "inertia"
-    if have_qh:
-        fit_base = joint_of_units(unit_heuristic(d_fit, layout)[0], d_fit["y_move"])
+    # The mixture the gate scores is the deployed adapter on the integer model. Without a complete
+    # legacy forecast the baseline falls back to inertia, as a diagnostic only.
+    legacy = qh_ok and "qh" in d_fit and "qh" in d_eval
+    if legacy:
+        base_name = "heuristic"
+        base_fit = at_label(unit_heuristic(d_fit, layout)[0], d_fit["y_move"])
+        base_eval = at_label(qh_units, d_eval["y_move"])
     else:
-        fit_base = joint_of_units(unit_inertia(d_fit["rec"], layout, d_fit["teams"], rho), d_fit["y_move"])
-    fit_learned = learned_joint(model, d_fit, layout)[0]
+        base_name = "inertia (diagnostic)"
+        base_fit = at_label(unit_inertia(d_fit["rec"], layout, d_fit["teams"], rho), d_fit["y_move"])
+        base_eval = inertia_eval
+    nn_fit, nn_eval = at_label(qf_marg, d_fit["y_move"]), at_label(q_marg, d_eval["y_move"])
     alpha, by_teams = {}, []
     for t in sorted(np.unique(d_eval["teams"])):
         sf = d_fit["teams"] == t
         se = d_eval["teams"] == t
-        a = fit_alpha(fit_base[sf], fit_learned[sf], d_fit["weight"][sf])[0] if sf.any() else None
-        alpha[int(t)] = {"alpha": a, "baseline": base_name, "fit_rows": int(sf.sum())}
+        a = None
+        if sf.any():
+            hq, tq = adapter_inputs(adapter, base_fit[sf], qf_true[sf], nn_fit[sf])
+            a = fit_alpha(hq, tq, d_fit["weight"][sf])[0]
         row = {"teams": int(t), "rows": int(se.sum())}
         for name, p in preds.items():
             row[name] = metrics.log_loss(p[se], w[se])
-        if a is not None:
-            row["mixture"] = mixture_loss(a, preds[base_name][se], preds["learned"][se], w[se])
-        row["alpha"] = a
-        gain = row[base_name] - row["mixture"] if a is not None else None
-        alpha[int(t)] |= {"use": bool(gain is not None and gain > min_gain and a > 0), "gain": gain}
-        row["use"] = alpha[int(t)]["use"]
-        row["top1"] = metrics.rate(correct[se], w[se])
-        row["ece"] = metrics.ece(conf[se], correct[se].astype(float), w[se])
+        reasons = [] if legacy else [qh_reason or "no legacy forecast q_H"]
+        gain = gain_se = None
+        maps = len(np.unique(clusters[se]))
+        if a is None:
+            reasons.append("no fit rows")
+        else:
+            p_mix = adapter_prob(adapter, a, base_eval[se], q_true[se], nn_eval[se])
+            row["mixture"] = metrics.log_loss(p_mix, w[se])
+            g = np.log(np.maximum(p_mix, 1e-300)) - np.log(np.maximum(base_eval[se].prod(1), 1e-300))
+            gain, gain_se, maps = metrics.clustered_mean(g, w[se], clusters[se])
+            if a <= 0:
+                reasons.append("alpha 0")
+            if gain <= gate["min_gain"]:
+                reasons.append(f"gain {gain:.4f} <= {gate['min_gain']}")
+            if not gain - gate["z"] * gain_se > 0:
+                reasons.append(f"gain within {gate['z']} SE")
+        if maps < gate["min_maps"]:
+            reasons.append(f"{maps} maps < {gate['min_maps']}")
+        use = not reasons
+        alpha[int(t)] = {"alpha": a, "baseline": base_name, "adapter": adapter, "fit_rows": int(sf.sum()), "use": use,
+                         "gain": gain, "gain_se": gain_se, "maps": maps, "reason": "; ".join(reasons)}
+        row |= {"alpha": a, "use": use, "gain": gain, "gain_se": gain_se, "maps": maps, "reason": "; ".join(reasons),
+                "top1": metrics.rate(correct[se], w[se]), "ece": metrics.ece(conf[se], correct[se].astype(float), w[se])}
         by_teams.append(row)
 
     origin = feature_layout().get(d_eval["rec"], "origin")
     active = origin >= 0
-    unit_hit = (marg.argmax(-1) == d_eval["y_move"]) & active
+    unit_hit = (q_marg.argmax(-1) == d_eval["y_move"]) & active
     by_stratum = []
     for s, name in enumerate(STRATA):
         sel = d_eval["stratum"] == s
@@ -196,7 +257,8 @@ def policy_section(model, d_fit, d_eval, layout, quantized, min_gain=0.01):
             by_stratum.append({"stratum": name, "rows": int(sel.sum())} |
                               {k: metrics.log_loss(p[sel], w[sel]) for k, p in preds.items()})
     return {
-        "rows": int(len(w)), "inertia_rate": rho, "alpha": alpha, "by_teams": by_teams, "by_stratum": by_stratum,
+        "rows": int(len(w)), "adapter": adapter, "baseline": base_name, "inertia_rate": rho, "alpha": alpha,
+        "by_teams": by_teams, "by_stratum": by_stratum,
         "unit_move_accuracy": float((unit_hit.sum(1) * w).sum() / max((active.sum(1) * w).sum(), 1e-12)),
         "blocked_share": float(d_eval["blocked"][active].mean()) if active.any() else 0.0,
         "heuristic_missing_units": missing, "heads": heads(model, d_eval, layout),
@@ -204,6 +266,7 @@ def policy_section(model, d_fit, d_eval, layout, quantized, min_gain=0.01):
 
 
 def value_section(model, beta, d, layout, quantized):
+    """Diagnostics only: no gate approves the value network (export writes kValueApproved = false)."""
     z = np.concatenate([model.logits(value_inputs(d["rec"][i], layout))[:, 0] for i in batches(len(d["rec"]), 8192, None)])
     p = 1 / (1 + np.exp(-beta * z.astype(np.float64)))
     y = d["v_y"][:, 0].astype(np.float64)
@@ -213,10 +276,9 @@ def value_section(model, beta, d, layout, quantized):
     out = {"rows": int(len(y)), "brier": metrics.brier(p, y, w), "brier_constant": metrics.brier(np.full_like(y, 0.5), y, w),
            "bce": metrics.bce(p, y, w), "ranking_accuracy": rank, "ranking_pairs": pairs,
            "calibration_error": metrics.binned_calibration(p, y, w)}
-    if quantized is not None:
-        pq = np.concatenate([quantized.value_prob(d["rec"][i], layout) for i in batches(len(d["rec"]), 8192, None)])
-        out["brier_quantized"] = metrics.brier(pq, y, w)
-        out["max_abs_quantization_error"] = float(np.abs(pq - p).max())
+    pq = np.concatenate([quantized.value_prob(d["rec"][i], layout) for i in batches(len(d["rec"]), 8192, None)])
+    out["brier_quantized"] = metrics.brier(pq, y, w)
+    out["max_abs_quantization_error"] = float(np.abs(pq - p).max())
     phases = []
     for name, lo, hi in (("turns 1-133", 1, 133), ("turns 134-266", 134, 266), ("turns 267-400", 267, 400)):
         sel = (d["turn"] >= lo) & (d["turn"] <= hi)
@@ -234,14 +296,18 @@ def markdown(model, split, pol, val, sizes) -> str:
     names = [k for k in ("uniform", "inertia", "heuristic", "learned", "quantized", "mixture") if any(k in r for r in pol["by_teams"])]
     lines = [f"# Offline evaluation: model {model}, split {split}", "",
              "Log-loss is nats per joint opponent move (lower is better), weighted back to the natural turn "
-             "distribution. alpha is fitted on the fit split and applied here. Offline numbers rank predictors; "
-             "only paired matches measure strength.", "", "## Opponent joint-move prediction", "",
-             "| teams | rows | " + " | ".join(names) + " | alpha | use | top-1 | ECE |",
-             "|---:|---:|" + "---:|" * (len(names) + 4)]
+             "distribution. alpha is fitted on the fit split and applied here. `quantized` is the integer model the "
+             f"exporter ships; `mixture` is the {pol['adapter']} adapter on it. Gain = baseline minus mixture loss, "
+             "± one map-clustered standard error. Offline numbers rank predictors; only paired matches measure strength.",
+             "", "## Opponent joint-move prediction", "",
+             "| teams | rows | maps | " + " | ".join(names) + " | alpha | gain ± SE | use | why not | top-1 | ECE |",
+             "|---:|---:|---:|" + "---:|" * (len(names) + 2) + "---|---|---:|---:|"]
     for r in pol["by_teams"]:
-        lines.append(f"| {r['teams']} | {r['rows']} | " + " | ".join(f(r.get(n)) for n in names) +
-                     f" | {f(r['alpha'])} | {'yes' if r['use'] else 'no'} | {f(r['top1'])} | {f(r['ece'])} |")
-    lines += ["", f"Mixture baseline: {pol['alpha'][next(iter(pol['alpha']))]['baseline'] if pol['alpha'] else '-'}. "
+        gain = "-" if r["gain"] is None else f"{r['gain']:+.4f} ± {r['gain_se']:.4f}"
+        lines.append(f"| {r['teams']} | {r['rows']} | {r['maps']} | " + " | ".join(f(r.get(n)) for n in names) +
+                     f" | {f(r['alpha'])} | {gain} | {'yes' if r['use'] else 'no'} | {r['reason'] or '-'} | "
+                     f"{f(r['top1'])} | {f(r['ece'])} |")
+    lines += ["", f"Mixture baseline: {pol['baseline']}. "
               f"Inertia rates: {', '.join(f'{t}: {v:.3f}' for t, v in pol['inertia_rate'].items())}. "
               f"Unit move accuracy (marginal argmax): {pol['unit_move_accuracy']:.4f}. "
               f"Blocked requested moves: {pol['blocked_share']:.4f}."
@@ -254,7 +320,7 @@ def markdown(model, split, pol, val, sizes) -> str:
     lines += ["", "### Action heads (at the requested move)", "", "| head | rows | log-loss | accuracy |", "|---|---:|---:|---:|",
               f"| act | {h['act']['rows']} | {f(h['act']['log_loss'])} | {f(h['act']['accuracy'])} |",
               f"| target | {h['target']['rows']} | {f(h['target']['log_loss'])} | {f(h['target']['accuracy'])} |",
-              "", "## Board value", "",
+              "", "## Board value (diagnostic; no gate approves V)", "",
               f"Rows {val['rows']}. Brier {f(val['brier'])} (constant 0.5: {f(val['brier_constant'])}), "
               f"BCE {f(val['bce'])}, binned calibration error {f(val['calibration_error'])}, pairwise ranking accuracy {f(val['ranking_accuracy'])} over {val['ranking_pairs']} pairs."
               + (f" Quantized Brier {f(val['brier_quantized'])}, max |p_q - p| {val['max_abs_quantization_error']:.2e}."
@@ -278,32 +344,51 @@ def main(argv=None):
     ap.add_argument("--teams", type=int, nargs="*", help="team counts to evaluate (default: those the model serves)")
     ap.add_argument("--policy", required=True)
     ap.add_argument("--value", required=True)
-    ap.add_argument("--quantized", help="exported weights_<model>.npz to evaluate the integer model too")
-    ap.add_argument("--min-gain", type=float, default=0.01, help="nats the mixture must beat the baseline by to be used")
+    ap.add_argument("--adapter", choices=sorted(ADAPTERS), default="joint-v2",
+                    help="deployment adapter the gate scores (inference/adapter.hpp); export must use the same")
+    ap.add_argument("--min-gain", type=float, default=0.01, help="nats the mixture must beat q_H by to be used")
+    ap.add_argument("--min-maps", type=int, default=20, help="eval maps a team count needs before it can be used")
+    ap.add_argument("--z", type=float, default=2.0, help="the gain must exceed z map-clustered standard errors")
     ap.add_argument("--split", default="test")
     ap.add_argument("--fit-split", default="val")
     ap.add_argument("--out", required=True, help="output path without extension (.md and .json are written)")
     a = ap.parse_args(argv)
     layout = feature_layout()
-    policy = load_policy(Path(a.policy), layout)
+    policy = export_weights.load_policy(Path(a.policy), layout)
     policy.calibrated = True
-    value, beta = load_value(Path(a.value), layout)
-    quantized = QuantizedTier(dict(np.load(a.quantized))) if a.quantized else None
+    value, beta = export_weights.load_value(Path(a.value), layout)
+    try:
+        nets = export_weights.quantize_model(policy, value, beta, layout)
+    except ValueError as exc:
+        raise SystemExit(f"cannot evaluate the exported model: {exc}") from exc
+    tier = QuantizedTier(export_weights.flat_arrays(nets))
     counts = a.teams or served_counts(a.model) or model_counts(a.model)
     d_eval_all = load(a.shards, counts, a.split)
     d_fit_all = load(a.shards, counts, a.fit_split)
-    pick = lambda d: {k: v[policy_rows(d, a.shards)] for k, v in d.items()}  # real opponents only
-    pol = policy_section(policy, pick(d_fit_all), pick(d_eval_all), layout, quantized, a.min_gain)
-    val = value_section(value, beta, d_eval_all, layout, quantized)
-    sizes = None
-    manifest = Path(a.quantized).parent / "MANIFEST.json" if a.quantized else None
-    if manifest and manifest.exists():
-        sizes = json.loads(manifest.read_text(encoding="utf-8")).get(a.model)
+    qh_ok, qh_reason, baselines = baseline_status(a.shards, counts, [a.fit_split, a.split])
+    index = load_index(a.shards)
+    rows = lambda d: policy_rows(d, a.shards)  # real opponents only
+    pick = lambda d, keep: {k: v[keep] for k, v in d.items()}
+    keep_eval, keep_fit = rows(d_eval_all), rows(d_fit_all)
+    d_eval = pick(d_eval_all, keep_eval)
+    gate = {"min_gain": a.min_gain, "min_maps": a.min_maps, "z": a.z}
+    pol = policy_section(policy, tier, pick(d_fit_all, keep_fit), d_eval, layout, a.adapter, gate, qh_ok, qh_reason,
+                         map_clusters(d_eval, index))
+    val = value_section(value, beta, d_eval_all, layout, tier)
+    per_turn = 15 * export_weights.macs(nets["mover"]) + export_weights.macs(nets["squad"])
+    sizes = {"params": {k: int(sum(l["w"].size + l["b"].size for l in q["layers"])) for k, q in nets.items()},
+             "macs": {k: export_weights.macs(q) for k, q in nets.items()} | {"joint_policy_per_team": per_turn}}
+    ids = lambda d: hashlib.sha256("\n".join(sorted({index["matches"][i]["match_id"] for i in np.unique(d["match"])}))
+                                   .encode()).hexdigest()[:16]
+    identity = export_weights.artifact_identity(a.model, a.policy, a.value, nets, layout, a.adapter) | {
+        "dataset": {"team_counts": counts, "options": index["options"], "split": a.split, "fit_split": a.fit_split,
+                    "eval_matches": ids(d_eval_all), "fit_matches": ids(d_fit_all)},
+        "baseline": {"legacy_complete": qh_ok, "reason": qh_reason, "builds": baselines}}
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.with_suffix(".md").write_text(markdown(a.model, a.split, pol, val, sizes), encoding="utf-8")
-    report = {"model": a.model, "team_counts": counts, "split": a.split, "fit_split": a.fit_split,
-              "alpha": {str(k): v for k, v in pol["alpha"].items()}, "policy": pol, "value": val}
+    report = {"model": a.model, "team_counts": counts, "split": a.split, "fit_split": a.fit_split, "gate": gate,
+              "identity": identity, "alpha": {str(k): v for k, v in pol["alpha"].items()}, "policy": pol, "value": val}
     out.with_suffix(".json").write_text(json.dumps(report, indent=1, default=float), encoding="utf-8")
     print(out.with_suffix(".md").read_text(encoding="utf-8"))
 

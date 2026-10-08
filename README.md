@@ -15,12 +15,13 @@ Opponent policy and board value networks for the multi-team Capture The Flag bot
 
 **Status:**
 - **Done:**
-  - the pipeline, simulator and runtime contracts are built and tested on this machine (macOS), with seeded test bots and two real judge-bot matches.
+  - the pipeline, simulator and runtime contracts are built and tested on this machine (macOS), with seeded test bots and two real judge-bot matches;
+  - the deployment contracts from the source review of 2026-10-08 ([REVIEW.md §7](docs/REVIEW.md#7-source-review-2026-10-08-and-what-changed)): binary tool output, one declared adapter scored by the gate, a fail-closed gate bound to the exact artifact, feature spec v2, strict holdouts, layer-width limits.
 - **Not yet done:**
   - no model trained on real data;
   - nothing integrated into a bot;
   - no Windows run;
-  - no host latency baseline.
+  - no host latency baseline. Every latency figure in this repository is an estimate until `tools/env_check.py` runs on the host.
 
 The baseline comes from `tools/env_check.py` on the target host, never from a development machine.
 
@@ -49,10 +50,12 @@ AI_Test engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶
 
 **Safety properties, each enforced by a test:**
 - **One feature implementation.** Features exist once, in C++ (`inference/features.hpp`), shared by the extractor and the bot.
-- **Exact integer inference.** Inference is integer and bit-identical to the Python emulation. The incremental value accumulator equals the full pass.
+- **Exact integer inference.** The network accumulators (and so the logits) are integer and bit-identical to the Python emulation; the incremental value accumulator equals the full pass. Probabilities come from `exp` in double precision, so they can differ in the last bits across platforms.
+- **Byte-exact tool output.** Raw-record tools write binary stdout on Windows too, and every record's turn and team columns are checked on read.
 - **No heap use per turn.** Nothing allocates on the per-turn path after turn 1.
 - **Engine-exact simulator.** `inference/sim.hpp` reproduces every recorded engine turn.
-- **Safe fallback.** A team count whose model does not beat the legacy forecast on held-out data exports α = 0, which is exactly the legacy bot.
+- **Safe fallback, fail closed.** The gate scores the integer model the exporter ships, through the declared adapter (`inference/adapter.hpp`), against the legacy forecast. It needs the gain to clear two map-clustered standard errors on enough maps. A team count that fails, or lacks a complete legacy forecast, exports α = 0, which is exactly the legacy bot. The report names the artifact it approves (checkpoint hashes, weight digest, schema, adapter), and the exporter refuses any other.
+- **Bounded buffers.** Layers wider than the C++ buffers (256) are refused at training, export and compile time.
 
 ## Layout
 
@@ -64,11 +67,13 @@ profiles/         n02.json ... n15.json, general.json (matrix, search proposals,
 fusion/           paths, runner (Windows-safe bots), native (C++ tool builds), schema, matchlog, protocol, labels,
                   nn (numpy MLP + Adam), models, quant (integer format + exact emulation), mixture, metrics
 training/         collect, dataset, heuristic_baseline, train_policy, train_value, evaluate_offline, export_weights, common
-inference/        state.hpp, features.hpp, mlp.hpp, policy.hpp, value.hpp (accumulator), sim.hpp (simulator);
+inference/        state.hpp, features.hpp, mlp.hpp, policy.hpp, value.hpp (accumulator, exact terminal value),
+                  adapter.hpp (q_H + q_theta deployment contract), sim.hpp (simulator);
                   models/weights_<model>.hpp + registry.hpp (generated)
-tools/            extract_features, infer_check, runtime_check, sim_check, registry_check, bench_inference (C++);
+tools/            extract_features, infer_check, runtime_check, sim_check, registry_check, adapter_check, bench_inference (C++);
                   env_check.py (host check), gen_feature_spec.py, random_bot.py (test bot), stream.hpp
-tests/            test_math (gradients, quantization, convex fits, spec sync), test_pipeline (end to end)
+tests/            test_math (gradients, quantization, convex fits, spec sync), test_contracts (binary records, v2 features,
+                  adapter, widths, gate identity; no AI_Test needed), test_pipeline (end to end)
 ```
 
 ## Requirements
@@ -90,12 +95,13 @@ export AI_TEST_ROOT=~/code/AI_Test
 python -m unittest discover -s tests -t .
 ```
 
-The suite plays 18 short matches between instant test bots and checks:
+`tests/test_math.py` and `tests/test_contracts.py` need only a C++ compiler. `tests/test_pipeline.py` needs `AI_TEST_ROOT`; it plays about 20 short matches between instant test bots and checks:
 - features against the engine;
 - the simulator against every turn;
 - labels;
 - appends;
-- the model matrix: general, a warm-started dedicated model, export, registry, parity, the runtime contract;
+- the model matrix: general, a warm-started dedicated model, the gate report, export, registry, parity, the runtime contract, and that an export refuses a report made for another artifact or adapter;
+- strict (fixture) and actor-row holdouts;
 - the legacy baseline;
 - learnability.
 
@@ -115,7 +121,9 @@ python -m training.collect --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --workers 8
 python -m training.dataset --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --workers 8
 python -m training.heuristic_baseline --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --split val test
 
-# E1: general model, then each dedicated model warm-started from it
+# E1: general model, then dedicated models warm-started from it. Start with a few representative ones
+#     (n02, n05, n15); train the whole matrix only once they beat the legacy forecast on held-out data,
+#     strict holdout included.
 python -m training.train_policy --model general --out runs/policy_general
 python -m training.train_value  --model general --out runs/value_general
 for m in n02 n03 n04 n05 n06 n07 n08 n10 n12 n15; do
@@ -123,6 +131,7 @@ for m in n02 n03 n04 n05 n06 n07 n08 n10 n12 n15; do
   python -m training.train_value  --model $m --init runs/value_general  --out runs/value_$m
 done
 for m in general n02 n03 n04 n05 n06 n07 n08 n10 n12 n15; do
+  # evaluate_offline quantizes the runs itself and gates the integer model; export must use the same --adapter
   python -m training.evaluate_offline --model $m --policy runs/policy_$m --value runs/value_$m --out reports/$m
   python -m training.export_weights   --model $m --policy runs/policy_$m --value runs/value_$m --report reports/$m.json
 done
@@ -135,7 +144,8 @@ python -m training.dataset --teams 8 --append
 **Options:**
 - `--workers`: every match runs one process per team, all searching at once. Keep `workers × teams` at or below the physical core count, or collection causes the timeouts it records.
 - `--turn-ms` relaxes the limit on an oversubscribed machine. Faults are recorded either way, and missing replies never become labels.
-- `--holdout-family <family>` in `dataset.py` keeps one opponent family out of training, for an out-of-distribution report.
+- `--holdout-family <family>` in `dataset.py` keeps one opponent family out of training, for an out-of-distribution report. `--holdout-mode fixture` (default) reserves whole matches with that family; `actor-row` only that family's own rows, a weaker test. Splits group by map (`--split-by map`).
+- `evaluate_offline.py`: `--adapter` (`joint-v2` default, or `marginal-v1`), `--min-gain`, `--min-maps` (20), `--z` (2).
 
 **Decision rule.** A count uses q_θ only where its report gate says `use`. Then compare `Player5_Omega_LIT` with and without it in paired matches, per size ([REVIEW.md](docs/REVIEW.md) §4–5).
 

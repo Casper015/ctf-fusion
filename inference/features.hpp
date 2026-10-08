@@ -1,4 +1,4 @@
-// Feature encoders, feature spec v1 (see training/specs/FEATURES.md).
+// Feature encoders, feature spec v2 (see training/specs/FEATURES.md).
 //
 // This header is the single source of truth for every model input: the
 // training extractor (tools/extract_features.cpp) and the bot call the same
@@ -17,7 +17,7 @@
 
 namespace fusion {
 
-inline constexpr int kSpecVersion = 1;
+inline constexpr int kSpecVersion = 2;  // v2: score-distribution value features
 
 struct FeatureSpec { const char* name; int lo, hi, scale; };
 
@@ -53,6 +53,11 @@ inline constexpr FeatureSpec kValueAggSpec[] = {
     {"enemy_carriers", 0, 8, 8},     {"enemy_carrier_home", 0, 99, 50}, {"enemies_near_base", 0, 42, 10},
     {"escort_threat", 0, 30, 10},    {"own_carrier_home", 0, 99, 50},   {"dropped_near", 0, 8, 4},
     {"enemies_r6", 0, 42, 10},       {"carrier_shots", 0, 3, 3},
+    // Score distribution (v2). Own score, best rival, rank and margin alone
+    // cannot tell [5,6,4] from [5,6,5] for team 0, yet the outcome target
+    // differs (0.5 vs 0.25 if nobody scores again).
+    {"rivals_tied", 0, 14, 7},       {"rivals_1_2_ahead", 0, 14, 7},    {"rivals_1_2_behind", 0, 14, 7},
+    {"pairwise_now", 0, 100, 100},   // current pairwise outcome x 100, rounded half up
 };
 
 inline constexpr int kG = sizeof(kGlobalSpec) / sizeof(FeatureSpec);
@@ -278,8 +283,19 @@ inline void encodeValue(const Board& b, const State& s, const TurnView& v, int t
             for (int i = 0; i < owned; i++) close = close || b.man(b.cell(f.x, f.y), ownCells[i]) <= 5;
             droppedNear += close;
         }
-    const int agg[kVA] = {enemyCarriers, enemyCarrierHome, nearBase, escortThreat,
-                          ownCarrierHome, droppedNear, r6, carrierShots};
+    int tied = 0, ahead = 0, behind = 0, below = 0;
+    for (int t = 0; t < b.teams; t++) {
+        if (t == team) continue;
+        const int d = s.score[t] - s.score[team];
+        tied += d == 0;
+        ahead += d >= 1 && d <= 2;
+        behind += d <= -1 && d >= -2;
+        below += d < 0;
+    }
+    const int rivals = std::max(b.teams - 1, 1);
+    const int pairwiseNow = (100 * (2 * below + tied) + rivals) / (2 * rivals);
+    const int agg[kVA] = {enemyCarriers, enemyCarrierHome, nearBase, escortThreat, ownCarrierHome, droppedNear, r6,
+                          carrierShots,  tied,             ahead,    behind,       pairwiseNow};
     for (int i = 0; i < kVA; i++) out[kG + 3 * kVU + i] = clip(agg[i], kValueAggSpec[i]);
 }
 

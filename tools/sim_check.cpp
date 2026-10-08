@@ -10,8 +10,10 @@
 // to a random spot get the spot from the recorded block (the public state
 // cannot know it): the flag's cell if it lies at home, or its holder's cell if
 // a unit camping the spot picked it up in the same settlement (pickups happen
-// after movement, on the picker's final cell). Prints one summary line; exit
-// code 1 on any mismatch.
+// after movement, on the picker's final cell); a return whose spot the next
+// block does not reveal skips that turn. Prints one summary line with the
+// compared and skipped turn counts; exit code 1 on any mismatch, 3 when no
+// turn could be compared (no coverage is not a pass).
 #include <algorithm>
 #include <cstdio>
 #include <cstring>
@@ -134,5 +136,5 @@ int main(int argc, char** argv) {
         }
     }
     std::printf("turns %d compared %ld skipped %ld mismatches %ld events %ld\n", T, compared, skipped, mismatches, events);
-    return mismatches ? 1 : 0;
+    return mismatches ? 1 : compared == 0 ? 3 : 0;
 }

@@ -3,14 +3,30 @@
 // fusion::Static / fusion::State structs.
 #ifndef FUSION_STREAM_HPP
 #define FUSION_STREAM_HPP
+#include <cstdio>
 #include <istream>
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#ifdef _WIN32
+#include <fcntl.h>
+#include <io.h>
+#endif
 
 #include "../inference/state.hpp"
 
 namespace fusion {
+
+// Tools that write raw records (int16 features, int32 accumulators) call this
+// before their first byte. The Windows CRT opens stdout in text mode, which
+// turns every 0x0A byte into 0x0D 0x0A (turn 10 is already one) and so breaks
+// the record alignment. Elsewhere it does nothing.
+inline void binaryStdout() {
+#ifdef _WIN32
+    std::fflush(stdout);
+    if (_setmode(_fileno(stdout), _O_BINARY) == -1) throw std::runtime_error("cannot switch stdout to binary mode");
+#endif
+}
 
 inline int flagStatus(const std::string& s) {
     if (s == "home") return kHome;

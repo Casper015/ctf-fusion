@@ -44,7 +44,11 @@ DESC = {
     "value_agg": {"enemy_carriers": "other teams' carriers", "enemy_carrier_home": "nearest enemy carrier's BFS distance to its base",
                   "enemies_near_base": "enemies within Manhattan 5 of our base center", "escort_threat": "enemies within 3 of our carriers (sum)",
                   "own_carrier_home": "our nearest carrier's BFS distance to base", "dropped_near": "available dropped flags within 5 of our units",
-                  "enemies_r6": "enemies within 6 of any of our units", "carrier_shots": "our units able to shoot an enemy carrier now"},
+                  "enemies_r6": "enemies within 6 of any of our units", "carrier_shots": "our units able to shoot an enemy carrier now",
+                  "rivals_tied": "other teams with exactly our score (v2)",
+                  "rivals_1_2_ahead": "other teams 1 or 2 captures ahead of us (v2)",
+                  "rivals_1_2_behind": "other teams 1 or 2 captures behind us (v2)",
+                  "pairwise_now": "current pairwise outcome x 100: (lower + tied / 2) / (teams - 1), rounded half up (v2)"},
 }
 TITLE = {"global": "Global (per team)", "unit": "Policy: unit (per own unit, 3 rows by id)",
          "move": "Policy: move (per own unit and move S U D L R)",
@@ -90,7 +94,11 @@ def render() -> str:
     out += ["", f"Record width {s['record_width']}. `legal`, `act_legal` are 0/1 masks; `origin` is a cell index",
             "(y*size+x, -1 off the board); `cand` holds enemy unit ids (-1 = empty slot).", "",
             "Changing any feature, range or order is a new spec version: bump `kSpecVersion`, retrain, re-export, and",
-            "regenerate this file. Exported headers `static_assert` the version they were trained on.", ""]
+            "regenerate this file. Exported headers `static_assert` the version they were trained on; datasets, warm",
+            "starts, evaluation and export refuse runs or shards built with another version.", "",
+            "**v2** (from v1) adds the score-distribution value aggregates `rivals_tied`, `rivals_1_2_ahead`,",
+            "`rivals_1_2_behind` and `pairwise_now`. Under v1, team 0 with scores [5,6,4] and [5,6,5] had identical",
+            "value inputs although the outcome target differs (0.5 and 0.25 if nobody scores again).", ""]
     return "\n".join(out)
 
 

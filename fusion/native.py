@@ -59,16 +59,30 @@ def schema() -> dict:
     return json.loads(subprocess.run([str(extractor()), "--schema"], capture_output=True, check=True).stdout.decode())
 
 
+def check_records(rec: np.ndarray, teams: int) -> None:
+    """Every record must start with (turn, team) in turn-major, team-minor order.
+
+    Catches a misaligned byte stream, e.g. a Windows tool writing in text mode
+    (each 0x0A byte becomes 0x0D 0x0A, and turn 10 already contains one).
+    """
+    turns = len(rec) // teams if teams else 0
+    if teams <= 0 or len(rec) != turns * teams or not (
+            np.array_equal(rec[:, 0], np.repeat(np.arange(1, turns + 1), teams)) and
+            np.array_equal(rec[:, 1], np.tile(np.arange(teams), turns))):
+        raise RuntimeError("extractor records are misaligned (raw output must be binary)")
+
+
 def extract(stream_text: str) -> np.ndarray:
-    """Feature records (rows = turn-major, team-minor) for one match stream."""
+    """Feature records (rows = turn-major, team-minor) for one match stream, alignment-checked."""
     r = subprocess.run([str(extractor())], input=stream_text.encode(), capture_output=True)
     if r.returncode != 0:
         raise RuntimeError(f"extractor failed: {r.stderr.decode()[-2000:]}")
     width = schema()["record_width"]
-    data = np.frombuffer(r.stdout, dtype="<i2")
-    if data.size % width:
-        raise RuntimeError("extractor output is not a whole number of records")
-    return data.reshape(-1, width)
+    if len(r.stdout) % (2 * width):
+        raise RuntimeError("extractor output is not a whole number of records (raw output must be binary)")
+    rec = np.frombuffer(r.stdout, dtype="<i2").reshape(-1, width)
+    check_records(rec, int(stream_text.split(None, 2)[1]))
+    return rec
 
 
 def model_tool(tool: str, model_header: Path, namespace: str) -> Path:
@@ -100,22 +114,53 @@ def sim_check_match(match: dict, workdir: Path) -> tuple[bool, str]:
     stream.write_bytes(matchlog.seat_stream(match, 0, final=True).encode())
     replies.write_bytes(("\n".join("-" if l is None else l for row in match["replies"] for l in row) + "\n").encode())
     r = run_tool(sim_check(), args=(stream, replies))
+    # Exit 0 only when every compared turn matched and at least one turn was compared;
+    # the summary line reports compared and skipped turns (sim_check.cpp).
     return r.returncode == 0, (r.stdout.decode() + r.stderr.decode()).strip()
 
 
-def run_infer_check(binary: Path, stream_text: str) -> np.ndarray:
+INFER_RECORD = 3 * 5 + 125 + 3 * 5 * 4 + 3 * 8 * 5 + 1  # int32 per (turn, team), tools/infer_check.cpp
+
+
+def run_infer_check(binary: Path, stream_text: str, rows: int) -> np.ndarray:
+    """infer_check accumulators, (rows, INFER_RECORD) int32; the byte count must match exactly."""
     r = subprocess.run([str(binary)], input=stream_text.encode(), capture_output=True)
     if r.returncode != 0:
         raise RuntimeError(f"infer_check failed: {r.stderr.decode()[-2000:]}")
-    return np.frombuffer(r.stdout, dtype="<i4")
+    if len(r.stdout) != 4 * rows * INFER_RECORD:
+        raise RuntimeError(f"infer_check wrote {len(r.stdout)} bytes, expected {4 * rows * INFER_RECORD} (raw output must be binary)")
+    return np.frombuffer(r.stdout, dtype="<i4").reshape(rows, INFER_RECORD)
+
+
+def forecast_sources(ai_test: Path) -> list[Path]:
+    """The legacy planner sources behind q_H: forecast_dump.cpp and the nextgen files it includes."""
+    nextgen = ai_test / NEXTGEN_REL
+    deps = [nextgen / "tests" / "forecast_dump.cpp", nextgen / "master.cpp",
+            *sorted((nextgen / "modules").glob("*.inc")), *sorted((nextgen / "search").glob("*.hpp"))]
+    return [d for d in deps if d.is_file()]
+
+
+def forecast_digest(ai_test: Path) -> str:
+    """Identity of the legacy forecast: a digest of its sources (independent of host and compiler)."""
+    h = hashlib.sha256()
+    for p in forecast_sources(ai_test):
+        h.update(p.relative_to(ai_test).as_posix().encode())
+        h.update(p.read_bytes())
+    return h.hexdigest()[:16]
 
 
 def forecast_dump(ai_test: Path) -> Path:
     """Legacy multi-team forecast printer from the AI_Test nextgen tests (heuristic baseline q_H)."""
-    nextgen = ai_test / NEXTGEN_REL
-    src = nextgen / "tests" / "forecast_dump.cpp"
-    deps = [nextgen / "master.cpp", *sorted((nextgen / "modules").glob("*.inc")), *sorted((nextgen / "search").glob("*.hpp"))]
-    return build(src, "forecast_dump", deps=[d for d in deps if d.is_file()])
+    src = ai_test / NEXTGEN_REL / "tests" / "forecast_dump.cpp"
+    if not src.is_file():
+        raise SystemExit(f"{src} not found: the legacy forecast needs AI_Test nextgen")
+    return build(src, "forecast_dump", deps=[p for p in forecast_sources(ai_test) if p != src])
+
+
+@lru_cache(maxsize=1)
+def adapter_check() -> Path:
+    """Exact probabilities and empirical draws of inference/adapter.hpp (tools/adapter_check.cpp)."""
+    return build(REPO / "tools" / "adapter_check.cpp", "adapter_check")
 
 
 def registry_check(models_dir: Path) -> Path:

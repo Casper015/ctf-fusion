@@ -83,6 +83,7 @@ int main(int argc, char** argv) {
         return 0;
     }
     std::ios::sync_with_stdio(false);
+    binaryStdout();  // raw int16 records; --schema above stays text
     Static st;
     if (!readInit(std::cin, st)) return 1;
     Board board;

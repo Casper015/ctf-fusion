@@ -10,7 +10,8 @@
 
 - **Bots:** `fusion/runner.py` mirrors the original arena core with reader threads, so pipe timeouts work. Compilation uses `g++` / `clang++` from `PATH`, `CXX`, or w64devkit (`tools/` near the repository, or `C:/w64devkit`). Flags are `-std=c++20 -O2 -static`, and binaries carry `.exe`.
 - **Paths:** every path is a `pathlib.Path`; manifests store POSIX-style relative paths. Atomic writes use `os.replace`.
-- **Encodings:** every text file is read and written as UTF-8 (Windows code pages differ). Tool pipes are bytes, so no `\n` → `\r\n` translation; the stream parser also tolerates `\r`.
+- **Encodings:** every text file is read and written as UTF-8 (Windows code pages differ). The stream parser tolerates `\r`.
+- **Binary tool output:** Python reads tool pipes as bytes, but that alone does not stop the Windows C runtime from writing stdout in text mode, which turns each `0x0A` byte into `0x0D 0x0A` (a turn-10 record already contains one). The raw-record tools (`extract_features`, `infer_check`) switch stdout to `_O_BINARY` first (`tools/stream.hpp` `binaryStdout`). `fusion.native.extract` checks every record's turn and team columns, so a misaligned stream fails loudly. `tests/test_contracts.py` feeds a stream whose records contain `0x0A`, `0x0D` and `0x1A`, and requires the exact byte count; `tools/env_check.py` repeats the alignment and integer-parity checks on the host.
 - **Processes:** `multiprocessing` uses top-level worker functions, so the Windows spawn start method works.
 - **Git:** keep the repository outside OneDrive. OneDrive interrupts git's memory-mapped I/O and has truncated files on this project before.
 

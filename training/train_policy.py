@@ -19,7 +19,7 @@ from fusion.models import PolicyNet, policy_batch
 from fusion.nn import Adam
 from fusion.schema import layout as feature_layout
 from fusion.paths import model_counts
-from training.common import Run, add_training_args, batches, data_manifest, fit, policy_rows, subset, warm_start
+from training.common import Run, add_training_args, batches, check_widths, data_manifest, fit, policy_rows, subset, warm_start
 from training.dataset import load
 
 LABELS = ("y_move", "y_joint", "y_act", "y_tgt")
@@ -91,15 +91,16 @@ def main(argv=None):
     ap.add_argument("--keep-unlabeled", action="store_true",
                     help="also learn from families marked policy_labels false in pool.json (the noise bot)")
     a = ap.parse_args(argv)
+    squad = check_widths(a.hidden_squad.split(","), "--hidden-squad")
     rng = np.random.default_rng(a.seed)
     counts = model_counts(a.model)
     train = prepare(a.shards, counts, "train", a.max_rows, rng, a.keep_unlabeled)
     val = prepare(a.shards, counts, a.val_split, 0, rng, a.keep_unlabeled)
     layout = feature_layout()
     check_labels(train, layout)
-    hidden = {"mover": [16], "squad": [int(h) for h in a.hidden_squad.split(",")], "act": [16], "target": [8]}
+    hidden = {"mover": [16], "squad": squad, "act": [16], "target": [8]}
     model = PolicyNet(layout, rng, hidden)
-    init = warm_start(model, a.init)
+    init = warm_start(model, a.init, layout.schema["spec_version"])
     opt = Adam(model.params, lr=a.lr, weight_decay=a.weight_decay)
     cfg = {"smoothing": a.smoothing, "act_weight": a.act_weight, "target_weight": a.target_weight}
     run = Run(a.out, {"kind": "policy", "model": a.model, "hidden": hidden, "args": vars(a), "seed": a.seed,

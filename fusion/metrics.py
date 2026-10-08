@@ -71,3 +71,22 @@ def pair_ranking_accuracy(pred: np.ndarray, target: np.ndarray, group: np.ndarra
         total += int(upper.sum())
         right += int((upper & (dt == dp)).sum())
     return (right / total if total else float("nan")), total
+
+
+def clustered_mean(values: np.ndarray, w, clusters: np.ndarray) -> tuple[float, float, int]:
+    """Weighted mean of per-row values with a standard error clustered by `clusters` (e.g. map seed).
+
+    Rows of one game or map share its layout and trajectory, so they are not
+    independent; the SE treats each cluster as one observation. Returns
+    (mean, se, number of clusters); se is inf with fewer than two clusters.
+    """
+    values = np.asarray(values, np.float64)
+    w = _w(w, len(values))
+    mean = float((w * values).sum() / w.sum())
+    _, inv = np.unique(clusters, return_inverse=True)
+    k = int(inv.max()) + 1 if len(inv) else 0
+    if k < 2:
+        return mean, float("inf"), k
+    s = np.bincount(inv, weights=w * (values - mean), minlength=k)
+    se = float(np.sqrt((s ** 2).sum() * k / (k - 1)) / w.sum())
+    return mean, se, k

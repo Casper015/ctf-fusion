@@ -8,7 +8,7 @@
 // The accumulator keeps the first layer's int32 pre-activations (the
 // "128-wide accumulator"). A search node that differs from its parent in a few
 // features (one unit moved, one hit) costs one column update per changed
-// feature plus the small tail (128 -> 16 -> 1), instead of the full 50 x 128
+// feature plus the small tail (128 -> 16 -> 1), instead of the full 54 x 128
 // layer. Integer arithmetic makes both paths identical bit for bit
 // (tools/runtime_check.cpp proves it). Nothing here allocates.
 #ifndef FUSION_VALUE_HPP
@@ -34,6 +34,26 @@ inline double valueLogit(const ValueModel& model, const ValueFeatures& f) {
 inline double sigmoid(double z) { return 1.0 / (1.0 + std::exp(-z)); }
 
 inline double value(const ValueModel& model, const ValueFeatures& f) { return sigmoid(valueLogit(model, f)); }
+
+// A state after the last settlement (the post-game block, turn > turns) has
+// nothing left to estimate: its value is the exact pairwise outcome, the
+// quantity V is trained on (fusion/labels.py pairwise_outcome). Search code
+// must use this at terminal nodes instead of the network.
+inline bool terminal(const Board& b, const State& s) { return s.turn > b.turns; }
+
+inline double pairwiseOutcome(const State& s, int team) {
+    const int n = static_cast<int>(s.score.size());
+    if (n < 2) return 0.5;
+    double wins = 0;
+    for (int t = 0; t < n; t++)
+        if (t != team) wins += s.score[team] > s.score[t] ? 1.0 : s.score[team] == s.score[t] ? 0.5 : 0.0;
+    return wins / (n - 1);
+}
+
+// The value a search node should use: exact at terminal states, else V.
+inline double nodeValue(const ValueModel& model, const Board& b, const State& s, int team, const ValueFeatures& f) {
+    return terminal(b, s) ? pairwiseOutcome(s, team) : value(model, f);
+}
 
 struct ValueAccumulator {
     std::array<int32_t, kMaxWidth> pre{};  // first-layer accumulators (before activation)

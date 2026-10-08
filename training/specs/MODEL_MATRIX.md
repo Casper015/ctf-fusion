@@ -63,7 +63,7 @@ python -m training.dataset --teams 8 --append
 **Manifests:**
 - `data/shards/index.json` → `manifest`: matches per count and split, seat distribution by bot and family, AI_Test commits, collection seeds, repository commit, history of appends.
 - Each run's `config.json`: model id, seed, warm-start source, the data manifest of its counts (with a digest of its match ids), repository commit, every argument.
-- `inference/models/MANIFEST.json`: header and npz hashes, the full source run configs, alpha and gate per count, sizes, accumulator bounds.
+- `inference/models/MANIFEST.json`: the artifact identity, header and npz hashes, the full source run configs, alpha and gate per count, the gate report's dataset and baseline, sizes, accumulator bounds.
 
 **Training control:**
 - cosine learning-rate schedule (`--lr`, `--min-lr`);
@@ -71,12 +71,20 @@ python -m training.dataset --teams 8 --append
 - `--init` warm-starts any run from another, with shape checks;
 - a temperature is fitted on validation after training.
 
-**Safe fallback:**
-1. `evaluate_offline` fits α per team count on the fit split.
-2. It sets `use: true` only where the mixture beats the baseline on the evaluation split by `--min-gain` nats. The baseline is the legacy forecast, else inertia.
-3. `export_weights` writes `kAlpha[t] = α` only for those counts, and 0 elsewhere. α = 0 is the legacy bot exactly.
+**Safe fallback (fail closed):**
+1. `evaluate_offline` quantizes the runs exactly as the exporter does and scores the **integer** model, combined with the legacy forecast by the declared **adapter** (`--adapter`, default `joint-v2`; [`inference/adapter.hpp`](../../inference/adapter.hpp)). It fits α per team count on the fit split.
+2. It sets `use: true` only where all of these hold:
+   - every fit and eval shard has q_H from one legacy planner (same source digest). Without it, inertia is reported as a diagnostic and the gate stays closed;
+   - the gain over q_H exceeds `--min-gain` nats and `--z` (2) standard errors, clustered by map;
+   - the evaluation split has at least `--min-maps` (20) maps for that count.
+3. The report records the **artifact identity**: model id, checkpoint hashes, integer weight digest, feature schema, adapter; plus the dataset (match-id digests per split) and the baseline.
+4. `export_weights` recomputes the identity and stops on any difference, so a retrained checkpoint cannot inherit an older report. It writes `kAlpha[t] = α` only for gated counts and 0 elsewhere; α = 0 is the legacy forecast exactly. `kAdapter` records the adapter the bot must sample with.
 
 So a model that does not beat the heuristic cannot change play. Retrain, or collect phase-2 data, and the gate re-decides.
+
+**The value network has no gate yet.** Every header says `kValueApproved = false`; α never enables V. A bot that uses V needs its own switch, off by default, with its own null check and its own match evidence.
+
+**Layer widths.** The C++ buffers hold 256 values (`inference/mlp.hpp` `kMaxWidth`). The trainers refuse wider hidden layers, the exporter refuses any wider layer, and every header `static_assert`s each layer's size.
 
 **Retraining triggers.** Validation log-loss does not beat the baseline, or the gate is off for most served counts. Responses, in order:
 1. more data (phase 2);

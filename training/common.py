@@ -92,9 +92,22 @@ def data_manifest(shards, counts) -> dict:
             "ai_test_commits": man.get("ai_test_commits"), "options": index["options"]}
 
 
-def warm_start(model, init_run) -> str | None:
+def check_widths(widths, what: str) -> list[int]:
+    """Hidden widths must fit the C++ scratch buffers (inference/mlp.hpp kMaxWidth); fail before training, not at export."""
+    from fusion.quant import MAX_WIDTH  # noqa: PLC0415
+    widths = [int(w) for w in widths]
+    if any(w < 1 or w > MAX_WIDTH for w in widths):
+        raise SystemExit(f"{what} widths {widths}: each must be 1..{MAX_WIDTH} (inference/mlp.hpp kMaxWidth)")
+    return widths
+
+
+def warm_start(model, init_run, spec_version: int | None = None) -> str | None:
     if not init_run:
         return None
+    if spec_version is not None:
+        cfg = json.loads((Path(init_run) / "config.json").read_text(encoding="utf-8"))
+        if cfg.get("spec_version") != spec_version:
+            raise SystemExit(f"--init {init_run} was trained on feature spec v{cfg.get('spec_version')}, this run uses v{spec_version}")
     state = dict(np.load(Path(init_run) / "model.npz"))
     mine = model.state()
     for k, v in mine.items():

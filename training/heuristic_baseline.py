@@ -11,7 +11,9 @@ three units' marginals, which is exactly how the search samples it.
 For every row (turn, team) we need an observer seat that is not `team`:
 seat 0 covers teams 1..n-1 and seat 1 covers team 0. Output per shard:
 qh_XXXX.npy, float32 (rows, 3, 5) move marginals in S,U,D,L,R order; NaN
-where the forecast has no entry for an active unit (counted in the report).
+where the forecast has no entry for an active unit (counted in the report);
+and qh_XXXX.json, the baseline identity (AI_Test commit and the planner build
+that produced it). The offline gate requires one baseline for every shard.
 """
 from __future__ import annotations
 
@@ -24,7 +26,7 @@ from pathlib import Path
 import numpy as np
 
 from fusion import matchlog, native
-from fusion.paths import ai_test_root
+from fusion.paths import NEXTGEN_REL, ai_test_root, git_commit
 from fusion.protocol import DELTAS
 from fusion.schema import layout as feature_layout
 
@@ -110,7 +112,10 @@ def main(argv=None):
     ap.add_argument("--split", nargs="+", default=["val", "test"])
     a = ap.parse_args(argv)
     root = ai_test_root(a.ai_test)
-    forecast = make_forecaster(native.forecast_dump(root))
+    binary = native.forecast_dump(root)
+    forecast = make_forecaster(binary)
+    baseline = json.dumps({"planner": NEXTGEN_REL.as_posix(), "sources": native.forecast_digest(root)}, sort_keys=True)
+    print(f"[heuristic] baseline {baseline} (AI_Test {git_commit(root)})", flush=True)
     layout = feature_layout()
     index = json.loads((Path(a.shards) / "index.json").read_text(encoding="utf-8"))
     for split, teams in ((s, t) for s in a.split for t in a.teams):
@@ -121,7 +126,9 @@ def main(argv=None):
         for shard in sorted(d.glob("shard_*.npz")):
             rows = dict(np.load(shard))
             qh, stats = marginals(rows, layout, index["matches"], forecast)
-            np.save(d / shard.name.replace("shard_", "qh_").replace(".npz", ".npy"), qh)
+            target = d / shard.name.replace("shard_", "qh_").replace(".npz", ".npy")
+            np.save(target, qh)
+            target.with_suffix(".json").write_text(baseline, encoding="utf-8")
             totals = {k: totals[k] + stats[k] for k in totals}
         print(f"[heuristic] n{teams:02d}/{split}: {totals}", flush=True)
 

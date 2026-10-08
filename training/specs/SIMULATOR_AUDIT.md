@@ -61,6 +61,8 @@ The engine picks the spot uniformly among flag spots (`SPOTS`) not occupied by a
 
 Result: **every turn identical, 0 mismatches, 0 skipped.** Returning spots come from the recorded block, from the picker's cell when a camper took the flag at once.
 
+**Coverage is part of the result.** A turn whose returning spot the next block does not reveal is skipped, and a replay with no compared turn proves nothing. `sim_check` therefore prints compared and skipped turns, exits 3 when nothing was compared, and the pipeline test requires every turn of every match to be compared. `tools/env_check.py` reports both counts per match.
+
 **Uses:**
 1. **Checked lookahead.** Replace the member function plus save/restore, and stop refusing return turns (sample the spot).
 2. **Search.** Exact multi-ply transitions for sampled joint orders (rivals from q_θ joint samples), instead of scripted overlap. This is the precondition the brief sets for deeper plies.

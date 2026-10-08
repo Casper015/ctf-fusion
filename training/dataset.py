@@ -11,15 +11,25 @@ then keep a stratified subsample:
   * per-stratum keep rates (--keep), with importance weight stride / rate so
     weighted metrics still describe the natural turn distribution.
 
-Rows are split by match: train / val / test from a hash of the match id, so
-no match ever feeds two splits. --holdout-family moves every row whose acting
-team belongs to a family into an extra `ood` split (generalization to an
-unseen opponent family); `ood` rows never enter training.
+Rows are split by map (--split-by map, the default): train / val / test from
+a hash of the map seed, so neither a match nor a map ever feeds two splits
+(--split-by match hashes the match id instead).
+
+--holdout-family F reserves an `ood` split that never enters training:
+  --holdout-mode fixture (default, the strict test): every match with a seat
+      of family F goes to `ood` whole, every team's rows, so the held-out
+      family's games, maps and trajectories are all unseen.
+  --holdout-mode actor-row (weaker, named as such): only rows whose acting
+      team is family F go to `ood`; the other teams' rows of the same match
+      stay in training, so the map, the trajectory and the final outcome of
+      those games are seen.
 
 Shards are stored per team count (data/shards/nXX/<split>/), so the general
 model and every dedicated model read the same files without duplication.
 --append processes only matches the index does not list yet and writes new
-shard files next to the old ones; sampling options must match the index.
+shard files next to the old ones; sampling and split options must match the
+index, and so must the feature schema (load() refuses shards built by another
+extractor version).
 index.json carries the dataset manifest: matches per team count, seat and
 family distribution, AI_Test and repository commits, collection seeds.
 """
@@ -60,9 +70,13 @@ def split_of(match_id: str) -> str:
     return SPLITS[-1][0]
 
 
+def split_key(match: dict, split_by: str) -> str:
+    return f"map-{match['map_seed']}" if split_by == "map" else match["match_id"]
+
+
 def process(job):
     """One match -> selected rows (dict of arrays) plus its metadata."""
-    path, stride, keep, holdout = job
+    path, stride, keep, holdout, split_by, holdout_mode = job
     match = matchlog.load(path)
     layout = Layout(native.schema())
     rec = native.extract(matchlog.seat_stream(match, 0))
@@ -79,10 +93,16 @@ def process(job):
         "rec": rec[take], "weight": (stride / rate[take]).astype(np.float32), "turn": turn[take].astype(np.int16),
         "team": team[take].astype(np.int8), "teams": np.full(int(take.sum()), n, np.int8)}
     rows["family_name"] = [families[t] for t in team[take]]
-    meta = {"match_id": match["match_id"], "file": str(path), "teams": n, "split": split_of(match["match_id"]),
-            "families": families, "seats": [s["name"] for s in match["seats"]], "faults": len(match["faults"]),
-            "ai_test_commit": match.get("ai_test_commit", "unknown")}
-    ood = np.array([f in holdout for f in rows["family_name"]], bool)
+    meta = {"match_id": match["match_id"], "file": str(path), "teams": n, "split": split_of(split_key(match, split_by)),
+            "map_seed": match["map_seed"], "families": families, "seats": [s["name"] for s in match["seats"]],
+            "faults": len(match["faults"]), "ai_test_commit": match.get("ai_test_commit", "unknown")}
+    if holdout_mode == "fixture":
+        held = any(f in holdout for f in families)
+        ood = np.full(len(rows["family_name"]), held, bool)
+        if held:
+            meta["split"] = "ood"
+    else:
+        ood = np.array([f in holdout for f in rows["family_name"]], bool)
     return meta, rows, ood
 
 
@@ -132,10 +152,22 @@ def load_index(shard_dir) -> dict:
     return json.loads((Path(shard_dir) / "index.json").read_text(encoding="utf-8"))
 
 
+def check_schema(shard_dir) -> None:
+    """Shards built by another feature schema cannot be mixed with this extractor's records or models."""
+    built = load_index(shard_dir)["schema"]
+    now = native.schema()
+    if built != now:
+        raise SystemExit(f"{shard_dir} was built with feature spec v{built.get('spec_version')} "
+                         f"(record width {built.get('record_width')}); the extractor is v{now['spec_version']} "
+                         f"(width {now['record_width']}): rebuild the dataset into a new --out")
+
+
 def load(shard_dir, counts, split: str, fields=FIELDS) -> dict[str, np.ndarray]:
-    """Concatenate one split over team counts. Adds `qh` when training.heuristic_baseline has run on every shard."""
+    """Concatenate one split over team counts. Adds `qh` only when training.heuristic_baseline has run on every shard
+    (load_meta says how many have it and from which legacy planner)."""
     if isinstance(counts, int):
         counts = [counts]
+    check_schema(shard_dir)
     parts, qh = [], []
     for t in counts:
         d = Path(shard_dir) / count_key(t) / split
@@ -150,6 +182,23 @@ def load(shard_dir, counts, split: str, fields=FIELDS) -> dict[str, np.ndarray]:
     if all(q is not None for q in qh):
         out["qh"] = np.concatenate(qh)
     return out
+
+
+def load_meta(shard_dir, counts, split: str) -> dict:
+    """Legacy-forecast coverage of one split: shard count, shards with q_H, and the distinct baselines
+    (each qh_XXXX.json sidecar from training.heuristic_baseline names the planner build that made it)."""
+    shards = qh = 0
+    baselines = set()
+    for t in [counts] if isinstance(counts, int) else counts:
+        d = Path(shard_dir) / count_key(t) / split
+        for shard in sorted(d.glob("shard_*.npz")):
+            shards += 1
+            q = d / shard.name.replace("shard_", "qh_").replace(".npz", ".npy")
+            side = q.with_suffix(".json")
+            if q.exists():
+                qh += 1
+                baselines.add(side.read_text(encoding="utf-8") if side.exists() else "unrecorded")
+    return {"shards": shards, "qh_shards": qh, "baselines": sorted(baselines)}
 
 
 def torch_dataset(arrays: dict):
@@ -174,13 +223,17 @@ def main(argv=None):
     ap.add_argument("--stride", type=int, default=2)
     ap.add_argument("--keep", default="", help="per-stratum keep rates, e.g. quiet=0.35,respawn=0.6")
     ap.add_argument("--holdout-family", nargs="*", default=[])
+    ap.add_argument("--holdout-mode", choices=("fixture", "actor-row"), default="fixture",
+                    help="fixture: whole matches with a held-out seat go to ood (strict); actor-row: only that team's rows")
+    ap.add_argument("--split-by", choices=("map", "match"), default="map", help="unit that never straddles two splits")
     ap.add_argument("--shard-rows", type=int, default=200_000)
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--append", action="store_true", help="add matches missing from an existing index")
     args = ap.parse_args(argv)
     args.keep_map = DEFAULT_KEEP | {k: float(v) for k, v in (kv.split("=") for kv in args.keep.split(",") if kv)}
     out_dir = Path(args.out)
-    options = {"stride": args.stride, "keep": args.keep_map, "holdout_family": sorted(args.holdout_family)}
+    options = {"stride": args.stride, "keep": args.keep_map, "holdout_family": sorted(args.holdout_family),
+               "holdout_mode": args.holdout_mode, "split_by": args.split_by}
     index = {"schema": native.schema(), "options": options, "families": [], "matches": [], "counts": {}, "history": []}
     if (out_dir / "index.json").exists():
         if not args.append:
@@ -194,7 +247,7 @@ def main(argv=None):
     files = [f for f in matchlog.iter_matches(args.raw, args.teams) if f.name.split(".")[0] not in known]
     print(f"[dataset] {len(files)} new matches ({len(known)} already indexed)", flush=True)
     native.extractor()  # compile before forking
-    jobs = [(f, args.stride, args.keep_map, set(args.holdout_family)) for f in files]
+    jobs = [(f, args.stride, args.keep_map, set(args.holdout_family), args.split_by, args.holdout_mode) for f in files]
     buffers = defaultdict(list)
     families, matches = index["families"], index["matches"]
     pool = mp.Pool(args.workers) if args.workers > 1 else None

@@ -13,6 +13,7 @@ then checks:
   * the legacy forecast baseline;
   * that the policy network can learn a deterministic labeling.
 """
+import json
 import os
 import shutil
 import tempfile
@@ -116,6 +117,7 @@ class TestPipeline(unittest.TestCase):
             exact, summary = native.sim_check_match(m, self.tmp)
             self.assertTrue(exact, f"{m['match_id']}: {summary}")
             self.assertIn("skipped 0", summary)
+            self.assertEqual(int(summary.split("compared ")[1].split()[0]), len(m["blocks"]))  # positive coverage
 
     def test_append_keeps_existing_shards(self):
         out = self.tmp / "append"
@@ -134,10 +136,27 @@ class TestPipeline(unittest.TestCase):
         with self.assertRaises(SystemExit):  # different sampling options cannot extend the dataset
             dataset.main(["--raw", str(self.raw), "--out", str(out), "--teams", "5", "--stride", "2", "--append"])
 
+    def test_fixture_holdout_reserves_whole_matches(self):
+        raw = self.tmp / "noise_raw"
+        if not raw.exists():
+            collect.main(["--teams", "3", "--matches", "1", "--bots", "Random,Noise,Random", "--out", str(raw)])
+        for mode in ("fixture", "actor-row"):
+            out = self.tmp / f"holdout_{mode}"
+            dataset.main(["--raw", str(raw), "--out", str(out), "--teams", "3", "--stride", "1", "--keep", "quiet=1,respawn=1",
+                          "--holdout-family", "noise", "--holdout-mode", mode])
+            noise_team = dataset.load_index(out)["matches"][0]["families"].index("noise")
+            ood = dataset.load(out, [3], "ood")
+            self.assertEqual(set(np.unique(ood["team"])), {0, 1, 2} if mode == "fixture" else {noise_team})
+            seen = [s for s in ("train", "val", "test") if (out / "n03" / s).is_dir()]
+            if mode == "fixture":
+                self.assertEqual(seen, [])  # no row of a held-out fixture reaches any other split
+                self.assertEqual(dataset.load_index(out)["matches"][0]["split"], "ood")
+
     def test_noise_rows_are_value_data_not_policy_labels(self):
         from training.common import policy_rows
         raw, shards = self.tmp / "noise_raw", self.tmp / "noise_shards"
-        collect.main(["--teams", "3", "--matches", "1", "--bots", "Random,Noise,Random", "--out", str(raw)])
+        if not raw.exists():
+            collect.main(["--teams", "3", "--matches", "1", "--bots", "Random,Noise,Random", "--out", str(raw)])
         dataset.main(["--raw", str(raw), "--out", str(shards), "--teams", "3", "--stride", "1", "--keep", "quiet=1,respawn=1"])
         families = dataset.load_index(shards)["families"]
         rows = {k: np.concatenate([dataset.load(shards, [3], s)[k] for s in ("train", "val", "test")
@@ -187,19 +206,33 @@ class TestPipeline(unittest.TestCase):
             report = self.tmp / "reports" / model
             evaluate_offline.main(["--shards", str(self.shards), "--model", model, "--teams", *counts, "--policy", str(pol),
                                    "--value", str(val), "--split", "train", "--fit-split", "train", "--out", str(report)])
+            rep = json.loads(report.with_suffix(".json").read_text(encoding="utf-8"))
+            self.assertEqual(rep["identity"]["model"], model)
+            self.assertEqual(rep["identity"]["adapter"], "joint-v2")
+            for gate in rep["alpha"].values():  # a few test matches can never open the gate
+                self.assertFalse(gate["use"])
+                self.assertIn("maps <", gate["reason"])
             export_weights.main(["--model", model, "--policy", str(pol), "--value", str(val),
                                  "--report", str(report.with_suffix(".json")), "--out", str(models)])
             header = models / f"weights_{model}.hpp"
             q = QuantizedTier(dict(np.load(models / f"weights_{model}.npz")))
+            self.assertEqual(json.loads((models / "MANIFEST.json").read_text(encoding="utf-8"))[model]["identity"]["weights_digest"],
+                             rep["identity"]["weights_digest"])
             parity = native.infer_check(header, f"fusion::models::{model}")
             runtime = native.model_tool("runtime_check", header, f"fusion::models::{model}")
             for m, rec in self.matches():
-                stream = matchlog.seat_stream(m, 0).encode()
-                cpp = np.frombuffer(native.run_tool(parity, stream).stdout, "<i4").reshape(len(rec), -1)
-                np.testing.assert_array_equal(cpp, q.raw(rec, self.layout))
-                r = native.run_tool(runtime, stream)
+                stream = matchlog.seat_stream(m, 0)
+                np.testing.assert_array_equal(native.run_infer_check(parity, stream, len(rec)), q.raw(rec, self.layout))
+                r = native.run_tool(runtime, stream.encode())
                 self.assertEqual(r.returncode, 0, r.stdout.decode() + r.stderr.decode())
                 self.assertIn("allocating_turns 0", r.stdout.decode())
+        with self.assertRaises(SystemExit):  # the general report cannot approve the n03 artifact
+            export_weights.main(["--model", "n03", "--policy", str(runs / "policy_n03"), "--value", str(runs / "value_n03"),
+                                 "--report", str(self.tmp / "reports" / "general.json"), "--out", str(self.tmp / "rejected")])
+        with self.assertRaises(SystemExit):  # nor a different adapter than the one it was fitted for
+            export_weights.main(["--model", "n03", "--policy", str(runs / "policy_n03"), "--value", str(runs / "value_n03"),
+                                 "--report", str(self.tmp / "reports" / "n03.json"), "--adapter", "marginal-v1",
+                                 "--out", str(self.tmp / "rejected")])
         config = __import__("json").loads((runs / "policy_n03" / "config.json").read_text(encoding="utf-8"))
         self.assertEqual(config["init"], str(runs / "policy_general"))
         self.assertEqual(config["data"]["team_counts"], [3])
@@ -208,9 +241,15 @@ class TestPipeline(unittest.TestCase):
         self.assertEqual(served["3"], "n03")      # dedicated model exported
         self.assertEqual(served["2"], "general")  # n02 not exported: falls back to general
         self.assertEqual(served["9"], "general")  # no dedicated model by design
+        self.assertTrue(all(line.split()[3] == "2" for line in out if line and line.split()[1] != "-"))  # joint-v2
 
     def test_heuristic_baseline(self):
         heuristic_baseline.main(["--shards", str(self.shards), "--teams", "3", "5", "--split", "train"])
+        meta = dataset.load_meta(self.shards, [3, 5], "train")
+        self.assertEqual((meta["qh_shards"], len(meta["baselines"])), (meta["shards"], 1))
+        ok, reason, _ = evaluate_offline.baseline_status(self.shards, [2, 3], ["train"])
+        self.assertFalse(ok)  # n02 has no q_H: the legacy gate stays closed
+        self.assertIn("missing", reason)
         d = dataset.load(self.shards, [3, 5], "train")
         qh = d["qh"]
         ok = ~np.isnan(qh).any(-1)

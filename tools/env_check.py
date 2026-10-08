@@ -11,9 +11,17 @@ It answers, in reports/env_check_<host>.md and .json:
      (2 s first turn, 50 ms later), through fusion/runner.py (thread-based
      pipes, Windows-safe). Every reply must parse under the engine's rules.
   4. Bot latency on this CPU: first turn vs 2.0 s; p50/p95/p99/max of turns 2-400.
-  5. Simulator: inference/sim.hpp replays each match exactly.
-  6. Inference cost: tools/bench_inference.cpp with the exported model (or a
+  5. Simulator: inference/sim.hpp replays each match exactly, with at least
+     one compared turn (skipped turns are reported).
+  6. Contracts on this host: the extractor's raw records are byte-aligned
+     (Windows binary stdout), the C++ integer model equals the Python
+     emulation bit for bit, and the runtime check passes (no per-turn
+     allocation, incremental value == full pass).
+  7. Inference cost: tools/bench_inference.cpp with the exported model (or a
      same-shaped placeholder): policy per turn vs 5 ms, value per node in us.
+
+It does not time an integrated bot (none exists yet): complete input-to-reply
+latency and first-turn startup of the fusion bot must be measured separately.
 
 Do not run it on a development laptop that is busy with other work: the
 numbers are only meaningful on the target host.
@@ -37,7 +45,7 @@ sys.path.insert(0, str(REPO))
 import numpy as np  # noqa: E402
 
 from fusion import matchlog, native, quant, runner  # noqa: E402
-from fusion.models import PolicyNet, ValueNet  # noqa: E402
+from fusion.models import PolicyNet, QuantizedTier, ValueNet  # noqa: E402
 from fusion.paths import BUILD, ai_test_root, load_engine, load_json  # noqa: E402
 from fusion.schema import layout as feature_layout  # noqa: E402
 from training import collect, export_weights  # noqa: E402
@@ -62,7 +70,7 @@ def host_profile() -> dict:
             "cxx_flags": runner.CXX_FLAGS, "torch": torch_info}
 
 
-def placeholder_model(out_dir: Path) -> tuple[Path, str]:
+def placeholder_model(out_dir: Path) -> tuple[Path, str, dict]:
     """Random weights with the exported shapes: inference cost does not depend on the values."""
     L = feature_layout()
     rng = np.random.default_rng(0)
@@ -71,7 +79,7 @@ def placeholder_model(out_dir: Path) -> tuple[Path, str]:
     out_dir.mkdir(parents=True, exist_ok=True)
     path = out_dir / "weights_placeholder.hpp"
     path.write_text(export_weights.header("placeholder", nets, {}, {"policy": "random", "value": "random"}), encoding="utf-8")
-    return path, "fusion::models::placeholder"
+    return path, "fusion::models::placeholder", export_weights.flat_arrays(nets)
 
 
 def main(argv=None):
@@ -137,8 +145,27 @@ def main(argv=None):
         if biggest is None or teams > biggest[0]:
             biggest = (teams, match)
 
-    header, ns = (Path(a.model), f"fusion::models::{Path(a.model).stem.removeprefix('weights_')}") if a.model \
-        else placeholder_model(BUILD / "placeholder")
+    if a.model:
+        header = Path(a.model)
+        ns, flat = f"fusion::models::{header.stem.removeprefix('weights_')}", dict(np.load(header.with_suffix(".npz")))
+    else:
+        header, ns, flat = placeholder_model(BUILD / "placeholder")
+    stream = matchlog.seat_stream(biggest[1], 0)
+    contracts = {}
+    try:
+        rec = native.extract(stream)  # raises when the raw records are misaligned
+        contracts["records_aligned"] = True
+        cpp = native.run_infer_check(native.infer_check(header, ns), stream, len(rec))
+        contracts["integer_parity"] = bool(np.array_equal(cpp, QuantizedTier(flat).raw(rec, feature_layout())))
+    except RuntimeError as exc:
+        contracts.setdefault("records_aligned", False)
+        contracts.setdefault("integer_parity", False)
+        contracts["error"] = str(exc)
+    rt = native.run_tool(native.model_tool("runtime_check", header, ns), stream.encode())
+    contracts["runtime_check"] = (rt.stdout.decode() + rt.stderr.decode()).strip()
+    contracts["runtime_contract"] = rt.returncode == 0
+    report["contracts"] = contracts
+    print(f"[contracts] {contracts}", flush=True)
     bench = native.model_tool("bench_inference", header, ns)
     r = native.run_tool(bench, matchlog.seat_stream(biggest[1], 0).encode(), args=("3",))
     report["inference"] = {"model": str(header), "teams": biggest[0], **json.loads(r.stdout.decode())}
@@ -156,6 +183,9 @@ def main(argv=None):
         "no_timeouts": all(m["timeouts"] == 0 for m in report["matches"]),
         "p99_under_40ms": all(b["p99_ms"] is not None and b["p99_ms"] < 40 for b in bots),
         "simulator_exact": all(m["simulator_exact"] for m in report["matches"]),
+        "records_aligned": report["contracts"]["records_aligned"],
+        "integer_parity": report["contracts"]["integer_parity"],
+        "runtime_contract": report["contracts"]["runtime_contract"],
         "policy_p99_under_5ms": report["inference"]["policy_turn_ms"]["p99"] < 5,
     }
     out = Path(a.out)
@@ -176,6 +206,8 @@ def main(argv=None):
               f"p50 {inf['policy_turn_ms']['p50']:.3f} / p99 {inf['policy_turn_ms']['p99']:.3f} ms (ceiling 5 ms); value per node "
               f"encode {inf['value_node_us']['encode']:.2f} + incremental {inf['value_node_us']['incremental']:.2f} us "
               f"(full pass {inf['value_node_us']['full']:.2f} us)."]
+    lines += ["", "## Contracts", "", *[f"- {k}: {v}" for k, v in report["contracts"].items()],
+              "", "## Simulator", "", *[f"- {m['teams']} teams: {m['simulator']}" for m in report["matches"]]]
     stem.with_suffix(".md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"[env_check] wrote {stem.with_suffix('.md')}")
     return 0 if all(report["verdict"].values()) else 1

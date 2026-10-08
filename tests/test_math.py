@@ -96,6 +96,20 @@ class TestMixture(unittest.TestCase):
         self.assertAlmostEqual(a, best, delta=1e-3)
         self.assertLessEqual(loss, min(mixture_loss(g, qh, qt, w) for g in grid) + 1e-9)
 
+    def test_product_alpha_matches_grid(self):
+        """marginal-v1: the row probability is a product of three per-unit mixtures; still convex, still exact."""
+        rng = np.random.default_rng(6)
+        qh = rng.uniform(0.01, 1, (400, 3))
+        qt = np.clip(qh * rng.uniform(0.3, 3, (400, 3)), 0.001, 1)
+        w = rng.uniform(0.5, 2, 400)
+        a, loss = fit_alpha(qh, qt, w)
+        grid = np.linspace(0, 1, 2001)
+        losses = [mixture_loss(g, qh, qt, w) for g in grid]
+        self.assertAlmostEqual(a, grid[int(np.argmin(losses))], delta=1e-3)
+        self.assertLessEqual(loss, min(losses) + 1e-9)
+        np.testing.assert_allclose(mixture_loss(0.3, qh, qt, w),
+                                   -(w * np.log((0.7 * qh + 0.3 * qt).prod(1))).sum() / w.sum())
+
     def test_alpha_endpoints(self):
         q = np.full(10, 0.5)
         self.assertEqual(fit_alpha(q, q * 0.5)[0], 0.0)

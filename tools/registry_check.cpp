@@ -1,5 +1,5 @@
-// Prints which exported model (and alpha) the unified dispatch picks for every
-// team count; built against inference/models/registry.hpp by the tests.
+// Prints which exported model (with its alpha and adapter) the unified dispatch
+// picks for every team count; built against inference/models/registry.hpp by the tests.
 #include <cstdio>
 
 #include "registry.hpp"
@@ -7,7 +7,7 @@
 int main() {
     for (int t = 2; t <= 15; t++) {
         const fusion::models::ModelSet* m = fusion::models::forTeams(t);
-        std::printf("%d %s %.6f\n", t, m ? m->id : "-", m ? m->alpha : 0.0);
+        std::printf("%d %s %.6f %d\n", t, m ? m->id : "-", m ? m->alpha : 0.0, m ? m->adapter : 0);
     }
     return 0;
 }

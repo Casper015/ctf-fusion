@@ -45,7 +45,7 @@ Written by `training/dataset.py`, one directory per team count. The general mode
 
 | Array | Shape, type | Meaning |
 |---|---|---|
-| `rec` | (R, 640) int16 | Extractor record (layout in [FEATURES.md](FEATURES.md)) |
+| `rec` | (R, 644) int16 | Extractor record, feature spec v2 (layout in [FEATURES.md](FEATURES.md)) |
 | `y_move` | (R, 3) int8 | Requested move per unit, canonical (a move into a wall becomes S) |
 | `y_joint` | (R,) int16 | `m0*25 + m1*5 + m2`, or -1 when the reply was missing or malformed |
 | `y_act` | (R, 3) int8 | 0 wait, 1 pickup, 2 drop, 3 attack; requests the engine would ignore become 0; -1 when the unit is off the board |
@@ -57,6 +57,7 @@ Written by `training/dataset.py`, one directory per team count. The general mode
 | `weight` | (R,) float32 | stride / keep rate: importance weight back to the natural turn distribution |
 | `match`, `teams`, `family`, `turn`, `team` | (R,) | Index into `index.json` matches and families; team count; acting team's bot family |
 | `qh_XXXX.npy` | (R, 3, 5) float32 | Optional, from `heuristic_baseline.py`: legacy forecast move marginals (NaN = no entry) |
+| `qh_XXXX.json` | text | The baseline identity of that file: the legacy planner path and a digest of its sources. The gate needs one identity across every shard it reads. |
 
 `data/shards/index.json` holds:
 - the extractor schema and sampling options;
@@ -72,5 +73,8 @@ Every training run records the manifest of its team counts, with a digest of the
 
 1. **Public inputs only.** Features are computed only from blocks up to the current one: the public stream a bot sees. Other teams' replies are never features; previous moves are inferred from public positions.
 2. **No future randomness.** Future flag respawn spots (`flag_seed`) never reach features; only blocks do.
-3. **Split by match.** Train, val and test are split by a hash of the match id, so adjacent turns never straddle splits. `--holdout-family` adds an `ood` split for an opponent family never seen in training.
+3. **Split by map.** Train, val and test are split by a hash of the map seed (`--split-by map`, the default; `--split-by match` hashes the match id), so neither a match nor a map ever straddles splits.
 4. **Requested, not resolved.** Labels are requested actions. Resolved positions only feed the `blocked` diagnostic.
+5. **Holdout families.** `--holdout-family F` adds an `ood` split that never enters training. With `--holdout-mode fixture` (default) every match with a seat of family F goes there whole, every team's rows: the strict unseen-family test. `--holdout-mode actor-row` moves only rows whose acting team is F; the other teams' rows of those matches stay in training, so the maps, trajectories and outcomes of those games are seen. Name results from it accordingly.
+6. **Uncertainty.** Rows of one map are correlated. The gate's standard errors are clustered by map (`fusion.metrics.clustered_mean`), never computed over turns as if they were independent.
+7. **One feature schema.** `dataset.load` refuses shards built by another extractor version; `--append` refuses a changed schema or changed sampling and split options.
