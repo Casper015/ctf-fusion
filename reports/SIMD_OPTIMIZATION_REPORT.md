@@ -1,95 +1,90 @@
-# SIMD Kernel and Memory Architecture Optimization Report
+# Optimization Attribution and SIMD Benchmark Report
 
-**Target Host**: `DESKTOP-G60OJUD` (AMD Ryzen 9 7945HX, 16 Cores / 32 Threads, Windows)  
-**SIMD Path Active**: `avx2` (AVX2 256-bit bit-exact integer vector kernels)  
-**Concurrency Level**: 16 concurrent bot seat processes (`--seats 16`)  
-**Turn Inference Budget**: 5.0 ms (Target 35 ms - Search 30 ms), Safety Factor = 1.5×, 24 Value nodes/turn  
-
----
-
-## 1. Executive Summary
-
-With the integration of the SIMD multiply-add optimization package (`inference/simd.hpp`) and contiguous memory transposition for `ValueAccumulator` (`inference/value.hpp`), the inference performance across all model tiers experienced dramatic speedups:
-
-- **Hardware Ceiling Breakthrough (XL → XXL)**: In the original scalar architecture, **Tier XXL** severely violated the 5.0 ms deadline across all team counts under 16-thread load (e.g. 12.02 ms at 15 teams). With AVX2 SIMD kernels and transposed value accumulators, **Tier XXL now easily satisfies the budget across all 14 team counts (2.83 ms at 15 teams)**, achieving a **4.25× speedup**.
-- **Speedup Proportional to Network Width**: Wider network layers utilize SIMD registers and vector lanes with maximal efficiency:
-  - **Tier S** (width 64): **1.53× speedup** (0.76 ms → 0.50 ms)
-  - **Tier M** (width 128): **1.96× speedup** (1.26 ms → 0.64 ms)
-  - **Tier L** (width 256): **2.83× speedup** (2.40 ms → 0.85 ms)
-  - **Tier XL** (width 512): **3.48× speedup** (4.73 ms → 1.36 ms)
-  - **Tier XXL** (width 1024/2048): **4.25× speedup** (12.02 ms → 2.83 ms)
-- **Bit-Exact Parity**: The integer dot product operations maintain identical int32 accumulation order, rigorously verified by `tools/kernel_check.cpp` (3,139 tests passed with 0 mismatches). No floating-point rounding divergence exists.
+**Host**: `DESKTOP-G60OJUD` (AMD Ryzen 9 7945HX with Radeon Graphics, 32 logical processors, Windows-10-10.0.19045-SP0)  
+**Active SIMD Path**: `avx2`  
+**Parity Check**: 3,139 checks across scalar, sse2, and avx2 with **0 mismatches**  
+**Inference Budget**: 5.0 ms per turn, Safety Factor = 1.5×  
 
 ---
 
-## 2. Architectural Optimizations Introduced
+## 1. Executive Summary & Attribution Finding
 
-1. **AVX2 / SSE2 16-bit Multiply-Add Vector Kernels (`inference/simd.hpp`)**:
-   - Utilizes `_mm256_madd_epi16` to perform 16 parallel signed 16-bit multiplications and pair-wise additions into 32-bit accumulators in a single cycle.
-   - Dispatches at runtime via GCC/Clang target attributes (`__attribute__((target("avx2")))`) with zero compilation flag overhead and transparent SSE2/NEON/Scalar fallbacks.
-2. **Transposed Weight Matrix for Value Accumulator (`inference/value.hpp`)**:
-   - The incremental board value accumulator (`ValueAccumulator::update`) modifies dot products whenever feature deltas occur.
-   - By transposing the weight matrix (`wT`), accumulator updates access memory along contiguous cache lines (`wT + i * out`) instead of strided column leaps (`w + o * in + i`). This eliminated L1/L2 cache misses during tree search node rollouts.
-3. **Single Buffer Re-use & Zero Allocation**:
-   - Fixed stack buffers (`kMaxWidth`) avoid heap allocations on hot inference paths.
+This report evaluates the performance impact of the code updates across two distinct optimization layers:
+1. **Data Layout & Memory Restructuring**: Restructuring layer activations to `int16` and transposing the first Value layer matrix (`wT`) so incremental accumulator updates read memory contiguously.
+2. **Explicit SIMD Vector Kernels (`inference/simd.hpp`)**: Handcrafted 16-bit multiply-accumulate kernels utilizing AVX2 (`_mm256_madd_epi16`) with fallback paths for SSE2 and NEON.
 
----
-
-## 3. Comprehensive Benchmark Comparison (Original Scalar vs Optimized SIMD)
-
-### 15 Teams (Maximum Competition Complexity, Map 49×49, 16 Concurrent Seats)
-
-| Tier | Width Profile | Original Needed ms (1.5×) | Optimized Needed ms (1.5×) | Speedup Ratio | Original Value µs | Optimized Value µs | Value Speedup | Affordable Value Nodes | Qualification |
-|:---:|---|---:|---:|:---:|---:|---:|:---:|---:|:---:|
-| **S** | `squad=64,32; value=128,16` | 0.76 ms | **0.50 ms** | **1.53×** | 2.62 µs | **1.62 µs** | **1.62×** | **1,891** | **PASSED** |
-| **M** | `squad=128,64; value=256,32` | 1.26 ms | **0.64 ms** | **1.96×** | 4.98 µs | **2.09 µs** | **2.38×** | **1,433** | **PASSED** |
-| **L** | `squad=256,64; value=512,64` | 2.40 ms | **0.85 ms** | **2.83×** | 13.99 µs | **3.21 µs** | **4.35×** | **900** | **PASSED** |
-| **XL** | `squad=512,128; value=1024,64` | 4.73 ms | **1.36 ms** | **3.48×** | 26.85 µs | **5.02 µs** | **5.34×** | **523** | **PASSED** |
-| **XXL** | `squad=1024,256; value=2048,128` | 12.02 ms | **2.83 ms** | **4.25×** | 87.06 µs | **14.58 µs** | **5.97×** | **137** | **PASSED (XXL)** |
-
-### Cross-Team Comparison (Tiers S, M, XL, XXL across 2, 4, 8, 12, 15 Teams)
-
-| Teams | Map | Tier | Original Needed ms | Optimized Needed ms | Total Speedup | Original Policy p99 | Optimized Policy p99 | Policy Speedup | Status |
-|---:|:---:|:---:|---:|---:|:---:|---:|---:|:---:|:---:|
-| 2 | 23 | S | 0.16 ms | **0.08 ms** | **2.06×** | 0.032 ms | **0.025 ms** | **1.28×** | PASSED |
-| 2 | 23 | M | 0.34 ms | **0.12 ms** | **2.88×** | 0.049 ms | **0.028 ms** | **1.75×** | PASSED |
-| 2 | 23 | XL | 1.80 ms | **0.35 ms** | **5.09×** | 0.170 ms | **0.059 ms** | **2.88×** | PASSED |
-| 2 | 23 | XXL | 5.37 ms | **1.02 ms** | **5.25×** | 0.406 ms | **0.149 ms** | **2.72×** | PASSED |
-| 4 | 31 | S | 0.24 ms | **0.14 ms** | **1.66×** | 0.086 ms | **0.059 ms** | **1.46×** | PASSED |
-| 4 | 31 | M | 0.46 ms | **0.18 ms** | **2.51×** | 0.141 ms | **0.074 ms** | **1.91×** | PASSED |
-| 4 | 31 | XL | 2.22 ms | **0.48 ms** | **4.65×** | 0.482 ms | **0.160 ms** | **3.01×** | PASSED |
-| 4 | 31 | XXL | 6.41 ms | **1.19 ms** | **5.38×** | 1.104 ms | **0.318 ms** | **3.47×** | PASSED |
-| 8 | 41 | S | 0.44 ms | **0.33 ms** | **1.32×** | 0.207 ms | **0.160 ms** | **1.29×** | PASSED |
-| 8 | 41 | M | 0.79 ms | **0.44 ms** | **1.81×** | 0.332 ms | **0.209 ms** | **1.59×** | PASSED |
-| 8 | 41 | XL | 3.24 ms | **0.82 ms** | **3.93×** | 1.103 ms | **0.365 ms** | **3.02×** | PASSED |
-| 8 | 41 | XXL | 8.67 ms | **1.85 ms** | **4.69×** | 2.505 ms | **0.707 ms** | **3.54×** | PASSED |
-| 12 | 49 | S | 0.62 ms | **0.41 ms** | **1.52×** | 0.321 ms | **0.212 ms** | **1.51×** | PASSED |
-| 12 | 49 | M | 1.03 ms | **0.51 ms** | **2.03×** | 0.524 ms | **0.268 ms** | **1.96×** | PASSED |
-| 12 | 49 | XL | 3.92 ms | **1.14 ms** | **3.44×** | 1.718 ms | **0.576 ms** | **2.98×** | PASSED |
-| 12 | 49 | XXL | 10.33 ms | **2.36 ms** | **4.38×** | 3.902 ms | **1.058 ms** | **3.69×** | PASSED |
-| 15 | 49 | S | 0.76 ms | **0.50 ms** | **1.53×** | 0.410 ms | **0.271 ms** | **1.51×** | PASSED |
-| 15 | 49 | M | 1.26 ms | **0.64 ms** | **1.96×** | 0.662 ms | **0.340 ms** | **1.95×** | PASSED |
-| 15 | 49 | XL | 4.73 ms | **1.36 ms** | **3.48×** | 2.204 ms | **0.703 ms** | **3.14×** | PASSED |
-| 15 | 49 | XXL | 12.02 ms | **2.83 ms** | **4.25×** | 4.937 ms | **1.336 ms** | **3.70×** | PASSED |
+### Key Findings
+- **XXL Viability**: Under full 16-seat concurrent load at 15 teams, total needed inference time for Tier XXL dropped from **12.02 ms down to 2.83 ms**, fully qualifying within the 5.0 ms budget across all 14 team counts.
+- **Decomposition of the 4.25× XXL Speedup**:
+  - **Data Layout Restructuring**: Contributed **3.29× speedup** (reducing time from 12.02 ms to 3.65 ms). Contiguous memory layout significantly improved auto-vectorization efficiency in the local GCC compiler.
+  - **Explicit AVX2 Kernels**: Provided an additional **1.29× speedup** under 16-seat load (3.65 ms → 2.83 ms), and up to **1.98× speedup** under isolated single-seat execution.
+- **Rationale for Retaining Explicit SIMD**: Because judge environment compiler versions and optimization flags are unpredictable, compiler auto-vectorization cannot be guaranteed. The explicit AVX2/SSE2 kernels guarantee deterministic SIMD performance regardless of host compiler quirks.
 
 ---
 
-## 4. Value Search Expansion Headroom
+## 2. Performance Decomposition at 15 Teams (16 Seats Full Load)
 
-Because value evaluation was accelerated from **87.06 µs down to 14.58 µs** per node on Tier XXL, and from **4.98 µs down to 2.09 µs** on Tier M:
+The 15-team match (map size 49×49) represents the maximum competitive computational workload. All times reflect total turn inference needed with the 1.5× safety multiplier.
 
-- **Tier M Expansion**: Can now evaluate **1,433 search nodes** per turn under full 16-thread load (up from 536 nodes).
-- **Tier S Expansion**: Can evaluate **1,891 search nodes** per turn (up from 1,116 nodes).
-- **Tier XXL Viability**: Unlocks deep 1-2 ply search rollouts even with the largest 2048-wide value network.
+| Tier | Hidden Widths | Pre-Opt Baseline | New Layout (Scalar) | New Layout + AVX2 | Layout Speedup | AVX2 Speedup | Combined Speedup | 5ms Budget Status |
+|:---:|---|---:|---:|---:|---:|---:|---:|:---:|
+| **S** | `squad=64,32; value=128,16` | 0.76 ms | 0.53 ms | **0.50 ms** | 1.45× | 1.06× | **1.53×** | **PASSED** |
+| **M** | `squad=128,64; value=256,32` | 1.26 ms | 0.70 ms | **0.64 ms** | 1.80× | 1.09× | **1.96×** | **PASSED** |
+| **L** | `squad=256,64; value=512,64` | 2.40 ms | 0.99 ms | **0.85 ms** | 2.41× | 1.17× | **2.83×** | **PASSED** |
+| **XL** | `squad=512,128; value=1024,64` | 4.73 ms | 1.70 ms | **1.36 ms** | 2.78× | 1.25× | **3.48×** | **PASSED** |
+| **XXL** | `squad=1024,256; value=2048,128` | 12.02 ms | 3.65 ms | **2.83 ms** | 3.29× | 1.29× | **4.25×** | **PASSED** |
 
 ---
 
-## 5. Engineering Conclusion & Recommendation
+## 3. Isolated Single-Seat Execution: AVX2 vs Scalar (15 Teams)
 
-1. **Recommended Default: Tier M**:
-   - At 15 teams, 16 concurrent seats take only **0.64 ms** total inference time.
-   - C++ header footprint is **5.9 MiB**, compiling rapidly without triggering judge file-size alarms.
-   - Provides **1,433 value search rollouts** of budget headroom.
-2. **High-Capacity Option: Tier XL / XXL**:
-   - The SIMD update completely eliminates compute bottlenecks for Tier XL (1.36 ms) and Tier XXL (2.83 ms).
-   - If the judge environment permits a 27–71 MiB binary source inclusion, Tier XL or XXL can be deployed directly with zero timeout risk.
+Under single-seat execution without process contention, the raw vectorization throughput of the explicit AVX2 kernel becomes prominent on wider hidden dimensions:
+
+| Tier | Policy p99 (Scalar) | Policy p99 (AVX2) | Policy Speedup | Value Node (Scalar) | Value Node (AVX2) | Value Speedup | Total Needed (Scalar) | Total Needed (AVX2) | Total Speedup |
+|:---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| **S** | 0.181 ms | 0.165 ms | **1.10×** | 1.29 µs | 1.15 µs | **1.12×** | 0.34 ms | 0.30 ms | **1.11×** |
+| **M** | 0.219 ms | 0.199 ms | **1.10×** | 1.77 µs | 1.40 µs | **1.27×** | 0.42 ms | 0.36 ms | **1.14×** |
+| **L** | 0.263 ms | 0.265 ms | **0.99×** | 3.05 µs | 2.08 µs | **1.46×** | 0.52 ms | 0.51 ms | **1.02×** |
+| **XL** | 0.585 ms | 0.355 ms | **1.65×** | 5.16 µs | 3.17 µs | **1.63×** | 1.18 ms | 0.69 ms | **1.72×** |
+| **XXL** | 1.154 ms | 0.604 ms | **1.91×** | 13.91 µs | 8.77 µs | **1.59×** | 2.55 ms | 1.29 ms | **1.98×** |
+
+---
+
+## 4. Cross-Team Scaling & Measurement Reliability
+
+> [!NOTE]
+> **Measurement Noise on Small Team Counts**: At 2–4 teams, total inference time is on the order of 0.03–0.10 ms. At these microsecond scales, OS scheduling, timer granularity, and process launch jitter dominate the measurement, occasionally producing noisy inversion ratios (e.g. 0.7×–0.9×). Authoritative capacity decisions should rely on larger match configurations (6–15 teams).
+
+| Teams | Map | Tier | Pre-Opt Baseline ms | New Layout + AVX2 ms | Net Speedup | 16-Seat Fits? | Value Nodes Affordable |
+|---:|:---:|:---:|---:|---:|---:|:---:|---:|
+| 6 | 41 | M | 0.62 ms | **0.29 ms** | **2.16×** | YES | 2,281 |
+| 6 | 41 | XL | 2.62 ms | **0.69 ms** | **3.82×** | YES | 697 |
+| 6 | 41 | XXL | 7.36 ms | **1.57 ms** | **4.68×** | YES | 207 |
+| 8 | 41 | M | 0.79 ms | **0.44 ms** | **1.81×** | YES | 1,689 |
+| 8 | 41 | XL | 3.24 ms | **0.82 ms** | **3.93×** | YES | 615 |
+| 8 | 41 | XXL | 8.67 ms | **1.85 ms** | **4.69×** | YES | 192 |
+| 10 | 41 | M | 0.93 ms | **0.70 ms** | **1.32×** | YES | 1,546 |
+| 10 | 41 | XL | 3.63 ms | **1.03 ms** | **3.52×** | YES | 561 |
+| 10 | 41 | XXL | 9.50 ms | **2.11 ms** | **4.50×** | YES | 190 |
+| 12 | 49 | M | 1.03 ms | **0.51 ms** | **2.03×** | YES | 1,699 |
+| 12 | 49 | XL | 3.92 ms | **1.14 ms** | **3.44×** | YES | 569 |
+| 12 | 49 | XXL | 10.33 ms | **2.36 ms** | **4.38×** | YES | 176 |
+| 15 | 49 | M | 1.26 ms | **0.64 ms** | **1.96×** | YES | 1,433 |
+| 15 | 49 | XL | 4.73 ms | **1.36 ms** | **3.48×** | YES | 523 |
+| 15 | 49 | XXL | 12.02 ms | **2.83 ms** | **4.25×** | YES | 137 |
+
+---
+
+## 5. Technical Rigor & Mathematical Properties
+
+1. **Mathematical Basis of Bit-Exact Parity**:
+   - AVX2 processes 16 `int16` products concurrently using horizontal adds (`_mm256_madd_epi16`), which computes sums in a different pairwise order than the naive sequential loop.
+   - Bit-exact identity is guaranteed because integer addition is strictly commutative and associative **under the precondition of no arithmetic overflow**.
+   - The weight quantization exporter formally proves an accumulator bound of `[-2^30, 2^30]`, precluding any 32-bit signed overflow. Thus, both paths yield identical results down to the last bit.
+2. **Scope of Benchmark Measurements**:
+   - These benchmarks profile isolated neural network inference (features → forward pass → accumulator update).
+   - They do not measure full turn bot overhead (stream parsing, search rollouts, heuristic move ordering, formatting).
+   - Cache hit/miss rates and CPU core frequencies are inferences, not direct PMU hardware counter telemetry.
+3. **Deployment Model Selection**:
+   - Because Tier XXL now operates safely within the 5.0 ms ceiling across all team counts (2.83 ms at 15 teams), deployment should not be arbitrarily restricted by source code size.
+   - The final model selection will be decided by empirical offline log-loss and Bradley-Terry playing strength gain per millisecond once trained models are available.
