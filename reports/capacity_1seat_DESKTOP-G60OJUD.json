@@ -1,0 +1,1313 @@
+{
+ "host": "DESKTOP-G60OJUD",
+ "time": "2026-10-08T14:35:17",
+ "safety": 1.5,
+ "value_calls": 24,
+ "max_width_built": 2048,
+ "counts": [
+  {
+   "teams": 2,
+   "map_size": 23,
+   "source": "n02-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 2.0,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.019,
+     "policy_max_ms": 0.032,
+     "policy_joint_p99_ms": 0.014,
+     "value_turn_p99_ms": 0.04,
+     "value_node_us": 1.1239999999999999,
+     "value_full_us": 1.523,
+     "need_ms": 0.0885,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 2948,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.031,
+     "policy_max_ms": 0.032,
+     "policy_joint_p99_ms": 0.023,
+     "value_turn_p99_ms": 0.101,
+     "value_node_us": 2.781,
+     "value_full_us": 3.872,
+     "need_ms": 0.198,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1187,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.056,
+     "policy_max_ms": 0.061,
+     "policy_joint_p99_ms": 0.041,
+     "value_turn_p99_ms": 0.314,
+     "value_node_us": 8.321,
+     "value_full_us": 10.182,
+     "need_ms": 0.5549999999999999,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 393,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.113,
+     "policy_max_ms": 0.117,
+     "policy_joint_p99_ms": 0.081,
+     "value_turn_p99_ms": 0.638,
+     "value_node_us": 16.679000000000002,
+     "value_full_us": 20.717,
+     "need_ms": 1.1265,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 193,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 0.223,
+     "policy_max_ms": 0.343,
+     "policy_joint_p99_ms": 0.174,
+     "value_turn_p99_ms": 1.696,
+     "value_node_us": 54.086999999999996,
+     "value_full_us": 61.67,
+     "need_ms": 2.8785,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 57,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XXL"
+  },
+  {
+   "teams": 3,
+   "map_size": 31,
+   "source": "n03-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 2.3,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.033,
+     "policy_max_ms": 0.048,
+     "policy_joint_p99_ms": 0.026,
+     "value_turn_p99_ms": 0.038,
+     "value_node_us": 1.149,
+     "value_full_us": 1.522,
+     "need_ms": 0.10650000000000001,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 2872,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.062,
+     "policy_max_ms": 0.1,
+     "policy_joint_p99_ms": 0.047,
+     "value_turn_p99_ms": 0.095,
+     "value_node_us": 2.7350000000000003,
+     "value_full_us": 3.781,
+     "need_ms": 0.2355,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1196,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.078,
+     "policy_max_ms": 0.087,
+     "policy_joint_p99_ms": 0.059,
+     "value_turn_p99_ms": 0.251,
+     "value_node_us": 8.279,
+     "value_full_us": 10.139,
+     "need_ms": 0.49350000000000005,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 393,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.154,
+     "policy_max_ms": 0.22,
+     "policy_joint_p99_ms": 0.116,
+     "value_turn_p99_ms": 0.512,
+     "value_node_us": 16.203,
+     "value_full_us": 20.213,
+     "need_ms": 0.9990000000000001,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 196,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 0.331,
+     "policy_max_ms": 0.468,
+     "policy_joint_p99_ms": 0.264,
+     "value_turn_p99_ms": 1.543,
+     "value_node_us": 53.093,
+     "value_full_us": 60.75,
+     "need_ms": 2.811,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 56,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XXL"
+  },
+  {
+   "teams": 4,
+   "map_size": 31,
+   "source": "n04-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 2.6,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.049,
+     "policy_max_ms": 0.062,
+     "policy_joint_p99_ms": 0.039,
+     "value_turn_p99_ms": 0.04,
+     "value_node_us": 1.187,
+     "value_full_us": 1.549,
+     "need_ms": 0.1335,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 2766,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.076,
+     "policy_max_ms": 0.172,
+     "policy_joint_p99_ms": 0.058,
+     "value_turn_p99_ms": 0.089,
+     "value_node_us": 2.729,
+     "value_full_us": 3.789,
+     "need_ms": 0.24749999999999997,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1193,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.117,
+     "policy_max_ms": 0.132,
+     "policy_joint_p99_ms": 0.09,
+     "value_turn_p99_ms": 0.254,
+     "value_node_us": 8.209,
+     "value_full_us": 10.136,
+     "need_ms": 0.5565,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 391,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.225,
+     "policy_max_ms": 0.256,
+     "policy_joint_p99_ms": 0.17,
+     "value_turn_p99_ms": 0.499,
+     "value_node_us": 15.99,
+     "value_full_us": 20.179,
+     "need_ms": 1.0859999999999999,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 194,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 0.645,
+     "policy_max_ms": 0.904,
+     "policy_joint_p99_ms": 0.518,
+     "value_turn_p99_ms": 1.86,
+     "value_node_us": 53.321,
+     "value_full_us": 61.682,
+     "need_ms": 3.7575,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 50,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XXL"
+  },
+  {
+   "teams": 5,
+   "map_size": 31,
+   "source": "n05-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 3.0,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.068,
+     "policy_max_ms": 0.083,
+     "policy_joint_p99_ms": 0.052,
+     "value_turn_p99_ms": 0.049,
+     "value_node_us": 1.4889999999999999,
+     "value_full_us": 1.574,
+     "need_ms": 0.17550000000000002,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 2192,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.109,
+     "policy_max_ms": 0.156,
+     "policy_joint_p99_ms": 0.082,
+     "value_turn_p99_ms": 0.101,
+     "value_node_us": 3.223,
+     "value_full_us": 3.816,
+     "need_ms": 0.31500000000000006,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1000,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.161,
+     "policy_max_ms": 0.168,
+     "policy_joint_p99_ms": 0.118,
+     "value_turn_p99_ms": 0.278,
+     "value_node_us": 9.182,
+     "value_full_us": 10.097,
+     "need_ms": 0.6585000000000001,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 345,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.299,
+     "policy_max_ms": 0.328,
+     "policy_joint_p99_ms": 0.223,
+     "value_turn_p99_ms": 0.532,
+     "value_node_us": 17.78,
+     "value_full_us": 19.947,
+     "need_ms": 1.2465,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 170,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 0.654,
+     "policy_max_ms": 0.791,
+     "policy_joint_p99_ms": 0.53,
+     "value_turn_p99_ms": 1.597,
+     "value_node_us": 56.662000000000006,
+     "value_full_us": 61.061,
+     "need_ms": 3.3765,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 47,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XXL"
+  },
+  {
+   "teams": 6,
+   "map_size": 41,
+   "source": "n06-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 3.2,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.08,
+     "policy_max_ms": 0.093,
+     "policy_joint_p99_ms": 0.062,
+     "value_turn_p99_ms": 0.04,
+     "value_node_us": 1.302,
+     "value_full_us": 1.519,
+     "need_ms": 0.18,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 2498,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.125,
+     "policy_max_ms": 0.198,
+     "policy_joint_p99_ms": 0.098,
+     "value_turn_p99_ms": 0.085,
+     "value_node_us": 2.827,
+     "value_full_us": 3.713,
+     "need_ms": 0.31500000000000006,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1134,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.267,
+     "policy_max_ms": 0.286,
+     "policy_joint_p99_ms": 0.198,
+     "value_turn_p99_ms": 0.284,
+     "value_node_us": 8.322,
+     "value_full_us": 10.114,
+     "need_ms": 0.8264999999999999,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 368,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.374,
+     "policy_max_ms": 0.546,
+     "policy_joint_p99_ms": 0.284,
+     "value_turn_p99_ms": 0.474,
+     "value_node_us": 16.314,
+     "value_full_us": 20.433,
+     "need_ms": 1.272,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 181,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 1.039,
+     "policy_max_ms": 1.143,
+     "policy_joint_p99_ms": 0.848,
+     "value_turn_p99_ms": 1.641,
+     "value_node_us": 53.623000000000005,
+     "value_full_us": 61.807,
+     "need_ms": 4.02,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 42,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XXL"
+  },
+  {
+   "teams": 7,
+   "map_size": 41,
+   "source": "n07-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 3.6,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.096,
+     "policy_max_ms": 0.108,
+     "policy_joint_p99_ms": 0.076,
+     "value_turn_p99_ms": 0.045,
+     "value_node_us": 1.494,
+     "value_full_us": 1.526,
+     "need_ms": 0.21150000000000002,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 2166,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.199,
+     "policy_max_ms": 0.277,
+     "policy_joint_p99_ms": 0.148,
+     "value_turn_p99_ms": 0.128,
+     "value_node_us": 3.178,
+     "value_full_us": 3.821,
+     "need_ms": 0.49050000000000005,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 986,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.306,
+     "policy_max_ms": 0.318,
+     "policy_joint_p99_ms": 0.229,
+     "value_turn_p99_ms": 0.315,
+     "value_node_us": 9.165,
+     "value_full_us": 10.354,
+     "need_ms": 0.9315,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 330,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.606,
+     "policy_max_ms": 0.692,
+     "policy_joint_p99_ms": 0.462,
+     "value_turn_p99_ms": 0.593,
+     "value_node_us": 17.930999999999997,
+     "value_full_us": 20.74,
+     "need_ms": 1.7984999999999998,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 152,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 1.001,
+     "policy_max_ms": 1.404,
+     "policy_joint_p99_ms": 0.798,
+     "value_turn_p99_ms": 1.605,
+     "value_node_us": 55.753,
+     "value_full_us": 61.35,
+     "need_ms": 3.909,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 41,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XXL"
+  },
+  {
+   "teams": 8,
+   "map_size": 41,
+   "source": "n08-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 4.0,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.115,
+     "policy_max_ms": 0.136,
+     "policy_joint_p99_ms": 0.09,
+     "value_turn_p99_ms": 0.049,
+     "value_node_us": 1.633,
+     "value_full_us": 1.54,
+     "need_ms": 0.246,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1970,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.243,
+     "policy_max_ms": 0.253,
+     "policy_joint_p99_ms": 0.182,
+     "value_turn_p99_ms": 0.125,
+     "value_node_us": 3.5100000000000002,
+     "value_full_us": 3.849,
+     "need_ms": 0.552,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 880,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.282,
+     "policy_max_ms": 0.364,
+     "policy_joint_p99_ms": 0.209,
+     "value_turn_p99_ms": 0.286,
+     "value_node_us": 9.574,
+     "value_full_us": 10.19,
+     "need_ms": 0.8519999999999999,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 318,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.753,
+     "policy_max_ms": 0.866,
+     "policy_joint_p99_ms": 0.549,
+     "value_turn_p99_ms": 0.635,
+     "value_node_us": 18.807,
+     "value_full_us": 20.524,
+     "need_ms": 2.082,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 137,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 1.122,
+     "policy_max_ms": 1.258,
+     "policy_joint_p99_ms": 0.894,
+     "value_turn_p99_ms": 1.572,
+     "value_node_us": 57.796,
+     "value_full_us": 61.319,
+     "need_ms": 4.041,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 38,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XXL"
+  },
+  {
+   "teams": 9,
+   "map_size": 41,
+   "source": "n09-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 4.2,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.136,
+     "policy_max_ms": 0.18,
+     "policy_joint_p99_ms": 0.106,
+     "value_turn_p99_ms": 0.05,
+     "value_node_us": 1.6989999999999998,
+     "value_full_us": 1.534,
+     "need_ms": 0.279,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1881,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.203,
+     "policy_max_ms": 0.21,
+     "policy_joint_p99_ms": 0.151,
+     "value_turn_p99_ms": 0.098,
+     "value_node_us": 3.398,
+     "value_full_us": 3.751,
+     "need_ms": 0.45150000000000007,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 921,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.392,
+     "policy_max_ms": 0.438,
+     "policy_joint_p99_ms": 0.296,
+     "value_turn_p99_ms": 0.326,
+     "value_node_us": 9.359,
+     "value_full_us": 10.105,
+     "need_ms": 1.077,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 314,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.748,
+     "policy_max_ms": 0.841,
+     "policy_joint_p99_ms": 0.563,
+     "value_turn_p99_ms": 0.625,
+     "value_node_us": 18.126,
+     "value_full_us": 20.146,
+     "need_ms": 2.0595,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 142,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 1.562,
+     "policy_max_ms": 1.814,
+     "policy_joint_p99_ms": 1.234,
+     "value_turn_p99_ms": 1.708,
+     "value_node_us": 56.893,
+     "value_full_us": 61.204,
+     "need_ms": 4.905,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 31,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XXL"
+  },
+  {
+   "teams": 10,
+   "map_size": 41,
+   "source": "n10-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 4.5,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.155,
+     "policy_max_ms": 0.168,
+     "policy_joint_p99_ms": 0.117,
+     "value_turn_p99_ms": 0.051,
+     "value_node_us": 1.678,
+     "value_full_us": 1.531,
+     "need_ms": 0.309,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1894,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.235,
+     "policy_max_ms": 0.259,
+     "policy_joint_p99_ms": 0.174,
+     "value_turn_p99_ms": 0.096,
+     "value_node_us": 3.296,
+     "value_full_us": 3.753,
+     "need_ms": 0.49649999999999994,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 940,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.353,
+     "policy_max_ms": 0.449,
+     "policy_joint_p99_ms": 0.264,
+     "value_turn_p99_ms": 0.252,
+     "value_node_us": 8.946000000000002,
+     "value_full_us": 10.001,
+     "need_ms": 0.9075,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 333,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.673,
+     "policy_max_ms": 0.987,
+     "policy_joint_p99_ms": 0.506,
+     "value_turn_p99_ms": 0.486,
+     "value_node_us": 17.224999999999998,
+     "value_full_us": 20.041,
+     "need_ms": 1.7385000000000002,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 154,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 1.409,
+     "policy_max_ms": 1.918,
+     "policy_joint_p99_ms": 1.127,
+     "value_turn_p99_ms": 1.496,
+     "value_node_us": 55.116,
+     "value_full_us": 60.989,
+     "need_ms": 4.3575,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 34,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XXL"
+  },
+  {
+   "teams": 11,
+   "map_size": 49,
+   "source": "n11-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 4.8,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.182,
+     "policy_max_ms": 0.231,
+     "policy_joint_p99_ms": 0.146,
+     "value_turn_p99_ms": 0.056,
+     "value_node_us": 1.662,
+     "value_full_us": 1.549,
+     "need_ms": 0.357,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1896,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.336,
+     "policy_max_ms": 0.358,
+     "policy_joint_p99_ms": 0.254,
+     "value_turn_p99_ms": 0.121,
+     "value_node_us": 3.303,
+     "value_full_us": 3.95,
+     "need_ms": 0.6855,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 907,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.48,
+     "policy_max_ms": 0.595,
+     "policy_joint_p99_ms": 0.364,
+     "value_turn_p99_ms": 0.299,
+     "value_node_us": 8.620000000000001,
+     "value_full_us": 10.025,
+     "need_ms": 1.1684999999999999,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 331,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.734,
+     "policy_max_ms": 0.823,
+     "policy_joint_p99_ms": 0.562,
+     "value_turn_p99_ms": 0.467,
+     "value_node_us": 16.426,
+     "value_full_us": 19.961,
+     "need_ms": 1.8015,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 158,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 1.8,
+     "policy_max_ms": 2.347,
+     "policy_joint_p99_ms": 1.391,
+     "value_turn_p99_ms": 1.583,
+     "value_node_us": 53.66,
+     "value_full_us": 61.245,
+     "need_ms": 5.0745000000000005,
+     "fits": false,
+     "policy_fits": true,
+     "value_nodes_affordable": 28,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XL"
+  },
+  {
+   "teams": 12,
+   "map_size": 49,
+   "source": "n12-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 5.0,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.18,
+     "policy_max_ms": 0.225,
+     "policy_joint_p99_ms": 0.144,
+     "value_turn_p99_ms": 0.051,
+     "value_node_us": 1.6320000000000001,
+     "value_full_us": 1.557,
+     "need_ms": 0.3465,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1932,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.296,
+     "policy_max_ms": 0.434,
+     "policy_joint_p99_ms": 0.241,
+     "value_turn_p99_ms": 0.1,
+     "value_node_us": 3.13,
+     "value_full_us": 3.783,
+     "need_ms": 0.5940000000000001,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 970,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.42,
+     "policy_max_ms": 0.617,
+     "policy_joint_p99_ms": 0.317,
+     "value_turn_p99_ms": 0.227,
+     "value_node_us": 8.244,
+     "value_full_us": 10.052,
+     "need_ms": 0.9705,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 353,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.828,
+     "policy_max_ms": 0.981,
+     "policy_joint_p99_ms": 0.617,
+     "value_turn_p99_ms": 0.442,
+     "value_node_us": 15.671000000000001,
+     "value_full_us": 20.04,
+     "need_ms": 1.905,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 159,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 2.313,
+     "policy_max_ms": 2.6,
+     "policy_joint_p99_ms": 1.841,
+     "value_turn_p99_ms": 1.775,
+     "value_node_us": 51.885,
+     "value_full_us": 61.179,
+     "need_ms": 6.132,
+     "fits": false,
+     "policy_fits": true,
+     "value_nodes_affordable": 19,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XL"
+  },
+  {
+   "teams": 13,
+   "map_size": 49,
+   "source": "n13-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 5.3,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.2,
+     "policy_max_ms": 0.223,
+     "policy_joint_p99_ms": 0.162,
+     "value_turn_p99_ms": 0.051,
+     "value_node_us": 1.7349999999999999,
+     "value_full_us": 1.573,
+     "need_ms": 0.3765,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1805,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.295,
+     "policy_max_ms": 0.376,
+     "policy_joint_p99_ms": 0.236,
+     "value_turn_p99_ms": 0.093,
+     "value_node_us": 3.2190000000000003,
+     "value_full_us": 3.773,
+     "need_ms": 0.5820000000000001,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 943,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.458,
+     "policy_max_ms": 0.796,
+     "policy_joint_p99_ms": 0.355,
+     "value_turn_p99_ms": 0.244,
+     "value_node_us": 8.487,
+     "value_full_us": 10.007,
+     "need_ms": 1.053,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 338,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 1.165,
+     "policy_max_ms": 1.259,
+     "policy_joint_p99_ms": 0.895,
+     "value_turn_p99_ms": 0.541,
+     "value_node_us": 16.184,
+     "value_full_us": 20.226,
+     "need_ms": 2.559,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 133,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 2.033,
+     "policy_max_ms": 2.64,
+     "policy_joint_p99_ms": 1.627,
+     "value_turn_p99_ms": 1.483,
+     "value_node_us": 52.614999999999995,
+     "value_full_us": 60.786,
+     "need_ms": 5.274,
+     "fits": false,
+     "policy_fits": true,
+     "value_nodes_affordable": 24,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XL"
+  },
+  {
+   "teams": 14,
+   "map_size": 49,
+   "source": "n14-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 5.7,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.237,
+     "policy_max_ms": 0.316,
+     "policy_joint_p99_ms": 0.187,
+     "value_turn_p99_ms": 0.058,
+     "value_node_us": 1.79,
+     "value_full_us": 1.558,
+     "need_ms": 0.4425,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1729,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.327,
+     "policy_max_ms": 0.397,
+     "policy_joint_p99_ms": 0.249,
+     "value_turn_p99_ms": 0.092,
+     "value_node_us": 3.313,
+     "value_full_us": 3.765,
+     "need_ms": 0.6285000000000001,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 907,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.51,
+     "policy_max_ms": 0.85,
+     "policy_joint_p99_ms": 0.384,
+     "value_turn_p99_ms": 0.24,
+     "value_node_us": 8.795,
+     "value_full_us": 10.1,
+     "need_ms": 1.125,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 321,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 0.986,
+     "policy_max_ms": 1.354,
+     "policy_joint_p99_ms": 0.771,
+     "value_turn_p99_ms": 0.459,
+     "value_node_us": 16.64,
+     "value_full_us": 20.101,
+     "need_ms": 2.1675,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 141,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 2.034,
+     "policy_max_ms": 2.134,
+     "policy_joint_p99_ms": 1.626,
+     "value_turn_p99_ms": 1.455,
+     "value_node_us": 53.644000000000005,
+     "value_full_us": 60.988,
+     "need_ms": 5.233499999999999,
+     "fits": false,
+     "policy_fits": true,
+     "value_nodes_affordable": 24,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XL"
+  },
+  {
+   "teams": 15,
+   "map_size": 49,
+   "source": "n15-s1-000000.json.gz (test bots, real map and engine)",
+   "budget_ms": 5,
+   "seconds": 6.0,
+   "tiers": {
+    "S": {
+     "policy_p99_ms": 0.259,
+     "policy_max_ms": 0.27,
+     "policy_joint_p99_ms": 0.201,
+     "value_turn_p99_ms": 0.062,
+     "value_node_us": 1.873,
+     "value_full_us": 1.565,
+     "need_ms": 0.48150000000000004,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 1641,
+     "seats": 1,
+     "turns": 798
+    },
+    "M": {
+     "policy_p99_ms": 0.353,
+     "policy_max_ms": 0.478,
+     "policy_joint_p99_ms": 0.27,
+     "value_turn_p99_ms": 0.098,
+     "value_node_us": 3.435,
+     "value_full_us": 3.777,
+     "need_ms": 0.6764999999999999,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 867,
+     "seats": 1,
+     "turns": 798
+    },
+    "L": {
+     "policy_p99_ms": 0.685,
+     "policy_max_ms": 0.745,
+     "policy_joint_p99_ms": 0.513,
+     "value_turn_p99_ms": 0.308,
+     "value_node_us": 9.101,
+     "value_full_us": 10.186,
+     "need_ms": 1.4895,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 290,
+     "seats": 1,
+     "turns": 798
+    },
+    "XL": {
+     "policy_p99_ms": 1.336,
+     "policy_max_ms": 1.48,
+     "policy_joint_p99_ms": 1.035,
+     "value_turn_p99_ms": 0.582,
+     "value_node_us": 17.213,
+     "value_full_us": 20.248,
+     "need_ms": 2.8770000000000002,
+     "fits": true,
+     "policy_fits": true,
+     "value_nodes_affordable": 116,
+     "seats": 1,
+     "turns": 798
+    },
+    "XXL": {
+     "policy_p99_ms": 2.255,
+     "policy_max_ms": 3.145,
+     "policy_joint_p99_ms": 1.802,
+     "value_turn_p99_ms": 1.512,
+     "value_node_us": 54.8,
+     "value_full_us": 61.233,
+     "need_ms": 5.6505,
+     "fits": false,
+     "policy_fits": true,
+     "value_nodes_affordable": 19,
+     "seats": 1,
+     "turns": 798
+    }
+   },
+   "largest_fit": "XL"
+  }
+ ],
+ "tiers": {
+  "S": {
+   "widths": {
+    "mover": [
+     16
+    ],
+    "squad": [
+     64,
+     32
+    ],
+    "act": [
+     16
+    ],
+    "target": [
+     8
+    ],
+    "value": [
+     128,
+     16
+    ]
+   },
+   "static": {
+    "params": {
+     "mover": 673,
+     "squad": 20477,
+     "act": 724,
+     "target": 73,
+     "value": 9121
+    },
+    "macs_per_opponent_team": 30096,
+    "value_macs": 8976,
+    "header_kib": 209.3486328125,
+    "all_models_mib": 2.2488622665405273,
+    "widest_layer": 222,
+    "max_width": 256
+   }
+  },
+  "M": {
+   "widths": {
+    "mover": [
+     32
+    ],
+    "squad": [
+     128,
+     64
+    ],
+    "act": [
+     32
+    ],
+    "target": [
+     16
+    ],
+    "value": [
+     256,
+     32
+    ]
+   },
+   "static": {
+    "params": {
+     "mover": 1345,
+     "squad": 44925,
+     "act": 1444,
+     "target": 145,
+     "value": 22337
+    },
+    "macs_per_opponent_team": 64288,
+    "value_macs": 22048,
+    "header_kib": 470.0244140625,
+    "all_models_mib": 5.049090385437012,
+    "widest_layer": 256,
+    "max_width": 256
+   }
+  },
+  "L": {
+   "widths": {
+    "mover": [
+     64
+    ],
+    "squad": [
+     256,
+     64
+    ],
+    "act": [
+     64
+    ],
+    "target": [
+     16
+    ],
+    "value": [
+     512,
+     64
+    ]
+   },
+   "static": {
+    "params": {
+     "mover": 2689,
+     "squad": 81661,
+     "act": 2884,
+     "target": 145,
+     "value": 61057
+    },
+    "macs_per_opponent_team": 120576,
+    "value_macs": 60480,
+    "header_kib": 993.3427734375,
+    "all_models_mib": 10.670674324035645,
+    "widest_layer": 512,
+    "max_width": 512
+   }
+  },
+  "XL": {
+   "widths": {
+    "mover": [
+     128
+    ],
+    "squad": [
+     512,
+     128
+    ],
+    "act": [
+     128
+    ],
+    "target": [
+     32
+    ],
+    "value": [
+     1024,
+     64
+    ]
+   },
+   "static": {
+    "params": {
+     "mover": 5377,
+     "squad": 195965,
+     "act": 5764,
+     "target": 289,
+     "value": 121985
+    },
+    "macs_per_opponent_team": 273920,
+    "value_macs": 120896,
+    "header_kib": 2191.8916015625,
+    "all_models_mib": 23.545710563659668,
+    "widest_layer": 1024,
+    "max_width": 1024
+   }
+  },
+  "XXL": {
+   "widths": {
+    "mover": [
+     256
+    ],
+    "squad": [
+     1024,
+     256
+    ],
+    "act": [
+     256
+    ],
+    "target": [
+     32
+    ],
+    "value": [
+     2048,
+     128
+    ]
+   },
+   "static": {
+    "params": {
+     "mover": 10753,
+     "squad": 522877,
+     "act": 11524,
+     "target": 289,
+     "value": 375041
+    },
+    "macs_per_opponent_team": 678912,
+    "value_macs": 372864,
+    "header_kib": 5992.47265625,
+    "all_models_mib": 64.37226486206055,
+    "widest_layer": 2048,
+    "max_width": 2048
+   }
+  }
+ },
+ "budget_ms": 5,
+ "ceiling": "XL"
+}
