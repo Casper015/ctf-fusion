@@ -1,0 +1,740 @@
+{
+ "rows": [
+  {
+   "behavior": "CFL (proximity-tiered prediction)",
+   "representative": "C12_R3_CFL_conditional",
+   "members": [
+    "C12_R3_CFL_conditional"
+   ],
+   "pair_win": 0.776,
+   "margin": 5.781,
+   "vs_control": {
+    "delta": 0.0245,
+    "se": 0.008550522248106115,
+    "n": 2000,
+    "gained": 236,
+    "lost": 173
+   },
+   "by_opponent": {
+    "Player5": {
+     "pair_win": 0.7619760479041916,
+     "vs_control": {
+      "delta": 0.08532934131736528,
+      "se": 0.024233797093818264,
+      "n": 334,
+      "gained": 67,
+      "lost": 33
+     }
+    },
+    "GPT-6 Astra": {
+     "pair_win": 0.5,
+     "vs_control": {
+      "delta": 0.040419161676646706,
+      "se": 0.029410471366198083,
+      "n": 334,
+      "gained": 73,
+      "lost": 56
+     }
+    },
+    "GPT-6.1 Sol": {
+     "pair_win": 0.493993993993994,
+     "vs_control": {
+      "delta": 0.013513513513513514,
+      "se": 0.02784016841344966,
+      "n": 333,
+      "gained": 63,
+      "lost": 58
+     }
+    },
+    "Fable 5.1": {
+     "pair_win": 0.9684684684684685,
+     "vs_control": {
+      "delta": -0.0015015015015015015,
+      "se": 0.010947235895150365,
+      "n": 333,
+      "gained": 11,
+      "lost": 9
+     }
+    },
+    "Sonnet 5.5": {
+     "pair_win": 0.975975975975976,
+     "vs_control": {
+      "delta": 0.012012012012012012,
+      "se": 0.0118222602615862,
+      "n": 333,
+      "gained": 11,
+      "lost": 6
+     }
+    },
+    "Opus 5.5": {
+     "pair_win": 0.9564564564564565,
+     "vs_control": {
+      "delta": -0.003003003003003003,
+      "se": 0.011451117364918722,
+      "n": 333,
+      "gained": 11,
+      "lost": 11
+     }
+    }
+   },
+   "by_seat": {
+    "0": 0.769,
+    "1": 0.783
+   }
+  },
+  {
+   "behavior": "R3 expectimax (24-sample duel refinement)",
+   "representative": "C17_R3_EXPECTIMAX_anytime",
+   "members": [
+    "C17_R3_EXPECTIMAX_anytime",
+    "C18_R3_EXPECTIMAX_sampled"
+   ],
+   "pair_win": 0.76875,
+   "margin": 5.496,
+   "vs_control": {
+    "delta": 0.01725,
+    "se": 0.008857366720567196,
+    "n": 2000,
+    "gained": 235,
+    "lost": 194
+   },
+   "by_opponent": {
+    "Player5": {
+     "pair_win": 0.7350299401197605,
+     "vs_control": {
+      "delta": 0.058383233532934134,
+      "se": 0.02615952580545344,
+      "n": 334,
+      "gained": 69,
+      "lost": 42
+     }
+    },
+    "GPT-6 Astra": {
+     "pair_win": 0.5239520958083832,
+     "vs_control": {
+      "delta": 0.06437125748502993,
+      "se": 0.028582841300638095,
+      "n": 334,
+      "gained": 72,
+      "lost": 48
+     }
+    },
+    "GPT-6.1 Sol": {
+     "pair_win": 0.47147147147147145,
+     "vs_control": {
+      "delta": -0.009009009009009009,
+      "se": 0.029386581261920224,
+      "n": 333,
+      "gained": 61,
+      "lost": 63
+     }
+    },
+    "Fable 5.1": {
+     "pair_win": 0.9624624624624625,
+     "vs_control": {
+      "delta": -0.0075075075075075074,
+      "se": 0.012301916986394257,
+      "n": 333,
+      "gained": 9,
+      "lost": 13
+     }
+    },
+    "Sonnet 5.5": {
+     "pair_win": 0.963963963963964,
+     "vs_control": {
+      "delta": 0.0,
+      "se": 0.011840626731945428,
+      "n": 333,
+      "gained": 11,
+      "lost": 12
+     }
+    },
+    "Opus 5.5": {
+     "pair_win": 0.9564564564564565,
+     "vs_control": {
+      "delta": -0.003003003003003003,
+      "se": 0.012399236400897694,
+      "n": 333,
+      "gained": 13,
+      "lost": 16
+     }
+    }
+   },
+   "by_seat": {
+    "0": 0.7755,
+    "1": 0.762
+   }
+  },
+  {
+   "behavior": "ESCORT",
+   "representative": "C16_R3_ESCORT_mech",
+   "members": [
+    "C16_R3_ESCORT_mech"
+   ],
+   "pair_win": 0.75275,
+   "margin": 5.1935,
+   "vs_control": {
+    "delta": 0.00125,
+    "se": 0.002437147634899689,
+    "n": 2000,
+    "gained": 18,
+    "lost": 14
+   },
+   "by_opponent": {
+    "Player5": {
+     "pair_win": 0.6781437125748503,
+     "vs_control": {
+      "delta": 0.0014970059880239522,
+      "se": 0.004497007987359728,
+      "n": 334,
+      "gained": 2,
+      "lost": 1
+     }
+    },
+    "GPT-6 Astra": {
+     "pair_win": 0.4655688622754491,
+     "vs_control": {
+      "delta": 0.005988023952095809,
+      "se": 0.009476422984516149,
+      "n": 334,
+      "gained": 8,
+      "lost": 5
+     }
+    },
+    "GPT-6.1 Sol": {
+     "pair_win": 0.47597597597597596,
+     "vs_control": {
+      "delta": -0.0045045045045045045,
+      "se": 0.008094226934767029,
+      "n": 333,
+      "gained": 5,
+      "lost": 6
+     }
+    },
+    "Fable 5.1": {
+     "pair_win": 0.96996996996997,
+     "vs_control": {
+      "delta": 0.0,
+      "se": 0.004253278680754727,
+      "n": 333,
+      "gained": 1,
+      "lost": 1
+     }
+    },
+    "Sonnet 5.5": {
+     "pair_win": 0.9669669669669669,
+     "vs_control": {
+      "delta": 0.003003003003003003,
+      "se": 0.003003003003003003,
+      "n": 333,
+      "gained": 1,
+      "lost": 0
+     }
+    },
+    "Opus 5.5": {
+     "pair_win": 0.960960960960961,
+     "vs_control": {
+      "delta": 0.0015015015015015015,
+      "se": 0.003361502123618636,
+      "n": 333,
+      "gained": 1,
+      "lost": 1
+     }
+    }
+   },
+   "by_seat": {
+    "0": 0.7555,
+    "1": 0.75
+   }
+  },
+  {
+   "behavior": "Omega (Hybrid + endgame decay)",
+   "representative": "C07_Player5_Omega",
+   "members": [
+    "Astra_Carrier",
+    "Astra_Joint",
+    "B1_Player5_Omega_r3",
+    "C03_G_ASYM_plans",
+    "C04_G_PLAYOUT_4ply",
+    "C05_G_RISK_entropic",
+    "C06_G_SH_halving",
+    "C07_Player5_Omega",
+    "C08_Player5_Omega_LIT",
+    "C09_Player5_Omega_defaultWeights",
+    "C10_Player5_Omega_hybridMacro",
+    "C13_R3_CL_terminal",
+    "Control_Omega"
+   ],
+   "pair_win": 0.752,
+   "margin": 5.1945,
+   "vs_control": {
+    "delta": 0.0005,
+    "se": 0.000353464946966976,
+    "n": 2000,
+    "gained": 2,
+    "lost": 0
+   },
+   "by_opponent": {
+    "Player5": {
+     "pair_win": 0.6766467065868264,
+     "vs_control": {
+      "delta": 0.0,
+      "se": 0.0,
+      "n": 334,
+      "gained": 0,
+      "lost": 0
+     }
+    },
+    "GPT-6 Astra": {
+     "pair_win": 0.4625748502994012,
+     "vs_control": {
+      "delta": 0.0029940119760479044,
+      "se": 0.002113904973069714,
+      "n": 334,
+      "gained": 2,
+      "lost": 0
+     }
+    },
+    "GPT-6.1 Sol": {
+     "pair_win": 0.4804804804804805,
+     "vs_control": {
+      "delta": 0.0,
+      "se": 0.0,
+      "n": 333,
+      "gained": 0,
+      "lost": 0
+     }
+    },
+    "Fable 5.1": {
+     "pair_win": 0.96996996996997,
+     "vs_control": {
+      "delta": 0.0,
+      "se": 0.0,
+      "n": 333,
+      "gained": 0,
+      "lost": 0
+     }
+    },
+    "Sonnet 5.5": {
+     "pair_win": 0.963963963963964,
+     "vs_control": {
+      "delta": 0.0,
+      "se": 0.0,
+      "n": 333,
+      "gained": 0,
+      "lost": 0
+     }
+    },
+    "Opus 5.5": {
+     "pair_win": 0.9594594594594594,
+     "vs_control": {
+      "delta": 0.0,
+      "se": 0.0,
+      "n": 333,
+      "gained": 0,
+      "lost": 0
+     }
+    }
+   },
+   "by_seat": {
+    "0": 0.753,
+    "1": 0.751
+   }
+  },
+  {
+   "behavior": "Control_Hybrid duel planner",
+   "representative": "C01_Control_Hybrid",
+   "members": [
+    "A0_Control_Hybrid_AA",
+    "B0_Control_Hybrid",
+    "B2_Player2_v005",
+    "C01_Control_Hybrid",
+    "C02_Control_NG_foundation",
+    "C11_R3_CDP_horizon",
+    "C14_R3_DROP_scored",
+    "C19_R3_FLAGS_joint",
+    "C22_R3_WEIGHTS_tuned"
+   ],
+   "pair_win": 0.7515,
+   "margin": 5.188,
+   "vs_control": null,
+   "by_opponent": {
+    "Player5": {
+     "pair_win": 0.6766467065868264,
+     "vs_control": null
+    },
+    "GPT-6 Astra": {
+     "pair_win": 0.4595808383233533,
+     "vs_control": null
+    },
+    "GPT-6.1 Sol": {
+     "pair_win": 0.4804804804804805,
+     "vs_control": null
+    },
+    "Fable 5.1": {
+     "pair_win": 0.96996996996997,
+     "vs_control": null
+    },
+    "Sonnet 5.5": {
+     "pair_win": 0.963963963963964,
+     "vs_control": null
+    },
+    "Opus 5.5": {
+     "pair_win": 0.9594594594594594,
+     "vs_control": null
+    }
+   },
+   "by_seat": {
+    "0": 0.753,
+    "1": 0.75
+   }
+  },
+  {
+   "behavior": "Astra habits",
+   "representative": "Astra_Habits",
+   "members": [
+    "Astra_Full",
+    "Astra_Habits"
+   ],
+   "pair_win": 0.75125,
+   "margin": 4.996,
+   "vs_control": {
+    "delta": -0.00025,
+    "se": 0.008991823797072472,
+    "n": 2000,
+    "gained": 214,
+    "lost": 212
+   },
+   "by_opponent": {
+    "Player5": {
+     "pair_win": 0.7305389221556886,
+     "vs_control": {
+      "delta": 0.05389221556886228,
+      "se": 0.025712053080677318,
+      "n": 334,
+      "gained": 63,
+      "lost": 40
+     }
+    },
+    "GPT-6 Astra": {
+     "pair_win": 0.4296407185628742,
+     "vs_control": {
+      "delta": -0.029940119760479042,
+      "se": 0.030164504168052813,
+      "n": 334,
+      "gained": 61,
+      "lost": 72
+     }
+    },
+    "GPT-6.1 Sol": {
+     "pair_win": 0.47297297297297297,
+     "vs_control": {
+      "delta": -0.0075075075075075074,
+      "se": 0.028726360703406117,
+      "n": 333,
+      "gained": 57,
+      "lost": 62
+     }
+    },
+    "Fable 5.1": {
+     "pair_win": 0.960960960960961,
+     "vs_control": {
+      "delta": -0.009009009009009009,
+      "se": 0.012206603400824304,
+      "n": 333,
+      "gained": 9,
+      "lost": 12
+     }
+    },
+    "Sonnet 5.5": {
+     "pair_win": 0.9654654654654654,
+     "vs_control": {
+      "delta": 0.0015015015015015015,
+      "se": 0.013022692404741654,
+      "n": 333,
+      "gained": 11,
+      "lost": 10
+     }
+    },
+    "Opus 5.5": {
+     "pair_win": 0.948948948948949,
+     "vs_control": {
+      "delta": -0.010510510510510511,
+      "se": 0.013687766224634437,
+      "n": 333,
+      "gained": 13,
+      "lost": 16
+     }
+    }
+   },
+   "by_seat": {
+    "0": 0.7425,
+    "1": 0.76
+   }
+  },
+  {
+   "behavior": "ESCORT + HEALTHY",
+   "representative": "C15_R3_ESCORT_healthy",
+   "members": [
+    "C15_R3_ESCORT_healthy"
+   ],
+   "pair_win": 0.75075,
+   "margin": 5.1115,
+   "vs_control": {
+    "delta": -0.00075,
+    "se": 0.005345699860963179,
+    "n": 2000,
+    "gained": 83,
+    "lost": 86
+   },
+   "by_opponent": {
+    "Player5": {
+     "pair_win": 0.6721556886227545,
+     "vs_control": {
+      "delta": -0.004491017964071856,
+      "se": 0.016075803453132118,
+      "n": 334,
+      "gained": 21,
+      "lost": 25
+     }
+    },
+    "GPT-6 Astra": {
+     "pair_win": 0.45808383233532934,
+     "vs_control": {
+      "delta": -0.0014970059880239522,
+      "se": 0.019258066675739566,
+      "n": 334,
+      "gained": 30,
+      "lost": 30
+     }
+    },
+    "GPT-6.1 Sol": {
+     "pair_win": 0.4804804804804805,
+     "vs_control": {
+      "delta": 0.0,
+      "se": 0.013945306737886718,
+      "n": 333,
+      "gained": 17,
+      "lost": 15
+     }
+    },
+    "Fable 5.1": {
+     "pair_win": 0.9594594594594594,
+     "vs_control": {
+      "delta": -0.010510510510510511,
+      "se": 0.008877649858113758,
+      "n": 333,
+      "gained": 3,
+      "lost": 8
+     }
+    },
+    "Sonnet 5.5": {
+     "pair_win": 0.9684684684684685,
+     "vs_control": {
+      "delta": 0.0045045045045045045,
+      "se": 0.00780986010037743,
+      "n": 333,
+      "gained": 5,
+      "lost": 4
+     }
+    },
+    "Opus 5.5": {
+     "pair_win": 0.9669669669669669,
+     "vs_control": {
+      "delta": 0.0075075075075075074,
+      "se": 0.00808751251889992,
+      "n": 333,
+      "gained": 7,
+      "lost": 4
+     }
+    }
+   },
+   "by_seat": {
+    "0": 0.747,
+    "1": 0.7545
+   }
+  },
+  {
+   "behavior": "R3 habits (ours)",
+   "representative": "C20_R3_HABITS_adaptive",
+   "members": [
+    "C20_R3_HABITS_adaptive"
+   ],
+   "pair_win": 0.75075,
+   "margin": 4.992,
+   "vs_control": {
+    "delta": -0.00075,
+    "se": 0.00898485295045337,
+    "n": 2000,
+    "gained": 212,
+    "lost": 212
+   },
+   "by_opponent": {
+    "Player5": {
+     "pair_win": 0.7290419161676647,
+     "vs_control": {
+      "delta": 0.05239520958083832,
+      "se": 0.025765000425278416,
+      "n": 334,
+      "gained": 63,
+      "lost": 41
+     }
+    },
+    "GPT-6 Astra": {
+     "pair_win": 0.4281437125748503,
+     "vs_control": {
+      "delta": -0.03143712574850299,
+      "se": 0.03012264318965553,
+      "n": 334,
+      "gained": 60,
+      "lost": 72
+     }
+    },
+    "GPT-6.1 Sol": {
+     "pair_win": 0.47147147147147145,
+     "vs_control": {
+      "delta": -0.009009009009009009,
+      "se": 0.028685672456943985,
+      "n": 333,
+      "gained": 56,
+      "lost": 62
+     }
+    },
+    "Fable 5.1": {
+     "pair_win": 0.9624624624624625,
+     "vs_control": {
+      "delta": -0.0075075075075075074,
+      "se": 0.012116706097619721,
+      "n": 333,
+      "gained": 9,
+      "lost": 11
+     }
+    },
+    "Sonnet 5.5": {
+     "pair_win": 0.9654654654654654,
+     "vs_control": {
+      "delta": 0.0015015015015015015,
+      "se": 0.013022692404741654,
+      "n": 333,
+      "gained": 11,
+      "lost": 10
+     }
+    },
+    "Opus 5.5": {
+     "pair_win": 0.948948948948949,
+     "vs_control": {
+      "delta": -0.010510510510510511,
+      "se": 0.013687766224634437,
+      "n": 333,
+      "gained": 13,
+      "lost": 16
+     }
+    }
+   },
+   "by_seat": {
+    "0": 0.7425,
+    "1": 0.759
+   }
+  },
+  {
+   "behavior": "HEALTHY",
+   "representative": "C21_R3_HEALTHY_pickup",
+   "members": [
+    "C21_R3_HEALTHY_pickup"
+   ],
+   "pair_win": 0.7505,
+   "margin": 5.113,
+   "vs_control": {
+    "delta": -0.001,
+    "se": 0.004963548973184872,
+    "n": 2000,
+    "gained": 73,
+    "lost": 81
+   },
+   "by_opponent": {
+    "Player5": {
+     "pair_win": 0.6691616766467066,
+     "vs_control": {
+      "delta": -0.0074850299401197605,
+      "se": 0.01593198877154585,
+      "n": 334,
+      "gained": 19,
+      "lost": 25
+     }
+    },
+    "GPT-6 Astra": {
+     "pair_win": 0.46107784431137727,
+     "vs_control": {
+      "delta": 0.0014970059880239522,
+      "se": 0.01754810369816463,
+      "n": 334,
+      "gained": 28,
+      "lost": 28
+     }
+    },
+    "GPT-6.1 Sol": {
+     "pair_win": 0.484984984984985,
+     "vs_control": {
+      "delta": 0.0045045045045045045,
+      "se": 0.012668504340937886,
+      "n": 333,
+      "gained": 14,
+      "lost": 12
+     }
+    },
+    "Fable 5.1": {
+     "pair_win": 0.963963963963964,
+     "vs_control": {
+      "delta": -0.006006006006006006,
+      "se": 0.007045558373635281,
+      "n": 333,
+      "gained": 2,
+      "lost": 5
+     }
+    },
+    "Sonnet 5.5": {
+     "pair_win": 0.963963963963964,
+     "vs_control": {
+      "delta": 0.0,
+      "se": 0.007366894773816713,
+      "n": 333,
+      "gained": 4,
+      "lost": 5
+     }
+    },
+    "Opus 5.5": {
+     "pair_win": 0.960960960960961,
+     "vs_control": {
+      "delta": 0.0015015015015015015,
+      "se": 0.007813337331226645,
+      "n": 333,
+      "gained": 6,
+      "lost": 6
+     }
+    }
+   },
+   "by_seat": {
+    "0": 0.746,
+    "1": 0.755
+   }
+  }
+ ],
+ "overlap": {
+  "cfl_gained": 236,
+  "cfl_lost": 173,
+  "expectimax_gained": 235,
+  "expectimax_lost": 194,
+  "gained_by_both": 145,
+  "lost_by_both": 71,
+  "oracle_best_of_two": 0.86025,
+  "control_losses": 453,
+  "control_losses_by_opponent": {
+   "Player5": 93,
+   "GPT-6 Astra": 170,
+   "GPT-6.1 Sol": 161,
+   "Fable 5.1": 8,
+   "Sonnet 5.5": 11,
+   "Opus 5.5": 10
+  }
+ }
+}

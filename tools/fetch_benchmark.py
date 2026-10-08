@@ -1,4 +1,4 @@
-"""Download the raw benchmark match records from AI_Test into data/benchmark_raw/.
+"""Download the raw benchmark match records (ctf-benchmark-v3, ctf-elite-duels-v3) from AI_Test into data/benchmark_raw/.
 
     python tools/fetch_benchmark.py [--ref main]
 
@@ -26,6 +26,9 @@ FILES = [
     T1 + "results/report_90k_final.md", T1 + "results/progress.json", T1 + "BUILD_MANIFEST.json",
     T2 + "results/games_c_2000.jsonl", T2 + "results/games_c_2000.jsonl.gz", T2 + "results/report_c_2000.md",
     T2 + "results/progress_c_2000.json", T2 + "MANIFEST_C.json", "ctf-benchmark-v3/BOTS_MAPPING.md",
+    "ctf-elite-duels-v3/README.md", "ctf-elite-duels-v3/fixtures_duels_2000.json", "ctf-elite-duels-v3/run_elite_duels.py",
+    "ctf-elite-duels-v3/results/games_elite_duels.jsonl", "ctf-elite-duels-v3/results/games_elite_duels.jsonl.gz",
+    "ctf-elite-duels-v3/results/progress_elite_duels.json", "ctf-elite-duels-v3/results/report_elite_duels.md",
 ]
 
 
