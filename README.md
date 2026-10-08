@@ -12,10 +12,12 @@ Opponent policy and board value networks for the multi-team Capture The Flag bot
 - [docs/DESIGN.md](docs/DESIGN.md): the design brief.
 - [docs/REVIEW.md](docs/REVIEW.md): decisions and experiment order.
 - [training/specs/](training/specs/README.md): the contracts — features, action indexing, data format, the 22-model matrix, simulator audit, environment.
+- [docs/ROSTER.md](docs/ROSTER.md): Phase A, evaluating every candidate opponent and selecting a diverse, evidenced 15 (`roster/`).
 
 **Status:**
 - **Done:**
   - the pipeline, simulator and runtime contracts are built and tested on this machine (macOS), with seeded test bots and two real judge-bot matches;
+  - the Phase A roster tooling ([docs/ROSTER.md](docs/ROSTER.md)): inventory of 191 candidates (122 eligible after aliases and exclusions), probe suite, behavior fingerprints, distances, strength screen, catalog and pool. Fingerprints, screens and the selection itself still run on the host;
   - the deployment contracts from the source review of 2026-10-08 ([REVIEW.md §7](docs/REVIEW.md#7-source-review-2026-10-08-and-what-changed)): binary tool output, one declared adapter scored by the gate, a fail-closed gate bound to the exact artifact, feature spec v2, strict holdouts, layer-width limits.
 - **Not yet done:**
   - no model trained on real data;
@@ -73,8 +75,9 @@ inference/        state.hpp, features.hpp, mlp.hpp, policy.hpp, value.hpp (accum
 tools/            extract_features, infer_check, runtime_check, sim_check, registry_check, adapter_check, bench_inference,
                   size_bench (C++); env_check.py (host check), capacity_bench.py (how big the models can be),
                   gen_feature_spec.py, random_bot.py (test bot), stream.hpp
+roster/           Phase A: inventory, probes, fingerprint, distance, strength, assess, catalog, pool (docs/ROSTER.md)
 tests/            test_math (gradients, quantization, convex fits, spec sync), test_contracts (binary records, v2 features,
-                  adapter, widths, gate identity; no AI_Test needed), test_pipeline (end to end)
+                  adapter, widths, gate identity; no AI_Test needed), test_roster (Phase A tools), test_pipeline (end to end)
 ```
 
 ## Requirements

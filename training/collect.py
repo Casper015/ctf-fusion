@@ -53,6 +53,8 @@ def resolve_pool(pool: dict, root: Path, names=None) -> dict[str, dict]:
             if names is None or entry["name"] in names:
                 raise SystemExit(f"bot {entry['name']} not found at {path}")
             continue
+        if entry.get("source_sha256") and sha256(path) != entry["source_sha256"]:
+            raise SystemExit(f"bot {entry['name']}: {path} no longer matches the pool's evaluated source hash")
         out[entry["name"]] = {**entry, "abs": str(path)}
     return out
 
