@@ -53,6 +53,7 @@ AI_Test engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶
 **Safety properties, each enforced by a test:**
 - **One feature implementation.** Features exist once, in C++ (`inference/features.hpp`), shared by the extractor and the bot.
 - **Exact integer inference.** The network accumulators (and so the logits) are integer and bit-identical to the Python emulation; the incremental value accumulator equals the full pass. Probabilities come from `exp` in double precision, so they can differ in the last bits across platforms.
+- **SIMD multiply-add kernels, same bits.** Layers run on 16-bit multiply-add kernels (`inference/simd.hpp`): AVX2 chosen at runtime on x86-64, SSE2 otherwise (every x86-64 CPU, no compiler flags), NEON on ARM, scalar elsewhere or with `-DFUSION_SIMD=0`. Integer sums are exact in any order, so every path gives the scalar loop's bits; `tools/kernel_check.cpp` checks each path the CPU runs (tests, `env_check`, `capacity_bench`).
 - **Byte-exact tool output.** Raw-record tools write binary stdout on Windows too, and every record's turn and team columns are checked on read.
 - **No heap use per turn.** Nothing allocates on the per-turn path after turn 1.
 - **Engine-exact simulator.** `inference/sim.hpp` reproduces every recorded engine turn.
@@ -69,11 +70,13 @@ profiles/         n02.json ... n15.json, general.json (matrix, search proposals,
 fusion/           paths, runner (Windows-safe bots), native (C++ tool builds), schema, matchlog, protocol, labels,
                   nn (numpy MLP + Adam), models, quant (integer format + exact emulation), mixture, metrics
 training/         collect, dataset, heuristic_baseline, train_policy, train_value, evaluate_offline, export_weights, common
-inference/        state.hpp, features.hpp, mlp.hpp, policy.hpp, value.hpp (accumulator, exact terminal value),
+inference/        state.hpp, features.hpp, simd.hpp (multiply-add kernels), mlp.hpp, policy.hpp,
+                  value.hpp (accumulator, exact terminal value),
                   adapter.hpp (q_H + q_theta deployment contract), sim.hpp (simulator);
                   models/weights_<model>.hpp + registry.hpp (generated)
-tools/            extract_features, infer_check, runtime_check, sim_check, registry_check, adapter_check, bench_inference,
-                  size_bench (C++); env_check.py (host check), capacity_bench.py (how big the models can be),
+tools/            extract_features, infer_check, runtime_check, sim_check, registry_check, adapter_check, kernel_check,
+                  bench_inference, size_bench (C++); env_check.py (host check), capacity_bench.py (how big the models can be),
+                  generate_multithreading_report.py / analyze_multithreading.py (loaded vs isolated capacity runs),
                   gen_feature_spec.py, random_bot.py (test bot), stream.hpp
 roster/           Phase A: inventory, probes, fingerprint, distance, strength, assess, catalog, pool (docs/ROSTER.md)
 tests/            test_math (gradients, quantization, convex fits, spec sync), test_contracts (binary records, v2 features,
@@ -123,7 +126,7 @@ It builds every pool bot, plays headless matches under the real limits, checks t
 python tools/capacity_bench.py --ai-test C:/path/to/AI_Test --tiers S M L XL
 ```
 
-It replays a real-sized match for every team count 2–15, runs as many copies at once as the match has seats, and times the bot's per-turn inference (policy for every opponent team, plus value-network search nodes) for a ladder of network sizes. Each size gets a verdict against the turn's inference budget (5 ms, with a 1.5× safety factor for a slower judge machine), the number of value nodes that still fit, and the header source size it adds. The output is `reports/capacity_<host>.md`; its ceiling is the largest size to train.
+It first checks the SIMD kernels against the scalar loop on that CPU, then replays a real-sized match for every team count 2–15, runs as many copies at once as the match has seats, and times the bot's per-turn inference (policy for every opponent team, plus value-network search nodes) for a ladder of network sizes. Each size gets a verdict against the turn's inference budget (5 ms, with a 1.5× safety factor for a slower judge machine), the number of value nodes that still fit, and the header source size it adds. The output is `reports/capacity_<host>.md`; its ceiling is the largest size to train. By default every size is timed twice, with the SIMD kernels and with the old scalar loop (`--kernels both`), and the report's last table gives the speedup. `tools/generate_multithreading_report.py` compares a loaded run with a `--seats 1` run, computing every statement from the two reports.
 
 | Tier | P MACs per opponent team | V MACs per node | header per model | all 11 models | `FUSION_MAX_WIDTH` |
 |---|---:|---:|---:|---:|---:|

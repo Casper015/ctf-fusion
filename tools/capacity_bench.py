@@ -22,6 +22,13 @@ What a real competition turn demands, and how the benchmark reproduces it:
   * The worst turns: p99 and max over every turn of every copy, not means.
   * A slower judge machine: every time is multiplied by --safety (default 1.5).
 
+Kernels: every run first checks that the SIMD multiply-add kernels give the
+original scalar loop's bits on this CPU (tools/kernel_check.cpp) and stops if
+not. With --kernels both (the default) every tier is timed twice, with the
+SIMD kernels (avx2 / sse2 / neon, chosen at startup) and with the scalar loop
+(-DFUSION_SIMD=0), and the report shows the speedup. Verdicts use the SIMD
+kernels, which is what the bot runs.
+
 The budget is what the turn leaves for inference: compute_target - search from
 profiles/ (35 - 30 = 5 ms), or --budget-ms. A tier fits a team count when
 safety x (policy p99 + value p99 per turn) <= budget. The report also gives
@@ -49,7 +56,7 @@ sys.path.insert(0, str(REPO))
 
 import numpy as np  # noqa: E402
 
-from fusion import matchlog, native, quant, synthetic  # noqa: E402
+from fusion import hostinfo, matchlog, native, quant, synthetic  # noqa: E402
 from fusion.models import PolicyNet, ValueNet  # noqa: E402
 from fusion.paths import TEAM_COUNTS, load_profile  # noqa: E402
 from fusion.schema import layout as feature_layout  # noqa: E402
@@ -143,11 +150,21 @@ def run_seats(binary: Path, stream_file: Path, tiers_file: Path, seats: int, rep
     return out
 
 
+def kernel_parity() -> str:
+    """Stop unless every kernel path this CPU runs matches the scalar loop bit for bit."""
+    ok, summary = native.run_kernel_check()
+    print(f"[capacity] {summary}", flush=True)
+    if not ok:
+        raise SystemExit("SIMD kernels disagree with the scalar loop on this CPU: do not use them; report this output")
+    return summary
+
+
 def verify(tiers: dict, teams_list: list[int]) -> int:
-    """Correctness only (no timing): incremental value == full pass for every tier, buffers as wide as it needs."""
+    """Correctness only (no timing): kernel parity, then incremental value == full pass for every tier."""
+    kernel_parity()
     layout = feature_layout()
     width = max(tier_static(w, layout)["max_width"] for w in tiers.values())
-    binary = native.build(REPO / "tools" / "size_bench.cpp", f"size_bench_w{width}", defines=[f"FUSION_MAX_WIDTH={width}"])
+    binary = native.size_bench(width)
     failures = 0
     with tempfile.TemporaryDirectory(prefix="capacity_") as tmp:
         tiers_file = Path(tmp) / "tiers.txt"
@@ -162,9 +179,31 @@ def verify(tiers: dict, teams_list: list[int]) -> int:
     return 1 if failures else 0
 
 
+def kernel_lines(report: dict) -> list[str]:
+    """Scalar loop against SIMD kernels, per team count and tier (when both were timed)."""
+    if not any("scalar" in c.get("kernels", {}) for c in report["counts"]):
+        return []
+    f = lambda v, d=2: f"{v:.{d}f}"
+    lines = ["", "## Kernels: scalar loop vs SIMD", "",
+             f"SIMD path on this CPU: **{report.get('simd_path', '?')}**. Same integers, same results "
+             f"({report.get('kernel_check', '')}). Speedup = scalar time / SIMD time.", "",
+             "| teams | tier | P p99 scalar / SIMD ms | P speedup | V node scalar / SIMD us | V speedup | needed ×safety scalar / SIMD ms |",
+             "|---:|---|---:|---:|---:|---:|---:|"]
+    for c in report["counts"]:
+        for name, s in c["kernels"]["scalar"].items():
+            v = c["kernels"]["simd"][name]
+            lines.append(f"| {c['teams']} | {name} | {f(s['policy_p99_ms'], 3)} / {f(v['policy_p99_ms'], 3)} | "
+                         f"{s['policy_p99_ms'] / v['policy_p99_ms']:.2f}× | {f(s['value_node_us'])} / {f(v['value_node_us'])} | "
+                         f"{s['value_node_us'] / v['value_node_us']:.2f}× | {f(s['need_ms'])} / {f(v['need_ms'])} |")
+    return lines
+
+
 def markdown(report: dict) -> str:
     f = lambda v, d=2: f"{v:.{d}f}"
+    host = report.get("host_profile", {})
     lines = [f"# Capacity benchmark: {report['host']}", "", report["time"], "",
+             f"CPU {host.get('cpu', 'not recorded')}, {host.get('logical_cpus', '?')} logical processors, {host.get('os', '')}. "
+             f"SIMD kernels: {report.get('simd_path', 'not recorded')}.", "",
              f"Budget {report['budget_ms']} ms per turn for inference (compute target minus search), safety factor "
              f"{report['safety']}, {report['value_calls']} value nodes per turn, every seat of a match running at once. "
              "P is the policy for every opponent team with every head (an upper bound); V is the value network per "
@@ -196,6 +235,7 @@ def markdown(report: dict) -> str:
               "`-DFUSION_MAX_WIDTH`; the exported header refuses to compile otherwise.",
               "- The judge's source-size limit is unknown; the last tier columns give the header text it would add.", "",
               "## Streams", "", *[f"- {c['teams']} teams: {c['source']}" for c in report["counts"]]]
+    lines += kernel_lines(report)
     return "\n".join(lines) + "\n"
 
 
@@ -211,18 +251,24 @@ def main(argv=None):
     ap.add_argument("--value-calls", type=int, default=24, help="value-network search nodes per turn")
     ap.add_argument("--budget-ms", type=float, default=0.0, help="inference budget per turn (default: profile compute_target - search)")
     ap.add_argument("--safety", type=float, default=1.5, help="multiplier for a slower judge machine")
+    ap.add_argument("--kernels", choices=("both", "simd", "scalar"), default="both",
+                    help="time the SIMD kernels, the scalar loop, or both (verdicts use the first of simd, scalar)")
     ap.add_argument("--verify", action="store_true", help="correctness only, no timing (any machine)")
+    ap.add_argument("--tag", help="name the report capacity_<tag>_<host> (e.g. --seats 1 --tag 1seat for the isolated run)")
     ap.add_argument("--out", default=str(REPO / "reports"))
     a = ap.parse_args(argv)
     tiers = {n: TIERS[n] for n in a.tiers} | dict(parse_tier(t) for t in a.tier)
     if a.verify:
         return verify(tiers, a.teams)
+    parity = kernel_parity()
     layout = feature_layout()
     statics = {n: tier_static(w, layout) for n, w in tiers.items()}
     width = max(s["max_width"] for s in statics.values())
-    binary = native.build(REPO / "tools" / "size_bench.cpp", f"size_bench_w{width}", defines=[f"FUSION_MAX_WIDTH={width}"])
+    kernels = ["simd", "scalar"] if a.kernels == "both" else [a.kernels]
+    binaries = {k: native.size_bench(width, simd=k == "simd") for k in kernels}
     report = {"host": socket.gethostname(), "time": time.strftime("%Y-%m-%dT%H:%M:%S"), "safety": a.safety,
-              "value_calls": a.value_calls, "max_width_built": width, "counts": [],
+              "value_calls": a.value_calls, "max_width_built": width, "counts": [], "host_profile": hostinfo.profile(),
+              "kernels": kernels, "kernel_check": parity, "seats_arg": a.seats or "team count",
               "tiers": {n: {"widths": tiers[n], "static": statics[n]} for n in tiers}}
     with tempfile.TemporaryDirectory(prefix="capacity_") as tmp:
         work = Path(tmp)
@@ -236,23 +282,30 @@ def main(argv=None):
             stream_file = work / f"n{teams:02d}.txt"
             stream_file.write_bytes(stream.encode())
             seats = a.seats or teams
-            t0 = time.time()
-            copies = run_seats(binary, stream_file, tiers_file, seats, a.repeat, a.value_calls)
-            entry = {"teams": teams, "map_size": copies[0][0]["map_size"], "source": source, "budget_ms": budget,
-                     "seconds": round(time.time() - t0, 1), "tiers": {}}
-            for i, name in enumerate(tiers):
-                entry["tiers"][name] = plan([c[i] for c in copies], budget, a.safety)
+            entry = {"teams": teams, "source": source, "budget_ms": budget, "kernels": {}, "seconds_by_kernel": {}}
+            for k in kernels:
+                t0 = time.time()
+                copies = run_seats(binaries[k], stream_file, tiers_file, seats, a.repeat, a.value_calls)
+                entry["seconds_by_kernel"][k] = round(time.time() - t0, 1)
+                entry["kernels"][k] = {name: plan([c[i] for c in copies], budget, a.safety) for i, name in enumerate(tiers)}
+                entry["map_size"] = copies[0][0]["map_size"]
+                if k == "simd":
+                    report["simd_path"] = copies[0][0]["kernel"]
+            entry["tiers"] = entry["kernels"][kernels[0]]
+            entry["seconds"] = entry["seconds_by_kernel"][kernels[0]]
             fitting = [n for n in tiers if entry["tiers"][n]["fits"]]
             entry["largest_fit"] = max(fitting, key=lambda n: statics[n]["macs_per_opponent_team"]) if fitting else None
             report["counts"].append(entry)
-            print(f"[capacity] {teams} teams ({seats} seats, {entry['seconds']} s): "
-                  + ", ".join(f"{n} {p['need_ms']:.2f} ms{'' if p['fits'] else ' (over)'}" for n, p in entry["tiers"].items()),
-                  flush=True)
+            print(f"[capacity] {teams} teams ({seats} seats, {entry['seconds']} s, {kernels[0]}): "
+                  + ", ".join(f"{n} {p['need_ms']:.2f} ms{'' if p['fits'] else ' (over)'}" for n, p in entry["tiers"].items())
+                  + ("" if len(kernels) < 2 else "; P speedup over scalar " + ", ".join(
+                      f"{n} {entry['kernels']['scalar'][n]['policy_p99_ms'] / entry['kernels']['simd'][n]['policy_p99_ms']:.1f}x"
+                      for n in tiers)), flush=True)
     everywhere = [n for n in tiers if all(c["tiers"][n]["fits"] for c in report["counts"])]
     report["ceiling"] = max(everywhere, key=lambda n: statics[n]["macs_per_opponent_team"]) if everywhere else None
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    stem = out / f"capacity_{report['host']}"
+    stem = out / (f"capacity_{a.tag}_{report['host']}" if a.tag else f"capacity_{report['host']}")
     stem.with_suffix(".json").write_text(json.dumps(report, indent=1), encoding="utf-8")
     stem.with_suffix(".md").write_text(markdown(report), encoding="utf-8")
     print(f"[capacity] wrote {stem.with_suffix('.md')}; ceiling: {report['ceiling']}")

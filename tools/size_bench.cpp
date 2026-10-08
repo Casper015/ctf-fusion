@@ -54,6 +54,7 @@ int32_t nextInt(int lo, int hi) {  // xorshift64, inclusive range
 
 // A network that owns its weights.
 struct OwnedNet {
+    std::vector<int16_t> wT;  // transposed first layer (value net: contiguous accumulator updates)
     std::vector<std::vector<int16_t>> w;
     std::vector<std::vector<int32_t>> b;
     std::vector<Layer> layers;
@@ -61,7 +62,7 @@ struct OwnedNet {
     long params = 0;
 };
 
-void build(OwnedNet& n, int in, const std::vector<int>& hidden, int out) {
+void build(OwnedNet& n, int in, const std::vector<int>& hidden, int out, bool transposeFirst = false) {
     std::vector<int> dims{in};
     dims.insert(dims.end(), hidden.begin(), hidden.end());
     dims.push_back(out);
@@ -76,6 +77,13 @@ void build(OwnedNet& n, int in, const std::vector<int>& hidden, int out) {
         for (auto& v : n.b[l]) v = nextInt(-512, 512);
         n.layers[l] = Layer{dims[l], dims[l + 1], n.w[l].data(), n.b[l].data(), l == 0 ? 9 : 7, l + 1 < L};
         n.params += static_cast<long>(n.w[l].size() + n.b[l].size());
+    }
+    if (transposeFirst) {  // what the exporter writes for the value net's first layer
+        const Layer& f = n.layers[0];
+        n.wT.resize(n.w[0].size());
+        for (int o = 0; o < f.out; o++)
+            for (int i = 0; i < f.in; i++) n.wT[static_cast<size_t>(i) * f.out + o] = n.w[0][static_cast<size_t>(o) * f.in + i];
+        n.layers[0].wT = n.wT.data();
     }
     n.net = Net{n.layers.data(), L, 14};
 }
@@ -163,7 +171,7 @@ int main(int argc, char** argv) {
         build(squad, kSquadIn, tier.squad, kJoint);
         build(act, kMoverIn, tier.act, kActs);
         build(target, kTargetIn, tier.target, 1);
-        build(value, kV, tier.value, 1);
+        build(value, kV, tier.value, 1, true);
         const PolicyModel policy{mover.net, squad.net, act.net, target.net};
         const ValueModel valueModel{value.net};
 
@@ -228,18 +236,18 @@ int main(int argc, char** argv) {
             }
         const long sampled = verify ? nodes : static_cast<long>(T) * repeat * std::min(valueCalls, st.teams);
         if (verify) {
-            std::printf("{\"tier\": \"%s\", \"verified\": %s, \"nodes\": %ld, \"mismatches\": %ld, \"turns\": %zu}\n",
-                        tier.name.c_str(), mismatches ? "false" : "true", nodes, mismatches, turnMs.size());
+            std::printf("{\"tier\": \"%s\", \"kernel\": \"%s\", \"verified\": %s, \"nodes\": %ld, \"mismatches\": %ld, \"turns\": %zu}\n",
+                        tier.name.c_str(), kernel::name(), mismatches ? "false" : "true", nodes, mismatches, turnMs.size());
             failures += mismatches > 0;
             continue;
         }
-        std::printf("{\"tier\": \"%s\", \"teams\": %d, \"map_size\": %d, \"turns\": %zu, \"value_calls\": %d, "
+        std::printf("{\"tier\": \"%s\", \"kernel\": \"%s\", \"teams\": %d, \"map_size\": %d, \"turns\": %zu, \"value_calls\": %d, "
                     "\"params\": {\"mover\": %ld, \"squad\": %ld, \"act\": %ld, \"target\": %ld, \"value\": %ld}, "
                     "\"policy_turn_ms\": {\"p50\": %.4f, \"p95\": %.4f, \"p99\": %.4f, \"max\": %.4f}, "
                     "\"policy_joint_ms\": {\"p50\": %.4f, \"p99\": %.4f}, "
                     "\"value_node_us\": {\"encode\": %.3f, \"incremental\": %.3f, \"full\": %.3f}, "
                     "\"value_turn_ms\": {\"p50\": %.4f, \"p99\": %.4f, \"max\": %.4f}, \"mismatches\": %ld, \"sink\": %d}\n",
-                    tier.name.c_str(), st.teams, st.size, turnMs.size(), valueCalls, mover.params, squad.params, act.params,
+                    tier.name.c_str(), kernel::name(), st.teams, st.size, turnMs.size(), valueCalls, mover.params, squad.params, act.params,
                     target.params, value.params, pct(turnMs, 0.5), pct(turnMs, 0.95), pct(turnMs, 0.99),
                     pct(turnMs, 1.0), pct(jointMs, 0.5), pct(jointMs, 0.99), encodeUs / std::max(1L, nodes),
                     incrementalUs / std::max(1L, nodes), fullUs / std::max(1L, sampled), pct(valueTurnMs, 0.5),

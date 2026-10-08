@@ -157,6 +157,24 @@ def forecast_dump(ai_test: Path) -> Path:
     return build(src, "forecast_dump", deps=[p for p in forecast_sources(ai_test) if p != src])
 
 
+def kernel_check(simd: bool = True, width: int = 1024) -> Path:
+    """Bit-exact parity of the SIMD multiply-add kernels against the original scalar loop (tools/kernel_check.cpp)."""
+    return build(REPO / "tools" / "kernel_check.cpp", f"kernel_check_w{width}{'' if simd else '_scalar'}",
+                 defines=[f"FUSION_MAX_WIDTH={width}", f"FUSION_SIMD={int(simd)}"])
+
+
+def run_kernel_check(cases: int = 300) -> tuple[bool, str]:
+    """(every available kernel path matches, summary line naming the active and tested paths)."""
+    r = run_tool(kernel_check(), args=(cases,))
+    return r.returncode == 0, (r.stdout.decode() + r.stderr.decode()).strip()
+
+
+def size_bench(width: int, simd: bool = True) -> Path:
+    """The capacity workload driver (tools/size_bench.cpp), with or without the SIMD kernels."""
+    return build(REPO / "tools" / "size_bench.cpp", f"size_bench_w{width}{'' if simd else '_scalar'}",
+                 defines=[f"FUSION_MAX_WIDTH={width}", f"FUSION_SIMD={int(simd)}"])
+
+
 @lru_cache(maxsize=1)
 def adapter_check() -> Path:
     """Exact probabilities and empirical draws of inference/adapter.hpp (tools/adapter_check.cpp)."""

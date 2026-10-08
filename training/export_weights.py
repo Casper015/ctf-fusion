@@ -157,7 +157,13 @@ def header(model: str, nets: dict[str, dict], alpha: dict[int, float], sources: 
             out.append(_array(f"{name}_w{i}", "int16_t", layer["w"]))
             out.append(_array(f"{name}_b{i}", "int32_t", layer["b"]))
             o, n_in = layer["w"].shape
-            rows.append(f"    {{{n_in}, {o}, {name}_w{i}, {name}_b{i}, {layer['shift']}, {'true' if layer['hidden'] else 'false'}}},")
+            # The value accumulator updates one first-layer column per changed feature: a column-major
+            # copy makes those columns contiguous for the SIMD kernel (same integers, same results).
+            transposed = name == "value" and i == 0
+            if transposed:
+                out.append(_array(f"{name}_w{i}T", "int16_t", np.ascontiguousarray(layer["w"].T)))
+            rows.append(f"    {{{n_in}, {o}, {name}_w{i}, {name}_b{i}, {layer['shift']}, {'true' if layer['hidden'] else 'false'}"
+                        + (f", {name}_w{i}T" if transposed else "") + "},")
             out.append(f'static_assert({n_in} <= fusion::kMaxWidth && {o} <= fusion::kMaxWidth, "{name} layer {i} exceeds kMaxWidth");')
         out += [f"inline constexpr fusion::Layer {name}_layers[] = {{", *rows, "};", ""]
     net = lambda n: f"{{{n}_layers, {len(nets[n]['layers'])}, {nets[n]['out_exp']}}}"

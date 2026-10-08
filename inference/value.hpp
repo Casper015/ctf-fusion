@@ -64,24 +64,22 @@ struct ValueAccumulator {
 // Full first layer for `f`.
 inline void refresh(const ValueModel& model, const ValueFeatures& f, ValueAccumulator& a) {
     const Layer& L = model.net.layers[0];
-    for (int o = 0; o < L.out; o++) {
-        const int16_t* row = L.w + o * L.in;
-        int32_t s = L.b[o];
-        for (int i = 0; i < L.in; i++) s += int32_t(row[i]) * f[i];
-        a.pre[o] = s;
-    }
+    kernel::layer(L.w, L.b, f.data(), L.in, L.out, a.pre.data());
     a.features = f;
     a.valid = true;
 }
 
-// Move the accumulator to `f`, touching only the features that changed.
+// Move the accumulator to `f`, touching only the features that changed: one
+// column of the first layer per changed feature, contiguous when the export
+// carries the transposed copy (wT), strided otherwise. Same bits either way.
 inline void update(const ValueModel& model, const ValueFeatures& f, ValueAccumulator& a) {
     if (!a.valid) { refresh(model, f, a); return; }
     const Layer& L = model.net.layers[0];
     for (int i = 0; i < L.in; i++) {
         const int32_t delta = int32_t(f[i]) - int32_t(a.features[i]);
         if (delta == 0) continue;
-        for (int o = 0; o < L.out; o++) a.pre[o] += int32_t(L.w[o * L.in + i]) * delta;
+        if (L.wT) kernel::axpy(a.pre.data(), L.wT + static_cast<long>(i) * L.out, delta, L.out);
+        else for (int o = 0; o < L.out; o++) a.pre[o] += int32_t(L.w[o * L.in + i]) * delta;
     }
     a.features = f;
 }

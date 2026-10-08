@@ -5,11 +5,18 @@
 // accumulator can leave [-2^30, 2^30] for any input inside the feature spec,
 // so int32 never overflows. Only the final layer's accumulator is turned into
 // a double, by an exact power-of-two scaling.
+//
+// Layer inputs travel as int16 (features are clipped small integers, hidden
+// activations 0..kActOne), so each layer is one call of a SIMD multiply-add
+// kernel (simd.hpp). Integer sums are exact in any order: every path gives the
+// same bits as the scalar loop (tools/kernel_check.cpp checks each path).
 #ifndef FUSION_MLP_HPP
 #define FUSION_MLP_HPP
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
+
+#include "simd.hpp"
 
 namespace fusion {
 
@@ -30,6 +37,7 @@ struct Layer {
     const int32_t* b = nullptr;
     int shift = 0;               // hidden: activation = clamp(round(acc / 2^shift), 0, kActOne)
     bool hidden = true;          // false only for the last layer
+    const int16_t* wT = nullptr; // optional column-major copy [in][out] (value first layer: incremental updates)
 };
 
 struct Net {
@@ -47,20 +55,25 @@ inline int32_t activate(const Layer& L, int32_t acc) {
     return L.hidden ? std::clamp(roundShift(acc, L.shift), int32_t(0), kActOne) : acc;
 }
 
-// Layers first..count-1 on `x` (the input of layer `first`); acc receives the
-// last layer's raw accumulators. Fixed stack buffers only, no allocation.
+// Layers first..count-1 on `x` (the input of layer `first`, every value inside
+// int16, as features and activations are); acc receives the last layer's raw
+// accumulators. Fixed stack buffers only, no allocation.
 inline void forwardFrom(const Net& net, int first, const int32_t* x, int32_t* acc) {
-    int32_t bufA[kMaxWidth], bufB[kMaxWidth];
-    const int32_t* src = x;
+    alignas(64) int16_t bufA[kMaxWidth], bufB[kMaxWidth];
+    alignas(64) int32_t sum[kMaxWidth];
+    const int inputs = net.layers[first].in;
+    for (int i = 0; i < inputs; i++) bufA[i] = static_cast<int16_t>(x[i]);
+    const int16_t* src = bufA;
     for (int l = first; l < net.count; l++) {
         const Layer& L = net.layers[l];
-        int32_t* dst = l + 1 == net.count ? acc : (l % 2 == 0 ? bufA : bufB);
-        for (int o = 0; o < L.out; o++) {
-            const int16_t* row = L.w + o * L.in;
-            int32_t s = L.b[o];
-            for (int i = 0; i < L.in; i++) s += int32_t(row[i]) * src[i];
-            dst[o] = activate(L, s);
+        if (l + 1 == net.count) {
+            kernel::layer(L.w, L.b, src, L.in, L.out, acc);
+            for (int o = 0; o < L.out; o++) acc[o] = activate(L, acc[o]);
+            break;
         }
+        int16_t* dst = src == bufA ? bufB : bufA;
+        kernel::layer(L.w, L.b, src, L.in, L.out, sum);
+        for (int o = 0; o < L.out; o++) dst[o] = static_cast<int16_t>(activate(L, sum[o]));
         src = dst;
     }
 }

@@ -1,80 +1,42 @@
+"""Print the loaded-vs-isolated capacity comparison (the numbers behind MULTITHREADING_ANALYSIS.md).
+
+    python tools/analyze_multithreading.py [--multi reports/capacity_HOST.json] [--single reports/capacity_1seat_HOST.json]
+
+Same inputs and computations as tools/generate_multithreading_report.py; this
+prints them instead of writing the report.
+"""
+from __future__ import annotations
+
+import argparse
 import json
+import sys
 from pathlib import Path
 
-def analyze():
-    p16_path = Path("reports/capacity_DESKTOP-G60OJUD.json")
-    p1_path = Path("reports/baseline_1seat/capacity_DESKTOP-G60OJUD.json")
-    
-    with open(p16_path, encoding="utf-8") as f:
-        r16 = json.load(f)
-    with open(p1_path, encoding="utf-8") as f:
-        r1 = json.load(f)
-        
-    print(f"Host: {r16['host']}")
-    print(f"Time 16-seat: {r16['time']}")
-    print(f"Time 1-seat: {r1['time']}")
-    
-    tiers = ["S", "M", "L", "XL", "XXL"]
-    
-    summary = {}
-    for tier in tiers:
-        summary[tier] = {
-            "policy_slowdowns": [],
-            "value_slowdowns": [],
-            "need_slowdowns": [],
-            "p1_needs": [],
-            "p16_needs": [],
-            "p1_policy_p99": [],
-            "p16_policy_p99": [],
-            "p1_value_us": [],
-            "p16_value_us": [],
-        }
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from generate_multithreading_report import compute, default_paths, ranges  # noqa: E402
 
-    for c16, c1 in zip(r16["counts"], r1["counts"]):
-        teams = c16["teams"]
-        for tier in tiers:
-            d16 = c16["tiers"][tier]
-            d1 = c1["tiers"][tier]
-            
-            p_ratio = d16["policy_p99_ms"] / d1["policy_p99_ms"]
-            v_ratio = d16["value_node_us"] / d1["value_node_us"]
-            need_ratio = d16["need_ms"] / d1["need_ms"]
-            
-            summary[tier]["policy_slowdowns"].append((teams, p_ratio))
-            summary[tier]["value_slowdowns"].append((teams, v_ratio))
-            summary[tier]["need_slowdowns"].append((teams, need_ratio))
-            summary[tier]["p1_needs"].append((teams, d1["need_ms"]))
-            summary[tier]["p16_needs"].append((teams, d16["need_ms"]))
-            summary[tier]["p1_policy_p99"].append((teams, d1["policy_p99_ms"]))
-            summary[tier]["p16_policy_p99"].append((teams, d16["policy_p99_ms"]))
-            summary[tier]["p1_value_us"].append((teams, d1["value_node_us"]))
-            summary[tier]["p16_value_us"].append((teams, d16["value_node_us"]))
 
-    print("\n--- Summary Slowdowns (16-thread vs 1-thread) ---")
-    for tier in tiers:
-        avg_need_sd = sum(x[1] for x in summary[tier]["need_slowdowns"]) / len(summary[tier]["need_slowdowns"])
-        min_need_sd = min(x[1] for x in summary[tier]["need_slowdowns"])
-        max_need_sd = max(x[1] for x in summary[tier]["need_slowdowns"])
-        
-        avg_p_sd = sum(x[1] for x in summary[tier]["policy_slowdowns"]) / len(summary[tier]["policy_slowdowns"])
-        avg_v_sd = sum(x[1] for x in summary[tier]["value_slowdowns"]) / len(summary[tier]["value_slowdowns"])
-        
-        print(f"Tier {tier:3s}: Total Time Inflation = {avg_need_sd:.2f}x (range {min_need_sd:.2f}x - {max_need_sd:.2f}x) | Policy P99 Inflation = {avg_p_sd:.2f}x | Value Node Inflation = {avg_v_sd:.2f}x")
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--multi")
+    ap.add_argument("--single")
+    ap.add_argument("--cpu")
+    a = ap.parse_args(argv)
+    multi, single = default_paths(a.multi, a.single)
+    r = compute(json.loads(multi.read_text(encoding="utf-8")), json.loads(single.read_text(encoding="utf-8")), a.cpu)
+    th = r["throughput"]
+    print(f"Host {r['host']} ({r['cpu']}); {r['seats_multi']} seats at {r['time_multi']}, {r['seats_single']} at {r['time_single']}")
+    print(f"Throughput: {th['single']:.0f} -> {th['multi']:.0f} seat-turns/s ({r['scaling']:.2f}x, "
+          f"{100 * r['scaling'] / r['seats_multi']:.1f}% of linear)")
+    for t in r["tiers"]:
+        p = r["per_tier"][t]
+        lo, mean, hi = p["need_ratio"]
+        print(f"Tier {t:4s}: needed-time slowdown {mean:.2f}x ({lo:.2f}-{hi:.2f}), policy {p['policy_ratio']:.2f}x, "
+              f"value {p['value_ratio']:.2f}x; fits {ranges(p['fits_single'])} alone, {ranges(p['fits_multi'])} loaded")
+    cm = r["cost"]["multi"]
+    print(f"{r['teams_cost']} teams loaded: policy = {cm['fit_fixed_ms']:.3f} ms + {cm['fit_ns_per_mac']:.3f} ns per multiply-add")
+    print(f"Ceiling: {r['ceiling_multi']} loaded, {r['ceiling_single']} alone")
 
-    print("\n--- Aggregate Throughput Estimation ---")
-    # In 16 seats, 16 seats run concurrently.
-    # Total elapsed wall clock time comparison:
-    time_16 = sum(c["seconds"] for c in r16["counts"])
-    time_1 = sum(c["seconds"] for c in r1["counts"])
-    total_turns_16 = sum(c["tiers"]["S"]["turns"] for c in r16["counts"])
-    total_turns_1 = sum(c["tiers"]["S"]["turns"] for c in r1["counts"])
-    print(f"Total benchmark wall-clock time across all 14 team counts:")
-    print(f"  16-seat run: {time_16:.1f} s (evaluated {total_turns_16} total seat-turns)")
-    print(f"  1-seat run:  {time_1:.1f} s (evaluated {total_turns_1} total seat-turns)")
-    print(f"Throughput (seat-turns/s):")
-    print(f"  16-seat: {total_turns_16 / time_16:.0f} turns/s")
-    print(f"  1-seat:  {total_turns_1 / time_1:.0f} turns/s")
-    print(f"Throughput scaling factor: {(total_turns_16 / time_16) / (total_turns_1 / time_1):.2f}x on 16 cores")
 
 if __name__ == "__main__":
-    analyze()
+    main()

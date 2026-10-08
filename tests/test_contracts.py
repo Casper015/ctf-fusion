@@ -7,6 +7,7 @@
   * layer widths beyond the C++ buffers are refused before training and export;
   * an export accepts only a gate report made for the same artifact.
 """
+import json
 import math
 import unittest
 
@@ -144,6 +145,38 @@ class TestWidths(unittest.TestCase):
         self.assertIn("inline constexpr bool kValueApproved = false;", text)
 
 
+class TestKernels(unittest.TestCase):
+    """The SIMD multiply-add kernels give the original scalar loop's bits on every path this machine runs."""
+
+    def test_native_paths(self):
+        ok, summary = native.run_kernel_check(200)
+        self.assertTrue(ok, summary)
+        self.assertIn("mismatches 0", summary)
+
+    def test_forced_scalar_build(self):
+        r = native.run_tool(native.kernel_check(simd=False), args=(50,))
+        self.assertEqual(r.returncode, 0, r.stdout.decode())
+        self.assertIn("active scalar", r.stdout.decode())
+
+    def test_x86_paths_under_rosetta(self):
+        """On Apple silicon, the x86-64 build (SSE2; AVX2 where the CPU has it) runs under Rosetta when installed."""
+        import platform  # noqa: PLC0415
+        import shutil  # noqa: PLC0415
+        import subprocess  # noqa: PLC0415
+        if platform.system() != "Darwin" or platform.machine() != "arm64" or not shutil.which("clang++"):
+            self.skipTest("only on Apple silicon with clang")
+        if subprocess.run(["arch", "-x86_64", "/usr/bin/true"], capture_output=True).returncode != 0:
+            self.skipTest("Rosetta is not installed")
+        out = native.BUILD / "kernel_check_x86_64"
+        native.BUILD.mkdir(parents=True, exist_ok=True)
+        src = native.REPO / "tools" / "kernel_check.cpp"
+        subprocess.run(["clang++", "-arch", "x86_64", "-std=c++20", "-O2", "-DFUSION_MAX_WIDTH=1024", str(src), "-o", str(out)],
+                       check=True, capture_output=True)
+        r = subprocess.run(["arch", "-x86_64", str(out), "100"], capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn("sse2", r.stdout)
+
+
 class TestCapacityBench(unittest.TestCase):
     """tools/capacity_bench.py: correctness and arithmetic only. Its timing runs belong on the target host."""
 
@@ -180,11 +213,69 @@ class TestCapacityBench(unittest.TestCase):
         self.assertEqual(p["value_nodes_affordable"], int((5.0 / 1.5 - 2.0) * 1000 / 20.0))
         self.assertFalse(self.cb.plan([seat(3.0, 0.5, 20.0)], budget_ms=5.0, safety=1.5)["fits"])
 
+    def test_report_compares_kernels_without_timing(self):
+        """The timing path end to end, with size_bench replaced by synthetic lines (nothing is timed here)."""
+        import tempfile  # noqa: PLC0415
+        from unittest import mock  # noqa: PLC0415
+        from pathlib import Path  # noqa: PLC0415
+
+        def line(tier, kernel, p99):
+            return {"tier": tier, "kernel": kernel, "teams": 3, "map_size": 31, "turns": 100, "value_calls": 24,
+                    "policy_turn_ms": {"p50": p99 / 2, "p95": p99, "p99": p99, "max": p99 * 1.2},
+                    "policy_joint_ms": {"p50": p99 / 4, "p99": p99 / 2},
+                    "value_node_us": {"encode": 1.0, "incremental": 2.0 if kernel == "scalar" else 1.0, "full": 4.0},
+                    "value_turn_ms": {"p50": 0.05, "p99": 0.1, "max": 0.2}}
+
+        def fake_run(binary, stream_file, tiers_file, seats, repeat, value_calls):
+            scalar = "scalar" in Path(binary).name
+            return [[line("S", "scalar" if scalar else "neon", 0.8 if scalar else 0.2),
+                     line("M", "scalar" if scalar else "neon", 1.6 if scalar else 0.4)] for _ in range(seats)]
+
+        with tempfile.TemporaryDirectory() as tmp, \
+                mock.patch.object(self.cb, "run_seats", fake_run), \
+                mock.patch.object(self.cb, "recorded_stream", lambda *a: ("INIT\n", "synthetic")):
+            self.cb.main(["--teams", "3", "--tiers", "S", "M", "--out", tmp])
+            report = json.loads(next(Path(tmp).glob("capacity_*.json")).read_text(encoding="utf-8"))
+            md = next(Path(tmp).glob("capacity_*.md")).read_text(encoding="utf-8")
+        c = report["counts"][0]
+        self.assertEqual(report["kernels"], ["simd", "scalar"])
+        self.assertEqual(report["simd_path"], "neon")
+        self.assertEqual(c["tiers"], c["kernels"]["simd"])               # verdicts use what the bot runs
+        self.assertAlmostEqual(c["kernels"]["scalar"]["S"]["policy_p99_ms"] / c["kernels"]["simd"]["S"]["policy_p99_ms"], 4.0)
+        self.assertIn("## Kernels: scalar loop vs SIMD", md)
+        self.assertIn("| 3 | S | 0.800 / 0.200 | 4.00× |", md)
+        self.assertIn("mismatches 0", report["kernel_check"])
+        self.assertTrue(report["host_profile"]["cpu"])
+
     def test_tier_sizes(self):
         s = self.cb.tier_static(self.cb.TIERS["S"], layout())
         self.assertEqual(s["macs_per_opponent_team"], 30096)  # today's default architecture
         self.assertEqual(s["max_width"], quant.MAX_WIDTH)
         self.assertEqual(self.cb.tier_static(self.cb.TIERS["L"], layout())["max_width"], 512)
+
+
+class TestMultithreadingReport(unittest.TestCase):
+    """tools/generate_multithreading_report.py computes every statement from the committed capacity reports."""
+
+    def test_report_is_computed(self):
+        import sys  # noqa: PLC0415
+        from pathlib import Path  # noqa: PLC0415
+        sys.path.insert(0, str(native.REPO / "tools"))
+        import generate_multithreading_report as g  # noqa: PLC0415
+        self.assertEqual(g.ranges([2, 3, 4, 7, 9, 10]), "2–4, 7, 9–10")
+        self.assertEqual(g.ranges([]), "none")
+        multi = native.REPO / "reports" / "capacity_DESKTOP-G60OJUD.json"
+        single = native.REPO / "reports" / "capacity_1seat_DESKTOP-G60OJUD.json"
+        if not (multi.exists() and single.exists()):
+            self.skipTest("committed capacity reports not present")
+        r = g.compute(json.loads(multi.read_text(encoding="utf-8")), json.loads(single.read_text(encoding="utf-8")))
+        self.assertEqual((r["seats_multi"], r["seats_single"]), (16, 1))
+        self.assertEqual(r["ceiling_multi"], "XL")
+        self.assertEqual(r["per_tier"]["XXL"]["fits_single"], list(range(2, 11)))
+        self.assertEqual(r["per_tier"]["XXL"]["fits_multi"], [])
+        text = g.markdown(r, [15])
+        self.assertIn("XXL** fits 2–10 teams with 1 seat but none with 16", text)
+        self.assertNotIn("5.4 GHz", text)
 
 
 class TestGateIdentity(unittest.TestCase):

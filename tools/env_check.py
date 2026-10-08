@@ -14,9 +14,10 @@ It answers, in reports/env_check_<host>.md and .json:
   5. Simulator: inference/sim.hpp replays each match exactly, with at least
      one compared turn (skipped turns are reported).
   6. Contracts on this host: the extractor's raw records are byte-aligned
-     (Windows binary stdout), the C++ integer model equals the Python
-     emulation bit for bit, and the runtime check passes (no per-turn
-     allocation, incremental value == full pass).
+     (Windows binary stdout), every SIMD multiply-add kernel this CPU runs
+     equals the scalar loop bit for bit (tools/kernel_check.cpp), the C++
+     integer model equals the Python emulation bit for bit, and the runtime
+     check passes (no per-turn allocation, incremental value == full pass).
   7. Inference cost: tools/bench_inference.cpp with the exported model (or a
      same-shaped placeholder): policy per turn vs 5 ms, value per node in us.
 
@@ -44,7 +45,7 @@ sys.path.insert(0, str(REPO))
 
 import numpy as np  # noqa: E402
 
-from fusion import matchlog, native, quant, runner  # noqa: E402
+from fusion import hostinfo, matchlog, native, quant, runner  # noqa: E402
 from fusion.models import PolicyNet, QuantizedTier, ValueNet  # noqa: E402
 from fusion.paths import BUILD, ai_test_root, load_engine, load_json  # noqa: E402
 from fusion.schema import layout as feature_layout  # noqa: E402
@@ -64,7 +65,7 @@ def host_profile() -> dict:
         torch_info = f"{torch.__version__}, CUDA {'available: ' + torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'not available'}"
     except ImportError:
         pass
-    return {"host": socket.gethostname(), "os": platform.platform(), "machine": platform.machine(),
+    return {"host": socket.gethostname(), "cpu": hostinfo.cpu_name(), "os": platform.platform(), "machine": platform.machine(),
             "processor": platform.processor() or "unknown", "logical_cpus": os.cpu_count(),
             "python": sys.version.split()[0], "numpy": np.__version__, "compiler": cxx, "compiler_version": version,
             "cxx_flags": runner.CXX_FLAGS, "torch": torch_info}
@@ -152,6 +153,7 @@ def main(argv=None):
         header, ns, flat = placeholder_model(BUILD / "placeholder")
     stream = matchlog.seat_stream(biggest[1], 0)
     contracts = {}
+    contracts["kernel_parity"], contracts["kernel_check"] = native.run_kernel_check()
     try:
         rec = native.extract(stream)  # raises when the raw records are misaligned
         contracts["records_aligned"] = True
@@ -184,6 +186,7 @@ def main(argv=None):
         "p99_under_40ms": all(b["p99_ms"] is not None and b["p99_ms"] < 40 for b in bots),
         "simulator_exact": all(m["simulator_exact"] for m in report["matches"]),
         "records_aligned": report["contracts"]["records_aligned"],
+        "kernel_parity": report["contracts"]["kernel_parity"],
         "integer_parity": report["contracts"]["integer_parity"],
         "runtime_contract": report["contracts"]["runtime_contract"],
         "policy_p99_under_5ms": report["inference"]["policy_turn_ms"]["p99"] < 5,

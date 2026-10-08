@@ -59,6 +59,10 @@ python tools/capacity_bench.py --raw data/raw --teams 2 6 10 15 --tiers S M L XL
 
 `capacity_bench.py` runs one copy per seat at once, so the CPU is as busy as during a real match, and does this for every team count on its real map. It takes the worst p99 over all turns and seats, multiplies by `--safety` (1.5), and compares the result with the inference budget (`compute_target - search` = 5 ms, or `--budget-ms`). Output: `reports/capacity_<host>.md` and `.json`, with a verdict per tier and team count, the value nodes that still fit, header source sizes, and the recommended ceiling.
 
-`--verify` runs no timing: every tier's incremental value must equal the full pass bit for bit with buffers as wide as the tier needs. The tests run it; it is safe on any machine.
+`--verify` runs no timing: the SIMD kernels must equal the scalar loop bit for bit (`tools/kernel_check.cpp`), and every tier's incremental value must equal the full pass with buffers as wide as the tier needs. The tests run it; it is safe on any machine.
+
+**Kernels.** Every timing run starts with the same kernel parity check and stops on any mismatch. `--kernels both` (default) times every tier with the SIMD kernels and with the old scalar loop; verdicts use the SIMD kernels, which the bot runs. The kernels need no compiler flags: SSE2 is part of every x86-64 CPU, AVX2 is chosen at runtime after a CPU check, and NEON is standard on ARM64.
+
+**Loaded against isolated.** Run once with the default seats and once with `--seats 1 --tag 1seat` (it writes `reports/capacity_1seat_<host>.json`), then `python tools/generate_multithreading_report.py`. Every statement in that report is computed from the two files.
 
 **Status:** built and verified (all tiers up to width 2048); timing not yet run on the host.

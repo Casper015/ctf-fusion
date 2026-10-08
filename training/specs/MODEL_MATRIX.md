@@ -46,6 +46,7 @@ python -m training.export_weights   --model n08 --policy runs/policy_n08 --value
 | No heap allocation during turn evaluation | `tools/runtime_check.cpp` counts `operator new` calls after turn 1; the tests require 0 |
 | Incremental V equals full V | `tools/runtime_check.cpp`, bit-exact on every team and turn |
 | Integer C++ equals the Python emulation | `tools/infer_check.cpp` against `QuantizedTier.raw`, bit-exact |
+| Every SIMD kernel path equals the scalar loop | `tools/kernel_check.cpp` (avx2, sse2, neon, scalar: whichever the CPU runs), bit-exact; run by the tests, `env_check.py` and `capacity_bench.py` |
 | int32 never overflows | `fusion/quant.py` proves the accumulator bound for every input inside the feature spec |
 | Tens to a few hundred KB per pair | About 30k int16 parameters per pair (~200 KiB of header text); `MANIFEST.json` records exact counts |
 | Turn 1 ≤ 2 s | Model data is `constexpr`; `Board::init` runs a few BFS passes (milliseconds). The host check measures every bot's first turn. |
