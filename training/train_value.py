@@ -52,7 +52,7 @@ def main(argv=None):
     ap.add_argument("--aux-weight", type=float, default=0.25)
     ap.add_argument("--hidden", default="128,16")
     a = ap.parse_args(argv)
-    hidden = check_widths(a.hidden.split(","), "--hidden")
+    hidden = check_widths(a.hidden.split(","), "--hidden", a.max_width)
     rng = np.random.default_rng(a.seed)
     fields = ("rec", "v_y", "weight", "teams", "match", "turn")
     counts = model_counts(a.model)

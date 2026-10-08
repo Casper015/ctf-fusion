@@ -88,17 +88,20 @@ def main(argv=None):
     ap.add_argument("--act-weight", type=float, default=0.5)
     ap.add_argument("--target-weight", type=float, default=0.5)
     ap.add_argument("--hidden-squad", default="64,32")
+    ap.add_argument("--hidden-mover", default="16")
+    ap.add_argument("--hidden-act", default="16")
+    ap.add_argument("--hidden-target", default="8")
     ap.add_argument("--keep-unlabeled", action="store_true",
                     help="also learn from families marked policy_labels false in pool.json (the noise bot)")
     a = ap.parse_args(argv)
-    squad = check_widths(a.hidden_squad.split(","), "--hidden-squad")
+    hidden = {name: check_widths(getattr(a, f"hidden_{name}").split(","), f"--hidden-{name}", a.max_width)
+              for name in ("mover", "squad", "act", "target")}
     rng = np.random.default_rng(a.seed)
     counts = model_counts(a.model)
     train = prepare(a.shards, counts, "train", a.max_rows, rng, a.keep_unlabeled)
     val = prepare(a.shards, counts, a.val_split, 0, rng, a.keep_unlabeled)
     layout = feature_layout()
     check_labels(train, layout)
-    hidden = {"mover": [16], "squad": squad, "act": [16], "target": [8]}
     model = PolicyNet(layout, rng, hidden)
     init = warm_start(model, a.init, layout.schema["spec_version"])
     opt = Adam(model.params, lr=a.lr, weight_decay=a.weight_decay)

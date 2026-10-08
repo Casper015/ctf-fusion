@@ -44,7 +44,7 @@ from pathlib import Path
 
 import numpy as np
 
-from fusion import metrics
+from fusion import metrics, quant
 from fusion.labels import STRATA
 from fusion.mixture import ADAPTERS, adapter_inputs, adapter_prob, fit_alpha
 from fusion.models import QuantizedTier, policy_batch, value_inputs
@@ -349,6 +349,7 @@ def main(argv=None):
     ap.add_argument("--min-gain", type=float, default=0.01, help="nats the mixture must beat q_H by to be used")
     ap.add_argument("--min-maps", type=int, default=20, help="eval maps a team count needs before it can be used")
     ap.add_argument("--z", type=float, default=2.0, help="the gain must exceed z map-clustered standard errors")
+    ap.add_argument("--max-width", type=int, default=quant.MAX_WIDTH, help="as export_weights --max-width")
     ap.add_argument("--split", default="test")
     ap.add_argument("--fit-split", default="val")
     ap.add_argument("--out", required=True, help="output path without extension (.md and .json are written)")
@@ -358,7 +359,7 @@ def main(argv=None):
     policy.calibrated = True
     value, beta = export_weights.load_value(Path(a.value), layout)
     try:
-        nets = export_weights.quantize_model(policy, value, beta, layout)
+        nets = export_weights.quantize_model(policy, value, beta, layout, a.max_width)
     except ValueError as exc:
         raise SystemExit(f"cannot evaluate the exported model: {exc}") from exc
     tier = QuantizedTier(export_weights.flat_arrays(nets))

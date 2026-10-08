@@ -55,7 +55,7 @@ AI_Test engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶
 - **No heap use per turn.** Nothing allocates on the per-turn path after turn 1.
 - **Engine-exact simulator.** `inference/sim.hpp` reproduces every recorded engine turn.
 - **Safe fallback, fail closed.** The gate scores the integer model the exporter ships, through the declared adapter (`inference/adapter.hpp`), against the legacy forecast. It needs the gain to clear two map-clustered standard errors on enough maps. A team count that fails, or lacks a complete legacy forecast, exports α = 0, which is exactly the legacy bot. The report names the artifact it approves (checkpoint hashes, weight digest, schema, adapter), and the exporter refuses any other.
-- **Bounded buffers.** Layers wider than the C++ buffers (256) are refused at training, export and compile time.
+- **Bounded buffers.** Layers wider than the C++ buffers (256 by default, `-DFUSION_MAX_WIDTH` for more) are refused at training, export and compile time unless `--max-width` raises the limit for a bot built that wide.
 
 ## Layout
 
@@ -70,8 +70,9 @@ training/         collect, dataset, heuristic_baseline, train_policy, train_valu
 inference/        state.hpp, features.hpp, mlp.hpp, policy.hpp, value.hpp (accumulator, exact terminal value),
                   adapter.hpp (q_H + q_theta deployment contract), sim.hpp (simulator);
                   models/weights_<model>.hpp + registry.hpp (generated)
-tools/            extract_features, infer_check, runtime_check, sim_check, registry_check, adapter_check, bench_inference (C++);
-                  env_check.py (host check), gen_feature_spec.py, random_bot.py (test bot), stream.hpp
+tools/            extract_features, infer_check, runtime_check, sim_check, registry_check, adapter_check, bench_inference,
+                  size_bench (C++); env_check.py (host check), capacity_bench.py (how big the models can be),
+                  gen_feature_spec.py, random_bot.py (test bot), stream.hpp
 tests/            test_math (gradients, quantization, convex fits, spec sync), test_contracts (binary records, v2 features,
                   adapter, widths, gate identity; no AI_Test needed), test_pipeline (end to end)
 ```
@@ -112,6 +113,24 @@ python tools/env_check.py --ai-test C:/path/to/AI_Test --teams 2 6 15
 ```
 
 It builds every pool bot, plays headless matches under the real limits, checks the protocol, records each bot's first-turn and p50/p95/p99/max latency, replays the matches through the simulator, and times the inference. The output is `reports/env_check_<host>.md`.
+
+### How big can the models be?
+
+```bash
+python tools/capacity_bench.py --ai-test C:/path/to/AI_Test --tiers S M L XL
+```
+
+It replays a real-sized match for every team count 2–15, runs as many copies at once as the match has seats, and times the bot's per-turn inference (policy for every opponent team, plus value-network search nodes) for a ladder of network sizes. Each size gets a verdict against the turn's inference budget (5 ms, with a 1.5× safety factor for a slower judge machine), the number of value nodes that still fit, and the header source size it adds. The output is `reports/capacity_<host>.md`; its ceiling is the largest size to train.
+
+| Tier | P MACs per opponent team | V MACs per node | header per model | all 11 models | `FUSION_MAX_WIDTH` |
+|---|---:|---:|---:|---:|---:|
+| S (default today) | 30,096 | 8,976 | 209 KiB | 2.2 MiB | 256 |
+| M | 64,288 | 22,048 | 470 KiB | 5.0 MiB | 256 |
+| L | 120,576 | 60,480 | 993 KiB | 10.7 MiB | 512 |
+| XL | 273,920 | 120,896 | 2.1 MiB | 23.5 MiB | 1024 |
+| XXL | 678,912 | 372,864 | 5.9 MiB | 64.4 MiB | 2048 |
+
+These sizes need no timing. The timing columns come only from the host. `--verify` checks correctness on any machine, without timing. A tier above width 256 is trained and exported with `--max-width` and needs the bot built with `-DFUSION_MAX_WIDTH`; the exported header refuses to compile otherwise.
 
 ## Full run
 

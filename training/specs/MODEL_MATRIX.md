@@ -41,6 +41,7 @@ python -m training.export_weights   --model n08 --policy runs/policy_n08 --value
 | Ceiling | Where it is checked |
 |---|---|
 | P ≤ 5 ms per turn (all opponent teams, every head at every legal move) | `tools/bench_inference.cpp` via `tools/env_check.py` on the host. About 30k multiply-accumulates per opponent team. |
+| How large a model fits that budget at every team count, with every seat busy | `tools/capacity_bench.py` on the host: size ladder S–XXL, verdict per team count, value nodes that fit, header size |
 | V single-digit µs per node | Same benchmark: encode + incremental accumulator + 128 → 16 → 1 tail |
 | No heap allocation during turn evaluation | `tools/runtime_check.cpp` counts `operator new` calls after turn 1; the tests require 0 |
 | Incremental V equals full V | `tools/runtime_check.cpp`, bit-exact on every team and turn |
@@ -84,7 +85,7 @@ So a model that does not beat the heuristic cannot change play. Retrain, or coll
 
 **The value network has no gate yet.** Every header says `kValueApproved = false`; α never enables V. A bot that uses V needs its own switch, off by default, with its own null check and its own match evidence.
 
-**Layer widths.** The C++ buffers hold 256 values (`inference/mlp.hpp` `kMaxWidth`). The trainers refuse wider hidden layers, the exporter refuses any wider layer, and every header `static_assert`s each layer's size.
+**Layer widths.** The C++ buffers hold 256 values by default (`inference/mlp.hpp` `kMaxWidth = FUSION_MAX_WIDTH`). The trainers refuse wider hidden layers, the exporter refuses any wider layer, and every header `static_assert`s each layer's size. A larger model is a deliberate choice, made from the host's capacity report (`tools/capacity_bench.py`, [ENVIRONMENT.md](ENVIRONMENT.md)): train with `--max-width N` (and `--hidden-*` widths), evaluate and export with `--max-width N`, and build the bot with `-DFUSION_MAX_WIDTH=N`. The header states the width it needs.
 
 **Retraining triggers.** Validation log-loss does not beat the baseline, or the gate is off for most served counts. Responses, in order:
 1. more data (phase 2);

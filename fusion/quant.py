@@ -25,19 +25,22 @@ ACT_BITS = 7                 # kActOne = 128
 ACT_ONE = 1 << ACT_BITS
 ACC_LIMIT = 1 << 30
 W_LIMIT = 32767
-MAX_WIDTH = 256              # inference/mlp.hpp kMaxWidth: every scratch buffer and the value accumulator
+MAX_WIDTH = 256              # default FUSION_MAX_WIDTH (inference/mlp.hpp kMaxWidth): every scratch buffer, the value accumulator
 
 
-def check_widths(q: dict, name: str) -> None:
+def check_widths(q: dict, name: str, limit: int = MAX_WIDTH) -> None:
     """Every layer's input and output must fit the fixed C++ buffers (kMaxWidth).
 
     The accumulator bound proves int32 never overflows; it says nothing about
     array bounds, so a wider layer would write past the native scratch buffers.
+    `limit` above the default is allowed only for a bot built with
+    -DFUSION_MAX_WIDTH=<limit>; the exported header static_asserts it.
     """
     for i, layer in enumerate(q["layers"]):
         out, n_in = layer["w"].shape
-        if out > MAX_WIDTH or n_in > MAX_WIDTH:
-            raise ValueError(f"{name} layer {i} is {n_in} -> {out}; the C++ buffers hold {MAX_WIDTH} (inference/mlp.hpp kMaxWidth)")
+        if out > limit or n_in > limit:
+            raise ValueError(f"{name} layer {i} is {n_in} -> {out}; the C++ buffers hold {limit} "
+                             f"(inference/mlp.hpp kMaxWidth; a wider build needs -DFUSION_MAX_WIDTH and --max-width)")
 
 
 def digest(flat: dict) -> str:

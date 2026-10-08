@@ -13,8 +13,16 @@
 
 namespace fusion {
 
+// Widest layer input or output the fixed stack buffers (and the value
+// accumulator) hold. 256 covers the default architectures; a larger model is
+// built with -DFUSION_MAX_WIDTH=<n> (tools/capacity_bench.py measures what a
+// size costs). Every exported header static_asserts its layers against it.
+#ifndef FUSION_MAX_WIDTH
+#define FUSION_MAX_WIDTH 256
+#endif
+
 inline constexpr int32_t kActOne = 128;
-inline constexpr int kMaxWidth = 256;
+inline constexpr int kMaxWidth = FUSION_MAX_WIDTH;
 
 struct Layer {
     int in = 0, out = 0;

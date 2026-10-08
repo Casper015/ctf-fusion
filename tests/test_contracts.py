@@ -119,13 +119,15 @@ class TestAdapterNative(unittest.TestCase):
 class TestWidths(unittest.TestCase):
     def test_limit_matches_cpp(self):
         text = (native.REPO / "inference" / "mlp.hpp").read_text(encoding="utf-8")
-        self.assertIn(f"inline constexpr int kMaxWidth = {quant.MAX_WIDTH};", text)
+        self.assertIn(f"#define FUSION_MAX_WIDTH {quant.MAX_WIDTH}", text)
+        self.assertIn("inline constexpr int kMaxWidth = FUSION_MAX_WIDTH;", text)
 
     def test_wide_layers_are_refused(self):
         net = MLP([4, quant.MAX_WIDTH + 1, 1], np.random.default_rng(0), dtype=np.float64)
         q = quant.quantize(net, np.ones(4), np.zeros(4, np.int64), np.ones(4, np.int64))
         with self.assertRaises(ValueError):
             quant.check_widths(q, "wide")
+        quant.check_widths(q, "wide", limit=2 * quant.MAX_WIDTH)  # allowed for a -DFUSION_MAX_WIDTH build
         for trainer, flag in ((train_value, "--hidden"), (train_policy, "--hidden-squad")):
             with self.assertRaises(SystemExit):  # before any data is read
                 trainer.main(["--model", "general", "--out", "unused", flag, f"{quant.MAX_WIDTH * 2},16"])
@@ -140,6 +142,49 @@ class TestWidths(unittest.TestCase):
         self.assertEqual(text.count('exceeds kMaxWidth");'), sum(len(q["layers"]) for q in nets.values()))
         self.assertIn("inline constexpr int kAdapter = 2;", text)
         self.assertIn("inline constexpr bool kValueApproved = false;", text)
+
+
+class TestCapacityBench(unittest.TestCase):
+    """tools/capacity_bench.py: correctness and arithmetic only. Its timing runs belong on the target host."""
+
+    @classmethod
+    def setUpClass(cls):
+        import sys  # noqa: PLC0415
+        sys.path.insert(0, str(native.REPO / "tools"))
+        import capacity_bench  # noqa: PLC0415
+        cls.cb = capacity_bench
+
+    def test_wide_tiers_compute_exactly(self):
+        tiers = {"S": self.cb.TIERS["S"], "W": self.cb.parse_tier("W squad=300,64 value=520,16")[1]}
+        self.assertEqual(self.cb.verify(tiers, [3]), 0)  # incremental == full value, buffers of 576
+
+    def test_narrow_build_refuses_wide_tiers(self):
+        binary = native.build(native.REPO / "tools" / "size_bench.cpp", "size_bench_w256", defines=["FUSION_MAX_WIDTH=256"])
+        import tempfile  # noqa: PLC0415
+        from pathlib import Path  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as tmp:
+            tiers = Path(tmp) / "tiers.txt"
+            tiers.write_text(self.cb.tier_line("L", self.cb.TIERS["L"]) + "\n", encoding="utf-8")
+            from fusion import synthetic  # noqa: PLC0415
+            r = native.run_tool(binary, synthetic.stream(3, turns=4).encode(), args=("--verify", 1, 4, tiers))
+        self.assertEqual(r.returncode, 2)
+        self.assertIn("FUSION_MAX_WIDTH", r.stderr.decode())
+
+    def test_plan_arithmetic(self):
+        seat = lambda p99, v99, node: {"turns": 400, "policy_turn_ms": {"p99": p99, "max": p99 * 2},
+                                       "policy_joint_ms": {"p99": p99 / 2}, "value_turn_ms": {"p99": v99},
+                                       "value_node_us": {"encode": node / 2, "incremental": node / 2, "full": node}}
+        p = self.cb.plan([seat(1.0, 0.5, 20.0), seat(2.0, 0.4, 20.0)], budget_ms=5.0, safety=1.5)
+        self.assertAlmostEqual(p["need_ms"], 1.5 * (2.0 + 0.5))  # the worst seat's p99s
+        self.assertTrue(p["fits"])
+        self.assertEqual(p["value_nodes_affordable"], int((5.0 / 1.5 - 2.0) * 1000 / 20.0))
+        self.assertFalse(self.cb.plan([seat(3.0, 0.5, 20.0)], budget_ms=5.0, safety=1.5)["fits"])
+
+    def test_tier_sizes(self):
+        s = self.cb.tier_static(self.cb.TIERS["S"], layout())
+        self.assertEqual(s["macs_per_opponent_team"], 30096)  # today's default architecture
+        self.assertEqual(s["max_width"], quant.MAX_WIDTH)
+        self.assertEqual(self.cb.tier_static(self.cb.TIERS["L"], layout())["max_width"], 512)
 
 
 class TestGateIdentity(unittest.TestCase):

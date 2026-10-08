@@ -45,3 +45,20 @@ It writes `reports/env_check_<host>.md` and `.json`, with a verdict per line:
 The report also lists the CPU, compiler, Python, numpy and PyTorch/CUDA versions.
 
 **Status:** not yet run on the Windows host. The development machine is macOS, and AI_Test's rule is no latency tests there. The tool was exercised only with the instant test bot, to check its plumbing.
+
+## Capacity: how big the networks can be
+
+```bash
+python tools/capacity_bench.py --ai-test C:/path/to/AI_Test                   # every team count, tiers S M L XL
+python tools/capacity_bench.py --raw data/raw --teams 2 6 10 15 --tiers S M L XL XXL
+```
+
+`tools/size_bench.cpp` builds each size tier at runtime with random int16 weights (integer inference costs the same whatever the values) and runs the bot's per-turn inference on every turn of a recorded match:
+- the policy for every opponent team with every head (an upper bound);
+- `--value-calls` value-network search nodes (default 24), alternating between consecutive states so every accumulator update has real deltas.
+
+`capacity_bench.py` runs one copy per seat at once, so the CPU is as busy as during a real match, and does this for every team count on its real map. It takes the worst p99 over all turns and seats, multiplies by `--safety` (1.5), and compares the result with the inference budget (`compute_target - search` = 5 ms, or `--budget-ms`). Output: `reports/capacity_<host>.md` and `.json`, with a verdict per tier and team count, the value nodes that still fit, header source sizes, and the recommended ceiling.
+
+`--verify` runs no timing: every tier's incremental value must equal the full pass bit for bit with buffers as wide as the tier needs. The tests run it; it is safe on any machine.
+
+**Status:** built and verified (all tiers up to width 2048); timing not yet run on the host.

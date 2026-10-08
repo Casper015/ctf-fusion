@@ -66,6 +66,8 @@ def add_training_args(ap, batch: int):
     ap.add_argument("--max-rows", type=int, default=0, help="subsample the training split (0 = all)")
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--val-split", default="val", help="split for early stopping and calibration")
+    ap.add_argument("--max-width", type=int, default=0,
+                    help="widest hidden layer allowed (default 256, the C++ default; see tools/capacity_bench.py)")
 
 
 def policy_rows(d: dict, shards, keep_unlabeled: bool = False) -> np.ndarray:
@@ -92,12 +94,14 @@ def data_manifest(shards, counts) -> dict:
             "ai_test_commits": man.get("ai_test_commits"), "options": index["options"]}
 
 
-def check_widths(widths, what: str) -> list[int]:
+def check_widths(widths, what: str, limit: int | None = None) -> list[int]:
     """Hidden widths must fit the C++ scratch buffers (inference/mlp.hpp kMaxWidth); fail before training, not at export."""
     from fusion.quant import MAX_WIDTH  # noqa: PLC0415
+    limit = limit or MAX_WIDTH
     widths = [int(w) for w in widths]
-    if any(w < 1 or w > MAX_WIDTH for w in widths):
-        raise SystemExit(f"{what} widths {widths}: each must be 1..{MAX_WIDTH} (inference/mlp.hpp kMaxWidth)")
+    if any(w < 1 or w > limit for w in widths):
+        raise SystemExit(f"{what} widths {widths}: each must be 1..{limit} (inference/mlp.hpp kMaxWidth; "
+                         "pass --max-width for a bot built with -DFUSION_MAX_WIDTH)")
     return widths
 
 
