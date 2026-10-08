@@ -12,12 +12,12 @@ Opponent policy and board value networks for the multi-team Capture The Flag bot
 - [docs/DESIGN.md](docs/DESIGN.md): the design brief.
 - [docs/REVIEW.md](docs/REVIEW.md): decisions and experiment order.
 - [training/specs/](training/specs/README.md): the contracts — features, action indexing, data format, the 22-model matrix, simulator audit, environment.
-- [docs/ROSTER.md](docs/ROSTER.md): Phase A, evaluating every candidate opponent and selecting a diverse, evidenced 15 (`roster/`).
+- [docs/ROSTER.md](docs/ROSTER.md): Phase A, evaluating every candidate opponent, admitting an open training pool sampled by behavior group, and freezing evaluation rosters (`roster/`).
 
 **Status:**
 - **Done:**
   - the pipeline, simulator and runtime contracts are built and tested on this machine (macOS), with seeded test bots and two real judge-bot matches;
-  - the Phase A roster tooling ([docs/ROSTER.md](docs/ROSTER.md)): inventory of 191 candidates (122 eligible after aliases and exclusions), probe suite, behavior fingerprints, distances, strength screen, catalog and pool. Fingerprints, screens and the selection itself still run on the host;
+  - the Phase A roster tooling ([docs/ROSTER.md](docs/ROSTER.md)): inventory of 191 candidates (122 eligible after aliases and exclusions), probe suite, behavior fingerprints, noise-corrected distances with complete-linkage groups per team count, strength screen, the open training registry with its hierarchical sampler, frozen evaluation rosters and an optional fixed panel. Fingerprints, screens and admission still run on the host;
   - the deployment contracts from the source review of 2026-10-08 ([REVIEW.md §7](docs/REVIEW.md#7-source-review-2026-10-08-and-what-changed)): binary tool output, one declared adapter scored by the gate, a fail-closed gate bound to the exact artifact, feature spec v2, strict holdouts, layer-width limits.
 - **Not yet done:**
   - no model trained on real data;
@@ -78,7 +78,7 @@ tools/            extract_features, infer_check, runtime_check, sim_check, regis
                   bench_inference, size_bench (C++); env_check.py (host check), capacity_bench.py (how big the models can be),
                   generate_multithreading_report.py / analyze_multithreading.py (loaded vs isolated capacity runs),
                   gen_feature_spec.py, random_bot.py (test bot), stream.hpp
-roster/           Phase A: inventory, probes, fingerprint, distance, strength, assess, catalog, pool (docs/ROSTER.md)
+roster/           Phase A: inventory, probes, fingerprint, distance, strength, assess, registry, sampling, catalog, pool (docs/ROSTER.md)
 tests/            test_math (gradients, quantization, convex fits, spec sync), test_contracts (binary records, v2 features,
                   adapter, widths, gate identity; no AI_Test needed), test_roster (Phase A tools), test_pipeline (end to end)
 ```

@@ -72,12 +72,13 @@ def add_training_args(ap, batch: int):
 
 def policy_rows(d: dict, shards, keep_unlabeled: bool = False) -> np.ndarray:
     """Rows that are opponent-policy samples: a valid reply, from a family that gives labels."""
-    from fusion.paths import unlabeled_families  # noqa: PLC0415
+    from fusion.paths import is_unlabeled, unlabeled_families  # noqa: PLC0415
     from training.dataset import load_index  # noqa: PLC0415
     keep = d["valid"].copy()
     if not keep_unlabeled:
         names = load_index(shards)["families"]
-        drop = [i for i, name in enumerate(names) if name in unlabeled_families()]
+        unlabeled = unlabeled_families()
+        drop = [i for i, name in enumerate(names) if is_unlabeled(name, unlabeled)]
         keep &= ~np.isin(d["family"], drop)
     return keep
 

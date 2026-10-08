@@ -101,10 +101,18 @@ def load_pool() -> dict:
     return load_json(PROFILES / "pool.json")
 
 
+AUGMENTATION_FAMILY = "augmentation:"   # family prefix of open-pool augmentation members (roster/registry.py)
+
+
 def unlabeled_families(pool: dict | None = None) -> set[str]:
-    """Families whose own requests are not opponent-policy labels (pool.json "policy_labels": false), e.g. noise."""
+    """Families whose own requests are not opponent-policy labels (pool.json "policy_labels": false), e.g. noise.
+    Families starting with AUGMENTATION_FAMILY are never labels either (is_unlabeled)."""
     pool = pool or load_pool()
     return {b["family"] for b in pool["bots"] if b.get("policy_labels", True) is False}
+
+
+def is_unlabeled(family: str, unlabeled: set[str] | None = None) -> bool:
+    return family.startswith(AUGMENTATION_FAMILY) or family in (unlabeled if unlabeled is not None else unlabeled_families())
 
 
 def bot_path(entry: dict, root: Path) -> Path:

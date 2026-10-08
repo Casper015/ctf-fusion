@@ -2,6 +2,14 @@
 
     python -m training.collect --ai-test ~/code/AI_Test --teams 2 3 4 --workers 8
     python -m training.collect --ai-test ... --teams 2 --matches 10 --bots Random,Random   # smoke test
+    python -m training.collect --ai-test ... --teams 2 3 4 --pool profiles/open_training_pool.json
+
+With an open training pool (roster/registry.py) seats are drawn by the
+hierarchical sampler (roster/sampling.py: component, behavior group, version,
+lineage cap) instead of by file weight, and the profile's anchors are not
+used: the pool's field component is the intended competition. Every fixture
+and match record names the regime, each seat's component and the pool's
+identity.
 
 Matches run under the official engine (AI_Test engine.py) with the real time
 limits unless --turn-ms says otherwise. Bot processes run through
@@ -20,11 +28,13 @@ import multiprocessing as mp
 import random
 import sys
 import time
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 from fusion import matchlog, runner
 from fusion.paths import REPO, ai_test_root, bot_path, git_commit, load_engine, load_json, load_profile, sha256
+from roster import sampling
+from roster.registry import SCHEMA_REGISTRY
 
 
 @dataclass
@@ -34,6 +44,9 @@ class Fixture:
     map_seed: int
     flag_seed: int
     seats: list[str]
+    regime: str = "legacy"
+    components: list[str] = field(default_factory=list)
+    registry: str = ""
 
 
 def derive(*parts, bits=31) -> int:
@@ -59,7 +72,25 @@ def resolve_pool(pool: dict, root: Path, names=None) -> dict[str, dict]:
     return out
 
 
-def schedule(teams: int, count: int, start: int, seed: int, profile: dict, pool: dict[str, dict], bots=None) -> list[Fixture]:
+def schedule_registry(teams: int, count: int, start: int, seed: int, registry: dict, pool: dict[str, dict]) -> list[Fixture]:
+    """Fixtures drawn by the open training pool's hierarchical sampler (members missing as optional are left out)."""
+    members = [m for m in registry["bots"] if m["name"] in pool]
+    mix = sampling.mixture(members, teams, registry["sampling"])
+    if not mix["rho"]:
+        raise SystemExit(f"the open training pool has no policies admitted at {teams} teams")
+    fixtures = []
+    for i in range(start, start + count):
+        g = sampling.draw(random.Random(derive(seed, teams, i, "seats")), mix)
+        fixtures.append(Fixture(f"n{teams:02d}-s{seed}-{i:06d}", teams, derive(seed, teams, i, "map"),
+                                derive(seed, teams, i, "flag", bits=63), g["seats"], g["regime"], g["components"],
+                                registry["identity"]))
+    return fixtures
+
+
+def schedule(teams: int, count: int, start: int, seed: int, profile: dict, pool: dict[str, dict], bots=None,
+             registry: dict | None = None) -> list[Fixture]:
+    if registry is not None and not bots:
+        return schedule_registry(teams, count, start, seed, registry, pool)
     collect = profile["collect"]
     if bots:
         names = bots
@@ -139,6 +170,7 @@ def play(job) -> dict:
         "init": init_text, "blocks": blocks, "final_block": final_block, "replies": replies, "faults": faults,
         "result": {"score": score, "ranks": [1 + sum(s > x for s in score) for x in score], "stats": result["stats"]},
         "bots": [b.report() for b in bots], "created": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        "sampling": {"regime": fx.regime, "components": fx.components, "registry": fx.registry},
     }
 
 
@@ -166,7 +198,9 @@ def main(argv=None):
     root = ai_test_root(a.ai_test)
     engine = load_engine(root)
     bots = a.bots.split(",") if a.bots else None
-    pool = resolve_pool(load_json(a.pool), root, set(bots) if bots else None)
+    raw_pool = load_json(a.pool)
+    registry = raw_pool if raw_pool.get("schema") == SCHEMA_REGISTRY else None
+    pool = resolve_pool(raw_pool, root, set(bots) if bots else None)
     limits = list(getattr(engine.Game, "TIME_LIMITS", (2.0, 0.05)))
     if a.first_ms:
         limits[0] = a.first_ms / 1000
@@ -177,7 +211,7 @@ def main(argv=None):
     for teams in a.teams:
         profile = load_profile(teams)
         count = a.matches if a.matches is not None else profile["collect"]["matches"]
-        for fx in schedule(teams, count, a.start, a.seed, profile, pool, bots):
+        for fx in schedule(teams, count, a.start, a.seed, profile, pool, bots, registry):
             out = Path(a.out) / f"n{teams:02d}" / f"{fx.match_id}.json.gz"
             if not out.exists():
                 jobs.append((fx, out))

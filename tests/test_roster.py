@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 
 from fusion.paths import REPO, TEAM_COUNTS
-from roster import assess, catalog, distance, inventory, pool, strength
+from roster import assess, catalog, distance, inventory, pool, registry, sampling, strength
 from roster.common import TAGS, load_json
 
 BOT = """#include <bits/stdc++.h>
@@ -76,12 +76,15 @@ def synthetic_run(bot, probe, rep, move, act=None, target=None, valid=None):
             "act": act or [[0, 0, 0]] * T, "target": target or [[-1, -1, -1]] * T}
 
 
+PROBES = ("p3", "p3b", "p5", "p5b")
+
+
 class TestDistance(unittest.TestCase):
     def suite(self, n_quiet=15, n_contact=5):
+        """Two probes (maps) at each of 3 and 5 teams."""
         bit = {t: 1 << i for i, t in enumerate(TAGS)}
         tags = [bit["quiet"]] * n_quiet + [bit["contact"]] * n_contact
-        return {"probes": [{"probe_id": "p3", "teams": 3, "tags": tags, "active": [7] * len(tags)},
-                           {"probe_id": "p5", "teams": 5, "tags": tags, "active": [7] * len(tags)}]}
+        return {"probes": [{"probe_id": p, "teams": int(p[1]), "tags": tags, "active": [7] * len(tags)} for p in PROBES]}
 
     def test_rare_events_weigh_like_quiet_ones_and_clusters_respect_noise(self):
         suite = self.suite()
@@ -89,7 +92,7 @@ class TestDistance(unittest.TestCase):
         base = [[0, 0, 0]] * T
         on_contact = [[0, 0, 0]] * 15 + [[1, 1, 1]] * 5        # differs only on the 5 contact turns
         runs = {}
-        for p in ("p3", "p5"):
+        for p in PROBES:
             runs.setdefault("A", []).extend([synthetic_run("A", p, 0, base), synthetic_run("A", p, 1, base)])
             runs.setdefault("Acopy", []).extend([synthetic_run("Acopy", p, 0, base), synthetic_run("Acopy", p, 1, base)])
             runs.setdefault("B", []).extend([synthetic_run("B", p, 0, on_contact), synthetic_run("B", p, 1, on_contact)])
@@ -105,32 +108,92 @@ class TestDistance(unittest.TestCase):
         # 95 quiet turns would not dilute it: the tags weigh equally
         long = self.suite(n_quiet=95)
         runs_long = {b: [synthetic_run(b, p, r, ([[0, 0, 0]] * 95 + [[1, 1, 1]] * 5) if b == "B" else [[0, 0, 0]] * 100)
-                         for p in ("p3", "p5") for r in (0, 1)] for b in ("A", "B")}
+                         for p in PROBES for r in (0, 1)] for b in ("A", "B")}
         self.assertAlmostEqual(distance.compute(long, runs_long)["overall"][0][1], 0.3125, places=5)
 
-    def test_targets_and_noise_threshold(self):
+    def test_targets(self):
         suite = self.suite(n_quiet=10, n_contact=10)
         T = 20
         attack = [[3, 3, 3]] * T
         tgt_a = [[5, 6, 7]] * T
         tgt_b = [[5, 6, 8]] * T                                  # one unit of three picks another target
-        runs = {"A": [synthetic_run("A", p, r, [[0, 0, 0]] * T, attack, tgt_a) for p in ("p3", "p5") for r in (0, 1)],
-                "B": [synthetic_run("B", p, r, [[0, 0, 0]] * T, attack, tgt_b) for p in ("p3", "p5") for r in (0, 1)]}
+        runs = {"A": [synthetic_run("A", p, r, [[0, 0, 0]] * T, attack, tgt_a) for p in PROBES for r in (0, 1)],
+                "B": [synthetic_run("B", p, r, [[0, 0, 0]] * T, attack, tgt_b) for p in PROBES for r in (0, 1)]}
         out = distance.compute(suite, runs)
         self.assertAlmostEqual(out["components"]["target"][0][1], 1 / 3, places=5)
         self.assertAlmostEqual(out["overall"][0][1], 0.2 * (1 / 3) / 1.0, places=5)
-        # A noisy bot whose own repeats disagree as much as it differs from A joins A's cluster
-        noisy = [synthetic_run("N", p, r, [[0, 0, 0]] * T, attack, tgt_a if r == 0 else tgt_b) for p in ("p3", "p5") for r in (0, 1)]
-        out = distance.compute(suite, runs | {"N": noisy})
-        self.assertGreater(out["noise"]["N"], 0.0)
-        self.assertTrue(any({"A", "N"} <= set(c) for c in out["clusters"]))
+        self.assertEqual(out["joint_per_count"]["3"][0][1], 1.0)  # the team's request differs on every turn
+
+    def random_runs(self, bot, choose, T=400, reps=4, seed=0):
+        """reps runs per probe; choose(rng) -> one turn's three moves."""
+        rng = np.random.default_rng(seed)
+        return [synthetic_run(bot, p, r, [choose(rng) for _ in range(T)]) for p in PROBES for r in range(reps)]
+
+    def test_noise_is_not_equivalence(self):
+        """Review example: deterministic left and right, and a 50/50 mixture of them. The old rule
+        (distance within the larger noise plus a margin) chained all three; the excess distance does not."""
+        suite = self.suite(n_quiet=200, n_contact=200)
+        runs = {"L": self.random_runs("L", lambda r: [1, 1, 1]), "R": self.random_runs("R", lambda r: [2, 2, 2]),
+                "Mix": self.random_runs("Mix", lambda r: list(r.integers(1, 3, 3)), seed=1),
+                "Mix2": self.random_runs("Mix2", lambda r: list(r.integers(1, 3, 3)), seed=2)}
+        out = distance.compute(suite, runs)
+        i = {b: k for k, b in enumerate(out["ids"])}
+        self.assertAlmostEqual(out["noise"]["Mix"], 0.3125, delta=0.02)          # (.5 * .5 + .3 * 0) / .8
+        self.assertAlmostEqual(out["excess_per_count"]["3"][i["L"]][i["Mix"]], 0.3125 / 2, delta=0.02)
+        self.assertIn(["Mix", "Mix2"], out["clusters"])                           # two draws of one random policy
+        self.assertIn(["L"], out["clusters"])
+        self.assertIn(["R"], out["clusters"])
+        self.assertEqual(out["stochastic"], ["Mix", "Mix2"])
+
+    def test_joint_coordination_separates_equal_marginals(self):
+        """Same per-unit 50/50 marginals: one team moves together, the other independently."""
+        suite = self.suite(n_quiet=200, n_contact=200)
+
+        def together(r):
+            m = int(r.integers(1, 3))
+            return [m, m, m]
+
+        runs = {"Team": self.random_runs("Team", together, seed=3),
+                "Solo": self.random_runs("Solo", lambda r: list(r.integers(1, 3, 3)), seed=4)}
+        out = distance.compute(suite, runs)
+        self.assertLess(abs(out["excess_per_count"]["3"][0][1]), 0.02)            # per-unit: indistinguishable
+        self.assertAlmostEqual(out["joint_excess_per_count"]["3"][0][1], 3 / 16, delta=0.03)
+        self.assertEqual(out["clusters"], [["Solo"], ["Team"]])
+
+    def test_complete_linkage_does_not_chain(self):
+        """Review example: AB = BC = 0.02, AC = 0.04 at margin 0.02; connected components merged all three."""
+        ids = ["A", "B", "C"]
+        score = np.array([[0, 1, 2], [1, 0, 1], [2, 1, 0]], float)                  # distance / margin
+        groups = distance.complete_clusters(ids, score)
+        self.assertEqual(len(groups), 2)
+        self.assertNotIn(["A", "B", "C"], groups)
+        self.assertEqual(distance.complete_clusters(ids, np.where(score > 1, np.nan, score)), [["A", "B"], ["C"]])
+
+    def test_a_duel_specialist_is_not_averaged_away(self):
+        """Different only at 3 teams by .2: the equal-count mean (.1 here, .014 over 14 counts) hid it."""
+        suite = self.suite(n_quiet=10, n_contact=10)
+        T = 20
+        duel = [[0, 0, 0]] * 12 + [[1, 1, 1]] * 8                 # move differs on 8 of 20 turns
+        runs = {"Ref": [synthetic_run("Ref", p, r, [[0, 0, 0]] * T) for p in PROBES for r in (0, 1)],
+                "Duel": [synthetic_run("Duel", p, r, duel if p.startswith("p3") else [[0, 0, 0]] * T) for p in PROBES for r in (0, 1)]}
+        out = distance.compute(suite, runs)
+        self.assertEqual(out["clusters_per_count"]["5"], [["Duel", "Ref"]])
+        self.assertEqual(out["clusters_per_count"]["3"], [["Duel"], ["Ref"]])
+        self.assertEqual(out["clusters"], [["Duel"], ["Ref"]])
+        self.assertEqual(out["distinct_counts"]["Duel"], [3])
+
+    def test_one_probe_is_not_enough_for_equivalence(self):
+        suite = {"probes": self.suite()["probes"][:1]}
+        runs = {b: [synthetic_run(b, "p3", r, [[0, 0, 0]] * 20) for r in (0, 1)] for b in ("A", "Acopy")}
+        self.assertEqual(distance.compute(suite, runs)["clusters"], [["A"], ["Acopy"]])
+        self.assertEqual(distance.compute(suite, runs, min_probes=1)["clusters"], [["A", "Acopy"]])
 
     def test_missing_replies_are_not_agreement(self):
         suite = self.suite(n_quiet=10, n_contact=10)
         T = 20
         silent = [0] * T
-        runs = {"A": [synthetic_run("A", p, 0, [[0, 0, 0]] * T) for p in ("p3", "p5")],
-                "S": [synthetic_run("S", p, 0, [[0, 0, 0]] * T, valid=silent) for p in ("p3", "p5")]}
+        runs = {"A": [synthetic_run("A", p, 0, [[0, 0, 0]] * T) for p in PROBES],
+                "S": [synthetic_run("S", p, 0, [[0, 0, 0]] * T, valid=silent) for p in PROBES]}
         out = distance.compute(suite, runs)
         self.assertIsNone(out["overall"][0][1])
 
@@ -211,8 +274,9 @@ class TestCatalogAndPool(unittest.TestCase):
         self.assertNotIn(ids[3], [s["id"] for s in selected["selected"]])
         inv = {"bots": [{"id": b, "path": b, "source_sha256": sha[b], "pool_name": None} for b in ids]}
         p = pool.build(selected, inv)
-        self.assertEqual(len(p["bots"]), 16)                               # 15 + Noise
-        self.assertTrue(all(b.get("source_sha256") for b in p["bots"][:15]))
+        self.assertEqual(len(p["bots"]), 15)                               # Noise only on request
+        self.assertTrue(all(b.get("source_sha256") for b in p["bots"]))
+        self.assertEqual(len(pool.build(selected, inv, noise=True)["bots"]), 16)
         with self.assertRaises(SystemExit):
             pool.build(selected | {"selected": [selected["selected"][0] | {"source_sha256": "f" * 64}]}, inv)
 
@@ -234,6 +298,151 @@ class TestCatalogAndPool(unittest.TestCase):
                 resolve_pool({"bots": [entry]}, Path(tmp))
             from fusion.paths import sha256  # noqa: PLC0415
             self.assertIn("X", resolve_pool({"bots": [entry | {"source_sha256": sha256(bot)}]}, Path(tmp)))
+
+
+def member(name, group_by_count, lineage, roles=("style",), counts=(3, 5, 15), **kw):
+    return {"name": name, "lineage": lineage, "roles": list(roles), "counts": list(counts),
+            "groups": {str(n): f"n{n}:{group_by_count.get(n, name)}" for n in counts}, **kw}
+
+
+class TestSampling(unittest.TestCase):
+    def test_groups_share_mass_and_lineages_are_capped(self):
+        ms = [member("a1", {3: "a"}, "L1"), member("a2", {3: "a"}, "L1"), member("a3", {3: "a"}, "L1"), member("b", {}, "L2")]
+        rho = sampling.group_balanced(ms, 3, 1.0)
+        self.assertAlmostEqual(rho["b"], 0.5)                     # one group of 3 versions, one of 1: equal group mass
+        self.assertAlmostEqual(rho["a1"], 1 / 6)
+        ms = [member(f"x{i}", {}, "X") for i in range(3)] + [member("y", {}, "Y")]
+        self.assertAlmostEqual(sampling.group_balanced(ms, 3, 1.0)["y"], 0.25)
+        capped = sampling.group_balanced(ms, 3, 0.5)              # lineage X held 3/4 of the mass
+        self.assertAlmostEqual(capped["y"], 0.5)
+        self.assertAlmostEqual(sum(capped[f"x{i}"] for i in range(3)), 0.5)
+        self.assertAlmostEqual(sampling.group_balanced(ms, 3, 0.1)["y"], 0.5)   # infeasible cap relaxes to 1/lineages
+
+    def test_empty_components_renormalize(self):
+        ms = [member("f", {}, "F", roles=("style", "field")), member("s", {}, "S")]
+        mix = sampling.mixture(ms, 3)
+        self.assertEqual(set(mix["lambdas"]), {"field", "style"})
+        self.assertAlmostEqual(mix["lambdas"]["field"], 0.6 / 0.9)
+        self.assertAlmostEqual(sum(mix["rho"].values()), 1.0)
+        hard = [member("h", {}, "H", roles=("style", "hard"), hard_counts=[5])] + ms
+        self.assertNotIn("hard", sampling.mixture(hard, 3)["lambdas"])      # verified only at 5 teams
+        self.assertIn("hard", sampling.mixture(hard, 5)["lambdas"])
+
+    def test_composition_and_inclusion(self):
+        fifteen = [member(f"b{i:02d}", {}, f"L{i % 5}", counts=(15,)) for i in range(15)]
+        rep = sampling.inclusion(sampling.mixture(fifteen, 15), games=200)
+        self.assertTrue(rep["fixed_composition"])                 # 15 bots, 15 seats, no repeats: always everyone
+        self.assertEqual(set(rep["in_game"].values()), {1.0})
+        wide = fifteen + [member(f"c{i:02d}", {}, f"L{i % 5}", counts=(15,)) for i in range(10)]
+        rep = sampling.inclusion(sampling.mixture(wide, 15), games=2000)
+        self.assertFalse(rep["fixed_composition"])
+        self.assertAlmostEqual(sum(rep["in_game"].values()), 15.0, places=6)
+        self.assertEqual(rep["forced_repeat_seats_per_game"], 0.0)
+        g = sampling.draw(__import__("random").Random(1), sampling.mixture(fifteen[:3], 15))
+        self.assertEqual(len(g["seats"]), 15)                     # too few policies: repeats, logged
+        self.assertEqual(g["components"].count("repeat"), 12)
+
+    def test_augmentation_and_focus_regimes(self):
+        ms = [member(f"p{i}", {}, f"L{i}", counts=(5,)) for i in range(8)] + [member("Noise", {}, "N", roles=("augmentation",), counts=(5,))]
+        mix = sampling.mixture(ms, 5, {"augmentation": 1.0})
+        self.assertNotIn("Noise", mix["rho"])
+        rep = sampling.inclusion(mix, games=500)
+        self.assertEqual(rep["in_game"]["Noise"], 1.0)
+        self.assertAlmostEqual(rep["component_seat_share"]["augmentation"], 0.2)
+        rep = sampling.inclusion(sampling.mixture(ms, 5, {"focus": 1.0, "focus_fraction": 0.6}), games=500)
+        self.assertEqual(rep["regimes"], {"focus": 1.0})
+        self.assertAlmostEqual(rep["component_seat_share"]["focus"], 0.6)
+        with self.assertRaises(ValueError):
+            sampling.settings({"lambdas": {"field": 0, "style": 0, "hard": 0}})
+
+
+class TestRegistry(unittest.TestCase):
+    ids = ["A", "B", "C", "D", "Dalias", "E", "Flaky", "Noise", "Ood"]
+
+    def fixtures(self):
+        n = len(self.ids)
+        eq = {}
+        for teams in (3, 5):
+            m = np.full((n, n), 5.0)
+            np.fill_diagonal(m, 0.0)
+            i = {b: k for k, b in enumerate(self.ids)}
+            m[i["A"], i["B"]] = m[i["B"], i["A"]] = 0.5 if teams == 3 else 3.0    # A, B equivalent at 3 teams only
+            m[i["A"], i["C"]] = m[i["C"], i["A"]] = 0.5                            # C equivalent to A, but not to B at 5
+            eq[str(teams)] = m.tolist()
+        clusters = {str(t): [[b] for b in self.ids if not (t == 5 and b == "E")] for t in (3, 5)}   # E unprobed at 5
+        dist = {"ids": self.ids, "params": {"margin": 0.02}, "equivalence_score_per_count": eq, "clusters_per_count": clusters,
+                "noise": {b: 0.0 for b in self.ids}, "stochastic": ["Noise"], "distinct_counts": {b: [] for b in self.ids},
+                "nearest_per_count": {b: {"3": {"id": "A", "excess": 0.1}} for b in self.ids}}
+        rows = []
+        for b in self.ids:
+            rows.append({"id": b, "excluded": None, "evidence_status": "fingerprinted", "lineage_group": "lineage:ood" if b == "Ood" else f"lineage:{b[0]}",
+                         "source_sha256": b.ljust(64, "0"), "valid_reply_share": 0.9 if b == "Flaky" else 1.0, "probe_dead_runs": 0,
+                         "inherited_from": "D" if b == "Dalias" else None})
+        rows[self.ids.index("Dalias")]["evidence_status"] = "alias"
+        rows[0] |= {"strength_evidence": "confirmation", "utility": 0.6, "utility_lcb": 0.58, "maps": 10010}
+        inv = {"bots": [{"id": b, "path": f"bots/{b}.cpp", "source_sha256": b.ljust(64, "0"), "pool_name": None, "excluded": None,
+                         "lineage_group": r["lineage_group"]} for b, r in zip(self.ids, rows)]}
+        spec = {"admit": True, "contribution": "probe-measured difference", "counts": [3, 5]}
+        admission = {"revision": "t1", "reserved_ood_lineages": ["lineage:ood"],
+                     "bots": {b: dict(spec) for b in self.ids} | {"A": spec | {"roles": ["style", "field"]},
+                                                                   "B": spec | {"roles": ["style", "hard"], "hard_counts": [5]},
+                                                                   "C": spec | {"contribution": " "},
+                                                                   "Noise": spec | {"roles": ["augmentation"]}}}
+        return admission, {"bots": rows}, dist, inv
+
+    def test_admission_gates_and_groups(self):
+        admission, rows, dist, inv = self.fixtures()
+        reg = registry.build(admission, rows, dist, inv, games=500)
+        names = {m["id"] for m in reg["bots"]}
+        self.assertEqual(names, {"A", "B", "D", "E", "Noise"})       # no size cap; every gate below is a reason
+        self.assertIn("alias", reg["not_admitted"]["Dalias"])
+        self.assertIn("reserved", reg["not_admitted"]["Ood"])
+        self.assertIn("contribution", reg["not_admitted"]["C"])
+        self.assertIn("reliability", reg["not_admitted"]["Flaky"])
+        self.assertEqual(reg["counts_without_behavior_evidence"], {"E": [5]})
+        by = {m["id"]: m for m in reg["bots"]}
+        self.assertEqual(by["A"]["evidence_level"], "confirmed")
+        self.assertEqual(by["B"]["evidence_level"], "provisional")
+        self.assertEqual(by["A"]["groups"]["3"], by["B"]["groups"]["3"])   # equivalent at 3 teams: they share mass
+        self.assertNotEqual(by["A"]["groups"]["5"], by["B"]["groups"]["5"])
+        self.assertTrue(by["Noise"]["family"].startswith("augmentation:"))
+        self.assertFalse(by["Noise"]["policy_labels"])
+        self.assertNotIn("groups", by["Noise"])
+        c3 = reg["per_count"]["3"]
+        self.assertEqual((c3["members"], c3["groups"]), (4, 3))
+        # style: groups {A, B}, {D}, {E} at 1/3 each; field: A alone; weights .6 and .3 renormalized (no hard at 3)
+        self.assertAlmostEqual(c3["rho"][by["D"]["name"]], (1 / 3) * (1 / 3), places=4)
+        self.assertAlmostEqual(c3["rho"][by["B"]["name"]], (1 / 3) * (1 / 6), places=4)
+        self.assertAlmostEqual(c3["rho"][by["A"]["name"]], 2 / 3 + (1 / 3) * (1 / 6), places=4)
+        self.assertNotIn("hard", c3["lambdas"])                     # B is a verified hard case only at 5 teams
+        self.assertIn("hard", reg["per_count"]["5"]["lambdas"])
+        self.assertTrue(any(w.startswith("5 teams: fewer policy copies than seats") for w in reg["warnings"]))
+        again = registry.build(admission, rows, dist, inv, games=500)
+        self.assertEqual(reg["identity"], again["identity"])
+        changed = registry.build(admission | {"sampling": {"lambdas": {"field": 0.5, "style": 0.5, "hard": 0}}}, rows, dist, inv, games=500)
+        self.assertNotEqual(reg["identity"], changed["identity"])
+
+    def test_template_admits_nothing(self):
+        admission, rows, dist, _ = self.fixtures()
+        t = registry.template(rows, dist)
+        self.assertNotIn("Dalias", t["bots"])
+        self.assertFalse(any(b["admit"] for b in t["bots"].values()))
+        self.assertEqual(t["bots"]["B"]["hints"]["counts_beyond_margin_of_nearest"], [3])
+
+    def test_collection_uses_the_sampler_and_freeze_eval(self):
+        from fusion.paths import is_unlabeled  # noqa: PLC0415
+        from training import collect  # noqa: PLC0415
+        admission, rows, dist, inv = self.fixtures()
+        reg = registry.build(admission, rows, dist, inv, games=200)
+        pool_entries = {m["name"]: m for m in reg["bots"]}
+        fx = collect.schedule(3, 40, 0, 7, {"collect": {"pool": "default"}}, pool_entries, registry=reg)
+        self.assertEqual(fx, collect.schedule(3, 40, 0, 7, {"collect": {"pool": "default"}}, pool_entries, registry=reg))
+        self.assertTrue(all(f.registry == reg["identity"] and len(f.components) == 3 for f in fx))
+        self.assertTrue(all(len(set(f.seats)) == 3 for f in fx))  # four policies at 3 teams: no repeats
+        self.assertTrue(is_unlabeled(pool_entries["Noise"]["family"], set()))
+        ev = registry.freeze_eval(inv, ["A", "Ood"], reg, "core", 1, 500, [3, 5])
+        self.assertEqual([(b["in_training"], b["ood_lineage"]) for b in ev["bots"]], [(True, False), (False, True)])
+        self.assertEqual(ev["training_registry"], reg["identity"])
 
 
 @unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to the AI_Test checkout")

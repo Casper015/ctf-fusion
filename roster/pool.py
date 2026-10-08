@@ -1,4 +1,9 @@
-"""Write a hash-locked collection pool from a selected roster.
+"""Write a hash-locked collection pool from a selected fixed-size panel.
+
+This is the reference-panel path. Training collection should use the open
+training pool (roster/registry.py), which has no size cap and samples by
+behavior group; with a 15-bot panel and 15 seats, sampling without
+replacement seats every member in every game, so weights cannot change it.
 
     python -m roster.pool --selected data/roster/selected15.json --inventory data/roster/bot_inventory.json \\
         --out profiles/pool_selected15.json
@@ -6,9 +11,10 @@
 
 Each entry keeps the bot's path, its lineage as the family, weight 1, and the
 source sha256 it was evaluated with; training.collect refuses a pool bot whose
-file no longer has that hash. The Noise bot is appended for state coverage
-with policy_labels false (its own moves are never opponent labels), as in
-profiles/pool.json; drop it with --no-noise.
+file no longer has that hash. --noise appends the Noise bot for state
+coverage with policy_labels false (its own moves are never opponent labels).
+It is off by default: even at a small weight it fills a seat in most crowded
+games, so it must be an explicit collection choice.
 """
 from __future__ import annotations
 
@@ -30,7 +36,7 @@ def pool_name(bot_id: str, taken: set[str]) -> str:
     return name
 
 
-def build(selected: dict, inventory: dict, noise: bool = True) -> dict:
+def build(selected: dict, inventory: dict, noise: bool = False) -> dict:
     if selected.get("status") != "selected_pending_manual_and_downstream_review" or not selected.get("selected"):
         raise SystemExit(f"no selected roster (status: {selected.get('status')})")
     inv = {b["id"]: b for b in inventory["bots"]}
@@ -54,10 +60,10 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--selected", required=True)
     ap.add_argument("--inventory", required=True)
-    ap.add_argument("--no-noise", action="store_true")
+    ap.add_argument("--noise", action="store_true", help="append the Noise bot (policy_labels false)")
     ap.add_argument("--out", default=str(REPO / "profiles" / "pool_selected15.json"))
     a = ap.parse_args(argv)
-    pool = build(load_json(a.selected), load_json(a.inventory), not a.no_noise)
+    pool = build(load_json(a.selected), load_json(a.inventory), a.noise)
     save_json(a.out, pool)
     print(f"[pool] {len(pool['bots'])} bots -> {a.out}")
 
