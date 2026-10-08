@@ -55,7 +55,7 @@ Neither track ever played 7, 12, 13 or 14 teams, so nothing can be said about th
 - **15 teams.**
   - RISK ranks first among single factors (+2.0); TERMINAL second (+1.9).
   - LIT is -3.1- even though most of its genes are positive alone. **The genes interfere** when the board is crowded.
-  - Omega trails Player2 by 1.4, its largest gap. That is where its timeouts explode (section 2).
+  - Omega trails Player2 by 1.4, its largest gap. Its timeouts are highest here too, but the benchmark did not penalize them (section 2).
 
 ### How the ranking shifts as the board fills (rank among 21 single factors)
 
@@ -116,12 +116,16 @@ Full table (win %, rank, delta vs Control_Hybrid and vs Omega for every variant 
 | C-series no-search variants | 0–1.6 | 0–3.6 | 4–10 | 12–23 | **95–104** |
 
 **15 teams is a different regime:**
-- In 96–100% of 15-team games every bot had at least one timeout, the no-search Control_Hybrid included (about 1 per game). That points at the harness or host load with 15 processes, not the bots' own logic.
+- In 96–100% of 15-team games every bot had at least one timeout, the no-search Control_Hybrid included (about 1 per game). **That one is turn 1:** `run_stress` applies the 50 ms limit to the first turn, which the rules allow 2 s, and 15-team start-up takes longer than 50 ms. It is a counting artifact, not a lost turn.
 - On top of that baseline, the 30 ms search bots add about 1.2–1.6 timeouts per game: twice Hybrid's rate, and 1.9× Player2's.
 - Sequential halving (SH, 168) is the cheapest search variant, plausibly because it ranks fewer plans to the end.
 - Below 15 teams, timeouts are rare (under 0.25 per game) for every bot.
 
-**Omega's 30 ms budget costs it at 15 teams.** Omega trails Player2 most at 15 teams (-1.4) and 6 and 8 teams (-1.4, -1.2); at 5 and 10 the two are even. At 15 Omega has +1.1 timeouts per game more than Player2 (`++`). The earlier finding — more samples gave no gain (round-4 speed-up 0.0) — means the 30 ms budget buys nothing that offsets this. **Recommended test:** a 15 ms budget at 15 teams, or for every size.
+**Correction: these timeouts did not cost games in the benchmarks.** All three benchmarks ran in `run_stress` record mode (the runners' default). That mode only *counts* a reply over 50 ms and still plays it; only a 1 s hard limit counts as a failure.
+
+- **Omega's deficit to Player2 has another cause.** Omega trails Player2 most at 15 teams (-1.4) and at 6 and 8 (-1.4, -1.2), but the timeouts cannot be the reason.
+- **The extra timeouts still matter for the real tournament.** Omega's +1.1 timeouts per game over Player2 at 15 teams (`++`) are real. The referee drops a late reply, so the units stand still that turn, and three in a row end the bot's match. The benchmarks therefore *overrate* the 30 ms search bots at 15 teams.
+- **Cap the budget at 15 teams for safety,** and measure it in official timing (`ctf-s1-controls/run_s1_controls.py`, AI_Test PR #7).
 
 ## 3. In-game events (track 1, absolute)
 
@@ -149,7 +153,7 @@ Conversion = captures / pickups. Carrier survival = 1 − carrier deaths / picku
    - Astra habits + DP at 5 and 8–15, not 6;
    - expectimax at 5–6 and 10–15 (its 8-team zero is worth a second look);
    - no FLAGS, no CFL above 2 teams, no LIT.
-2. **Cut the search budget at 15 teams first.** The timeout regime there is the clearest explanation of Omega's deficit to Player2.
+2. **Cap the search budget at 15 teams, for the real tournament.** The benchmarks ran in record mode, where late replies still count, so they cannot show what the referee's 50 ms rule costs. Measure it in official timing.
 3. **5–6 teams behave differently:**
    - at 5 every fusion gains a lot;
    - at 6 nothing beats Hybrid except plain-foundation additions;

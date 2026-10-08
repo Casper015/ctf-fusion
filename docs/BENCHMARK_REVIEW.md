@@ -32,7 +32,7 @@
 | **FLAGS (joint flag selection)** | **-6.3 pp `--`**, negative at every size from 3 to 15. Remove it. |
 | **Any habit model in duels** | R3 HABITS -8.4 pp `--`; Astra's habits -9.5 pp `--`. Duel losses to Baseline double, from 129 to 256 fixtures. Never enable habits at 2 teams. |
 | **R3 HABITS overall** | -1.3 pp (CI [-2.67, +0.06]); -0.3 at 3–15. Astra's version is the better habit model at large sizes. |
-| **Omega's 30 ms search vs Player2's 15 ms** | Player2 v005 beats Omega by 0.7 pp `-` over 10,000 fixtures. Omega has 1.8× the timeouts (31 vs 18 per 100 games). The round-4 speed-up, which gave more samples per turn, changed nothing (0.0 pp). The extra search time therefore buys nothing measurable, while it costs timeouts. *Hypothesis to test; Omega and Player2 also differ in other modules.* |
+| **Omega's 30 ms search vs Player2's 15 ms** | Player2 v005 beats Omega by 0.7 pp `-` over 10,000 fixtures. Omega has 1.8× the timeouts (31 vs 18 per 100 games), but the benchmarks ran in record mode, where late replies are still played, so the timeouts did not cause the gap. The round-4 speed-up changed nothing (0.0 pp): the extra search time buys nothing measurable. Under the official 50 ms rule it would cost turns, so these benchmarks overrate the 30 ms bots. *Retest in official timing (AI_Test PR #7).* |
 | **Gene PLAYOUT (4-ply)** | -0.1 pp overall; 8 teams -3.4 `-`. Deeper scripted rollouts don't help, consistent with more samples not helping. |
 
 ### Neutral (no measurable effect)
@@ -82,7 +82,7 @@
 **Paired cluster tests, on identical fixtures, with Player2 v005 as the reference:**
 1. That composite vs Player2 v005 vs Omega, per size.
 2. Duels against a broad roster (Astra, Sol, Fable, Player2, Player4, Player5, Opus). Does CFL's 100% against Baseline hold?
-3. Search budget at 15, 20 and 30 ms on Omega + RISK: does cutting timeouts recover the 0.7 pp Player2 leads by?
+3. Search budget at 15, 20 and 30 ms on Omega + RISK, in official timing (late replies dropped). The earlier benchmarks used record mode and never penalized a timeout.
 4. Astra habits + CDP on top of RISK at 6–15 teams.
 5. Wider rosters at 6–15 teams (Qwen, MiMo, Kimi, GLM, DeepSeek, Player4), so results generalize beyond seven opponents.
 
