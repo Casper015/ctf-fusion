@@ -20,6 +20,7 @@ The evaluation calculator is a standalone diagnostic tool, not an export gate.
 | `DISTANCE_TIERED_POLICY_PLAN.md` | Spawn-distance prior, dynamic risk/budget override, exact caches and CPU deadlines. |
 | `ADAPTIVE_COMPUTE_RESEARCH.md` | Primary-paper evidence for adaptive networks and constrained computation. |
 | `CUDA_TRAINING_PLAN.md` | Optional GPU training with NumPy parity and CPU integer export. |
+| [FIXED_POINT_PROBABILITY_PLAN.md](FIXED_POINT_PROBABILITY_PLAN.md) | Integer softmax/sigmoid, value semantics, sampling precision and acceptance checks. |
 | `SOURCE_BASELINE.md` | Current source baseline and the status of earlier review fixes. |
 | `evaluation/` | English evaluation contract, calculator, plan, tests and synthetic example. |
 | `tools/` | Source inventory and evidence-based roster selection utilities with tests. |

@@ -39,6 +39,8 @@ Precompute static map geometry during the 2-second startup window. Share a root 
 
 Use a whole-turn deadline, reserve output time, and admit expensive inference only when its measured cost fits. If a tier cannot fit, choose a **separately evaluated** smaller tier or the legacy predictor. Complete a valid action on time. Memory must improve measured useful search work, not merely increase cache capacity.
 
+When optimizing softmax, sigmoid, value averaging or probability sampling with integer/LUT kernels, follow [FIXED_POINT_PROBABILITY_PLAN.md](FIXED_POINT_PROBABILITY_PLAN.md). Its probability/sampler contract and nonlinear-value conditions are part of the artifact being evaluated.
+
 Reuse the newly added `tools/capacity_bench.py` rather than writing a duplicate capacity profiler. On a development machine use correctness-only `--verify`; run actual timings on the target host. Supply custom P tier widths with V held fixed when isolating P cost. Its synthetic-weight/native workload establishes capacity cost, not trained strength or a complete integrated-bot deadline.
 
 ## Phase D: CUDA training, CPU deployment
