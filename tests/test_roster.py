@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 
 from fusion.paths import REPO, TEAM_COUNTS
-from roster import archive, assess, catalog, distance, inventory, pool, registry, sampling, strength, trajectory
+from roster import archive, assess, catalog, distance, inventory, newbots, pool, registry, sampling, strength, trajectory
 from roster.common import TAGS, load_json
 
 BOT = """#include <bits/stdc++.h>
@@ -630,6 +630,57 @@ class TestEvidenceIdentity(unittest.TestCase):
             fingerprint.check_sources(bots)
             with self.assertRaises(SystemExit):
                 fingerprint.check_sources(fingerprint.bots_from_inventory(inv, "ai-test", arch))
+
+
+CTF_BOT = """#include <iostream>
+#include <string>
+// {comment}
+int main() {{
+    std::string w; int turn = 0;
+    while (std::cin >> w) {{
+        if (w == "INIT") {{ std::cin >> w; }}          // reads MAP, BASES, SPOTS
+        if (w == "FLAGS") {{ std::cin >> w; }}
+        if (w == "TURN") {{ std::cin >> turn; std::cout << turn << " {move} - S - S -" << std::endl; }}
+    }}
+    {extra}
+    return 0;
+}}
+"""
+
+
+class TestNewBots(unittest.TestCase):
+    def test_scan_classifies_and_dedupes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root, arch = Path(tmp) / "ai", Path(tmp) / "archive"
+            base = CTF_BOT.format(comment="base", move="S", extra="")
+            a = write(root, "bots/a.cpp", base)
+            entry = {"id": "bots/a.cpp", "path": "bots/a.cpp", "language": "cpp", "local_includes": [],
+                     "source_sha256": inventory.sha256_file(a),
+                     "code_sha256": inventory.sha256_bytes(inventory.normalized_code(base).encode())}
+            archive.save({"bots": [entry]}, root, arch)
+            write(root, "copy/crlf.cpp", base.replace("\n", "\r\n"))                              # archived bytes (CRLF)
+            write(root, "copy/comment.cpp", CTF_BOT.format(comment="other words", move="S", extra=""))  # same code
+            write(root, "bomberman/b.cpp", "int main() { /* INIT TURN BOMB */ }")                     # not CTF
+            write(root, "tools/test_driver.cpp", base.replace("base", "driver x"))                    # driver
+            new_code = "\n".join(f"int helper{i}(int x) {{ return x * {i} + {i * 7} - (x >> {i % 5}); }}" for i in range(60))
+            write(root, "p1/bot.cpp", new_code + CTF_BOT.format(comment="", move="U", extra="helper1(2);"))
+            write(root, "p1/copy_of_bot.cpp", new_code + CTF_BOT.format(comment="", move="U", extra="helper1(2);"))
+            write(root, "p2/fork.cpp", CTF_BOT.format(comment="", move="L", extra="int unused = 3; (void)unused;"))
+            write(root, "p3/strings.cpp", base.replace(" - S - S -", " - S - S - "))                  # only a string changed
+            write(root, "p4/inc.cpp", '#include "mod.inc"\n' + new_code + CTF_BOT.format(comment="", move="D", extra=""))
+            m = newbots.write(newbots.scan(root, arch), root, Path(tmp) / "new")
+            by = {b["origin"]: b for b in m["bots"]}
+            self.assertEqual(m["counts"]["archived"], 2)                   # a.cpp itself and the CRLF copy
+            self.assertEqual((m["counts"]["same_code"], m["counts"]["not_ctf_bot"], m["counts"]["driver"]), (1, 1, 1))
+            self.assertEqual(by["p1/bot.cpp"]["tier"], "independent")
+            self.assertEqual(by["p1/bot.cpp"]["copies"], ["p1/copy_of_bot.cpp"])
+            self.assertEqual(by["p2/fork.cpp"]["tier"], "forks")
+            skipped = {b["origin"]: b["reason"] for b in m["skipped"]}
+            self.assertIn("strings/comments", skipped["p3/strings.cpp"])
+            self.assertIn("local includes", skipped["p4/inc.cpp"])
+            stored = Path(tmp) / "new" / by["p1/bot.cpp"]["file"]
+            self.assertEqual(inventory.sha256_file(stored), by["p1/bot.cpp"]["source_sha256"])
+            self.assertTrue((Path(tmp) / "new" / "README.md").read_text().count("independent/") >= 1)
 
 
 @unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to the AI_Test checkout")

@@ -80,7 +80,8 @@ def bots_from_inventory(inv: dict, source: str = "archive", archive: Path = ARCH
         path = archived_path(b, archive) if source == "archive" else None
         out.append({"id": b["id"], "path": str(path or resolve(b["path"], inv.get("ai_test_root"))),
                     "source_sha256": b["source_sha256"], "dependency_sha256": b.get("dependency_sha256"),
-                    "binary_sha256": b["build"].get("binary_sha256"), "from": "archive" if path else "ai-test"})
+                    "binary_sha256": b["build"].get("binary_sha256"),
+                    "from": "archive" if path else "repo" if b["path"].startswith("@repo/") else "ai-test"})
     return out
 
 
@@ -249,7 +250,8 @@ def main(argv=None):
             jobs += [(b, p, r, (first, later), run_file(out, b["id"], p["probe_id"], r, ident), ident) for r in range(a.repeat)]
     todo = [j for j in jobs if not j[-2].exists()]
     archived = sum(b.get("from") == "archive" for b in bots)
-    print(f"[fingerprint] {len(bots)} bots ({archived} from the source archive) x {len(suite['probes'])} probes x "
+    print(f"[fingerprint] {len(bots)} bots ({archived} from the source archive, "
+          f"{sum(b.get('from') == 'repo' for b in bots)} in this repository) x {len(suite['probes'])} probes x "
           f"{a.repeat} = {len(jobs)} runs, {len(todo)} to do, {a.workers} workers", flush=True)
     pool = ProcessPoolExecutor(a.workers) if a.workers > 1 else None
     results = pool.map(replay, todo) if pool else map(replay, todo)

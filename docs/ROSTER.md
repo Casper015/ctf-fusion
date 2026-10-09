@@ -93,6 +93,8 @@ All builds succeeded. Code aliases include the stress-pack copies of the judge b
 
 [`roster/bots/README.md`](../roster/bots/README.md) (generated) lists all stored files with names, status, lineage and AI_Test origins, and shows how to play your own bot against them (`roster.archive pool`). Re-run `save` after each new inventory; entries accumulate. First archive: 191 candidates, 130 stored files, 8.5 MiB, from AI_Test `c9c115b`.
 
+**New bots (`roster.newbots`).** The inventory scans a fixed list of directories. `python -m roster.newbots scan --ai-test AI_TEST` walks the whole AI_Test folder for CTF bots that the archive lacks by bytes and by code. The first scan (2026-10-08, local folder) found 136 distinct programs. They are in [`roster/new_bots/`](../roster/new_bots/README.md): 8 `independent` (closest archived similarity below 0.5) and 128 `forks`. Four were skipped: one changed only in strings, and three are `master.cpp` sources that need include files. `roster/new_bots/inventory.json` is the full roster of 258 eligible bots. Use it as `--inventory` to fingerprint and screen them with the same frozen suite; the archived bots keep their identities and their fingerprints stay valid.
+
 **Probes.** A probe is one seat of one recorded match, replayed from turn 1, so a bot always sees a complete, valid history. Every bot answers the same probes. The history was produced by other bots' orders, which is the price of identical states; on-policy behavior comes from the screen's live matches, which `--keep-matches` stores.
 
 Selection is deterministic: per team count, matches with the most distinct seat families and distinct maps, and in each the seat with the most tagged turns. Each turn carries pre-registered tags (`roster/common.py`):

@@ -138,14 +138,15 @@ def discover(root: Path, dirs: list[str], pool: dict) -> tuple[list[dict], list[
     """Candidates from the scan directories plus every pool entry; missing directories are reported."""
     found, missing = {}, []
     for d in dirs:
-        base = (root / d).resolve()
-        if not base.is_relative_to(root):
-            raise SystemExit(f"--scan-dir {d} leaves the AI_Test root")
+        top = REPO.resolve() if d.startswith("@repo/") else root   # @repo/...: a folder inside this repository
+        base = (top / d.removeprefix("@repo/")).resolve()
+        if not base.is_relative_to(top):
+            raise SystemExit(f"--scan-dir {d} leaves {'this repository' if top != root else 'the AI_Test root'}")
         if not base.is_dir():
             missing.append(d)
             continue
         for p in base.rglob("*.cpp"):
-            if p.is_file() and "build" not in p.relative_to(root).parts:
+            if p.is_file() and "build" not in p.relative_to(top).parts:
                 found[p.resolve()] = None
     names = {}
     for entry in pool["bots"]:
@@ -233,7 +234,8 @@ def lineage(bots: list[dict], texts: dict[str, str], threshold: float) -> None:
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--ai-test", help="AI_Test checkout (or AI_TEST_ROOT)")
-    ap.add_argument("--scan-dir", action="append", default=[], help="additional AI_Test-relative directory to scan")
+    ap.add_argument("--scan-dir", action="append", default=[],
+                    help="additional AI_Test-relative directory to scan; @repo/<dir> scans a folder of this repository")
     ap.add_argument("--no-build", action="store_true", help="skip compilation (no build or binary-alias evidence)")
     ap.add_argument("--jobs", type=int, default=4, help="parallel compilations")
     ap.add_argument("--lineage-threshold", type=float, default=0.7, help="code Jaccard for one lineage group")

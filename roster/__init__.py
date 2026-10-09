@@ -2,6 +2,7 @@
 
     python -m roster.inventory   --ai-test AI_TEST --out data/roster/bot_inventory.json
     python -m roster.archive     save | check                      (every source, stored in roster/bots/ by sha256)
+    python -m roster.newbots     scan | inventory                  (bots found in AI_Test that the archive lacks: roster/new_bots/)
     python -m roster.probes      --raw data/raw --out data/roster/probe_suite.json
     python -m roster.fingerprint --suite data/roster/probe_suite.json --inventory data/roster/bot_inventory.json
     python -m roster.distance    --suite ... --fingerprints data/roster/fingerprints --out data/roster/behavior_distance.json
