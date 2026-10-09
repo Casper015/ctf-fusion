@@ -24,6 +24,8 @@ The tools are built and tested on synthetic and replayed data. Fingerprints, str
 
 ## Host command sequence
 
+For a first run on a fresh host, follow [FIRST_RUN.md](FIRST_RUN.md): setup, checks, a pilot and these steps with expected outputs.
+
 Run the evidence stages for all candidates, then admit training opponents and freeze an evaluation roster as separate artifacts. Reserve strict OOD lineages in the admission file before any collection.
 
 ```bash

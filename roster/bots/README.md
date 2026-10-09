@@ -19,6 +19,8 @@ so later evidence never depends on AI_Test's working tree: **130 stored source f
 
 ## Quick start for the next agent
 
+**First full run on a host:** follow [docs/FIRST_RUN.md](../../docs/FIRST_RUN.md) (setup, checks, pilot, full run, what to send back).
+
 Everything runs from the ctf-fusion root. Set `AI_TEST_ROOT` to an AI_Test checkout: the engine and the recorded histories come from there, the bot sources from here.
 
 1. **Check the archive** (hashes, and optionally which AI_Test files changed since):

@@ -8,6 +8,8 @@ Opponent policy and board value networks for the multi-team Capture The Flag bot
 - integer export to standalone C++ headers;
 - an engine-exact forward simulator.
 
+**First time here?** [docs/FIRST_RUN.md](docs/FIRST_RUN.md) takes a fresh checkout through setup, checks, a 2-minute pilot and the first full roster run of the 130 archived bots, step by step.
+
 **Design and decisions:**
 - [docs/DESIGN.md](docs/DESIGN.md): the design brief.
 - [docs/REVIEW.md](docs/REVIEW.md): decisions and experiment order.
