@@ -1,0 +1,256 @@
+{
+ "measure": "Expected acting-team seat share, not playing-strength gain",
+ "current": {
+  "per_count": [
+   {
+    "teams": 2,
+    "own_two_lineages": 0.4389,
+    "judge_bots": 0.3454,
+    "other": 0.21569999999999995,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 3,
+    "own_two_lineages": 0.5008333333333334,
+    "judge_bots": 0.3057,
+    "other": 0.19346666666666662,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 4,
+    "own_two_lineages": 0.506375,
+    "judge_bots": 0.304425,
+    "other": 0.18919999999999998,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 5,
+    "own_two_lineages": 0.4913,
+    "judge_bots": 0.31122,
+    "other": 0.19747999999999993,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 6,
+    "own_two_lineages": 0.45598333333333335,
+    "judge_bots": 0.32998333333333335,
+    "other": 0.21403333333333324,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 7,
+    "own_two_lineages": 0.4393285714285714,
+    "judge_bots": 0.34237142857142855,
+    "other": 0.21830000000000005,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 8,
+    "own_two_lineages": 0.4273125,
+    "judge_bots": 0.3526875,
+    "other": 0.22000000000000003,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 9,
+    "own_two_lineages": 0.4214333333333333,
+    "judge_bots": 0.3512555555555556,
+    "other": 0.22731111111111107,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 10,
+    "own_two_lineages": 0.42359,
+    "judge_bots": 0.3522,
+    "other": 0.22420999999999996,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 11,
+    "own_two_lineages": 0.4204181818181818,
+    "judge_bots": 0.35154545454545455,
+    "other": 0.22803636363636365,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 12,
+    "own_two_lineages": 0.42063333333333336,
+    "judge_bots": 0.3505416666666667,
+    "other": 0.2288249999999999,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 13,
+    "own_two_lineages": 0.4222230769230769,
+    "judge_bots": 0.3502076923076923,
+    "other": 0.2275692307692308,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 14,
+    "own_two_lineages": 0.4211142857142857,
+    "judge_bots": 0.34987142857142856,
+    "other": 0.22901428571428567,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 15,
+    "own_two_lineages": 0.41600000000000004,
+    "judge_bots": 0.3466066666666666,
+    "other": 0.23739333333333335,
+    "simulated_games": 20000,
+    "forced_repeat_seats_per_game": 0.0
+   }
+  ],
+  "equal_count": {
+   "own_two_lineages": 0.44324606780124637,
+   "judge_bots": 0.3388582661584447,
+   "other": 0.21789566604030888
+  },
+  "equal_games_team_row_weighted": {
+   "own_two_lineages": 0.4320798319327731,
+   "judge_bots": 0.34442436974789914,
+   "other": 0.2234957983193277
+  }
+ },
+ "proposed": {
+  "per_count": [
+   {
+    "teams": 2,
+    "own_two_lineages": 0.19095,
+    "judge_bots": 0.5851999999999999,
+    "other": 0.2238500000000001,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 3,
+    "own_two_lineages": 0.20093333333333332,
+    "judge_bots": 0.5864333333333334,
+    "other": 0.21263333333333334,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 4,
+    "own_two_lineages": 0.2027,
+    "judge_bots": 0.5892,
+    "other": 0.20810000000000006,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 5,
+    "own_two_lineages": 0.20382000000000003,
+    "judge_bots": 0.58662,
+    "other": 0.20955999999999997,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 6,
+    "own_two_lineages": 0.20846666666666666,
+    "judge_bots": 0.5749166666666666,
+    "other": 0.21661666666666668,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 7,
+    "own_two_lineages": 0.2145857142857143,
+    "judge_bots": 0.5725,
+    "other": 0.21291428571428572,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 8,
+    "own_two_lineages": 0.2156875,
+    "judge_bots": 0.5720875,
+    "other": 0.212225,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 9,
+    "own_two_lineages": 0.21706666666666666,
+    "judge_bots": 0.5657000000000001,
+    "other": 0.21723333333333328,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 10,
+    "own_two_lineages": 0.22052,
+    "judge_bots": 0.56467,
+    "other": 0.21480999999999995,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 11,
+    "own_two_lineages": 0.22263636363636363,
+    "judge_bots": 0.5585818181818182,
+    "other": 0.2187818181818182,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 12,
+    "own_two_lineages": 0.22424166666666667,
+    "judge_bots": 0.556975,
+    "other": 0.21878333333333333,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 13,
+    "own_two_lineages": 0.22996923076923076,
+    "judge_bots": 0.5516230769230769,
+    "other": 0.2184076923076924,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 14,
+    "own_two_lineages": 0.23276428571428573,
+    "judge_bots": 0.5491857142857143,
+    "other": 0.21804999999999997,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   },
+   {
+    "teams": 15,
+    "own_two_lineages": 0.23678666666666667,
+    "judge_bots": 0.5386000000000001,
+    "other": 0.22461333333333322,
+    "simulated_games": 10000,
+    "forced_repeat_seats_per_game": 0.0
+   }
+  ],
+  "equal_count": {
+   "own_two_lineages": 0.21579486388611388,
+   "judge_bots": 0.5680209363850435,
+   "other": 0.2161841997288426
+  },
+  "equal_games_team_row_weighted": {
+   "own_two_lineages": 0.22177983193277312,
+   "judge_bots": 0.56099243697479,
+   "other": 0.21722773109243695
+  }
+ },
+ "proposed_pool_identity": "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+}
