@@ -1,0 +1,89 @@
+{
+ "created": "2026-10-09T01:22:00",
+ "pool": "profiles/open_training_pool_recommended.json",
+ "pool_identity": "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383",
+ "seed": 20261019,
+ "teams": [
+  2,
+  5,
+  8,
+  15
+ ],
+ "matches_per_count": 100,
+ "total_matches": 400,
+ "total_seat_games": 3000,
+ "limits_ms": [
+  2000.0,
+  50.0
+ ],
+ "workers": 8,
+ "wall_seconds": 232.0,
+ "protocol_faults": 0,
+ "late_replies": 0,
+ "engine_mismatch_games": 0,
+ "regimes": {
+  "mixed": 392,
+  "augmented": 8
+ },
+ "components": {
+  "field": 2074,
+  "style": 918,
+  "augmentation": 8
+ },
+ "component_shares": {
+  "field": 0.6913,
+  "style": 0.306,
+  "augmentation": 0.0027
+ },
+ "reserved_ood_lineage_appearances": {
+  "lineage:AI_Arena_CTF_Player02_bot": 0,
+  "lineage:ctf-arena_Player4_v2": 0
+ },
+ "max_lineage_shares": {
+  "n02": {
+   "lineage": "lineage:Player5",
+   "share": 0.09
+  },
+  "n05": {
+   "lineage": "lineage:Player5",
+   "share": 0.11
+  },
+  "n08": {
+   "lineage": "lineage:Player5",
+   "share": 0.1025
+  },
+  "n15": {
+   "lineage": "lineage:Player5",
+   "share": 0.1233
+  }
+ },
+ "aggregate_combat_events": {
+  "kills": 96686.0,
+  "deaths": 96686.0,
+  "carrier_kills": 24830.0,
+  "flag_captures": 23404,
+  "voluntary_drops": 131
+ },
+ "voluntary_drops_by_bot": {
+  "New_AI_Test/Player5/workspace/submission/bot.cpp": {
+   "drops": 64,
+   "friendly_hit_3turns": 34
+  },
+  "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp": {
+   "drops": 47,
+   "friendly_hit_3turns": 44
+  },
+  "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp": {
+   "drops": 13,
+   "friendly_hit_3turns": 9
+  },
+  "ctf-stress-pack/bots_v2/Player5.cpp": {
+   "drops": 4,
+   "friendly_hit_3turns": 2
+  },
+  "ctf-benchmark-v3/track2_2k_c_series/bots/C08_Player5_Omega_LIT.cpp": {
+   "drops": 3,
+   "friendly_hit_3turns": 3
+  }
+ }
+}
