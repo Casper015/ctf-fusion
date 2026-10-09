@@ -15,6 +15,7 @@ Opponent policy and board value networks for the multi-team Capture The Flag bot
 - [docs/ROSTER.md](docs/ROSTER.md): Phase A, evaluating every candidate opponent, admitting an open training pool sampled by behavior group, and freezing evaluation rosters (`roster/`).
 - [docs/LARGER_MODEL_EXPERIMENTS.md](docs/LARGER_MODEL_EXPERIMENTS.md): shared S–XXXXL presets, independent P/V capacities, automatic native buffer sizing and the host experiment sequence.
 - [reports/SAMPLING_DATA_READINESS_REVIEW.md](reports/SAMPLING_DATA_READINESS_REVIEW.md): source audit of the open sampler, theoretical sample volume and remaining data/provenance gaps.
+- [reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md](reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md): source-backed fingerprint audit and proposed v2 plan for noise/support corrections, flag/survival/combat profiles and useful-novelty validation.
 
 **Status:**
 - **Done:**
