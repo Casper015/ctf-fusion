@@ -11,9 +11,10 @@ The tools are built and tested on synthetic and replayed data. Fingerprints, str
 | 1. Inventory | `roster.inventory` | anywhere (compiles every candidate) | identities, builds, aliases, code lineage, exclusions |
 | 1b. Source archive | `roster.archive save / check` | anywhere | every inventoried source stored in `roster/bots/` by sha256; later checks need no AI_Test working tree |
 | 2. Probe suite | `roster.probes` | anywhere, from recorded matches | frozen states with event tags |
-| 3. Fingerprints | `roster.fingerprint` | **host** (hours of bot CPU) | requested moves, actions, targets on identical histories |
-| 4. Distances | `roster.distance` | anywhere | behavior distance, A/A noise, noise-corrected excess with probe-level uncertainty, joint-team distance, complete-linkage groups per team count |
-| 5. Strength | `roster.strength schedule / run / aggregate` | **host** (matches) | utility per team count with map-level intervals; reply times under official limits |
+| 3. Fingerprints | `roster.fingerprint` | **host** (hours of bot CPU) | requested moves, actions, targets on identical histories, each run with its evidence identity; bots run from the source archive |
+| 4. Distances | `roster.distance` | anywhere | fixed-support channel excess (move, action, action+target, joint), equivalent / different / unknown per pair and count, coverage, groups among measured bots |
+| 5. Strength | `roster.strength schedule / run / aggregate` | **host** (matches) | utility per team count with map-level intervals; reply times under official limits; live outcomes per game |
+| 5b. Live profiles | `roster.trajectory` | anywhere, from retained logs | kills, deaths, flag episodes, drop chains, hits per request, threatened survival, with denominators and censoring |
 | 6. Assessments | `roster.assess` | anywhere | one row per candidate (`all_bot_assessments.csv`) |
 | 7. Review | `roster.catalog --review-template` then a person | anywhere | eligibility, verified skills, contribution sentences |
 | 8. Admission | `roster.registry template`, then a person | anywhere | `admission.json`: who is admitted, why, roles, counts, reserved OOD lineages, sampling weights |
@@ -27,33 +28,35 @@ Run the evidence stages for all candidates, then admit training opponents and fr
 
 ```bash
 export AI_TEST_ROOT=C:/path/to/AI_Test
-python -m roster.inventory --out data/roster/bot_inventory.json
-python -m training.collect --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --matches 6 --out data/raw_probes  # diverse histories, default pool
-python -m roster.probes --raw data/raw_probes --per-count 3 --out data/roster/probe_suite.json
-python -m roster.fingerprint --suite data/roster/probe_suite.json --inventory data/roster/bot_inventory.json --repeat 2 --workers 6
-python -m roster.distance --suite data/roster/probe_suite.json --out data/roster/behavior_distance.json
+#   The inventory of the archived sources is committed: roster/bots/inventory.json (122 eligible of 191 candidates).
+python -m roster.archive check --ai-test $AI_TEST_ROOT                     # optional: which AI_Test files moved on
+python -m training.collect --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --matches 12 --out data/raw_probes  # diverse histories, default pool
+python -m roster.probes --raw data/raw_probes --per-count 6 --out data/roster/probe_suite.json
+python -m roster.fingerprint --suite data/roster/probe_suite.json --inventory roster/bots/inventory.json --repeat 2 --workers 6
+python -m roster.distance --suite data/roster/probe_suite.json --inventory roster/bots/inventory.json --out data/roster/behavior_distance.json
 python -m roster.strength schedule --maps-per-count 50 --out data/roster/screen_schedule.json
-python -m roster.strength run --schedule data/roster/screen_schedule.json --inventory data/roster/bot_inventory.json --workers 8 --keep-matches data/raw_screen
-python -m roster.strength aggregate --results data/roster/screen_results.jsonl --out data/roster/strength.json
-python -m roster.assess --inventory data/roster/bot_inventory.json --distance data/roster/behavior_distance.json --strength data/roster/strength.json
+python -m roster.strength run --schedule data/roster/screen_schedule.json --inventory roster/bots/inventory.json --workers 8 --keep-matches data/raw_screen
+python -m roster.strength aggregate --results data/roster/screen_results.jsonl --inventory roster/bots/inventory.json --schedule data/roster/screen_schedule.json --out data/roster/strength.json
+python -m roster.trajectory --raw data/raw_screen --inventory roster/bots/inventory.json --out data/roster/live_profiles.json   # optional: from retained logs
+python -m roster.assess --inventory roster/bots/inventory.json --suite data/roster/probe_suite.json --distance data/roster/behavior_distance.json --strength data/roster/strength.json
 python -m roster.registry template --assessments data/roster/bot_assessments.json --distance data/roster/behavior_distance.json --out data/roster/admission.json
 #   ... a person admits bots (contribution sentence, roles, counts) and reserves OOD lineages, then:
-python -m roster.registry build --admission data/roster/admission.json --assessments data/roster/bot_assessments.json --distance data/roster/behavior_distance.json --inventory data/roster/bot_inventory.json --out profiles/open_training_pool.json
+python -m roster.registry build --admission data/roster/admission.json --assessments data/roster/bot_assessments.json --distance data/roster/behavior_distance.json --inventory roster/bots/inventory.json --out profiles/open_training_pool.json
 python -m training.collect --pool profiles/open_training_pool.json --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --workers 8
 #   Confirmation for the members whose strength claims matter (field members, panel candidates):
 python -m roster.catalog --assessments data/roster/bot_assessments.json --review-template data/roster/roster_review.json
 python -m roster.strength schedule --maps-per-count 715 --seed 7 --out data/roster/confirm_schedule.json
-python -m roster.strength run --schedule data/roster/confirm_schedule.json --inventory data/roster/bot_inventory.json --only <finalists> --results data/roster/confirm_results.jsonl
-python -m roster.strength aggregate --results data/roster/confirm_results.jsonl --out data/roster/strength_confirm.json
+python -m roster.strength run --schedule data/roster/confirm_schedule.json --inventory roster/bots/inventory.json --only <finalists> --results data/roster/confirm_results.jsonl
+python -m roster.strength aggregate --results data/roster/confirm_results.jsonl --inventory roster/bots/inventory.json --schedule data/roster/confirm_schedule.json --out data/roster/strength_confirm.json
 python -m roster.catalog --assessments data/roster/bot_assessments.json --distance data/roster/behavior_distance.json --strength data/roster/strength_confirm.json --review data/roster/roster_review.json
 python handoffs/diverse15_distance_tiered_policy/tools/select_roster.py --input data/roster/roster_evidence.json --out data/roster/selected15.json
-python -m roster.registry freeze-eval --inventory data/roster/bot_inventory.json --selected data/roster/selected15.json --registry profiles/open_training_pool.json --name core15 --out profiles/frozen_eval_roster.json
+python -m roster.registry freeze-eval --inventory roster/bots/inventory.json --selected data/roster/selected15.json --registry profiles/open_training_pool.json --name core15 --out profiles/frozen_eval_roster.json
 ```
 
-After confirmation, re-run `roster.assess` and `roster.registry build` (a new `revision`) so members show `confirmed` evidence. Freeze the pool file and its `identity` for each training run.
+After confirmation, re-run `roster.assess` and `roster.registry build` (a new `revision`) so members show `confirmed` evidence. Freeze the pool file and its `identity` for each training run. When AI_Test gains new bots, run `roster.inventory` and `roster.archive save` again; changed sources get new run files and old evidence is reported as stale, never reused.
 
 **Approximate cost, to be checked on the host:**
-- **Fingerprints:** 122 eligible bots × 42 probes × 2 repeats × 400 turns, at 5–30 ms per reply, is about 10–25 CPU-hours, so 2–4 hours on 6 workers. `--turns 200` halves it.
+- **Fingerprints:** 122 eligible bots × 84 probes (6 maps × 14 counts) × 2 repeats × 400 turns, at 5–30 ms per reply, is about 20–50 CPU-hours, so 4–8 hours on 6 workers. `--per-count 3` or `--turns 200` halves it, but three maps per count leave most pairs unknown.
 - **Screen:** 50 maps per count is 85,400 games for 122 bots, about 5 hours at the S1 run's 4.6 games/s.
 - **Confirmation:** 715 maps per count is 10,010 games per finalist, so about 25 finalists take roughly 15 hours.
 
@@ -94,19 +97,44 @@ Selection is deterministic: per team count, matches with the most distinct seat 
 - the four strata: quiet, contact, flag, respawn;
 - pickup option, own carrier, escort, interception, focus fire, overkill risk, collision risk, return risk, endgame.
 
-**Fingerprints.** Replies are canonicalized exactly like the training labels. Limits are relaxed (10 s first turn, 1 s later): a fingerprint asks what a bot wants to do. A replay of a deterministic bot reproduces its recorded replies exactly; the tests check this.
+**Fingerprints.** Replies are canonicalized exactly like the training labels. Limits are relaxed (10 s first turn, 1 s later): a fingerprint asks what a bot wants to do. A replay of a deterministic bot reproduces its recorded replies exactly; the tests check this. Bots run from the source archive by default (`--source ai-test` for the AI_Test files), and the file must still hash to the inventory's source hash.
 
-**Distance.** Within each tag, the rates of disagreeing moves, actions and attack targets are combined with weights 0.5, 0.3 and 0.2. A component without opportunities is left out, never counted as agreement. Tags weigh equally, so quiet turns cannot dominate. Probes are averaged per team count, and team counts equally (`overall`, a summary only).
+**Evidence identity.** Each run records the bot's source and dependency hashes, the suite identity (probes, feature spec, tag rules), the probe identity, repeat and limits, and is stored under a file name that includes that identity. Changed code or a re-frozen suite therefore never resumes or overwrites old runs. `distance` and `assess` keep only runs that match the suite and the inventory, and report the rest as `stale_runs`. Strength rows carry source, engine and schedule identities; `aggregate --inventory --schedule` drops rows of old code or another schedule, and refuses to mix two source hashes of one bot without an inventory.
 
-**Equivalence** follows the review's three safeguards:
+**Distance (v2, [fingerprint review](../reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md) P0).** For each pair of bots on a probe, the support is fixed by the state: turns where every run of both bots replied validly, and units on the board. On that support, three categorical channels per unit have fixed weights:
 
-- **Noise adjustment.** Repeats give each bot's A/A noise. A pair is scored by its excess distance per probe, d(A,B) − (noise(A) + noise(B)) / 2. With a fixed categorical outcome and shared support this equals half the squared distribution difference. The current attack-conditioned target channel and pair-specific weight renormalization do not always satisfy those assumptions: the final weighted excess can be negative even at the population level. Existing tests separate a 50/50 mixture from deterministic policies, but do not certify every stochastic comparison. Bots with one run per probe have unknown noise, currently taken as 0; bots with noise above 0.1 are listed as `stochastic`. The [fingerprint audit and v2 plan](../reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md) documents a counterexample and proposes a fixed action-target category, explicit unknown evidence and stronger context gates.
-- **Joint team requests.** A fourth measure, `joint`, is the rate at which the whole team's requests differ. Its excess separates a coordinated team from independent units with identical per-unit marginals.
-- **Uncertainty, per count, no chains.** A pair is equivalent at a team count when the current upper estimate of its excess over that count's probes (mean + 1.645 SE, at least 2 probes) is within 0.02, and the joint estimate within 0.05. This small-probe estimate is not a generally calibrated 95% guarantee. Groups are complete-linkage, so every pair inside a group passes the current criteria and each group reports its diameter. Over all counts a pair is grouped only if it passes at every count. Tests preserve a duel specialist that matches a reference at other counts rather than averaging that difference away. `distinct_counts` currently lists singleton counts, including possible unmeasured bots: it must not be interpreted as certified distinctiveness without coverage checks.
+- `move`: the canonical requested move, weight 0.5;
+- `action`: wait, pickup, drop or attack, weight 0.3;
+- `action_target`: the action plus the target id if it attacks, otherwise none, weight 0.2.
+
+A team-level `joint` channel compares the whole team's requests.
+
+For each channel, the disagreement between two bots minus half of each bot's own repeat disagreement on the same support estimates half the squared difference of their conditional distributions. That is a kernel distance, zero only when the distributions match, and a fixed weighted sum keeps that meaning. The review's counterexample (one bot always waits; the other attacks one of eight targets 1/32 each) now gives exactly 0.0625 (action), 0.03515625 (action plus target) and 0.02578 weighted, instead of −0.05. Estimates stay signed. A bot without two valid repeats has unknown noise, so its excess is unknown; a raw distance never stands in for it.
+
+Values are computed per tag, on tags with at least 5 jointly valid opportunities, and averaged over tags. Probes on the same map form one cluster; per team count, the spread over maps gives mean ± 1.645 SE. With 6 maps or fewer this is a heuristic, not a calibrated guarantee. `overall` (raw) is kept for reference; `overall_excess`, `nearest`, `distinctive_tags` and `tag_distance` use the corrected excess.
+
+**Evidence states**, per pair and team count, need at least 2 maps:
+
+- **equivalent:** upper bounds within 0.02 (weighted) and 0.05 (joint), and within 0.05 in every adequately measured critical tag (all tags but quiet). A rare difference, such as two unit-turns in a five-turn interception tag, cannot be averaged away by quiet turns.
+- **different:** a lower bound above its margin.
+- **unknown:** everything else.
+
+A bot is **measured** at a count when it has two valid repeats on at least 2 maps there. Groups are complete-linkage among measured bots only; unmeasured bots are listed (`unmeasured_per_count`) and are never a singleton "specialist". Over all counts, groups use bots measured everywhere, and a pair is grouped only when equivalent at every count. `established_distinct_counts` lists the counts where a bot is demonstrably different from every other measured bot. `coverage[bot][count]` gives probes, maps, repeats, valid share, noise and opportunities per tag.
+
+**Live outcomes (`roster.trajectory`, P1).** From a full match log, per seat:
+
+- **exposure:** alive, carrier, shoot-capable and threatened unit-turns;
+- **combat:** attack requests and hits (an engine attack event is a hit); kills and carrier kills with the engine's 1/k credit per killing hit; deaths;
+- **flags:** pickups, captures, voluntary and forced drops;
+- **carrier episodes:** delivered, voluntarily dropped, forcibly dropped, or censored at match end;
+- **drop chains:** whether a voluntary drop led to our pickup, an enemy pickup or a return within the 15-turn window, and whether we hit within 3 turns;
+- **threatened survival:** survival over 5 and 10 turns. "Threatened" means an enemy non-carrier within Manhattan reach 3, walls ignored; it is a declared proxy, not a death probability.
+
+Events of settlement t are read from the TURN t+1 block, and turn 400's from `final_block`, so each is counted once. Recomputed totals are checked against the engine's `result.stats`; they match on real judge-bot matches. Every strength game stores the candidate's outcomes in its row, and `aggregate` produces profiles per count. Each profile records numerator, denominator, unique maps, a map-clustered ratio interval and censored counts. `roster.trajectory --raw` does the same for retained logs: every seat whose source hash is inventoried. These are tendencies and outcomes, not strength; keep utility alongside.
 
 **Strength.** Every candidate plays the same frozen fixtures: per team count and map, the candidate takes one seat and the frozen reference roster (ten judge bots, Player5, Baseline) fills the others. One map is one independent group. Utility is pairwise (beat 1, tie 0.5); the lower bound is mean − 1.96 SE over maps; team counts weigh equally. Reply times and faults are recorded under the official limits. The evidence level becomes "confirmation" at 10,000 maps with at least 500 per count.
 
-**Interpretation limits.** Current tags are state/opportunity proxies, not measurements of successful escape, flag delivery or efficient killing. `distinctive_tags` ranks raw disagreement rather than adjusted excess. Collection already retains engine kill/death/pickup/capture statistics in full match logs, but the compact strength output does not aggregate them. The [v2 modification plan](../reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md#modification-plan-preserve-three-kinds-of-evidence) specifies separate conditional-policy, live-trajectory and strength/reliability profiles, opportunity denominators, flag episodes, coverage/identity repairs and held-out checks. These changes are proposed, not implemented by the report.
+**Interpretation limits.** Probe tags are state/opportunity proxies (`tags-1`, versioned in the suite identity); escape, delivery and killing efficiency come from the live outcomes, not from the tags. Replay probes cannot steer a bot's private plans; pair them with live outcomes.
 
 **Review and selection.** The catalog takes every number from the measured files. Eligibility, verified skills and the one-sentence contribution come only from the human review file, which starts closed (`eligible: false`) with the measured hints. Bots with incomplete distances are dropped, worst coverage first, so one gap cannot remove the rest. The handoff's selector then enforces distinct clusters, at most three per lineage, a minimum pair distance, and the confirmation sample sizes.
 
@@ -116,9 +144,9 @@ Those constraints describe the optional panel selector. Open training admission 
 
 - the bot is an inventory representative; an alias shares its representative's entry and mass;
 - it is outside the reserved OOD lineages;
-- its assessment source hash matches the inventory; validating the original run identities is still required to exclude stale evidence;
+- its source hash matches the inventory, and only runs and strength rows with matching identities count as its evidence;
 - valid replies are at least 99%, with no dead probe runs, and strength-game faults are at most 0.01 per game when screened;
-- it appears in the behavior clusters at each admitted count; counts missing from these clusters are dropped and reported. An unmeasured singleton can currently pass this check, so explicit bot/count coverage is a pending repair.
+- it is measured (the distance file's `coverage`) at each admitted count; unmeasured counts are dropped and reported, never treated as a specialty.
 
 Strength is evidence, not a gate. Members are `confirmed` with the 10,000-map confirmation, otherwise `provisional`. Roles:
 
@@ -140,6 +168,8 @@ The pool file records each count's groups, effective weights, ρ and the inclusi
 **Frozen evaluation roster (`roster.registry freeze-eval`).** It lists fixed members with source hashes, a fixture policy and its own identity. Each member is marked as in training or not, and as in a reserved OOD lineage or not. A selector panel can be frozen this way.
 
 ## Not built yet
+
+- **Fingerprint review, stages 3–5.** Semantic tendency channels (`roster/behavior.py`: return-home, risk-reducing movement, target roles, allocation) and the richer context tags. A coverage/quota optimizer for probe selection, with an untouched confirmation suite after adaptive discovery. Map-cluster resampling and false-merge/split calibration on known controls. Engine branch continuations for rare drop/handoff behavior. The equal-budget add/remove training test.
 
 - **Context-level sampling and count weighting.** The sampler balances behavior groups per team count. Per event-tag profiles are reported (`distinctive_tags`, `contexts` in the admission file) but do not yet drive state-level stratification or loss weights. Equal matches per count give N acting-team rows per turn, so training must choose its count weighting explicitly.
 - **Response profiles.** Per-count results against the frozen reference roster exist (`per_count` utility). Matchup response diversity, meaning how the same opponents fare against each candidate, is not yet a sampling component.

@@ -23,6 +23,14 @@ maps with at least 500 per team count (handoff BOT_SELECTION_PLAN.md).
 Stage it: a cheap screen (tens of maps per count) for every eligible
 representative, then confirmation for the finalists only. --keep-matches
 stores full match logs, which double as on-policy training data.
+
+Evidence identity (schema 2): every result row carries the candidate's
+source hash, the engine hash and the schedule identity, plus the candidate
+seat's live outcomes (roster.trajectory: kills, deaths, flag episodes, hits
+per request, threatened survival), so they need no retained logs. aggregate
+refuses rows of one candidate with different source hashes unless an
+inventory says which is current (the rest are reported as stale), and rows
+of another schedule.
 """
 from __future__ import annotations
 
@@ -40,8 +48,9 @@ import numpy as np
 
 from fusion import matchlog, runner
 from fusion.paths import REPO, TEAM_COUNTS, ai_test_root, bot_path, git_commit, load_engine, load_pool, sha256
-from roster.common import SCHEMA_STRENGTH, load_json, save_json, sha256_file
-from roster.fingerprint import bots_from_inventory, resolve
+from roster import trajectory
+from roster.common import SCHEMA_STRENGTH, digest, load_json, save_json, sha256_file
+from roster.fingerprint import bots_from_inventory, check_sources, resolve
 
 REFERENCE = ["Astra", "Sol", "Fable", "Sonnet", "Opus", "DeepSeek", "Qwen", "MiMo", "Kimi", "GLM", "Player5", "Baseline"]
 CONFIRM_TOTAL, CONFIRM_PER_COUNT = 10_000, 500
@@ -88,7 +97,9 @@ def play_one(job) -> dict:
     return {"candidate": cand["id"], "source_sha256": cand["source_sha256"], "fixture_id": fx["fixture_id"],
             "teams": fx["teams"], "map_seed": fx["map_seed"], "seat": fx["seat"], "score": score,
             "utility": utility(score, fx["seat"]), "faults": me["faults"], "dead": me["dead"], "late": me["late"],
-            "first_ms": me["first_ms"], "p99_ms": me["p99_ms"], "max_ms": me["max_ms"]}
+            "first_ms": me["first_ms"], "p99_ms": me["p99_ms"], "max_ms": me["max_ms"],
+            "engine_sha256": match["engine_sha256"], "schedule": cand.get("schedule"),
+            "live": trajectory.seat_outcomes(match, fx["seat"])}
 
 
 def run(a) -> None:
@@ -104,19 +115,25 @@ def run(a) -> None:
         commands[ref["name"]] = runner.command_for(path, build)
         info[ref["name"]] = {"family": pool[ref["name"]]["family"], "sha256": ref["source_sha256"]}
     inv = load_json(a.inventory) if a.inventory else None
-    cands = bots_from_inventory(inv) if inv else []
+    cands = bots_from_inventory(inv, a.source) if inv else []
     for spec in a.bot:
         bid, _, path = spec.partition("=")
         p = resolve(path, None)
         cands.append({"id": bid, "path": str(p), "source_sha256": sha256_file(p), "binary_sha256": None})
     if a.only:
         cands = [c for c in cands if c["id"] in set(a.only)]
+    check_sources(cands)
+    sched_id = schedule_identity(sched)
+    for c in cands:
+        c["schedule"] = sched_id
+    by_id = {c["id"]: c["source_sha256"] for c in cands}
     out = Path(a.results)
     done = set()
     if out.exists():
         for line in out.read_text(encoding="utf-8").splitlines():
             r = json.loads(line)
-            done.add((r["candidate"], r["fixture_id"]))
+            if r.get("schedule") == sched_id and r["source_sha256"] == by_id.get(r["candidate"]):
+                done.add((r["candidate"], r["fixture_id"]))         # resume only identical evidence
     limits = (a.first_ms / 1000, a.turn_ms / 1000)
     jobs = []
     for c in cands:
@@ -144,7 +161,34 @@ def run(a) -> None:
         pool_ex.shutdown()
 
 
-def aggregate(rows: list[dict], teams_list=TEAM_COUNTS, z: float = 1.96) -> dict:
+def schedule_identity(sched: dict) -> str:
+    return digest({"fixtures": sched["fixtures"], "reference": sched["reference"]})
+
+
+def current_rows(rows: list[dict], sources: dict[str, str] | None, schedule: str | None):
+    """(rows that are evidence for the current sources and schedule, {candidate: stale row count}).
+    Without `sources`, a candidate with several source hashes is an error: old and new code must not mix."""
+    stale, shas = defaultdict(int), defaultdict(set)
+    keep = []
+    for r in rows:
+        if schedule is not None and r.get("schedule") not in (None, schedule):
+            stale[r["candidate"]] += 1
+            continue
+        if sources is not None and r["candidate"] in sources and r["source_sha256"] != sources[r["candidate"]]:
+            stale[r["candidate"]] += 1
+            continue
+        shas[r["candidate"]].add(r["source_sha256"])
+        keep.append(r)
+    mixed = sorted(c for c, v in shas.items() if len(v) > 1)
+    if mixed:
+        raise SystemExit(f"results mix several source hashes for {mixed[:5]}; pass --inventory to keep the current ones")
+    return keep, dict(stale)
+
+
+def aggregate(rows: list[dict], teams_list=TEAM_COUNTS, z: float = 1.96, sources: dict[str, str] | None = None,
+              schedule: str | None = None) -> dict:
+    rows, stale = current_rows(rows, sources, schedule)
+    live = defaultdict(list)
     by = defaultdict(lambda: defaultdict(list))
     meta = defaultdict(lambda: {"faults": 0, "dead": 0, "late": 0, "games": 0, "p99": [], "max": 0.0, "first": 0.0})
     seen = set()
@@ -154,6 +198,8 @@ def aggregate(rows: list[dict], teams_list=TEAM_COUNTS, z: float = 1.96) -> dict
             continue  # one game per fixture and candidate: a rerun is not a new map
         seen.add(key)
         by[r["candidate"]][r["teams"]].append(r["utility"])
+        if r.get("live"):
+            live[r["candidate"]].append({"teams": r["teams"], "map": r["map_seed"], "live": r["live"]})
         m = meta[r["candidate"]]
         m["games"] += 1
         m["faults"] += r["faults"]
@@ -182,9 +228,12 @@ def aggregate(rows: list[dict], teams_list=TEAM_COUNTS, z: float = 1.96) -> dict
                      "utility": mean, "se": se, "lcb": None if mean is None else mean - z * se, "evidence": level,
                      "games": m["games"], "faults_per_game": m["faults"] / m["games"], "dead_games": m["dead"],
                      "late_replies": m["late"], "p99_ms_median": float(np.median(m["p99"])) if m["p99"] else None,
-                     "max_ms": m["max"], "first_ms_max": m["first"]}
+                     "max_ms": m["max"], "first_ms_max": m["first"],
+                     "source_sha256": next(r["source_sha256"] for r in rows if r["candidate"] == cand),
+                     "live": trajectory.aggregate(live[cand]) if live[cand] else None}
     return {"schema": SCHEMA_STRENGTH, "created": time.strftime("%Y-%m-%dT%H:%M:%S"), "z": z,
-            "confirmation": {"total_maps": CONFIRM_TOTAL, "per_count": CONFIRM_PER_COUNT}, "candidates": out}
+            "confirmation": {"total_maps": CONFIRM_TOTAL, "per_count": CONFIRM_PER_COUNT}, "candidates": out,
+            "stale_rows": stale}
 
 
 def main(argv=None):
@@ -208,8 +257,12 @@ def main(argv=None):
     r.add_argument("--first-ms", type=float, default=2000.0)
     r.add_argument("--turn-ms", type=float, default=50.0)
     r.add_argument("--keep-matches", help="directory for full match logs (on-policy data)")
+    r.add_argument("--source", choices=("archive", "ai-test"), default="archive",
+                   help="run inventory candidates from the source archive (roster/bots) or the AI_Test files")
     g = sub.add_parser("aggregate")
     g.add_argument("--results", required=True, nargs="+")
+    g.add_argument("--inventory", help="keep only rows of each candidate's current source hash (others: stale)")
+    g.add_argument("--schedule", help="keep only rows of this schedule")
     g.add_argument("--out", default=str(REPO / "data" / "roster" / "strength.json"))
     a = ap.parse_args(argv)
     if a.cmd == "schedule":
@@ -220,9 +273,10 @@ def main(argv=None):
         run(a)
     else:
         rows = [json.loads(l) for p in a.results for l in Path(p).read_text(encoding="utf-8").splitlines() if l.strip()]
-        out = aggregate(rows)
+        sources = {b["id"]: b["source_sha256"] for b in load_json(a.inventory)["bots"]} if a.inventory else None
+        out = aggregate(rows, sources=sources, schedule=schedule_identity(load_json(a.schedule)) if a.schedule else None)
         save_json(a.out, out)
-        print(f"[strength] {len(out['candidates'])} candidates -> {a.out}")
+        print(f"[strength] {len(out['candidates'])} candidates, {sum(out['stale_rows'].values())} stale rows ignored -> {a.out}")
 
 
 if __name__ == "__main__":

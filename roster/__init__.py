@@ -6,6 +6,7 @@
     python -m roster.fingerprint --suite data/roster/probe_suite.json --inventory data/roster/bot_inventory.json
     python -m roster.distance    --suite ... --fingerprints data/roster/fingerprints --out data/roster/behavior_distance.json
     python -m roster.strength    schedule | run | aggregate         (matches: target host only)
+    python -m roster.trajectory  --raw data/raw_screen --inventory ...   (live outcomes from retained logs)
     python -m roster.assess      --inventory ... --distance ... [--strength ...]
     python -m roster.registry    template | build | freeze-eval    (open training pool, frozen evaluation roster)
     python -m roster.catalog     --assessments ... --distance ... --strength ... --review roster_review.json   (optional panel)

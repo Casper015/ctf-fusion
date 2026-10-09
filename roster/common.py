@@ -11,9 +11,9 @@ import numpy as np
 
 SCHEMA_INVENTORY = "ctf-bot-inventory-2"
 SCHEMA_SUITE = "ctf-probe-suite-1"
-SCHEMA_FINGERPRINT = "ctf-fingerprint-1"
-SCHEMA_DISTANCE = "ctf-behavior-distance-1"
-SCHEMA_STRENGTH = "ctf-strength-screen-1"
+SCHEMA_FINGERPRINT = "ctf-fingerprint-2"      # v2: every run carries its evidence identity
+SCHEMA_DISTANCE = "ctf-behavior-distance-2"   # v2: fixed-support channels, evidence states, coverage
+SCHEMA_STRENGTH = "ctf-strength-screen-2"     # v2: source/engine/schedule identity and live outcomes per game
 
 # Pre-registered tactical event tags of a probe turn, for the probing team (roster/probes.py).
 # The stratum tags partition every turn; the others mark rarer situations so that quiet turns
@@ -35,6 +35,22 @@ def bot_key(bot_id: str) -> str:
     """A filesystem-safe, collision-free key for a bot id (paths, ref:path, pool names)."""
     stem = re.sub(r"[^A-Za-z0-9_.-]+", "_", bot_id.rsplit("/", 1)[-1])[:48]
     return f"{stem}-{hashlib.sha256(bot_id.encode()).hexdigest()[:10]}"
+
+
+def digest(obj) -> str:
+    """sha256 of an object's canonical JSON (identities of suites, runs, schedules)."""
+    return sha256_bytes(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode())
+
+
+def probe_identity(probe: dict) -> str:
+    """What a probe asks: the recorded match (by content), the seat, the prefix length, tags and active units."""
+    return digest({k: probe.get(k) for k in ("probe_id", "match_sha256", "seat", "turns", "teams", "tags", "active")})
+
+
+def suite_identity(suite: dict) -> str:
+    """The frozen suite: its probes (by identity), the feature spec its labels use and its tag definitions."""
+    return digest({"probes": sorted(probe_identity(p) for p in suite["probes"]), "spec_version": suite.get("spec_version"),
+                   "tags": suite.get("tags", list(TAGS)), "tag_rules": suite.get("tag_rules")})
 
 
 def load_json(path: os.PathLike):

@@ -19,8 +19,10 @@ measured hint and nothing admitted) and it passes the measured gates:
   - the source hash it was measured with;
   - protocol reliability on the probes (valid reply share, no dead runs) and,
     when screened, in the strength games (faults per game);
-  - fingerprinted at every team count it is admitted for (counts without
-    behavior evidence are dropped from its counts and reported).
+  - measured at every team count it is admitted for: the distance file's
+    coverage (two or more valid repeats on enough maps). Counts without that
+    evidence are dropped from its counts and reported; an unmeasured count is
+    unknown, never a specialty.
 
 Strength is evidence, not a gate: a weaker specialist can be admitted. Its
 evidence level is "confirmed" only with the strength confirmation (10,000
@@ -83,7 +85,9 @@ def template(assessments: dict, dist: dict) -> dict:
         bots[b] = {"admit": False, "contribution": "", "roles": ["style"], "counts": "all", "hard_counts": [],
                    "contexts": [], "max_copies": 1,
                    "hints": {"evidence_status": r["evidence_status"], "lineage_group": r.get("lineage_group"),
-                             "distinct_counts": dist.get("distinct_counts", {}).get(b),
+                             "established_distinct_counts": dist.get("established_distinct_counts", {}).get(b),
+                             "unmeasured_counts": sorted(int(n) for n, c in dist.get("coverage", {}).get(b, {}).items()
+                                                         if not c["measured"]),
                              "nearest_per_count": near,
                              "counts_beyond_margin_of_nearest": sorted(int(n) for n, v in near.items() if v["excess"] > margin),
                              "stochastic": b in dist.get("stochastic", []), "aa_noise": dist["noise"].get(b),
@@ -107,8 +111,7 @@ def build(admission: dict, assessments: dict, dist: dict, inventory: dict, input
     reserved = set(admission.get("reserved_ood_lineages", []))
     rows = {r["id"]: r for r in assessments["bots"]}
     inv = {b["id"]: b for b in inventory["bots"]}
-    measured = {int(n) for n in dist.get("equivalence_score_per_count", {})}
-    clusters_per_count = {int(n): cl for n, cl in dist.get("clusters_per_count", {}).items()}
+    coverage = dist.get("coverage", {})
     members, rejected, dropped_counts = [], {}, {}
     taken: set[str] = set()
     for bid, spec in sorted(admission.get("bots", {}).items()):
@@ -139,8 +142,8 @@ def build(admission: dict, assessments: dict, dist: dict, inventory: dict, input
             rejected[bid] = why
             continue
         wanted = counts_of(spec.get("counts"))
-        # augmentation policies are not grouped by behavior, but still need fingerprints to be checked for reliability
-        counts = [n for n in wanted if n in measured and any(bid in g for g in clusters_per_count.get(n, []))]
+        # explicit measured coverage per count (augmentation policies too: their reliability needs fingerprints)
+        counts = [n for n in wanted if coverage.get(bid, {}).get(str(n), {}).get("measured")]
         if missing := sorted(set(wanted) - set(counts)):
             dropped_counts[bid] = missing
         if not counts:
@@ -160,7 +163,7 @@ def build(admission: dict, assessments: dict, dist: dict, inventory: dict, input
                         "evidence": {"status": r["evidence_status"], "utility": r.get("utility"), "utility_lcb": r.get("utility_lcb"),
                                      "maps": r.get("maps"), "aa_noise": dist["noise"].get(bid),
                                      "stochastic": bid in dist.get("stochastic", []),
-                                     "distinct_counts": dist.get("distinct_counts", {}).get(bid)}})
+                                     "established_distinct_counts": dist.get("established_distinct_counts", {}).get(bid)}})
     # behavior groups per count among the admitted policies only
     index = {b: i for i, b in enumerate(dist["ids"])}
     per_count = {}

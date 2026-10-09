@@ -23,12 +23,13 @@ import numpy as np
 
 from fusion.paths import REPO
 from roster.common import load_json, save_json
-from roster.fingerprint import load_all
+from roster.fingerprint import load_valid
 
 COLUMNS = ["id", "pool_name", "evidence_status", "excluded", "representative", "byte_alias_of", "code_alias_of",
            "lineage_group", "code_nearest", "code_similarity", "build", "binary_sha256", "source_sha256",
            "probe_runs", "valid_reply_share", "probe_faults", "probe_dead_runs", "probe_reply_ms_p50", "probe_reply_ms_p99",
            "behavior_cluster", "behavior_nearest", "behavior_distance", "aa_noise", "distinctive_tags",
+           "measured_counts", "established_distinct_counts", "stale_runs",
            "utility", "utility_lcb", "maps", "counts_covered", "strength_evidence", "faults_per_game", "late_replies",
            "p99_ms_median", "max_ms", "first_ms_max"]
 
@@ -60,7 +61,10 @@ def assess(inv: dict, runs: dict, dist: dict | None, strength: dict | None) -> l
         if dist and rep in idx:
             row |= {"behavior_cluster": dist["cluster_of"].get(rep), "aa_noise": dist["noise"].get(rep),
                     "behavior_nearest": (dist["nearest"].get(rep) or {}).get("id"),
-                    "behavior_distance": (dist["nearest"].get(rep) or {}).get("distance"),
+                    "behavior_distance": (dist["nearest"].get(rep) or {}).get("excess", (dist["nearest"].get(rep) or {}).get("distance")),
+                    "measured_counts": sorted(int(n) for n, c in dist.get("coverage", {}).get(rep, {}).items() if c["measured"]),
+                    "established_distinct_counts": dist.get("established_distinct_counts", {}).get(rep),
+                    "stale_runs": len(dist.get("stale_runs", {}).get(rep, [])),
                     "distinctive_tags": ", ".join(f"{t['tag']} x{t['vs_population']}" for t in dist["distinctive_tags"].get(rep, [])),
                     "clusters_per_count": {n: next((c[0] for c in cl if rep in c), None) for n, cl in dist["clusters_per_count"].items()}}
         s = (strength or {}).get("candidates", {}).get(rep)
@@ -90,12 +94,17 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--inventory", required=True)
     ap.add_argument("--fingerprints", default=str(REPO / "data" / "roster" / "fingerprints"))
+    ap.add_argument("--suite", help="the probe suite: fingerprint runs of another suite are stale")
     ap.add_argument("--distance")
     ap.add_argument("--strength")
     ap.add_argument("--out", default=str(REPO / "data" / "roster"))
     a = ap.parse_args(argv)
     inv = load_json(a.inventory)
-    runs = load_all(Path(a.fingerprints)) if Path(a.fingerprints).is_dir() else {}
+    # only runs whose identity matches the inventory's sources (and the suite, if given) are evidence
+    runs, stale = (load_valid(Path(a.fingerprints), load_json(a.suite) if a.suite else None, inv)
+                   if Path(a.fingerprints).is_dir() else ({}, {}))
+    if stale:
+        print(f"[assess] ignoring {sum(len(v) for v in stale.values())} stale fingerprint runs of {len(stale)} bots")
     rows = assess(inv, runs, load_json(a.distance) if a.distance else None, load_json(a.strength) if a.strength else None)
     out = Path(a.out)
     save_json(out / "bot_assessments.json", {"schema": "ctf-bot-assessments-1", "inventory": a.inventory,

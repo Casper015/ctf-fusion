@@ -9,7 +9,10 @@ way. .gitattributes marks them -text: git must never convert their line
 endings (Windows checkouts), or every hash would break. roster/bots/manifest.json maps every candidate of the inventory
 (aliases and excluded ones included) to its archived file, its AI_Test path
 and commit, lineage, alias and exclusion. Bots already in this repository
-(@repo/ paths) are recorded but not copied.
+(@repo/ paths) are recorded but not copied. roster/bots/inventory.json is the
+inventory snapshot of the latest save (its AI_Test root removed), so the
+host can fingerprint and screen the archived sources with
+--inventory roster/bots/inventory.json without its own inventory.
 
 check verifies that:
   - every archived file still hashes to its name (no edits);
@@ -83,6 +86,12 @@ def save(inventory: dict, root: Path, out: Path = ARCHIVE) -> dict:
                           "stored_files": sum(1 for _ in (out / "src").iterdir()),
                           "stored_bytes": sum(p.stat().st_size for p in (out / "src").iterdir())}
     save_json(out / "manifest.json", manifest)
+    local = ("binary", "path", "command")                          # machine-local build paths stay out of the repo
+    bots = [b | {"build": {k: v for k, v in b.get("build", {}).items() if k not in local}} for b in inventory["bots"]]
+    snapshot = inventory | {"bots": bots, "ai_test_root": None, "archived": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                            "_comment": "Inventory snapshot of the archived sources (roster.archive save). Bots run from "
+                                        "roster/bots/src by default; build fields describe the machine that inventoried."}
+    save_json(out / "inventory.json", snapshot, indent=None)
     return {"copied": copied, **manifest["counts"]}
 
 

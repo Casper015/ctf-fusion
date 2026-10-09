@@ -8,7 +8,8 @@
 
 Every number comes from the measured files: strength (maps per team count,
 the lower confidence bound of the equal-count utility, clipped to [0, 1]),
-behavior clusters and the overall behavior distance matrix. What a measurement
+behavior clusters and the overall noise-corrected excess matrix (clipped at
+zero for the selector). What a measurement
 cannot decide comes from a human review file, never from this tool:
 
     {"bots": {"<bot id>": {"eligible": true, "skills": ["carrier interception"],
@@ -35,7 +36,9 @@ from roster.common import load_json, save_json, sha256_bytes, sha256_file
 def build(assessments: dict, dist: dict, strength: dict, review: dict, manifest_sha: str) -> dict:
     ids = dist["ids"]
     index = {b: i for i, b in enumerate(ids)}
-    overall = np.array([[np.nan if v is None else v for v in row] for row in dist["overall"]], float)
+    # the corrected (noise-adjusted) excess, clipped at zero for the selector; schema-1 files only have raw "overall"
+    overall = np.array([[np.nan if v is None else max(0.0, v) for v in row] for row in dist.get("overall_excess", dist["overall"])],
+                       float)
     rows = {r["id"]: r for r in assessments["bots"]}
     bots, left_out = [], {}
     for bid in ids:
