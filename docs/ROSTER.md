@@ -89,7 +89,7 @@ All builds succeeded. Code aliases include the stress-pack copies of the judge b
 - every member of the given pools or rosters is archived;
 - which AI_Test files changed since archiving.
 
-Re-run `save` after each new inventory; entries accumulate. First archive: 191 candidates, 130 stored files, 8.5 MiB, from AI_Test `c9c115b`.
+[`roster/bots/README.md`](../roster/bots/README.md) (generated) lists all stored files with names, status, lineage and AI_Test origins, and shows how to play your own bot against them (`roster.archive pool`). Re-run `save` after each new inventory; entries accumulate. First archive: 191 candidates, 130 stored files, 8.5 MiB, from AI_Test `c9c115b`.
 
 **Probes.** A probe is one seat of one recorded match, replayed from turn 1, so a bot always sees a complete, valid history. Every bot answers the same probes. The history was produced by other bots' orders, which is the price of identical states; on-policy behavior comes from the screen's live matches, which `--keep-matches` stores.
 

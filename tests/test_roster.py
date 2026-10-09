@@ -547,6 +547,16 @@ class TestArchive(unittest.TestCase):
             with self.assertRaises(SystemExit):                            # a source changed since the inventory
                 archive.save(inv, root, Path(tmp) / "other")
 
+    def test_committed_archive_readme_and_pool_are_current(self):
+        manifest = load_json(archive.ARCHIVE / "manifest.json")
+        self.assertEqual((archive.ARCHIVE / "README.md").read_text(encoding="utf-8"), archive.readme(manifest))
+        rows = archive.files(manifest)
+        self.assertEqual(len(rows), manifest["counts"]["stored_files"])
+        p = archive.pool(manifest)
+        self.assertEqual(len(p["bots"]), sum(r["status"] == "eligible" for r in rows))
+        self.assertEqual(len({b["name"] for b in p["bots"]}), len(p["bots"]))
+        self.assertTrue(all((REPO / b["path"][len("@repo/"):]).is_file() for b in p["bots"]))
+
 
 def turn_block(turn, units, events=()):
     """A TURN block in the engine's format; units: (id, team, x, y, hp, flag)."""
