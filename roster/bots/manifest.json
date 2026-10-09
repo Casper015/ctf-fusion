@@ -4586,7 +4586,7 @@
   }
  },
  "schema": "ctf-bot-archive-1",
- "updated": "2026-10-08T16:30:35",
+ "updated": "2026-10-08T17:21:16",
  "_comment": "Every inventoried bot source, stored once by sha256 (python -m roster.archive). Entries accumulate across inventories; ai_test_commit is the AI_Test commit of the inventory that archived the entry (the working tree may hold uncommitted files).",
  "counts": {
   "candidates": 191,

@@ -1,0 +1,1992 @@
+{
+ "schema": "ctf-new-bots-1",
+ "scanned": "2026-10-08T20:05:17",
+ "ai_test_root_name": "AI_Test",
+ "thresholds": {
+  "independent_below": 0.5,
+  "cosmetic_from": 0.999
+ },
+ "counts": {
+  "cpp": 941,
+  "archived": 509,
+  "same_code": 17,
+  "not_ctf_bot": 109,
+  "driver": 2,
+  "new_files": 303,
+  "independent": 8,
+  "forks": 128,
+  "skipped": 4,
+  "placeholders": 1
+ },
+ "bots": [
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/sparring_adaptive.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/sparring_adaptive.cpp"
+   ],
+   "source_sha256": "a606f8814b7055fc0894fbf35f4e796896e158bfca3204ba787b5d399c079cfb",
+   "code_sha256": "4653343a809f0069d242222147f1c9db9f502842fb47408f987cbce8ee85b45e",
+   "bytes": 8934,
+   "mtime": "2026-10-06 00:15",
+   "closest_archived": "New_AI_Test/player7/workspace/submission/bot.cpp",
+   "similarity": 0.03,
+   "tier": "independent",
+   "file": "independent/ctf-arena_Player5_sparring_adaptive.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/sparring_runner.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/sparring_runner.cpp"
+   ],
+   "source_sha256": "ac5ef1fd2e0b933f8c1efb5356caf22896f95e36214ec2b9bab8ff20f93c8a8b",
+   "code_sha256": "36025bac857d740457bd520e42031aa2efa45628fbe19655fe8cd3b214d796e5",
+   "bytes": 8941,
+   "mtime": "2026-10-06 00:10",
+   "closest_archived": "New_AI_Test/player7/workspace/submission/bot.cpp",
+   "similarity": 0.03,
+   "tier": "independent",
+   "file": "independent/ctf-arena_Player5_sparring_runner.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/sparring.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/sparring.cpp"
+   ],
+   "source_sha256": "a1e3635d7d18702e2be33a642b1015ab3cd0bd9809d0b03caf65be29d00eb827",
+   "code_sha256": "104eb9e60b1a84fcc278b86d87789a15768d2cb74ba1a34b0d9f4aed5860d12e",
+   "bytes": 8157,
+   "mtime": "2026-10-06 00:09",
+   "closest_archived": "New_AI_Test/Player3/workspace/experiments/incumbent-v001.cpp",
+   "similarity": 0.031,
+   "tier": "independent",
+   "file": "independent/ctf-arena_Player5_sparring.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/sparring_raider.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/sparring_raider.cpp"
+   ],
+   "source_sha256": "ee6d0ad5c276d2c9a3c51e7cf78c64debcb6ca3af13b1c5fe1b426a67d5d6b34",
+   "code_sha256": "fc55dec324ff211f2ec11fa7bf5170258a5286b2190b8530331ec2da6f11300b",
+   "bytes": 8161,
+   "mtime": "2026-10-06 00:10",
+   "closest_archived": "New_AI_Test/Player3/workspace/experiments/incumbent-v001.cpp",
+   "similarity": 0.031,
+   "tier": "independent",
+   "file": "independent/ctf-arena_Player5_sparring_raider.cpp"
+  },
+  {
+   "origin": "AI_Arena_CTF/Player02/workspace/submission/bot.cpp",
+   "copies": [],
+   "source_sha256": "ef8719390bcdb0ff95c757bf56c73d1138064068b02b318eb1adf6623bf268ab",
+   "code_sha256": "812745ed377c7ce5c32d8bf77e53d04010240b65d90adcbb04d8a4415b58e30b",
+   "bytes": 13125,
+   "mtime": "2026-10-07 20:01",
+   "closest_archived": "New_AI_Test/player7/workspace/submission/bot.cpp",
+   "similarity": 0.099,
+   "tier": "independent",
+   "file": "independent/AI_Arena_CTF_Player02_bot.cpp"
+  },
+  {
+   "origin": "AI_Arena_CTF/Player01/workspace/submission/bot.cpp",
+   "copies": [],
+   "source_sha256": "25c3fd7fb522a1beeff54c1f2ef0e5b096f9cd5eb74b6008f4f4ad487e1b08d2",
+   "code_sha256": "933bd442fb5cd3775352d5220f7a87e9d446323aad5855b1be939564dbecb4b8",
+   "bytes": 21134,
+   "mtime": "2026-10-07 20:14",
+   "closest_archived": "New_AI_Test/Player3/workspace/experiments/incumbent-v001.cpp",
+   "similarity": 0.14,
+   "tier": "independent",
+   "file": "independent/AI_Arena_CTF_Player01_bot.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player1/analysis/t2_snapshot_01076b3d.cpp",
+   "copies": [],
+   "source_sha256": "c5359a5a8efdc80d635f4178db2a928dc04bf4875da5e63d46d53bd305fe0614",
+   "code_sha256": "f4edf5a3244e9aabe9a1d3eb4720b985a1bde3377a82256978ea363364e276b0",
+   "bytes": 16181,
+   "mtime": "2026-10-05 21:29",
+   "closest_archived": "ctf-stress-pack/bots/Player1.cpp",
+   "similarity": 0.191,
+   "tier": "independent",
+   "file": "independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player4/workspace/versions/v2.cpp",
+   "copies": [],
+   "source_sha256": "90038f9ab9b6120938e852cbb13b3a1bd9c074e568a5f648a55a0ec49681b779",
+   "code_sha256": "cea9ed96e77e7e226a680b9c99ba0397eb0d027e71e80819dee1962a0e87754e",
+   "bytes": 29966,
+   "mtime": "2026-10-06 00:11",
+   "closest_archived": "ctf-stress-pack/bots/Player4.cpp",
+   "similarity": 0.323,
+   "tier": "independent",
+   "file": "independent/ctf-arena_Player4_v2.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player4/workspace/versions/v5.cpp",
+   "copies": [],
+   "source_sha256": "66dd28e460f019a86754728c63067d9aa575b87789d4221b32cb3cae22a69484",
+   "code_sha256": "85eed5d138a42c348d5fd05d26d3febf12e83ae42cfc912e0683dd67287d1606",
+   "bytes": 24503,
+   "mtime": "2026-10-06 00:22",
+   "closest_archived": "ctf-stress-pack/bots/Player4.cpp",
+   "similarity": 0.513,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player4_v5.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player4/workspace/versions/v3.cpp",
+   "copies": [],
+   "source_sha256": "52699e6a48b639255098f61c965c14b30f33041403a65fb07786864b49bf327b",
+   "code_sha256": "7b9cccc3e4c28d37eac4fa3c352a545a9f5de74bd34d0716ed8f3f01e934c14c",
+   "bytes": 22670,
+   "mtime": "2026-10-06 00:14",
+   "closest_archived": "ctf-stress-pack/bots/Player4.cpp",
+   "similarity": 0.515,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player4_v3.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v6_combo.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v6_combo.cpp"
+   ],
+   "source_sha256": "4959e006a7a1ce4d3f73a09986b62fa5e470eba8651708dcb8d63126f7acc5d4",
+   "code_sha256": "55849ff0b897e865a5022c1147f9bfb9fbaf85d0ccf6c2fe37617fe377cebc11",
+   "bytes": 38690,
+   "mtime": "2026-10-06 00:28",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.709,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v6_combo.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/perf_combined.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2/perf_combined.cpp"
+   ],
+   "source_sha256": "719a9ad5d2912595803ac450cc3c4204e8393c73a938037a8757e5f7d2664a74",
+   "code_sha256": "d175768c03d6250de2fc8d7df3f33f30fc62e757158cf443b3a25f50cd42209a",
+   "bytes": 48682,
+   "mtime": "2026-10-06 19:48",
+   "closest_archived": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_checked.cpp",
+   "similarity": 0.711,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_perf_combined.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/perf_sharing.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2/perf_sharing.cpp"
+   ],
+   "source_sha256": "cfecd13f722ae997d61bed365efdd8e57748a98fcbe8c1bbc48d7113a36e4aa0",
+   "code_sha256": "8f5b646d747ec8d4cb4581cfc6701ab8d1d19f0785e4e9c9177f29e165fd4c9c",
+   "bytes": 48629,
+   "mtime": "2026-10-06 19:48",
+   "closest_archived": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_checked.cpp",
+   "similarity": 0.713,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_perf_sharing.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/perf_profile.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2/perf_profile.cpp"
+   ],
+   "source_sha256": "dbc0fde31c3d61a8b646ccebfccd0dde0856205cf399b56cdc20c846762da43a",
+   "code_sha256": "8b0fd51e0718418906b9afe4b02024d5bcc202dc21590111011d7f23d3983a4e",
+   "bytes": 48526,
+   "mtime": "2026-10-06 20:00",
+   "closest_archived": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_checked.cpp",
+   "similarity": 0.718,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_perf_profile.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/perf_reserve.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2/perf_reserve.cpp"
+   ],
+   "source_sha256": "cd7536f930e84ba37153e66f54e292cec9782f1ba566681b972e4fd5092aec40",
+   "code_sha256": "5b7a8a6be1a05b1e29cbb489d2133428abee3f342b984f6a7b7e9dfc5766718b",
+   "bytes": 48404,
+   "mtime": "2026-10-06 19:48",
+   "closest_archived": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_checked.cpp",
+   "similarity": 0.718,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_perf_reserve.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/perf_prune.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2/perf_prune.cpp"
+   ],
+   "source_sha256": "5ecf322d80e8cdc2e9beb1ab8968d8609e95b78a12b5e0a5b6fad747edfbb36a",
+   "code_sha256": "d3af81b4b97529e8bc127625afc7b36da7b7f339c47073d6197890d9ba05020c",
+   "bytes": 48381,
+   "mtime": "2026-10-06 19:48",
+   "closest_archived": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_checked.cpp",
+   "similarity": 0.719,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_perf_prune.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v8_fast_combo.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v8_fast_combo.cpp"
+   ],
+   "source_sha256": "422c03a0381d3b42a6d981e0670ec23a0fc352dcf15fb1ceba54b8a40a707f49",
+   "code_sha256": "14ba40f11ccce7c23cce5a5bdda36aeab1317030c8464f4ab1d7822b140120a4",
+   "bytes": 39080,
+   "mtime": "2026-10-06 00:34",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.731,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v8_fast_combo.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v3_pressure.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v3_pressure.cpp"
+   ],
+   "source_sha256": "fa6263d7280675066b8b4161b911fc1209010c8ff522e650c9e646ed791c1594",
+   "code_sha256": "05a3069c787100a5828d63acd6baf47e58e5f5affdac6e319bea6b7e9a0642e8",
+   "bytes": 36923,
+   "mtime": "2026-10-06 00:15",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.735,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v3_pressure.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v3_grid_aggressive.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v3_grid_aggressive.cpp"
+   ],
+   "source_sha256": "f23f7b3ea2b5f33ef5e2d1ff0828c2b3661c739962457f0ee911d070d62d5b39",
+   "code_sha256": "887ae261a20de70fd101e11b8a7a04c8d42b8fe959a631513b49550c26759d61",
+   "bytes": 36389,
+   "mtime": "2026-10-06 00:16",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.745,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v3_grid_aggressive.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v3_grid_balanced.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v3_grid_balanced.cpp"
+   ],
+   "source_sha256": "51372a345ea38a7d8b6c0327c96fa6cad965d38e1ed187bce3eb217cbc084d0e",
+   "code_sha256": "09b46e6e44f2217cd6cc9456d6eb358de4f25b3262773dc246a079c2e926cd38",
+   "bytes": 36389,
+   "mtime": "2026-10-06 00:16",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.745,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v3_grid_balanced.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v3_grid_cohesive.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v3_grid_cohesive.cpp"
+   ],
+   "source_sha256": "f28373940c3575a4de1dfee84091d0d12b901dd5926265887ca31828da51962b",
+   "code_sha256": "3843f8b4b85fcd4ba5d5e1b8b04cfde9885e01709a910179b2f7c2c78204bae7",
+   "bytes": 36389,
+   "mtime": "2026-10-06 00:16",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.745,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v3_grid_cohesive.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v3_grid_focused.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v3_grid_focused.cpp"
+   ],
+   "source_sha256": "11c356475c0dab88660ced701ab305e568f83ef34ee6be661ee921659e296f2f",
+   "code_sha256": "002abfa9bd19f994fdce8813910d1ae21b5381a6a5052832b0bec09bd202c8f9",
+   "bytes": 36389,
+   "mtime": "2026-10-06 00:16",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.745,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v3_grid_focused.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v3_grid_hardy.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v3_grid_hardy.cpp"
+   ],
+   "source_sha256": "068b3b5528d6f0aa74676d0ba1328474ba243bf71cd27846f6535766d3369e58",
+   "code_sha256": "92826cf16028e68cbf62bb3bac3607a03727ac262479c8a82b387d3dacb8427c",
+   "bytes": 36390,
+   "mtime": "2026-10-06 00:16",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.745,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v3_grid_hardy.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v3_base.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v3_base.cpp"
+   ],
+   "source_sha256": "cea999093dae0eac39e1958c3cfa6fdf1f30a39cb12ea40b17c329633875c460",
+   "code_sha256": "4bcde39a91503103c80df394e5d949353ca0571fe988dc470f364840c7f6cd8d",
+   "bytes": 36288,
+   "mtime": "2026-10-06 00:15",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.747,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v3_base.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v4_learn.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v4_learn.cpp"
+   ],
+   "source_sha256": "f46624019253264d13e94d73c726c7d51e63ced5cba1148fc1dc17350b8b0ecc",
+   "code_sha256": "e125acdb7f154309c3826c7138b33eed54833ccc7ddde3a266874de2fd8ac7a8",
+   "bytes": 32234,
+   "mtime": "2026-10-06 00:18",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.755,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v4_learn.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v4_learn_original.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v4_learn_original.cpp"
+   ],
+   "source_sha256": "0a5ee465ae56e93be5f81bd44d4e4918e27c9c01d1c79beee530f40c189fe7fd",
+   "code_sha256": "d634c369b8bc8fe55a4b06d202e6f2e0df21600ea7e61f1cfbabc9945134f4a4",
+   "bytes": 32459,
+   "mtime": "2026-10-06 00:20",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.755,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v4_learn_original.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2_pickup.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2_pickup.cpp"
+   ],
+   "source_sha256": "c6a35749befb6ed20ee58c61283bb8af76a90e01e731ec1d73a174495e8ac6de",
+   "code_sha256": "8214cc2bd2f4ae1a87578475ab2b77c8487c2f2665900d4a5074597513783c3f",
+   "bytes": 32684,
+   "mtime": "2026-10-06 00:14",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.795,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_pickup.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/tactics.cpp",
+   "copies": [
+    "ctf-arena/Player5/workspace/experiments/v2/tactics_screen.cpp",
+    "ctf-arena/Player5/workspace/experiments/v2/testing_build/source-791cd209ca47586e67040eece70f781b5f1811b0f03ae8cc7c2fb0236a8fa80b.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/tactics.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/tactics_screen.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/testing_build/source-791cd209ca47586e67040eece70f781b5f1811b0f03ae8cc7c2fb0236a8fa80b.cpp"
+   ],
+   "source_sha256": "791cd209ca47586e67040eece70f781b5f1811b0f03ae8cc7c2fb0236a8fa80b",
+   "code_sha256": "d682dc8d0121c48836a346ed20b34addb6117a13f527127263492b24d0bc9732",
+   "bytes": 42955,
+   "mtime": "2026-10-06 14:31",
+   "closest_archived": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_checked.cpp",
+   "similarity": 0.798,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_tactics.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v5_relay_pickup.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v5_relay_pickup.cpp"
+   ],
+   "source_sha256": "9195eab54c19f49039634c8aaf3919ca59fa34195d6471035fa20fa5fad54471",
+   "code_sha256": "a751fee59c13f1041c46a9cfcf75b38c395f7abb2e2d41d677f72d4abc849b34",
+   "bytes": 32074,
+   "mtime": "2026-10-06 00:22",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.81,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v5_relay_pickup.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v5_relay.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v5_relay.cpp"
+   ],
+   "source_sha256": "d5672d6d2c57b2e553dcf53884265975dcc90092e941d79cca7faa90510ce4c8",
+   "code_sha256": "5cf99b9aa52ea0ea150dd4b738963353806db5d8a79cd4b68579c973702d3586",
+   "bytes": 32049,
+   "mtime": "2026-10-06 00:22",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.812,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v5_relay.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player4/workspace/versions/v8_winning.cpp",
+   "copies": [],
+   "source_sha256": "7a6c8d9a7e5348360f448c41d0cc37f315c98d2c25b090ef8d7bf5f648d6ab7d",
+   "code_sha256": "e8e900ccc112cb4aa03d5a79799c9c14d1df3bbc25831db272b24d4a14ef0258",
+   "bytes": 36030,
+   "mtime": "2026-10-06 00:41",
+   "closest_archived": "ctf-stress-pack/bots/Player4.cpp",
+   "similarity": 0.824,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player4_v8_winning.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2_combined.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2_combined.cpp"
+   ],
+   "source_sha256": "a1e26c6514a612a7ccdeb8765c4d35325683d87b4200db298220e9a82e253185",
+   "code_sha256": "40f13d61bf9a3abb1fe7644cfc56ec6ffb388138274ac46ac35687276b80590a",
+   "bytes": 31023,
+   "mtime": "2026-10-06 00:13",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.83,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_combined.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2_focus.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2_focus.cpp"
+   ],
+   "source_sha256": "56597b6e604255c199dee43f8a36df6317bcfd9c725cecbb50f1c585e054ef03",
+   "code_sha256": "b29fb9dcac137c9776792cf097a9941f870d0f9783c37ef0bc68ce021e62ece0",
+   "bytes": 31023,
+   "mtime": "2026-10-06 00:12",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.83,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_focus.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/macro_deny.cpp",
+   "copies": [
+    "ctf-arena/Player5/workspace/experiments/v2/testing_build/source-4e17baab2642672494c0cd642b1b99550e085b568e63eb13b84c47cbd8087aa5.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/macro_deny.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/testing_build/source-4e17baab2642672494c0cd642b1b99550e085b568e63eb13b84c47cbd8087aa5.cpp"
+   ],
+   "source_sha256": "4e17baab2642672494c0cd642b1b99550e085b568e63eb13b84c47cbd8087aa5",
+   "code_sha256": "99d85b2ed8178fc1a0bb3e61325978e7d2504d6f60fb9b642465ea9ff8d348c2",
+   "bytes": 37909,
+   "mtime": "2026-10-06 14:47",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.835,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_macro_deny.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player4/workspace/versions/v9_latest.cpp",
+   "copies": [],
+   "source_sha256": "6d4e7daa179edd48c076be61f6e7c874541f879b62eba64ad74cd5a354768607",
+   "code_sha256": "f9f81704f7991e19c28bf1e2bb23dd009dd4c8a99489efbdc7c0cd830a129da2",
+   "bytes": 36290,
+   "mtime": "2026-10-06 01:06",
+   "closest_archived": "ctf-stress-pack/bots/Player4.cpp",
+   "similarity": 0.848,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player4_v9_latest.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player3/workspace/lab/variants/bot_tune.cpp",
+   "copies": [],
+   "source_sha256": "b1f9b26600f21b4a09540d9791404533b3371cb222fa486dfcf7d1d924eef16b",
+   "code_sha256": "65f437e80c121fadf52b1f74e55b40b16583448a70e99809885c0c49bd11d9ea",
+   "bytes": 31416,
+   "mtime": "2026-10-05 23:48",
+   "closest_archived": "ctf-stress-pack/bots/Player3.cpp",
+   "similarity": 0.858,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player3_variants_bot_tune.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/core.cpp",
+   "copies": [
+    "ctf-arena/Player5/workspace/experiments/v2/focus_fixed.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/core.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/focus_fixed.cpp"
+   ],
+   "source_sha256": "3e6fd8ea6997fa6dd4b8a7541f97cf3b542e3168098049de86105fea5ac4fd6a",
+   "code_sha256": "7db1d2a3e1f9babd8d3461cbdc0da156bd2a218d0b932fabbcdfe3702410fe44",
+   "bytes": 35574,
+   "mtime": "2026-10-06 14:38",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.86,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_core.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/micro_screen.cpp",
+   "copies": [
+    "ctf-arena/Player5/workspace/experiments/v2/testing_build/source-3f2dffab2d30f55c9944e665de1f27836d7448ff9f863436f380b49e746ff6e1.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/micro_screen.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/testing_build/source-3f2dffab2d30f55c9944e665de1f27836d7448ff9f863436f380b49e746ff6e1.cpp"
+   ],
+   "source_sha256": "3f2dffab2d30f55c9944e665de1f27836d7448ff9f863436f380b49e746ff6e1",
+   "code_sha256": "f2a9750e214e706c1ab0339703ab411f270ecbd6e891cd87ba353fccbb3a57d6",
+   "bytes": 35457,
+   "mtime": "2026-10-06 14:33",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.862,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_micro_screen.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/micro.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2/micro.cpp"
+   ],
+   "source_sha256": "a77793f3fb2d5676711d7692756e58d6ba108652e9e039cf214b65803d904038",
+   "code_sha256": "ee55b047920256f87fb484f5dfdbe222185bff9080bea032f8a0d74c2aa999f4",
+   "bytes": 35037,
+   "mtime": "2026-10-06 14:27",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.875,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_micro.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/macro_v4.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/macro_v4.cpp"
+   ],
+   "source_sha256": "38395faccc44cc88753129937062c1daf6ac398ecf8ba688f257d2348f590c0c",
+   "code_sha256": "a8a9e778fd886edde1b976c76d808a0edd5beb681cddfb7bfec222e2658bad3c",
+   "bytes": 28676,
+   "mtime": "2026-10-06 00:16",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.88,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_macro_v4.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v7_rollout.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v7_rollout.cpp"
+   ],
+   "source_sha256": "a66d773da64ce4c4f538b3071214a667bbbe162b99a600d4d23ee46973a70685",
+   "code_sha256": "07984b4c4207e9f02b0a19446568bda2485ebe08f4f3b3746c59804e51cbcf5d",
+   "bytes": 40031,
+   "mtime": "2026-10-06 00:31",
+   "closest_archived": "ctf-stress-pack/bots/modular_bot.cpp",
+   "similarity": 0.88,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v7_rollout.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/macro_v2.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/macro_v2.cpp"
+   ],
+   "source_sha256": "3f38b4e7a241da258bad6f21324122e12a6e3c0d5258729fcab144effdc8142e",
+   "code_sha256": "ee5d8ceb3f06648a5cc976fb3a485c0b9434c0f83d1fff244468c4d3becad466",
+   "bytes": 28639,
+   "mtime": "2026-10-06 00:12",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.881,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_macro_v2.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/duel_focused.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/duel_focused.cpp"
+   ],
+   "source_sha256": "176c65a2c75d52b79df76c545e8243ab209f4e74ab638e1e55b55cf99d421a5b",
+   "code_sha256": "dcf79766f05c039e76e3637baa921fc000001dc6ac5b839f32c2b609961ea85a",
+   "bytes": 32975,
+   "mtime": "2026-10-06 00:44",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.883,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_duel_focused.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/macro.cpp",
+   "copies": [
+    "ctf-arena/Player5/workspace/experiments/v2/macro_screen.cpp",
+    "ctf-arena/Player5/workspace/experiments/v2/testing_build/source-1d8726e1b3c9bf6f334332acb431b4c7ceec185d527cbfba8cf6551491981cd6.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/macro.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/macro_screen.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/testing_build/source-1d8726e1b3c9bf6f334332acb431b4c7ceec185d527cbfba8cf6551491981cd6.cpp"
+   ],
+   "source_sha256": "1d8726e1b3c9bf6f334332acb431b4c7ceec185d527cbfba8cf6551491981cd6",
+   "code_sha256": "e33d7abccf925ab56087f5c3f202e7e347eee48c608122a575c07209d3d208f0",
+   "bytes": 35719,
+   "mtime": "2026-10-06 14:31",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.884,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_macro.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/testing_build/source-eec477a97c6549d62a71f9b4121fb2ba7d1f5b0969a5c7db772a7f6fe97eb6f2.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2/testing_build/source-eec477a97c6549d62a71f9b4121fb2ba7d1f5b0969a5c7db772a7f6fe97eb6f2.cpp"
+   ],
+   "source_sha256": "eec477a97c6549d62a71f9b4121fb2ba7d1f5b0969a5c7db772a7f6fe97eb6f2",
+   "code_sha256": "7777b1b514f526f6ab2608e032007838a1b622a2cac0898adaccb09727b8b8e6",
+   "bytes": 35564,
+   "mtime": "2026-10-06 14:27",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.886,
+   "tier": "forks",
+   "file": "forks/Player5_v2_testing_build_source-eec477a97c6549d62a71f9b4121fb2ba7d1f5b0969a5c7db772a7f6fe97eb6f2.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/testing_v1.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/testing_v1.cpp"
+   ],
+   "source_sha256": "5e8b0ee7c5b9adc5a19cd4472cbfe43b65ba7420ca877f293ec227ab79f4e68b",
+   "code_sha256": "813b982ab6ea2a8fb68c05c3594bd898c0b27df83076f9548522a16026d5bb23",
+   "bytes": 28323,
+   "mtime": "2026-10-06 00:11",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.888,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_testing_v1.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v1.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v1.cpp"
+   ],
+   "source_sha256": "5946c4661d4abfa6dfd54fe18f15aedeaad049e62af3412a59aa64554452d72d",
+   "code_sha256": "988f0e3996c9c6c8124187fea50d70f87c2c326e4d949706545a67f7dc62f258",
+   "bytes": 28311,
+   "mtime": "2026-10-06 00:12",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.889,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v1.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v16_marginal_cautious.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v16_marginal_cautious.cpp"
+   ],
+   "source_sha256": "e1c07e31298485dbc2446d07daf24a81bb4dcde98c5a33afd8dec99f08f057a9",
+   "code_sha256": "065dc1717c908c44e6e7824867988a00186e4a835cf8e0c9ddeae94c2108d3c4",
+   "bytes": 31029,
+   "mtime": "2026-10-06 01:00",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.889,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v16_marginal_cautious.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v16_marginal_fire.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v16_marginal_fire.cpp"
+   ],
+   "source_sha256": "dae686454edc5b1f768dc092557cc4d748b16803c5ae5e879def96d6ce7baa33",
+   "code_sha256": "68f5ee589293a5f774be19bd4fb772bd949f8c5e53c891be74c43a622c69d1de",
+   "bytes": 31029,
+   "mtime": "2026-10-06 01:00",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.889,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v16_marginal_fire.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2_attention.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2_attention.cpp"
+   ],
+   "source_sha256": "555912cd81dcf5280331762dbef90c10b964124698cc3a5bcee03a9c6e60eaf1",
+   "code_sha256": "d1b70ed3c699fc10e8bce0d1385a7a33275529ca541dc160b61b0a2317d2239b",
+   "bytes": 28311,
+   "mtime": "2026-10-06 00:13",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.889,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_attention.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/macro_screen_v1.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v2/macro_screen_v1.cpp"
+   ],
+   "source_sha256": "9d5678078a6fa3daa323024cb253f4757cd232ebf67163165961669dfcd11810",
+   "code_sha256": "698756d2c605bfc509aa312423b2bce59d251dc9f9147c99f6a74cc0fac0dd9d",
+   "bytes": 35269,
+   "mtime": "2026-10-06 14:32",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.89,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_macro_screen_v1.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v8_fast_rollout.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v8_fast_rollout.cpp"
+   ],
+   "source_sha256": "70d57876d08ef5c580fad0aa349407fe90bc9618ff16bbfaac0f8942acea9f12",
+   "code_sha256": "46419121fa8a030fc6367627613a8e5ec9f4f5d996d5d2a530d2ce420ece1b0d",
+   "bytes": 40434,
+   "mtime": "2026-10-06 00:34",
+   "closest_archived": "ctf-stress-pack/bots/modular_bot.cpp",
+   "similarity": 0.9,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v8_fast_rollout.cpp"
+  },
+  {
+   "origin": "AI_Arena_CTF/workspace/submission/bot.cpp",
+   "copies": [],
+   "source_sha256": "ce817acadfe89a673242b2e30798b616fb43c8dc1a5c1129e91225ad3bd8a65f",
+   "code_sha256": "8833277900b3ba315f9fa07ec46465f3681757364135cb21f851b2975d32a5e3",
+   "bytes": 3406,
+   "mtime": "2026-10-07 18:57",
+   "closest_archived": "New_AI_Test/Player0/judge/ctf/workspace/submission/bot.cpp",
+   "similarity": 0.903,
+   "tier": "forks",
+   "file": "forks/AI_Arena_CTF_bot.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v12_volley_trio.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v12_volley_trio.cpp"
+   ],
+   "source_sha256": "e08585e53e1b66fbb729e09c4c9c02a95bd2bce1ebf3943af1e5da89a15c01e6",
+   "code_sha256": "6ff1891e411022c6137abccc4bbff0a7266d5f06baaf66fa22f5f91e6da161f6",
+   "bytes": 42262,
+   "mtime": "2026-10-06 00:48",
+   "closest_archived": "ctf-stress-pack/bots/modular_bot_clean.cpp",
+   "similarity": 0.903,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v12_volley_trio.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/macro_v3.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/macro_v3.cpp"
+   ],
+   "source_sha256": "9e8efdb3793a24902589c2497742695d2a3074276b6442ff87ae28797a130f46",
+   "code_sha256": "7533b73ac3aee0b6b364e151258be0ac48b60433ab7c887dbb2b7cb28db95ade",
+   "bytes": 28952,
+   "mtime": "2026-10-06 00:15",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.904,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_macro_v3.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/round3/macro_candidate.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/round3/macro_candidate.cpp"
+   ],
+   "source_sha256": "2b29f549c2cb2b2a2af484d011418c9a58a88101dbabd0ab41c60dd04bd74cff",
+   "code_sha256": "99b6301a22c3f586dfe8e2bda7fd701287a33a282d00b213ba81b4e4fa5fc520",
+   "bytes": 52728,
+   "mtime": "2026-10-06 22:39",
+   "closest_archived": "ctf-stress-pack/bots/modular_bot_v3.cpp",
+   "similarity": 0.905,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_round3_macro_candidate.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player3/lab/analysis/bot_snapshot_4cfacfe83e48f0f4.cpp",
+   "copies": [],
+   "source_sha256": "4cfacfe83e48f0f46e21114db120c52f06f62e81b692ce713d53d0f9f2710580",
+   "code_sha256": "d54eef6582fd1cd204e2dd865ae5f2847097b369ebd628fc7b52dbc6071eebaa",
+   "bytes": 29794,
+   "mtime": "2026-10-05 23:23",
+   "closest_archived": "ctf-stress-pack/bots/Player3.cpp",
+   "similarity": 0.911,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player3_bot_snapshot_4cfacfe83e48f0f4.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v11_pickup_forecast.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v11_pickup_forecast.cpp"
+   ],
+   "source_sha256": "e7a6cfe832ff44feebf9500a55f57bd85321166166b864fda4f90f01b2d359dc",
+   "code_sha256": "f4d21c119cfc4b9db219f10f3e3533c8ff192a00a97dbc5eadba96d306895456",
+   "bytes": 30079,
+   "mtime": "2026-10-06 00:48",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.913,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v11_pickup_forecast.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v13_spawn_macro.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v13_spawn_macro.cpp"
+   ],
+   "source_sha256": "8e9f93feb5d9518bdc98e51928f6fdf5e9228d2ee6cff888c59cf820325e3ee7",
+   "code_sha256": "4bd6ab4f33d900ff645a642974f7fda02e9b64137dac108687771a145b8ef5ef",
+   "bytes": 29574,
+   "mtime": "2026-10-06 00:51",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.913,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v13_spawn_macro.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v12_rollout_volley.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v12_rollout_volley.cpp"
+   ],
+   "source_sha256": "341750931064a2f2560cb8521b7c2050dba7a3d6e888401091a33f61d63395f3",
+   "code_sha256": "8e3168dde0a5b082d271c1e951236977e67c112da4184b4180d06632a2568b5c",
+   "bytes": 41280,
+   "mtime": "2026-10-06 00:48",
+   "closest_archived": "ctf-stress-pack/bots/modular_bot.cpp",
+   "similarity": 0.918,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v12_rollout_volley.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_021.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_021.cpp"
+   ],
+   "source_sha256": "f2e511fd0d7b235efa60918200d2fb80fb01fc2261a5b7c94c4c008c493c8c51",
+   "code_sha256": "e7af63409fa48f772d348732defd2cba7cd22844b2b76eeeee001f8455d77975",
+   "bytes": 30254,
+   "mtime": "2026-10-06 00:33",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.921,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_021.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_016.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_016.cpp"
+   ],
+   "source_sha256": "8d75a08d4d904a04746aee4194dcda4898c04b10f1af28bec33b882461c6ed77",
+   "code_sha256": "3a798b88f6610ced67dabd9dde7eacd0e97ee3ded0995730fd15c6f459256ea3",
+   "bytes": 30234,
+   "mtime": "2026-10-06 00:31",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.922,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_016.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_006.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_006.cpp"
+   ],
+   "source_sha256": "8dc736f686e1d1aa5901dd218a04a4439f69b58d43371004a5efcab7c4e12383",
+   "code_sha256": "444322c065fb264ed01e3beed9b710c8f4c61bedf05cff9b6dc922a18453f3f3",
+   "bytes": 30233,
+   "mtime": "2026-10-06 00:27",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.923,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_006.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_007.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_007.cpp"
+   ],
+   "source_sha256": "a0ef0eb1a576bd720516f40150b6d69480958b6faa18e840672e90bf736b4071",
+   "code_sha256": "2a499deb45cd802bad341b89cbf759fea52cc5a467384491046ed83d4ce8459c",
+   "bytes": 30240,
+   "mtime": "2026-10-06 00:27",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.923,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_007.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_008.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_008.cpp"
+   ],
+   "source_sha256": "b11e50787e3b9cdd5c3a326c75275fd9624172d3d4aca2374e89c7a1c269b885",
+   "code_sha256": "f7807a18e200eeef9d3bd54f94bf181073d60543a066932c0e4a6cbeebe02c0b",
+   "bytes": 30239,
+   "mtime": "2026-10-06 00:28",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.923,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_008.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_009.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_009.cpp"
+   ],
+   "source_sha256": "37f72264ae7d626e37ce226db75f591bf9c3d055d8476a370c5726ad3ac03dcb",
+   "code_sha256": "22f6b797fcf86ae95d4be67cc54e7aed01a719bd455697350fb09b4fafb76daf",
+   "bytes": 30251,
+   "mtime": "2026-10-06 00:28",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.923,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_009.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_010.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_010.cpp"
+   ],
+   "source_sha256": "81ddbd8b44298293862ff9243dbebcc9282eba6de57998b3bf3f718f7c61a5b7",
+   "code_sha256": "13c12fb176c203d26b84995fea4737243eb25a9d9c1e5ba77738a138bd93b4eb",
+   "bytes": 30240,
+   "mtime": "2026-10-06 00:28",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.923,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_010.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_012.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_012.cpp"
+   ],
+   "source_sha256": "8239ddb7fd07c65069c8d7f9dcf38112ed08a04cf9ee647cf915b48391c8d168",
+   "code_sha256": "ccc40f5be067150d2f13aecceeff53aecb2c7a6097efc70a7a75ed15cd16e1f4",
+   "bytes": 30235,
+   "mtime": "2026-10-06 00:29",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.923,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_012.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_015.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_015.cpp"
+   ],
+   "source_sha256": "56525664c5f8ac78ea1fc1049b09c298d6ac8bc83b58eb32261d4948e402206d",
+   "code_sha256": "f5552bd7c649c69d4d9de85930a600bf8fd433fc61f30a3ea8fdfde284bccc4a",
+   "bytes": 30239,
+   "mtime": "2026-10-06 00:30",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.923,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_015.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_023.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_023.cpp"
+   ],
+   "source_sha256": "be7cf33b6e049e291fa9d0b3929918514c7a5f67a98d50778f95e2159aa227b6",
+   "code_sha256": "fa3db92bb8d7fd9e37eb3f82b714303a6834678eface608072daefa9a1131053",
+   "bytes": 30240,
+   "mtime": "2026-10-06 00:34",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.923,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_023.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_038.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_038.cpp"
+   ],
+   "source_sha256": "d9a684ff38eb9d30865e8a6cd2d952b21e822a85032382e8ff03a70f525ee3c6",
+   "code_sha256": "f448ea694fc67807e33dc568ca4a3a6358e4abcac1134703878c430dea9365d0",
+   "bytes": 30248,
+   "mtime": "2026-10-06 00:42",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.923,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_038.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v14_flag_rollout.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v14_flag_rollout.cpp"
+   ],
+   "source_sha256": "d4660bdd38d99de7c6efad2efdcaee64a037435a15fbfe0546bcfedc04f51494",
+   "code_sha256": "d0dca10bdf42c04c6dd3f08c554b7361c6ce74239dc132338992c160d3189128",
+   "bytes": 41813,
+   "mtime": "2026-10-06 00:55",
+   "closest_archived": "ctf-stress-pack/bots/modular_bot.cpp",
+   "similarity": 0.924,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v14_flag_rollout.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_005.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_005.cpp"
+   ],
+   "source_sha256": "0bc80fc424d128f2e6f6a042b3fe9b1a9f7f747571b7996d20b1f60858cb5cad",
+   "code_sha256": "33ea21f3dae75b7feb0d7ea81a25693ea63ba00fbbf7a6b0682b5690bb515294",
+   "bytes": 30219,
+   "mtime": "2026-10-06 00:27",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.927,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_005.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_003.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_003.cpp"
+   ],
+   "source_sha256": "a5aff59e247ef97f5c3484c8b81b41e0c068e7087301df0c5c9a4e80eedb2013",
+   "code_sha256": "0348b3d87ddc10b279a69342a05129bb7919e0961d937d0c8c160e888b4e796f",
+   "bytes": 30206,
+   "mtime": "2026-10-06 00:27",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.928,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_003.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_013.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_013.cpp"
+   ],
+   "source_sha256": "a03461574f85c71539fb0f55d3ba4e9c98701ace6c1728e156440e2002d744e4",
+   "code_sha256": "485566cdded5b176b3724de45afa5b75d2b6578d4d6c2dd5f76f69da6d7c16a5",
+   "bytes": 30200,
+   "mtime": "2026-10-06 00:29",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.928,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_013.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v15_physical_rollout.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v15_physical_rollout.cpp"
+   ],
+   "source_sha256": "3f6b33dd38373d315b7b02af7d796dc71c8e367cd5301b8f42f64843a3f8f8c0",
+   "code_sha256": "157d1d01dce5bccd27304411e324d3d69d6360fba9fbd35cd5d20c1baa023a8b",
+   "bytes": 41993,
+   "mtime": "2026-10-06 00:55",
+   "closest_archived": "ctf-stress-pack/bots/modular_bot.cpp",
+   "similarity": 0.928,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v15_physical_rollout.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/small_control.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/small_control.cpp"
+   ],
+   "source_sha256": "00fca6479d7b18bb165e982644ba50511fe97335ee54d8f57ae7e0a0c1b6197f",
+   "code_sha256": "88956cc0558155dd8434809835532b23864b73f9fa7f886d3c8e7e4f721393ab",
+   "bytes": 29409,
+   "mtime": "2026-10-06 01:06",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.929,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_small_control.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/small_no_raid.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/small_no_raid.cpp"
+   ],
+   "source_sha256": "863b364015b5c02bec23610bcdfb11c7e778d14dcc4e694f78ae9e3d215b5a41",
+   "code_sha256": "1255d93e724d095f2035ba35b81b0fb08ba245c245f5ce7548450647104f24cc",
+   "bytes": 29411,
+   "mtime": "2026-10-06 01:06",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.929,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_small_no_raid.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/small_runner.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/small_runner.cpp"
+   ],
+   "source_sha256": "5dfc055f5d61640fd4c34ca9c41661ab59dfc5457c11e539052565728d81c59f",
+   "code_sha256": "b783feebbf2ea94d2ad62cc1479972db49f25472ff7455c769617b8a7727ae4b",
+   "bytes": 29412,
+   "mtime": "2026-10-06 01:06",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.929,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_small_runner.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_033.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_033.cpp"
+   ],
+   "source_sha256": "6a312ee19d2da54503aa428dc6f16008c7ae246a78e9425adb170c01cd78afe3",
+   "code_sha256": "697f65a9001d2b6ed24c4671ce7689275e7953401cec3b3c5f0af573fbdf8463",
+   "bytes": 30207,
+   "mtime": "2026-10-06 00:38",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.929,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_033.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_037.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_037.cpp"
+   ],
+   "source_sha256": "64139d37730537d6b478204b6b233f72b5033c55c772c39af325104ec9ffdcbe",
+   "code_sha256": "ea5cd06ff4655d1d4d1df7204b1f1e05b061d7cf3b3e19fe71d10eff3101fd49",
+   "bytes": 30193,
+   "mtime": "2026-10-06 00:41",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.929,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_037.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_048.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_048.cpp"
+   ],
+   "source_sha256": "1c92d28d2ca4b6f5e7f14daeb79ea9443e16cbbfd66b240668b3851f5acdb5bc",
+   "code_sha256": "ac23572a22b609be0b2e9c19b0b925dc1fcab5eecc3d782be376a0160235af79",
+   "bytes": 30212,
+   "mtime": "2026-10-06 00:47",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.929,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_048.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_031.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_031.cpp"
+   ],
+   "source_sha256": "0d99694676b5841eba5cc22ebc4e9a15574dc784dc71767113701a6c58d6ec98",
+   "code_sha256": "5b895fe3958b519096d496054492445b8a3c9b87f118269c260096094fbc99e9",
+   "bytes": 30185,
+   "mtime": "2026-10-06 00:37",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.93,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_031.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_040.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_040.cpp"
+   ],
+   "source_sha256": "5d22022804b06d2a7fee42e83fceb982b889e14c60eb41938bec5d70dd50b4c2",
+   "code_sha256": "a3ab72a675dd493b5f5c37b37f23557dee44910f24eaf769d74c1918903c21b4",
+   "bytes": 30192,
+   "mtime": "2026-10-06 00:43",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.93,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_040.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_001.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_001.cpp"
+   ],
+   "source_sha256": "1779846426a15bacce1cfdd84205be3c5f829146c0ab6351366b1c0d3e510cd3",
+   "code_sha256": "f1a024788eb4fee2b2eb37d0592f6edb60745244b801aba3832c89383e5575f9",
+   "bytes": 30186,
+   "mtime": "2026-10-06 00:26",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.931,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_001.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_004.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_004.cpp"
+   ],
+   "source_sha256": "d75a2c7d5d6112c53a4c0c75a80ea1fe61378ac9179b9e085209505b63d96c77",
+   "code_sha256": "855203cdcd974e6c2a3714594bcbba73e2f05a3566a78fabdbf4905cbe359254",
+   "bytes": 30199,
+   "mtime": "2026-10-06 00:27",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.931,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_004.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_034.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_034.cpp"
+   ],
+   "source_sha256": "364e86d761425f88f76e26bfb970d2cde607812b8197a86e2fccc289febd8600",
+   "code_sha256": "c03e91f4bdf675bc0f5b3d2f892a2fb6da1d106949804a7fb55810df8958300f",
+   "bytes": 30193,
+   "mtime": "2026-10-06 00:39",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.931,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_034.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_036.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_036.cpp"
+   ],
+   "source_sha256": "b5d480cae8af3705e61efab29a5ed1ae4d9d354cd6d315a334c49b1ab946ae7e",
+   "code_sha256": "a0b3cde1c0bb68212ffd5a708b6a1166ee7e926833a641e50c9068f6b1d82c23",
+   "bytes": 30194,
+   "mtime": "2026-10-06 00:40",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.931,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_036.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_019.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_019.cpp"
+   ],
+   "source_sha256": "9a62b2ef67baa9612e883c27d6c9e330fff5301ae9926bf9f991b3820dbbbe69",
+   "code_sha256": "b61ae093ccee58102d2494f496ec793b8e8a4adb7840f11e5c7dec1abc42c7d1",
+   "bytes": 30180,
+   "mtime": "2026-10-06 00:32",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.932,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_019.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_022.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_022.cpp"
+   ],
+   "source_sha256": "a9e5283b05415336ab104a9125e846c56c913aca334d35a276d2e470df8663a0",
+   "code_sha256": "ea25c37637ab590fb33df31268e7936fa1d8bbb8738697a46139841ce0fe3e19",
+   "bytes": 30185,
+   "mtime": "2026-10-06 00:34",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.932,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_022.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_029.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_029.cpp"
+   ],
+   "source_sha256": "cc0c47dab34dccb947ade79b4b761a67ec681dc0bbc8776f9d269657f7d1847d",
+   "code_sha256": "ca6e9b65112e7e1c50fc538fae853bcf838d1081043f0be2404ecd118760f60c",
+   "bytes": 30187,
+   "mtime": "2026-10-06 00:37",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.932,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_029.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_046.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_046.cpp"
+   ],
+   "source_sha256": "8434c0ad5baa0ea3f2d48e446dc0fcd33538aa9acdcfdda3eac00514c475a679",
+   "code_sha256": "29a5a37bbfd3fa47329f7f3886599249fce8b4113ebd93c63685f1064f48a234",
+   "bytes": 30166,
+   "mtime": "2026-10-06 00:46",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.932,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_046.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/champion_172.cpp",
+   "copies": [
+    "ctf-arena/Player5/workspace/experiments/v8_fast.cpp",
+    "ctf-arena/Player7/workspace/experiments/champion_172.cpp",
+    "ctf-arena/Player7/workspace/experiments/v8_fast.cpp"
+   ],
+   "source_sha256": "554379588c4f2024a62ea5da27b1c64d8afa2100e71ca9906836c45c60e30f74",
+   "code_sha256": "8b3d0e3c8f1936e931a48ce2c6107eb2dde959b975ea303a9d204bfbaeaaf86f",
+   "bytes": 29342,
+   "mtime": "2026-10-06 00:56",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.933,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_champion_172.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_050.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_050.cpp"
+   ],
+   "source_sha256": "0975f9d7902437843ced66efa975e1b90eadb325c32fc839be756a19b1b0c730",
+   "code_sha256": "e523cc21be8d1b2b4e4aed191253d502753de4f0a4e8c7cd80083b85cbd304c6",
+   "bytes": 30166,
+   "mtime": "2026-10-06 00:49",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.933,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_050.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_002.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_002.cpp"
+   ],
+   "source_sha256": "0631d70ef90d9f436a5e88b0930847c62d9205607afba507d2fcb8d96fb59d4a",
+   "code_sha256": "afe5e6fa8428d6dedf358e6785d94ea78334bac2cc94a555a1b92b127b2af425",
+   "bytes": 30174,
+   "mtime": "2026-10-06 00:26",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.934,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_002.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_011.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_011.cpp"
+   ],
+   "source_sha256": "e899ca359dfd23b8ff3b9300d57b0bf4cbcf6bf9ff25fa837cde21b4f4b5f062",
+   "code_sha256": "19a969ca364d114e5da9956fd312a53bf7ea2aca8025db915d0aa5f694046c56",
+   "bytes": 30158,
+   "mtime": "2026-10-06 00:28",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.934,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_011.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_000.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_000.cpp"
+   ],
+   "source_sha256": "fa06275b334d4f9254ef2fb8be12653ac439f36d4761c42c6135e2052bcc0b6e",
+   "code_sha256": "f0d8feeb7ddd234cad650c35c5bcd465f6672ffb6710f4081538e240b34ab870",
+   "bytes": 30146,
+   "mtime": "2026-10-06 00:26",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.937,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_000.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_018.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_018.cpp"
+   ],
+   "source_sha256": "a4560d07e843e7c68682a4ecf6da1e846a8088807406bd4c03515531646bebc3",
+   "code_sha256": "bd13a6e913b6600fc3b81dc3fdf363698238b529419618ba000a6592e8aabc3e",
+   "bytes": 30203,
+   "mtime": "2026-10-06 00:31",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.938,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_018.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_045.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_045.cpp"
+   ],
+   "source_sha256": "ad6cebba8d1f794aa80b20ada09e7698e4fe8e605beb1df6a283c7cce71bd2df",
+   "code_sha256": "0af1c164b270c2ee256b2cff6bb543ffed7d7195db8e88330746a2d92b23f725",
+   "bytes": 30205,
+   "mtime": "2026-10-06 00:46",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.938,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_045.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_047.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_047.cpp"
+   ],
+   "source_sha256": "63ad330d100ce29d1ab828f38e817078fe56d77f11cdfaf93d5829bc2421f50e",
+   "code_sha256": "8de326e5ccf85c1404489715ac07ace4589bde8352e2ebc896e81ed45d99a90b",
+   "bytes": 30199,
+   "mtime": "2026-10-06 00:47",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.938,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_047.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_025.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_025.cpp"
+   ],
+   "source_sha256": "f1b7c36fbaa8b7cb22a6dcdc0df3cb2f5f9df079c00571d5c961b9d055fb2444",
+   "code_sha256": "697fa0b4dc48b11b5e08efe740f856ad747425c07a966c1f8b7cf2947722fafb",
+   "bytes": 30191,
+   "mtime": "2026-10-06 00:35",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.94,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_025.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_035.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_035.cpp"
+   ],
+   "source_sha256": "95bb15cf8b43164f3a45d58296c3d9a3c7ffdf655e29cd414aafa2ab14c98a4a",
+   "code_sha256": "496983aa96c2b11cba8670ba96f15d31c5884265242088cbca3148c8311f2b14",
+   "bytes": 30197,
+   "mtime": "2026-10-06 00:39",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.94,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_035.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_028.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_028.cpp"
+   ],
+   "source_sha256": "7839a56f65e7636d02eff1d089ac62b2c074dfb5edc99c2defe70e9fba8495f1",
+   "code_sha256": "8b229a29aaf16757459862a228c8105860f2295fa141f86e9641ec6455f3f155",
+   "bytes": 30191,
+   "mtime": "2026-10-06 00:37",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.941,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_028.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_032.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_032.cpp"
+   ],
+   "source_sha256": "5b68b5964a76dda19b271c68fdfb1dda485617a44d5b5af7711b930397976347",
+   "code_sha256": "b3427f0983eef3fdf4037d1e3c557ca1c72a480adfe8731314698e63233d6503",
+   "bytes": 30205,
+   "mtime": "2026-10-06 00:38",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.941,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_032.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_039.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_039.cpp"
+   ],
+   "source_sha256": "a018b25b3e4f24cb4f0e352e986d544370683ae70797f9baebadebb403d357e3",
+   "code_sha256": "5da48cb1aa674d99cecd24b08a6c1d40ff43e7e992e9bc17d98a9baefb679791",
+   "bytes": 30192,
+   "mtime": "2026-10-06 00:43",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.941,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_039.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_043.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_043.cpp"
+   ],
+   "source_sha256": "37f56912c35aa252c4d3147ce1f70ba3cdf76b25c50f1c3125db2b72c8788215",
+   "code_sha256": "23591d1423be9da9ab9b0b177d16fd14582fc0423f2eaa2ab32e6178ef7ab54a",
+   "bytes": 30185,
+   "mtime": "2026-10-06 00:45",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.941,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_043.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_049.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_049.cpp"
+   ],
+   "source_sha256": "18750d462f87b2f23f2a9d557ad15a5f9f53cc9737867aef6bd8cf22de811a7b",
+   "code_sha256": "8f6608b6b62e104c6e9cc55cc6b5f93afeb510e21c6ffc0d7dd2f6c3e40acbbd",
+   "bytes": 30217,
+   "mtime": "2026-10-06 00:48",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.942,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_049.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_024.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_024.cpp"
+   ],
+   "source_sha256": "8b171c832f0aabfa76f63ab912deda4ea14ade15d9300d3a0269d6ce7ab8ea0f",
+   "code_sha256": "8e4f92718f3689624fa77f2f3420cdf3c920822240313ffefbd58ad6a2e9c599",
+   "bytes": 30192,
+   "mtime": "2026-10-06 00:35",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.943,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_024.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_026.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_026.cpp"
+   ],
+   "source_sha256": "a29d89f9040393774a0df88153e8cf6f830caa1fa8c4856da104693272f16a4f",
+   "code_sha256": "275744b91ab2200066810a2bc93fe7cd676dfde5600e2b76da702a9a6a38ed20",
+   "bytes": 30217,
+   "mtime": "2026-10-06 00:36",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.943,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_026.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_027.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_027.cpp"
+   ],
+   "source_sha256": "cdce09dfda267406df9b099ed019d8b4f5cb81fcd1b1c6b7f5fd1c9836567900",
+   "code_sha256": "64f2c0408ab45a01481752811457f012dd984eba823002be88395d41e33d5557",
+   "bytes": 30191,
+   "mtime": "2026-10-06 00:36",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.943,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_027.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v18_scratch.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v18_scratch.cpp"
+   ],
+   "source_sha256": "aa9ff7fd8e7521e14aab5ab67513b0e6fa583651ff786bbf8e2aa15ec047d825",
+   "code_sha256": "ef6761b3d610bfe85513188c0fc8175040df44a36eeadad80f62cc22f61fa176",
+   "bytes": 29430,
+   "mtime": "2026-10-06 01:10",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.943,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v18_scratch.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player1/judge/ctf/workspace/submission/bot.cpp",
+   "copies": [
+    "ctf-arena/Player2/judge/ctf/workspace/submission/bot.cpp",
+    "ctf-arena/Player3/judge/ctf/workspace/submission/bot.cpp",
+    "ctf-arena/Player4/judge/ctf/workspace/submission/bot.cpp",
+    "ctf-arena/Player5/judge/ctf/workspace/submission/bot.cpp",
+    "ctf-arena/Player5/workspace/experiments/template.cpp",
+    "ctf-arena/Player6/judge/ctf/workspace/submission/bot.cpp",
+    "ctf-arena/Player7/judge/ctf/workspace/submission/bot.cpp",
+    "ctf-arena/Player7/workspace/experiments/template.cpp"
+   ],
+   "source_sha256": "f85bfcfcfa77ab154d76af625be5aab14bd064642ecc26e1404275fe7d7ae7ae",
+   "code_sha256": "0b8c0c56594ccdf1cf8478a22b80e5aff0503a325362050681703c47e76e43f8",
+   "bytes": 3369,
+   "mtime": "2026-10-05 21:03",
+   "closest_archived": "New_AI_Test/Player0/judge/ctf/workspace/submission/bot.cpp",
+   "similarity": 0.945,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player1_bot.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_014.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_014.cpp"
+   ],
+   "source_sha256": "3744b389e94a1b96f84ddc5ce092833c4d0ef6e5ce2c9423f2b23660ea05b5d7",
+   "code_sha256": "aff372e07eb02dc49dd00ea14d6f9ac9976b71386a061bb6b54d66e698735a2a",
+   "bytes": 30178,
+   "mtime": "2026-10-06 00:30",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.945,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_014.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_020.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_020.cpp"
+   ],
+   "source_sha256": "c7ccd259fe9ae428c1e7bf25459b2386c19aa83517f4f9b76ca1d2053cdc9b4a",
+   "code_sha256": "ed62efa7577a74f0706eebe904ffd2e12d43899cd33697035fc0924cbe46a6e9",
+   "bytes": 30211,
+   "mtime": "2026-10-06 00:32",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.945,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_020.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_041.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_041.cpp"
+   ],
+   "source_sha256": "2697d3289bd9091db699c2007a93e2c6fc11265899ad476e131d3847e8b546fd",
+   "code_sha256": "23babe897651f6d32733933af7a8275f72316a0f36985bef646af7af998aaf25",
+   "bytes": 30198,
+   "mtime": "2026-10-06 00:44",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.945,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_041.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v11_trio_forecast.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v11_trio_forecast.cpp"
+   ],
+   "source_sha256": "78216aa313a26bfee047600a57ccd96e20afe91854a1491012dd0298a2112b06",
+   "code_sha256": "9ae680c810ccfd4434944821025dbae0731b4ce0ead068885ef08d677236eb57",
+   "bytes": 31333,
+   "mtime": "2026-10-06 00:48",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.945,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v11_trio_forecast.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_042.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_042.cpp"
+   ],
+   "source_sha256": "9eb3cfa6ecd3f2d4419b55136198cd290d0be9e297cfc8dc312354a08df11ac5",
+   "code_sha256": "d77c2445ffc45fa8e8b93df4692e7407867c9dedfa39ec643bd2afc35f9e1687",
+   "bytes": 30204,
+   "mtime": "2026-10-06 00:44",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.946,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_042.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/recommended.cpp",
+   "copies": [
+    "ctf-arena/Player5/workspace/experiments/tuning/tune_044.cpp",
+    "ctf-arena/Player7/workspace/experiments/tuning/recommended.cpp",
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_044.cpp"
+   ],
+   "source_sha256": "5399f3bc3bfae940de5331f888a8edeba5e6404c6c3c7840c88d00dc93c45f8c",
+   "code_sha256": "56495175fd4ca8462e7641ff8f7c864da132bbcdf4bdbd8b0faa1ef62b6b5c5a",
+   "bytes": 30198,
+   "mtime": "2026-10-06 01:30",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.947,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_recommended.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_030.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_030.cpp"
+   ],
+   "source_sha256": "a0152757128880cfa752f33a3485a0bcf5ba594a2308ecfc796b798a345ba415",
+   "code_sha256": "d5e69a3e3cc052e2ecc90c7eab1dc88e2fb48c4bfe5c8fcb031d49be68a9bf6a",
+   "bytes": 30199,
+   "mtime": "2026-10-06 00:37",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.947,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_030.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tuning/tune_017.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tuning/tune_017.cpp"
+   ],
+   "source_sha256": "84fefdfb85d4ed575c9f0b5505a97609d2e26f8d6416c12ca04508438cfc6ff2",
+   "code_sha256": "a6097bacd3ec6483de9e503d4246c153f653ead935c0cc94b883d2f9db3dd101",
+   "bytes": 30191,
+   "mtime": "2026-10-06 00:31",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.95,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tuning_tune_017.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/runner_v8.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/runner_v8.cpp"
+   ],
+   "source_sha256": "b5b6521b0aae56696887ed23284d6bd1637fa58554072e6bd6c0a9cd4d49c481",
+   "code_sha256": "db441ac2775b81c35f2ec3547f972affc0b89d903f496c6c474ce89f056123aa",
+   "bytes": 30565,
+   "mtime": "2026-10-06 00:39",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.951,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_runner_v8.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v19_fast_io.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v19_fast_io.cpp"
+   ],
+   "source_sha256": "8a8ea75b4cca623701d038cd31293b7321a0280ce3c00346ae4200fdaf84a3fd",
+   "code_sha256": "c54a4f384f1982898934a136fc4c154ab1cad8793d74308610234bab18da3666",
+   "bytes": 29321,
+   "mtime": "2026-10-06 01:26",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.952,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v19_fast_io.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/hunter.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/hunter.cpp"
+   ],
+   "source_sha256": "c0c8471402f9d47758dbbf7228995847b2d969d1cdb6ee0b6ff906cb13165d8e",
+   "code_sha256": "f22ad9333e83bbed087ea36c1484389be3fbc114138eef7a4ee0e87961a2b5cc",
+   "bytes": 30557,
+   "mtime": "2026-10-06 00:39",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.954,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_hunter.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v13_spawn_tuned.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/v13_spawn_tuned.cpp"
+   ],
+   "source_sha256": "a98d2a77b271033de04c3a82c3e2cdbc71fa94857c8e2c3b7c5972f1d508028a",
+   "code_sha256": "19e19af8bd1b0e95bb6f9bfbbb15c322b3e7499fbfb97f2cdb9fc0a76e6e09ee",
+   "bytes": 30826,
+   "mtime": "2026-10-06 00:51",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.958,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v13_spawn_tuned.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/fortress.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/fortress.cpp"
+   ],
+   "source_sha256": "00c624632e2f3f5898fc9728f32fcf562352d79c5df6e6cdb470d80bcd06143e",
+   "code_sha256": "6b9344232db9dde6075181731e1a9d7aef213f3092222e03dec49152036cc651",
+   "bytes": 30560,
+   "mtime": "2026-10-06 00:39",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.96,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_fortress.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/duel_pack.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/duel_pack.cpp"
+   ],
+   "source_sha256": "55bb1ae5853978745bde50c7ada3267f523159b18575f8cc66c159eaa0af1703",
+   "code_sha256": "02f71fead1219a724626cb2c50513aeaedeb318ac37ac623f199880ee59731e9",
+   "bytes": 30594,
+   "mtime": "2026-10-06 00:42",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.965,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_duel_pack.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/duel_trio.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/duel_trio.cpp"
+   ],
+   "source_sha256": "1f5f71561118e4ed0c7ad44e5cac12c9a81e2240e7b39a5d380c7f44de091291",
+   "code_sha256": "d09cef1f3dd0b3207ab22fc1feab25f1c19cb5f81650dea2a2cd03c8121e7b7b",
+   "bytes": 30596,
+   "mtime": "2026-10-06 00:42",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.965,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_duel_trio.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/duel_discipline.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/duel_discipline.cpp"
+   ],
+   "source_sha256": "c445fd3915841ad6e2e26b3958884ca569ab36444cc04560ea35c0c4e917e725",
+   "code_sha256": "a9922d687eebc9b661d891af197be1080cd582f1df4d742429d0c3dff3f18f90",
+   "bytes": 30595,
+   "mtime": "2026-10-06 00:42",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.967,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_duel_discipline.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player3/workspace/lab/variants/bot_v2.cpp",
+   "copies": [],
+   "source_sha256": "cb2790468a35b09153c4d327b40816c7dc72917153060b213e16214d1062b7f9",
+   "code_sha256": "ea1fedd692b18d5133da8012fcee27f417f4b4f27d3c8270f1f476f9091e968a",
+   "bytes": 28667,
+   "mtime": "2026-10-05 23:52",
+   "closest_archived": "ctf-stress-pack/bots/Player3.cpp",
+   "similarity": 0.971,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player3_variants_bot_v2.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/tune17_fast.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/tune17_fast.cpp"
+   ],
+   "source_sha256": "c16c4960bbfd478e62b4a6a0398ef57699966f752bc75202eb9f9fd4c3047154",
+   "code_sha256": "98cbb0e96ee0ea34533671dde607c0e48ee3c899a078ab2c796835ecaa932a36",
+   "bytes": 30594,
+   "mtime": "2026-10-06 00:39",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.978,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_tune17_fast.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player3/workspace/lab/variants/bot_c1.cpp",
+   "copies": [],
+   "source_sha256": "a1909f69cbfdf4c69982ea2e6ab27a691b9ffc7037bec88e6473f0e082fdbae9",
+   "code_sha256": "583a60dc0fd2c4b4384d331e282040f7c2b7e1df815459b2222e07b0691989a6",
+   "bytes": 28592,
+   "mtime": "2026-10-05 23:53",
+   "closest_archived": "ctf-stress-pack/bots/Player3.cpp",
+   "similarity": 0.979,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player3_variants_bot_c1.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/v2/capture.cpp",
+   "copies": [
+    "ctf-arena/Player5/workspace/experiments/v2/testing_build/source-e37ba54a3f1d9b61a89462f5e08909de0bb0e695493bdaa2ac89ba2cb141b28b.cpp",
+    "ctf-arena/Player5/workspace/submission/bot_stable.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/capture.cpp",
+    "ctf-arena/Player7/workspace/experiments/v2/testing_build/source-e37ba54a3f1d9b61a89462f5e08909de0bb0e695493bdaa2ac89ba2cb141b28b.cpp",
+    "ctf-arena/Player7/workspace/submission/bot_stable.cpp"
+   ],
+   "source_sha256": "e37ba54a3f1d9b61a89462f5e08909de0bb0e695493bdaa2ac89ba2cb141b28b",
+   "code_sha256": "3f86b2950be6e1efb0ce2b2b0a7faecc95ea6bfba25d827c4859c917610ade14",
+   "bytes": 31120,
+   "mtime": "2026-10-06 14:20",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.984,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_v2_capture.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/round3/CFL_uncached.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/round3/CFL_uncached.cpp"
+   ],
+   "source_sha256": "497934288b22aff1d35a6960aa89eab88be9894ac11dea1946acb4634d8df8b6",
+   "code_sha256": "d4bdc8c514c071098cb72296c7372782151a1e721b83826c936a02e2f1372698",
+   "bytes": 45676,
+   "mtime": "2026-10-06 22:52",
+   "closest_archived": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CFL_conditional.cpp",
+   "similarity": 0.99,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_round3_CFL_uncached.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player6/workspace/ab/revB/bot.cpp",
+   "copies": [
+    "ctf-arena/Player6/workspace/ab/wsB/submission/bot.cpp"
+   ],
+   "source_sha256": "d8ca7519488f725992e5e3b3ed81aa2d6ebdaaeae33552e9f8d50e11d944284a",
+   "code_sha256": "aae0189970c781d50f22b46733b311bf2de08eadbc0d282a5d0a8f4e89a60f7d",
+   "bytes": 28618,
+   "mtime": "2026-10-06 01:00",
+   "closest_archived": "ctf-stress-pack/bots/Player6.cpp",
+   "similarity": 0.99,
+   "tier": "forks",
+   "file": "forks/Player6_ab_revB_bot.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player4/workspace/versions/v10_flank_optimized.cpp",
+   "copies": [
+    "ctf-arena/benchmark_six/run-20261006/submissions/CTF-Player4.cpp"
+   ],
+   "source_sha256": "006a923df0581d2f86a792e92cd2efe1abd562909f09e3824ebb996aadfc53a9",
+   "code_sha256": "c1c6cd7f428506a47e4d52b07b98642d86ea97635fd9248f135420486647b072",
+   "bytes": 39642,
+   "mtime": "2026-10-06 01:18",
+   "closest_archived": "ctf-stress-pack/bots/Player4.cpp",
+   "similarity": 0.994,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player4_v10_flank_optimized.cpp"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/final_candidate.cpp",
+   "copies": [
+    "ctf-arena/Player7/workspace/experiments/final_candidate.cpp",
+    "ctf-arena/benchmark_six/run-20261006/submissions/CTF-Player5.cpp"
+   ],
+   "source_sha256": "b27c2403b819f22fdc7b5332967219f757726ed8ce0eaa21614f7725b41f7310",
+   "code_sha256": "08e8751198154ca0e7eeeea6084b960f188e6f29fb7ec064cdb77c137a2a7b3c",
+   "bytes": 30658,
+   "mtime": "2026-10-06 01:45",
+   "closest_archived": "New_AI_Test/Player2/workspace/experiments/ref-player5.cpp",
+   "similarity": 0.998,
+   "tier": "forks",
+   "file": "forks/ctf-arena_Player5_final_candidate.cpp"
+  }
+ ],
+ "skipped": [
+  {
+   "origin": "ctf-arena/Player1/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+   "copies": [
+    "ctf-arena/Player2/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+    "ctf-arena/Player3/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+    "ctf-arena/Player4/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+    "ctf-arena/Player5/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+    "ctf-arena/Player5/workspace/experiments/all_bot_architecture_review/bots/doubao-seed-2.1-turbo.cpp",
+    "ctf-arena/Player6/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+    "ctf-arena/benchmark_six/run-20261006/upstream/ctf/bots/doubao-seed-2.1-turbo.cpp"
+   ],
+   "source_sha256": "69d22b86df4cd83df1103cf9fd61e52b9d502ba0520e08fe5f0887db72e802c0",
+   "code_sha256": "946610af73f8d571090f6fad3283ddb0cfa195a70821fb3c62d6517e6407f86f",
+   "bytes": 10950,
+   "mtime": "2026-10-05 21:03",
+   "closest_archived": "ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+   "similarity": 1.0,
+   "reason": "same program as archived ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp apart from strings/comments"
+  },
+  {
+   "origin": "ctf-arena/Player5/workspace/experiments/neural_architecture_review/nextgen_cdb45c5/master.cpp",
+   "copies": [
+    "ctf-arena/Player5/workspace/experiments/round3/review_ff5fe78/nextgen/master.cpp",
+    "ctf-arena/Player5/workspace/experiments/round4_astra/source/astra/nextgen/master.cpp",
+    "ctf-arena/Player5/workspace/experiments/round4_astra/source/control/nextgen/master.cpp"
+   ],
+   "source_sha256": "4cd8163b9d577b3c0566c46b630d4bb0a1b35947c23d7d48f550420a967470f9",
+   "code_sha256": "84ff78a224558635a11df2e5ecac4898332d7a55ffbdbf18e4dabad4b1948cf9",
+   "bytes": 119818,
+   "mtime": "2026-10-07 14:32",
+   "closest_archived": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CFL_conditional.cpp",
+   "similarity": 0.813,
+   "reason": "local includes ['modules/carrier_dp.inc', 'modules/drop.inc', 'modules/expectimax.inc', 'modules/habits.inc', 'modules/habits_duel.inc', 'modules/habits_multi.inc', 'modules/macro5.inc', 'search/expectimax.hpp']: cannot compile alone"
+  },
+  {
+   "origin": "ctf-arena/Player7/workspace/experiments/round3/nextgen/master.cpp",
+   "copies": [],
+   "source_sha256": "45b345f8003fe7b24965cc1ed2c49bc6ee7e0c0414269c0780db0e7554bb251c",
+   "code_sha256": "c63d687e49fb541f0ffd6977b2f53393b72a021a858ecb9d41b032c4cf7e2058",
+   "bytes": 118101,
+   "mtime": "2026-10-07 01:04",
+   "closest_archived": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CFL_conditional.cpp",
+   "similarity": 0.82,
+   "reason": "local includes ['modules/carrier_dp.inc', 'modules/drop.inc', 'modules/expectimax.inc', 'modules/habits.inc', 'modules/habits_duel.inc', 'modules/habits_multi.inc', 'modules/macro5.inc', 'search/expectimax.hpp']: cannot compile alone"
+  },
+  {
+   "origin": "ctf-s1-controls/source/master.cpp",
+   "copies": [],
+   "source_sha256": "c9aa33fed72697ff1b75af6b58e3f58ee08b7f3f53a5e86f58b4205b32554bcb",
+   "code_sha256": "f2516c1869f9124156e0211446eafe61af755441003a0eadc49f0b96e62a3981",
+   "bytes": 126635,
+   "mtime": "2026-10-07 19:45",
+   "closest_archived": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CFL_conditional.cpp",
+   "similarity": 0.798,
+   "reason": "local includes ['modules/carrier_dp.inc', 'modules/drop.inc', 'modules/expectimax.inc', 'modules/habits.inc', 'modules/habits_duel.inc', 'modules/habits_multi.inc', 'modules/macro5.inc', 'search/expectimax.hpp']: cannot compile alone"
+  }
+ ],
+ "placeholders": [
+  "ctf-arena/Player5/workspace/submission/bot-DESKTOP-G60OJUD.cpp"
+ ]
+}

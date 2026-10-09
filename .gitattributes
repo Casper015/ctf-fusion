@@ -3,3 +3,4 @@
 *.npy binary
 *.gz binary
 roster/bots/src/** -text -diff linguist-vendored
+roster/new_bots/**/*.cpp -text -diff linguist-vendored

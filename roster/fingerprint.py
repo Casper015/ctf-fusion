@@ -3,6 +3,11 @@
     python -m roster.fingerprint --suite data/roster/probe_suite.json --inventory data/roster/bot_inventory.json
     python -m roster.fingerprint --suite ... --bot Random=@repo/tools/random_bot.py --repeat 2
 
+Sources: by default every inventory bot runs from its copy in the source
+archive (roster/bots, roster.archive), the exact bytes that were inventoried;
+--source ai-test runs the AI_Test files instead. Either way the file must
+still hash to the inventory's source_sha256, or the run is refused.
+
 Each run feeds one bot one probe stream turn by turn through fusion.runner
 (the collection runner), as the probe's seat, and keeps every reply line. The
 replies are canonicalized exactly like training labels (fusion.labels): a
@@ -19,13 +24,20 @@ more: roster.distance turns repeated runs into each bot's A/A noise. Reply
 times here are informational only; deadlines are measured on the host.
 
 Inventory bots used: eligible (not excluded) representatives; a byte alias
-reuses its representative's evidence and is never replayed. Runs are stored
-one file per (bot, probe, repeat) under --out and are resumable.
+reuses its representative's evidence and is never replayed.
+
+Evidence identity: each run records the bot's source and dependency hashes,
+the suite identity, the probe identity, the repeat and the limits. Runs are
+stored one file per (bot, probe, repeat, identity) under --out, so changed
+code, a re-frozen suite or other limits never resume or overwrite old
+evidence under a familiar bot id. load_valid() keeps only runs whose identity
+matches the suite and the inventory, and reports the rest as stale.
 """
 from __future__ import annotations
 
 import argparse
 import gzip
+from collections import Counter
 import json
 import os
 import time
@@ -40,7 +52,8 @@ from fusion.labels import label_match
 from fusion.paths import REPO
 from fusion.protocol import ATTACK, parse_reply
 from fusion.schema import layout as feature_layout
-from roster.common import SCHEMA_FINGERPRINT, bot_key, load_json, sha256_file
+from roster.archive import ARCHIVE
+from roster.common import SCHEMA_FINGERPRINT, bot_key, digest, load_json, probe_identity, sha256_file, suite_identity
 from roster.probes import probe_records
 
 
@@ -51,14 +64,41 @@ def resolve(path: str, ai_test_root: str | None) -> Path:
     return p if p.is_absolute() or not ai_test_root else Path(ai_test_root) / p
 
 
-def bots_from_inventory(inv: dict) -> list[dict]:
+def archived_path(b: dict, archive: Path = ARCHIVE) -> Path | None:
+    """The archive's copy of an inventoried source, when it can stand alone (no local includes)."""
+    if b["path"].startswith("@repo/") or b.get("local_includes"):
+        return None
+    p = archive / "src" / f"{b['source_sha256']}{Path(b['path']).suffix}"
+    return p if p.is_file() else None
+
+
+def bots_from_inventory(inv: dict, source: str = "archive", archive: Path = ARCHIVE) -> list[dict]:
+    """Eligible representatives with the file to run: the archived copy (default) or the AI_Test file."""
     out = []
     for b in inv["bots"]:
         if b["excluded"]:
             continue
-        out.append({"id": b["id"], "path": str(resolve(b["path"], inv.get("ai_test_root"))),
-                    "source_sha256": b["source_sha256"], "binary_sha256": b["build"].get("binary_sha256")})
+        path = archived_path(b, archive) if source == "archive" else None
+        out.append({"id": b["id"], "path": str(path or resolve(b["path"], inv.get("ai_test_root"))),
+                    "source_sha256": b["source_sha256"], "dependency_sha256": b.get("dependency_sha256"),
+                    "binary_sha256": b["build"].get("binary_sha256"),
+                    "from": "archive" if path else "repo" if b["path"].startswith("@repo/") else "ai-test"})
     return out
+
+
+def check_sources(bots: list[dict]) -> None:
+    """Every bot's file must still be the source that was inventoried."""
+    stale = [f"{b['id']} ({b['path']})" for b in bots if b.get("source_sha256") and sha256_file(b["path"]) != b["source_sha256"]]
+    if stale:
+        raise SystemExit("sources changed since the inventory (re-run roster.inventory and roster.archive save): "
+                         + ", ".join(stale[:10]) + (" ..." if len(stale) > 10 else ""))
+
+
+def run_identity(bot: dict, probe: dict, suite_id: str, limits) -> dict:
+    """Everything a run's evidence depends on, except the repeat index."""
+    return {"source_sha256": bot["source_sha256"], "dependency_sha256": bot.get("dependency_sha256"), "suite": suite_id,
+            "probe": probe_identity(probe), "limits_ms": [round(1000 * limits[0]), round(1000 * limits[1])],
+            "schema": SCHEMA_FINGERPRINT}
 
 
 def command(bot: dict) -> list[str]:
@@ -95,7 +135,7 @@ def canonical(m: dict, rec: np.ndarray, seat: int, lines: list) -> dict:
 
 def replay(job) -> dict:
     """One bot over one probe stream; returns the run record (also written to disk)."""
-    bot, probe, rep, limits, out_file = job
+    bot, probe, rep, limits, out_file, ident = job
     m, rec = _probe(probe["file"], probe["match_sha256"], probe["turns"])
     seat = probe["seat"]
     init = matchlog.init_for_seat(m["init"], seat)
@@ -116,7 +156,7 @@ def replay(job) -> dict:
         proc.close()
     run = {"schema": SCHEMA_FINGERPRINT, "bot": bot, "probe_id": probe["probe_id"], "teams": probe["teams"], "seat": seat,
            "rep": rep, "limits_ms": [1000 * limits[0], 1000 * limits[1]], "lines": lines, "reply_ms": ms,
-           "faults": [[t, r] for t, r in proc.faults], "dead": proc.dead, "host_cpus": os.cpu_count(),
+           "faults": [[t, r] for t, r in proc.faults], "dead": proc.dead, "host_cpus": os.cpu_count(), "identity": ident,
            "created": time.strftime("%Y-%m-%dT%H:%M:%S")} | canonical(m, rec, seat, lines)
     out_file.parent.mkdir(parents=True, exist_ok=True)
     tmp = out_file.with_suffix(f".tmp{os.getpid()}")
@@ -126,12 +166,12 @@ def replay(job) -> dict:
     return {"bot": bot["id"], "probe": probe["probe_id"], "rep": rep, "faults": len(run["faults"]), "dead": run["dead"]}
 
 
-def run_file(out: Path, bot_id: str, probe_id: str, rep: int) -> Path:
-    return out / bot_key(bot_id) / f"{probe_id}-r{rep}.json.gz"
+def run_file(out: Path, bot_id: str, probe_id: str, rep: int, ident: dict) -> Path:
+    return out / bot_key(bot_id) / f"{probe_id}-r{rep}-{digest(ident)[:12]}.json.gz"
 
 
 def load_all(out: Path) -> dict[str, list[dict]]:
-    """Every stored run under `out`, by bot id."""
+    """Every stored run under `out`, by bot id, whatever its identity (use load_valid for evidence)."""
     runs = {}
     for p in sorted(Path(out).glob("*/*.json.gz")):
         with gzip.open(p, "rt", encoding="utf-8") as f:
@@ -140,35 +180,91 @@ def load_all(out: Path) -> dict[str, list[dict]]:
     return runs
 
 
+def validate(runs_by_bot: dict[str, list[dict]], suite: dict | None, sources: dict[str, str] | None = None,
+             dependencies: dict[str, str] | None = None, limits: list | None = None):
+    """(runs whose identity matches the suite, the expected source and dependency hashes per bot id and one set of
+    reply limits, {bot: [reasons]} for the rest). A run without an identity (schema 1) is stale. One run per
+    (probe, repeat): a duplicate is stale. Without `limits`, the limits of most runs are the expected ones."""
+    suite_id = suite_identity(suite) if suite else None
+    probes = {p["probe_id"]: probe_identity(p) for p in suite["probes"]} if suite else None
+    if limits is None:
+        seen_limits = Counter(tuple(r["identity"]["limits_ms"]) for runs in runs_by_bot.values() for r in runs
+                              if r.get("identity") and r["identity"].get("limits_ms"))
+        limits = list(seen_limits.most_common(1)[0][0]) if seen_limits else None
+    good, stale = {}, {}
+    for bot, runs in runs_by_bot.items():
+        seen = set()
+        for r in runs:
+            ident = r.get("identity")
+            why = None
+            if not ident:
+                why = "no evidence identity (schema 1)"
+            elif suite_id and ident.get("suite") != suite_id:
+                why = "another probe suite"
+            elif probes is not None and probes.get(r["probe_id"]) != ident.get("probe"):
+                why = "probe not in this suite"
+            elif sources is not None and bot in sources and ident.get("source_sha256") != sources[bot]:
+                why = "source changed since this run"
+            elif dependencies and dependencies.get(bot) and ident.get("dependency_sha256") != dependencies[bot]:
+                why = "dependencies changed since this run"
+            elif limits is not None and list(ident.get("limits_ms") or []) != list(limits):
+                why = f"other reply limits {ident.get('limits_ms')} (expected {list(limits)})"
+            elif (r["probe_id"], r["rep"]) in seen:
+                why = "duplicate repeat"
+            if why:
+                stale.setdefault(bot, []).append(f"{r['probe_id']} r{r['rep']}: {why}")
+                continue
+            seen.add((r["probe_id"], r["rep"]))
+            good.setdefault(bot, []).append(r)
+    return good, stale
+
+
+def load_valid(out: Path, suite: dict | None, inventory: dict | None = None):
+    """load_all + validate against the suite and the inventory's source hashes (by bot id)."""
+    sources = {b["id"]: b["source_sha256"] for b in inventory["bots"]} if inventory else None
+    deps = {b["id"]: b.get("dependency_sha256") for b in inventory["bots"]} if inventory else None
+    return validate(load_all(out), suite, sources, deps)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--suite", required=True)
     ap.add_argument("--inventory", help="bot_inventory.json: replay every eligible representative")
     ap.add_argument("--bot", action="append", default=[], help="extra bot as ID=PATH (PATH may use @repo/)")
     ap.add_argument("--only", nargs="*", help="restrict to these bot ids")
+    ap.add_argument("--source", choices=("archive", "ai-test"), default="archive",
+                    help="run inventory bots from the source archive (roster/bots) or from the AI_Test files")
     ap.add_argument("--repeat", type=int, default=2, help="runs per bot and probe (A/A noise needs 2 or more)")
     ap.add_argument("--limits", default="10000,1000", help="first,later reply limits in ms (relaxed on purpose)")
     ap.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) // 4))
     ap.add_argument("--out", default=str(REPO / "data" / "roster" / "fingerprints"))
     a = ap.parse_args(argv)
     suite = load_json(a.suite)
-    bots = bots_from_inventory(load_json(a.inventory)) if a.inventory else []
+    bots = bots_from_inventory(load_json(a.inventory), a.source) if a.inventory else []
     for spec in a.bot:
         bid, _, path = spec.partition("=")
         p = resolve(path, None)
-        bots.append({"id": bid, "path": str(p), "source_sha256": sha256_file(p), "binary_sha256": None})
+        bots.append({"id": bid, "path": str(p), "source_sha256": sha256_file(p), "dependency_sha256": None,
+                     "binary_sha256": None, "from": "path"})
     if a.only:
         bots = [b for b in bots if b["id"] in set(a.only)]
+    check_sources(bots)
     first, later = (float(x) / 1000 for x in a.limits.split(","))
+    suite_id = suite_identity(suite)
     out = Path(a.out)
     for b in bots:  # compile before forking, so workers never race on a build
         if b["path"].endswith(".cpp"):
             command(b)
-    jobs = [(b, p, r, (first, later), run_file(out, b["id"], p["probe_id"], r))
-            for b in bots for p in suite["probes"] for r in range(a.repeat)]
-    todo = [j for j in jobs if not j[-1].exists()]
-    print(f"[fingerprint] {len(bots)} bots x {len(suite['probes'])} probes x {a.repeat} = {len(jobs)} runs, "
-          f"{len(todo)} to do, {a.workers} workers", flush=True)
+    jobs = []
+    for b in bots:
+        for p in suite["probes"]:
+            ident = run_identity(b, p, suite_id, (first, later))
+            jobs += [(b, p, r, (first, later), run_file(out, b["id"], p["probe_id"], r, ident), ident) for r in range(a.repeat)]
+    todo = [j for j in jobs if not j[-2].exists()]
+    archived = sum(b.get("from") == "archive" for b in bots)
+    print(f"[fingerprint] {len(bots)} bots ({archived} from the source archive, "
+          f"{sum(b.get('from') == 'repo' for b in bots)} in this repository) x {len(suite['probes'])} probes x "
+          f"{a.repeat} = {len(jobs)} runs, {len(todo)} to do, {a.workers} workers", flush=True)
     pool = ProcessPoolExecutor(a.workers) if a.workers > 1 else None
     results = pool.map(replay, todo) if pool else map(replay, todo)
     for i, r in enumerate(results, 1):

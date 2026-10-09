@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 
 from fusion.paths import REPO, TEAM_COUNTS
-from roster import archive, assess, catalog, distance, inventory, pool, registry, sampling, strength
+from roster import archive, assess, catalog, distance, inventory, newbots, pool, registry, sampling, shortlist, strength, tiers, trajectory
 from roster.common import TAGS, load_json
 
 BOT = """#include <bits/stdc++.h>
@@ -86,32 +86,32 @@ class TestDistance(unittest.TestCase):
         tags = [bit["quiet"]] * n_quiet + [bit["contact"]] * n_contact
         return {"probes": [{"probe_id": p, "teams": int(p[1]), "tags": tags, "active": [7] * len(tags)} for p in PROBES]}
 
-    def test_rare_events_weigh_like_quiet_ones_and_clusters_respect_noise(self):
+    def test_rare_events_weigh_like_quiet_ones(self):
         suite = self.suite()
         T = 20
         base = [[0, 0, 0]] * T
         on_contact = [[0, 0, 0]] * 15 + [[1, 1, 1]] * 5        # differs only on the 5 contact turns
         runs = {}
         for p in PROBES:
-            runs.setdefault("A", []).extend([synthetic_run("A", p, 0, base), synthetic_run("A", p, 1, base)])
-            runs.setdefault("Acopy", []).extend([synthetic_run("Acopy", p, 0, base), synthetic_run("Acopy", p, 1, base)])
-            runs.setdefault("B", []).extend([synthetic_run("B", p, 0, on_contact), synthetic_run("B", p, 1, on_contact)])
-        out = distance.compute(suite, runs, min_tag_turns=5)
+            for bot, moves in (("A", base), ("Acopy", base), ("B", on_contact)):
+                runs.setdefault(bot, []).extend([synthetic_run(bot, p, 0, moves), synthetic_run(bot, p, 1, moves)])
+        out = distance.compute(suite, runs)
         i = {b: k for k, b in enumerate(out["ids"])}
-        # contact tag: move rate 1, action rate 0 -> (.5 * 1 + .3 * 0) / .8; quiet tag 0; probe = mean of the two tags
-        self.assertAlmostEqual(out["overall"][i["A"]][i["B"]], 0.625 / 2, places=5)
-        self.assertEqual(out["overall"][i["A"]][i["Acopy"]], 0.0)
+        # contact tag: move channel 1 at fixed weight .5 (no renormalization); quiet tag 0; probe = mean of the tags
+        self.assertAlmostEqual(out["overall_excess"][i["A"]][i["B"]], 0.25, places=5)
+        self.assertAlmostEqual(out["overall"][i["A"]][i["B"]], 0.25, places=5)
+        self.assertEqual(out["overall_excess"][i["A"]][i["Acopy"]], 0.0)
         self.assertEqual(out["noise"]["A"], 0.0)
-        self.assertIn(["A", "Acopy"], out["clusters"])
-        self.assertIn(["B"], out["clusters"])
+        self.assertEqual(out["clusters"], [["A", "Acopy"], ["B"]])
         self.assertEqual(out["distinctive_tags"]["B"][0]["tag"], "contact")
-        # 95 quiet turns would not dilute it: the tags weigh equally
-        long = self.suite(n_quiet=95)
+        self.assertEqual(out["state_per_count"]["3"][i["A"]][i["B"]], -1)    # demonstrably different
+        self.assertEqual(out["established_distinct_counts"]["B"], [3, 5])
+        long = self.suite(n_quiet=95)                             # 95 quiet turns do not dilute it
         runs_long = {b: [synthetic_run(b, p, r, ([[0, 0, 0]] * 95 + [[1, 1, 1]] * 5) if b == "B" else [[0, 0, 0]] * 100)
                          for p in PROBES for r in (0, 1)] for b in ("A", "B")}
-        self.assertAlmostEqual(distance.compute(long, runs_long)["overall"][0][1], 0.3125, places=5)
+        self.assertAlmostEqual(distance.compute(long, runs_long)["overall_excess"][0][1], 0.25, places=5)
 
-    def test_targets(self):
+    def test_action_target_channel(self):
         suite = self.suite(n_quiet=10, n_contact=10)
         T = 20
         attack = [[3, 3, 3]] * T
@@ -120,9 +120,34 @@ class TestDistance(unittest.TestCase):
         runs = {"A": [synthetic_run("A", p, r, [[0, 0, 0]] * T, attack, tgt_a) for p in PROBES for r in (0, 1)],
                 "B": [synthetic_run("B", p, r, [[0, 0, 0]] * T, attack, tgt_b) for p in PROBES for r in (0, 1)]}
         out = distance.compute(suite, runs)
-        self.assertAlmostEqual(out["components"]["target"][0][1], 1 / 3, places=5)
-        self.assertAlmostEqual(out["overall"][0][1], 0.2 * (1 / 3) / 1.0, places=5)
+        self.assertAlmostEqual(out["components"]["action_target"]["3"][0][1], 1 / 3, places=5)
+        self.assertEqual(out["components"]["action"]["3"][0][1], 0.0)
+        self.assertAlmostEqual(out["overall_excess"][0][1], 0.2 * (1 / 3), places=5)
         self.assertEqual(out["joint_per_count"]["3"][0][1], 1.0)  # the team's request differs on every turn
+
+    def test_review_counterexample_is_a_kernel_now(self):
+        """Review: A always waits; B waits 3/4 or attacks one of 8 targets (1/32 each), all 32 x 32 outcome pairs
+        enumerated over B's two repeats. Conditioning targets on both attacking made the adjusted distance -0.05;
+        on a fixed support it is half the squared distribution difference, exactly."""
+        bit = {t: 1 << i for i, t in enumerate(TAGS)}
+        T = 1024
+        suite = {"probes": [{"probe_id": p, "teams": 3, "tags": [bit["quiet"]] * T, "active": [1] * T} for p in ("p3", "p3b")]}
+        x, y = np.repeat(np.arange(32), 32), np.tile(np.arange(32), 32)
+
+        def run(bot, p, r, outcomes):
+            act = [[3 if o >= 24 else 0, 0, 0] for o in outcomes]
+            tgt = [[int(o) - 24 if o >= 24 else -1, -1, -1] for o in outcomes]
+            return synthetic_run(bot, p, r, [[0, 0, 0]] * T, act, tgt)
+
+        runs = {"A": [run("A", p, r, [0] * T) for p in ("p3", "p3b") for r in (0, 1)],
+                "B": [run("B", p, r, o) for p in ("p3", "p3b") for r, o in ((0, x), (1, y))]}
+        out = distance.compute(suite, runs)
+        action, action_target = 0.5 * (0.25 ** 2 * 2), 0.5 * (0.25 ** 2 + 8 * (1 / 32) ** 2)
+        self.assertAlmostEqual(out["components"]["action"]["3"][0][1], action, places=5)                 # .0625
+        self.assertAlmostEqual(out["components"]["action_target"]["3"][0][1], action_target, places=5)   # .03515625
+        self.assertAlmostEqual(out["excess_per_count"]["3"][0][1], 0.3 * action + 0.2 * action_target, places=5)
+        self.assertAlmostEqual(out["joint_excess_per_count"]["3"][0][1], action_target, places=5)
+        self.assertGreater(out["overall_excess"][0][1], 0.0)
 
     def random_runs(self, bot, choose, T=400, reps=4, seed=0):
         """reps runs per probe; choose(rng) -> one turn's three moves."""
@@ -138,11 +163,9 @@ class TestDistance(unittest.TestCase):
                 "Mix2": self.random_runs("Mix2", lambda r: list(r.integers(1, 3, 3)), seed=2)}
         out = distance.compute(suite, runs)
         i = {b: k for k, b in enumerate(out["ids"])}
-        self.assertAlmostEqual(out["noise"]["Mix"], 0.3125, delta=0.02)          # (.5 * .5 + .3 * 0) / .8
-        self.assertAlmostEqual(out["excess_per_count"]["3"][i["L"]][i["Mix"]], 0.3125 / 2, delta=0.02)
-        self.assertIn(["Mix", "Mix2"], out["clusters"])                           # two draws of one random policy
-        self.assertIn(["L"], out["clusters"])
-        self.assertIn(["R"], out["clusters"])
+        self.assertAlmostEqual(out["noise"]["Mix"], 0.25, delta=0.02)               # move weight .5 x disagreement .5
+        self.assertAlmostEqual(out["excess_per_count"]["3"][i["L"]][i["Mix"]], 0.125, delta=0.02)
+        self.assertEqual(out["clusters"], [["L"], ["Mix", "Mix2"], ["R"]])          # two draws of one random policy
         self.assertEqual(out["stochastic"], ["Mix", "Mix2"])
 
     def test_joint_coordination_separates_equal_marginals(self):
@@ -169,33 +192,83 @@ class TestDistance(unittest.TestCase):
         self.assertNotIn(["A", "B", "C"], groups)
         self.assertEqual(distance.complete_clusters(ids, np.where(score > 1, np.nan, score)), [["A", "B"], ["C"]])
 
-    def test_a_duel_specialist_is_not_averaged_away(self):
-        """Different only at 3 teams by .2: the equal-count mean (.1 here, .014 over 14 counts) hid it."""
+    def test_a_count_specialist_is_not_averaged_away(self):
+        """Different only at 3 teams: the equal-count mean hid it. Per-count states and the every-count rule keep it."""
         suite = self.suite(n_quiet=10, n_contact=10)
         T = 20
-        duel = [[0, 0, 0]] * 12 + [[1, 1, 1]] * 8                 # move differs on 8 of 20 turns
+        duel = [[0, 0, 0]] * 12 + [[1, 1, 1]] * 8                 # move differs on 8 of the 10 contact turns
         runs = {"Ref": [synthetic_run("Ref", p, r, [[0, 0, 0]] * T) for p in PROBES for r in (0, 1)],
                 "Duel": [synthetic_run("Duel", p, r, duel if p.startswith("p3") else [[0, 0, 0]] * T) for p in PROBES for r in (0, 1)]}
         out = distance.compute(suite, runs)
         self.assertEqual(out["clusters_per_count"]["5"], [["Duel", "Ref"]])
         self.assertEqual(out["clusters_per_count"]["3"], [["Duel"], ["Ref"]])
         self.assertEqual(out["clusters"], [["Duel"], ["Ref"]])
-        self.assertEqual(out["distinct_counts"]["Duel"], [3])
+        self.assertEqual(out["established_distinct_counts"]["Duel"], [3])
 
-    def test_one_probe_is_not_enough_for_equivalence(self):
-        suite = {"probes": self.suite()["probes"][:1]}
+    def test_a_rare_context_difference_blocks_equivalence(self):
+        """Two differing unit-turns inside a 5-turn critical tag: below the margin on average, not equivalent."""
+        bit = {t: 1 << i for i, t in enumerate(TAGS)}
+        tags = [bit["quiet"]] * 50 + [bit["contact"]] * 30 + [bit["flag"]] * 15 + [bit["interception"]] * 5
+        suite = {"probes": [{"probe_id": p, "teams": int(p[1]), "tags": tags, "active": [7] * 100} for p in PROBES]}
+        rare = [[0, 0, 0]] * 98 + [[1, 0, 0]] * 2               # interception: .5 * 2 / 15 = .067; mean over 4 tags .017
+        runs = {"Ref": [synthetic_run("Ref", p, r, [[0, 0, 0]] * 100) for p in PROBES for r in (0, 1)],
+                "Rare": [synthetic_run("Rare", p, r, rare) for p in PROBES for r in (0, 1)]}
+        out = distance.compute(suite, runs)
+        self.assertLess(out["excess_per_count"]["3"][0][1], 0.02)
+        self.assertEqual(out["state_per_count"]["3"][0][1], -1)
+        self.assertEqual(out["clusters"], [["Rare"], ["Ref"]])
+        self.assertEqual(out["distinctive_tags"]["Rare"][0]["tag"], "interception")
+
+    def test_unmeasured_is_not_distinct(self):
+        """Review example: B has only the 3-team probes. It is unmeasured at 5 teams, not a 5-team specialist."""
+        suite = self.suite()
+        stay = [[0, 0, 0]] * 20
+        runs = {"A": [synthetic_run("A", p, r, stay) for p in PROBES for r in (0, 1)],
+                "B": [synthetic_run("B", p, r, stay) for p in ("p3", "p3b") for r in (0, 1)]}
+        out = distance.compute(suite, runs)
+        self.assertEqual(out["clusters_per_count"]["3"], [["A", "B"]])
+        self.assertEqual(out["clusters_per_count"]["5"], [["A"]])
+        self.assertEqual(out["unmeasured_per_count"]["5"], ["B"])
+        self.assertEqual(out["established_distinct_counts"]["B"], [])
+        self.assertEqual(out["measured_everywhere"], ["A"])
+        self.assertEqual(out["cluster_of"]["B"], "unmeasured:B")
+        self.assertFalse(out["coverage"]["B"].get("5", {"measured": False})["measured"])
+
+    def test_one_repeat_or_one_map_is_unknown(self):
+        one_map = {"probes": self.suite()["probes"][:1]}
         runs = {b: [synthetic_run(b, "p3", r, [[0, 0, 0]] * 20) for r in (0, 1)] for b in ("A", "Acopy")}
-        self.assertEqual(distance.compute(suite, runs)["clusters"], [["A"], ["Acopy"]])
-        self.assertEqual(distance.compute(suite, runs, min_probes=1)["clusters"], [["A", "Acopy"]])
+        self.assertEqual(distance.compute(one_map, runs)["clusters_per_count"]["3"], [])
+        self.assertEqual(distance.compute(one_map, runs, min_probes=1)["clusters_per_count"]["3"], [["A", "Acopy"]])
+        single = {b: [synthetic_run(b, p, 0, [[0, 0, 0]] * 20) for p in PROBES] for b in ("A", "Acopy")}
+        out = distance.compute(self.suite(), single)                  # no repeats: noise unknown, nothing certified
+        self.assertIsNone(out["overall_excess"][0][1])
+        self.assertEqual(out["measured_everywhere"], [])
 
     def test_missing_replies_are_not_agreement(self):
         suite = self.suite(n_quiet=10, n_contact=10)
         T = 20
         silent = [0] * T
-        runs = {"A": [synthetic_run("A", p, 0, [[0, 0, 0]] * T) for p in PROBES],
-                "S": [synthetic_run("S", p, 0, [[0, 0, 0]] * T, valid=silent) for p in PROBES]}
+        runs = {"A": [synthetic_run("A", p, r, [[0, 0, 0]] * T) for p in PROBES for r in (0, 1)],
+                "S": [synthetic_run("S", p, r, [[0, 0, 0]] * T, valid=silent) for p in PROBES for r in (0, 1)]}
         out = distance.compute(suite, runs)
         self.assertIsNone(out["overall"][0][1])
+        self.assertEqual(out["coverage"]["S"]["3"]["valid_share"], 0.0)
+
+    def test_stale_runs_are_not_evidence(self):
+        from roster import fingerprint  # noqa: PLC0415
+        from roster.common import probe_identity, suite_identity  # noqa: PLC0415
+        suite = self.suite()
+        ident = lambda p, sha: {"source_sha256": sha, "suite": suite_identity(suite), "probe": probe_identity(p)}  # noqa: E731
+        p0 = suite["probes"][0]
+        ok = synthetic_run("A", p0["probe_id"], 0, [[0, 0, 0]] * 20) | {"identity": ident(p0, "a" * 64)}
+        old = synthetic_run("A", p0["probe_id"], 1, [[0, 0, 0]] * 20)                          # schema 1: no identity
+        moved = synthetic_run("A", p0["probe_id"], 1, [[0, 0, 0]] * 20) | {"identity": ident(p0, "b" * 64)}
+        other = synthetic_run("A", p0["probe_id"], 1, [[0, 0, 0]] * 20) | {"identity": ident(p0, "a" * 64) | {"suite": "x"}}
+        good, stale = fingerprint.validate({"A": [ok, old, moved, other]}, suite, {"A": "a" * 64})
+        self.assertEqual(good["A"], [ok])
+        self.assertEqual(len(stale["A"]), 3)
+        self.assertTrue(any("source changed" in r for r in stale["A"]))
+        self.assertTrue(any("schema 1" in r for r in stale["A"]))
 
 
 def strength_rows(cand, utilities_by_count, sha="0" * 64):
@@ -369,9 +442,9 @@ class TestRegistry(unittest.TestCase):
             m[i["A"], i["B"]] = m[i["B"], i["A"]] = 0.5 if teams == 3 else 3.0    # A, B equivalent at 3 teams only
             m[i["A"], i["C"]] = m[i["C"], i["A"]] = 0.5                            # C equivalent to A, but not to B at 5
             eq[str(teams)] = m.tolist()
-        clusters = {str(t): [[b] for b in self.ids if not (t == 5 and b == "E")] for t in (3, 5)}   # E unprobed at 5
-        dist = {"ids": self.ids, "params": {"margin": 0.02}, "equivalence_score_per_count": eq, "clusters_per_count": clusters,
-                "noise": {b: 0.0 for b in self.ids}, "stochastic": ["Noise"], "distinct_counts": {b: [] for b in self.ids},
+        coverage = {b: {str(t): {"measured": not (t == 5 and b == "E")} for t in (3, 5)} for b in self.ids}  # E unmeasured at 5
+        dist = {"ids": self.ids, "params": {"margin": 0.02}, "equivalence_score_per_count": eq, "coverage": coverage,
+                "noise": {b: 0.0 for b in self.ids}, "stochastic": ["Noise"], "established_distinct_counts": {b: [] for b in self.ids},
                 "nearest_per_count": {b: {"3": {"id": "A", "excess": 0.1}} for b in self.ids}}
         rows = []
         for b in self.ids:
@@ -428,6 +501,7 @@ class TestRegistry(unittest.TestCase):
         self.assertNotIn("Dalias", t["bots"])
         self.assertFalse(any(b["admit"] for b in t["bots"].values()))
         self.assertEqual(t["bots"]["B"]["hints"]["counts_beyond_margin_of_nearest"], [3])
+        self.assertEqual(t["bots"]["E"]["hints"]["unmeasured_counts"], [5])
 
     def test_collection_uses_the_sampler_and_freeze_eval(self):
         from fusion.paths import is_unlabeled  # noqa: PLC0415
@@ -473,6 +547,260 @@ class TestArchive(unittest.TestCase):
             with self.assertRaises(SystemExit):                            # a source changed since the inventory
                 archive.save(inv, root, Path(tmp) / "other")
 
+    def test_committed_archive_readme_and_pool_are_current(self):
+        manifest = load_json(archive.ARCHIVE / "manifest.json")
+        self.assertEqual((archive.ARCHIVE / "README.md").read_text(encoding="utf-8"), archive.readme(manifest))
+        rows = archive.files(manifest)
+        self.assertEqual(len(rows), manifest["counts"]["stored_files"])
+        p = archive.pool(manifest)
+        self.assertEqual(len(p["bots"]), sum(r["status"] == "eligible" for r in rows))
+        self.assertEqual(len({b["name"] for b in p["bots"]}), len(p["bots"]))
+        self.assertTrue(all((REPO / b["path"][len("@repo/"):]).is_file() for b in p["bots"]))
+
+
+def turn_block(turn, units, events=()):
+    """A TURN block in the engine's format; units: (id, team, x, y, hp, flag)."""
+    lines = [f"TURN {turn}", "SCORE 0 0", f"UNITS {len(units)}"]
+    lines += [f"U {i} {t} {x} {y} {hp} {f} -1" for i, t, x, y, hp, f in units]
+    lines += ["FLAGS 0", f"EVENTS {len(events)}", *events, "END"]
+    return "\n".join(lines) + "\n"
+
+
+class TestTrajectory(unittest.TestCase):
+    def match(self):
+        far = [(1, 0, 1, 1, 100, -1), (2, 0, 1, 2, 100, -1), (3, 1, 9, 9, 100, -1), (5, 1, 9, 8, 100, -1)]
+        u = lambda own, foe: [own, foe] + far  # noqa: E731
+        blocks = [turn_block(1, u((0, 0, 3, 3, 100, -1), (4, 1, 5, 3, 100, -1))),
+                  turn_block(2, u((0, 0, 3, 3, 100, 1), (4, 1, 5, 3, 100, -1)), ["E pickup 0 1", "E attack 4 0"]),
+                  turn_block(3, u((0, 0, -1, -1, 0, -1), (4, 1, 5, 3, 100, -1)),
+                             ["E attack 4 0", "E attack 3 0", "E death 0 3 3 1 2 4 3"])]
+        final = turn_block(4, u((0, 0, -1, -1, 0, -1), (4, 1, 6, 3, 100, -1)), ["E capture 4 1 0"])
+        replies = [["1 S - S - S -", "1 S 0 S - S -"], ["2 S - S - S -", "2 S - S 0 S -"], ["3 S - S - S -", "3 S - S - S -"]]
+        stats = [{"pickups": 1, "deaths": 1}, {"kills": 1.0, "carrier_kills": 1.0, "captures": 1}]
+        return {"init": "INIT 2 0 23 3 100 34 10 15 8\nMAP", "blocks": blocks, "final_block": final, "replies": replies,
+                "result": {"stats": stats}, "teams": 2}
+
+    def test_events_counted_once_with_engine_conventions(self):
+        m = self.match()
+        a, b = trajectory.seat_outcomes(m, 0), trajectory.seat_outcomes(m, 1)
+        self.assertTrue(a["engine_match"] and b["engine_match"])
+        self.assertEqual((a["pickups"], a["deaths"], a["forced_drops"]), (1, 1, 1))
+        self.assertEqual(a["episodes"] | {}, {"started": 1, "delivered": 0, "voluntary_drop": 0, "forced_drop": 1,
+                                             "censored": 0, "carry_turns": 1})
+        self.assertEqual((b["kills"], b["carrier_kills"], b["captures"]), (1.0, 1.0, 1))   # two killers, one team: 2 x 1/2
+        self.assertEqual((b["hits"], b["attack_requests"]), (3, 2))   # hits are events (two units shot at turn 2), requests come from replies
+        self.assertEqual(a["escape"]["5"]["censored"], 2)             # 3-turn match: every 5-turn window is censored
+        prof = trajectory.aggregate([{"teams": 2, "map": 1, "live": a}, {"teams": 2, "map": 2, "live": a}])["per_count"]["2"]
+        self.assertEqual(prof["deaths_per_game"]["estimate"], 1.0)
+        self.assertEqual(prof["forced_drop_rate"]["estimate"], 1.0)
+        self.assertIsNone(prof["hit_per_attack_request"]["estimate"])  # no requests: unknown, not zero
+
+    def test_a_wrong_engine_total_is_flagged(self):
+        m = self.match()
+        m["result"]["stats"][1]["kills"] = 2.0
+        self.assertFalse(trajectory.seat_outcomes(m, 1)["engine_match"])
+
+
+class TestEvidenceIdentity(unittest.TestCase):
+    def test_strength_rows_of_old_code_or_another_schedule_are_stale(self):
+        rows = strength_rows("X", {n: [0.5, 0.7] for n in TEAM_COUNTS}, sha="a" * 64)
+        old = strength_rows("X", {n: [0.0] for n in TEAM_COUNTS}, sha="b" * 64)
+        for r in rows:
+            r["schedule"] = "s1"
+        with self.assertRaises(SystemExit):                              # two source hashes, nothing says which is current
+            strength.aggregate(rows + old)
+        out = strength.aggregate(rows + old, sources={"X": "a" * 64}, schedule="s1")
+        self.assertEqual(out["stale_rows"], {"X": 14})
+        self.assertAlmostEqual(out["candidates"]["X"]["utility"], 0.6)
+
+    def test_bots_run_from_the_archive_and_changed_sources_are_refused(self):
+        from roster import fingerprint  # noqa: PLC0415
+        from roster.common import sha256_file  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as tmp:
+            root, arch = Path(tmp) / "ai", Path(tmp) / "archive"
+            src = write(root, "bots/a.cpp", "int main(){}\n")
+            inv = {"ai_test_root": str(root), "bots": [{"id": "bots/a.cpp", "path": "bots/a.cpp", "language": "cpp",
+                                                         "source_sha256": sha256_file(src), "excluded": None, "build": {},
+                                                         "local_includes": []}]}
+            archive.save(inv, root, arch)
+            bots = fingerprint.bots_from_inventory(inv, "archive", arch)
+            self.assertEqual(bots[0]["from"], "archive")
+            self.assertTrue(bots[0]["path"].startswith(str(arch)))
+            src.write_text("int main(){return 1;}\n")                   # AI_Test moved on; the archive did not
+            fingerprint.check_sources(bots)
+            with self.assertRaises(SystemExit):
+                fingerprint.check_sources(fingerprint.bots_from_inventory(inv, "ai-test", arch))
+
+
+CTF_BOT = """#include <iostream>
+#include <string>
+// {comment}
+int main() {{
+    std::string w; int turn = 0;
+    while (std::cin >> w) {{
+        if (w == "INIT") {{ std::cin >> w; }}          // reads MAP, BASES, SPOTS
+        if (w == "FLAGS") {{ std::cin >> w; }}
+        if (w == "TURN") {{ std::cin >> turn; std::cout << turn << " {move} - S - S -" << std::endl; }}
+    }}
+    {extra}
+    return 0;
+}}
+"""
+
+
+class TestNewBots(unittest.TestCase):
+    def test_scan_classifies_and_dedupes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root, arch = Path(tmp) / "ai", Path(tmp) / "archive"
+            base = CTF_BOT.format(comment="base", move="S", extra="")
+            a = write(root, "bots/a.cpp", base)
+            entry = {"id": "bots/a.cpp", "path": "bots/a.cpp", "language": "cpp", "local_includes": [],
+                     "source_sha256": inventory.sha256_file(a),
+                     "code_sha256": inventory.sha256_bytes(inventory.normalized_code(base).encode())}
+            archive.save({"bots": [entry]}, root, arch)
+            write(root, "copy/crlf.cpp", base.replace("\n", "\r\n"))                              # archived bytes (CRLF)
+            write(root, "copy/comment.cpp", CTF_BOT.format(comment="other words", move="S", extra=""))  # same code
+            write(root, "bomberman/b.cpp", "int main() { /* INIT TURN BOMB */ }")                     # not CTF
+            write(root, "tools/test_driver.cpp", base.replace("base", "driver x"))                    # driver
+            new_code = "\n".join(f"int helper{i}(int x) {{ return x * {i} + {i * 7} - (x >> {i % 5}); }}" for i in range(60))
+            write(root, "p1/bot.cpp", new_code + CTF_BOT.format(comment="", move="U", extra="helper1(2);"))
+            write(root, "p1/copy_of_bot.cpp", new_code + CTF_BOT.format(comment="", move="U", extra="helper1(2);"))
+            write(root, "p2/fork.cpp", CTF_BOT.format(comment="", move="L", extra="int unused = 3; (void)unused;"))
+            write(root, "p3/strings.cpp", base.replace(" - S - S -", " - S - S - "))                  # only a string changed
+            write(root, "p4/inc.cpp", '#include "mod.inc"\n' + new_code + CTF_BOT.format(comment="", move="D", extra=""))
+            m = newbots.write(newbots.scan(root, arch), root, Path(tmp) / "new")
+            by = {b["origin"]: b for b in m["bots"]}
+            self.assertEqual(m["counts"]["archived"], 2)                   # a.cpp itself and the CRLF copy
+            self.assertEqual((m["counts"]["same_code"], m["counts"]["not_ctf_bot"], m["counts"]["driver"]), (1, 1, 1))
+            self.assertEqual(by["p1/bot.cpp"]["tier"], "independent")
+            self.assertEqual(by["p1/bot.cpp"]["copies"], ["p1/copy_of_bot.cpp"])
+            self.assertEqual(by["p2/fork.cpp"]["tier"], "forks")
+            skipped = {b["origin"]: b["reason"] for b in m["skipped"]}
+            self.assertIn("strings/comments", skipped["p3/strings.cpp"])
+            self.assertIn("local includes", skipped["p4/inc.cpp"])
+            stored = Path(tmp) / "new" / by["p1/bot.cpp"]["file"]
+            self.assertEqual(inventory.sha256_file(stored), by["p1/bot.cpp"]["source_sha256"])
+            self.assertTrue((Path(tmp) / "new" / "README.md").read_text().count("independent/") >= 1)
+
+
+class TestShortlist(unittest.TestCase):
+    def test_families_tiers_specialists_and_draft(self):
+        ids = ["ctf-arena/Player7/judge/ctf/bots/a.cpp", "b.cpp", "b2.cpp", "c.cpp", "@repo/tools/noise_bot.py"]
+        E = np.array([[0, .30, .31, .30, .5], [.30, 0, .01, .06, .5], [.31, .01, 0, .07, .5], [.30, .06, .07, 0, .5], [.5] * 4 + [0]])
+        state = np.where(E > 0.02, -1.0, 1.0)
+        pc = {"2": E.copy(), "3": E.copy()}
+        pc["2"][1, 2] = pc["2"][2, 1] = 0.08                      # b2 differs from b only at 2 teams
+        st = {"2": np.where(pc["2"] > 0.02, -1.0, 1.0), "3": state.copy()}
+        for m in st.values():
+            np.fill_diagonal(m, np.nan)
+        dist = {"ids": ids, "overall_excess": E.tolist(), "measured_everywhere": ids, "suite_identity": "s",
+                "excess_per_count": {n: m.tolist() for n, m in pc.items()},
+                "state_per_count": {n: [[None if np.isnan(v) else v for v in r] for r in m] for n, m in st.items()},
+                "established_distinct_counts": {b: [] for b in ids}, "distinctive_tags": {b: [] for b in ids},
+                "noise": {b: 0.0 for b in ids}}
+        sel = shortlist.build(dist, {"bots": [{"id": b, "lineage_group": f"lineage:{b}"} for b in ids]})
+        fam = {r["representative"]: r for r in sel["families"]}
+        self.assertEqual(fam["b.cpp"]["members"], ["b.cpp", "b2.cpp"])          # within 0.05: one family
+        self.assertEqual(fam["b.cpp"]["tier"], "distinct")                        # c is 0.06 away
+        self.assertEqual(fam[ids[0]]["role"], "field")
+        self.assertEqual(fam[ids[0]]["tier"], "core")
+        self.assertEqual(fam["@repo/tools/noise_bot.py"]["role"], "augmentation")
+        self.assertEqual([(s["bot"], s["counts"]) for s in sel["specialists"]], [("b2.cpp", [2])])
+        adm = shortlist.admission(sel, "t")
+        self.assertEqual(adm["bots"]["b2.cpp"]["counts"], [2])
+        self.assertEqual(adm["bots"][ids[0]]["roles"], ["style", "field"])
+        self.assertTrue(all("Review before training" in b["contribution"] for b in adm["bots"].values()))
+
+
+class TestLightScreen(unittest.TestCase):
+    def test_tiers_reliability_and_screened_admission(self):
+        rows = (strength_rows("strong", {n: [0.9, 0.8, 0.85, 0.95, 0.9] for n in TEAM_COUNTS}, "a" * 64)
+                + strength_rows("weak", {n: [0.1, 0.2, 0.15, 0.05, 0.1] for n in TEAM_COUNTS}, "b" * 64)
+                + strength_rows("even", {n: [0.3, 0.7, 0.5, 0.4, 0.6] for n in TEAM_COUNTS}, "c" * 64)
+                + strength_rows("late", {n: [0.9] * 5 for n in TEAM_COUNTS}, "d" * 64))
+        for r in rows:
+            if r["candidate"] == "late":
+                r["late"] = 3                                          # 3 late replies per game at 50 ms
+        t = {r["bot"]: r for r in tiers.classify(strength.aggregate(rows))}
+        self.assertEqual((t["strong"]["tier"], t["weak"]["tier"], t["even"]["tier"]), ("above", "below", "level"))
+        self.assertFalse(t["late"]["reliable"])
+        self.assertEqual(t["strong"]["bands"]["11-15"], 0.88)
+        adm = {"bots": {b: {"admit": True, "roles": ["style"], "contribution": "x."} for b in ("strong", "weak", "late")}}
+        out = tiers.screened_admission(adm, list(t.values()), "r2")
+        self.assertEqual(out["bots"]["strong"]["roles"], ["field", "style"])   # above and reliable: strong competition
+        self.assertEqual(out["bots"]["weak"]["roles"], ["style"])              # weak specialists stay in the pool
+        self.assertFalse(out["bots"]["late"]["admit"])
+        self.assertIn("Light screen: utility", out["bots"]["weak"]["contribution"])
+
+    def test_one_map_has_no_interval_and_candidates_files(self):
+        out = strength.aggregate(strength_rows("x", {2: [0.7], 3: [0.2, 0.4]}), teams_list=[2, 3])
+        c = out["candidates"]["x"]
+        self.assertIsNone(c["per_count"]["2"]["se"])
+        self.assertIsNone(c["se"])                                     # serializable: no infinities
+        json.dumps(out, allow_nan=False)
+        self.assertEqual(tiers.classify(out)[0]["tier"], "level")
+        with tempfile.TemporaryDirectory() as tmp:
+            adm = Path(tmp) / "adm.json"
+            adm.write_text(json.dumps({"bots": {"a": {"admit": True}, "b": {"admit": False}}}))
+            pool_file = Path(tmp) / "pool.json"
+            pool_file.write_text(json.dumps({"bots": [{"id": "p"}, {"id": "q"}]}))
+            ids = Path(tmp) / "ids.txt"
+            ids.write_text("# comment\nx\n\ny\n")
+            self.assertEqual(strength.candidate_ids(str(adm)), ["a"])
+            self.assertEqual(strength.candidate_ids(str(pool_file)), ["p", "q"])
+            self.assertEqual(strength.candidate_ids(str(ids)), ["x", "y"])
+
+
+class TestReviewFixes(unittest.TestCase):
+    """Defects found by the training-selection review (branch docs/training-roster-selection)."""
+
+    def test_pickup_and_capture_in_one_settlement_is_a_delivery(self):
+        far = [(1, 0, 1, 1, 100, -1), (2, 0, 1, 2, 100, -1), (3, 1, 9, 9, 100, -1), (4, 1, 9, 8, 100, -1), (5, 1, 9, 7, 100, -1)]
+        me = (0, 0, 3, 3, 100, -1)
+        m = {"init": "INIT 2 0 23 2 100 34 10 15 8\nMAP", "teams": 2,
+             "blocks": [turn_block(1, [me] + far), turn_block(2, [me] + far, ["E pickup 0 1", "E capture 0 0 1"])],
+             "final_block": turn_block(3, [me] + far),
+             "replies": [["1 S P S - S -", "1 S - S - S -"], ["2 S - S - S -", "2 S - S - S -"]],
+             "result": {"stats": [{"pickups": 1, "captures": 1}, {}]}}
+        e = trajectory.seat_outcomes(m, 0)["episodes"]
+        self.assertEqual((e["started"], e["delivered"], e["censored"], e["carry_turns"]), (1, 1, 0, 0))
+
+    def test_repeats_need_the_same_dependencies_and_limits(self):
+        from roster import fingerprint  # noqa: PLC0415
+        from roster.common import probe_identity, suite_identity  # noqa: PLC0415
+        suite = {"probes": [{"probe_id": "p", "teams": 3, "tags": [1] * 4, "active": [7] * 4, "match_sha256": "m",
+                             "seat": 0, "turns": 4}]}
+        base = {"source_sha256": "a", "suite": suite_identity(suite), "probe": probe_identity(suite["probes"][0])}
+        def run(rep, dep, lim):
+            return {"bot": {"id": "A"}, "probe_id": "p", "rep": rep, "identity": base | {"dependency_sha256": dep, "limits_ms": lim}}
+        runs = {"A": [run(0, "d1", [10000, 1000]), run(1, "d1", [10000, 1000]), run(2, "d2", [10000, 1000]),
+                      run(3, "d1", [2000, 50])]}
+        good, stale = fingerprint.validate(runs, suite, {"A": "a"}, {"A": "d1"})
+        self.assertEqual([r["rep"] for r in good["A"]], [0, 1])
+        reasons = " ".join(stale["A"])
+        self.assertIn("dependencies changed", reasons)
+        self.assertIn("other reply limits", reasons)
+
+    def test_pool_build_joins_the_screen_for_the_same_source_only(self):
+        rows = {"A": {"id": "A", "source_sha256": "a", "evidence_status": "fingerprinted"},
+                "B": {"id": "B", "source_sha256": "b", "evidence_status": "fingerprinted"}}
+        screen = {"candidates": {"A": {"source_sha256": "a", "utility": 0.7, "lcb": 0.6, "maps": 70, "evidence": "screen",
+                                       "faults_per_game": 0.0, "late_replies": 0},
+                                 "B": {"source_sha256": "other", "utility": 0.9, "lcb": 0.8, "maps": 70, "evidence": "screen",
+                                       "faults_per_game": 0.0, "late_replies": 0}}}
+        out = registry.join_strength(rows, screen)
+        self.assertEqual((out["A"]["evidence_status"], out["A"]["utility"]), ("screened", 0.7))
+        self.assertEqual(out["B"]["evidence_status"], "fingerprinted")      # another source's result never joins
+
+    def test_few_maps_spread_candidate_seats(self):
+        root = os.environ.get("AI_TEST_ROOT")
+        if not root:
+            self.skipTest("needs AI_TEST_ROOT for the reference bots")
+        sched = strength.schedule(5, [15], strength.REFERENCE, 20261009, Path(root))
+        seats = [fx["seat"] for fx in sched["fixtures"]]
+        self.assertEqual(len(set(seats)), 5)
+        self.assertNotEqual(sorted(seats), [0, 1, 2, 3, 4])
+
 
 @unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to the AI_Test checkout")
 class TestReplayEndToEnd(unittest.TestCase):
@@ -496,6 +824,15 @@ class TestReplayEndToEnd(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def test_live_outcomes_match_the_engine(self):
+        from fusion import matchlog  # noqa: PLC0415
+        files = sorted((self.tmp / "raw").rglob("*.json.gz"))
+        self.assertTrue(files)
+        for f in files:
+            m = matchlog.load(f)
+            for seat in range(m["teams"]):
+                self.assertTrue(trajectory.seat_outcomes(m, seat)["engine_match"])
 
     def test_suite_is_frozen_and_tagged(self):
         suite = load_json(self.suite_path)

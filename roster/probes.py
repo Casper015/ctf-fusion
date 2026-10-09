@@ -38,6 +38,7 @@ from fusion.schema import layout as feature_layout
 from roster.common import SCHEMA_SUITE, TAGS, save_json, sha256_file
 
 KILL_HP = 34  # one hit (engine damage); a candidate at or below it dies to any single shot
+TAG_RULES = "tags-1"  # version of turn_tags(); a change re-freezes the suite (it enters the suite identity)
 
 
 def truncate(match: dict, turns: int) -> dict:
@@ -134,7 +135,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--raw", required=True, help="recorded matches (data/raw layout: nXX/<match_id>.json.gz)")
     ap.add_argument("--teams", type=int, nargs="+", default=list(TEAM_COUNTS))
-    ap.add_argument("--per-count", type=int, default=3, help="probe streams per team count (distinct maps)")
+    ap.add_argument("--per-count", type=int, default=6,
+                    help="probe streams per team count (distinct maps; 6-12 for discovery, see the fingerprint review)")
     ap.add_argument("--turns", type=int, default=400, help="turns per probe (from turn 1; the full game by default)")
     ap.add_argument("--out", default=str(REPO / "data" / "roster" / "probe_suite.json"))
     a = ap.parse_args(argv)
@@ -148,7 +150,7 @@ def main(argv=None):
         print(f"[probes] {teams} teams: {len(got)} probes", flush=True)
     totals = {t: sum(p["tag_counts"][t] for p in probes) for t in TAGS}
     suite = {"schema": SCHEMA_SUITE, "created": time.strftime("%Y-%m-%dT%H:%M:%S"), "raw": str(Path(a.raw).resolve()),
-             "spec_version": layout.schema["spec_version"], "turns": a.turns, "per_count": a.per_count,
+             "spec_version": layout.schema["spec_version"], "tag_rules": TAG_RULES, "turns": a.turns, "per_count": a.per_count,
              "tags": list(TAGS), "tag_totals": totals, "short_counts": short, "probes": probes}
     save_json(a.out, suite, indent=None)
     print(f"[probes] {len(probes)} probes, tag turns {totals} -> {a.out}")

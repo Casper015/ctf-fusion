@@ -1,0 +1,18 @@
+{
+ "_comment": "Light strength screen (tools/run_light_screen.py). Every candidate plays the same fixtures against the frozen reference roster (roster.strength REFERENCE) under the official limits; 5 maps x 14 team counts = 70 paired games per candidate.",
+ "maps_per_count": 5,
+ "teams": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+ "seed": 20261009,
+ "candidates": "roster/report/selection/admission_draft.json",
+ "inventory": "roster/new_bots/inventory.json",
+ "assessments": "roster/report/results/bot_assessments.json",
+ "distance": "roster/report/results/behavior_distance.json",
+ "shortlist": "roster/report/selection/shortlist.json",
+ "admission": "roster/report/selection/admission_draft.json",
+ "workers": 8,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "work_dir": "data/roster/screen_light",
+ "report_dir": "roster/report/screen_light",
+ "pool_out": "profiles/open_training_pool.json"
+}

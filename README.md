@@ -8,14 +8,13 @@ Opponent policy and board value networks for the multi-team Capture The Flag bot
 - integer export to standalone C++ headers;
 - an engine-exact forward simulator.
 
+**First time here?** [docs/FIRST_RUN.md](docs/FIRST_RUN.md) takes a fresh checkout through setup, checks, a 2-minute pilot and the first full roster run of the 130 archived bots, step by step.
+
 **Design and decisions:**
 - [docs/DESIGN.md](docs/DESIGN.md): the design brief.
 - [docs/REVIEW.md](docs/REVIEW.md): decisions and experiment order.
 - [training/specs/](training/specs/README.md): the contracts — features, action indexing, data format, the 22-model matrix, simulator audit, environment.
-- [docs/ROSTER.md](docs/ROSTER.md): Phase A, evaluating every candidate opponent, admitting an open training pool sampled by behavior group, and freezing evaluation rosters (`roster/`).
-- [docs/LARGER_MODEL_EXPERIMENTS.md](docs/LARGER_MODEL_EXPERIMENTS.md): shared S–XXXXL presets, independent P/V capacities, automatic native buffer sizing and the host experiment sequence.
-- [reports/SAMPLING_DATA_READINESS_REVIEW.md](reports/SAMPLING_DATA_READINESS_REVIEW.md): source audit of the open sampler, theoretical sample volume and remaining data/provenance gaps.
-- [reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md](reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md): source-backed fingerprint audit and proposed v2 plan for noise/support corrections, flag/survival/combat profiles and useful-novelty validation.
+- [docs/ROSTER.md](docs/ROSTER.md): Phase A, evaluating every candidate opponent, admitting an open training pool sampled by behavior group, and freezing evaluation rosters (`roster/`)
 
 **Status:**
 - **Done:**
@@ -83,8 +82,9 @@ tools/            extract_features, infer_check, runtime_check, sim_check, regis
                   bench_inference, size_bench (C++); env_check.py (host check), capacity_bench.py (how big the models can be),
                   generate_multithreading_report.py / analyze_multithreading.py (loaded vs isolated capacity runs),
                   gen_feature_spec.py, random_bot.py (test bot), stream.hpp
-roster/           Phase A: inventory, archive, probes, fingerprint, distance, strength, assess, registry, sampling, catalog, pool (docs/ROSTER.md)
-  bots/           every inventoried bot source by sha256, with manifest.json (roster.archive)
+roster/           Phase A: inventory, archive, probes, fingerprint, distance, strength, trajectory, assess, registry, sampling, catalog, pool (docs/ROSTER.md)
+  bots/           every inventoried bot source by sha256, manifest, inventory snapshot and README (names, origins, how to run)
+  new_bots/       136 more CTF bots found in AI_Test (8 independent, 128 forks), with a full-roster inventory (roster.newbots)
 tests/            test_math (gradients, quantization, convex fits, spec sync), test_contracts (binary records, v2 features,
                   adapter, widths, gate identity; no AI_Test needed), test_roster (Phase A tools), test_pipeline (end to end)
 ```

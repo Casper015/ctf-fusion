@@ -1,0 +1,679 @@
+{
+ "_comment": "DRAFT updated by roster.tiers with light-screen results: unreliable bots not admitted, reliable bots above the reference field added to the field role. A person reviews before training.",
+ "revision": "r2-draft-screened",
+ "reserved_ood_lineages": [],
+ "sampling": {
+  "lambdas": {
+   "field": 0.6,
+   "style": 0.3,
+   "hard": 0.1
+  },
+  "augmentation": 0.0,
+  "focus": 0.0,
+  "focus_fraction": 0.5,
+  "lineage_cap": 0.5
+ },
+ "bots": {
+  "@repo/tools/noise_bot.py": {
+   "admit": true,
+   "roles": [
+    "augmentation"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp at corrected excess 0.465; certified different from every measured bot at 14/14 team counts; most distinctive tags: respawn, pickup_option, carrier_own. Review before training. Light screen: utility 0.009 [0.006, 0.013] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "@repo/tools/random_bot.py": {
+   "admit": true,
+   "roles": [
+    "augmentation"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp at corrected excess 0.377; certified different from every measured bot at 14/14 team counts; most distinctive tags: respawn, escort, interception. Review before training. Light screen: utility 0.032 [0.017, 0.048] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "New_AI_Test/Player0/judge/ctf/workspace/submission/bot.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/Player6.cpp at corrected excess 0.369; certified different from every measured bot at 0/14 team counts; most distinctive tags: interception, escort, carrier_own; represents 3 near-identical bots. Review before training. Light screen: utility 0.010 [0.004, 0.015] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-stress-pack/bots/Player6.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family submission/bot.cpp at corrected excess 0.369; certified different from every measured bot at 0/14 team counts; most distinctive tags: respawn, return_risk, interception; represents 2 near-identical bots. Review before training. Light screen: utility 0.091 [0.056, 0.127] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp": {
+   "admit": true,
+   "roles": [
+    "style",
+    "field"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp at corrected excess 0.323; certified different from every measured bot at 14/14 team counts; most distinctive tags: interception, respawn, quiet. Review before training. Light screen: utility 0.079 [0.047, 0.112] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp": {
+   "admit": true,
+   "roles": [
+    "style",
+    "field"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/deepseek-v4.1-flash.cpp at corrected excess 0.309; certified different from every measured bot at 0/14 team counts; most distinctive tags: focus_fire, interception, contact; represents 2 near-identical bots. Review before training. Light screen: utility 0.374 [0.301, 0.448] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp": {
+   "admit": true,
+   "roles": [
+    "style",
+    "field"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family experiments/incumbent-v001.cpp at corrected excess 0.284; certified different from every measured bot at 14/14 team counts; most distinctive tags: respawn, interception, quiet. Review before training. Light screen: utility 0.211 [0.157, 0.266] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-stress-pack/bots/Player2.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp at corrected excess 0.269; certified different from every measured bot at 14/14 team counts; most distinctive tags: respawn, escort, carrier_own. Review before training. Light screen: utility 0.440 [0.360, 0.519] over 70 maps (level the reference field).",
+   "max_copies": 1
+  },
+  "New_AI_Test/Player3/workspace/experiments/incumbent-v001.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/mimo-v2.6-pro.cpp at corrected excess 0.267; certified different from every measured bot at 0/14 team counts; most distinctive tags: interception, quiet, respawn; represents 4 near-identical bots. Review before training. Light screen: utility 0.150 [0.103, 0.196] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/Player1.cpp at corrected excess 0.258; certified different from every measured bot at 14/14 team counts; most distinctive tags: respawn, quiet, carrier_own. Review before training. Light screen: utility 0.205 [0.138, 0.271] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-stress-pack/bots/Player1.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp at corrected excess 0.258; certified different from every measured bot at 14/14 team counts; most distinctive tags: respawn, interception, quiet. Review before training. Light screen: utility 0.207 [0.154, 0.260] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp": {
+   "admit": true,
+   "roles": [
+    "style",
+    "field"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/baseline.cpp at corrected excess 0.250; certified different from every measured bot at 14/14 team counts; most distinctive tags: focus_fire, contact, collision_risk. Review before training. Light screen: utility 0.525 [0.451, 0.598] over 70 maps (level the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp": {
+   "admit": true,
+   "roles": [
+    "style",
+    "field"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family forks/ctf-arena_Player5_runner_v8.cpp at corrected excess 0.249; certified different from every measured bot at 14/14 team counts; most distinctive tags: carrier_own, escort, flag. Review before training. Light screen: utility 0.658 [0.598, 0.718] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/independent/AI_Arena_CTF_Player01_bot.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family experiments/cand-002.cpp at corrected excess 0.247; certified different from every measured bot at 14/14 team counts; most distinctive tags: escort, focus_fire, carrier_own. Review before training. Light screen: utility 0.419 [0.344, 0.496] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp": {
+   "admit": true,
+   "roles": [
+    "style",
+    "field"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/mimo-v2.6-pro.cpp at corrected excess 0.247; certified different from every measured bot at 14/14 team counts; most distinctive tags: interception, contact, overkill_risk. Review before training. Light screen: utility 0.291 [0.225, 0.357] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp": {
+   "admit": true,
+   "roles": [
+    "style",
+    "field"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/opus-5.5.cpp at corrected excess 0.246; certified different from every measured bot at 14/14 team counts; most distinctive tags: pickup_option, focus_fire, overkill_risk. Review before training. Light screen: utility 0.606 [0.540, 0.672] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "ctf-stress-pack/bots/baseline.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family experiments/candidate-v005-15p-intercept.cpp at corrected excess 0.245; certified different from every measured bot at 14/14 team counts; most distinctive tags: escort, focus_fire, overkill_risk. Review before training. Light screen: utility 0.388 [0.317, 0.458] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "New_AI_Test/player7/workspace/submission/bot.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family experiments/candidate-v005-15p-intercept.cpp at corrected excess 0.239; certified different from every measured bot at 14/14 team counts; most distinctive tags: interception, escort, respawn. Review before training. Light screen: utility 0.384 [0.325, 0.442] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "New_AI_Test/Player4/workspace/experiments/candidate-v005-15p-intercept.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family experiments/incumbent-v001.cpp at corrected excess 0.239; certified different from every measured bot at 0/14 team counts; most distinctive tags: interception, escort, focus_fire; represents 5 near-identical bots. Review before training. Light screen: utility 0.425 [0.349, 0.500] over 70 maps (level the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/independent/AI_Arena_CTF_Player02_bot.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/mimo-v2.6-pro.cpp at corrected excess 0.237; certified different from every measured bot at 14/14 team counts; most distinctive tags: interception, focus_fire, contact. Review before training. Light screen: utility 0.351 [0.277, 0.424] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp": {
+   "admit": true,
+   "roles": [
+    "style",
+    "field"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family independent/AI_Arena_CTF_Player02_bot.cpp at corrected excess 0.237; certified different from every measured bot at 14/14 team counts; most distinctive tags: interception, escort, focus_fire. Review before training. Light screen: utility 0.336 [0.266, 0.407] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-stress-pack/bots/Player4.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family forks/ctf-arena_Player4_v5.cpp at corrected excess 0.233; certified different from every measured bot at 0/14 team counts; most distinctive tags: pickup_option, return_risk, respawn; represents 4 near-identical bots. Review before training. Light screen: utility 0.440 [0.371, 0.508] over 70 maps (level the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player4_v3.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family forks/ctf-arena_Player4_v5.cpp at corrected excess 0.218; certified different from every measured bot at 14/14 team counts; most distinctive tags: focus_fire, overkill_risk, escort. Review before training. Light screen: utility 0.303 [0.236, 0.369] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp": {
+   "admit": true,
+   "roles": [
+    "style",
+    "field"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/sonnet-5.5.cpp at corrected excess 0.204; certified different from every measured bot at 14/14 team counts; most distinctive tags: contact, return_risk, focus_fire. Review before training. Light screen: utility 0.574 [0.501, 0.646] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player4_v5.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family independent/ctf-arena_Player4_v2.cpp at corrected excess 0.196; certified different from every measured bot at 14/14 team counts; most distinctive tags: pickup_option, focus_fire, quiet. Review before training. Light screen: utility 0.366 [0.296, 0.436] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/independent/ctf-arena_Player4_v2.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family forks/ctf-arena_Player4_v5.cpp at corrected excess 0.196; certified different from every measured bot at 14/14 team counts; most distinctive tags: respawn, escort, focus_fire. Review before training. Light screen: utility 0.276 [0.215, 0.338] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp": {
+   "admit": true,
+   "roles": [
+    "style",
+    "field"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family experiments/cand-h1.cpp at corrected excess 0.193; certified different from every measured bot at 13/14 team counts; most distinctive tags: overkill_risk, carrier_own, respawn. Review before training. Light screen: utility 0.707 [0.642, 0.772] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp": {
+   "admit": true,
+   "roles": [
+    "style",
+    "field"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family experiments/cand-011.cpp at corrected excess 0.178; certified different from every measured bot at 14/14 team counts; most distinctive tags: overkill_risk, focus_fire, contact. Review before training. Light screen: utility 0.640 [0.577, 0.704] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "ctf-stress-pack/bots/Player3.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family forks/ctf-arena_Player3_variants_bot_tune.cpp at corrected excess 0.152; certified different from every measured bot at 0/14 team counts; most distinctive tags: pickup_option, contact, endgame; represents 4 near-identical bots. Review before training. Light screen: utility 0.408 [0.339, 0.478] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_tune.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/Player3.cpp at corrected excess 0.152; certified different from every measured bot at 14/14 team counts; most distinctive tags: pickup_option, endgame, respawn. Review before training. Light screen: utility 0.386 [0.312, 0.461] over 70 maps (below the reference field).",
+   "max_copies": 1
+  },
+  "New_AI_Test/Player2/workspace/experiments/cand-011.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family experiments/cand-008.cpp at corrected excess 0.130; certified different from every measured bot at 14/14 team counts; most distinctive tags: quiet, pickup_option, overkill_risk. Review before training. Light screen: utility 0.638 [0.579, 0.698] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "ctf-stress-pack/bots_v2/Player5.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family submission/bot.cpp at corrected excess 0.103; certified different from every measured bot at 14/14 team counts; most distinctive tags: escort, carrier_own, overkill_risk. Review before training. Light screen: utility 0.646 [0.574, 0.718] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player5_fortress.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family forks/ctf-arena_Player5_small_no_raid.cpp at corrected excess 0.099; certified different from every measured bot at 14/14 team counts; most distinctive tags: quiet, respawn, contact. Review before training. Light screen: utility 0.532 [0.464, 0.600] over 70 maps (level the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_raider.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family independent/ctf-arena_Player5_sparring.cpp at corrected excess 0.094; certified different from every measured bot at 14/14 team counts; most distinctive tags: respawn, overkill_risk, quiet. Review before training. Light screen: utility 0.509 [0.433, 0.586] over 70 maps (level the reference field).",
+   "max_copies": 1
+  },
+  "New_AI_Test/Player2/workspace/experiments/cand-012.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/Player5.cpp at corrected excess 0.094; certified different from every measured bot at 14/14 team counts; most distinctive tags: pickup_option, focus_fire, overkill_risk. Review before training. Light screen: utility 0.711 [0.639, 0.783] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_adaptive.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family independent/ctf-arena_Player5_sparring.cpp at corrected excess 0.093; certified different from every measured bot at 14/14 team counts; most distinctive tags: overkill_risk, respawn, focus_fire. Review before training. Light screen: utility 0.507 [0.440, 0.574] over 70 maps (level the reference field).",
+   "max_copies": 1
+  },
+  "New_AI_Test/Player5/workspace/submission/bot.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/Player5.cpp at corrected excess 0.085; certified different from every measured bot at 14/14 team counts; most distinctive tags: escort, carrier_own, endgame. Review before training. Light screen: utility 0.677 [0.609, 0.744] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/workspace/experiments/round3/export/R3_FLAGS_joint.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family export/Control_NG_foundation.cpp at corrected excess 0.061; certified different from every measured bot at 0/14 team counts; most distinctive tags: return_risk, quiet, respawn; represents 2 near-identical bots. Review before training. Light screen: utility 0.702 [0.639, 0.765] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_external_CL.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/Player5.cpp at corrected excess 0.060; certified different from every measured bot at 14/14 team counts; most distinctive tags: escort, carrier_own, flag; represents 2 near-identical bots. Review before training. Light screen: utility 0.743 [0.676, 0.811] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "New_AI_Test/Player2/workspace/experiments/cand-mc1.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family experiments/cand-h1.cpp at corrected excess 0.060; certified different from every measured bot at 0/14 team counts; most distinctive tags: quiet, respawn, carrier_own; represents 2 near-identical bots. Review before training. Light screen: utility 0.745 [0.680, 0.810] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v2.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family forks/ctf-arena_Player5_v2_combined.cpp at corrected excess 0.057; certified different from every measured bot at 14/14 team counts; most distinctive tags: quiet, contact, collision_risk. Review before training. Light screen: utility 0.687 [0.617, 0.756] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "New_AI_Test/Player2/workspace/experiments/incumbent-v001.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family experiments/cand-002.cpp at corrected excess 0.056; certified different from every measured bot at 14/14 team counts; most distinctive tags: focus_fire, escort, contact. Review before training. Light screen: utility 0.483 [0.401, 0.565] over 70 maps (level the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family independent/ctf-arena_Player5_sparring_runner.cpp at corrected excess 0.055; certified different from every measured bot at 11/14 team counts; most distinctive tags: respawn, overkill_risk, quiet. Review before training. Light screen: utility 0.506 [0.429, 0.582] over 70 maps (level the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_runner.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family independent/ctf-arena_Player5_sparring.cpp at corrected excess 0.055; certified different from every measured bot at 11/14 team counts; most distinctive tags: respawn, overkill_risk, focus_fire. Review before training. Light screen: utility 0.475 [0.398, 0.553] over 70 maps (level the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player5_hunter.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family forks/ctf-arena_Player5_duel_pack.cpp at corrected excess 0.055; certified different from every measured bot at 14/14 team counts; most distinctive tags: quiet, contact, respawn. Review before training. Light screen: utility 0.682 [0.609, 0.755] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family forks/ctf-arena_Player5_v12_volley_trio.cpp at corrected excess 0.054; certified different from every measured bot at 0/14 team counts; most distinctive tags: contact, escort, carrier_own; represents 5 near-identical bots. Review before training. Light screen: utility 0.770 [0.723, 0.818] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_volley_trio.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family forks/ctf-arena_Player5_v12_rollout_volley.cpp at corrected excess 0.054; certified different from every measured bot at 14/14 team counts; most distinctive tags: pickup_option, contact, escort. Review before training. Light screen: utility 0.705 [0.644, 0.767] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/C08_Player5_Omega_LIT.cpp at corrected excess 0.054; certified different from every measured bot at 13/14 team counts; most distinctive tags: respawn, endgame, return_risk. Review before training. Light screen: utility 0.722 [0.653, 0.792] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "ctf-benchmark-v3/track2_2k_c_series/bots/C08_Player5_Omega_LIT.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family bots/C04_G_PLAYOUT_4ply.cpp at corrected excess 0.054; certified different from every measured bot at 13/14 team counts; most distinctive tags: pickup_option, respawn, carrier_own. Review before training. Light screen: utility 0.711 [0.651, 0.771] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player5_runner_v8.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family forks/ctf-arena_Player5_small_no_raid.cpp at corrected excess 0.052; certified different from every measured bot at 14/14 team counts; most distinctive tags: overkill_risk, focus_fire, escort. Review before training. Light screen: utility 0.708 [0.650, 0.765] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "ctf-arena/Player7/workspace/experiments/round3/export/R3_EXPECTIMAX_sampled.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": "all",
+   "contribution": "Draft from measured evidence: nearest other behavior family export/Player5_Omega.cpp at corrected excess 0.052; certified different from every measured bot at 0/14 team counts; most distinctive tags: pickup_option, respawn, quiet; represents 4 near-identical bots. Review before training. Light screen: utility 0.739 [0.677, 0.800] over 70 maps (above the reference field).",
+   "max_copies": 1
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player4_v8_winning.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": [
+    6,
+    7,
+    9,
+    11,
+    12,
+    15
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of bots/Player4.cpp, certified different at team counts [6, 7, 9, 11, 12, 15] (excess 6: 0.0731, 7: 0.0739, 9: 0.0641, 11: 0.0566, 12: 0.0542, 15: 0.0515). Review before training. Light screen: utility 0.420 [0.356, 0.484] over 70 maps (below the reference field)."
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player4_v9_latest.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": [
+    6,
+    7,
+    9,
+    11,
+    12,
+    15
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of bots/Player4.cpp, certified different at team counts [6, 7, 9, 11, 12, 15] (excess 6: 0.0724, 7: 0.0734, 9: 0.0637, 11: 0.055, 12: 0.0535, 15: 0.0508). Review before training. Light screen: utility 0.445 [0.380, 0.510] over 70 maps (level the reference field)."
+  },
+  "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_HABITS_adaptive.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": [
+    2,
+    3,
+    4
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of archive_r3_single_mode/R3_CFL_conditional.cpp, certified different at team counts [2, 3, 4] (excess 2: 0.0607, 3: 0.0559, 4: 0.0511). Review before training. Light screen: utility 0.709 [0.637, 0.780] over 70 maps (above the reference field)."
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player5_round3_macro_candidate.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of archive_r3_single_mode/Control_external_CL.cpp, certified different at team counts [2, 3, 4, 5] (excess 2: 0.0657, 3: 0.0604, 4: 0.0647, 5: 0.0767). Review before training. Light screen: utility 0.696 [0.628, 0.763] over 70 maps (above the reference field)."
+  },
+  "@repo/roster/new_bots/forks/ctf-arena_Player5_small_runner.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": [
+    2,
+    3,
+    4
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of forks/ctf-arena_Player5_small_no_raid.cpp, certified different at team counts [2, 3, 4] (excess 2: 0.0601, 3: 0.0557, 4: 0.0622). Review before training. Light screen: utility 0.725 [0.662, 0.789] over 70 maps (above the reference field)."
+  },
+  "ctf-arena/Player7/workspace/experiments/round3/export/R3_WEIGHTS_tuned.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": [
+    4,
+    5
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of experiments/cand-h1.cpp, certified different at team counts [4, 5] (excess 4: 0.05, 5: 0.054). Review before training. Light screen: utility 0.697 [0.635, 0.759] over 70 maps (above the reference field)."
+  },
+  "ctf-benchmark-v3/track2_2k_c_series/bots/C22_R3_WEIGHTS_tuned.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": [
+    4,
+    5
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of experiments/cand-h1.cpp, certified different at team counts [4, 5] (excess 4: 0.05, 5: 0.054). Review before training. Light screen: utility 0.700 [0.635, 0.765] over 70 maps (above the reference field)."
+  },
+  "New_AI_Test/Player2/workspace/experiments/cand-mc2.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": [
+    3
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of experiments/cand-mc1.cpp, certified different at team counts [3] (excess 3: 0.0849). Review before training. Light screen: utility 0.747 [0.683, 0.811] over 70 maps (above the reference field)."
+  },
+  "New_AI_Test/Player4/workspace/experiments/candidate-v002-risk.cpp": {
+   "admit": true,
+   "roles": [
+    "style"
+   ],
+   "counts": [
+    15
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of experiments/candidate-v005-15p-intercept.cpp, certified different at team counts [15] (excess 15: 0.0518). Review before training. Light screen: utility 0.373 [0.301, 0.445] over 70 maps (below the reference field)."
+  },
+  "ctf-arena/Player7/workspace/experiments/round3/export/R3_HABITS_adaptive.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": [
+    5
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of export/Control_NG_foundation.cpp, certified different at team counts [5] (excess 5: 0.057). Review before training. Light screen: utility 0.756 [0.691, 0.820] over 70 maps (above the reference field)."
+  },
+  "ctf-benchmark-v3/track2_2k_c_series/bots/C20_R3_HABITS_adaptive.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": [
+    5
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of export/Control_NG_foundation.cpp, certified different at team counts [5] (excess 5: 0.057). Review before training. Light screen: utility 0.732 [0.662, 0.802] over 70 maps (above the reference field)."
+  },
+  "ctf-s1-controls/exports/S1_C_Adaptive6p_Fast15.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": [
+    6
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of export/Player5_Omega.cpp, certified different at team counts [6] (excess 6: 0.1242). Review before training. Light screen: utility 0.738 [0.675, 0.801] over 70 maps (above the reference field)."
+  },
+  "ctf-s1-controls/exports/S1_D_CrowdHabit.cpp": {
+   "admit": true,
+   "roles": [
+    "field",
+    "style"
+   ],
+   "counts": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "max_copies": 1,
+   "contribution": "Draft from measured evidence: count specialist of bots/Astra_Full.cpp, certified different at team counts [3, 4, 5, 6, 7] (excess 3: 0.0678, 4: 0.0562, 5: 0.0723, 6: 0.0618, 7: 0.0617). Review before training. Light screen: utility 0.692 [0.624, 0.761] over 70 maps (above the reference field)."
+  }
+ }
+}

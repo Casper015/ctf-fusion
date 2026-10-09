@@ -2,6 +2,8 @@
 
     python -m roster.archive save  --inventory data/roster/bot_inventory.json      # writes roster/bots/
     python -m roster.archive check [--pool profiles/open_training_pool.json ...] [--ai-test AI_TEST]
+    python -m roster.archive pool  [--all] --out profiles/pool_archive.json   # a collection pool of archived bots
+    python -m roster.archive readme                                          # rewrite roster/bots/README.md
 
 Sources are stored once per content, named by their sha256
 (roster/bots/src/<sha256>.<ext>), with their local #include files the same
@@ -9,7 +11,10 @@ way. .gitattributes marks them -text: git must never convert their line
 endings (Windows checkouts), or every hash would break. roster/bots/manifest.json maps every candidate of the inventory
 (aliases and excluded ones included) to its archived file, its AI_Test path
 and commit, lineage, alias and exclusion. Bots already in this repository
-(@repo/ paths) are recorded but not copied.
+(@repo/ paths) are recorded but not copied. roster/bots/inventory.json is the
+inventory snapshot of the latest save (its AI_Test root removed), so the
+host can fingerprint and screen the archived sources with
+--inventory roster/bots/inventory.json without its own inventory.
 
 check verifies that:
   - every archived file still hashes to its name (no edits);
@@ -26,6 +31,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -83,6 +89,13 @@ def save(inventory: dict, root: Path, out: Path = ARCHIVE) -> dict:
                           "stored_files": sum(1 for _ in (out / "src").iterdir()),
                           "stored_bytes": sum(p.stat().st_size for p in (out / "src").iterdir())}
     save_json(out / "manifest.json", manifest)
+    local = ("binary", "path", "command")                          # machine-local build paths stay out of the repo
+    bots = [b | {"build": {k: v for k, v in b.get("build", {}).items() if k not in local}} for b in inventory["bots"]]
+    snapshot = inventory | {"bots": bots, "ai_test_root": None, "archived": time.strftime("%Y-%m-%dT%H:%M:%S"),
+                            "_comment": "Inventory snapshot of the archived sources (roster.archive save). Bots run from "
+                                        "roster/bots/src by default; build fields describe the machine that inventoried."}
+    save_json(out / "inventory.json", snapshot, indent=None)
+    write_readme(out)
     return {"copied": copied, **manifest["counts"]}
 
 
@@ -117,6 +130,177 @@ def check(out: Path = ARCHIVE, pools: list[str] = (), root: Path | None = None) 
             "entries": len(manifest["bots"]), "stored_files": len(stored)}
 
 
+ORIGINS = {   # what each AI_Test source directory holds (for the README); unknown directories are listed as-is
+    "ctf-arena/Player7/judge/ctf/bots": "the judge bots of the CTF arena (official reference opponents)",
+    "ctf-arena/Player7/workspace/experiments/round3/export": "Player7 round-3 exported candidates",
+    "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode": "Player7 round-3 single-mode archive",
+    "ctf-stress-pack/bots": "stress-pack opponents (includes copies of the judge bots)",
+    "ctf-stress-pack/bots_v2": "stress-pack opponents, second batch",
+    "ctf-benchmark-v3/track1_10k_suite/bots": "benchmark v3, track 1 (10k-game suite)",
+    "ctf-benchmark-v3/track2_2k_c_series/bots": "benchmark v3, track 2 (2k-game C series)",
+    "ctf-s1-controls/exports": "S1/S2 heuristic control variants",
+}
+
+
+def files(manifest: dict) -> list[dict]:
+    """One row per stored file: every candidate with that content, its status, name and origins."""
+    by = {}
+    for e in manifest["bots"].values():
+        if e.get("archived"):
+            by.setdefault(e["archived"], []).append(e)
+    rows = []
+    for name, es in by.items():
+        rep = next((e for e in es if e["representative"] == e["id"] and not e["excluded"]), None)
+        alias = next((e for e in es if e.get("code_alias_of")), None)
+        if rep:
+            status, main = "eligible", rep
+        elif alias:
+            status, main = f"code alias of `{alias['code_alias_of']}`", alias
+        else:
+            main = sorted(es, key=lambda e: e["id"])[0]
+            status = f"excluded: {main['excluded']}"
+        rows.append({"file": name, "sha": es[0]["source_sha256"], "main": main, "status": status,
+                     "paths": sorted(e["path"] for e in es), "lineage": main.get("lineage_group")})
+    stems = {}
+    for r in rows:
+        stems.setdefault(Path(r["main"]["path"]).stem, []).append(r)
+    for stem, rs in stems.items():
+        for r in rs:
+            parent = Path(r["main"]["path"]).parent.name
+            r["name"] = r["main"].get("pool_name") or (stem if len(rs) == 1 else f"{parent}/{stem}")
+    order = {"eligible": 0}
+    return sorted(rows, key=lambda r: (order.get(r["status"], 1), str(Path(r["main"]["path"]).parent), r["name"]))
+
+
+def origin_dir(path: str) -> str:
+    return str(Path(path).parent.as_posix())
+
+
+def readme(manifest: dict) -> str:
+    rows = files(manifest)
+    eligible = [r for r in rows if r["status"] == "eligible"]
+    commit = sorted({e.get("ai_test_commit") for e in manifest["bots"].values() if e.get("ai_test_commit")})
+    dirs = {}
+    for r in rows:
+        dirs.setdefault(origin_dir(r["main"]["path"]), []).append(r)
+    in_repo = [e for e in manifest["bots"].values() if e.get("in_repo")]
+    out = [
+        "# Archived opponent bots",
+        "",
+        "<!-- Generated by `python -m roster.archive readme` (also run by `save`) from manifest.json. Do not edit by hand:",
+        "     change the template in roster/archive.py and regenerate. -->",
+        "",
+        f"This folder freezes every candidate opponent bot that `roster.inventory` found in AI_Test (commit {', '.join(f'`{c[:7]}`' for c in commit)}),",
+        f"so later evidence never depends on AI_Test's working tree: **{len(rows)} stored source files** "
+        f"({len(eligible)} eligible representatives, {manifest['counts']['stored_bytes'] / 2 ** 20:.1f} MiB) for "
+        f"{manifest['counts']['candidates']} inventoried candidates, plus {len(in_repo)} bots that already live in this repository "
+        "(" + ", ".join(f"`{e['in_repo']}`" for e in in_repo) + ").",
+        "",
+        "## Layout",
+        "",
+        "| Path | What it is |",
+        "|---|---|",
+        "| `src/<sha256>.cpp` | One bot source, named by the sha256 of its bytes. Identical copies share one file. Never edit: the name is the checksum. |",
+        "| `manifest.json` | Every inventoried candidate (aliases and excluded ones too): AI_Test path, source hash, archived file, alias, exclusion, lineage, AI_Test commit. |",
+        "| `inventory.json` | The inventory snapshot the tools read (`--inventory roster/bots/inventory.json`). Machine-local build paths removed. |",
+        "| `README.md` | This file, generated. |",
+        "",
+        "`.gitattributes` marks `src/` as `-text`: git never rewrites line endings (some sources use CRLF), so every hash survives a Windows checkout.",
+        "",
+        "## Quick start for the next agent",
+        "",
+        "**First full run on a host:** follow [docs/FIRST_RUN.md](../../docs/FIRST_RUN.md) (setup, checks, pilot, full run, what to send back).",
+        "",
+        "Everything runs from the ctf-fusion root. Set `AI_TEST_ROOT` to an AI_Test checkout: the engine and the recorded histories come from there, the bot sources from here.",
+        "",
+        "1. **Check the archive** (hashes, and optionally which AI_Test files changed since):",
+        "",
+        "   ```bash",
+        "   python -m roster.archive check --ai-test $AI_TEST_ROOT",
+        "   ```",
+        "",
+        "2. **Run one bot by hand.** Every bot is a single C++20 file with no local includes. It reads the engine's INIT and TURN blocks on stdin and answers one line per turn",
+        "   (`<turn> <move> <action>` for its three units). Build it with the collection flags:",
+        "",
+        "   ```bash",
+        "   g++ -std=c++20 -O2 -o astra roster/bots/src/<sha256>.cpp",
+        "   ```",
+        "",
+        "3. **Play your own bot against them.** Write a collection pool of the archived bots (eligible representatives; `--all` for every stored file), add an entry for your bot, and play:",
+        "",
+        "   ```bash",
+        "   python -m roster.archive pool --out profiles/pool_archive.json",
+        "   ```",
+        "",
+        '   Add your bot to the `bots` list of that file, e.g. `{"name": "MyBot", "path": "path/inside/AI_Test/my_bot.cpp", "family": "mine"}`',
+        "   (paths are relative to AI_Test; `@repo/...` means inside ctf-fusion). Then name the seats (cycled over the team count):",
+        "",
+        "   ```bash",
+        "   python -m training.collect --pool profiles/pool_archive.json --teams 4 --matches 20 --bots MyBot,Astra,Opus,Sol --out data/raw_mybot",
+        "   ```",
+        "",
+        "   Without `--bots`, seats are drawn from the pool by weight. Every archived entry carries its `source_sha256`, and collection refuses a file whose bytes changed.",
+        "   Live outcomes of those games (kills, deaths, flag episodes, survival):",
+        "",
+        "   ```bash",
+        "   python -m roster.trajectory --raw data/raw_mybot --inventory roster/bots/inventory.json --out data/roster/live_mybot.json",
+        "   ```",
+        "",
+        "4. **Fingerprint and screen the whole roster** (host work, hours): follow `docs/ROSTER.md`, *Host command sequence*. The roster tools run inventory bots from this archive by default",
+        "   (`--source ai-test` uses the AI_Test files instead) and refuse any file that no longer matches its hash.",
+        "",
+        "5. **Add new bots** after AI_Test gains some: `python -m roster.inventory`, then `python -m roster.archive save --inventory data/roster/bot_inventory.json`.",
+        "   New files are added, existing entries are kept, and this README is regenerated. Evidence of changed sources is reported as stale, never reused.",
+        "",
+        "## Rules",
+        "",
+        "- Never edit, rename or delete files in `src/`; `check` fails on any change. A changed bot is a new file with a new hash.",
+        "- A bot's identity is its source hash, not its file name or AI_Test path. Results (fingerprints, strength rows, pools) record that hash.",
+        "- Status *eligible* means an evaluable representative. A code alias (same code apart from comments and layout) shares its representative's evidence;",
+        "  excluded files keep their reason. Bot names and paths are offline metadata, never runtime features of a trained model.",
+        "- Lineage (`lineage:...`) is shared code (8-token-shingle Jaccard >= 0.7), not a playing style; behavior comes from `roster.distance`.",
+        "",
+        "## Where they come from",
+        "",
+        "| AI_Test directory | Files | Eligible | Contents |",
+        "|---|---:|---:|---|",
+    ]
+    for d, rs in sorted(dirs.items(), key=lambda kv: -len(kv[1])):
+        desc = ORIGINS.get(d) or ("another agent's workspace in New_AI_Test" if d.startswith("New_AI_Test/") else "")
+        out.append(f"| `{d}` | {len(rs)} | {sum(r['status'] == 'eligible' for r in rs)} | {desc} |")
+    out += ["", "A file's *origin* below is the AI_Test path of its representative; *also at* lists byte-identical copies elsewhere.", "",
+            f"## The {len(rows)} files", "",
+            "| # | Name | Status | Lineage | Origin (AI_Test) | Also at | File |", "|---:|---|---|---|---|---|---|"]
+    for i, r in enumerate(rows, 1):
+        others = [x for x in r["paths"] if x != r["main"]["path"]]
+        out.append(f"| {i} | {r['name']} | {r['status']} | `{r['lineage']}` | `{r['main']['path']}` | "
+                   f"{'<br>'.join(f'`{x}`' for x in others) or ''} | [`{r['sha'][:12]}`]({r['file']}) |")
+    return "\n".join(out) + "\n"
+
+
+def write_readme(out: Path = ARCHIVE) -> Path:
+    path = out / "README.md"
+    path.write_text(readme(load_json(out / "manifest.json")), encoding="utf-8")
+    return path
+
+
+def pool(manifest: dict, every: bool = False) -> dict:
+    """A training.collect pool of archived bots (@repo paths, source hashes enforced by the collector)."""
+    bots, taken = [], set()
+    for r in files(manifest):
+        if r["status"] != "eligible" and not every:
+            continue
+        base = re.sub(r"[^A-Za-z0-9_.-]+", "_", r["name"].replace("/", "-"))
+        name, k = base, 2
+        while name in taken:
+            name, k = f"{base}_{k}", k + 1
+        taken.add(name)
+        bots.append({"name": name, "path": f"@repo/roster/bots/{r['file']}", "family": r["lineage"], "weight": 1,
+                     "source_sha256": r["sha"], "origin": r["main"]["path"], "status": r["status"]})
+    return {"_comment": "Generated by python -m roster.archive pool from roster/bots/manifest.json. Add your own bot entries; "
+                        "paths are relative to AI_Test, @repo/ means inside ctf-fusion.", "bots": bots}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -128,7 +312,21 @@ def main(argv=None):
     c.add_argument("--pool", action="append", default=[], help="pool / registry / frozen roster whose sources must be archived")
     c.add_argument("--ai-test", help="also report AI_Test files that changed since archiving")
     c.add_argument("--out", default=str(ARCHIVE))
+    pl = sub.add_parser("pool")
+    pl.add_argument("--all", action="store_true", help="every stored file, not only eligible representatives")
+    pl.add_argument("--archive", default=str(ARCHIVE))
+    pl.add_argument("--out", default=str(REPO / "profiles" / "pool_archive.json"))
+    rd = sub.add_parser("readme")
+    rd.add_argument("--archive", default=str(ARCHIVE))
     a = ap.parse_args(argv)
+    if a.cmd == "pool":
+        p = pool(load_json(Path(a.archive) / "manifest.json"), a.all)
+        save_json(a.out, p)
+        print(f"[archive] pool of {len(p['bots'])} archived bots -> {a.out}")
+        return
+    if a.cmd == "readme":
+        print(f"[archive] -> {write_readme(Path(a.archive))}")
+        return
     if a.cmd == "save":
         inv = load_json(a.inventory)
         root = Path(a.ai_test) if a.ai_test else Path(inv["ai_test_root"]) if Path(inv["ai_test_root"]).is_dir() else ai_test_root(None)
