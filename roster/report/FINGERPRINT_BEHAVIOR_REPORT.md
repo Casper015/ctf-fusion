@@ -84,6 +84,29 @@ To visualize structural diversity across the full population, the 87 cluster rep
 
 ---
 
+### 3.3 2D Behavioral Style Space Embedding (MDS Taxonomic Projection)
+
+To understand which models exhibit the closest tactical styles and how they organize in low-dimensional strategic space, Classical Multidimensional Scaling (PCoA) was applied directly to the $122 \times 122$ pairwise behavior distance matrix:
+
+![2D Behavioral Style Space](style_space_2d.png)
+
+#### Interpretation of Style Dimensions:
+- **Style Dimension 1 (Horizontal Axis: Search Depth & Strategic Maturity)**:
+  - **Left ($\le -0.20$)**: Naive baselines, random uniform bots, and early single-rule submissions (`bot.cpp`, `candidate-v002..004`).
+  - **Right ($\ge +0.05$)**: Heavy 2-ply expectimax searchers and sophisticated lookahead trees (`Player5_Omega`, `Astra_Carrier`, `C06_G_SH_halving`, `R3_EXPECTIMAX_sampled`).
+- **Style Dimension 2 (Vertical Axis: Tactical Skirmish Posture)**:
+  - **Top ($\ge +0.05$)**: High-mobility aggressive skirmishers, carrier interception hunters, and proactive flag runners (`Sonnet-5.5`, `Opus-5.5`, `cand-003`, `timing-v003`).
+  - **Bottom ($\le -0.10$)**: Low-engagement defensive anchor bots, base camping, and risk-averse retreats (`Doubao-2.1`, `GLM-5.3`, `Player6`).
+
+#### Ranked Nearest Stylistic Neighbors:
+1. **The Claude Tactical Duo ($d = 0.2032$)**: `Sonnet-5.5` $\leftrightarrow$ `Opus-5.5`. The closest style pair among all judge bots, characterized by synchronized carrier escort and identical focus-fire prioritization.
+2. **The Fable-Claude Skirmish Axis ($d = 0.2321$)**: `Fable-5.1` $\leftrightarrow$ `Opus-5.5`. Both prioritize active map denial and high-tempo mid-field intercepts.
+3. **The APAC Multimodal Cluster ($d = 0.2434$)**: `Qwen-3.8-Max` $\leftrightarrow$ `MiMo-v2.6-Pro`. Highly balanced positioning, low overextension risk, and identical carrier screening radius.
+4. **The GPT Dominance Axis ($d = 0.2495$)**: `GPT-6-Astra` $\leftrightarrow$ `GPT-6.1-Sol`. Frontline pressure, aggressive territory cutting, and fast flag scoring.
+5. **The Defensive Outlier Pair ($d = 0.3250$)**: `Doubao-Seed-2.1` $\leftrightarrow$ `GLM-5.3`. Both retreat to defensive zones early, exhibiting high distance ($d > 0.40$) to all aggressive models.
+
+---
+
 ## 4. Multi-Bot Equivalence Clusters & Ablation Review
 
 A total of **20 multi-bot clusters** were identified where disparate candidates produced statistically identical decisions across all team sizes ($\le 0.02$ excess distance bound):
