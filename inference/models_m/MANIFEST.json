@@ -1,0 +1,3276 @@
+{
+ "general": {
+  "header": "weights_general.hpp",
+  "header_sha256": "ee4cb450a5f91dd62b86ef9ef096b6cb1c103faecdb2491142d35f561ca0aad6",
+  "npz_sha256": "d007b2ef4c234123a9cf2f3096a2057dd766c1de60b166dd14aac8da284f86c7",
+  "identity": {
+   "model": "general",
+   "policy_sha256": "db27683ea5d1dc23a4f7a086d0e0821067c74729547a810c80a29d354c2384ba",
+   "value_sha256": "1de4564efd2237293c710ecb35bf552b86938c46b913560c387c1b52cbec6a75",
+   "weights_digest": "bb964e7f18e0cb52ee7ae027da6327585ba6101abc778422b7434d4806dbd209",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "9": 0.9642534463439938,
+   "11": 0.9732420645929791,
+   "13": 0.9717638719378185,
+   "14": 0.9705800966484064
+  },
+  "gates": {
+   "9": {
+    "alpha": 0.9642534463439938,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 246738,
+    "use": true,
+    "gain": 1.0335276614265645,
+    "gain_se": 0.013634077744340167,
+    "maps": 144,
+    "reason": ""
+   },
+   "11": {
+    "alpha": 0.9732420645929791,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 271546,
+    "use": true,
+    "gain": 1.1148453941048346,
+    "gain_se": 0.013492640618579655,
+    "maps": 145,
+    "reason": ""
+   },
+   "13": {
+    "alpha": 0.9717638719378185,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 287323,
+    "use": true,
+    "gain": 1.023535717134433,
+    "gain_se": 0.009975082174611993,
+    "maps": 163,
+    "reason": ""
+   },
+   "14": {
+    "alpha": 0.9705800966484064,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 303687,
+    "use": true,
+    "gain": 0.9801303550064369,
+    "gain_se": 0.010412506106422158,
+    "maps": 123,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_m\\general.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     9,
+     11,
+     13,
+     14
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "28ef26e541580963",
+    "fit_matches": "e0b4e45ca285c6a3"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   9,
+   11,
+   13,
+   14
+  ],
+  "beta": {
+   "joint": 1.0217655498597362,
+   "act": 1.012593293130168,
+   "target": 1.0011152981630076,
+   "value": 0.9935502414722608
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+    "model_sha256": "db27683ea5d1dc23a4f7a086d0e0821067c74729547a810c80a29d354c2384ba",
+    "config": {
+     "kind": "policy",
+     "model": "general",
+     "hidden": {
+      "mover": [
+       32
+      ],
+      "squad": [
+       128,
+       64
+      ],
+      "act": [
+       32
+      ],
+      "target": [
+       16
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "general",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+      "init": null,
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "inv_teams",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "128,64",
+      "hidden_mover": "32",
+      "hidden_act": "32",
+      "hidden_target": "16",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": null,
+     "data": {
+      "team_counts": [
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15
+      ],
+      "digest": "e2472a8610a9776c",
+      "matches_by_count": {
+       "n02": 1500,
+       "n03": 1500,
+       "n04": 1500,
+       "n05": 1500,
+       "n06": 1500,
+       "n07": 1500,
+       "n08": 1500,
+       "n09": 1500,
+       "n10": 1500,
+       "n11": 1500,
+       "n12": 1500,
+       "n13": 1500,
+       "n14": 1500,
+       "n15": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252,
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570,
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754,
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001,
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678,
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705,
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539,
+       "n09/test": 220668,
+       "n09/train": 1833367,
+       "n09/val": 247145,
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304,
+       "n11/test": 266771,
+       "n11/train": 2222340,
+       "n11/val": 271858,
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298,
+       "n13/test": 360820,
+       "n13/train": 2669696,
+       "n13/val": 287509,
+       "n14/test": 293937,
+       "n14/train": 2988795,
+       "n14/val": 303963,
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 24153825,
+      "val": 2981919
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:49:29",
+     "best_val": 2.3429457522231494,
+     "beta": {
+      "joint": 1.0217655498597362,
+      "act": 1.012593293130168,
+      "target": 1.0011152981630076
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+    "model_sha256": "1de4564efd2237293c710ecb35bf552b86938c46b913560c387c1b52cbec6a75",
+    "config": {
+     "kind": "value",
+     "model": "general",
+     "hidden": [
+      256,
+      32
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "general",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+      "init": null,
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "inv_teams",
+      "aux_weight": 0.25,
+      "hidden": "256,32"
+     },
+     "seed": 1,
+     "init": null,
+     "data": {
+      "team_counts": [
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15
+      ],
+      "digest": "e2472a8610a9776c",
+      "matches_by_count": {
+       "n02": 1500,
+       "n03": 1500,
+       "n04": 1500,
+       "n05": 1500,
+       "n06": 1500,
+       "n07": 1500,
+       "n08": 1500,
+       "n09": 1500,
+       "n10": 1500,
+       "n11": 1500,
+       "n12": 1500,
+       "n13": 1500,
+       "n14": 1500,
+       "n15": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252,
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570,
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754,
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001,
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678,
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705,
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539,
+       "n09/test": 220668,
+       "n09/train": 1833367,
+       "n09/val": 247145,
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304,
+       "n11/test": 266771,
+       "n11/train": 2222340,
+       "n11/val": 271858,
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298,
+       "n13/test": 360820,
+       "n13/train": 2669696,
+       "n13/val": 287509,
+       "n14/test": 293937,
+       "n14/train": 2988795,
+       "n14/val": 303963,
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 24193790,
+      "val": 2986476
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:29:58",
+     "best_val": 0.5074331727873145,
+     "beta": 0.9935502414722608
+    }
+   }
+  },
+  "params": {
+   "mover": 1345,
+   "squad": 44925,
+   "act": 1444,
+   "target": 145,
+   "value": 22337
+  },
+  "widest_layer": 256,
+  "macs": {
+   "mover": 1312,
+   "squad": 44608,
+   "act": 1408,
+   "target": 128,
+   "value": 22048,
+   "joint_policy_per_team": 64288
+  },
+  "accumulator_bound": {
+   "mover": 41991732,
+   "squad": 23382699,
+   "act": 58075548,
+   "target": 52705142,
+   "value": 32730785
+  },
+  "exported": "2026-10-09T13:25:20"
+ },
+ "n02": {
+  "header": "weights_n02.hpp",
+  "header_sha256": "34692a33268442192709c56d4b9d363b2d0ea1dc673b58f59f0189c26d45b09f",
+  "npz_sha256": "1d3f629a7ae522e93d22542bbc204ef45bab2562818de4c4d6262e8118f28e3b",
+  "identity": {
+   "model": "n02",
+   "policy_sha256": "4763259a2fd3273f6c89721001d7ad5a84b6680e34ef241065c3b00dd915658b",
+   "value_sha256": "74e6b316136d8119682c46276fe8c045af9c7982091c0a983509650c2903a084",
+   "weights_digest": "dc584f30a61d0564ba1ca77b26aaa1fa9b90bcf9ad9582cccbc1e36bce10c32c",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "2": 0.9834693851236571
+  },
+  "gates": {
+   "2": {
+    "alpha": 0.9834693851236571,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 57159,
+    "use": true,
+    "gain": 1.2150299042491748,
+    "gain_se": 0.044314647916031194,
+    "maps": 151,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_m\\n02.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     2
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "cfa572f0d6fdc2b4",
+    "fit_matches": "59f1bdd7bfdaec1b"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   2
+  ],
+  "beta": {
+   "joint": 1.0228660956563536,
+   "act": 1.0244648972643144,
+   "target": 1.039054038252691,
+   "value": 1.0677668139215153
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n02",
+    "model_sha256": "4763259a2fd3273f6c89721001d7ad5a84b6680e34ef241065c3b00dd915658b",
+    "config": {
+     "kind": "policy",
+     "model": "n02",
+     "hidden": {
+      "mover": [
+       32
+      ],
+      "squad": [
+       128,
+       64
+      ],
+      "act": [
+       32
+      ],
+      "target": [
+       16
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n02",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n02",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "128,64",
+      "hidden_mover": "32",
+      "hidden_act": "32",
+      "hidden_target": "16",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+     "data": {
+      "team_counts": [
+       2
+      ],
+      "digest": "0dc9608ecb02344a",
+      "matches_by_count": {
+       "n02": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 405867,
+      "val": 57159
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T12:24:01",
+     "best_val": 2.0744053127254745,
+     "beta": {
+      "joint": 1.0228660956563536,
+      "act": 1.0244648972643144,
+      "target": 1.039054038252691
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n02",
+    "model_sha256": "74e6b316136d8119682c46276fe8c045af9c7982091c0a983509650c2903a084",
+    "config": {
+     "kind": "value",
+     "model": "n02",
+     "hidden": [
+      256,
+      32
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n02",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n02",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "256,32"
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+     "data": {
+      "team_counts": [
+       2
+      ],
+      "digest": "0dc9608ecb02344a",
+      "matches_by_count": {
+       "n02": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 407948,
+      "val": 57252
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:40:51",
+     "best_val": 0.21655987423201933,
+     "beta": 1.0677668139215153
+    }
+   }
+  },
+  "params": {
+   "mover": 1345,
+   "squad": 44925,
+   "act": 1444,
+   "target": 145,
+   "value": 22337
+  },
+  "widest_layer": 256,
+  "macs": {
+   "mover": 1312,
+   "squad": 44608,
+   "act": 1408,
+   "target": 128,
+   "value": 22048,
+   "joint_policy_per_team": 64288
+  },
+  "accumulator_bound": {
+   "mover": 43221820,
+   "squad": 17420187,
+   "act": 30011681,
+   "target": 54238884,
+   "value": 33629420
+  },
+  "exported": "2026-10-09T13:25:21"
+ },
+ "n03": {
+  "header": "weights_n03.hpp",
+  "header_sha256": "293fad27f849ed0b682b8a8e8974580ce10014ef90e62b63d7e2489b50980c88",
+  "npz_sha256": "f6fae42e85f8e5930adf4753070baa1ef899ef1b673a40c0a4233748820bed69",
+  "identity": {
+   "model": "n03",
+   "policy_sha256": "c853fe5b11b51646fd14dc2aa39137b025632881d81fdb7abee05e97fd992aca",
+   "value_sha256": "6c5bb69bde3d123bb2c6a330301ac8bce5b73edf98a67d311cc8ca9bdb98a1f3",
+   "weights_digest": "2f51698abb8f0fab0b86a3df5a6ccb2194045814127322ede425e5e31eb34930",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "3": 0.9691973392648929
+  },
+  "gates": {
+   "3": {
+    "alpha": 0.9691973392648929,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 67385,
+    "use": true,
+    "gain": 1.4708622175207695,
+    "gain_se": 0.030290574266372897,
+    "maps": 160,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_m\\n03.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     3
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "d52bbe92d1494729",
+    "fit_matches": "3a0f82c933b42ca1"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   3
+  ],
+  "beta": {
+   "joint": 1.0262509238791382,
+   "act": 1.0167853111739218,
+   "target": 1.0182857482359613,
+   "value": 1.0084824800504446
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n03",
+    "model_sha256": "c853fe5b11b51646fd14dc2aa39137b025632881d81fdb7abee05e97fd992aca",
+    "config": {
+     "kind": "policy",
+     "model": "n03",
+     "hidden": {
+      "mover": [
+       32
+      ],
+      "squad": [
+       128,
+       64
+      ],
+      "act": [
+       32
+      ],
+      "target": [
+       16
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n03",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n03",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "128,64",
+      "hidden_mover": "32",
+      "hidden_act": "32",
+      "hidden_target": "16",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+     "data": {
+      "team_counts": [
+       3
+      ],
+      "digest": "afa761c02aaeaf6d",
+      "matches_by_count": {
+       "n03": 1500
+      },
+      "rows": {
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 570635,
+      "val": 67385
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T12:25:38",
+     "best_val": 2.1654152923382988,
+     "beta": {
+      "joint": 1.0262509238791382,
+      "act": 1.0167853111739218,
+      "target": 1.0182857482359613
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n03",
+    "model_sha256": "6c5bb69bde3d123bb2c6a330301ac8bce5b73edf98a67d311cc8ca9bdb98a1f3",
+    "config": {
+     "kind": "value",
+     "model": "n03",
+     "hidden": [
+      256,
+      32
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n03",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n03",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "256,32"
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+     "data": {
+      "team_counts": [
+       3
+      ],
+      "digest": "afa761c02aaeaf6d",
+      "matches_by_count": {
+       "n03": 1500
+      },
+      "rows": {
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 572751,
+      "val": 67570
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:41:00",
+     "best_val": 0.4883374803610729,
+     "beta": 1.0084824800504446
+    }
+   }
+  },
+  "params": {
+   "mover": 1345,
+   "squad": 44925,
+   "act": 1444,
+   "target": 145,
+   "value": 22337
+  },
+  "widest_layer": 256,
+  "macs": {
+   "mover": 1312,
+   "squad": 44608,
+   "act": 1408,
+   "target": 128,
+   "value": 22048,
+   "joint_policy_per_team": 64288
+  },
+  "accumulator_bound": {
+   "mover": 43646461,
+   "squad": 18517498,
+   "act": 29516537,
+   "target": 52991085,
+   "value": 33692726
+  },
+  "exported": "2026-10-09T13:25:21"
+ },
+ "n04": {
+  "header": "weights_n04.hpp",
+  "header_sha256": "964d31fc1d74da25b84552115033b6e2bad789a3b14b9fdb7d7197b8773fbd90",
+  "npz_sha256": "5f2a7e11257695670baa3e69e7f4839d78164dbab97f42753a6ed51aac6f0473",
+  "identity": {
+   "model": "n04",
+   "policy_sha256": "572c4a70fd0d38f5710cc923228e59905301e560a5deaa3e0289b40eb5d46a7f",
+   "value_sha256": "02791ac6f6414c2bc5121114ac86cc2d2946d72a0dd27ed0fc515d71636eb33d",
+   "weights_digest": "2ec32aeadbd4bc1b7e09c7dad5aad0c8e7c3af6a2db937e9bd677c25ad3819c2",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "4": 0.9718097255261378
+  },
+  "gates": {
+   "4": {
+    "alpha": 0.9718097255261378,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 98473,
+    "use": true,
+    "gain": 1.5028434300693878,
+    "gain_se": 0.039692472449124334,
+    "maps": 138,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_m\\n04.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     4
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "40534733e42dc828",
+    "fit_matches": "14bd7accb1e59704"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   4
+  ],
+  "beta": {
+   "joint": 1.0260773290084706,
+   "act": 1.0300675891225755,
+   "target": 0.9542199497855457,
+   "value": 0.9798073021885241
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n04",
+    "model_sha256": "572c4a70fd0d38f5710cc923228e59905301e560a5deaa3e0289b40eb5d46a7f",
+    "config": {
+     "kind": "policy",
+     "model": "n04",
+     "hidden": {
+      "mover": [
+       32
+      ],
+      "squad": [
+       128,
+       64
+      ],
+      "act": [
+       32
+      ],
+      "target": [
+       16
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n04",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n04",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "128,64",
+      "hidden_mover": "32",
+      "hidden_act": "32",
+      "hidden_target": "16",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+     "data": {
+      "team_counts": [
+       4
+      ],
+      "digest": "5d99d6cba21b4f88",
+      "matches_by_count": {
+       "n04": 1500
+      },
+      "rows": {
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 757176,
+      "val": 98473
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T12:27:49",
+     "best_val": 2.201985212577473,
+     "beta": {
+      "joint": 1.0260773290084706,
+      "act": 1.0300675891225755,
+      "target": 0.9542199497855457
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n04",
+    "model_sha256": "02791ac6f6414c2bc5121114ac86cc2d2946d72a0dd27ed0fc515d71636eb33d",
+    "config": {
+     "kind": "value",
+     "model": "n04",
+     "hidden": [
+      256,
+      32
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n04",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n04",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "256,32"
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+     "data": {
+      "team_counts": [
+       4
+      ],
+      "digest": "5d99d6cba21b4f88",
+      "matches_by_count": {
+       "n04": 1500
+      },
+      "rows": {
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 759411,
+      "val": 98754
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:41:17",
+     "best_val": 0.5219087996896533,
+     "beta": 0.9798073021885241
+    }
+   }
+  },
+  "params": {
+   "mover": 1345,
+   "squad": 44925,
+   "act": 1444,
+   "target": 145,
+   "value": 22337
+  },
+  "widest_layer": 256,
+  "macs": {
+   "mover": 1312,
+   "squad": 44608,
+   "act": 1408,
+   "target": 128,
+   "value": 22048,
+   "joint_policy_per_team": 64288
+  },
+  "accumulator_bound": {
+   "mover": 43462574,
+   "squad": 17396485,
+   "act": 29808856,
+   "target": 50311178,
+   "value": 32497964
+  },
+  "exported": "2026-10-09T13:25:21"
+ },
+ "n05": {
+  "header": "weights_n05.hpp",
+  "header_sha256": "06a6df508adbe76ad49be0f839c71098f5e63a6ea0ec0ca6cbc6d7c91be7789a",
+  "npz_sha256": "1e9a2e1fb2f86a5e4c5f456c718689703f8c036684e48dbb1def338498890d09",
+  "identity": {
+   "model": "n05",
+   "policy_sha256": "ff824cba8d596f01d1feb240070db9479d3590c4f13717c08eb357b385f3669b",
+   "value_sha256": "0d886e91cc57cdb349b2946821fb94ef94e0c43fe062b44eda126b17fe5ff07f",
+   "weights_digest": "a2a61097da9a291fb2d29bf37887efcbc5a2e7f808a087bcfbf2f98e72c7c652",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "5": 0.9481091415758438
+  },
+  "gates": {
+   "5": {
+    "alpha": 0.9481091415758438,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 146691,
+    "use": true,
+    "gain": 1.052052813017947,
+    "gain_se": 0.02470087254909332,
+    "maps": 147,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_m\\n05.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     5
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "861cbac7fa0dffa1",
+    "fit_matches": "48bb6677dbbaa261"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   5
+  ],
+  "beta": {
+   "joint": 1.0190059760275862,
+   "act": 1.0262117728246305,
+   "target": 1.009221001699121,
+   "value": 0.9805896539386931
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n05",
+    "model_sha256": "ff824cba8d596f01d1feb240070db9479d3590c4f13717c08eb357b385f3669b",
+    "config": {
+     "kind": "policy",
+     "model": "n05",
+     "hidden": {
+      "mover": [
+       32
+      ],
+      "squad": [
+       128,
+       64
+      ],
+      "act": [
+       32
+      ],
+      "target": [
+       16
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n05",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n05",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "128,64",
+      "hidden_mover": "32",
+      "hidden_act": "32",
+      "hidden_target": "16",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+     "data": {
+      "team_counts": [
+       5
+      ],
+      "digest": "414a2878a4fc0c9b",
+      "matches_by_count": {
+       "n05": 1500
+      },
+      "rows": {
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1004610,
+      "val": 146691
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T12:30:44",
+     "best_val": 2.3821921717453645,
+     "beta": {
+      "joint": 1.0190059760275862,
+      "act": 1.0262117728246305,
+      "target": 1.009221001699121
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n05",
+    "model_sha256": "0d886e91cc57cdb349b2946821fb94ef94e0c43fe062b44eda126b17fe5ff07f",
+    "config": {
+     "kind": "value",
+     "model": "n05",
+     "hidden": [
+      256,
+      32
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n05",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n05",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "256,32"
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+     "data": {
+      "team_counts": [
+       5
+      ],
+      "digest": "414a2878a4fc0c9b",
+      "matches_by_count": {
+       "n05": 1500
+      },
+      "rows": {
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1007475,
+      "val": 147001
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:41:40",
+     "best_val": 0.5199894559116701,
+     "beta": 0.9805896539386931
+    }
+   }
+  },
+  "params": {
+   "mover": 1345,
+   "squad": 44925,
+   "act": 1444,
+   "target": 145,
+   "value": 22337
+  },
+  "widest_layer": 256,
+  "macs": {
+   "mover": 1312,
+   "squad": 44608,
+   "act": 1408,
+   "target": 128,
+   "value": 22048,
+   "joint_policy_per_team": 64288
+  },
+  "accumulator_bound": {
+   "mover": 43207429,
+   "squad": 16516050,
+   "act": 58648087,
+   "target": 26837931,
+   "value": 29328214
+  },
+  "exported": "2026-10-09T13:25:21"
+ },
+ "n06": {
+  "header": "weights_n06.hpp",
+  "header_sha256": "b3034c3254b9ddc82a1f01df9b5f2928916c4627eabb98a90cc57a22796864be",
+  "npz_sha256": "1d481ac893700d4af77472bb78123feddc7bf7bb5f00ccfb97a6fc594a7e481c",
+  "identity": {
+   "model": "n06",
+   "policy_sha256": "40a9269629e1f72432e3e9a0e3edba22f8ce9a6409bde635d7d4fcfd0080e45d",
+   "value_sha256": "407c2178f8c2b0a35e650c93e41f6138a6724d82c04b759454215f412cc7dfc9",
+   "weights_digest": "611f0afa49d11de0115b90f94a6b98fac43c94e321ec0997b79571774b5bfd4e",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "6": 0.9719072116152287
+  },
+  "gates": {
+   "6": {
+    "alpha": 0.9719072116152287,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 143369,
+    "use": true,
+    "gain": 1.4928663233537984,
+    "gain_se": 0.025924704765115103,
+    "maps": 153,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_m\\n06.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     6
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "3177328fab41d64a",
+    "fit_matches": "e6de3152b5c8c0d2"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   6
+  ],
+  "beta": {
+   "joint": 1.018200484783415,
+   "act": 0.9873278326821928,
+   "target": 1.0221666141623755,
+   "value": 0.9854109698641178
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n06",
+    "model_sha256": "40a9269629e1f72432e3e9a0e3edba22f8ce9a6409bde635d7d4fcfd0080e45d",
+    "config": {
+     "kind": "policy",
+     "model": "n06",
+     "hidden": {
+      "mover": [
+       32
+      ],
+      "squad": [
+       128,
+       64
+      ],
+      "act": [
+       32
+      ],
+      "target": [
+       16
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n06",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n06",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "128,64",
+      "hidden_mover": "32",
+      "hidden_act": "32",
+      "hidden_target": "16",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+     "data": {
+      "team_counts": [
+       6
+      ],
+      "digest": "023c8adc317e66ec",
+      "matches_by_count": {
+       "n06": 1500
+      },
+      "rows": {
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1144815,
+      "val": 143369
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T12:34:41",
+     "best_val": 2.336981696051012,
+     "beta": {
+      "joint": 1.018200484783415,
+      "act": 0.9873278326821928,
+      "target": 1.0221666141623755
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n06",
+    "model_sha256": "407c2178f8c2b0a35e650c93e41f6138a6724d82c04b759454215f412cc7dfc9",
+    "config": {
+     "kind": "value",
+     "model": "n06",
+     "hidden": [
+      256,
+      32
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n06",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n06",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "256,32"
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+     "data": {
+      "team_counts": [
+       6
+      ],
+      "digest": "023c8adc317e66ec",
+      "matches_by_count": {
+       "n06": 1500
+      },
+      "rows": {
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1147498,
+      "val": 143678
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:42:09",
+     "best_val": 0.525403485634472,
+     "beta": 0.9854109698641178
+    }
+   }
+  },
+  "params": {
+   "mover": 1345,
+   "squad": 44925,
+   "act": 1444,
+   "target": 145,
+   "value": 22337
+  },
+  "widest_layer": 256,
+  "macs": {
+   "mover": 1312,
+   "squad": 44608,
+   "act": 1408,
+   "target": 128,
+   "value": 22048,
+   "joint_policy_per_team": 64288
+  },
+  "accumulator_bound": {
+   "mover": 43868456,
+   "squad": 24383908,
+   "act": 57887520,
+   "target": 26394345,
+   "value": 30607116
+  },
+  "exported": "2026-10-09T13:25:22"
+ },
+ "n07": {
+  "header": "weights_n07.hpp",
+  "header_sha256": "407aff907cd6262681af1186a9a5268e37f5d2dcb37aa19341a2af351947d0a1",
+  "npz_sha256": "34c7a6c6c7bf49447ab177086f5b2f1785282fee36035a8880964d62623459bb",
+  "identity": {
+   "model": "n07",
+   "policy_sha256": "424ae5e713ddaf171683ca4add1aa8bfbfc16b9c84df4760464eb4acc16e4a69",
+   "value_sha256": "dcc857201d135d4cef75dcb4b39c688094f34b3bc795f93a296d55129e2b2a81",
+   "weights_digest": "581f8606e7a12e0340bbd4e85b121d26492ad122a781b46b02d2b78d37b6d3b8",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "7": 0.970886671267855
+  },
+  "gates": {
+   "7": {
+    "alpha": 0.970886671267855,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 151625,
+    "use": true,
+    "gain": 1.2793929922078509,
+    "gain_se": 0.021136905353063885,
+    "maps": 151,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_m\\n07.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     7
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "e5a111dece15559c",
+    "fit_matches": "6480ced49b79d035"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   7
+  ],
+  "beta": {
+   "joint": 1.0344569982215335,
+   "act": 1.0105416580242204,
+   "target": 0.9954349799694038,
+   "value": 0.9725610108135694
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n07",
+    "model_sha256": "424ae5e713ddaf171683ca4add1aa8bfbfc16b9c84df4760464eb4acc16e4a69",
+    "config": {
+     "kind": "policy",
+     "model": "n07",
+     "hidden": {
+      "mover": [
+       32
+      ],
+      "squad": [
+       128,
+       64
+      ],
+      "act": [
+       32
+      ],
+      "target": [
+       16
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n07",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n07",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "128,64",
+      "hidden_mover": "32",
+      "hidden_act": "32",
+      "hidden_target": "16",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+     "data": {
+      "team_counts": [
+       7
+      ],
+      "digest": "68772b087c0ae829",
+      "matches_by_count": {
+       "n07": 1500
+      },
+      "rows": {
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1401850,
+      "val": 151625
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T12:39:03",
+     "best_val": 2.3074838870158643,
+     "beta": {
+      "joint": 1.0344569982215335,
+      "act": 1.0105416580242204,
+      "target": 0.9954349799694038
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n07",
+    "model_sha256": "dcc857201d135d4cef75dcb4b39c688094f34b3bc795f93a296d55129e2b2a81",
+    "config": {
+     "kind": "value",
+     "model": "n07",
+     "hidden": [
+      256,
+      32
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n07",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n07",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "256,32"
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+     "data": {
+      "team_counts": [
+       7
+      ],
+      "digest": "68772b087c0ae829",
+      "matches_by_count": {
+       "n07": 1500
+      },
+      "rows": {
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1405507,
+      "val": 151705
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:42:42",
+     "best_val": 0.5352611739325681,
+     "beta": 0.9725610108135694
+    }
+   }
+  },
+  "params": {
+   "mover": 1345,
+   "squad": 44925,
+   "act": 1444,
+   "target": 145,
+   "value": 22337
+  },
+  "widest_layer": 256,
+  "macs": {
+   "mover": 1312,
+   "squad": 44608,
+   "act": 1408,
+   "target": 128,
+   "value": 22048,
+   "joint_policy_per_team": 64288
+  },
+  "accumulator_bound": {
+   "mover": 44326699,
+   "squad": 16594612,
+   "act": 59183385,
+   "target": 26176627,
+   "value": 28176613
+  },
+  "exported": "2026-10-09T13:25:22"
+ },
+ "n08": {
+  "header": "weights_n08.hpp",
+  "header_sha256": "2f9d797ec0955af7ad50b45bddf891f485f66a61b14ef9fe3b348b039c6c1dfb",
+  "npz_sha256": "4542c79603b7eeafb0df236a174a411aaa1c85e4194bfe8410d189c21dca7ed7",
+  "identity": {
+   "model": "n08",
+   "policy_sha256": "7e59e4080369b99bd7601a02701754507e44b3fa4230f732046610b7e6a97ec1",
+   "value_sha256": "9378cd8d983fa173a3ead56339ec9661de0bf24745227eee204a8d972f920c68",
+   "weights_digest": "924902fca006be1075cb1afac2cca29d39a7da5d927201f83c99c4b542893748",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "8": 0.9696224836125082
+  },
+  "gates": {
+   "8": {
+    "alpha": 0.9696224836125082,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 208862,
+    "use": true,
+    "gain": 1.2189185254500203,
+    "gain_se": 0.017493961627138004,
+    "maps": 154,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_m\\n08.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     8
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "448c95864c932479",
+    "fit_matches": "52627c98342e6101"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   8
+  ],
+  "beta": {
+   "joint": 1.016387398889138,
+   "act": 0.9854638656287373,
+   "target": 0.996292844898369,
+   "value": 0.9896537344607235
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n08",
+    "model_sha256": "7e59e4080369b99bd7601a02701754507e44b3fa4230f732046610b7e6a97ec1",
+    "config": {
+     "kind": "policy",
+     "model": "n08",
+     "hidden": {
+      "mover": [
+       32
+      ],
+      "squad": [
+       128,
+       64
+      ],
+      "act": [
+       32
+      ],
+      "target": [
+       16
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n08",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n08",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "128,64",
+      "hidden_mover": "32",
+      "hidden_act": "32",
+      "hidden_target": "16",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+     "data": {
+      "team_counts": [
+       8
+      ],
+      "digest": "a406fc85ee64b711",
+      "matches_by_count": {
+       "n08": 1500
+      },
+      "rows": {
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1577542,
+      "val": 208862
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T12:44:19",
+     "best_val": 2.379227621661184,
+     "beta": {
+      "joint": 1.016387398889138,
+      "act": 0.9854638656287373,
+      "target": 0.996292844898369
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n08",
+    "model_sha256": "9378cd8d983fa173a3ead56339ec9661de0bf24745227eee204a8d972f920c68",
+    "config": {
+     "kind": "value",
+     "model": "n08",
+     "hidden": [
+      256,
+      32
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n08",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n08",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "256,32"
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+     "data": {
+      "team_counts": [
+       8
+      ],
+      "digest": "a406fc85ee64b711",
+      "matches_by_count": {
+       "n08": 1500
+      },
+      "rows": {
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1579572,
+      "val": 209539
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:43:22",
+     "best_val": 0.5343785369120801,
+     "beta": 0.9896537344607235
+    }
+   }
+  },
+  "params": {
+   "mover": 1345,
+   "squad": 44925,
+   "act": 1444,
+   "target": 145,
+   "value": 22337
+  },
+  "widest_layer": 256,
+  "macs": {
+   "mover": 1312,
+   "squad": 44608,
+   "act": 1408,
+   "target": 128,
+   "value": 22048,
+   "joint_policy_per_team": 64288
+  },
+  "accumulator_bound": {
+   "mover": 43747032,
+   "squad": 16469027,
+   "act": 57492320,
+   "target": 26555690,
+   "value": 27845121
+  },
+  "exported": "2026-10-09T13:25:22"
+ },
+ "n10": {
+  "header": "weights_n10.hpp",
+  "header_sha256": "9f3d3e43e2212eb3fb122f618e58d4c38086d7733011f818e900fea2eaa90f0d",
+  "npz_sha256": "bf1bda51c8ea1518e52151f35e2d7731146ce239a6242aab7e87b7702d82af59",
+  "identity": {
+   "model": "n10",
+   "policy_sha256": "712668de970ddac777e4d896d965d3dd7034f9cc11428c507a6ff552b705de40",
+   "value_sha256": "0fbde4709745c2ebf214149367557d5dfd537ebfdf61c82d74efd39b681c5491",
+   "weights_digest": "0b0f8a51ee06e3a94530dc97664b8493c6a925ee3211897fa03402cca3d5c4b9",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "10": 0.9692174391747936
+  },
+  "gates": {
+   "10": {
+    "alpha": 0.9692174391747936,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 248775,
+    "use": true,
+    "gain": 1.0110326048793163,
+    "gain_se": 0.013323139085262763,
+    "maps": 120,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_m\\n10.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     10
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "602685782d48cdff",
+    "fit_matches": "ca955319298583de"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   10
+  ],
+  "beta": {
+   "joint": 1.0352541112822147,
+   "act": 1.010055338278919,
+   "target": 1.0156701796087426,
+   "value": 0.9916713711054779
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n10",
+    "model_sha256": "712668de970ddac777e4d896d965d3dd7034f9cc11428c507a6ff552b705de40",
+    "config": {
+     "kind": "policy",
+     "model": "n10",
+     "hidden": {
+      "mover": [
+       32
+      ],
+      "squad": [
+       128,
+       64
+      ],
+      "act": [
+       32
+      ],
+      "target": [
+       16
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n10",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n10",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "128,64",
+      "hidden_mover": "32",
+      "hidden_act": "32",
+      "hidden_target": "16",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+     "data": {
+      "team_counts": [
+       10
+      ],
+      "digest": "bdc73e848581f332",
+      "matches_by_count": {
+       "n10": 1500
+      },
+      "rows": {
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2103929,
+      "val": 248775
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T12:50:24",
+     "best_val": 2.4053322626177405,
+     "beta": {
+      "joint": 1.0352541112822147,
+      "act": 1.010055338278919,
+      "target": 1.0156701796087426
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n10",
+    "model_sha256": "0fbde4709745c2ebf214149367557d5dfd537ebfdf61c82d74efd39b681c5491",
+    "config": {
+     "kind": "value",
+     "model": "n10",
+     "hidden": [
+      256,
+      32
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n10",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n10",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "256,32"
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+     "data": {
+      "team_counts": [
+       10
+      ],
+      "digest": "bdc73e848581f332",
+      "matches_by_count": {
+       "n10": 1500
+      },
+      "rows": {
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2106566,
+      "val": 249304
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:44:08",
+     "best_val": 0.5371519844167311,
+     "beta": 0.9916713711054779
+    }
+   }
+  },
+  "params": {
+   "mover": 1345,
+   "squad": 44925,
+   "act": 1444,
+   "target": 145,
+   "value": 22337
+  },
+  "widest_layer": 256,
+  "macs": {
+   "mover": 1312,
+   "squad": 44608,
+   "act": 1408,
+   "target": 128,
+   "value": 22048,
+   "joint_policy_per_team": 64288
+  },
+  "accumulator_bound": {
+   "mover": 43668403,
+   "squad": 16352190,
+   "act": 58745809,
+   "target": 27459101,
+   "value": 35901282
+  },
+  "exported": "2026-10-09T13:25:22"
+ },
+ "n12": {
+  "header": "weights_n12.hpp",
+  "header_sha256": "a29c5a267095c4bc40f6dbe8cc1d40da73716e12ab72c30bd34ce13b870cc9f0",
+  "npz_sha256": "671f7392ac47a75cb411e1f59606b3d49cffde318399edec8da8fa1d324189ff",
+  "identity": {
+   "model": "n12",
+   "policy_sha256": "af82c87747d5b304ccd920790761f2625ab03a15d4f29f09b5dc35710fc7d2f0",
+   "value_sha256": "30b7b64b4c1ec945b9a9e683596d0f21ff1d58d7277e0bc120798e3d5206c73c",
+   "weights_digest": "6de24950c7e61020a0edbefcf1a41699992e1d79f887431b78d39479c04cec8b",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "12": 0.9785449367102224
+  },
+  "gates": {
+   "12": {
+    "alpha": 0.9785449367102224,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 321975,
+    "use": true,
+    "gain": 1.1023583970529482,
+    "gain_se": 0.01269841332088262,
+    "maps": 161,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_m\\n12.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     12
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "b40fbab3276fd7f0",
+    "fit_matches": "18745a4740dcf6af"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   12
+  ],
+  "beta": {
+   "joint": 1.0147139586889957,
+   "act": 1.031145428961476,
+   "target": 0.9985348200860624,
+   "value": 1.002466373224185
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n12",
+    "model_sha256": "af82c87747d5b304ccd920790761f2625ab03a15d4f29f09b5dc35710fc7d2f0",
+    "config": {
+     "kind": "policy",
+     "model": "n12",
+     "hidden": {
+      "mover": [
+       32
+      ],
+      "squad": [
+       128,
+       64
+      ],
+      "act": [
+       32
+      ],
+      "target": [
+       16
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n12",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n12",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "128,64",
+      "hidden_mover": "32",
+      "hidden_act": "32",
+      "hidden_target": "16",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+     "data": {
+      "team_counts": [
+       12
+      ],
+      "digest": "848854a125d90f51",
+      "matches_by_count": {
+       "n12": 1500
+      },
+      "rows": {
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2368257,
+      "val": 321975
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T12:58:24",
+     "best_val": 2.3457185211625564,
+     "beta": {
+      "joint": 1.0147139586889957,
+      "act": 1.031145428961476,
+      "target": 0.9985348200860624
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n12",
+    "model_sha256": "30b7b64b4c1ec945b9a9e683596d0f21ff1d58d7277e0bc120798e3d5206c73c",
+    "config": {
+     "kind": "value",
+     "model": "n12",
+     "hidden": [
+      256,
+      32
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n12",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n12",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "256,32"
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+     "data": {
+      "team_counts": [
+       12
+      ],
+      "digest": "848854a125d90f51",
+      "matches_by_count": {
+       "n12": 1500
+      },
+      "rows": {
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2371799,
+      "val": 322298
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:45:09",
+     "best_val": 0.5451651400037711,
+     "beta": 1.002466373224185
+    }
+   }
+  },
+  "params": {
+   "mover": 1345,
+   "squad": 44925,
+   "act": 1444,
+   "target": 145,
+   "value": 22337
+  },
+  "widest_layer": 256,
+  "macs": {
+   "mover": 1312,
+   "squad": 44608,
+   "act": 1408,
+   "target": 128,
+   "value": 22048,
+   "joint_policy_per_team": 64288
+  },
+  "accumulator_bound": {
+   "mover": 43103605,
+   "squad": 22836023,
+   "act": 30155367,
+   "target": 26953623,
+   "value": 27235932
+  },
+  "exported": "2026-10-09T13:25:22"
+ },
+ "n15": {
+  "header": "weights_n15.hpp",
+  "header_sha256": "36288aeea18915ae0a64208b9272f8b29f7a819ccec28b57479fa3a72306e9e5",
+  "npz_sha256": "63ddfcd18433d80fd6f8393c0e69d3ecf3fe2796ff93aa59b7a89792c6fd3839",
+  "identity": {
+   "model": "n15",
+   "policy_sha256": "1d41965b78aa47eacd616a415c77bf230f609288de87818e6a8a88576832f3bc",
+   "value_sha256": "4117cf9490aed8ef76331d9855a4fc44d6da60a20d0468ec4c586bccaf7e0fc2",
+   "weights_digest": "f09bbdb37c71afada8314338d053435e82c9fc4c873bbbce0dbfa41c3febf067",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "15": 0.9707245255248953
+  },
+  "gates": {
+   "15": {
+    "alpha": 0.9707245255248953,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 428311,
+    "use": true,
+    "gain": 0.943179383907659,
+    "gain_se": 0.010080782659999588,
+    "maps": 128,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_m\\n15.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     15
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "003fe9175f164760",
+    "fit_matches": "0f5f96cfae1e545e"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   15
+  ],
+  "beta": {
+   "joint": 1.0321011427472944,
+   "act": 0.9984806349352873,
+   "target": 1.012007645220124,
+   "value": 1.0040702949523506
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n15",
+    "model_sha256": "1d41965b78aa47eacd616a415c77bf230f609288de87818e6a8a88576832f3bc",
+    "config": {
+     "kind": "policy",
+     "model": "n15",
+     "hidden": {
+      "mover": [
+       32
+      ],
+      "squad": [
+       128,
+       64
+      ],
+      "act": [
+       32
+      ],
+      "target": [
+       16
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n15",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_n15",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "128,64",
+      "hidden_mover": "32",
+      "hidden_act": "32",
+      "hidden_target": "16",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\policy_general",
+     "data": {
+      "team_counts": [
+       15
+      ],
+      "digest": "f9669a1229bfd172",
+      "matches_by_count": {
+       "n15": 1500
+      },
+      "rows": {
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 3117354,
+      "val": 428311
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T13:07:37",
+     "best_val": 2.3418892838372525,
+     "beta": {
+      "joint": 1.0321011427472944,
+      "act": 0.9984806349352873,
+      "target": 1.012007645220124
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n15",
+    "model_sha256": "4117cf9490aed8ef76331d9855a4fc44d6da60a20d0468ec4c586bccaf7e0fc2",
+    "config": {
+     "kind": "value",
+     "model": "n15",
+     "hidden": [
+      256,
+      32
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n15",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_n15",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 256,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "256,32"
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_m\\value_general",
+     "data": {
+      "team_counts": [
+       15
+      ],
+      "digest": "f9669a1229bfd172",
+      "matches_by_count": {
+       "n15": 1500
+      },
+      "rows": {
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 3121065,
+      "val": 428900
+     },
+     "spec_version": 2,
+     "repo_commit": "8595c369edfee1033f71188abca69acd34baa26c",
+     "started": "2026-10-09T10:46:19",
+     "best_val": 0.5455523190059276,
+     "beta": 1.0040702949523506
+    }
+   }
+  },
+  "params": {
+   "mover": 1345,
+   "squad": 44925,
+   "act": 1444,
+   "target": 145,
+   "value": 22337
+  },
+  "widest_layer": 256,
+  "macs": {
+   "mover": 1312,
+   "squad": 44608,
+   "act": 1408,
+   "target": 128,
+   "value": 22048,
+   "joint_policy_per_team": 64288
+  },
+  "accumulator_bound": {
+   "mover": 43250498,
+   "squad": 31812622,
+   "act": 57490933,
+   "target": 28320628,
+   "value": 35163777
+  },
+  "exported": "2026-10-09T13:25:23"
+ }
+}

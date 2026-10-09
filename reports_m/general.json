@@ -1,0 +1,317 @@
+{
+ "model": "general",
+ "team_counts": [
+  9,
+  11,
+  13,
+  14
+ ],
+ "split": "test",
+ "fit_split": "val",
+ "gate": {
+  "min_gain": 0.01,
+  "min_maps": 20,
+  "z": 2.0
+ },
+ "identity": {
+  "model": "general",
+  "policy_sha256": "db27683ea5d1dc23a4f7a086d0e0821067c74729547a810c80a29d354c2384ba",
+  "value_sha256": "1de4564efd2237293c710ecb35bf552b86938c46b913560c387c1b52cbec6a75",
+  "weights_digest": "bb964e7f18e0cb52ee7ae027da6327585ba6101abc778422b7434d4806dbd209",
+  "spec_version": 2,
+  "schema_digest": "d3813c50359fb9cf",
+  "adapter": "joint-v2",
+  "dataset": {
+   "team_counts": [
+    9,
+    11,
+    13,
+    14
+   ],
+   "options": {
+    "stride": 2,
+    "keep": {
+     "flag": 1.0,
+     "contact": 1.0,
+     "respawn": 0.6,
+     "quiet": 0.35
+    },
+    "holdout_family": [],
+    "holdout_mode": "fixture",
+    "split_by": "map"
+   },
+   "split": "test",
+   "fit_split": "val",
+   "eval_matches": "28ef26e541580963",
+   "fit_matches": "e0b4e45ca285c6a3"
+  },
+  "baseline": {
+   "legacy_complete": true,
+   "reason": "",
+   "builds": [
+    "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+   ]
+  }
+ },
+ "alpha": {
+  "9": {
+   "alpha": 0.9642534463439938,
+   "baseline": "heuristic",
+   "adapter": "joint-v2",
+   "fit_rows": 246738,
+   "use": true,
+   "gain": 1.0335276614265645,
+   "gain_se": 0.013634077744340167,
+   "maps": 144,
+   "reason": ""
+  },
+  "11": {
+   "alpha": 0.9732420645929791,
+   "baseline": "heuristic",
+   "adapter": "joint-v2",
+   "fit_rows": 271546,
+   "use": true,
+   "gain": 1.1148453941048346,
+   "gain_se": 0.013492640618579655,
+   "maps": 145,
+   "reason": ""
+  },
+  "13": {
+   "alpha": 0.9717638719378185,
+   "baseline": "heuristic",
+   "adapter": "joint-v2",
+   "fit_rows": 287323,
+   "use": true,
+   "gain": 1.023535717134433,
+   "gain_se": 0.009975082174611993,
+   "maps": 163,
+   "reason": ""
+  },
+  "14": {
+   "alpha": 0.9705800966484064,
+   "baseline": "heuristic",
+   "adapter": "joint-v2",
+   "fit_rows": 303687,
+   "use": true,
+   "gain": 0.9801303550064369,
+   "gain_se": 0.010412506106422158,
+   "maps": 123,
+   "reason": ""
+  }
+ },
+ "policy": {
+  "rows": 1140803,
+  "adapter": "joint-v2",
+  "baseline": "heuristic",
+  "inertia_rate": {
+   "9": 0.5277737379074097,
+   "11": 0.5602140426635742,
+   "13": 0.5461933016777039,
+   "14": 0.5353397130966187
+  },
+  "alpha": {
+   "9": {
+    "alpha": 0.9642534463439938,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 246738,
+    "use": true,
+    "gain": 1.0335276614265645,
+    "gain_se": 0.013634077744340167,
+    "maps": 144,
+    "reason": ""
+   },
+   "11": {
+    "alpha": 0.9732420645929791,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 271546,
+    "use": true,
+    "gain": 1.1148453941048346,
+    "gain_se": 0.013492640618579655,
+    "maps": 145,
+    "reason": ""
+   },
+   "13": {
+    "alpha": 0.9717638719378185,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 287323,
+    "use": true,
+    "gain": 1.023535717134433,
+    "gain_se": 0.009975082174611993,
+    "maps": 163,
+    "reason": ""
+   },
+   "14": {
+    "alpha": 0.9705800966484064,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 303687,
+    "use": true,
+    "gain": 0.9801303550064369,
+    "gain_se": 0.010412506106422158,
+    "maps": 123,
+    "reason": ""
+   }
+  },
+  "by_teams": [
+   {
+    "teams": 9,
+    "rows": 220067,
+    "uniform": 3.628548623321001,
+    "inertia": 3.0658641406247273,
+    "heuristic": 3.1233510457887506,
+    "learned": 2.091551485844731,
+    "quantized": 2.0925302645115953,
+    "mixture": 2.0898233843621865,
+    "alpha": 0.9642534463439938,
+    "use": true,
+    "gain": 1.0335276614265645,
+    "gain_se": 0.013634077744340167,
+    "maps": 144,
+    "reason": "",
+    "top1": 0.4215376666410736,
+    "ece": 0.009401298723177413
+   },
+   {
+    "teams": 11,
+    "rows": 266532,
+    "uniform": 3.739611172587511,
+    "inertia": 3.050099294841902,
+    "heuristic": 3.1655533329487118,
+    "learned": 2.051960266555961,
+    "quantized": 2.0525117609084855,
+    "mixture": 2.050707938843877,
+    "alpha": 0.9732420645929791,
+    "use": true,
+    "gain": 1.1148453941048346,
+    "gain_se": 0.013492640618579655,
+    "maps": 145,
+    "reason": "",
+    "top1": 0.43475806230666797,
+    "ece": 0.0025293195497090113
+   },
+   {
+    "teams": 13,
+    "rows": 360569,
+    "uniform": 3.660047962446421,
+    "inertia": 3.040551755745613,
+    "heuristic": 3.097301013300589,
+    "learned": 2.075151206265536,
+    "quantized": 2.0757611242285243,
+    "mixture": 2.0737652961661563,
+    "alpha": 0.9717638719378185,
+    "use": true,
+    "gain": 1.023535717134433,
+    "gain_se": 0.009975082174611993,
+    "maps": 163,
+    "reason": "",
+    "top1": 0.42689924462657314,
+    "ece": 0.003543455211816235
+   },
+   {
+    "teams": 14,
+    "rows": 293635,
+    "uniform": 3.5865328984100078,
+    "inertia": 3.02166147121227,
+    "heuristic": 3.0536266284749787,
+    "learned": 2.0751893267727324,
+    "quantized": 2.075757342595181,
+    "mixture": 2.073496273468541,
+    "alpha": 0.9705800966484064,
+    "use": true,
+    "gain": 0.9801303550064369,
+    "gain_se": 0.010412506106422158,
+    "maps": 123,
+    "reason": "",
+    "top1": 0.4247259833486253,
+    "ece": 0.004965969884422097
+   }
+  ],
+  "by_stratum": [
+   {
+    "stratum": "flag",
+    "rows": 535296,
+    "uniform": 3.879669735650561,
+    "inertia": 3.335645570801558,
+    "heuristic": 3.2203964181010853,
+    "learned": 2.2604051313899656,
+    "quantized": 2.261066891949624
+   },
+   {
+    "stratum": "contact",
+    "rows": 392997,
+    "uniform": 3.775646911177823,
+    "inertia": 3.1423656945557172,
+    "heuristic": 3.468714594220646,
+    "learned": 2.327036325866354,
+    "quantized": 2.327671281627371
+   },
+   {
+    "stratum": "respawn",
+    "rows": 161136,
+    "uniform": 2.4428282982629534,
+    "inertia": 2.022512674065159,
+    "heuristic": 1.996689380061456,
+    "learned": 1.2912005053523938,
+    "quantized": 1.2915993447974294
+   },
+   {
+    "stratum": "quiet",
+    "rows": 51374,
+    "uniform": 4.721861598541933,
+    "inertia": 3.5755012667499892,
+    "heuristic": 3.7594188780647424,
+    "learned": 2.138151204447331,
+    "quantized": 2.1393156103629396
+   }
+  ],
+  "unit_move_accuracy": 0.6513110258281677,
+  "blocked_share": 0.012997716997852175,
+  "heuristic_missing_units": 0.0,
+  "heads": {
+   "act": {
+    "rows": 2663160,
+    "log_loss": 0.16441435175063168,
+    "accuracy": 0.9263512905040916
+   },
+   "target": {
+    "rows": 727399,
+    "log_loss": 0.2143074409412937,
+    "accuracy": 0.9075817579244886
+   }
+  }
+ },
+ "value": {
+  "rows": 1142196,
+  "brier": 0.030776651813223806,
+  "brier_constant": 0.0966802760710632,
+  "bce": 0.5420777812296089,
+  "ranking_accuracy": 0.8591756428628495,
+  "ranking_pairs": 4944095,
+  "calibration_error": 0.00375738912187392,
+  "brier_quantized": 0.03077402248499284,
+  "max_abs_quantization_error": 0.014999569692149994,
+  "by_phase": [
+   {
+    "phase": "turns 1-133",
+    "rows": 374250,
+    "brier": 0.05901602411619294,
+    "ranking_accuracy": 0.7440218580865966
+   },
+   {
+    "phase": "turns 134-266",
+    "rows": 382940,
+    "brier": 0.025759098119113102,
+    "ranking_accuracy": 0.871098879052787
+   },
+   {
+    "phase": "turns 267-400",
+    "rows": 385006,
+    "brier": 0.007730231788983988,
+    "ranking_accuracy": 0.9581182254866818
+   }
+  ]
+ }
+}

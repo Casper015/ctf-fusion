@@ -1,9 +1,13 @@
 build/
 data/
 runs/
+runs_*/
 reports/*
 !reports/*.md
 !reports/*.json
+reports_*/*
+!reports_*/*.md
+!reports_*/*.json
 __pycache__/
 *.pyc
 .DS_Store
