@@ -1,0 +1,111 @@
+{
+ "commit": "8595c369edfee1033f71188abca69acd34baa26c",
+ "models": [
+  "general",
+  "n02",
+  "n03",
+  "n04",
+  "n05",
+  "n06",
+  "n07",
+  "n08",
+  "n10",
+  "n12",
+  "n15"
+ ],
+ "synthetic_streams": {
+  "teams": [
+   2,
+   15
+  ],
+  "turns": 6
+ },
+ "native_raw_comparisons": 360162,
+ "parity_mismatches": 0,
+ "runtime_allocating_turns": 0,
+ "runtime_accumulator_mismatches": 0,
+ "registry_dispatch_counts": 14,
+ "training_run": false,
+ "playing_strength_run": false,
+ "latency_benchmark_run": false,
+ "recomputed_max_accumulator_bounds": {
+  "general": {
+   "mover": 33519867,
+   "squad": 29087079,
+   "act": 21807519,
+   "target": 22463005,
+   "value": 33905408
+  },
+  "n02": {
+   "mover": 35337535,
+   "squad": 30898869,
+   "act": 22985796,
+   "target": 22509856,
+   "value": 28489388
+  },
+  "n03": {
+   "mover": 35296332,
+   "squad": 29556239,
+   "act": 22277812,
+   "target": 22373111,
+   "value": 34883465
+  },
+  "n04": {
+   "mover": 35198092,
+   "squad": 28909933,
+   "act": 22763982,
+   "target": 21332684,
+   "value": 34257856
+  },
+  "n05": {
+   "mover": 34320622,
+   "squad": 28479117,
+   "act": 21874763,
+   "target": 23018610,
+   "value": 33111576
+  },
+  "n06": {
+   "mover": 34840892,
+   "squad": 29141237,
+   "act": 21682080,
+   "target": 22889042,
+   "value": 33359793
+  },
+  "n07": {
+   "mover": 35334266,
+   "squad": 29862248,
+   "act": 22079163,
+   "target": 22322077,
+   "value": 32748079
+  },
+  "n08": {
+   "mover": 35004823,
+   "squad": 28437932,
+   "act": 21517611,
+   "target": 22610601,
+   "value": 33275321
+  },
+  "n10": {
+   "mover": 34681854,
+   "squad": 27329700,
+   "act": 21731819,
+   "target": 23393927,
+   "value": 32630350
+  },
+  "n12": {
+   "mover": 34517887,
+   "squad": 27369376,
+   "act": 22311321,
+   "target": 22725510,
+   "value": 33067494
+  },
+  "n15": {
+   "mover": 34538250,
+   "squad": 28490402,
+   "act": 21296314,
+   "target": 23902144,
+   "value": 33542730
+  }
+ },
+ "accumulator_limit": 1073741824
+}
