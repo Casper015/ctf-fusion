@@ -195,6 +195,36 @@ class TestPipeline(unittest.TestCase):
                     nxt_ok += 1
             self.assertEqual(len(rec), len(m["blocks"]) * n)
 
+    def test_torch_backend_trains_exportable_models(self):
+        """The optional torch backend (CPU here, CUDA on the host) writes runs the evaluator and exporter accept,
+        including a warm start, a wider squad net and streamed training rows; the C++ parity check still holds."""
+        try:
+            import torch  # noqa: F401, PLC0415
+        except ImportError:
+            self.skipTest("PyTorch not installed (optional backend)")
+        runs, models = self.tmp / "torch_runs", self.tmp / "torch_models"
+        common = ["--shards", str(self.shards), "--epochs", "2", "--batch", "512", "--val-split", "train",
+                  "--backend", "torch", "--device", "cpu"]
+        train_policy.main([*common, "--model", "general", "--hidden-squad", "256,64", "--gpu-resident-gb", "0",
+                           "--gpu-window-rows", "1024", "--out", str(runs / "policy_general")])
+        train_value.main([*common, "--model", "general", "--out", str(runs / "value_general")])
+        train_policy.main([*common, "--model", "n03", "--hidden-squad", "256,64", "--init", str(runs / "policy_general"),
+                           "--out", str(runs / "policy_n03")])
+        cfg = json.loads((runs / "policy_general" / "config.json").read_text(encoding="utf-8"))
+        self.assertEqual(cfg["backend"]["backend"], "torch")
+        self.assertGreater(len(cfg["backend"]["timing"]["rows_per_second"]), 0)
+        report = self.tmp / "torch_reports" / "general"
+        evaluate_offline.main(["--shards", str(self.shards), "--model", "general", "--teams", "2", "3", "5",
+                               "--policy", str(runs / "policy_general"), "--value", str(runs / "value_general"),
+                               "--split", "train", "--fit-split", "train", "--out", str(report)])
+        export_weights.main(["--model", "general", "--policy", str(runs / "policy_general"), "--value", str(runs / "value_general"),
+                             "--report", str(report.with_suffix(".json")), "--out", str(models)])
+        header = models / "weights_general.hpp"
+        q = QuantizedTier(dict(np.load(models / "weights_general.npz")))
+        parity = native.infer_check(header, "fusion::models::general")
+        for m, rec in self.matches():
+            np.testing.assert_array_equal(native.run_infer_check(parity, matchlog.seat_stream(m, 0), len(rec)), q.raw(rec, self.layout))
+
     def test_model_matrix_export_parity(self):
         runs, models = self.tmp / "runs", self.tmp / "models"
         common = ["--shards", str(self.shards), "--epochs", "1", "--batch", "512", "--val-split", "train"]

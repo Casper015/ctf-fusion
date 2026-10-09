@@ -1,0 +1,238 @@
+"""Parity of the optional PyTorch training backend (fusion/torch_backend.py) with the NumPy reference.
+
+Skipped when PyTorch is not installed. Runs on the CPU build; on a CUDA host
+`FUSION_TEST_DEVICE=cuda python -m unittest tests.test_torch_backend` checks the GPU path with the same
+tolerances (float summation order differs between BLAS and CUDA; exported integer parity is separate and exact).
+"""
+from __future__ import annotations
+
+import os
+import tempfile
+import types
+import unittest
+
+import numpy as np
+
+try:
+    import torch
+except ImportError:  # optional dependency
+    torch = None
+
+from fusion import nn
+from fusion.models import PolicyNet, ValueNet, policy_batch, value_inputs
+from fusion.schema import layout as feature_layout
+
+DEVICE = os.environ.get("FUSION_TEST_DEVICE", "cpu")
+
+
+def records(n: int, seed: int = 0):
+    """Random extractor-shaped records and labels that exercise every mask case."""
+    L = feature_layout()
+    rng = np.random.default_rng(seed)
+    rec = np.zeros((n, L.width), np.int16)
+
+    def put(name, values):
+        off, shape = L.blocks[name]
+        rec[:, off:off + int(np.prod(shape))] = values.reshape(n, -1)
+
+    for name in ("g", "u", "m", "cand_f", "v"):
+        _, shape = L.blocks[name]
+        put(name, rng.integers(0, 120, (n, *shape)))
+    legal = rng.random((n, 3, 5)) < 0.6
+    legal[:, :, 0] = True                                  # staying is always legal
+    put("legal", legal.astype(np.int16))
+    act = rng.random((n, 3, 5, 4)) < 0.5
+    act[:, :, :, 0] = True
+    act[0, 0, :, :] = False                                # an empty action mask (row 0, unit 0)
+    put("act_legal", act.astype(np.int16))
+    cand = rng.integers(-1, 30, (n, 3, 8))
+    cand[1, 2, :] = -1                                     # a unit without attack candidates
+    put("cand", cand)
+    move = np.stack([[rng.choice(np.nonzero(legal[b, k])[0]) for k in range(3)] for b in range(n)])
+    y_act = np.array([[rng.choice(np.nonzero(act[b, k, move[b, k]])[0]) if act[b, k, move[b, k]].any() else -1
+                       for k in range(3)] for b in range(n)])
+    y_act[2, 1] = -1                                       # an ignored label
+    if not act[3, 0, move[3, 0], 3]:
+        y_act[3, 0] = 3                                    # a label outside its mask (gradient w (p - target) there)
+    valid = cand >= 0
+    y_tgt = np.array([[rng.choice(np.nonzero(valid[b, k])[0]) if valid[b, k].any() and rng.random() < 0.7 else -1
+                       for k in range(3)] for b in range(n)])
+    return {"rec": rec, "y_move": move.astype(np.int8), "y_joint": (move[:, 0] * 25 + move[:, 1] * 5 + move[:, 2]).astype(np.int16),
+            "y_act": y_act.astype(np.int8), "y_tgt": y_tgt.astype(np.int8),
+            "weight": rng.uniform(0.5, 2.0, n).astype(np.float32),
+            "v_y": np.stack([rng.random(n), rng.random(n) < 0.3, rng.random(n) < 0.2], 1).astype(np.float32)}
+
+
+def args(**kw):
+    base = {"batch": 64, "lr": 1e-3, "weight_decay": 1e-5, "gpu_resident_gb": 6.0, "gpu_window_rows": 1_000_000,
+            "epochs": 2, "lr_schedule": "cosine", "min_lr": 1e-4, "patience": 2, "plateau_decay": 1}
+    return types.SimpleNamespace(**(base | kw))
+
+
+CFG = {"smoothing": 0.01, "act_weight": 0.5, "target_weight": 0.5}
+# Output biases of the mover and target nets add one constant to every legal choice of a unit (all five moves,
+# all candidates): the softmax ignores them, their exact gradient is zero, and both backends move them only by
+# rounding noise that Adam scales to a full step. They cannot change any prediction, so parity skips them
+# (test_invariant_biases_do_not_change_predictions checks that).
+INVARIANT = ("mover.b1", "target.b1")
+LABELS = ("y_move", "y_joint", "y_act", "y_tgt")
+
+
+@unittest.skipIf(torch is None, "PyTorch not installed (optional backend)")
+class TestTorchBackend(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        from fusion import torch_backend as tb  # noqa: PLC0415
+        cls.tb, cls.dev = tb, tb.pick_device(DEVICE)
+        tb.configure(cls.dev, tf32=False)
+        cls.layout = feature_layout()
+
+    def test_clipped_relu_gradient_excludes_the_endpoints(self):
+        z = torch.tensor([-0.5, 0.0, 0.5, 1.0, 1.5], requires_grad=True)
+        self.tb._ClippedReLU.apply(z).sum().backward()
+        self.assertEqual(z.grad.tolist(), [0.0, 0.0, 1.0, 0.0, 0.0])    # numpy: (z > 0) & (z < 1)
+
+    def test_cross_entropy_matches_numpy_on_every_mask_case(self):
+        rng = np.random.default_rng(1)
+        logits = rng.normal(size=(6, 5)).astype(np.float32)
+        mask = rng.random((6, 5)) < 0.6
+        mask[0] = False                                                     # empty mask
+        mask[1, 2] = False
+        label = np.array([3, 2, -1, 0, 4, 1])                               # row 1: label outside the mask
+        mask[3, 0] = mask[4, 4] = mask[5, 1] = True
+        w = rng.uniform(0.5, 2, 6).astype(np.float32)
+        for smoothing in (0.0, 0.05):
+            loss_np, grad_np = nn.softmax_xent(logits, mask, label, w, smoothing)
+            z = torch.tensor(logits, requires_grad=True)
+            loss = self.tb._SoftmaxXent.apply(z, torch.tensor(mask), torch.tensor(label), torch.tensor(w), smoothing)
+            loss.backward()
+            self.assertAlmostEqual(float(loss), loss_np, places=4)
+            np.testing.assert_allclose(z.grad.numpy(), grad_np, rtol=1e-5, atol=1e-6)
+            self.assertTrue(np.isfinite(z.grad.numpy()).all())
+
+    def policy_pair(self, seed=3):
+        model_np = PolicyNet(self.layout, np.random.default_rng(seed))
+        model_t = PolicyNet(self.layout, np.random.default_rng(seed))
+        return model_np, model_t
+
+    def test_one_policy_step_matches_numpy(self):
+        d = records(96)
+        model_np, model_t = self.policy_pair()
+        X = policy_batch(d["rec"], self.layout)
+        model_np.zero_grad()
+        out_np = model_np.loss(X, {k: d[k] for k in LABELS}, d["weight"], CFG, backward=True)
+        opt = nn.Adam(model_np.params, lr=1e-3, weight_decay=1e-5)
+        opt.step(model_np.grads)
+        tr = self.tb.PolicyTrainer(model_t, self.layout, d, d, CFG, args(batch=96), self.dev)
+        rec = torch.from_numpy(d["rec"]).to(self.dev)
+        Xt = self.tb.DevicePolicyBatch(rec, tr.dl)
+        np.testing.assert_allclose(Xt.mover_in.cpu().numpy(), X.mover_in, rtol=0, atol=0)   # inputs are exact
+        y = {k: torch.from_numpy(d[k].astype(np.int64)).to(self.dev) for k in LABELS}
+        tr.opt.zero_grad()
+        loss, out = tr.net.loss(Xt, y, torch.from_numpy(d["weight"]).to(self.dev), CFG)
+        loss.backward()
+        tr.opt.step()
+        for k in ("joint", "act", "target", "total"):
+            self.assertAlmostEqual(float(out[k]), out_np[k], places=5, msg=k)
+        grads_t = {f"{name}.{kind}{i}": t.grad.cpu().numpy() for name, net in tr.net.nets.items()
+                   for kind, ts in (("W", net.W), ("b", net.b)) for i, t in enumerate(ts)}
+        grads_np = {f"{name}.{kind}{i}": g for name, net in model_np.nets.items()
+                    for kind, gs in (("W", net.gW), ("b", net.gb)) for i, g in enumerate(gs)}
+        for k, g in grads_np.items():
+            np.testing.assert_allclose(grads_t[k], g, rtol=1e-4, atol=1e-6 * max(1.0, np.abs(g).max()), err_msg=k)
+        st = tr.state()
+        for k, v in model_np.state().items():
+            if k not in INVARIANT:
+                np.testing.assert_allclose(st[k], v, rtol=1e-5, atol=2e-6, err_msg=k)
+
+    def test_policy_epochs_match_numpy_and_streaming_equals_resident(self):
+        from training.common import batches  # noqa: PLC0415
+        d = records(700, seed=5)
+        model_np, model_t = self.policy_pair(7)
+        opt = nn.Adam(model_np.params, lr=1e-3, weight_decay=1e-5)
+        rng_np = np.random.default_rng(11)
+        losses_np = []
+        for _ in range(2):
+            total = wsum = 0.0
+            for idx in batches(len(d["rec"]), 64, rng_np):
+                model_np.zero_grad()
+                out = model_np.loss(policy_batch(d["rec"][idx], self.layout), {k: d[k][idx] for k in LABELS},
+                                    d["weight"][idx], CFG, backward=True)
+                opt.step(model_np.grads)
+                total += out["total"] * float(d["weight"][idx].sum())
+                wsum += float(d["weight"][idx].sum())
+            losses_np.append(total / wsum)
+        results = {}
+        for mode, a in (("resident", args()), ("streamed", args(gpu_resident_gb=0.0, gpu_window_rows=150))):
+            _, m = self.policy_pair(7)
+            tr = self.tb.PolicyTrainer(m, self.layout, d, d, CFG, a, self.dev)
+            self.assertEqual(tr.train.resident, mode == "resident")
+            rng = np.random.default_rng(11)
+            losses = [tr.train_epoch(rng) for _ in range(2)]
+            results[mode] = (losses, tr.state())
+        np.testing.assert_allclose(results["resident"][0], losses_np, rtol=2e-4)
+        for k, v in model_np.state().items():
+            np.testing.assert_array_equal(results["streamed"][1][k], results["resident"][1][k], err_msg=k)
+            if k in INVARIANT:
+                continue
+            self.assertLess(np.abs(results["resident"][1][k] - v).max(), 5e-3, k)       # Adam can amplify rounding
+            self.assertLess(np.abs(results["resident"][1][k] - v).mean(), 1e-4, k)
+        self.assertEqual(results["streamed"][0], results["resident"][0])
+
+    def test_invariant_biases_do_not_change_predictions(self):
+        from training.train_policy import evaluate  # noqa: PLC0415
+        d = records(200, seed=17)
+        model, _ = self.policy_pair(19)
+        before = evaluate(model, self.layout, d, CFG)[0]
+        model.mover.b[-1] += 0.37
+        model.target.b[-1] -= 0.81
+        self.assertAlmostEqual(evaluate(model, self.layout, d, CFG)[0], before, places=5)
+
+    def test_validation_loss_matches_numpy(self):
+        from training.train_policy import evaluate  # noqa: PLC0415
+        d = records(300, seed=9)
+        model_np, model_t = self.policy_pair(13)
+        tr = self.tb.PolicyTrainer(model_t, self.layout, d, d, CFG, args(), self.dev)
+        self.assertAlmostEqual(tr.evaluate(), evaluate(model_np, self.layout, d, CFG)[0], places=5)
+
+    def test_value_epochs_match_numpy(self):
+        from training.common import batches  # noqa: PLC0415
+        d = records(900, seed=21)
+        cfg = {"aux_weight": 0.25}
+        model_np = ValueNet(self.layout, np.random.default_rng(4))
+        opt = nn.Adam(model_np.params, lr=1e-3, weight_decay=1e-5)
+        rng_np = np.random.default_rng(2)
+        losses_np = []
+        for _ in range(2):
+            total = wsum = 0.0
+            for idx in batches(len(d["rec"]), 128, rng_np):
+                model_np.zero_grad()
+                out = model_np.loss(value_inputs(d["rec"][idx], self.layout), d["v_y"][idx], d["weight"][idx], cfg, backward=True)
+                opt.step(model_np.grads)
+                total += out["outcome"] * float(d["weight"][idx].sum())
+                wsum += float(d["weight"][idx].sum())
+            losses_np.append(total / wsum)
+        tr = self.tb.ValueTrainer(ValueNet(self.layout, np.random.default_rng(4)), self.layout, d, d, cfg, args(batch=128), self.dev)
+        rng = np.random.default_rng(2)
+        losses = [tr.train_epoch(rng) for _ in range(2)]
+        np.testing.assert_allclose(losses, losses_np, rtol=2e-4)
+        st = tr.state()
+        for k, v in model_np.state().items():
+            self.assertLess(np.abs(st[k] - v).mean(), 1e-4, k)
+
+    def test_fit_loop_keeps_the_best_state_in_the_numpy_model(self):
+        from training.common import Run, torch_fit  # noqa: PLC0415
+        d = records(400, seed=31)
+        model = PolicyNet(self.layout, np.random.default_rng(5))
+        with tempfile.TemporaryDirectory() as tmp:
+            run = Run(tmp, {"kind": "test"})
+            a = args(device=DEVICE, tf32=False)
+            best = torch_fit(lambda tb, dev: tb.PolicyTrainer(model, self.layout, d, d, CFG, a, dev), a, run, np.random.default_rng(1))
+            self.assertTrue(np.isfinite(best))
+            self.assertEqual(run.config["backend"]["backend"], "torch")
+            from training.train_policy import evaluate  # noqa: PLC0415
+            self.assertAlmostEqual(evaluate(model, self.layout, d, CFG)[0], best, places=4)   # the numpy model holds the best weights
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -70,6 +70,14 @@ def add_training_args(ap, batch: int):
                     help="widest hidden layer allowed (default 256, the C++ default; see tools/capacity_bench.py)")
     ap.add_argument("--count-weighting", choices=("none", "inv_teams"), default="none",
                     help="scale row weights by 1 / teams so team counts with more teams do not dominate general models")
+    ap.add_argument("--backend", choices=("numpy", "torch"), default="numpy",
+                    help="numpy (reference) or torch (fusion/torch_backend.py: same objective, CUDA or CPU)")
+    ap.add_argument("--device", default="auto", help="torch backend: auto, cuda, cuda:N or cpu")
+    ap.add_argument("--tf32", action="store_true", help="torch backend: allow TF32 matmuls on CUDA (faster, other rounding)")
+    ap.add_argument("--gpu-resident-gb", type=float, default=6.0,
+                    help="torch backend: keep a split's rows on the device when they fit this budget, else stream them")
+    ap.add_argument("--gpu-window-rows", type=int, default=1_000_000,
+                    help="torch backend: rows per streamed window (rounded down to whole minibatches)")
 
 
 def policy_rows(d: dict, shards, keep_unlabeled: bool = False) -> np.ndarray:
@@ -125,6 +133,19 @@ def warm_start(model, init_run, spec_version: int | None = None) -> str | None:
     return str(init_run)
 
 
+def torch_fit(make_trainer, args, run: Run, rng):
+    """fit() on the torch backend; the trained (best) weights end in the NumPy model the trainer wraps."""
+    from fusion import torch_backend as tb  # noqa: PLC0415  (optional dependency)
+    dev = tb.pick_device(args.device)
+    env = tb.configure(dev, args.tf32)
+    trainer = make_trainer(tb, dev)
+    print(f"[torch] {env} train rows {'resident' if trainer.train.resident else 'streamed'}, "
+          f"val rows {'resident' if trainer.val.resident else 'streamed'}", flush=True)
+    best = fit(trainer, trainer.train_epoch, trainer.evaluate, args, run, rng, trainer.opt)
+    run.config["backend"] = env | {"timing": trainer.timing} | tb.peak_memory(dev)
+    return best
+
+
 def fit(model, train_step, val_loss, args, run: Run, rng, opt):
     """Epoch loop with a learning-rate schedule, plateau decay and early stopping. Keeps the best state.
 
@@ -145,7 +166,7 @@ def fit(model, train_step, val_loss, args, run: Run, rng, opt):
         val = val_loss()
         if not (np.isfinite(train) and np.isfinite(val)):
             raise FloatingPointError(f"non-finite loss at epoch {epoch}: train {train}, val {val}")
-        run.log(epoch=epoch, lr=float(opt.lr), train=train, val=val, seconds=round(time.time() - t0, 1))
+        run.log(epoch=epoch, lr=float(opt.lr), train=train, val=val, seconds=round(time.time() - t0, 3))
         if val < best - 1e-5:
             best, best_state, waited = val, {k: v.copy() for k, v in model.state().items()}, 0
             continue

@@ -19,7 +19,8 @@ from fusion.models import PolicyNet, policy_batch
 from fusion.nn import Adam
 from fusion.schema import layout as feature_layout
 from fusion.paths import model_counts
-from training.common import Run, add_training_args, batches, check_widths, data_manifest, fit, policy_rows, subset, warm_start
+from training.common import (Run, add_training_args, batches, check_widths, data_manifest, fit, policy_rows, subset,
+                             torch_fit, warm_start)
 from training.dataset import load
 
 LABELS = ("y_move", "y_joint", "y_act", "y_tgt")
@@ -126,7 +127,10 @@ def main(argv=None):
             wsum += float(w.sum())
         return total / wsum
 
-    best = fit(model, train_epoch, lambda: evaluate(model, layout, val, cfg)[0], a, run, rng, opt)
+    if a.backend == "torch":
+        best = torch_fit(lambda tb, dev: tb.PolicyTrainer(model, layout, train, val, cfg, a, dev), a, run, rng)
+    else:
+        best = fit(model, train_epoch, lambda: evaluate(model, layout, val, cfg)[0], a, run, rng, opt)
     calibrate(model, layout, val)
     model.calibrated = True
     _, parts = evaluate(model, layout, val, cfg | {"smoothing": 0.0})

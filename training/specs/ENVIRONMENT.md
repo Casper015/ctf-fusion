@@ -17,9 +17,66 @@
 
 ## Training backend
 
-The trainers use numpy on the CPU. The models are 10–30k parameters, so an epoch over millions of rows takes minutes, and the same code path produces the weights the exporter quantizes and the tests check bit for bit. `training.dataset.torch_dataset()` exposes shards as a PyTorch dataset.
+Two backends train the same models with the same objective:
 
-A PyTorch/CUDA trainer is the planned next step once the data exists (E1). It must reproduce `fusion/models.py`'s architecture and heads, and export through the same `quant.quantize` path. Until then no CUDA is required, and `env_check` only reports whether PyTorch and CUDA are present.
+- **NumPy** (default, the reference): CPU; the code path every test and export was built on.
+- **PyTorch** (`--backend torch --device cuda`, [`fusion/torch_backend.py`](../../fusion/torch_backend.py)): CUDA on the host GPU, or CPU.
+
+The PyTorch backend reproduces the NumPy training operation by operation:
+- the initial weights (copied from the NumPy model built with the run's seed);
+- the clipped ReLU, including its gradient at the 0 and 1 endpoints;
+- the masked, label-smoothed cross-entropy and the value loss, including ignored labels and empty masks;
+- the weighted-sum normalization and the head weights;
+- Adam with L2 decay on matrices only;
+- the minibatch order: rows resident on the GPU and rows streamed in windows give identical minibatches, and team counts stay mixed in every minibatch.
+
+Per-epoch validation runs on the GPU. Calibration, checkpoints and export run on the NumPy model, so artifacts are produced exactly as before.
+
+`tests/test_torch_backend.py` checks the parity with NumPy:
+- gradients and one optimizer step;
+- two-epoch training of policy and value;
+- validation loss;
+- streamed against resident rows (bit-identical);
+- the endpoint gradient.
+
+`tests/test_pipeline.py` trains, evaluates and exports with the torch backend and keeps the C++ integer parity. Two output biases (mover, target) have an exactly zero true gradient, because they shift every choice of a unit equally. Both backends move them only by rounding noise, which cannot change any prediction (tested). The tests skip without PyTorch. On the host, `FUSION_TEST_DEVICE=cuda python -m unittest tests.test_torch_backend` runs them on the GPU.
+
+**Setup on the host (RTX 4080 Laptop, 12 GB):** install a CUDA build of PyTorch for the host's Python from the [official selector](https://pytorch.org/get-started/locally/). It is optional; NumPy remains the default. Then:
+
+```bash
+python -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0))"
+```
+
+```bash
+FUSION_TEST_DEVICE=cuda python -m unittest tests.test_torch_backend
+```
+
+**Measure before relying on it:**
+
+```bash
+python tools/bench_training.py --model n15 --tier S XXL --backends numpy torch-cuda --max-rows 500000
+```
+
+It writes `reports/training_bench_<host>.md`: rows per second, epoch and wall time, validation loss at equal epochs, and peak VRAM, per backend and tier. Small networks (tier S) can be limited by loading and kernel launches; the larger tiers are where the GPU has arithmetic to do.
+
+**Memory.**
+- **Fitting the GPU:** a split's rows stay on the GPU when they fit `--gpu-resident-gb` (default 6). Otherwise they stream in windows of `--gpu-window-rows` (default 1,000,000 rows, 1.2 GiB of records), with the next window gathered on the CPU in the background.
+- **Policy:** the value net needs only its 54 int16 columns, so its training split usually stays resident. The general policy's training split (about 29 GiB of records) streams, while its validation split usually stays resident.
+- **CPU RAM:** the loader still holds the whole split in RAM, as the NumPy path does.
+
+**Precision.** Float32; TF32 is off unless `--tf32`, which changes rounding and has to be compared before use. The run's `config.json` records the backend, PyTorch and CUDA versions, the GPU, epoch timings, rows per second and peak VRAM.
+
+**The largest tier (XXL, from `tools/capacity_bench.py`; it fits the per-turn budget at every team count on the host):**
+
+```bash
+python -m training.train_policy --model general --backend torch --device cuda --hidden-mover 256 --hidden-squad 1024,256 --hidden-act 256 --hidden-target 32 --max-width 2048 --count-weighting inv_teams --out runs/policy_general_xxl
+```
+
+```bash
+python -m training.train_value --model general --backend torch --device cuda --hidden 2048,128 --max-width 2048 --count-weighting inv_teams --out runs/value_general_xxl
+```
+
+Dedicated models warm-start from it with the same widths (`--init runs/policy_general_xxl`). Export needs `--max-width 2048`, and the bot must be built with `-DFUSION_MAX_WIDTH=2048`. Whether XXL predicts better than the exported models is decided by `evaluate_offline` on the same test maps, not by training speed.
 
 ## Host check and latency baseline (Task E)
 

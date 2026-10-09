@@ -91,7 +91,7 @@ tests/            test_math (gradients, quantization, convex fits, spec sync), t
 ## Requirements
 
 **Software:**
-- Python 3.10+ and numpy. PyTorch with CUDA is optional; see [ENVIRONMENT.md](training/specs/ENVIRONMENT.md).
+- Python 3.10+ and numpy. PyTorch is optional: `--backend torch --device cuda` trains on the GPU with the same objective (parity-tested); see [ENVIRONMENT.md](training/specs/ENVIRONMENT.md#training-backend).
 - A C++20 compiler: g++ 11+, clang 14+, or w64devkit on Windows. `CXX` overrides the choice.
 - A checkout of AI_Test `main`, which provides the engine, every opponent bot, and the legacy planner for q_H.
 

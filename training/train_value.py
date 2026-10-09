@@ -19,7 +19,7 @@ from fusion.models import ValueNet, value_inputs
 from fusion.nn import Adam
 from fusion.schema import layout as feature_layout
 from fusion.paths import model_counts
-from training.common import Run, add_training_args, batches, check_widths, data_manifest, fit, subset, warm_start
+from training.common import Run, add_training_args, batches, check_widths, data_manifest, fit, subset, torch_fit, warm_start
 from training.dataset import load
 
 
@@ -83,7 +83,10 @@ def main(argv=None):
             wsum += float(w.sum())
         return total / wsum
 
-    best = fit(model, train_epoch, lambda: evaluate(model, layout, val, cfg), a, run, rng, opt)
+    if a.backend == "torch":
+        best = torch_fit(lambda tb, dev: tb.ValueTrainer(model, layout, train, val, cfg, a, dev), a, run, rng)
+    else:
+        best = fit(model, train_epoch, lambda: evaluate(model, layout, val, cfg), a, run, rng, opt)
     z = np.concatenate([model.logits(value_inputs(val["rec"][i], layout))[:, 0] for i in batches(len(val["rec"]), 8192, None)])
     beta = fit_value_temperature(z.astype(np.float64), val["v_y"][:, 0].astype(np.float64), val["weight"].astype(np.float64))
     run.log(stage="calibrated", beta=beta)
