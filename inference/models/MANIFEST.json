@@ -1,0 +1,3276 @@
+{
+ "general": {
+  "header": "weights_general.hpp",
+  "header_sha256": "ed2a549f886722763307684de400713669b52e90499fd2729ab2458c100aef64",
+  "npz_sha256": "a93f14006cb890457609e3e09cd32132a0ab7e40aba7251663f72ad3644c4e12",
+  "identity": {
+   "model": "general",
+   "policy_sha256": "0bee80a3d4688aaeccd541fb83878aceff3f271ef721be3bf151378f5af69333",
+   "value_sha256": "63c67277c0d0a9831244d2c937c9e10052732d08442205e897b3d8caecffa18f",
+   "weights_digest": "2ea2d1c5426328bc968617ffd033e64d1e7819f6da970e32c11e53eb961f6f9c",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "9": 0.9535160114063908,
+   "11": 0.9640302201083832,
+   "13": 0.9611030941481791,
+   "14": 0.9596176560668681
+  },
+  "gates": {
+   "9": {
+    "alpha": 0.9535160114063908,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 246738,
+    "use": true,
+    "gain": 0.9890366363199689,
+    "gain_se": 0.013171727301964293,
+    "maps": 144,
+    "reason": ""
+   },
+   "11": {
+    "alpha": 0.9640302201083832,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 271546,
+    "use": true,
+    "gain": 1.0667586402387819,
+    "gain_se": 0.012925125302532092,
+    "maps": 145,
+    "reason": ""
+   },
+   "13": {
+    "alpha": 0.9611030941481791,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 287323,
+    "use": true,
+    "gain": 0.9785420494672423,
+    "gain_se": 0.009561211177506607,
+    "maps": 163,
+    "reason": ""
+   },
+   "14": {
+    "alpha": 0.9596176560668681,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 303687,
+    "use": true,
+    "gain": 0.9369517692497052,
+    "gain_se": 0.010118935643905373,
+    "maps": 123,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "reports/general.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     9,
+     11,
+     13,
+     14
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "28ef26e541580963",
+    "fit_matches": "e0b4e45ca285c6a3"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   9,
+   11,
+   13,
+   14
+  ],
+  "beta": {
+   "joint": 1.0238492960036458,
+   "act": 1.017258823082655,
+   "target": 1.0073710675879912,
+   "value": 1.0003049960302155
+  },
+  "sources": {
+   "policy": {
+    "run": "runs\\policy_general",
+    "model_sha256": "0bee80a3d4688aaeccd541fb83878aceff3f271ef721be3bf151378f5af69333",
+    "config": {
+     "kind": "policy",
+     "model": "general",
+     "hidden": {
+      "mover": [
+       16
+      ],
+      "squad": [
+       64,
+       32
+      ],
+      "act": [
+       16
+      ],
+      "target": [
+       8
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "general",
+      "out": "runs/policy_general",
+      "init": null,
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "inv_teams",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "64,32",
+      "hidden_mover": "16",
+      "hidden_act": "16",
+      "hidden_target": "8",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": null,
+     "data": {
+      "team_counts": [
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15
+      ],
+      "digest": "e2472a8610a9776c",
+      "matches_by_count": {
+       "n02": 1500,
+       "n03": 1500,
+       "n04": 1500,
+       "n05": 1500,
+       "n06": 1500,
+       "n07": 1500,
+       "n08": 1500,
+       "n09": 1500,
+       "n10": 1500,
+       "n11": 1500,
+       "n12": 1500,
+       "n13": 1500,
+       "n14": 1500,
+       "n15": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252,
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570,
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754,
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001,
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678,
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705,
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539,
+       "n09/test": 220668,
+       "n09/train": 1833367,
+       "n09/val": 247145,
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304,
+       "n11/test": 266771,
+       "n11/train": 2222340,
+       "n11/val": 271858,
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298,
+       "n13/test": 360820,
+       "n13/train": 2669696,
+       "n13/val": 287509,
+       "n14/test": 293937,
+       "n14/train": 2988795,
+       "n14/val": 303963,
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 24153825,
+      "val": 2981919
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T07:26:55",
+     "best_val": 2.403563348670968,
+     "beta": {
+      "joint": 1.0238492960036458,
+      "act": 1.017258823082655,
+      "target": 1.0073710675879912
+     }
+    }
+   },
+   "value": {
+    "run": "runs\\value_general",
+    "model_sha256": "63c67277c0d0a9831244d2c937c9e10052732d08442205e897b3d8caecffa18f",
+    "config": {
+     "kind": "value",
+     "model": "general",
+     "hidden": [
+      128,
+      16
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "general",
+      "out": "runs/value_general",
+      "init": null,
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "inv_teams",
+      "aux_weight": 0.25,
+      "hidden": "128,16"
+     },
+     "seed": 1,
+     "init": null,
+     "data": {
+      "team_counts": [
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15
+      ],
+      "digest": "e2472a8610a9776c",
+      "matches_by_count": {
+       "n02": 1500,
+       "n03": 1500,
+       "n04": 1500,
+       "n05": 1500,
+       "n06": 1500,
+       "n07": 1500,
+       "n08": 1500,
+       "n09": 1500,
+       "n10": 1500,
+       "n11": 1500,
+       "n12": 1500,
+       "n13": 1500,
+       "n14": 1500,
+       "n15": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252,
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570,
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754,
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001,
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678,
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705,
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539,
+       "n09/test": 220668,
+       "n09/train": 1833367,
+       "n09/val": 247145,
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304,
+       "n11/test": 266771,
+       "n11/train": 2222340,
+       "n11/val": 271858,
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298,
+       "n13/test": 360820,
+       "n13/train": 2669696,
+       "n13/val": 287509,
+       "n14/test": 293937,
+       "n14/train": 2988795,
+       "n14/val": 303963,
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 24193790,
+      "val": 2986476
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T07:17:17",
+     "best_val": 0.5078384962682482,
+     "beta": 1.0003049960302155
+    }
+   }
+  },
+  "params": {
+   "mover": 673,
+   "squad": 20477,
+   "act": 724,
+   "target": 73,
+   "value": 9121
+  },
+  "widest_layer": 222,
+  "macs": {
+   "mover": 656,
+   "squad": 20256,
+   "act": 704,
+   "target": 64,
+   "value": 8976,
+   "joint_policy_per_team": 30096
+  },
+  "accumulator_bound": {
+   "mover": 33519867,
+   "squad": 29087079,
+   "act": 21807519,
+   "target": 22463005,
+   "value": 33905408
+  },
+  "exported": "2026-10-09T08:37:40"
+ },
+ "n02": {
+  "header": "weights_n02.hpp",
+  "header_sha256": "666e522833fe0730c74f14d07366b5f00c1ad5f5c022e77a549470bf4eacdef7",
+  "npz_sha256": "c909c006f04f8b1e5e2906f42c5784e068f2c1b04dbcf1b497e141c85d95e157",
+  "identity": {
+   "model": "n02",
+   "policy_sha256": "b27d5bf0c876904efd5c0d7924fef116bca286479a32ee60d9b5910908bc3848",
+   "value_sha256": "0765d6d8ee881beae21b12f8f81ed5f4845925ccbf329b0678b0480c2fe38101",
+   "weights_digest": "2f8ffea92f9f10920614147c46fb9f2540cceb402b1d9f1910500f585b0b7e41",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "2": 0.9607094270776766
+  },
+  "gates": {
+   "2": {
+    "alpha": 0.9607094270776766,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 57159,
+    "use": true,
+    "gain": 1.1099459115765542,
+    "gain_se": 0.041558059361017426,
+    "maps": 151,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "reports/n02.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     2
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "cfa572f0d6fdc2b4",
+    "fit_matches": "59f1bdd7bfdaec1b"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   2
+  ],
+  "beta": {
+   "joint": 1.0463618442293967,
+   "act": 1.0262684538487696,
+   "target": 1.0233003950878246,
+   "value": 1.1199729069378987
+  },
+  "sources": {
+   "policy": {
+    "run": "runs\\policy_n02",
+    "model_sha256": "b27d5bf0c876904efd5c0d7924fef116bca286479a32ee60d9b5910908bc3848",
+    "config": {
+     "kind": "policy",
+     "model": "n02",
+     "hidden": {
+      "mover": [
+       16
+      ],
+      "squad": [
+       64,
+       32
+      ],
+      "act": [
+       16
+      ],
+      "target": [
+       8
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n02",
+      "out": "runs/policy_n02",
+      "init": "runs/policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "64,32",
+      "hidden_mover": "16",
+      "hidden_act": "16",
+      "hidden_target": "8",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "runs/policy_general",
+     "data": {
+      "team_counts": [
+       2
+      ],
+      "digest": "0dc9608ecb02344a",
+      "matches_by_count": {
+       "n02": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 405867,
+      "val": 57159
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:38:03",
+     "best_val": 2.1680122447975116,
+     "beta": {
+      "joint": 1.0463618442293967,
+      "act": 1.0262684538487696,
+      "target": 1.0233003950878246
+     }
+    }
+   },
+   "value": {
+    "run": "runs\\value_n02",
+    "model_sha256": "0765d6d8ee881beae21b12f8f81ed5f4845925ccbf329b0678b0480c2fe38101",
+    "config": {
+     "kind": "value",
+     "model": "n02",
+     "hidden": [
+      128,
+      16
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n02",
+      "out": "runs/value_n02",
+      "init": "runs/value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "128,16"
+     },
+     "seed": 1,
+     "init": "runs/value_general",
+     "data": {
+      "team_counts": [
+       2
+      ],
+      "digest": "0dc9608ecb02344a",
+      "matches_by_count": {
+       "n02": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 407948,
+      "val": 57252
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:37:49",
+     "best_val": 0.21818637145303704,
+     "beta": 1.1199729069378987
+    }
+   }
+  },
+  "params": {
+   "mover": 673,
+   "squad": 20477,
+   "act": 724,
+   "target": 73,
+   "value": 9121
+  },
+  "widest_layer": 222,
+  "macs": {
+   "mover": 656,
+   "squad": 20256,
+   "act": 704,
+   "target": 64,
+   "value": 8976,
+   "joint_policy_per_team": 30096
+  },
+  "accumulator_bound": {
+   "mover": 35337535,
+   "squad": 30898869,
+   "act": 22985796,
+   "target": 22509856,
+   "value": 28489388
+  },
+  "exported": "2026-10-09T08:39:31"
+ },
+ "n03": {
+  "header": "weights_n03.hpp",
+  "header_sha256": "276236163f4e3fc8011136e8ad16daa9820331ea23949f65247d1f3529411e79",
+  "npz_sha256": "e2e6e2fbb2f80ac0e8cf90b3b77e86422d16a19ad05513aa08347aa283a9e79d",
+  "identity": {
+   "model": "n03",
+   "policy_sha256": "9ad0c2066a5f3cbf45afab3a967aace7a56299ccdca697625b20bbdab1e3c8f8",
+   "value_sha256": "1f73a04d433438f30f76802353c7eb5bede1cdb6b3db19b3dc6510e58135b63a",
+   "weights_digest": "37abd9dba41430082363b4b3ad837e8ecb33de80826b15026344a8469987d716",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "3": 0.9513661287387325
+  },
+  "gates": {
+   "3": {
+    "alpha": 0.9513661287387325,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 67385,
+    "use": true,
+    "gain": 1.372778894722174,
+    "gain_se": 0.028863763307821,
+    "maps": 160,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "reports/n03.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     3
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "d52bbe92d1494729",
+    "fit_matches": "3a0f82c933b42ca1"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   3
+  ],
+  "beta": {
+   "joint": 1.03705605714176,
+   "act": 1.015731477774438,
+   "target": 1.0117744898242154,
+   "value": 1.01688505274624
+  },
+  "sources": {
+   "policy": {
+    "run": "runs\\policy_n03",
+    "model_sha256": "9ad0c2066a5f3cbf45afab3a967aace7a56299ccdca697625b20bbdab1e3c8f8",
+    "config": {
+     "kind": "policy",
+     "model": "n03",
+     "hidden": {
+      "mover": [
+       16
+      ],
+      "squad": [
+       64,
+       32
+      ],
+      "act": [
+       16
+      ],
+      "target": [
+       8
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n03",
+      "out": "runs/policy_n03",
+      "init": "runs/policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "64,32",
+      "hidden_mover": "16",
+      "hidden_act": "16",
+      "hidden_target": "8",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "runs/policy_general",
+     "data": {
+      "team_counts": [
+       3
+      ],
+      "digest": "afa761c02aaeaf6d",
+      "matches_by_count": {
+       "n03": 1500
+      },
+      "rows": {
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 570635,
+      "val": 67385
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:40:01",
+     "best_val": 2.265674407609718,
+     "beta": {
+      "joint": 1.03705605714176,
+      "act": 1.015731477774438,
+      "target": 1.0117744898242154
+     }
+    }
+   },
+   "value": {
+    "run": "runs\\value_n03",
+    "model_sha256": "1f73a04d433438f30f76802353c7eb5bede1cdb6b3db19b3dc6510e58135b63a",
+    "config": {
+     "kind": "value",
+     "model": "n03",
+     "hidden": [
+      128,
+      16
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n03",
+      "out": "runs/value_n03",
+      "init": "runs/value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "128,16"
+     },
+     "seed": 1,
+     "init": "runs/value_general",
+     "data": {
+      "team_counts": [
+       3
+      ],
+      "digest": "afa761c02aaeaf6d",
+      "matches_by_count": {
+       "n03": 1500
+      },
+      "rows": {
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 572751,
+      "val": 67570
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:39:49",
+     "best_val": 0.4885276001404135,
+     "beta": 1.01688505274624
+    }
+   }
+  },
+  "params": {
+   "mover": 673,
+   "squad": 20477,
+   "act": 724,
+   "target": 73,
+   "value": 9121
+  },
+  "widest_layer": 222,
+  "macs": {
+   "mover": 656,
+   "squad": 20256,
+   "act": 704,
+   "target": 64,
+   "value": 8976,
+   "joint_policy_per_team": 30096
+  },
+  "accumulator_bound": {
+   "mover": 35296332,
+   "squad": 29556239,
+   "act": 22277812,
+   "target": 22373111,
+   "value": 34883465
+  },
+  "exported": "2026-10-09T08:41:40"
+ },
+ "n04": {
+  "header": "weights_n04.hpp",
+  "header_sha256": "5197300dff20be1f261921e30bb61793108b8b020f08d00e9725b2b70f4894c4",
+  "npz_sha256": "396970c81f1693a9a31c9959328b092d52974e24a4d456e18511f21af5164b2e",
+  "identity": {
+   "model": "n04",
+   "policy_sha256": "81d239ea8758ec35da1d86337d45680e9801500a4ff08f8ee151846d1a86e5bb",
+   "value_sha256": "761d14e3e9279f4a40a25642ba5985ac901dd0b418011665dd4d8580dc6af07a",
+   "weights_digest": "24c52fb28519da1204983b8fc0d35b2875a2a62946bd235592684de8d70372b8",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "4": 0.9557493471766356
+  },
+  "gates": {
+   "4": {
+    "alpha": 0.9557493471766356,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 98473,
+    "use": true,
+    "gain": 1.4200416284221489,
+    "gain_se": 0.038990329502659876,
+    "maps": 138,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "reports/n04.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     4
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "40534733e42dc828",
+    "fit_matches": "14bd7accb1e59704"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   4
+  ],
+  "beta": {
+   "joint": 1.031157161321277,
+   "act": 1.0424036633230465,
+   "target": 0.9473981770779016,
+   "value": 0.9926500817682549
+  },
+  "sources": {
+   "policy": {
+    "run": "runs\\policy_n04",
+    "model_sha256": "81d239ea8758ec35da1d86337d45680e9801500a4ff08f8ee151846d1a86e5bb",
+    "config": {
+     "kind": "policy",
+     "model": "n04",
+     "hidden": {
+      "mover": [
+       16
+      ],
+      "squad": [
+       64,
+       32
+      ],
+      "act": [
+       16
+      ],
+      "target": [
+       8
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n04",
+      "out": "runs/policy_n04",
+      "init": "runs/policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "64,32",
+      "hidden_mover": "16",
+      "hidden_act": "16",
+      "hidden_target": "8",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "runs/policy_general",
+     "data": {
+      "team_counts": [
+       4
+      ],
+      "digest": "5d99d6cba21b4f88",
+      "matches_by_count": {
+       "n04": 1500
+      },
+      "rows": {
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 757176,
+      "val": 98473
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:41:58",
+     "best_val": 2.2870045086407287,
+     "beta": {
+      "joint": 1.031157161321277,
+      "act": 1.0424036633230465,
+      "target": 0.9473981770779016
+     }
+    }
+   },
+   "value": {
+    "run": "runs\\value_n04",
+    "model_sha256": "761d14e3e9279f4a40a25642ba5985ac901dd0b418011665dd4d8580dc6af07a",
+    "config": {
+     "kind": "value",
+     "model": "n04",
+     "hidden": [
+      128,
+      16
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n04",
+      "out": "runs/value_n04",
+      "init": "runs/value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "128,16"
+     },
+     "seed": 1,
+     "init": "runs/value_general",
+     "data": {
+      "team_counts": [
+       4
+      ],
+      "digest": "5d99d6cba21b4f88",
+      "matches_by_count": {
+       "n04": 1500
+      },
+      "rows": {
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 759411,
+      "val": 98754
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:41:42",
+     "best_val": 0.5219237055849314,
+     "beta": 0.9926500817682549
+    }
+   }
+  },
+  "params": {
+   "mover": 673,
+   "squad": 20477,
+   "act": 724,
+   "target": 73,
+   "value": 9121
+  },
+  "widest_layer": 222,
+  "macs": {
+   "mover": 656,
+   "squad": 20256,
+   "act": 704,
+   "target": 64,
+   "value": 8976,
+   "joint_policy_per_team": 30096
+  },
+  "accumulator_bound": {
+   "mover": 35198092,
+   "squad": 28909933,
+   "act": 22763982,
+   "target": 21332684,
+   "value": 34257856
+  },
+  "exported": "2026-10-09T08:44:13"
+ },
+ "n05": {
+  "header": "weights_n05.hpp",
+  "header_sha256": "22c2e95a2101f2dd78452f4bea33629fb381eaac752898705196725a283ed7a4",
+  "npz_sha256": "4d63f5fc78730ac42ce9090131362a8fea9a502beeecdc5deb993824ec7fcace",
+  "identity": {
+   "model": "n05",
+   "policy_sha256": "154b1e452cd2fc9a320e6d108556b319c9696294be6752ff4f7b5e305249d278",
+   "value_sha256": "613da2042485cdfb4ca26c3858da33897c8ac2028d4c3584a0c7d62527e140c9",
+   "weights_digest": "445e7428ab592f7a9ed20d266dd4b94258e55a7aceff39df4ef4269b99c003ec",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "5": 0.9363886135206314
+  },
+  "gates": {
+   "5": {
+    "alpha": 0.9363886135206314,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 146691,
+    "use": true,
+    "gain": 0.998699669105183,
+    "gain_se": 0.02378575800464408,
+    "maps": 147,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "reports/n05.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     5
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "861cbac7fa0dffa1",
+    "fit_matches": "48bb6677dbbaa261"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   5
+  ],
+  "beta": {
+   "joint": 1.0213851791155286,
+   "act": 1.0228675362683561,
+   "target": 1.0157301775441687,
+   "value": 0.9762878523941305
+  },
+  "sources": {
+   "policy": {
+    "run": "runs\\policy_n05",
+    "model_sha256": "154b1e452cd2fc9a320e6d108556b319c9696294be6752ff4f7b5e305249d278",
+    "config": {
+     "kind": "policy",
+     "model": "n05",
+     "hidden": {
+      "mover": [
+       16
+      ],
+      "squad": [
+       64,
+       32
+      ],
+      "act": [
+       16
+      ],
+      "target": [
+       8
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n05",
+      "out": "runs/policy_n05",
+      "init": "runs/policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "64,32",
+      "hidden_mover": "16",
+      "hidden_act": "16",
+      "hidden_target": "8",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "runs/policy_general",
+     "data": {
+      "team_counts": [
+       5
+      ],
+      "digest": "414a2878a4fc0c9b",
+      "matches_by_count": {
+       "n05": 1500
+      },
+      "rows": {
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1004610,
+      "val": 146691
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:44:36",
+     "best_val": 2.4381904188836576,
+     "beta": {
+      "joint": 1.0213851791155286,
+      "act": 1.0228675362683561,
+      "target": 1.0157301775441687
+     }
+    }
+   },
+   "value": {
+    "run": "runs\\value_n05",
+    "model_sha256": "613da2042485cdfb4ca26c3858da33897c8ac2028d4c3584a0c7d62527e140c9",
+    "config": {
+     "kind": "value",
+     "model": "n05",
+     "hidden": [
+      128,
+      16
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n05",
+      "out": "runs/value_n05",
+      "init": "runs/value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "128,16"
+     },
+     "seed": 1,
+     "init": "runs/value_general",
+     "data": {
+      "team_counts": [
+       5
+      ],
+      "digest": "414a2878a4fc0c9b",
+      "matches_by_count": {
+       "n05": 1500
+      },
+      "rows": {
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1007475,
+      "val": 147001
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:44:15",
+     "best_val": 0.5202096924473751,
+     "beta": 0.9762878523941305
+    }
+   }
+  },
+  "params": {
+   "mover": 673,
+   "squad": 20477,
+   "act": 724,
+   "target": 73,
+   "value": 9121
+  },
+  "widest_layer": 222,
+  "macs": {
+   "mover": 656,
+   "squad": 20256,
+   "act": 704,
+   "target": 64,
+   "value": 8976,
+   "joint_policy_per_team": 30096
+  },
+  "accumulator_bound": {
+   "mover": 34320622,
+   "squad": 28479117,
+   "act": 21874763,
+   "target": 23018610,
+   "value": 33111576
+  },
+  "exported": "2026-10-09T08:47:41"
+ },
+ "n06": {
+  "header": "weights_n06.hpp",
+  "header_sha256": "51944d2bce111045bf1ac891d8a08df445265b806498707ea3e76e8ba84a521b",
+  "npz_sha256": "d89d9304248d83f463e88828104a07916c7c25afdf2cebecb26d82973d1bec9d",
+  "identity": {
+   "model": "n06",
+   "policy_sha256": "1be28044af3ebd58f85ae90832ae1a36811c20d1b65093efceb6c47982080d75",
+   "value_sha256": "9b1561c51a4d4a58baa7009a5a973dcc8d008c9eade7369c7125d6ce6f0215a8",
+   "weights_digest": "13867c30b6b64b8cfa9ba5b24fe4aba5496c0104c30d7d5a6e7fb74278c391a2",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "6": 0.959540480031537
+  },
+  "gates": {
+   "6": {
+    "alpha": 0.959540480031537,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 143369,
+    "use": true,
+    "gain": 1.437701484359914,
+    "gain_se": 0.024755598377073692,
+    "maps": 153,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "reports/n06.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     6
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "3177328fab41d64a",
+    "fit_matches": "e6de3152b5c8c0d2"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   6
+  ],
+  "beta": {
+   "joint": 1.0193218176611674,
+   "act": 0.9929599494607555,
+   "target": 1.0288636803051743,
+   "value": 0.9856259032760817
+  },
+  "sources": {
+   "policy": {
+    "run": "runs\\policy_n06",
+    "model_sha256": "1be28044af3ebd58f85ae90832ae1a36811c20d1b65093efceb6c47982080d75",
+    "config": {
+     "kind": "policy",
+     "model": "n06",
+     "hidden": {
+      "mover": [
+       16
+      ],
+      "squad": [
+       64,
+       32
+      ],
+      "act": [
+       16
+      ],
+      "target": [
+       8
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n06",
+      "out": "runs/policy_n06",
+      "init": "runs/policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "64,32",
+      "hidden_mover": "16",
+      "hidden_act": "16",
+      "hidden_target": "8",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "runs/policy_general",
+     "data": {
+      "team_counts": [
+       6
+      ],
+      "digest": "023c8adc317e66ec",
+      "matches_by_count": {
+       "n06": 1500
+      },
+      "rows": {
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1144815,
+      "val": 143369
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:48:08",
+     "best_val": 2.3963508805952856,
+     "beta": {
+      "joint": 1.0193218176611674,
+      "act": 0.9929599494607555,
+      "target": 1.0288636803051743
+     }
+    }
+   },
+   "value": {
+    "run": "runs\\value_n06",
+    "model_sha256": "9b1561c51a4d4a58baa7009a5a973dcc8d008c9eade7369c7125d6ce6f0215a8",
+    "config": {
+     "kind": "value",
+     "model": "n06",
+     "hidden": [
+      128,
+      16
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n06",
+      "out": "runs/value_n06",
+      "init": "runs/value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "128,16"
+     },
+     "seed": 1,
+     "init": "runs/value_general",
+     "data": {
+      "team_counts": [
+       6
+      ],
+      "digest": "023c8adc317e66ec",
+      "matches_by_count": {
+       "n06": 1500
+      },
+      "rows": {
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1147498,
+      "val": 143678
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:47:43",
+     "best_val": 0.5260245083114748,
+     "beta": 0.9856259032760817
+    }
+   }
+  },
+  "params": {
+   "mover": 673,
+   "squad": 20477,
+   "act": 724,
+   "target": 73,
+   "value": 9121
+  },
+  "widest_layer": 222,
+  "macs": {
+   "mover": 656,
+   "squad": 20256,
+   "act": 704,
+   "target": 64,
+   "value": 8976,
+   "joint_policy_per_team": 30096
+  },
+  "accumulator_bound": {
+   "mover": 34840892,
+   "squad": 29141237,
+   "act": 21682080,
+   "target": 22889042,
+   "value": 33359793
+  },
+  "exported": "2026-10-09T08:51:27"
+ },
+ "n07": {
+  "header": "weights_n07.hpp",
+  "header_sha256": "9593a07687470087ed7b6afe4eb28a319b3e9890f1d5095aa279a1ad0d5156aa",
+  "npz_sha256": "2053fd8cffd306c9b486c9507b26f4181d3b015ee07a36c6cd97ad1b1886ae45",
+  "identity": {
+   "model": "n07",
+   "policy_sha256": "c91327b09cb9c2e26d5241f9c3b7d715902a2b960fedd6bdee4104e18948c1ae",
+   "value_sha256": "e061c43927eef8cceae3a7e5787c1c3abe5038922a7441f07ec92b8f3a166dcb",
+   "weights_digest": "468c89cd652bd36dc4a7d36e963684db8f0ec3acfb81cd0d55fd21a18c353759",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "7": 0.959424165395097
+  },
+  "gates": {
+   "7": {
+    "alpha": 0.959424165395097,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 151625,
+    "use": true,
+    "gain": 1.2280670472023116,
+    "gain_se": 0.020397984474712652,
+    "maps": 151,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "reports/n07.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     7
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "e5a111dece15559c",
+    "fit_matches": "6480ced49b79d035"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   7
+  ],
+  "beta": {
+   "joint": 1.0382379529249288,
+   "act": 1.0119741110782008,
+   "target": 0.9964267056293652,
+   "value": 0.9764166771598635
+  },
+  "sources": {
+   "policy": {
+    "run": "runs\\policy_n07",
+    "model_sha256": "c91327b09cb9c2e26d5241f9c3b7d715902a2b960fedd6bdee4104e18948c1ae",
+    "config": {
+     "kind": "policy",
+     "model": "n07",
+     "hidden": {
+      "mover": [
+       16
+      ],
+      "squad": [
+       64,
+       32
+      ],
+      "act": [
+       16
+      ],
+      "target": [
+       8
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n07",
+      "out": "runs/policy_n07",
+      "init": "runs/policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "64,32",
+      "hidden_mover": "16",
+      "hidden_act": "16",
+      "hidden_target": "8",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "runs/policy_general",
+     "data": {
+      "team_counts": [
+       7
+      ],
+      "digest": "68772b087c0ae829",
+      "matches_by_count": {
+       "n07": 1500
+      },
+      "rows": {
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1401850,
+      "val": 151625
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:51:59",
+     "best_val": 2.360739871229792,
+     "beta": {
+      "joint": 1.0382379529249288,
+      "act": 1.0119741110782008,
+      "target": 0.9964267056293652
+     }
+    }
+   },
+   "value": {
+    "run": "runs\\value_n07",
+    "model_sha256": "e061c43927eef8cceae3a7e5787c1c3abe5038922a7441f07ec92b8f3a166dcb",
+    "config": {
+     "kind": "value",
+     "model": "n07",
+     "hidden": [
+      128,
+      16
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n07",
+      "out": "runs/value_n07",
+      "init": "runs/value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "128,16"
+     },
+     "seed": 1,
+     "init": "runs/value_general",
+     "data": {
+      "team_counts": [
+       7
+      ],
+      "digest": "68772b087c0ae829",
+      "matches_by_count": {
+       "n07": 1500
+      },
+      "rows": {
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1405507,
+      "val": 151705
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:51:29",
+     "best_val": 0.5354960181298234,
+     "beta": 0.9764166771598635
+    }
+   }
+  },
+  "params": {
+   "mover": 673,
+   "squad": 20477,
+   "act": 724,
+   "target": 73,
+   "value": 9121
+  },
+  "widest_layer": 222,
+  "macs": {
+   "mover": 656,
+   "squad": 20256,
+   "act": 704,
+   "target": 64,
+   "value": 8976,
+   "joint_policy_per_team": 30096
+  },
+  "accumulator_bound": {
+   "mover": 35334266,
+   "squad": 29862248,
+   "act": 22079163,
+   "target": 22322077,
+   "value": 32748079
+  },
+  "exported": "2026-10-09T08:55:57"
+ },
+ "n08": {
+  "header": "weights_n08.hpp",
+  "header_sha256": "c20d20ff834cc4a034bd4929038499b55468e4d4585d276e80bb10176510b952",
+  "npz_sha256": "a7ed791aba6920d10961efd9236ba33b6bb707544907a3d0fe28434ae75976d6",
+  "identity": {
+   "model": "n08",
+   "policy_sha256": "dea92185fcc0a21194ad8e9cb1a5ba79acbc07a7d433b72024650316e5e2a250",
+   "value_sha256": "8331e4419ca6db4437290d0c79c311721b8ccbb1009c7f209a496c7aaf1b9268",
+   "weights_digest": "e3636e1c3f5503e6d6030b90819effa1e5bf996fc49140d926701d87ae77b7fe",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "8": 0.9620285066282637
+  },
+  "gates": {
+   "8": {
+    "alpha": 0.9620285066282637,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 208862,
+    "use": true,
+    "gain": 1.1698138542710703,
+    "gain_se": 0.016833958299521088,
+    "maps": 154,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "reports/n08.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     8
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "448c95864c932479",
+    "fit_matches": "52627c98342e6101"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   8
+  ],
+  "beta": {
+   "joint": 1.0225885150352383,
+   "act": 0.9876482050155129,
+   "target": 1.0001957206219778,
+   "value": 0.9950466252809289
+  },
+  "sources": {
+   "policy": {
+    "run": "runs\\policy_n08",
+    "model_sha256": "dea92185fcc0a21194ad8e9cb1a5ba79acbc07a7d433b72024650316e5e2a250",
+    "config": {
+     "kind": "policy",
+     "model": "n08",
+     "hidden": {
+      "mover": [
+       16
+      ],
+      "squad": [
+       64,
+       32
+      ],
+      "act": [
+       16
+      ],
+      "target": [
+       8
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n08",
+      "out": "runs/policy_n08",
+      "init": "runs/policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "64,32",
+      "hidden_mover": "16",
+      "hidden_act": "16",
+      "hidden_target": "8",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "runs/policy_general",
+     "data": {
+      "team_counts": [
+       8
+      ],
+      "digest": "a406fc85ee64b711",
+      "matches_by_count": {
+       "n08": 1500
+      },
+      "rows": {
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1577542,
+      "val": 208862
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:56:32",
+     "best_val": 2.4324719270915125,
+     "beta": {
+      "joint": 1.0225885150352383,
+      "act": 0.9876482050155129,
+      "target": 1.0001957206219778
+     }
+    }
+   },
+   "value": {
+    "run": "runs\\value_n08",
+    "model_sha256": "8331e4419ca6db4437290d0c79c311721b8ccbb1009c7f209a496c7aaf1b9268",
+    "config": {
+     "kind": "value",
+     "model": "n08",
+     "hidden": [
+      128,
+      16
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n08",
+      "out": "runs/value_n08",
+      "init": "runs/value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "128,16"
+     },
+     "seed": 1,
+     "init": "runs/value_general",
+     "data": {
+      "team_counts": [
+       8
+      ],
+      "digest": "a406fc85ee64b711",
+      "matches_by_count": {
+       "n08": 1500
+      },
+      "rows": {
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1579572,
+      "val": 209539
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T08:56:00",
+     "best_val": 0.534685107648063,
+     "beta": 0.9950466252809289
+    }
+   }
+  },
+  "params": {
+   "mover": 673,
+   "squad": 20477,
+   "act": 724,
+   "target": 73,
+   "value": 9121
+  },
+  "widest_layer": 222,
+  "macs": {
+   "mover": 656,
+   "squad": 20256,
+   "act": 704,
+   "target": 64,
+   "value": 8976,
+   "joint_policy_per_team": 30096
+  },
+  "accumulator_bound": {
+   "mover": 35004823,
+   "squad": 28437932,
+   "act": 21517611,
+   "target": 22610601,
+   "value": 33275321
+  },
+  "exported": "2026-10-09T09:01:08"
+ },
+ "n10": {
+  "header": "weights_n10.hpp",
+  "header_sha256": "e4f043903e8a5b30f9c1641f2070ed89a841163bca547a6f332b6611527c5ec3",
+  "npz_sha256": "e97b760d43760d72206a46bf02cb15aeb004a7c8392c1301065b9907bea9be1e",
+  "identity": {
+   "model": "n10",
+   "policy_sha256": "a4584707dcb778e335a8f8bde55e334fa79c0ba68b36185a959991508806d93f",
+   "value_sha256": "d1955144730faa7185aa7bdb2d68a0c2f552c8e5e6c4c92648f44513bf429357",
+   "weights_digest": "76b17900472f0c2181e682a38007ad5060a38a17fae85985657408d59c39bead",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "10": 0.9586692469179432
+  },
+  "gates": {
+   "10": {
+    "alpha": 0.9586692469179432,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 248775,
+    "use": true,
+    "gain": 0.9667833550179088,
+    "gain_se": 0.012693686078417041,
+    "maps": 120,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "reports/n10.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     10
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "602685782d48cdff",
+    "fit_matches": "ca955319298583de"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   10
+  ],
+  "beta": {
+   "joint": 1.0273464478125787,
+   "act": 1.0125549368491824,
+   "target": 1.0183236794541872,
+   "value": 0.9903948158637237
+  },
+  "sources": {
+   "policy": {
+    "run": "runs\\policy_n10",
+    "model_sha256": "a4584707dcb778e335a8f8bde55e334fa79c0ba68b36185a959991508806d93f",
+    "config": {
+     "kind": "policy",
+     "model": "n10",
+     "hidden": {
+      "mover": [
+       16
+      ],
+      "squad": [
+       64,
+       32
+      ],
+      "act": [
+       16
+      ],
+      "target": [
+       8
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n10",
+      "out": "runs/policy_n10",
+      "init": "runs/policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "64,32",
+      "hidden_mover": "16",
+      "hidden_act": "16",
+      "hidden_target": "8",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "runs/policy_general",
+     "data": {
+      "team_counts": [
+       10
+      ],
+      "digest": "bdc73e848581f332",
+      "matches_by_count": {
+       "n10": 1500
+      },
+      "rows": {
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2103929,
+      "val": 248775
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T09:01:52",
+     "best_val": 2.4536573355190123,
+     "beta": {
+      "joint": 1.0273464478125787,
+      "act": 1.0125549368491824,
+      "target": 1.0183236794541872
+     }
+    }
+   },
+   "value": {
+    "run": "runs\\value_n10",
+    "model_sha256": "d1955144730faa7185aa7bdb2d68a0c2f552c8e5e6c4c92648f44513bf429357",
+    "config": {
+     "kind": "value",
+     "model": "n10",
+     "hidden": [
+      128,
+      16
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n10",
+      "out": "runs/value_n10",
+      "init": "runs/value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "128,16"
+     },
+     "seed": 1,
+     "init": "runs/value_general",
+     "data": {
+      "team_counts": [
+       10
+      ],
+      "digest": "bdc73e848581f332",
+      "matches_by_count": {
+       "n10": 1500
+      },
+      "rows": {
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2106566,
+      "val": 249304
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T09:01:11",
+     "best_val": 0.5373676359328904,
+     "beta": 0.9903948158637237
+    }
+   }
+  },
+  "params": {
+   "mover": 673,
+   "squad": 20477,
+   "act": 724,
+   "target": 73,
+   "value": 9121
+  },
+  "widest_layer": 222,
+  "macs": {
+   "mover": 656,
+   "squad": 20256,
+   "act": 704,
+   "target": 64,
+   "value": 8976,
+   "joint_policy_per_team": 30096
+  },
+  "accumulator_bound": {
+   "mover": 34681854,
+   "squad": 27329700,
+   "act": 21731819,
+   "target": 23393927,
+   "value": 32630350
+  },
+  "exported": "2026-10-09T09:07:47"
+ },
+ "n12": {
+  "header": "weights_n12.hpp",
+  "header_sha256": "dc73130518bc452d0c51d0ab8ad812130b0ee0f24868348c6327030cbd93d0e6",
+  "npz_sha256": "0b5f88ab5e16df19717ce51151ce890a325ef0126bfd35e71b136c341854b36b",
+  "identity": {
+   "model": "n12",
+   "policy_sha256": "5206a8d1072475f3d70b5636807f4f722e74bdaabfa2e1be90957d649a12f57d",
+   "value_sha256": "ad93bc8ab7bde44ed2e63bf3d8946540a5698d062187b72f0836ac4b1ae28244",
+   "weights_digest": "1e73f452d2922a444ebe86aed4466d30ce4873f8d28bdde8952d24f62af71652",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "12": 0.9710567431072723
+  },
+  "gates": {
+   "12": {
+    "alpha": 0.9710567431072723,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 321975,
+    "use": true,
+    "gain": 1.0560091941767664,
+    "gain_se": 0.012121950715968801,
+    "maps": 161,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "reports/n12.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     12
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "b40fbab3276fd7f0",
+    "fit_matches": "18745a4740dcf6af"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   12
+  ],
+  "beta": {
+   "joint": 1.0201738059106695,
+   "act": 1.0353895855593365,
+   "target": 0.9968535307254818,
+   "value": 1.0074321753294844
+  },
+  "sources": {
+   "policy": {
+    "run": "runs\\policy_n12",
+    "model_sha256": "5206a8d1072475f3d70b5636807f4f722e74bdaabfa2e1be90957d649a12f57d",
+    "config": {
+     "kind": "policy",
+     "model": "n12",
+     "hidden": {
+      "mover": [
+       16
+      ],
+      "squad": [
+       64,
+       32
+      ],
+      "act": [
+       16
+      ],
+      "target": [
+       8
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n12",
+      "out": "runs/policy_n12",
+      "init": "runs/policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "64,32",
+      "hidden_mover": "16",
+      "hidden_act": "16",
+      "hidden_target": "8",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "runs/policy_general",
+     "data": {
+      "team_counts": [
+       12
+      ],
+      "digest": "848854a125d90f51",
+      "matches_by_count": {
+       "n12": 1500
+      },
+      "rows": {
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2368257,
+      "val": 321975
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T09:08:37",
+     "best_val": 2.3931824957967067,
+     "beta": {
+      "joint": 1.0201738059106695,
+      "act": 1.0353895855593365,
+      "target": 0.9968535307254818
+     }
+    }
+   },
+   "value": {
+    "run": "runs\\value_n12",
+    "model_sha256": "ad93bc8ab7bde44ed2e63bf3d8946540a5698d062187b72f0836ac4b1ae28244",
+    "config": {
+     "kind": "value",
+     "model": "n12",
+     "hidden": [
+      128,
+      16
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n12",
+      "out": "runs/value_n12",
+      "init": "runs/value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "128,16"
+     },
+     "seed": 1,
+     "init": "runs/value_general",
+     "data": {
+      "team_counts": [
+       12
+      ],
+      "digest": "848854a125d90f51",
+      "matches_by_count": {
+       "n12": 1500
+      },
+      "rows": {
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2371799,
+      "val": 322298
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T09:07:50",
+     "best_val": 0.5454143577027072,
+     "beta": 1.0074321753294844
+    }
+   }
+  },
+  "params": {
+   "mover": 673,
+   "squad": 20477,
+   "act": 724,
+   "target": 73,
+   "value": 9121
+  },
+  "widest_layer": 222,
+  "macs": {
+   "mover": 656,
+   "squad": 20256,
+   "act": 704,
+   "target": 64,
+   "value": 8976,
+   "joint_policy_per_team": 30096
+  },
+  "accumulator_bound": {
+   "mover": 34517887,
+   "squad": 27369376,
+   "act": 22311321,
+   "target": 22725510,
+   "value": 33067494
+  },
+  "exported": "2026-10-09T09:15:36"
+ },
+ "n15": {
+  "header": "weights_n15.hpp",
+  "header_sha256": "5006546fdac9de67f1e4868a6aa71fb47a883e30411faf9e62b7a5b08f1fd9b8",
+  "npz_sha256": "fa0b4cd8ee84f210ef11d61e563349e2a1830b662f9ff2fa056caa707bc70a49",
+  "identity": {
+   "model": "n15",
+   "policy_sha256": "1276df4742900062f762af28f66b714254b4f7deb0c0ac94ec991fbbad759e8a",
+   "value_sha256": "11cb268cccd10130f587772071913df7864e660a7b331c5247c8540d556dbd55",
+   "weights_digest": "d03256e027ccf6fdf7b70e86b5e2d1665b80b1ae51f52b10eb2b510d000493c5",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "15": 0.9668887379916664
+  },
+  "gates": {
+   "15": {
+    "alpha": 0.9668887379916664,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 428311,
+    "use": true,
+    "gain": 0.9023254862676372,
+    "gain_se": 0.009636082549663048,
+    "maps": 128,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "reports/n15.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     15
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "003fe9175f164760",
+    "fit_matches": "0f5f96cfae1e545e"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   15
+  ],
+  "beta": {
+   "joint": 1.027547880304358,
+   "act": 0.9998632384662656,
+   "target": 1.0156486044853352,
+   "value": 1.0044606493128518
+  },
+  "sources": {
+   "policy": {
+    "run": "runs\\policy_n15",
+    "model_sha256": "1276df4742900062f762af28f66b714254b4f7deb0c0ac94ec991fbbad759e8a",
+    "config": {
+     "kind": "policy",
+     "model": "n15",
+     "hidden": {
+      "mover": [
+       16
+      ],
+      "squad": [
+       64,
+       32
+      ],
+      "act": [
+       16
+      ],
+      "target": [
+       8
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n15",
+      "out": "runs/policy_n15",
+      "init": "runs/policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": "64,32",
+      "hidden_mover": "16",
+      "hidden_act": "16",
+      "hidden_target": "8",
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "runs/policy_general",
+     "data": {
+      "team_counts": [
+       15
+      ],
+      "digest": "f9669a1229bfd172",
+      "matches_by_count": {
+       "n15": 1500
+      },
+      "rows": {
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 3117354,
+      "val": 428311
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T09:16:41",
+     "best_val": 2.3863174686364714,
+     "beta": {
+      "joint": 1.027547880304358,
+      "act": 0.9998632384662656,
+      "target": 1.0156486044853352
+     }
+    }
+   },
+   "value": {
+    "run": "runs\\value_n15",
+    "model_sha256": "11cb268cccd10130f587772071913df7864e660a7b331c5247c8540d556dbd55",
+    "config": {
+     "kind": "value",
+     "model": "n15",
+     "hidden": [
+      128,
+      16
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n15",
+      "out": "runs/value_n15",
+      "init": "runs/value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "max_width": 0,
+      "count_weighting": "none",
+      "aux_weight": 0.25,
+      "hidden": "128,16"
+     },
+     "seed": 1,
+     "init": "runs/value_general",
+     "data": {
+      "team_counts": [
+       15
+      ],
+      "digest": "f9669a1229bfd172",
+      "matches_by_count": {
+       "n15": 1500
+      },
+      "rows": {
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 3121065,
+      "val": 428900
+     },
+     "spec_version": 2,
+     "repo_commit": "fda8153b27d374478d656c8072f0897290742d4b",
+     "started": "2026-10-09T09:15:40",
+     "best_val": 0.5456972800771583,
+     "beta": 1.0044606493128518
+    }
+   }
+  },
+  "params": {
+   "mover": 673,
+   "squad": 20477,
+   "act": 724,
+   "target": 73,
+   "value": 9121
+  },
+  "widest_layer": 222,
+  "macs": {
+   "mover": 656,
+   "squad": 20256,
+   "act": 704,
+   "target": 64,
+   "value": 8976,
+   "joint_policy_per_team": 30096
+  },
+  "accumulator_bound": {
+   "mover": 34538250,
+   "squad": 28490402,
+   "act": 21296314,
+   "target": 23902144,
+   "value": 33542730
+  },
+  "exported": "2026-10-09T09:25:53"
+ }
+}
