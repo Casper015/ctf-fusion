@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 
 repo = Path('C:/Users/caspe/OneDrive/Code/ctf-fusion')
-results_dir = repo / 'reports' / 'results'
+results_dir = repo / 'roster' / 'report' / 'results'
 results_dir.mkdir(parents=True, exist_ok=True)
 
 # 1. Copy raw matches into reports/results/matches
@@ -69,12 +69,3 @@ with open(matrix_csv, 'w', newline='', encoding='utf-8') as f:
     for b, row in zip(dist['ids'], dist['overall']):
         writer.writerow([b] + [round(x, 4) for x in row])
 print(f"Generated {matrix_csv}")
-
-# 5. Also create reports/result directory alias/link
-result_alias = repo / 'reports' / 'result'
-if not result_alias.exists():
-    try:
-        os.system(f'cmd /c mklink /J "{result_alias}" "{results_dir}"')
-    except Exception:
-        shutil.copytree(results_dir, result_alias)
-print(f"Created alias: {result_alias}")

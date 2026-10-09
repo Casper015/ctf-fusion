@@ -126,9 +126,9 @@ All 122 bots were monitored turn-by-turn during the 10,248 replays:
 
 ---
 
-## 6. Structure of Output Directory (`reports/results/`)
+## 6. Structure of Output Directory (`roster/report/results/`)
 
-All raw game data, probe configurations, and matrix dumps are archived in [reports/results](file:///C:/Users/caspe/OneDrive/Code/ctf-fusion/reports/results):
+All raw game data, probe configurations, and matrix dumps are archived in [roster/report/results](results):
 
 - **`matches/`**: Complete 84 raw match replays in GZIP JSON format covering team counts `n02` through `n15`.
 - **`matches_summary.csv`**: Game-by-game breakdown (match ID, teams, map/flag seeds, scores, winners, faults).

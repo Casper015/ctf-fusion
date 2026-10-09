@@ -61,7 +61,7 @@ plt.title('CTF-Fusion: Pairwise Behavioral Distance Matrix\nOfficial LLM Judge B
           fontsize=13, fontweight='bold', pad=15)
 plt.tight_layout()
 
-reports_dir = repo / 'reports'
+reports_dir = repo / 'roster' / 'report'
 reports_dir.mkdir(parents=True, exist_ok=True)
 judge_img_path = reports_dir / 'judge_behavior_matrix.png'
 plt.savefig(judge_img_path, dpi=300)
