@@ -1,0 +1,560 @@
+{
+ "profile": {
+  "host": "DESKTOP-G60OJUD",
+  "cpu": "AMD Ryzen 9 7945HX with Radeon Graphics",
+  "os": "Windows-10-10.0.19045-SP0",
+  "machine": "AMD64",
+  "processor": "AMD64 Family 25 Model 97 Stepping 2, AuthenticAMD",
+  "logical_cpus": 32,
+  "python": "3.14.3",
+  "numpy": "2.5.3",
+  "compiler": "C:\\path\\w64devkit\\bin\\g++.EXE",
+  "compiler_version": "g++.EXE (GCC) 15.2.0",
+  "cxx_flags": [
+   "-std=c++20",
+   "-O2",
+   "-static"
+  ],
+  "torch": "not installed"
+ },
+ "time": "2026-10-08T18:59:36",
+ "build": {
+  "Astra": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Sol": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Fable": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Sonnet": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Opus": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "DeepSeek": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Qwen": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "MiMo": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Kimi": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "GLM": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Control_Hybrid": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Player5_Omega": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Player5_Omega_LIT": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "R3_CFL_conditional": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Player2_v005": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Astra_Full": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Player5": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Player4": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Baseline": {
+   "ok": true,
+   "seconds": 0.0
+  },
+  "Noise": {
+   "ok": true,
+   "seconds": 0.0
+  }
+ },
+ "matches": [
+  {
+   "teams": 2,
+   "seats": [
+    "Astra",
+    "Sol"
+   ],
+   "wall_seconds": 0.7,
+   "score": [
+    29,
+    22
+   ],
+   "malformed_lines": 0,
+   "timeouts": 0,
+   "simulator_exact": true,
+   "simulator": "turns 400 compared 400 skipped 0 mismatches 0 events 261",
+   "bots": [
+    {
+     "name": "Astra",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 1.0,
+     "turns_timed": 399,
+     "avg_ms": 1.671,
+     "p50_ms": 0.809,
+     "p95_ms": 5.199,
+     "p99_ms": 5.821,
+     "max_ms": 6.436,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Sol",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 2.1,
+     "turns_timed": 399,
+     "avg_ms": 0.072,
+     "p50_ms": 0.06,
+     "p95_ms": 0.16,
+     "p99_ms": 0.196,
+     "max_ms": 0.227,
+     "late": 0,
+     "stderr_tail": []
+    }
+   ]
+  },
+  {
+   "teams": 6,
+   "seats": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ],
+   "wall_seconds": 0.3,
+   "score": [
+    7,
+    3,
+    5,
+    8,
+    13,
+    8
+   ],
+   "malformed_lines": 0,
+   "timeouts": 0,
+   "simulator_exact": true,
+   "simulator": "turns 400 compared 400 skipped 0 mismatches 0 events 394",
+   "bots": [
+    {
+     "name": "Fable",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 17.7,
+     "turns_timed": 399,
+     "avg_ms": 0.245,
+     "p50_ms": 0.257,
+     "p95_ms": 0.359,
+     "p99_ms": 0.383,
+     "max_ms": 0.427,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Sonnet",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 11.3,
+     "turns_timed": 399,
+     "avg_ms": 0.07,
+     "p50_ms": 0.058,
+     "p95_ms": 0.13,
+     "p99_ms": 0.16,
+     "max_ms": 0.173,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Opus",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 12.6,
+     "turns_timed": 399,
+     "avg_ms": 0.145,
+     "p50_ms": 0.141,
+     "p95_ms": 0.181,
+     "p99_ms": 0.243,
+     "max_ms": 0.393,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "DeepSeek",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 0.5,
+     "turns_timed": 399,
+     "avg_ms": 0.337,
+     "p50_ms": 0.33,
+     "p95_ms": 0.416,
+     "p99_ms": 0.489,
+     "max_ms": 0.594,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Qwen",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 0.6,
+     "turns_timed": 399,
+     "avg_ms": 0.233,
+     "p50_ms": 0.228,
+     "p95_ms": 0.362,
+     "p99_ms": 0.444,
+     "max_ms": 0.529,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "MiMo",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 1.9,
+     "turns_timed": 399,
+     "avg_ms": 0.206,
+     "p50_ms": 0.21,
+     "p95_ms": 0.383,
+     "p99_ms": 0.508,
+     "max_ms": 0.601,
+     "late": 0,
+     "stderr_tail": []
+    }
+   ]
+  },
+  {
+   "teams": 15,
+   "seats": [
+    "Kimi",
+    "GLM",
+    "Control_Hybrid",
+    "Player5_Omega",
+    "Player5_Omega_LIT",
+    "R3_CFL_conditional",
+    "Player2_v005",
+    "Astra_Full",
+    "Player5",
+    "Player4",
+    "Baseline",
+    "Noise",
+    "Astra",
+    "Sol",
+    "Fable"
+   ],
+   "wall_seconds": 11.6,
+   "score": [
+    3,
+    1,
+    5,
+    4,
+    5,
+    7,
+    7,
+    3,
+    1,
+    5,
+    8,
+    0,
+    10,
+    7,
+    4
+   ],
+   "malformed_lines": 0,
+   "timeouts": 0,
+   "simulator_exact": true,
+   "simulator": "turns 400 compared 400 skipped 0 mismatches 0 events 1333",
+   "bots": [
+    {
+     "name": "Kimi",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 1.8,
+     "turns_timed": 399,
+     "avg_ms": 0.54,
+     "p50_ms": 0.55,
+     "p95_ms": 0.775,
+     "p99_ms": 0.927,
+     "max_ms": 1.095,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "GLM",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 1.1,
+     "turns_timed": 399,
+     "avg_ms": 0.368,
+     "p50_ms": 0.378,
+     "p95_ms": 0.591,
+     "p99_ms": 0.672,
+     "max_ms": 0.702,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Control_Hybrid",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 36.8,
+     "turns_timed": 399,
+     "avg_ms": 0.703,
+     "p50_ms": 0.387,
+     "p95_ms": 2.469,
+     "p99_ms": 3.644,
+     "max_ms": 4.157,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Player5_Omega",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 31.9,
+     "turns_timed": 399,
+     "avg_ms": 26.043,
+     "p50_ms": 30.109,
+     "p95_ms": 30.267,
+     "p99_ms": 30.361,
+     "max_ms": 30.434,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Player5_Omega_LIT",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 32.1,
+     "turns_timed": 399,
+     "avg_ms": 18.306,
+     "p50_ms": 19.492,
+     "p95_ms": 23.679,
+     "p99_ms": 25.444,
+     "max_ms": 26.884,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "R3_CFL_conditional",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 36.0,
+     "turns_timed": 399,
+     "avg_ms": 0.897,
+     "p50_ms": 0.499,
+     "p95_ms": 2.951,
+     "p99_ms": 3.894,
+     "max_ms": 4.217,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Player2_v005",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 31.1,
+     "turns_timed": 399,
+     "avg_ms": 13.828,
+     "p50_ms": 15.139,
+     "p95_ms": 15.302,
+     "p99_ms": 15.464,
+     "max_ms": 15.549,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Astra_Full",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 30.7,
+     "turns_timed": 399,
+     "avg_ms": 19.482,
+     "p50_ms": 23.123,
+     "p95_ms": 30.153,
+     "p99_ms": 30.241,
+     "max_ms": 30.361,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Player5",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 33.3,
+     "turns_timed": 399,
+     "avg_ms": 0.396,
+     "p50_ms": 0.335,
+     "p95_ms": 0.771,
+     "p99_ms": 0.979,
+     "max_ms": 1.217,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Player4",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 54.6,
+     "turns_timed": 399,
+     "avg_ms": 0.116,
+     "p50_ms": 0.112,
+     "p95_ms": 0.16,
+     "p99_ms": 0.183,
+     "max_ms": 0.239,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Baseline",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 1.4,
+     "turns_timed": 399,
+     "avg_ms": 0.332,
+     "p50_ms": 0.321,
+     "p95_ms": 0.509,
+     "p99_ms": 0.999,
+     "max_ms": 1.151,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Noise",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 0.3,
+     "turns_timed": 399,
+     "avg_ms": 0.186,
+     "p50_ms": 0.177,
+     "p95_ms": 0.271,
+     "p99_ms": 0.359,
+     "max_ms": 0.416,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Astra",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 25.4,
+     "turns_timed": 399,
+     "avg_ms": 2.163,
+     "p50_ms": 2.098,
+     "p95_ms": 3.778,
+     "p99_ms": 4.568,
+     "max_ms": 9.627,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Sol",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 33.9,
+     "turns_timed": 399,
+     "avg_ms": 3.197,
+     "p50_ms": 3.186,
+     "p95_ms": 5.567,
+     "p99_ms": 6.388,
+     "max_ms": 6.767,
+     "late": 0,
+     "stderr_tail": []
+    },
+    {
+     "name": "Fable",
+     "dead": null,
+     "faults": 0,
+     "first_ms": 40.2,
+     "turns_timed": 399,
+     "avg_ms": 0.494,
+     "p50_ms": 0.473,
+     "p95_ms": 0.765,
+     "p99_ms": 1.037,
+     "max_ms": 1.07,
+     "late": 0,
+     "stderr_tail": []
+    }
+   ]
+  }
+ ],
+ "limits_ms": [
+  2000.0,
+  50.0
+ ],
+ "contracts": {
+  "kernel_parity": true,
+  "kernel_check": "kernel_check active avx2 paths scalar sse2 avx2 checks 3139 mismatches 0",
+  "records_aligned": true,
+  "integer_parity": true,
+  "runtime_check": "turns 400 allocating_turns 0 accumulator_checks 6000 accumulator_mismatches 0 (0)",
+  "runtime_contract": true
+ },
+ "inference": {
+  "model": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\build\\placeholder\\weights_placeholder.hpp",
+  "teams": 15,
+  "turns": 1200,
+  "policy_turn_ms": {
+   "p50": 0.126,
+   "p95": 0.158,
+   "p99": 0.173,
+   "max": 0.24
+  },
+  "value_node_us": {
+   "encode": 0.689,
+   "incremental": 0.296,
+   "full": 0.771
+  },
+  "nodes": 18000,
+  "sink": 0
+ },
+ "unseated": [],
+ "verdict": {
+  "all_bots_built": true,
+  "every_bot_played": true,
+  "protocol_clean": true,
+  "first_turn_within_limit": true,
+  "no_timeouts": true,
+  "p99_under_40ms": true,
+  "simulator_exact": true,
+  "records_aligned": true,
+  "kernel_parity": true,
+  "integer_parity": true,
+  "runtime_contract": true,
+  "policy_p99_under_5ms": true
+ }
+}
