@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 
 from fusion.paths import REPO, TEAM_COUNTS
-from roster import archive, assess, catalog, distance, inventory, newbots, pool, registry, sampling, strength, trajectory
+from roster import archive, assess, catalog, distance, inventory, newbots, pool, registry, sampling, shortlist, strength, trajectory
 from roster.common import TAGS, load_json
 
 BOT = """#include <bits/stdc++.h>
@@ -681,6 +681,35 @@ class TestNewBots(unittest.TestCase):
             stored = Path(tmp) / "new" / by["p1/bot.cpp"]["file"]
             self.assertEqual(inventory.sha256_file(stored), by["p1/bot.cpp"]["source_sha256"])
             self.assertTrue((Path(tmp) / "new" / "README.md").read_text().count("independent/") >= 1)
+
+
+class TestShortlist(unittest.TestCase):
+    def test_families_tiers_specialists_and_draft(self):
+        ids = ["ctf-arena/Player7/judge/ctf/bots/a.cpp", "b.cpp", "b2.cpp", "c.cpp", "@repo/tools/noise_bot.py"]
+        E = np.array([[0, .30, .31, .30, .5], [.30, 0, .01, .06, .5], [.31, .01, 0, .07, .5], [.30, .06, .07, 0, .5], [.5] * 4 + [0]])
+        state = np.where(E > 0.02, -1.0, 1.0)
+        pc = {"2": E.copy(), "3": E.copy()}
+        pc["2"][1, 2] = pc["2"][2, 1] = 0.08                      # b2 differs from b only at 2 teams
+        st = {"2": np.where(pc["2"] > 0.02, -1.0, 1.0), "3": state.copy()}
+        for m in st.values():
+            np.fill_diagonal(m, np.nan)
+        dist = {"ids": ids, "overall_excess": E.tolist(), "measured_everywhere": ids, "suite_identity": "s",
+                "excess_per_count": {n: m.tolist() for n, m in pc.items()},
+                "state_per_count": {n: [[None if np.isnan(v) else v for v in r] for r in m] for n, m in st.items()},
+                "established_distinct_counts": {b: [] for b in ids}, "distinctive_tags": {b: [] for b in ids},
+                "noise": {b: 0.0 for b in ids}}
+        sel = shortlist.build(dist, {"bots": [{"id": b, "lineage_group": f"lineage:{b}"} for b in ids]})
+        fam = {r["representative"]: r for r in sel["families"]}
+        self.assertEqual(fam["b.cpp"]["members"], ["b.cpp", "b2.cpp"])          # within 0.05: one family
+        self.assertEqual(fam["b.cpp"]["tier"], "distinct")                        # c is 0.06 away
+        self.assertEqual(fam[ids[0]]["role"], "field")
+        self.assertEqual(fam[ids[0]]["tier"], "core")
+        self.assertEqual(fam["@repo/tools/noise_bot.py"]["role"], "augmentation")
+        self.assertEqual([(s["bot"], s["counts"]) for s in sel["specialists"]], [("b2.cpp", [2])])
+        adm = shortlist.admission(sel, "t")
+        self.assertEqual(adm["bots"]["b2.cpp"]["counts"], [2])
+        self.assertEqual(adm["bots"][ids[0]]["roles"], ["style", "field"])
+        self.assertTrue(all("Review before training" in b["contribution"] for b in adm["bots"].values()))
 
 
 @unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to the AI_Test checkout")

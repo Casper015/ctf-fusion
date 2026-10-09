@@ -1,0 +1,2594 @@
+{
+ "params": {
+  "family": 0.05,
+  "core": 0.1,
+  "distance_field": "overall_excess (clipped at 0)",
+  "suite_identity": "bf37dbbacb6386ec6b6ac35af713bf92b4e49a02db601094e9a43eb8b9f1e96c",
+  "measured_everywhere": 253,
+  "unmeasured": [
+   "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_perf_combined.cpp",
+   "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_perf_profile.cpp",
+   "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_perf_prune.cpp",
+   "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_perf_reserve.cpp",
+   "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_perf_sharing.cpp"
+  ]
+ },
+ "families": [
+  {
+   "representative": "@repo/tools/noise_bot.py",
+   "members": [
+    "@repo/tools/noise_bot.py"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp",
+   "nearest_excess": 0.46536,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "respawn",
+    "pickup_option",
+    "carrier_own"
+   ],
+   "lineage": "lineage:py:noise_bot",
+   "noise": 0.0,
+   "role": "augmentation",
+   "tier": "core"
+  },
+  {
+   "representative": "@repo/tools/random_bot.py",
+   "members": [
+    "@repo/tools/random_bot.py"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp",
+   "nearest_excess": 0.37677,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "respawn",
+    "escort",
+    "interception"
+   ],
+   "lineage": "lineage:py:random_bot",
+   "noise": 0.0,
+   "role": "augmentation",
+   "tier": "core"
+  },
+  {
+   "representative": "New_AI_Test/Player0/judge/ctf/workspace/submission/bot.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/AI_Arena_CTF_bot.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player1_bot.cpp",
+    "New_AI_Test/Player0/judge/ctf/workspace/submission/bot.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-stress-pack/bots/Player6.cpp",
+   "nearest_excess": 0.36858,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "interception",
+    "escort",
+    "carrier_own"
+   ],
+   "lineage": "lineage:AI_Arena_CTF_bot",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-stress-pack/bots/Player6.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/Player6_ab_revB_bot.cpp",
+    "ctf-stress-pack/bots/Player6.cpp"
+   ],
+   "family_diameter": 0.00767,
+   "nearest_family": "New_AI_Test/Player0/judge/ctf/workspace/submission/bot.cpp",
+   "nearest_excess": 0.36858,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "respawn",
+    "return_risk",
+    "interception"
+   ],
+   "lineage": "lineage:Player6",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+   "members": [
+    "ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp",
+   "nearest_excess": 0.32279,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "interception",
+    "respawn",
+    "quiet"
+   ],
+   "lineage": "lineage:doubao-seed-2.1-turbo",
+   "noise": 0.0,
+   "role": "field",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+   "members": [
+    "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+    "ctf-stress-pack/bots/kimi-k3.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+   "nearest_excess": 0.3086,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "focus_fire",
+    "interception",
+    "contact"
+   ],
+   "lineage": "lineage:kimi-k3",
+   "noise": 0.0,
+   "role": "field",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+   "members": [
+    "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "New_AI_Test/Player3/workspace/experiments/incumbent-v001.cpp",
+   "nearest_excess": 0.2843,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "respawn",
+    "interception",
+    "quiet"
+   ],
+   "lineage": "lineage:glm-5.3",
+   "noise": 0.0,
+   "role": "field",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-stress-pack/bots/Player2.cpp",
+   "members": [
+    "ctf-stress-pack/bots/Player2.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp",
+   "nearest_excess": 0.26851,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "respawn",
+    "escort",
+    "carrier_own"
+   ],
+   "lineage": "lineage:Player2",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "New_AI_Test/Player3/workspace/experiments/incumbent-v001.cpp",
+   "members": [
+    "New_AI_Test/Player3/workspace/experiments/candidate-v002.cpp",
+    "New_AI_Test/Player3/workspace/experiments/candidate-v003.cpp",
+    "New_AI_Test/Player3/workspace/experiments/candidate-v004.cpp",
+    "New_AI_Test/Player3/workspace/experiments/incumbent-v001.cpp"
+   ],
+   "family_diameter": 0.02454,
+   "nearest_family": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "nearest_excess": 0.26737,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "interception",
+    "quiet",
+    "respawn"
+   ],
+   "lineage": "lineage:candidate-v002",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp",
+   "members": [
+    "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-stress-pack/bots/Player1.cpp",
+   "nearest_excess": 0.25832,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "respawn",
+    "quiet",
+    "carrier_own"
+   ],
+   "lineage": "lineage:ctf-arena_Player1_t2_snapshot_01076b3d",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-stress-pack/bots/Player1.cpp",
+   "members": [
+    "ctf-stress-pack/bots/Player1.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp",
+   "nearest_excess": 0.25832,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "respawn",
+    "interception",
+    "quiet"
+   ],
+   "lineage": "lineage:Player1",
+   "noise": 0.00232,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+   "members": [
+    "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-stress-pack/bots/baseline.cpp",
+   "nearest_excess": 0.24995,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "focus_fire",
+    "contact",
+    "collision_risk"
+   ],
+   "lineage": "lineage:deepseek-v4.1-flash",
+   "noise": 0.0,
+   "role": "field",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+   "members": [
+    "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_runner_v8.cpp",
+   "nearest_excess": 0.24877,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "carrier_own",
+    "escort",
+    "flag"
+   ],
+   "lineage": "lineage:gpt-6-astra",
+   "noise": 0.00121,
+   "role": "field",
+   "tier": "core"
+  },
+  {
+   "representative": "@repo/roster/new_bots/independent/AI_Arena_CTF_Player01_bot.cpp",
+   "members": [
+    "@repo/roster/new_bots/independent/AI_Arena_CTF_Player01_bot.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "New_AI_Test/Player2/workspace/experiments/cand-002.cpp",
+   "nearest_excess": 0.24734,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "escort",
+    "focus_fire",
+    "carrier_own"
+   ],
+   "lineage": "lineage:AI_Arena_CTF_Player01_bot",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+   "members": [
+    "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "nearest_excess": 0.24723,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "interception",
+    "contact",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:qwen-3.8-max",
+   "noise": 0.0,
+   "role": "field",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+   "members": [
+    "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+   "nearest_excess": 0.24636,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "pickup_option",
+    "focus_fire",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:fable-5.1",
+   "noise": 0.0,
+   "role": "field",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-stress-pack/bots/baseline.cpp",
+   "members": [
+    "ctf-stress-pack/bots/baseline.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "New_AI_Test/Player4/workspace/experiments/candidate-v005-15p-intercept.cpp",
+   "nearest_excess": 0.24518,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "escort",
+    "focus_fire",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:baseline",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "New_AI_Test/player7/workspace/submission/bot.cpp",
+   "members": [
+    "New_AI_Test/player7/workspace/submission/bot.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "New_AI_Test/Player4/workspace/experiments/candidate-v005-15p-intercept.cpp",
+   "nearest_excess": 0.2388,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "interception",
+    "escort",
+    "respawn"
+   ],
+   "lineage": "lineage:bot",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "New_AI_Test/Player4/workspace/experiments/candidate-v005-15p-intercept.cpp",
+   "members": [
+    "New_AI_Test/Player4/workspace/experiments/candidate-v002-risk.cpp",
+    "New_AI_Test/Player4/workspace/experiments/candidate-v003-intercept.cpp",
+    "New_AI_Test/Player4/workspace/experiments/candidate-v004-intercept-clean.cpp",
+    "New_AI_Test/Player4/workspace/experiments/candidate-v005-15p-intercept.cpp",
+    "New_AI_Test/Player4/workspace/experiments/incumbent-v001.cpp"
+   ],
+   "family_diameter": 0.03467,
+   "nearest_family": "New_AI_Test/Player2/workspace/experiments/incumbent-v001.cpp",
+   "nearest_excess": 0.23875,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "interception",
+    "escort",
+    "focus_fire"
+   ],
+   "lineage": "lineage:candidate-v002-risk",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "@repo/roster/new_bots/independent/AI_Arena_CTF_Player02_bot.cpp",
+   "members": [
+    "@repo/roster/new_bots/independent/AI_Arena_CTF_Player02_bot.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "nearest_excess": 0.23666,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "interception",
+    "focus_fire",
+    "contact"
+   ],
+   "lineage": "lineage:AI_Arena_CTF_Player02_bot",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "members": [
+    "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/independent/AI_Arena_CTF_Player02_bot.cpp",
+   "nearest_excess": 0.23666,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "interception",
+    "escort",
+    "focus_fire"
+   ],
+   "lineage": "lineage:mimo-v2.6-pro",
+   "noise": 0.0,
+   "role": "field",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-stress-pack/bots/Player4.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player4_v10_flank_optimized.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player4_v8_winning.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player4_v9_latest.cpp",
+    "ctf-stress-pack/bots/Player4.cpp"
+   ],
+   "family_diameter": 0.03937,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player4_v5.cpp",
+   "nearest_excess": 0.23282,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "pickup_option",
+    "return_risk",
+    "respawn"
+   ],
+   "lineage": "lineage:Player4",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player4_v3.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player4_v3.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player4_v5.cpp",
+   "nearest_excess": 0.21765,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "focus_fire",
+    "overkill_risk",
+    "escort"
+   ],
+   "lineage": "lineage:ctf-arena_Player4_v3",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+   "members": [
+    "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+   "nearest_excess": 0.20427,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "contact",
+    "return_risk",
+    "focus_fire"
+   ],
+   "lineage": "lineage:opus-5.5",
+   "noise": 0.0,
+   "role": "field",
+   "tier": "core"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player4_v5.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player4_v5.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/independent/ctf-arena_Player4_v2.cpp",
+   "nearest_excess": 0.19636,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "pickup_option",
+    "focus_fire",
+    "quiet"
+   ],
+   "lineage": "lineage:ctf-arena_Player4_v3",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "@repo/roster/new_bots/independent/ctf-arena_Player4_v2.cpp",
+   "members": [
+    "@repo/roster/new_bots/independent/ctf-arena_Player4_v2.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player4_v5.cpp",
+   "nearest_excess": 0.19636,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "respawn",
+    "escort",
+    "focus_fire"
+   ],
+   "lineage": "lineage:ctf-arena_Player4_v2",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+   "members": [
+    "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "New_AI_Test/Player2/workspace/experiments/cand-h1.cpp",
+   "nearest_excess": 0.19346,
+   "established_distinct_counts": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "overkill_risk",
+    "carrier_own",
+    "respawn"
+   ],
+   "lineage": "lineage:gpt-6.1-sol",
+   "noise": 0.0,
+   "role": "field",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+   "members": [
+    "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "New_AI_Test/Player2/workspace/experiments/cand-011.cpp",
+   "nearest_excess": 0.17841,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "overkill_risk",
+    "focus_fire",
+    "contact"
+   ],
+   "lineage": "lineage:sonnet-5.5",
+   "noise": 0.0,
+   "role": "field",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-stress-pack/bots/Player3.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player3_bot_snapshot_4cfacfe83e48f0f4.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_c1.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_v2.cpp",
+    "ctf-stress-pack/bots/Player3.cpp"
+   ],
+   "family_diameter": 0.0065,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_tune.cpp",
+   "nearest_excess": 0.15236,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "pickup_option",
+    "contact",
+    "endgame"
+   ],
+   "lineage": "lineage:Player3",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_tune.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_tune.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-stress-pack/bots/Player3.cpp",
+   "nearest_excess": 0.15236,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "pickup_option",
+    "endgame",
+    "respawn"
+   ],
+   "lineage": "lineage:Player3",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "New_AI_Test/Player2/workspace/experiments/cand-011.cpp",
+   "members": [
+    "New_AI_Test/Player2/workspace/experiments/cand-011.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "New_AI_Test/Player2/workspace/experiments/cand-008.cpp",
+   "nearest_excess": 0.13033,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "quiet",
+    "pickup_option",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:cand-011",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "ctf-stress-pack/bots_v2/Player5.cpp",
+   "members": [
+    "ctf-stress-pack/bots_v2/Player5.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "New_AI_Test/Player5/workspace/submission/bot.cpp",
+   "nearest_excess": 0.1029,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "escort",
+    "carrier_own",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.00012,
+   "role": "style",
+   "tier": "core"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_fortress.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_fortress.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_small_no_raid.cpp",
+   "nearest_excess": 0.09912,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "quiet",
+    "respawn",
+    "contact"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_raider.cpp",
+   "members": [
+    "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_raider.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring.cpp",
+   "nearest_excess": 0.09383,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "respawn",
+    "overkill_risk",
+    "quiet"
+   ],
+   "lineage": "lineage:ctf-arena_Player5_sparring",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "New_AI_Test/Player2/workspace/experiments/cand-012.cpp",
+   "members": [
+    "New_AI_Test/Player2/workspace/experiments/cand-012.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-stress-pack/bots/Player5.cpp",
+   "nearest_excess": 0.09365,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "pickup_option",
+    "focus_fire",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:cand-012",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_adaptive.cpp",
+   "members": [
+    "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_adaptive.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring.cpp",
+   "nearest_excess": 0.0935,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "overkill_risk",
+    "respawn",
+    "focus_fire"
+   ],
+   "lineage": "lineage:ctf-arena_Player5_sparring",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "New_AI_Test/Player5/workspace/submission/bot.cpp",
+   "members": [
+    "New_AI_Test/Player5/workspace/submission/bot.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-stress-pack/bots/Player5.cpp",
+   "nearest_excess": 0.08531,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "escort",
+    "carrier_own",
+    "endgame"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/R3_FLAGS_joint.cpp",
+   "members": [
+    "ctf-arena/Player7/workspace/experiments/round3/export/R3_FLAGS_joint.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C19_R3_FLAGS_joint.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-arena/Player7/workspace/experiments/round3/export/Control_NG_foundation.cpp",
+   "nearest_excess": 0.06064,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "return_risk",
+    "quiet",
+    "respawn"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_external_CL.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_round3_macro_candidate.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_external_CL.cpp"
+   ],
+   "family_diameter": 0.04451,
+   "nearest_family": "ctf-stress-pack/bots/Player5.cpp",
+   "nearest_excess": 0.06018,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "escort",
+    "carrier_own",
+    "flag"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "New_AI_Test/Player2/workspace/experiments/cand-mc1.cpp",
+   "members": [
+    "New_AI_Test/Player2/workspace/experiments/cand-mc1.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-mc2.cpp"
+   ],
+   "family_diameter": 0.00606,
+   "nearest_family": "New_AI_Test/Player2/workspace/experiments/cand-h1.cpp",
+   "nearest_excess": 0.05999,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "quiet",
+    "respawn",
+    "carrier_own"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v2.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v2.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_combined.cpp",
+   "nearest_excess": 0.0565,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "quiet",
+    "contact",
+    "collision_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "New_AI_Test/Player2/workspace/experiments/incumbent-v001.cpp",
+   "members": [
+    "New_AI_Test/Player2/workspace/experiments/incumbent-v001.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "New_AI_Test/Player2/workspace/experiments/cand-002.cpp",
+   "nearest_excess": 0.05616,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "focus_fire",
+    "escort",
+    "contact"
+   ],
+   "lineage": "lineage:cand-002",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring.cpp",
+   "members": [
+    "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_runner.cpp",
+   "nearest_excess": 0.05528,
+   "established_distinct_counts": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "respawn",
+    "overkill_risk",
+    "quiet"
+   ],
+   "lineage": "lineage:ctf-arena_Player5_sparring",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_runner.cpp",
+   "members": [
+    "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_runner.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring.cpp",
+   "nearest_excess": 0.05528,
+   "established_distinct_counts": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "respawn",
+    "overkill_risk",
+    "focus_fire"
+   ],
+   "lineage": "lineage:ctf-arena_Player5_sparring",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_hunter.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_hunter.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_pack.cpp",
+   "nearest_excess": 0.05455,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "quiet",
+    "contact",
+    "respawn"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v14_flag_rollout.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v15_physical_rollout.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v7_rollout.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v8_fast_rollout.cpp"
+   ],
+   "family_diameter": 0.04495,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_volley_trio.cpp",
+   "nearest_excess": 0.05358,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "contact",
+    "escort",
+    "carrier_own"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_volley_trio.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_volley_trio.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp",
+   "nearest_excess": 0.05358,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "pickup_option",
+    "contact",
+    "escort"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp",
+   "members": [
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-benchmark-v3/track2_2k_c_series/bots/C08_Player5_Omega_LIT.cpp",
+   "nearest_excess": 0.05357,
+   "established_distinct_counts": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "respawn",
+    "endgame",
+    "return_risk"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.00071,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "ctf-benchmark-v3/track2_2k_c_series/bots/C08_Player5_Omega_LIT.cpp",
+   "members": [
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C08_Player5_Omega_LIT.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp",
+   "nearest_excess": 0.05357,
+   "established_distinct_counts": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "pickup_option",
+    "respawn",
+    "carrier_own"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.00024,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_runner_v8.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_runner_v8.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_small_no_raid.cpp",
+   "nearest_excess": 0.05221,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "overkill_risk",
+    "focus_fire",
+    "escort"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/R3_EXPECTIMAX_sampled.cpp",
+   "members": [
+    "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega_defaultWeights.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/R3_EXPECTIMAX_sampled.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C09_Player5_Omega_defaultWeights.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C17_R3_EXPECTIMAX_anytime.cpp"
+   ],
+   "family_diameter": 0.02227,
+   "nearest_family": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+   "nearest_excess": 0.05185,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "pickup_option",
+    "respawn",
+    "quiet"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.00058,
+   "role": "style",
+   "tier": "distinct"
+  },
+  {
+   "representative": "New_AI_Test/Player2/workspace/experiments/cand-002.cpp",
+   "members": [
+    "New_AI_Test/Player2/workspace/experiments/cand-002.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-003.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-004.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-005.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-006.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-007.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-009.cpp",
+    "New_AI_Test/Player2/workspace/experiments/timing-v002.cpp"
+   ],
+   "family_diameter": 0.03759,
+   "nearest_family": "New_AI_Test/Player2/workspace/experiments/cand-008.cpp",
+   "nearest_excess": 0.04928,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "focus_fire",
+    "contact",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:cand-002",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "New_AI_Test/Player2/workspace/experiments/cand-008.cpp",
+   "members": [
+    "New_AI_Test/Player2/workspace/experiments/cand-008.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-010.cpp",
+    "New_AI_Test/Player2/workspace/experiments/timing-v003.cpp"
+   ],
+   "family_diameter": 0.01753,
+   "nearest_family": "New_AI_Test/Player2/workspace/experiments/cand-002.cpp",
+   "nearest_excess": 0.04928,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "overkill_risk",
+    "focus_fire",
+    "contact"
+   ],
+   "lineage": "lineage:cand-002",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "New_AI_Test/Player2/workspace/experiments/cand-f1.cpp",
+   "members": [
+    "New_AI_Test/Player2/workspace/experiments/cand-f1.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-r2.cpp"
+   ],
+   "family_diameter": 0.01032,
+   "nearest_family": "New_AI_Test/Player2/workspace/experiments/cand-h1.cpp",
+   "nearest_excess": 0.04865,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "focus_fire",
+    "overkill_risk",
+    "interception"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_041.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_041.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-stress-pack/bots/Player5.cpp",
+   "nearest_excess": 0.04849,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "quiet",
+    "carrier_own",
+    "interception"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_small_control.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_small_control.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_trio.cpp",
+   "nearest_excess": 0.04804,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "contact",
+    "overkill_risk",
+    "interception"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/Control_NG_foundation.cpp",
+   "members": [
+    "ctf-arena/Player7/workspace/experiments/round3/export/Control_NG_foundation.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/R3_CDP_horizon.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/R3_CFL_conditional.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/R3_CL_terminal.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/R3_DROP_scored.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/R3_ESCORT_mech.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/R3_HABITS_adaptive.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/R3_HEALTHY_pickup.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C02_Control_NG_foundation.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C11_R3_CDP_horizon.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C12_R3_CFL_conditional.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C13_R3_CL_terminal.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C14_R3_DROP_scored.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C15_R3_ESCORT_healthy.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C16_R3_ESCORT_mech.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C20_R3_HABITS_adaptive.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C21_R3_HEALTHY_pickup.cpp"
+   ],
+   "family_diameter": 0.04794,
+   "nearest_family": "New_AI_Test/Player2/workspace/experiments/cand-h1.cpp",
+   "nearest_excess": 0.04697,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "pickup_option",
+    "overkill_risk",
+    "focus_fire"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CML_macro.cpp",
+   "members": [
+    "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CML_macro.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CFL_conditional.cpp",
+   "nearest_excess": 0.04278,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "pickup_option",
+    "endgame",
+    "return_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "ctf-benchmark-v3/track1_10k_suite/bots/B2_Player2_v005.cpp",
+   "members": [
+    "New_AI_Test/Player2/workspace/experiments/cand-d2.cpp",
+    "New_AI_Test/Player2/workspace/experiments/timing-d1.cpp",
+    "ctf-benchmark-v3/track1_10k_suite/bots/B2_Player2_v005.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C06_G_SH_halving.cpp"
+   ],
+   "family_diameter": 0.03094,
+   "nearest_family": "ctf-benchmark-v3/track2_2k_c_series/bots/C03_G_ASYM_plans.cpp",
+   "nearest_excess": 0.03767,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "respawn",
+    "quiet",
+    "carrier_own"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.00086,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v4.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v4.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_combined.cpp",
+   "nearest_excess": 0.03761,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "quiet",
+    "respawn",
+    "collision_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_021.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_021.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_006.cpp",
+   "nearest_excess": 0.03733,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "quiet",
+    "respawn",
+    "contact"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_focused.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_focused.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_trio.cpp",
+   "nearest_excess": 0.03587,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "quiet",
+    "contact",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_trio.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_discipline.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_trio.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v11_trio_forecast.cpp"
+   ],
+   "family_diameter": 0.02398,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_pack.cpp",
+   "nearest_excess": 0.03393,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "contact",
+    "quiet",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_pack.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_pack.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_trio.cpp",
+   "nearest_excess": 0.03393,
+   "established_distinct_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "quiet",
+    "contact",
+    "respawn"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_small_no_raid.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_small_no_raid.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_small_runner.cpp"
+   ],
+   "family_diameter": 0.04462,
+   "nearest_family": "ctf-stress-pack/bots/modular_bot.cpp",
+   "nearest_excess": 0.03083,
+   "established_distinct_counts": [
+    3,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "interception",
+    "contact",
+    "quiet"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "ctf-benchmark-v3/track2_2k_c_series/bots/C03_G_ASYM_plans.cpp",
+   "members": [
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C03_G_ASYM_plans.cpp"
+   ],
+   "family_diameter": 0.0,
+   "nearest_family": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+   "nearest_excess": 0.03019,
+   "established_distinct_counts": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "distinctive_tags": [
+    "pickup_option",
+    "quiet",
+    "respawn"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.00021,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+   "members": [
+    "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega_hybridMacro.cpp",
+    "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Carrier.cpp",
+    "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Joint.cpp",
+    "ctf-benchmark-v3/track1_10k_suite/bots/Control_Omega.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C05_G_RISK_entropic.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C07_Player5_Omega.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C10_Player5_Omega_hybridMacro.cpp",
+    "ctf-s1-controls/exports/S1_A_Conservative.cpp",
+    "ctf-s1-controls/exports/S1_B_DuelPlus.cpp",
+    "ctf-s1-controls/exports/S1_C_Adaptive6p_Fast15.cpp",
+    "ctf-s1-controls/exports/S2_1_StepGuard.cpp",
+    "ctf-s1-controls/exports/S2_2_Fast15All.cpp",
+    "ctf-s1-controls/exports/S2_3_RiskStrong.cpp",
+    "ctf-s1-controls/exports/S2_4_ReturnAware.cpp",
+    "ctf-s1-controls/exports/S2_5_Risk3plus.cpp"
+   ],
+   "family_diameter": 0.04101,
+   "nearest_family": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Full.cpp",
+   "nearest_excess": 0.03002,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "pickup_option",
+    "respawn",
+    "quiet"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.00063,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Full.cpp",
+   "members": [
+    "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Full.cpp",
+    "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Habits.cpp",
+    "ctf-s1-controls/exports/S1_D_CrowdHabit.cpp"
+   ],
+   "family_diameter": 0.03891,
+   "nearest_family": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+   "nearest_excess": 0.03002,
+   "established_distinct_counts": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    12
+   ],
+   "distinctive_tags": [
+    "pickup_option",
+    "carrier_own",
+    "flag"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.00083,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "ctf-stress-pack/bots/modular_bot.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_champion_172.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v3.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_000.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_001.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_002.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_003.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_004.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_005.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_011.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_013.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_019.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_022.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_029.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_031.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_033.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_034.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_036.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_037.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_040.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_046.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_048.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_050.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v11_pickup_forecast.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v13_spawn_macro.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v16_marginal_cautious.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v16_marginal_fire.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v18_scratch.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v19_fast_io.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v4_learn.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v4_learn_original.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v5_relay.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v5_relay_pickup.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v6_combo.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v8_fast_combo.cpp",
+    "ctf-stress-pack/bots/modular_bot.cpp"
+   ],
+   "family_diameter": 0.04687,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_006.cpp",
+   "nearest_excess": 0.02546,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "quiet",
+    "contact",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_008.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_008.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_009.cpp"
+   ],
+   "family_diameter": 0.03058,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_006.cpp",
+   "nearest_excess": 0.02296,
+   "established_distinct_counts": [
+    2,
+    4,
+    5,
+    6,
+    7,
+    9,
+    10,
+    15
+   ],
+   "distinctive_tags": [
+    "carrier_own",
+    "flag",
+    "collision_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_combined.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_testing_v1.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v1.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_attention.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_combined.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_focus.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_pickup.cpp"
+   ],
+   "family_diameter": 0.02179,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_hardy.cpp",
+   "nearest_excess": 0.01957,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "quiet",
+    "contact",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_hardy.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_base.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_aggressive.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_balanced.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_cohesive.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_focused.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_hardy.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_pressure.cpp"
+   ],
+   "family_diameter": 0.04606,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_combined.cpp",
+   "nearest_excess": 0.01957,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "pickup_option",
+    "quiet",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_006.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_006.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_007.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_012.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_016.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_023.cpp"
+   ],
+   "family_diameter": 0.0433,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_010.cpp",
+   "nearest_excess": 0.0186,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "quiet",
+    "collision_risk",
+    "carrier_own"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_010.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_010.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_015.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_038.cpp"
+   ],
+   "family_diameter": 0.02906,
+   "nearest_family": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_006.cpp",
+   "nearest_excess": 0.0186,
+   "established_distinct_counts": [
+    12
+   ],
+   "distinctive_tags": [
+    "quiet",
+    "collision_risk",
+    "overkill_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "New_AI_Test/Player2/workspace/experiments/cand-h1.cpp",
+   "members": [
+    "New_AI_Test/Player2/workspace/experiments/cand-h1.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-m1.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-m2.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-m3.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-m4.cpp",
+    "New_AI_Test/Player2/workspace/experiments/cand-r1.cpp",
+    "New_AI_Test/Player2/workspace/experiments/diag-fc.cpp",
+    "New_AI_Test/Player2/workspace/experiments/timing-h1.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/R3_WEIGHTS_tuned.cpp",
+    "ctf-benchmark-v3/track2_2k_c_series/bots/C22_R3_WEIGHTS_tuned.cpp"
+   ],
+   "family_diameter": 0.04526,
+   "nearest_family": "ctf-stress-pack/bots/Player5.cpp",
+   "nearest_excess": 0.01764,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "quiet",
+    "collision_risk",
+    "endgame"
+   ],
+   "lineage": "lineage:Control_Hybrid",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_014.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_014.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_018.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_024.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_025.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_027.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_028.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_035.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_039.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_043.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_045.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_047.cpp"
+   ],
+   "family_diameter": 0.03537,
+   "nearest_family": "ctf-stress-pack/bots/Player5.cpp",
+   "nearest_excess": 0.01696,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "quiet",
+    "collision_risk",
+    "contact"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "ctf-stress-pack/bots/Player5.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/Player5_v2_testing_build_source-eec477a97c6549d62a71f9b4121fb2ba7d1f5b0969a5c7db772a7f6fe97eb6f2.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_final_candidate.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tune17_fast.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_recommended.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_017.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_020.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_026.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_030.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_032.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_042.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_049.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v13_spawn_tuned.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_capture.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_core.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_macro.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_macro_deny.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_macro_screen_v1.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_micro.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_micro_screen.cpp",
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_tactics.cpp",
+    "ctf-stress-pack/bots/Player5.cpp",
+    "ctf-stress-pack/bots/modular_bot_clean.cpp",
+    "ctf-stress-pack/bots/modular_bot_v3.cpp"
+   ],
+   "family_diameter": 0.03558,
+   "nearest_family": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CFL_conditional.cpp",
+   "nearest_excess": 0.01413,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "quiet",
+    "collision_risk",
+    "contact"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  },
+  {
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CFL_conditional.cpp",
+   "members": [
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_round3_CFL_uncached.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CFL_conditional.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_checked.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_terminal.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_DROP_scored.cpp",
+    "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_HABITS_adaptive.cpp"
+   ],
+   "family_diameter": 0.04356,
+   "nearest_family": "ctf-stress-pack/bots/Player5.cpp",
+   "nearest_excess": 0.01413,
+   "established_distinct_counts": [],
+   "distinctive_tags": [
+    "focus_fire",
+    "flag",
+    "return_risk"
+   ],
+   "lineage": "lineage:Player5",
+   "noise": 0.0,
+   "role": "style",
+   "tier": "near"
+  }
+ ],
+ "specialists": [
+  {
+   "bot": "@repo/roster/new_bots/forks/ctf-arena_Player4_v8_winning.cpp",
+   "representative": "ctf-stress-pack/bots/Player4.cpp",
+   "counts": [
+    6,
+    7,
+    9,
+    11,
+    12,
+    15
+   ],
+   "excess_at_counts": {
+    "6": 0.0731,
+    "7": 0.0739,
+    "9": 0.0641,
+    "11": 0.0566,
+    "12": 0.0542,
+    "15": 0.0515
+   }
+  },
+  {
+   "bot": "@repo/roster/new_bots/forks/ctf-arena_Player4_v9_latest.cpp",
+   "representative": "ctf-stress-pack/bots/Player4.cpp",
+   "counts": [
+    6,
+    7,
+    9,
+    11,
+    12,
+    15
+   ],
+   "excess_at_counts": {
+    "6": 0.0724,
+    "7": 0.0734,
+    "9": 0.0637,
+    "11": 0.055,
+    "12": 0.0535,
+    "15": 0.0508
+   }
+  },
+  {
+   "bot": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_HABITS_adaptive.cpp",
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CFL_conditional.cpp",
+   "counts": [
+    2,
+    3,
+    4
+   ],
+   "excess_at_counts": {
+    "2": 0.0607,
+    "3": 0.0559,
+    "4": 0.0511
+   }
+  },
+  {
+   "bot": "@repo/roster/new_bots/forks/ctf-arena_Player5_round3_macro_candidate.cpp",
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_external_CL.cpp",
+   "counts": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "excess_at_counts": {
+    "2": 0.0657,
+    "3": 0.0604,
+    "4": 0.0647,
+    "5": 0.0767
+   }
+  },
+  {
+   "bot": "@repo/roster/new_bots/forks/ctf-arena_Player5_small_runner.cpp",
+   "representative": "@repo/roster/new_bots/forks/ctf-arena_Player5_small_no_raid.cpp",
+   "counts": [
+    2,
+    3,
+    4
+   ],
+   "excess_at_counts": {
+    "2": 0.0601,
+    "3": 0.0557,
+    "4": 0.0622
+   }
+  },
+  {
+   "bot": "ctf-arena/Player7/workspace/experiments/round3/export/R3_WEIGHTS_tuned.cpp",
+   "representative": "New_AI_Test/Player2/workspace/experiments/cand-h1.cpp",
+   "counts": [
+    4,
+    5
+   ],
+   "excess_at_counts": {
+    "4": 0.05,
+    "5": 0.054
+   }
+  },
+  {
+   "bot": "ctf-benchmark-v3/track2_2k_c_series/bots/C22_R3_WEIGHTS_tuned.cpp",
+   "representative": "New_AI_Test/Player2/workspace/experiments/cand-h1.cpp",
+   "counts": [
+    4,
+    5
+   ],
+   "excess_at_counts": {
+    "4": 0.05,
+    "5": 0.054
+   }
+  },
+  {
+   "bot": "New_AI_Test/Player2/workspace/experiments/cand-mc2.cpp",
+   "representative": "New_AI_Test/Player2/workspace/experiments/cand-mc1.cpp",
+   "counts": [
+    3
+   ],
+   "excess_at_counts": {
+    "3": 0.0849
+   }
+  },
+  {
+   "bot": "New_AI_Test/Player4/workspace/experiments/candidate-v002-risk.cpp",
+   "representative": "New_AI_Test/Player4/workspace/experiments/candidate-v005-15p-intercept.cpp",
+   "counts": [
+    15
+   ],
+   "excess_at_counts": {
+    "15": 0.0518
+   }
+  },
+  {
+   "bot": "ctf-arena/Player7/workspace/experiments/round3/export/R3_HABITS_adaptive.cpp",
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/Control_NG_foundation.cpp",
+   "counts": [
+    5
+   ],
+   "excess_at_counts": {
+    "5": 0.057
+   }
+  },
+  {
+   "bot": "ctf-benchmark-v3/track2_2k_c_series/bots/C20_R3_HABITS_adaptive.cpp",
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/Control_NG_foundation.cpp",
+   "counts": [
+    5
+   ],
+   "excess_at_counts": {
+    "5": 0.057
+   }
+  },
+  {
+   "bot": "ctf-s1-controls/exports/S1_C_Adaptive6p_Fast15.cpp",
+   "representative": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+   "counts": [
+    6
+   ],
+   "excess_at_counts": {
+    "6": 0.1242
+   }
+  },
+  {
+   "bot": "ctf-s1-controls/exports/S1_D_CrowdHabit.cpp",
+   "representative": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Full.cpp",
+   "counts": [
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "excess_at_counts": {
+    "3": 0.0678,
+    "4": 0.0562,
+    "5": 0.0723,
+    "6": 0.0618,
+    "7": 0.0617
+   }
+  }
+ ],
+ "created": "2026-10-08T22:12:17"
+}
