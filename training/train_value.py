@@ -19,7 +19,7 @@ from fusion.models import ValueNet, value_inputs
 from fusion.nn import Adam
 from fusion.schema import layout as feature_layout
 from fusion.paths import model_counts
-from training.common import Run, add_training_args, batches, check_widths, data_manifest, fit, subset, torch_fit, warm_start
+from training.common import Run, add_training_args, batches, data_manifest, fit, resolve_hidden, subset, torch_fit, warm_start
 from training.dataset import load
 
 
@@ -50,9 +50,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     add_training_args(ap, batch=2048)
     ap.add_argument("--aux-weight", type=float, default=0.25)
-    ap.add_argument("--hidden", default="128,16")
+    ap.add_argument("--hidden", help="override preset value hidden widths, comma-separated")
     a = ap.parse_args(argv)
-    hidden = check_widths(a.hidden.split(","), "--hidden", a.max_width)
+    hidden, capacity = resolve_hidden(a, "value")
     rng = np.random.default_rng(a.seed)
     fields = ("rec", "v_y", "weight", "teams", "match", "turn")
     counts = model_counts(a.model)
@@ -67,7 +67,7 @@ def main(argv=None):
     init = warm_start(model, a.init, layout.schema["spec_version"])
     opt = Adam(model.params, lr=a.lr, weight_decay=a.weight_decay)
     cfg = {"aux_weight": a.aux_weight}
-    run = Run(a.out, {"kind": "value", "model": a.model, "hidden": hidden, "args": vars(a), "seed": a.seed,
+    run = Run(a.out, {"kind": "value", "model": a.model, "capacity": capacity, "hidden": hidden, "args": vars(a), "seed": a.seed,
                       "init": init, "data": data_manifest(a.shards, counts),
                       "rows": {"train": len(train["rec"]), "val": len(val["rec"])},
                       "spec_version": layout.schema["spec_version"]})

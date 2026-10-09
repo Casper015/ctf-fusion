@@ -66,17 +66,17 @@ It writes `reports/training_bench_<host>.md`: rows per second, epoch and wall ti
 
 **Precision.** Float32; TF32 is off unless `--tf32`, which changes rounding and has to be compared before use. The run's `config.json` records the backend, PyTorch and CUDA versions, the GPU, epoch timings, rows per second and peak VRAM.
 
-**The largest tier (XXL, from `tools/capacity_bench.py`; it fits the per-turn budget at every team count on the host):**
+**The largest preset (XXL, `fusion/capacity.py`; it fits the per-turn budget at every team count on the host):**
 
 ```bash
-python -m training.train_policy --model general --backend torch --device cuda --hidden-mover 256 --hidden-squad 1024,256 --hidden-act 256 --hidden-target 32 --max-width 2048 --count-weighting inv_teams --out runs/policy_general_xxl
+python -m training.train_policy --model general --backend torch --device cuda --capacity XXL --count-weighting inv_teams --out runs/policy_general_xxl
 ```
 
 ```bash
-python -m training.train_value --model general --backend torch --device cuda --hidden 2048,128 --max-width 2048 --count-weighting inv_teams --out runs/value_general_xxl
+python -m training.train_value --model general --backend torch --device cuda --capacity XXL --count-weighting inv_teams --out runs/value_general_xxl
 ```
 
-Dedicated models warm-start from it with the same widths (`--init runs/policy_general_xxl`). Export needs `--max-width 2048`, and the bot must be built with `-DFUSION_MAX_WIDTH=2048`. Whether XXL predicts better than the exported models is decided by `evaluate_offline` on the same test maps, not by training speed.
+Dedicated models warm-start from it with the same preset (`--capacity XXL --init runs/policy_general_xxl`). Evaluation and export infer the buffer width from the layer shapes; the generated registry defines `FUSION_MAX_WIDTH` (2048 for XXL) before the inference headers. Whether XXL predicts better than the exported models is decided by `evaluate_offline` on the same test maps, not by training speed.
 
 ## Host check and latency baseline (Task E)
 

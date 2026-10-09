@@ -66,8 +66,11 @@ def add_training_args(ap, batch: int):
     ap.add_argument("--max-rows", type=int, default=0, help="subsample the training split (0 = all)")
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--val-split", default="val", help="split for early stopping and calibration")
+    from fusion.capacity import TIERS  # noqa: PLC0415
+    ap.add_argument("--capacity", choices=tuple(TIERS),
+                    help="shared architecture preset; hidden-layer flags override individual heads")
     ap.add_argument("--max-width", type=int, default=0,
-                    help="widest hidden layer allowed (default 256, the C++ default; see tools/capacity_bench.py)")
+                    help="widest hidden layer allowed (default: selected preset, else 256; explicit custom wide layers need this)")
     ap.add_argument("--count-weighting", choices=("none", "inv_teams"), default="none",
                     help="scale row weights by 1 / teams so team counts with more teams do not dominate general models")
     ap.add_argument("--backend", choices=("numpy", "torch"), default="numpy",
@@ -78,6 +81,35 @@ def add_training_args(ap, batch: int):
                     help="torch backend: keep a split's rows on the device when they fit this budget, else stream them")
     ap.add_argument("--gpu-window-rows", type=int, default=1_000_000,
                     help="torch backend: rows per streamed window (rounded down to whole minibatches)")
+
+
+def resolve_hidden(args, kind: str):
+    """Resolve a P/V preset and CLI overrides before loading the expensive dataset.
+
+    Existing custom-width calls keep their explicit-limit contract. Selecting a
+    named preset supplies that preset's ceiling; a smaller explicit ceiling is
+    still rejected. Actual dimensions are stored in every run as before.
+    """
+    from fusion.capacity import POLICY_HEADS, hidden_buffer_width, preset  # noqa: PLC0415
+    from fusion.quant import MAX_WIDTH  # noqa: PLC0415
+    if kind not in ("policy", "value"):
+        raise ValueError("kind must be policy or value")
+    base = preset(args.capacity or "S")
+    heads = POLICY_HEADS if kind == "policy" else ("value",)
+    selected = {h: base[h] for h in heads}
+    if args.max_width < 0:
+        raise SystemExit("--max-width must be positive, or 0 for the default ceiling")
+    ceiling = args.max_width or (hidden_buffer_width(selected) if args.capacity else MAX_WIDTH)
+    result, custom = {}, False
+    for head in heads:
+        flag = "hidden" if kind == "value" else f"hidden_{head}"
+        override = getattr(args, flag)
+        custom |= override is not None
+        widths = override.split(",") if override is not None else selected[head]
+        result[head] = check_widths(widths, "--" + flag.replace("_", "-"), ceiling)
+    args.max_width = ceiling
+    label = args.capacity or ("custom" if custom else "S")
+    return (result if kind == "policy" else result["value"]), label
 
 
 def policy_rows(d: dict, shards, keep_unlabeled: bool = False) -> np.ndarray:

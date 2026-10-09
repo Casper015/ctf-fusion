@@ -19,7 +19,7 @@ from fusion.models import PolicyNet, policy_batch
 from fusion.nn import Adam
 from fusion.schema import layout as feature_layout
 from fusion.paths import model_counts
-from training.common import (Run, add_training_args, batches, check_widths, data_manifest, fit, policy_rows, subset,
+from training.common import (Run, add_training_args, batches, data_manifest, fit, policy_rows, resolve_hidden, subset,
                              torch_fit, warm_start)
 from training.dataset import load
 
@@ -88,15 +88,14 @@ def main(argv=None):
     ap.add_argument("--smoothing", type=float, default=0.01)
     ap.add_argument("--act-weight", type=float, default=0.5)
     ap.add_argument("--target-weight", type=float, default=0.5)
-    ap.add_argument("--hidden-squad", default="64,32")
-    ap.add_argument("--hidden-mover", default="16")
-    ap.add_argument("--hidden-act", default="16")
-    ap.add_argument("--hidden-target", default="8")
+    ap.add_argument("--hidden-squad", help="override preset squad hidden widths, comma-separated")
+    ap.add_argument("--hidden-mover", help="override preset mover hidden widths, comma-separated")
+    ap.add_argument("--hidden-act", help="override preset action hidden widths, comma-separated")
+    ap.add_argument("--hidden-target", help="override preset target hidden widths, comma-separated")
     ap.add_argument("--keep-unlabeled", action="store_true",
                     help="also learn from families marked policy_labels false in pool.json (the noise bot)")
     a = ap.parse_args(argv)
-    hidden = {name: check_widths(getattr(a, f"hidden_{name}").split(","), f"--hidden-{name}", a.max_width)
-              for name in ("mover", "squad", "act", "target")}
+    hidden, capacity = resolve_hidden(a, "policy")
     rng = np.random.default_rng(a.seed)
     counts = model_counts(a.model)
     train = prepare(a.shards, counts, "train", a.max_rows, rng, a.keep_unlabeled)
@@ -110,7 +109,7 @@ def main(argv=None):
     init = warm_start(model, a.init, layout.schema["spec_version"])
     opt = Adam(model.params, lr=a.lr, weight_decay=a.weight_decay)
     cfg = {"smoothing": a.smoothing, "act_weight": a.act_weight, "target_weight": a.target_weight}
-    run = Run(a.out, {"kind": "policy", "model": a.model, "hidden": hidden, "args": vars(a), "seed": a.seed,
+    run = Run(a.out, {"kind": "policy", "model": a.model, "capacity": capacity, "hidden": hidden, "args": vars(a), "seed": a.seed,
                       "init": init, "data": data_manifest(a.shards, counts),
                       "rows": {"train": len(train["rec"]), "val": len(val["rec"])},
                       "spec_version": layout.schema["spec_version"]})

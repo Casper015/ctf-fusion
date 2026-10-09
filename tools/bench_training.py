@@ -27,28 +27,18 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "tools"))
 
-from capacity_bench import TIERS  # noqa: E402
+from fusion.capacity import TIERS  # noqa: E402
 from training import train_policy, train_value  # noqa: E402
 
 
-def widths(tier: str) -> dict:
-    return TIERS[tier]
-
-
 def run_one(kind: str, tier: str, backend: str, batch: int, a, tmp: Path) -> dict:
-    w = widths(tier)
     out = tmp / f"{kind}_{tier}_{backend}_{batch}"
     common = ["--shards", a.shards, "--model", a.model, "--epochs", str(a.epochs), "--batch", str(batch),
               "--max-rows", str(a.max_rows), "--seed", "1", "--out", str(out), "--lr-schedule", "constant",
-              "--max-width", str(max(max(v) for v in w.values()))]
+              "--capacity", tier]
     if backend != "numpy":
         common += ["--backend", "torch", "--device", backend.split("-", 1)[1]] + (["--tf32"] if a.tf32 else [])
-    if kind == "policy":
-        args = common + [f"--hidden-{n}={','.join(map(str, w[n]))}" for n in ("mover", "squad", "act", "target")]
-        trainer = train_policy
-    else:
-        args = common + [f"--hidden={','.join(map(str, w['value']))}"]
-        trainer = train_value
+    args, trainer = common, train_policy if kind == "policy" else train_value
     t0 = time.time()
     trainer.main(args)
     wall = time.time() - t0

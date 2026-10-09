@@ -2,6 +2,8 @@
 
 ## 22 artifacts
 
+Capacity is an independent experiment axis, defined once in `fusion/capacity.py`. Presets cover S through XXL (P squad up to 1024,256; V up to 2048,128), without changing the 10 dedicated counts plus general dispatch. They are alternative P/V configurations, not an automatic multiplication of deployed model count. See [larger-model experiments](../../docs/LARGER_MODEL_EXPERIMENTS.md) for training, export, independent P/V ablations and required host timing.
+
 | Model id | Serves team counts | Trained on | Warm start | Artifacts |
 |---|---|---|---|---|
 | `n02` `n03` `n04` `n05` `n06` `n07` `n08` `n10` `n12` `n15` | its own count | its own count's shards | `general` | P + V each (20) |
