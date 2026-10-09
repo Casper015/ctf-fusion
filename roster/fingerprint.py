@@ -37,6 +37,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+from collections import Counter
 import json
 import os
 import time
@@ -179,11 +180,17 @@ def load_all(out: Path) -> dict[str, list[dict]]:
     return runs
 
 
-def validate(runs_by_bot: dict[str, list[dict]], suite: dict | None, sources: dict[str, str] | None = None):
-    """(runs whose identity matches the suite and the expected source per bot id, {bot: [reasons]} for the rest).
-    A run without an identity (schema 1) is stale. One run per (probe, repeat): a duplicate is stale."""
+def validate(runs_by_bot: dict[str, list[dict]], suite: dict | None, sources: dict[str, str] | None = None,
+             dependencies: dict[str, str] | None = None, limits: list | None = None):
+    """(runs whose identity matches the suite, the expected source and dependency hashes per bot id and one set of
+    reply limits, {bot: [reasons]} for the rest). A run without an identity (schema 1) is stale. One run per
+    (probe, repeat): a duplicate is stale. Without `limits`, the limits of most runs are the expected ones."""
     suite_id = suite_identity(suite) if suite else None
     probes = {p["probe_id"]: probe_identity(p) for p in suite["probes"]} if suite else None
+    if limits is None:
+        seen_limits = Counter(tuple(r["identity"]["limits_ms"]) for runs in runs_by_bot.values() for r in runs
+                              if r.get("identity") and r["identity"].get("limits_ms"))
+        limits = list(seen_limits.most_common(1)[0][0]) if seen_limits else None
     good, stale = {}, {}
     for bot, runs in runs_by_bot.items():
         seen = set()
@@ -198,6 +205,10 @@ def validate(runs_by_bot: dict[str, list[dict]], suite: dict | None, sources: di
                 why = "probe not in this suite"
             elif sources is not None and bot in sources and ident.get("source_sha256") != sources[bot]:
                 why = "source changed since this run"
+            elif dependencies and dependencies.get(bot) and ident.get("dependency_sha256") != dependencies[bot]:
+                why = "dependencies changed since this run"
+            elif limits is not None and list(ident.get("limits_ms") or []) != list(limits):
+                why = f"other reply limits {ident.get('limits_ms')} (expected {list(limits)})"
             elif (r["probe_id"], r["rep"]) in seen:
                 why = "duplicate repeat"
             if why:
@@ -211,7 +222,8 @@ def validate(runs_by_bot: dict[str, list[dict]], suite: dict | None, sources: di
 def load_valid(out: Path, suite: dict | None, inventory: dict | None = None):
     """load_all + validate against the suite and the inventory's source hashes (by bot id)."""
     sources = {b["id"]: b["source_sha256"] for b in inventory["bots"]} if inventory else None
-    return validate(load_all(out), suite, sources)
+    deps = {b["id"]: b.get("dependency_sha256") for b in inventory["bots"]} if inventory else None
+    return validate(load_all(out), suite, sources, deps)
 
 
 def main(argv=None):

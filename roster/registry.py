@@ -104,12 +104,28 @@ def template(assessments: dict, dist: dict) -> dict:
             "bots": bots}
 
 
+def join_strength(rows: dict, strength: dict | None) -> dict:
+    """Assessment rows with a strength screen's evidence for the same source (another source's result never joins)."""
+    if not strength:
+        return rows
+    out = dict(rows)
+    for bot, c in strength["candidates"].items():
+        r = out.get(bot)
+        if r is None or c.get("source_sha256") not in (None, r["source_sha256"]):
+            continue
+        out[bot] = r | {"utility": c["utility"], "utility_lcb": c["lcb"], "maps": c["maps"],
+                        "strength_evidence": c["evidence"], "faults_per_game": c["faults_per_game"],
+                        "late_replies": c["late_replies"],
+                        "evidence_status": "confirmed" if c["evidence"] == "confirmation" else "screened"}
+    return out
+
+
 def build(admission: dict, assessments: dict, dist: dict, inventory: dict, inputs: dict | None = None,
-          games: int = 20000) -> dict:
+          games: int = 20000, strength: dict | None = None) -> dict:
     gates = {**GATES, **admission.get("gates", {})}
     sampling.settings(admission.get("sampling"))                   # validate before doing anything
     reserved = set(admission.get("reserved_ood_lineages", []))
-    rows = {r["id"]: r for r in assessments["bots"]}
+    rows = join_strength({r["id"]: r for r in assessments["bots"]}, strength)
     inv = {b["id"]: b for b in inventory["bots"]}
     coverage = dist.get("coverage", {})
     members, rejected, dropped_counts = [], {}, {}
@@ -250,6 +266,7 @@ def main(argv=None):
     b.add_argument("--distance", required=True)
     b.add_argument("--inventory", required=True)
     b.add_argument("--games", type=int, default=20000, help="simulated games per count for the inclusion report")
+    b.add_argument("--strength", help="a strength screen (roster.strength aggregate) whose evidence joins the assessments")
     b.add_argument("--out", default=str(REPO / "profiles" / "open_training_pool.json"))
     f = sub.add_parser("freeze-eval")
     f.add_argument("--inventory", required=True)
@@ -267,9 +284,11 @@ def main(argv=None):
         print(f"[registry] admission template -> {a.out}")
     elif a.cmd == "build":
         files = {"admission": a.admission, "assessments": a.assessments, "distance": a.distance, "inventory": a.inventory}
+        if a.strength:
+            files["strength"] = a.strength
         inputs = {k: {"path": str(Path(v).resolve()), "sha256": sha256_file(v)} for k, v in files.items()}
         pool = build(load_json(a.admission), load_json(a.assessments), load_json(a.distance), load_json(a.inventory),
-                     inputs, a.games)
+                     inputs, a.games, load_json(a.strength) if a.strength else None)
         save_json(a.out, pool)
         print(f"[registry] {len(pool['bots'])} admitted, {len(pool['not_admitted'])} not admitted, "
               f"{len(pool['per_count'])} team counts, identity {pool['identity'][:12]} -> {a.out}")

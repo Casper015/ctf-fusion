@@ -132,17 +132,17 @@ def seat_outcomes(match: dict, seat: int) -> dict:
                 o["voluntary_drops"] += 1
             elif e["type"] == "capture" and own(e["unit"]):
                 o["captures"] += 1
-        # carrier episodes: close before opening (a unit can capture and pick up again later)
+        # carrier episodes, in the engine's event order (deaths, pickups, drops, captures): a unit can pick up and
+        # capture in the same settlement, which is a delivery of zero carried turns
         for e in ev:
             key = e.get("unit")
-            if key in open_eps and e["type"] in ("capture", "drop", "death"):
+            if e["type"] == "pickup" and own(key):
+                episodes["started"] += 1
+                open_eps[key] = t
+            elif key in open_eps and e["type"] in ("capture", "drop", "death"):
                 start = open_eps.pop(key)
                 episodes["carry_turns"] += t - start
                 episodes[{"capture": "delivered", "drop": "voluntary_drop", "death": "forced_drop"}[e["type"]]] += 1
-        for e in ev:
-            if e["type"] == "pickup" and own(e["unit"]):
-                episodes["started"] += 1
-                open_eps[e["unit"]] = t
         # what happened after each voluntary drop
         for e in ev:
             if e["type"] == "drop" and own(e["unit"]):

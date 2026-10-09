@@ -751,6 +751,57 @@ class TestLightScreen(unittest.TestCase):
             self.assertEqual(strength.candidate_ids(str(ids)), ["x", "y"])
 
 
+class TestReviewFixes(unittest.TestCase):
+    """Defects found by the training-selection review (branch docs/training-roster-selection)."""
+
+    def test_pickup_and_capture_in_one_settlement_is_a_delivery(self):
+        far = [(1, 0, 1, 1, 100, -1), (2, 0, 1, 2, 100, -1), (3, 1, 9, 9, 100, -1), (4, 1, 9, 8, 100, -1), (5, 1, 9, 7, 100, -1)]
+        me = (0, 0, 3, 3, 100, -1)
+        m = {"init": "INIT 2 0 23 2 100 34 10 15 8\nMAP", "teams": 2,
+             "blocks": [turn_block(1, [me] + far), turn_block(2, [me] + far, ["E pickup 0 1", "E capture 0 0 1"])],
+             "final_block": turn_block(3, [me] + far),
+             "replies": [["1 S P S - S -", "1 S - S - S -"], ["2 S - S - S -", "2 S - S - S -"]],
+             "result": {"stats": [{"pickups": 1, "captures": 1}, {}]}}
+        e = trajectory.seat_outcomes(m, 0)["episodes"]
+        self.assertEqual((e["started"], e["delivered"], e["censored"], e["carry_turns"]), (1, 1, 0, 0))
+
+    def test_repeats_need_the_same_dependencies_and_limits(self):
+        from roster import fingerprint  # noqa: PLC0415
+        from roster.common import probe_identity, suite_identity  # noqa: PLC0415
+        suite = {"probes": [{"probe_id": "p", "teams": 3, "tags": [1] * 4, "active": [7] * 4, "match_sha256": "m",
+                             "seat": 0, "turns": 4}]}
+        base = {"source_sha256": "a", "suite": suite_identity(suite), "probe": probe_identity(suite["probes"][0])}
+        def run(rep, dep, lim):
+            return {"bot": {"id": "A"}, "probe_id": "p", "rep": rep, "identity": base | {"dependency_sha256": dep, "limits_ms": lim}}
+        runs = {"A": [run(0, "d1", [10000, 1000]), run(1, "d1", [10000, 1000]), run(2, "d2", [10000, 1000]),
+                      run(3, "d1", [2000, 50])]}
+        good, stale = fingerprint.validate(runs, suite, {"A": "a"}, {"A": "d1"})
+        self.assertEqual([r["rep"] for r in good["A"]], [0, 1])
+        reasons = " ".join(stale["A"])
+        self.assertIn("dependencies changed", reasons)
+        self.assertIn("other reply limits", reasons)
+
+    def test_pool_build_joins_the_screen_for_the_same_source_only(self):
+        rows = {"A": {"id": "A", "source_sha256": "a", "evidence_status": "fingerprinted"},
+                "B": {"id": "B", "source_sha256": "b", "evidence_status": "fingerprinted"}}
+        screen = {"candidates": {"A": {"source_sha256": "a", "utility": 0.7, "lcb": 0.6, "maps": 70, "evidence": "screen",
+                                       "faults_per_game": 0.0, "late_replies": 0},
+                                 "B": {"source_sha256": "other", "utility": 0.9, "lcb": 0.8, "maps": 70, "evidence": "screen",
+                                       "faults_per_game": 0.0, "late_replies": 0}}}
+        out = registry.join_strength(rows, screen)
+        self.assertEqual((out["A"]["evidence_status"], out["A"]["utility"]), ("screened", 0.7))
+        self.assertEqual(out["B"]["evidence_status"], "fingerprinted")      # another source's result never joins
+
+    def test_few_maps_spread_candidate_seats(self):
+        root = os.environ.get("AI_TEST_ROOT")
+        if not root:
+            self.skipTest("needs AI_TEST_ROOT for the reference bots")
+        sched = strength.schedule(5, [15], strength.REFERENCE, 20261009, Path(root))
+        seats = [fx["seat"] for fx in sched["fixtures"]]
+        self.assertEqual(len(set(seats)), 5)
+        self.assertNotEqual(sorted(seats), [0, 1, 2, 3, 4])
+
+
 @unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to the AI_Test checkout")
 class TestReplayEndToEnd(unittest.TestCase):
     @classmethod

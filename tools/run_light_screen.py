@@ -86,7 +86,7 @@ def main(argv=None):
                    "--admission", cfg["admission"], "--out", str(report)], timings)
     step("pool", ["-m", "roster.registry", "build", "--admission", str(report / "admission_screened.json"),
                   "--assessments", cfg["assessments"], "--distance", cfg["distance"], "--inventory", cfg["inventory"],
-                  "--out", str(pool_out)], timings)
+                  "--strength", str(strength), "--out", str(pool_out)], timings)
     shutil.copy(sched, report / "schedule.json")
     s = json.loads(strength.read_text(encoding="utf-8"))
     tiers = json.loads((report / "tiers.json").read_text(encoding="utf-8"))["bots"]

@@ -6,7 +6,7 @@
     python -m roster.strength aggregate --results data/roster/screen_results.jsonl --out data/roster/strength.json
 
 Every candidate plays the same frozen fixtures: per team count and map, one
-seat (rotating with the map index) is the candidate's, every other seat a bot
+seat (a fixed per-count permutation of the seats, so few maps still spread them) is the candidate's, every other seat a bot
 of the frozen reference roster (default: the ten judge bots, Player5 and
 Baseline, rotated deterministically). Maps, flags, seats and opponents are
 identical for every candidate, so candidates compare fixture by fixture.
@@ -67,11 +67,12 @@ def schedule(maps_per_count: int, teams_list, reference: list[str], seed: int, r
         raise SystemExit(f"reference bots missing from the pool or the checkout: {missing}")
     fixtures = []
     for n in teams_list:
+        seats = sorted(range(n), key=lambda k: derive(seed, n, k, "seat"))   # a fixed permutation: few maps still spread seats
         for m in range(maps_per_count):
             start = derive(seed, n, m, "roster") % len(reference)
             opponents = [reference[(start + i) % len(reference)] for i in range(n - 1)]
             fixtures.append({"fixture_id": f"s{seed}-n{n:02d}-m{m:05d}", "teams": n, "map_seed": derive(seed, n, m, "map"),
-                             "flag_seed": derive(seed, n, m, "flag", bits=63), "seat": m % n, "opponents": opponents})
+                             "flag_seed": derive(seed, n, m, "flag", bits=63), "seat": seats[m % n], "opponents": opponents})
     return {"schema": SCHEMA_STRENGTH + "-schedule", "created": time.strftime("%Y-%m-%dT%H:%M:%S"), "seed": seed,
             "maps_per_count": maps_per_count, "team_counts": list(teams_list),
             "reference": [{"name": n, "path": pool[n]["path"], "source_sha256": sha256(bot_path(pool[n], root))} for n in reference],
