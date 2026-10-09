@@ -320,5 +320,28 @@ class TestClusteredMean(unittest.TestCase):
         self.assertEqual(metrics.clustered_mean(np.ones(5), None, np.zeros(5))[1], float("inf"))
 
 
+class TestDatasetManifestAndWeighting(unittest.TestCase):
+    def test_manifest_records_registries_and_regimes(self):
+        from training import dataset
+        index = {
+            "matches": [
+                {"match_id": "n02-s1-000000", "teams": 2, "split": "train", "seats": ["a", "b"], "families": ["f1", "f2"],
+                 "sampling": {"registry": "reg123", "regime": "mixed"}},
+                {"match_id": "n05-s1-000001", "teams": 5, "split": "val", "seats": ["a", "c", "d", "e", "f"], "families": ["f1", "f3"],
+                 "sampling": {"registry": "reg123", "regime": "augmented"}},
+            ]
+        }
+        man = dataset.manifest(index)
+        self.assertEqual(man["registries"], ["reg123"])
+        self.assertEqual(man["regimes"], {"mixed": 1, "augmented": 1})
+
+    def test_count_weighting_normalizes_inverse_teams(self):
+        w = np.array([1.0, 1.0, 1.0, 1.0], dtype=np.float32)
+        teams = np.array([2, 2, 10, 10], dtype=np.int8)
+        scaled = (w / teams.astype(np.float32)).astype(np.float32)
+        self.assertAlmostEqual(scaled[0], 0.5)
+        self.assertAlmostEqual(scaled[2], 0.1)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -3,6 +3,8 @@
  "pool": "profiles/open_training_pool_recommended.json",
  "pool_identity": "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383",
  "seed": 20261019,
+ "ctf_fusion_commit": "9ee676bd2a0df21edfd3b14972bd89d353bd5aeb",
+ "ai_test_commit": "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87",
  "teams": [
   2,
   5,

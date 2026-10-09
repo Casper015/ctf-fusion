@@ -95,7 +95,8 @@ def process(job):
     rows["family_name"] = [families[t] for t in team[take]]
     meta = {"match_id": match["match_id"], "file": str(path), "teams": n, "split": split_of(split_key(match, split_by)),
             "map_seed": match["map_seed"], "families": families, "seats": [s["name"] for s in match["seats"]],
-            "faults": len(match["faults"]), "ai_test_commit": match.get("ai_test_commit", "unknown")}
+            "faults": len(match["faults"]), "ai_test_commit": match.get("ai_test_commit", "unknown"),
+            "sampling": match.get("sampling", {})}
     if holdout_mode == "fixture":
         held = any(f in holdout for f in families)
         ood = np.full(len(rows["family_name"]), held, bool)
@@ -114,6 +115,8 @@ def manifest(index: dict) -> dict:
     from collections import Counter  # noqa: PLC0415
     matches = index["matches"]
     seeds = Counter(m["match_id"].split("-")[1] for m in matches)
+    registries = sorted({m["sampling"]["registry"] for m in matches if m.get("sampling", {}).get("registry")})
+    regimes = dict(Counter(m["sampling"]["regime"] for m in matches if m.get("sampling", {}).get("regime")))
     return {
         "matches": len(matches),
         "matches_by_count": dict(sorted(Counter(count_key(m["teams"]) for m in matches).items())),
@@ -121,6 +124,8 @@ def manifest(index: dict) -> dict:
         "seats_by_bot": dict(Counter(b for m in matches for b in m["seats"]).most_common()),
         "seats_by_family": dict(Counter(f for m in matches for f in m["families"]).most_common()),
         "ai_test_commits": sorted({m.get("ai_test_commit", "unknown") for m in matches}),
+        "registries": registries,
+        "regimes": regimes,
         "collection_seeds": dict(seeds),
         "repo_commit": git_commit(REPO),
     }

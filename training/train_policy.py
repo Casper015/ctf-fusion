@@ -100,6 +100,9 @@ def main(argv=None):
     counts = model_counts(a.model)
     train = prepare(a.shards, counts, "train", a.max_rows, rng, a.keep_unlabeled)
     val = prepare(a.shards, counts, a.val_split, 0, rng, a.keep_unlabeled)
+    if a.count_weighting == "inv_teams":
+        train["weight"] = (train["weight"] / train["teams"].astype(np.float32)).astype(np.float32)
+        val["weight"] = (val["weight"] / val["teams"].astype(np.float32)).astype(np.float32)
     layout = feature_layout()
     check_labels(train, layout)
     model = PolicyNet(layout, rng, hidden)

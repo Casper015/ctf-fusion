@@ -68,6 +68,8 @@ def add_training_args(ap, batch: int):
     ap.add_argument("--val-split", default="val", help="split for early stopping and calibration")
     ap.add_argument("--max-width", type=int, default=0,
                     help="widest hidden layer allowed (default 256, the C++ default; see tools/capacity_bench.py)")
+    ap.add_argument("--count-weighting", choices=("none", "inv_teams"), default="none",
+                    help="scale row weights by 1 / teams so team counts with more teams do not dominate general models")
 
 
 def policy_rows(d: dict, shards, keep_unlabeled: bool = False) -> np.ndarray:
@@ -92,6 +94,7 @@ def data_manifest(shards, counts) -> dict:
     return {"team_counts": list(counts), "digest": data_digest(index, counts),
             "matches_by_count": {k: v for k, v in man.get("matches_by_count", {}).items() if k in keys},
             "rows": {k: v for k, v in index["counts"].items() if k.split("/")[0] in keys},
+            "registries": man.get("registries", []), "regimes": man.get("regimes", {}),
             "ai_test_commits": man.get("ai_test_commits"), "options": index["options"]}
 
 

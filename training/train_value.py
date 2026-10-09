@@ -57,6 +57,9 @@ def main(argv=None):
     fields = ("rec", "v_y", "weight", "teams", "match", "turn")
     counts = model_counts(a.model)
     train, val = load(a.shards, counts, "train", fields), load(a.shards, counts, a.val_split, fields)
+    if a.count_weighting == "inv_teams":
+        train["weight"] = (train["weight"] / train["teams"].astype(np.float32)).astype(np.float32)
+        val["weight"] = (val["weight"] / val["teams"].astype(np.float32)).astype(np.float32)
     if a.max_rows and len(train["rec"]) > a.max_rows:
         train = subset(train, np.sort(rng.choice(len(train["rec"]), a.max_rows, replace=False)))
     layout = feature_layout()
