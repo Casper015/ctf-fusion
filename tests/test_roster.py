@@ -14,7 +14,7 @@ from pathlib import Path
 import numpy as np
 
 from fusion.paths import REPO, TEAM_COUNTS
-from roster import archive, assess, catalog, distance, inventory, newbots, pool, registry, sampling, shortlist, strength, trajectory
+from roster import archive, assess, catalog, distance, inventory, newbots, pool, registry, sampling, shortlist, strength, tiers, trajectory
 from roster.common import TAGS, load_json
 
 BOT = """#include <bits/stdc++.h>
@@ -710,6 +710,45 @@ class TestShortlist(unittest.TestCase):
         self.assertEqual(adm["bots"]["b2.cpp"]["counts"], [2])
         self.assertEqual(adm["bots"][ids[0]]["roles"], ["style", "field"])
         self.assertTrue(all("Review before training" in b["contribution"] for b in adm["bots"].values()))
+
+
+class TestLightScreen(unittest.TestCase):
+    def test_tiers_reliability_and_screened_admission(self):
+        rows = (strength_rows("strong", {n: [0.9, 0.8, 0.85, 0.95, 0.9] for n in TEAM_COUNTS}, "a" * 64)
+                + strength_rows("weak", {n: [0.1, 0.2, 0.15, 0.05, 0.1] for n in TEAM_COUNTS}, "b" * 64)
+                + strength_rows("even", {n: [0.3, 0.7, 0.5, 0.4, 0.6] for n in TEAM_COUNTS}, "c" * 64)
+                + strength_rows("late", {n: [0.9] * 5 for n in TEAM_COUNTS}, "d" * 64))
+        for r in rows:
+            if r["candidate"] == "late":
+                r["late"] = 3                                          # 3 late replies per game at 50 ms
+        t = {r["bot"]: r for r in tiers.classify(strength.aggregate(rows))}
+        self.assertEqual((t["strong"]["tier"], t["weak"]["tier"], t["even"]["tier"]), ("above", "below", "level"))
+        self.assertFalse(t["late"]["reliable"])
+        self.assertEqual(t["strong"]["bands"]["11-15"], 0.88)
+        adm = {"bots": {b: {"admit": True, "roles": ["style"], "contribution": "x."} for b in ("strong", "weak", "late")}}
+        out = tiers.screened_admission(adm, list(t.values()), "r2")
+        self.assertEqual(out["bots"]["strong"]["roles"], ["field", "style"])   # above and reliable: strong competition
+        self.assertEqual(out["bots"]["weak"]["roles"], ["style"])              # weak specialists stay in the pool
+        self.assertFalse(out["bots"]["late"]["admit"])
+        self.assertIn("Light screen: utility", out["bots"]["weak"]["contribution"])
+
+    def test_one_map_has_no_interval_and_candidates_files(self):
+        out = strength.aggregate(strength_rows("x", {2: [0.7], 3: [0.2, 0.4]}), teams_list=[2, 3])
+        c = out["candidates"]["x"]
+        self.assertIsNone(c["per_count"]["2"]["se"])
+        self.assertIsNone(c["se"])                                     # serializable: no infinities
+        json.dumps(out, allow_nan=False)
+        self.assertEqual(tiers.classify(out)[0]["tier"], "level")
+        with tempfile.TemporaryDirectory() as tmp:
+            adm = Path(tmp) / "adm.json"
+            adm.write_text(json.dumps({"bots": {"a": {"admit": True}, "b": {"admit": False}}}))
+            pool_file = Path(tmp) / "pool.json"
+            pool_file.write_text(json.dumps({"bots": [{"id": "p"}, {"id": "q"}]}))
+            ids = Path(tmp) / "ids.txt"
+            ids.write_text("# comment\nx\n\ny\n")
+            self.assertEqual(strength.candidate_ids(str(adm)), ["a"])
+            self.assertEqual(strength.candidate_ids(str(pool_file)), ["p", "q"])
+            self.assertEqual(strength.candidate_ids(str(ids)), ["x", "y"])
 
 
 @unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to the AI_Test checkout")

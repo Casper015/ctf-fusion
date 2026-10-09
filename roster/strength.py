@@ -102,6 +102,17 @@ def play_one(job) -> dict:
             "live": trajectory.seat_outcomes(match, fx["seat"])}
 
 
+def candidate_ids(path: str) -> list[str]:
+    """Bot ids from a pool or registry JSON (bots[].id), an admission JSON (admitted ids) or a file of ids."""
+    text = Path(path).read_text(encoding="utf-8")
+    if text.lstrip().startswith("{"):
+        bots = json.loads(text)["bots"]
+        if isinstance(bots, dict):                               # an admission file: the admitted ids
+            return [b for b, spec in bots.items() if spec.get("admit")]
+        return [b["id"] for b in bots]
+    return [line.strip() for line in text.splitlines() if line.strip() and not line.startswith("#")]
+
+
 def run(a) -> None:
     sched = load_json(a.schedule)
     root = ai_test_root(a.ai_test)
@@ -120,8 +131,12 @@ def run(a) -> None:
         bid, _, path = spec.partition("=")
         p = resolve(path, None)
         cands.append({"id": bid, "path": str(p), "source_sha256": sha256_file(p), "binary_sha256": None})
-    if a.only:
-        cands = [c for c in cands if c["id"] in set(a.only)]
+    wanted = set(a.only or []) | set(candidate_ids(a.candidates) if a.candidates else [])
+    if wanted:
+        missing = sorted(wanted - {c["id"] for c in cands})
+        if missing:
+            raise SystemExit(f"{len(missing)} candidates are not eligible in the inventory: {missing[:5]}")
+        cands = [c for c in cands if c["id"] in wanted]
     check_sources(cands)
     sched_id = schedule_identity(sched)
     for c in cands:
@@ -214,18 +229,19 @@ def aggregate(rows: list[dict], teams_list=TEAM_COUNTS, z: float = 1.96, sources
         per = {}
         for n, u in sorted(counts.items()):
             x = np.asarray(u, float)
-            se = float(x.std(ddof=1) / math.sqrt(len(x))) if len(x) > 1 else float("inf")
-            per[str(n)] = {"maps": len(x), "utility": float(x.mean()), "se": se, "lcb": float(x.mean() - z * se)}
+            se = float(x.std(ddof=1) / math.sqrt(len(x))) if len(x) > 1 else None   # one map: no spread estimate
+            per[str(n)] = {"maps": len(x), "utility": float(x.mean()), "se": se, "lcb": None if se is None else float(x.mean() - z * se)}
         covered = [str(n) for n in teams_list if str(n) in per]
         full = len(covered) == len(teams_list)
         mean = float(np.mean([per[n]["utility"] for n in covered])) if covered else None
-        se = math.sqrt(sum(per[n]["se"] ** 2 for n in covered)) / len(covered) if covered else None
+        se = (math.sqrt(sum(per[n]["se"] ** 2 for n in covered)) / len(covered)
+              if covered and all(per[n]["se"] is not None for n in covered) else None)
         maps = sum(p["maps"] for p in per.values())
         m = meta[cand]
         level = ("confirmation" if full and maps >= CONFIRM_TOTAL and all(per[n]["maps"] >= CONFIRM_PER_COUNT for n in covered)
                  else "screen")
         out[cand] = {"per_count": per, "team_counts_covered": len(covered), "all_counts": full, "maps": maps,
-                     "utility": mean, "se": se, "lcb": None if mean is None else mean - z * se, "evidence": level,
+                     "utility": mean, "se": se, "lcb": None if mean is None or se is None else mean - z * se, "evidence": level,
                      "games": m["games"], "faults_per_game": m["faults"] / m["games"], "dead_games": m["dead"],
                      "late_replies": m["late"], "p99_ms_median": float(np.median(m["p99"])) if m["p99"] else None,
                      "max_ms": m["max"], "first_ms_max": m["first"],
@@ -252,6 +268,7 @@ def main(argv=None):
     r.add_argument("--inventory")
     r.add_argument("--bot", action="append", default=[], help="extra candidate as ID=PATH")
     r.add_argument("--only", nargs="*")
+    r.add_argument("--candidates", help="pool/registry JSON (bots[].id) or a file of ids: screen exactly these")
     r.add_argument("--results", default=str(REPO / "data" / "roster" / "screen_results.jsonl"))
     r.add_argument("--workers", type=int, default=max(1, (os.cpu_count() or 2) // 8))
     r.add_argument("--first-ms", type=float, default=2000.0)
