@@ -2,7 +2,7 @@
 // and the simulator.
 //
 // Pure data and geometry: no I/O, standard library only, so a bot can include
-// it next to its own parser (tools/stream.hpp is the parser the tools use).
+// it next to its own parser (tools/cpp/stream.hpp is the parser the tools use).
 // Every rule mirrored here comes from the official engine
 // (ctf-arena/Player7/workspace/engine.py); comments name the engine function.
 //

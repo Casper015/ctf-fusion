@@ -1,15 +1,15 @@
+# Local, regenerable, never committed (see CONTRIBUTING.md)
 build/
 data/
 runs/
 runs_*/
-reports/*
-!reports/*.md
-!reports/*.json
-!reports/*.jsonl
-reports_*/*
-!reports_*/*.md
-!reports_*/*.json
-!reports_*/*.jsonl
 __pycache__/
 *.pyc
 .DS_Store
+
+# reports/: only human-readable results are tracked; raw logs, npz and binaries are not
+reports/**
+!reports/**/
+!reports/**/*.md
+!reports/**/*.json
+!reports/**/*.jsonl

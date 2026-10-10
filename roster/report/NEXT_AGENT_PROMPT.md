@@ -11,7 +11,7 @@ You are taking over the opponent-roster work in **ctf-fusion** (`https://github.
 1. `docs/FIRST_RUN.md`: the runbook. Follow it; it is the protocol.
 2. `roster/bots/README.md`: the 130 archived bot sources (122 eligible representatives), where they come from, how to run them.
 3. `docs/ROSTER.md`: methods (evidence identity, distance v2, evidence states, live outcomes, registry, sampling).
-4. `reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md`: why the distance and evidence rules are what they are.
+4. `reports/reviews/FINGERPRINT_EFFECTIVENESS_REVIEW.md`: why the distance and evidence rules are what they are.
 5. `roster/report/FINGERPRINT_BEHAVIOR_REPORT.md` and `roster/report/results/`: the first host run (commits `163322e`, `d665a0a`, `a72731a`). Read it critically; section 2 below lists its known problems.
 
 Record the ctf-fusion and AI_Test commits you start from.
@@ -55,7 +55,7 @@ What did check out (keep it): no faults or dead runs in 10,248 replays; a consis
 
 - Fresh pull of both repositories. `python -m unittest discover -s tests` must end in `OK` with `AI_TEST_ROOT` set.
 - `python -m roster.archive check --ai-test $AI_TEST_ROOT`: `130 stored files, 0 errors`.
-- `python tools/env_check.py --ai-test $AI_TEST_ROOT --teams 2 6 15` (add `--bots` if a pool bot is missing). Keep its report.
+- `python tools/host/env_check.py --ai-test $AI_TEST_ROOT --teams 2 6 15` (add `--bots` if a pool bot is missing). Keep its report.
 - If the host's AI_Test has bots the archive lacks, run `python -m roster.inventory`, then `python -m roster.archive save --inventory data/roster/bot_inventory.json`, and commit the archive update first. Otherwise use `roster/bots/inventory.json` everywhere.
 
 ### B. The first full run, exactly as `docs/FIRST_RUN.md` section 5
@@ -85,7 +85,7 @@ Do not commit fingerprint runs or screen logs. Check the total added size (shoul
 
 ### D. Generate the report from the files
 
-Write `tools/generate_roster_report.py`. It reads only the committed result files and writes `roster/report/FINGERPRINT_BEHAVIOR_REPORT.md` and its figures. No number is typed by hand. Add a unit test that runs it on a small synthetic input (an existing distance test fixture is enough) and checks key lines. Remove or rewrite `tools/plot_style_space.py` accordingly. The report must contain:
+Write `tools/reporting/generate_roster_report.py`. It reads only the committed result files and writes `roster/report/FINGERPRINT_BEHAVIOR_REPORT.md` and its figures. No number is typed by hand. Add a unit test that runs it on a small synthetic input (an existing distance test fixture is enough) and checks key lines. Remove or rewrite `tools/reporting/plot_style_space.py` accordingly. The report must contain:
 
 1. **Run identity:** commits, suite identity, host, settings, deviations, counts of stale runs and stale strength rows.
 2. **Reliability:** faults, dead runs, valid reply share per bot (fingerprints and screen), reply times labeled as relaxed-limit replay times (fingerprints) vs official-limit times (screen).

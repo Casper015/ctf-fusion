@@ -3,7 +3,7 @@
     python -m roster.catalog --assessments data/roster/bot_assessments.json \\
         --distance data/roster/behavior_distance.json --strength data/roster/strength.json \\
         --review roster_review.json --out data/roster/roster_evidence.json
-    python handoffs/diverse15_distance_tiered_policy/tools/select_roster.py \\
+    python docs/handoffs/diverse15_distance_tiered_policy/tools/select_roster.py \\
         --input data/roster/roster_evidence.json --out data/roster/selected15.json
 
 Every number comes from the measured files: strength (maps per team count,

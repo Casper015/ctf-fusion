@@ -6,7 +6,7 @@
 // states of the two-turn rollout (each predicted from that state, with the
 // root as its previous observation).
 //
-// Removed from candidate/Player5_v12_Fusion.hpp: the hand-written movement
+// Removed from bots/hybrid/Player5_v12_Fusion.hpp: the hand-written movement
 // forecast and its mixture weight, the opponent goal and target guesses, the
 // attention, priority and crossfire weights, the rules "a unit able to shoot
 // always shoots" and "a unit on a flag picks it up instead of shooting", the

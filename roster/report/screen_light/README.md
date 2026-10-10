@@ -5,13 +5,13 @@ A small paired screen that separates performance tiers among the 64 bots of the 
 ## Run it (host)
 
 ```bash
-python tools/run_light_screen.py
+python tools/screens/run_light_screen.py
 ```
 
 One command, configured by [`profiles/screen_light.json`](../../../profiles/screen_light.json). Every step resumes after an interruption. To check the plumbing first (4 games, 1 s turn limit, written under `data/roster/screen_light/smoke/`, not evidence):
 
 ```bash
-python tools/run_light_screen.py --smoke
+python tools/screens/run_light_screen.py --smoke
 ```
 
 ## Design

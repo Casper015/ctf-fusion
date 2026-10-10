@@ -50,10 +50,10 @@ Success: `130 stored files, 0 errors`. The line about AI_Test files that changed
 ## 3. Host check (10-20 minutes, optional for this run, required before any latency claim)
 
 ```bash
-python tools/env_check.py --ai-test $AI_TEST_ROOT --teams 2 6 15
+python tools/host/env_check.py --ai-test $AI_TEST_ROOT --teams 2 6 15
 ```
 
-It writes `reports/env_check_<host>.md`: compiler, CPU, protocol, bot latency under the real 50 ms limit, simulator exactness, SIMD kernel parity. Every verdict should pass. If it stops with `bot Player5_Omega_LIT not found`, that pool bot is missing from your AI_Test checkout: add `--bots Astra,Sol,Fable,Opus,Player5,Baseline` (any pool bots you have).
+It writes `reports/host/env_check_<host>.md`: compiler, CPU, protocol, bot latency under the real 50 ms limit, simulator exactness, SIMD kernel parity. Every verdict should pass. If it stops with `bot Player5_Omega_LIT not found`, that pool bot is missing from your AI_Test checkout: add `--bots Astra,Sol,Fable,Opus,Player5,Baseline` (any pool bots you have).
 
 ## 4. Pilot (2-5 minutes): prove the chain works on this machine
 
@@ -172,7 +172,7 @@ python -m roster.registry template --assessments data/roster/bot_assessments.jso
 
 | File | What it holds |
 |---|---|
-| `reports/env_check_<host>.md` and `.json` | Host, compiler, latency baseline (step 3) |
+| `reports/host/env_check_<host>.md` and `.json` | Host, compiler, latency baseline (step 3) |
 | `data/roster/probe_suite.json` | The frozen probes (identity of every fingerprint) |
 | `data/roster/behavior_distance.json` | Evidence states, groups, coverage, stale runs |
 | `data/roster/strength.json` | Utility per team count, faults, reply times, live outcomes per candidate |

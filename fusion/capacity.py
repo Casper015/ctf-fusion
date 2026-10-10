@@ -18,7 +18,7 @@ TIERS = {
     "XXL": {"mover": [256], "squad": [1024, 256], "act": [256], "target": [32], "value": [2048, 128]},
 }
 # No preset wider than XXL: on the host, the 3XL/4XL shapes needed 23 ms and 191 ms of inference per turn under a
-# 16-process load against a 5 ms budget (reports/capacity_extreme_scaling_16seats.json); XXL needed 2.7 ms. Wider
+# 16-process load against a 5 ms budget (reports/host/capacity_extreme_scaling_16seats.json); XXL needed 2.7 ms. Wider
 # custom shapes remain possible with explicit --hidden-* and --max-width.
 
 

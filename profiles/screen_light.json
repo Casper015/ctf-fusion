@@ -1,5 +1,5 @@
 {
- "_comment": "Light strength screen (tools/run_light_screen.py). Every candidate plays the same fixtures against the frozen reference roster (roster.strength REFERENCE) under the official limits; 5 maps x 14 team counts = 70 paired games per candidate.",
+ "_comment": "Light strength screen (tools/screens/run_light_screen.py). Every candidate plays the same fixtures against the frozen reference roster (roster.strength REFERENCE) under the official limits; 5 maps x 14 team counts = 70 paired games per candidate.",
  "maps_per_count": 5,
  "teams": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
  "seed": 20261009,

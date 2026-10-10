@@ -7,7 +7,7 @@ Fingerprint runs are first validated (roster.fingerprint.load_valid): only
 runs whose identity matches this suite and the inventory's source hashes are
 evidence; the rest are reported as stale, never mixed in.
 
-Instrument (reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md, P0). On each probe,
+Instrument (reports/reviews/FINGERPRINT_EFFECTIVENESS_REVIEW.md, P0). On each probe,
 a pair of bots is compared on a support fixed by the state, not by what
 either bot did: the turns where every run of both bots replied validly (their
 common valid intersection), and the units on the board. On that support,

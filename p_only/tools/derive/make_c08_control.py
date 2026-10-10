@@ -1,7 +1,7 @@
 """Derive p_only/bots/c08_control.hpp: the unchanged C08 carrier plus a search statistics line.
 
 Record of how the control was made (source snapshot 0c388ff). The only change to
-candidate/C08_Player5_Omega_LIT_Fusion.hpp is code compiled under PONLY_STATS
+bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp is code compiled under PONLY_STATS
 (screen builds): count expectimax calls and joint samples, and print them on
 stderr at the last turn, as the P-only carrier does. Without PONLY_STATS the
 program is the original. The wrappers c08_control.cpp (4-ply scripted playouts,
@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-src = (REPO / "candidate/C08_Player5_Omega_LIT_Fusion.hpp").read_text(encoding="utf-8").split("\n")
+src = (REPO / "bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp").read_text(encoding="utf-8").split("\n")
 
 
 def expect(n, text):

@@ -81,7 +81,7 @@ Increase to 3,000-5,000 matches/count only if independent-map learning curves or
 To repeat this public aggregate review:
 
 ```sh
-python3 tools/check_pilot_evidence.py --out roster/report/training_selection_20261009/pilot_aggregate_audit.json
+python3 tools/pipeline/check_pilot_evidence.py --out roster/report/training_selection_20261009/pilot_aggregate_audit.json
 ```
 
 The output deliberately sets `raw_logs_replayed=false` and `raw_timing_rechecked=false`. Do not promote it to a full raw-data or timing certificate.

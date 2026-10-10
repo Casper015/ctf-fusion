@@ -1,7 +1,7 @@
 """Quantize one model of the matrix and emit standalone C++ headers.
 
     python -m training.export_weights --model n08 --policy runs/policy_n08 --value runs/value_n08 \
-        --report reports/n08.json
+        --report reports/models/s/n08.json
 
 Writes, under inference/models/:
   weights_<model>.hpp  int16 weights as constexpr arrays (no runtime files), kAlpha per team count, kAdapter

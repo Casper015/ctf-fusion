@@ -11,7 +11,7 @@
 - **Bots:** `fusion/runner.py` mirrors the original arena core with reader threads, so pipe timeouts work. Compilation uses `g++` / `clang++` from `PATH`, `CXX`, or w64devkit (`tools/` near the repository, or `C:/w64devkit`). Flags are `-std=c++20 -O2 -static`, and binaries carry `.exe`.
 - **Paths:** every path is a `pathlib.Path`; manifests store POSIX-style relative paths. Atomic writes use `os.replace`.
 - **Encodings:** every text file is read and written as UTF-8 (Windows code pages differ). The stream parser tolerates `\r`.
-- **Binary tool output:** Python reads tool pipes as bytes, but that alone does not stop the Windows C runtime from writing stdout in text mode, which turns each `0x0A` byte into `0x0D 0x0A` (a turn-10 record already contains one). The raw-record tools (`extract_features`, `infer_check`) switch stdout to `_O_BINARY` first (`tools/stream.hpp` `binaryStdout`). `fusion.native.extract` checks every record's turn and team columns, so a misaligned stream fails loudly. `tests/test_contracts.py` feeds a stream whose records contain `0x0A`, `0x0D` and `0x1A`, and requires the exact byte count; `tools/env_check.py` repeats the alignment and integer-parity checks on the host.
+- **Binary tool output:** Python reads tool pipes as bytes, but that alone does not stop the Windows C runtime from writing stdout in text mode, which turns each `0x0A` byte into `0x0D 0x0A` (a turn-10 record already contains one). The raw-record tools (`extract_features`, `infer_check`) switch stdout to `_O_BINARY` first (`tools/cpp/stream.hpp` `binaryStdout`). `fusion.native.extract` checks every record's turn and team columns, so a misaligned stream fails loudly. `tests/test_contracts.py` feeds a stream whose records contain `0x0A`, `0x0D` and `0x1A`, and requires the exact byte count; `tools/host/env_check.py` repeats the alignment and integer-parity checks on the host.
 - **Processes:** `multiprocessing` uses top-level worker functions, so the Windows spawn start method works.
 - **Git:** keep the repository outside OneDrive. OneDrive interrupts git's memory-mapped I/O and has truncated files on this project before.
 
@@ -54,10 +54,10 @@ FUSION_TEST_DEVICE=cuda python -m unittest tests.test_torch_backend
 **Measure before relying on it:**
 
 ```bash
-python tools/bench_training.py --model n15 --tier S XXL --backends numpy torch-cuda --max-rows 500000
+python tools/host/bench_training.py --model n15 --tier S XXL --backends numpy torch-cuda --max-rows 500000
 ```
 
-It writes `reports/training_bench_<host>.md`: rows per second, epoch and wall time, validation loss at equal epochs, and peak VRAM, per backend and tier. Small networks (tier S) can be limited by loading and kernel launches; the larger tiers are where the GPU has arithmetic to do.
+It writes `reports/host/training_bench_<host>.md`: rows per second, epoch and wall time, validation loss at equal epochs, and peak VRAM, per backend and tier. Small networks (tier S) can be limited by loading and kernel launches; the larger tiers are where the GPU has arithmetic to do.
 
 **Memory.**
 - **Fitting the GPU:** a split's rows stay on the GPU when they fit `--gpu-resident-gb` (default 6). Otherwise they stream in windows of `--gpu-window-rows` (default 1,000,000 rows, 1.2 GiB of records), with the next window gathered on the CPU in the background.
@@ -83,10 +83,10 @@ Dedicated models warm-start from it with the same preset (`--capacity XXL --init
 Run this on the Windows host, with nothing else heavy running:
 
 ```bash
-python tools/env_check.py --ai-test C:/path/to/AI_Test --teams 2 6 15
+python tools/host/env_check.py --ai-test C:/path/to/AI_Test --teams 2 6 15
 ```
 
-It writes `reports/env_check_<host>.md` and `.json`, with a verdict per line:
+It writes `reports/host/env_check_<host>.md` and `.json`, with a verdict per line:
 
 | Check | Pass condition |
 |---|---|
@@ -106,20 +106,20 @@ The report also lists the CPU, compiler, Python, numpy and PyTorch/CUDA versions
 ## Capacity: how big the networks can be
 
 ```bash
-python tools/capacity_bench.py --ai-test C:/path/to/AI_Test                   # every team count, tiers S M L XL
-python tools/capacity_bench.py --raw data/raw --teams 2 6 10 15 --tiers S M L XL XXL
+python tools/host/capacity_bench.py --ai-test C:/path/to/AI_Test                   # every team count, tiers S M L XL
+python tools/host/capacity_bench.py --raw data/raw --teams 2 6 10 15 --tiers S M L XL XXL
 ```
 
-`tools/size_bench.cpp` builds each size tier at runtime with random int16 weights (integer inference costs the same whatever the values) and runs the bot's per-turn inference on every turn of a recorded match:
+`tools/cpp/size_bench.cpp` builds each size tier at runtime with random int16 weights (integer inference costs the same whatever the values) and runs the bot's per-turn inference on every turn of a recorded match:
 - the policy for every opponent team with every head (an upper bound);
 - `--value-calls` value-network search nodes (default 24), alternating between consecutive states so every accumulator update has real deltas.
 
-`capacity_bench.py` runs one copy per seat at once, so the CPU is as busy as during a real match, and does this for every team count on its real map. It takes the worst p99 over all turns and seats, multiplies by `--safety` (1.5), and compares the result with the inference budget (`compute_target - search` = 5 ms, or `--budget-ms`). Output: `reports/capacity_<host>.md` and `.json`, with a verdict per tier and team count, the value nodes that still fit, header source sizes, and the recommended ceiling.
+`capacity_bench.py` runs one copy per seat at once, so the CPU is as busy as during a real match, and does this for every team count on its real map. It takes the worst p99 over all turns and seats, multiplies by `--safety` (1.5), and compares the result with the inference budget (`compute_target - search` = 5 ms, or `--budget-ms`). Output: `reports/host/capacity_<host>.md` and `.json`, with a verdict per tier and team count, the value nodes that still fit, header source sizes, and the recommended ceiling.
 
-`--verify` runs no timing: the SIMD kernels must equal the scalar loop bit for bit (`tools/kernel_check.cpp`), and every tier's incremental value must equal the full pass with buffers as wide as the tier needs. The tests run it; it is safe on any machine.
+`--verify` runs no timing: the SIMD kernels must equal the scalar loop bit for bit (`tools/cpp/kernel_check.cpp`), and every tier's incremental value must equal the full pass with buffers as wide as the tier needs. The tests run it; it is safe on any machine.
 
 **Kernels.** Every timing run starts with the same kernel parity check and stops on any mismatch. `--kernels both` (default) times every tier with the SIMD kernels and with the old scalar loop; verdicts use the SIMD kernels, which the bot runs. The kernels need no compiler flags: SSE2 is part of every x86-64 CPU, AVX2 is chosen at runtime after a CPU check, and NEON is standard on ARM64.
 
-**Loaded against isolated.** Run once with the default seats and once with `--seats 1 --tag 1seat` (it writes `reports/capacity_1seat_<host>.json`), then `python tools/generate_multithreading_report.py`. Every statement in that report is computed from the two files.
+**Loaded against isolated.** Run once with the default seats and once with `--seats 1 --tag 1seat` (it writes `reports/host/capacity_1seat_<host>.json`), then `python tools/reporting/generate_multithreading_report.py`. Every statement in that report is computed from the two files.
 
 **Status:** built and verified (all tiers up to width 2048); timing not yet run on the host.

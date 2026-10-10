@@ -10,7 +10,7 @@
 // features (one unit moved, one hit) costs one column update per changed
 // feature plus the small tail (128 -> 16 -> 1), instead of the full 54 x 128
 // layer. Integer arithmetic makes both paths identical bit for bit
-// (tools/runtime_check.cpp proves it). Nothing here allocates.
+// (tools/cpp/runtime_check.cpp proves it). Nothing here allocates.
 #ifndef FUSION_VALUE_HPP
 #define FUSION_VALUE_HPP
 #include <array>

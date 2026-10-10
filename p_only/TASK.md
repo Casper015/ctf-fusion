@@ -31,7 +31,7 @@ Question: of all the bots we have, which give the strongest complete bot once P 
    - its time budget and screen reply times: the headroom left for network calls;
    - how much hand-written prediction and habit code P would replace;
    - per team-count band (2, 3–5, 6–10, 11–15): the screen utility.
-3. **Use the existing evidence, within its limits.** That means the light screen (`roster/report/screen_light`), the P pilot (e11c45b), the V ablation (0a0badc), the 1,000-game tournament (99ecbe1), and the reviews in `reports_m/review_bundle_20261009/`.
+3. **Use the existing evidence, within its limits.** That means the light screen (`roster/report/screen_light`), the P pilot (e11c45b), the V ablation (0a0badc), the 1,000-game tournament (99ecbe1), and the reviews in `reports/reviews/review_bundle_20261009/`.
    - Their maps overlap.
    - The tournament could not tell its pvL-versus-control gaps from zero; its 95% intervals were −12.7 to +69.8 BT for C08 and −18.4 to +59.0 for v12.
    - C08's own control reproduced its score in only 36 of 80 reruns, so its comparisons need A/A repeats.
@@ -137,7 +137,7 @@ Keep the same single P (one next-turn predictor, applied again at each simulated
 ## Evidence backfill for XL and XXL (GPU; doesn't block the screen)
 
 The trend from S to XXL is one seed, 8 epochs, with no per-epoch logs (89ee436). These steps decide whether size conclusions can be trusted:
-- **Correct the record:** 89ee436's commit message says `inv_teams` count weighting, but every manifest records `count_weighting none`. A correction note is now at the top of `reports_xl/SUMMARY.md` and `reports_xxl/SUMMARY.md`; don't rewrite the pushed history.
+- **Correct the record:** 89ee436's commit message says `inv_teams` count weighting, but every manifest records `count_weighting none`. A correction note is now at the top of `reports/models/xl/SUMMARY.md` and `reports/models/xxl/SUMMARY.md`; don't rewrite the pushed history.
 - **More seeds or the logs:** train 1–2 more seeds for L, XL and XXL with the identical configuration, or commit the per-epoch training logs, so we can tell whether XL and XXL were still improving at epoch 8.
 - **Keep M separate:** M was trained with NumPy while L and up used PyTorch, so the M-to-L step mixes a backend change into the size change. Keep M in its own family and out of the size trend; compare sizes from L up, or retrain M on PyTorch.
 

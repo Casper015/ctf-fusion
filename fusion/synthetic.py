@@ -1,10 +1,10 @@
 """Synthetic seat streams for correctness checks that need no AI_Test checkout.
 
-The stream is protocol-valid (tools/stream.hpp parses it): an open map of the
+The stream is protocol-valid (tools/cpp/stream.hpp parses it): an open map of the
 team count's size, bases on a ring, three units per team that step left and
 right every turn (so value features change between turns), and scores that
 change now and then. It is not a game: timing benchmarks must replay recorded
-matches instead (tools/capacity_bench.py).
+matches instead (tools/host/capacity_bench.py).
 """
 from __future__ import annotations
 

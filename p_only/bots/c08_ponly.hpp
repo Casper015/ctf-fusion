@@ -8,7 +8,7 @@
 // lookahead (each predicted from that state, with the root as its previous
 // observation, never written into the real history).
 //
-// Removed from candidate/C08_Player5_Omega_LIT_Fusion.hpp: the hand-written
+// Removed from bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp: the hand-written
 // movement forecasts (multi and duel) and their mixture weight, the opponent
 // goal and target guesses, attention/priority/crossfire/focus weights and the
 // last-target habit, the ground-flag pickup-versus-fire rule, the learned

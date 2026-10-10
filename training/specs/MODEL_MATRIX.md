@@ -27,8 +27,8 @@ python -m training.train_policy --model general --out runs/policy_general
 python -m training.train_value  --model general --out runs/value_general
 python -m training.train_policy --model n08 --init runs/policy_general --out runs/policy_n08
 python -m training.train_value  --model n08 --init runs/value_general  --out runs/value_n08
-python -m training.evaluate_offline --model n08 --policy runs/policy_n08 --value runs/value_n08 --out reports/n08
-python -m training.export_weights   --model n08 --policy runs/policy_n08 --value runs/value_n08 --report reports/n08.json
+python -m training.evaluate_offline --model n08 --policy runs/policy_n08 --value runs/value_n08 --out reports/models/s/n08
+python -m training.export_weights   --model n08 --policy runs/policy_n08 --value runs/value_n08 --report reports/models/s/n08.json
 ```
 
 `export_weights` writes into `inference/models/`:
@@ -36,19 +36,19 @@ python -m training.export_weights   --model n08 --policy runs/policy_n08 --value
 - `MANIFEST.json`;
 - `registry.hpp`, regenerated from every exported model. `fusion::models::forTeams(t)` returns the team count's dedicated model, else `general`, else `nullptr` (legacy behavior).
 
-`tools/registry_check.cpp` prints the dispatch.
+`tools/cpp/registry_check.cpp` prints the dispatch.
 
 ## Size and latency ceilings, and how each is checked
 
 | Ceiling | Where it is checked |
 |---|---|
-| P ≤ 5 ms per turn (all opponent teams, every head at every legal move) | `tools/bench_inference.cpp` via `tools/env_check.py` on the host. About 30k multiply-accumulates per opponent team. |
-| How large a model fits that budget at every team count, with every seat busy | `tools/capacity_bench.py` on the host: size ladder S–XXL, verdict per team count, value nodes that fit, header size |
+| P ≤ 5 ms per turn (all opponent teams, every head at every legal move) | `tools/cpp/bench_inference.cpp` via `tools/host/env_check.py` on the host. About 30k multiply-accumulates per opponent team. |
+| How large a model fits that budget at every team count, with every seat busy | `tools/host/capacity_bench.py` on the host: size ladder S–XXL, verdict per team count, value nodes that fit, header size |
 | V single-digit µs per node | Same benchmark: encode + incremental accumulator + 128 → 16 → 1 tail |
-| No heap allocation during turn evaluation | `tools/runtime_check.cpp` counts `operator new` calls after turn 1; the tests require 0 |
-| Incremental V equals full V | `tools/runtime_check.cpp`, bit-exact on every team and turn |
-| Integer C++ equals the Python emulation | `tools/infer_check.cpp` against `QuantizedTier.raw`, bit-exact |
-| Every SIMD kernel path equals the scalar loop | `tools/kernel_check.cpp` (avx2, sse2, neon, scalar: whichever the CPU runs), bit-exact; run by the tests, `env_check.py` and `capacity_bench.py` |
+| No heap allocation during turn evaluation | `tools/cpp/runtime_check.cpp` counts `operator new` calls after turn 1; the tests require 0 |
+| Incremental V equals full V | `tools/cpp/runtime_check.cpp`, bit-exact on every team and turn |
+| Integer C++ equals the Python emulation | `tools/cpp/infer_check.cpp` against `QuantizedTier.raw`, bit-exact |
+| Every SIMD kernel path equals the scalar loop | `tools/cpp/kernel_check.cpp` (avx2, sse2, neon, scalar: whichever the CPU runs), bit-exact; run by the tests, `env_check.py` and `capacity_bench.py` |
 | int32 never overflows | `fusion/quant.py` proves the accumulator bound for every input inside the feature spec |
 | Tens to a few hundred KB per pair | About 30k int16 parameters per pair (~200 KiB of header text); `MANIFEST.json` records exact counts |
 | Turn 1 ≤ 2 s | Model data is `constexpr`; `Board::init` runs a few BFS passes (milliseconds). The host check measures every bot's first turn. |
@@ -88,7 +88,7 @@ So a model that does not beat the heuristic cannot change play. Retrain, or coll
 
 **The value network has no gate yet.** Every header says `kValueApproved = false`; α never enables V. A bot that uses V needs its own switch, off by default, with its own null check and its own match evidence.
 
-**Layer widths.** The C++ buffers hold 256 values by default (`inference/mlp.hpp` `kMaxWidth = FUSION_MAX_WIDTH`). The trainers refuse wider hidden layers, the exporter refuses any wider layer, and every header `static_assert`s each layer's size. A larger model is a deliberate choice, made from the host's capacity report (`tools/capacity_bench.py`, [ENVIRONMENT.md](ENVIRONMENT.md)): train with `--max-width N` (and `--hidden-*` widths), evaluate and export with `--max-width N`, and build the bot with `-DFUSION_MAX_WIDTH=N`. The header states the width it needs.
+**Layer widths.** The C++ buffers hold 256 values by default (`inference/mlp.hpp` `kMaxWidth = FUSION_MAX_WIDTH`). The trainers refuse wider hidden layers, the exporter refuses any wider layer, and every header `static_assert`s each layer's size. A larger model is a deliberate choice, made from the host's capacity report (`tools/host/capacity_bench.py`, [ENVIRONMENT.md](ENVIRONMENT.md)): train with `--max-width N` (and `--hidden-*` widths), evaluate and export with `--max-width N`, and build the bot with `-DFUSION_MAX_WIDTH=N`. The header states the width it needs.
 
 **Retraining triggers.** Validation log-loss does not beat the baseline, or the gate is off for most served counts. Responses, in order:
 1. more data (phase 2);

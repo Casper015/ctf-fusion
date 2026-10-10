@@ -49,19 +49,19 @@ The design brief's claim — "rollout simplifies opponent casualties and flag tr
 `fusion::step(board, rules, state, orders, next, workspace, events, returnSpot)` is `stepExact` without the planner:
 - **Inputs:** a plain `fusion::State` and one `Order` per unit (move, act, target).
 - **Output:** the next state and its attack events.
-- **Allocation:** buffers live in `Workspace`; after first use no step touches the heap (`tools/runtime_check.cpp`).
+- **Allocation:** buffers live in `Workspace`; after first use no step touches the heap (`tools/cpp/runtime_check.cpp`).
 - **Flag returns:** the caller may pass `returnSpot[f]`. Without it a returning flag comes back `home` at (-1, -1), and `unknownReturns` counts it.
 
 The engine picks the spot uniformly among flag spots (`SPOTS`) not occupied by a home flag, one returning flag after another. A caller can therefore sample from exactly the engine's distribution instead of giving up.
 
-**Verification.** `tools/sim_check.cpp` replays recorded matches: recorded orders → `step` → compare with the next recorded block (units, flags, scores, attack events). It compares:
+**Verification.** `tools/cpp/sim_check.cpp` replays recorded matches: recorded orders → `step` → compare with the next recorded block (units, flags, scores, attack events). It compares:
 - 27 test-bot matches (2–4 teams);
 - 2 real-bot matches (Sol, Fable, Astra, Opus; 3 and 4 teams; 509 deaths, pickups, drops, captures and respawns);
 - the 18 suite matches in `tests/test_pipeline.py`.
 
 Result: **every turn identical, 0 mismatches, 0 skipped.** Returning spots come from the recorded block, from the picker's cell when a camper took the flag at once.
 
-**Coverage is part of the result.** A turn whose returning spot the next block does not reveal is skipped, and a replay with no compared turn proves nothing. `sim_check` therefore prints compared and skipped turns, exits 3 when nothing was compared, and the pipeline test requires every turn of every match to be compared. `tools/env_check.py` reports both counts per match.
+**Coverage is part of the result.** A turn whose returning spot the next block does not reveal is skipped, and a replay with no compared turn proves nothing. `sim_check` therefore prints compared and skipped turns, exits 3 when nothing was compared, and the pipeline test requires every turn of every match to be compared. `tools/host/env_check.py` reports both counts per match.
 
 **Uses:**
 1. **Checked lookahead.** Replace the member function plus save/restore, and stop refusing return turns (sample the spot).
@@ -87,4 +87,4 @@ Result: **every turn identical, 0 mismatches, 0 skipped.** Returning spots come 
 | Text vs bytes | Bot pipes are text mode like the official runner, so bots see the same input as in the arena. Every internal tool pipe (extractor, forecast replay, parity, simulator) uses bytes, so no CRLF translation on Windows. |
 | Files | UTF-8 everywhere; POSIX-style paths in manifests; `os.replace` for atomic writes; spawn-safe multiprocessing |
 
-**Not verified on Windows:** this machine is macOS. `python tools/env_check.py --ai-test <AI_Test>` on the Windows host covers it: build every pool bot, run headless matches, check the protocol, measure latency and the simulator. See [ENVIRONMENT.md](ENVIRONMENT.md).
+**Not verified on Windows:** this machine is macOS. `python tools/host/env_check.py --ai-test <AI_Test>` on the Windows host covers it: build every pool bot, run headless matches, check the protocol, measure latency and the simulator. See [ENVIRONMENT.md](ENVIRONMENT.md).

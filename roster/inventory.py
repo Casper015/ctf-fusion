@@ -49,7 +49,7 @@ from fusion import runner
 from fusion.paths import REPO, ai_test_root, bot_path, git_commit, load_pool
 from roster.common import SCHEMA_INVENTORY, save_json, sha256_bytes, sha256_file
 
-# The handoff's directories (handoffs/diverse15_distance_tiered_policy/tools/inventory_bots.py) plus New_AI_Test.
+# The handoff's directories (docs/handoffs/diverse15_distance_tiered_policy/tools/inventory_bots.py) plus New_AI_Test.
 DEFAULT_DIRS = [
     "ctf-arena/Player7/judge/ctf/bots", "ctf-arena/Player7/workspace/experiments/round3/export",
     "ctf-stress-pack/bots", "ctf-stress-pack/bots_v2", "ctf-stress-pack/bots_v3",
