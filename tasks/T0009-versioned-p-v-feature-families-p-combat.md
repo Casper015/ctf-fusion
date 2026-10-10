@@ -1,13 +1,13 @@
 ---
 id: T0009
 title: "Versioned P/V feature families: P combat context, richer V, 4XL V infrastructure"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [inference/combat.hpp, inference/policy_p3.hpp, inference/value_v3.hpp, fusion/, training/, tools/cpp/, tools/pipeline/, tools/host/, tests/, profiles/v_pilot.json, profiles/p_features.json, docs/FEATURE_FAMILIES.md, bots/p_only/tools/, bots/p_only/bots/, bots/p_only/profiles/, bots/p_only/tests/, bots/p_only/include/]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0009-versioned-p-v-feature-families-p-combat
 updated: 2026-10-10
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-10 18:32Z claude@caspers-macbook: created
+- 2026-10-10 18:32Z claude@caspers-macbook: claimed
