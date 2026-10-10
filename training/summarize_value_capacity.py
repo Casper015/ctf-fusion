@@ -85,9 +85,10 @@ def screen_summary(work: str, build: Path) -> dict:
         result["arms"][arm] = {"games": len(rs), "utility": float(np.mean([r["utility"] for r in rs])), "faults": faults,
                               "late": sum(r.get("late", 0) for r in rs), "timing": t, "counters": c,
                               "counter_games": dict(coverage[arm]), "deadline_passes_observed_games": deadline}
-    for arm in arms:
-        baseline = arm.removesuffix("~aa") if arm.endswith("~aa") else f"cap_off_{work}"
-        if arm == baseline or baseline not in by_arm:
+    comparisons = config.get("comparisons", [[arm, f"cap_off_{work}"] for arm in arms if not arm.endswith("~aa")])
+    comparisons += [[arm, arm.removesuffix("~aa")] for arm in arms if arm.endswith("~aa")]
+    for arm, baseline in comparisons:
+        if arm == baseline or arm not in by_arm or baseline not in by_arm:
             continue
         common = sorted(set(by_arm[arm]) & set(by_arm[baseline]))
         x = np.array([by_arm[arm][k]["utility"] - by_arm[baseline][k]["utility"] for k in common])
@@ -164,7 +165,7 @@ def main(argv=None):
             lines.append(f"| {arm} | {r['games']} | {r['utility']:.4f} | {r['faults']} / {r['late']} | {t['first_ms']['max'] if t['first_ms'] else None} | "
                          f"{t['p50_ms']['median'] if t['p50_ms'] else None} / {t['p99_ms']['max'] if t['p99_ms'] else None} / {t['max_ms']['max'] if t['max_ms'] else None} | "
                          f"{c.get('value.calls_per_turn')} / {c.get('value.ms_per_turn')} |")
-        lines += ["", "Paired utility differences (A/A against its identical base; others against V off):", ""]
+        lines += ["", "Configured paired utility differences and A/A against its identical base:", ""]
         for comparison, interval in s.get("paired", {}).items():
             lines.append(f"- {comparison}: {interval['mean']:+.5f}, [{interval['lo']}, {interval['hi']}], {interval['clusters']} map groups; {interval['verdict']}.")
         source = build / f"screen_{work}_analysis" / "RUN.json"
