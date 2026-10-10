@@ -1,7 +1,7 @@
 ---
 id: T0003
 title: "P-only stage 2: value network V at fixed P"
-status: active
+status: done
 owner: codex@desktop-g60ojud
 needs: [host]
 writes: [bots/p_only/report/value/]
@@ -23,7 +23,9 @@ Does V help when P is held fixed? Stage 2 of [bots/p_only/EXPERIMENTS.md](../bot
 
 ## Handoff
 
-Not started. Command (host): `python tools/repo/task.py lock cpu --task T0003 -- python bots/p_only/tools/run_screen.py --config bots/p_only/profiles/screen_value.json`
+*2026-10-10 10:02Z codex@desktop-g60ojud:*
+
+result in bots/p_only/report/value/SCREEN.md and STAGE2_REPORT.md; V benefit not shown overall (+0.010 C08 XL, +0.018 C08 XXL, +0.012 v12 XL, -0.002 v12 XXL); helps in C08 XL 11-15 (+0.037); lack of gain diagnosed as continuation policy shift and coarse features rather than starvation or capacity
 
 ## Log
 
@@ -31,3 +33,4 @@ Not started. Command (host): `python tools/repo/task.py lock cpu --task T0003 --
 - 2026-10-10 09:23Z codex@desktop-g60ojud: claimed (forced)
 - 2026-10-10 09:44Z codex@desktop-g60ojud: note: completed screen_value: 2,240 games, 8 arms, seed 20261108; result in bots/p_only/report/value/SCREEN.md
 - 2026-10-10 10:02Z codex@desktop-g60ojud: landed: bdcd218a7c on main, 7 file(s)
+- 2026-10-10 10:02Z codex@desktop-g60ojud: done
