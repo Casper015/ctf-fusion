@@ -215,7 +215,8 @@ namespace fusion_hook {
         void report(const Game& g) const {
             if (g.turn != g.turns) return;
             std::cerr << "PONLY builds " << counters.builds << " teams " << counters.teams << " act " << counters.actHeads
-                      << " target " << counters.targetHeads << " fallback " << counters.fallback << std::endl;
+                      << " target " << counters.targetHeads << " fallback " << counters.fallback
+                      << " inconsistent " << counters.inconsistent << " skipped " << counters.skipped << std::endl;
         }
 #else
         void report(const Game&) const {}
@@ -455,10 +456,15 @@ struct Plan { std::array<int,3> move{}, target{}; double value = 0; int source =
 // k) after that move.
 struct Ply2 { std::vector<int> move; std::vector<std::array<double,3>> aim; };
 struct Input;
-// Predicts Ply2 for joint sample `sample` from the settled ply-1 cells of every
-// search unit (our units 0..2, then the rivals; -1 = not on the board).
+struct Plan;
+// What ply 1 of a joint sample does under the reference plan, per search unit
+// (our units 0..2, then the rivals): the requested cell, the settled cell (-1 =
+// not on the board) and, for rivals, whether our volley kills it.
+struct Ply1Outcome { std::vector<int> want, at; std::vector<char> killed; };
+// Predicts Ply2 for joint sample `sample` from the engine state that ply 1
+// reaches under the reference plan.
 struct Ply2Source {
-    virtual void predict(const Input& in, const std::vector<int>& cells, int sample, Ply2& out) const = 0;
+    virtual void predict(const Input& in, const Plan& ref, const Ply1Outcome& p1, int sample, Ply2& out) const = 0;
     virtual ~Ply2Source() = default;
 };
 struct Input {
@@ -941,15 +947,17 @@ struct JointSampler {
 };
 
 // P-only ply 2: once per joint sample, the network predicts the rivals' next
-// orders on the ply-1 state that the sample reaches under a reference plan,
-// and every plan of the sample shares them. Requires the sample's rival
-// intents (dynamics::setRivalIntents) already set.
-inline void predictPly2(const Input& in, const Plan& ref, int smp, dynamics::World& w, std::vector<int>& cells) {
+// orders on the state that ply 1 of the sample reaches under a reference plan
+// (the best plan so far), and every plan of the sample shares them. Requires
+// the sample's rival intents (dynamics::setRivalIntents) already set.
+inline void predictPly2(const Input& in, const Plan& ref, int smp, dynamics::World& w, Ply1Outcome& p1) {
     if (!in.ply2) { w.p2.move.assign(w.E, -1); w.p2.aim.assign(w.E, {0, 0, 0}); return; }
-    dynamics::setOwnIntents(in, ref, w); dynamics::settle(w);
-    cells.assign(w.U, -1);
-    for (int a = 0; a < w.U; a++) if (w.live[a]) cells[a] = w.at[a];
-    in.ply2->predict(in, cells, smp, w.p2);
+    dynamics::setOwnIntents(in, ref, w); p1.want = w.want;
+    dynamics::settle(w); dynamics::volley(in, ref, w);
+    p1.at.assign(w.U, -1); p1.killed.assign(w.E, 0);
+    for (int a = 0; a < w.U; a++) if (w.live[a]) p1.at[a] = w.at[a];
+    for (int e = 0; e < w.E; e++) p1.killed[e] = w.killed[e];
+    in.ply2->predict(in, ref, p1, smp, w.p2);
 }
 
 struct PlanScores {
@@ -997,10 +1005,10 @@ inline std::vector<Plan> rank(const Input& in, const Config& cfg, std::chrono::s
     dynamics::World world; world.reset(3 + E, E, int(in.board.nb->size()), in.board.n);
     dynamics::prepare(in, world);
     const JointSampler sampler(in);
-    std::vector<int> pick(E), cells; std::vector<double> tmp(C);
+    std::vector<int> pick(E); std::vector<double> tmp(C); Ply1Outcome p1;
     auto draw = [&](int smp, const Plan& ref) {
         sampler.draw(in, smp, pick); dynamics::setRivalIntents(in, pick, world); world.sample = smp;
-        predictPly2(in, ref, smp, world, cells);
+        predictPly2(in, ref, smp, world, p1);
     };
     PlanScores scores(C, cfg.riskTau);
     int done = 0;
@@ -1066,7 +1074,7 @@ inline Breakdown evaluatePlan(const Input& in, const Config& cfg, const Plan& pl
     std::vector<int> pick(E);
     const JointSampler sampler(in); sampler.draw(in, sample, pick);
     dynamics::setRivalIntents(in, pick, world); world.sample = sample;
-    std::vector<int> cells; predictPly2(in, plan, sample, world, cells);
+    Ply1Outcome p1; predictPly2(in, plan, sample, world, p1);
     rollout(in, cfg, plan, stayTerms(in), pick, world, ev, &bd);
     return bd;
 }
@@ -1509,7 +1517,7 @@ struct Planner {
         in.view=fSession.cur;
         // Ply-2 predictions only for teams that can reach our units by ply 2
         // (within Manhattan 6 of one of them now); the others cannot matter there.
-        ply2Source.fs=&fSession;ply2Source.g=&g;ply2Source.n=nav.n;ply2Source.teams.assign(g.teams,0);
+        ply2Source.setRoot(g);ply2Source.fs=&fSession;ply2Source.pl=this;ply2Source.n=nav.n;ply2Source.teams.assign(g.teams,0);
         for(const auto& e:foes){const int p=cellOf(e.u.p);for(int k=0;k<3;k++){int a=cellOf(own[k].p);if(a>=0&&p>=0&&man(a,p)<=6)ply2Source.teams[e.u.team]=1;}}
         in.ply2=&ply2Source;
         search::Config cfg=search::configFor(g.teams);const NgGenes genes=ngGenes(g.teams);(void)genes;
@@ -1528,7 +1536,7 @@ struct Planner {
         if(genes.sh){cfg.halving=true;cfg.maxPlans=max(cfg.maxPlans,int(in.plans.size()));}
         // P-only: no scripted playouts (MOD_PLAYOUT); the network predicts ply 2.
         if(genes.risk)cfg.riskTau=W_death;  // soft minimum on the scale of one unit's death
-        auto ranked=search::rank(in,cfg,stop,&lastSearch,fixedSamples);
+        auto ranked=search::rank(in,cfg,stop,&lastSearch,fixedSamples);statSearches++;statSamples+=lastSearch.samples;
         vector<ctfcombat::Choice> out;for(const auto& p:ranked){auto c=cands[p.source];c.value=p.value;out.push_back(c);}
         return out;
     }
@@ -1689,19 +1697,48 @@ struct Planner {
         }return d;
     }
     fusion_hook::PSession fSession;
-    // The network's ply-2 orders for the sampled search: one view per joint
-    // sample of the ply-1 state its reference plan reaches (root: previous observation).
+    // Expectimax calls and joint samples (PONLY_STATS: one stderr line at the last turn).
+    long long statSearches=0,statSamples=0;
+    void searchReport(const Game& g)const{
+#if PONLY_STATS
+        if(g.turn==g.turns)std::cerr<<"SEARCH calls "<<statSearches<<" samples "<<statSamples<<std::endl;
+#else
+        (void)g;
+#endif
+    }
+    // The network's ply-2 orders for the sampled search. Per joint sample, the
+    // engine turn that ply 1 reaches under the reference plan: our plan's moves
+    // and acts, each rival's sampled move with the network's act and target for
+    // it, settled by the exact kernel (stepExact: HP, deaths, pickups, drops,
+    // captures, attack events). The network predicts from that state, with the
+    // root as its previous observation. A flag due to return this turn reappears
+    // at a random spot nobody can know: it stays off the board in these states
+    // (each such state counted as skipped). Every unit alive after the step must stand where the
+    // search settled it, and every rival the search's volley kills must be dead:
+    // otherwise the state is counted as inconsistent.
     struct Ply2FromNetwork : search::Ply2Source {
-        const fusion_hook::PSession* fs=nullptr;const Game* g=nullptr;int n=0;
-        vector<char> teams;mutable ponly::View scratch;
-        void predict(const search::Input& in,const vector<int>& cells,int sample,search::Ply2& out)const override{
+        fusion_hook::PSession* fs=nullptr;Planner* pl=nullptr;int n=0;
+        Game root;bool hidden=false;vector<char> teams;mutable ponly::View scratch;
+        void setRoot(const Game& g){root=g;hidden=false;
+            for(auto& f:root.flags)if((f.status=="cooldown"||f.status=="dropped")&&f.return_at<=g.turn){
+                f.status="cooldown";f.x=f.y=-1;f.holder=-1;f.return_at=g.turn+1;hidden=true;}}
+        void predict(const search::Input& in,const search::Plan& ref,const search::Ply1Outcome& p1,int sample,search::Ply2& out)const override{
             const int E=int(in.rivals.size());out.move.assign(E,-1);out.aim.assign(E,{0,0,0});
-            bool any=false;for(char c:teams)any|=c!=0;if(!any||!fs)return;
-            fusion::State st=fs->view.state();st.turn+=1;st.attacks.clear();
-            auto place=[&](int id,int c){if(id<0||c<0)return;auto& u=st.units[id];u.x=c%n;u.y=c/n;if(u.respawnAt>=0){u.hp=g->hp;u.respawnAt=-1;}};
-            for(int a=0;a<3;a++)place(in.allies[a].f.id,cells[a]);
-            for(int e=0;e<E;e++)place(in.rivals[e].f.id,cells[3+e]);
-            fs->predictInto(st,g->me,scratch,&teams);
+            bool any=false;for(char c:teams)any|=c!=0;if(!any||!fs||!pl)return;
+            const int U=int(root.units.size());ponly::View& rv=*fs->cur;if(hidden)fs->counters.skipped++;
+            vector<int> want(U,-1),acts(U,-1);
+            for(int a=0;a<3;a++){const int id=in.allies[a].f.id;if(id<0||id>=U)continue;want[id]=p1.want[a];acts[id]=ref.target[a];}
+            for(int e=0;e<E;e++){const int id=in.rivals[e].f.id;if(id<0||id>=U)continue;want[id]=p1.want[3+e];
+                const int m=ponly::moveIndex(in.rivals[e].f.cell,p1.want[3+e],n);
+                if(m<0||!rv.has(id/3)||rv.origin(id)<0)continue;
+                const auto o=rv.order(id,m,ponly::uniform(root.turn,id,sample,41),ponly::uniform(root.turn,id,sample,43));
+                acts[id]=o.act==fusion::kAttack?o.target:o.act==fusion::kPickup?-2:o.act==fusion::kDrop?-3:-1;}
+            Game next;if(!pl->stepExact(root,want,acts,next)){fs->counters.skipped++;return;}
+            for(int a=0;a<3+E;a++){const int id=a<3?in.allies[a].f.id:in.rivals[a-3].f.id;if(id<0||id>=U)continue;const auto& u=next.units[id];
+                if(u.x>=0&&p1.at[a]>=0&&u.y*n+u.x!=p1.at[a])fs->counters.inconsistent++;
+                if(a>=3&&p1.killed[a-3]&&u.x>=0)fs->counters.inconsistent++;}
+            const fusion::State st=fusion_hook::makeState(next);
+            fs->predictInto(st,root.me,scratch,&teams);
             array<array<int,3>,16> mv{};array<char,16> drawn{};
             for(int e=0;e<E;e++){const int id=in.rivals[e].f.id,t=id/3;if(t<0||t>=16||!scratch.has(t)||scratch.origin(id)<0)continue;
                 if(!drawn[t]){scratch.jointDraw(t,ponly::uniform(st.turn,t,sample,29),mv[t].data());drawn[t]=1;}
@@ -1985,7 +2022,7 @@ struct Planner {
     }
     string decide(Game& g){
         if(!initialized){nav.init(g);initialized=true;}
-        auto result=planTurn(g,true);fSession.report(g);
+        auto result=planTurn(g,true);fSession.report(g);searchReport(g);
         string out=to_string(g.turn);for(int k=0;k<3;k++){out+=' ';out+=result.move[k];out+=' ';out+=result.actions[k].text();}prev=g.units;return out;}
 };
 }  // namespace multi

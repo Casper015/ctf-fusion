@@ -1,4 +1,7 @@
 # Size Tier XXL Export Summary
+
+> **Correction (2026-10-09):** the message of commit 89ee436 says these models were trained with `inv_teams` count weighting. Every manifest (`inference/models_xl|models_xxl/MANIFEST.json`, `sources.*.config.args.count_weighting`) records `none`: the count weighting was not applied. All sizes S-XXL were trained with seed 1 for 8 epochs; M used the NumPy trainer and L-XXL the PyTorch trainer, so compare sizes from L up (p_only/TASK.md, evidence backfill).
+
 - Models exported: 11 / 11
 - Backend: torch (cuda)
 - Required FUSION_MAX_WIDTH: 2048

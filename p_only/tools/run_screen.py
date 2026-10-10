@@ -1,7 +1,7 @@
 """Paired screen of the P-only bots, end to end, from p_only/profiles/screen.json (host only).
 
     python p_only/tools/run_screen.py                 # the configured screen, official limits
-    python p_only/tools/run_screen.py --smoke         # 2 counts x 1 map, 1 s turns, 3 arms: checks the chain (not evidence)
+    python p_only/tools/run_screen.py --smoke         # 2 counts x 1 map, 1 s turns, 4 arms: checks the chain (not evidence)
     python p_only/tools/run_screen.py --analyze-only  # re-run the analysis on the results so far
 
 Steps (re-run the same command after an interruption; finished games are kept):
@@ -68,8 +68,8 @@ def main(argv=None):
         work = work / "smoke"
         report = work / "report"
         teams, maps, turn_ms = [2, 5], 1, 1000
-        arms, aa = ["c08_control", "c08_ponly_m", "v12_ponly_m"], ["c08_control"]
-        comparisons = [["c08_ponly_m", "c08_control"]]
+        arms, aa = ["c08_control", "c08_control_2ply", "c08_ponly_m", "v12_ponly_m"], ["c08_control"]
+        comparisons = [["c08_ponly_m", "c08_control"], ["c08_ponly_m", "c08_control_2ply"]]
     work.mkdir(parents=True, exist_ok=True)
     report.mkdir(parents=True, exist_ok=True)
     timings, t_all = {}, time.time()

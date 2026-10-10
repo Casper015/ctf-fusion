@@ -47,7 +47,9 @@ inline double uniform(uint32_t a, uint32_t b, uint32_t c, uint32_t d = 0) {
 
 struct Counters {
     long long builds = 0, teams = 0, actHeads = 0, targetHeads = 0, fallback = 0;
-    long long branches = 0;  // simulated states a carrier predicted (incremented by the carrier)
+    long long branches = 0;      // simulated states a carrier predicted (incremented by the carrier)
+    long long inconsistent = 0;  // states that break the rules' invariants, or contradict the carrier's search
+    long long skipped = 0;       // simulated states with a pending random flag return (that flag left out)
 };
 
 // One unit's order: the move index, the act (fusion::kWait/kPickup/kDrop/kAttack)
@@ -70,6 +72,7 @@ public:
         teams_ = b.teams;
         const int U = static_cast<int>(s.units.size());
         fusion::makeView(b, s_, parent, v_);
+        if (counters && !coherent(s_)) counters->inconsistent++;
         has_.assign(teams_, 0);
         feat_.resize(teams_);
         out_.resize(teams_);
@@ -231,6 +234,24 @@ public:
             out[k] = origin(uid) >= 0 ? order(uid, mv[k], ua, ut) : Order{};
         }
         return out;
+    }
+
+    // The rules' invariants for a state handed to the network: a unit on the
+    // board is alive; an off-board unit carries nothing; a carried flag has a
+    // living holder that carries it; a home or dropped flag lies on the board.
+    static bool coherent(const fusion::State& s) {
+        const int U = static_cast<int>(s.units.size()), F = static_cast<int>(s.flags.size());
+        for (const auto& u : s.units) {
+            if (u.x >= 0 && u.hp <= 0) return false;
+            if (u.x < 0 && u.flag >= 0) return false;
+            if (u.flag >= F) return false;
+            if (u.flag >= 0 && (s.flags[u.flag].status != fusion::kCarried || s.flags[u.flag].holder != u.id)) return false;
+        }
+        for (const auto& f : s.flags) {
+            if (f.status == fusion::kCarried && (f.holder < 0 || f.holder >= U || s.units[f.holder].flag != f.id)) return false;
+            if ((f.status == fusion::kHome || f.status == fusion::kDropped) && f.x < 0) return false;
+        }
+        return true;
     }
 
 private:

@@ -1,7 +1,8 @@
 {
- "_comment": "Bots that p_only/tools/build.py bundles into single .cpp files and compiles. role: control = the unchanged carrier (no network); hybrid = the earlier Fusion integration (network mixed with the hand-written forecast); ponly = every opponent prediction from the network; ponly_v = ponly plus the experimental value term.",
+ "_comment": "Bots that p_only/tools/build.py bundles into single .cpp files and compiles. role: control = the unchanged carrier (no network); hybrid = the earlier Fusion integration (network mixed with the hand-written forecast); ponly = every opponent prediction from the network; ponly_v = ponly plus the experimental value term. c08_control and c08_control_2ply are the unchanged C08 (4-ply and 2-ply scripted playouts) with a statistics line under PONLY_STATS.",
  "variants": [
-  {"name": "c08_control", "carrier": "C08", "role": "control", "tier": null, "source": "candidate/C08_Player5_Omega_LIT_control.cpp"},
+  {"name": "c08_control", "carrier": "C08", "role": "control", "tier": null, "source": "p_only/bots/variants/c08_control.cpp"},
+  {"name": "c08_control_2ply", "carrier": "C08", "role": "control", "tier": null, "source": "p_only/bots/variants/c08_control_2ply.cpp"},
   {"name": "c08_hybrid_m", "carrier": "C08", "role": "hybrid", "tier": "M", "source": "candidate/C08_Player5_Omega_LIT_p_m.cpp"},
   {"name": "c08_ponly_s", "carrier": "C08", "role": "ponly", "tier": "S", "source": "p_only/bots/variants/c08_ponly_s.cpp"},
   {"name": "c08_ponly_m", "carrier": "C08", "role": "ponly", "tier": "M", "source": "p_only/bots/variants/c08_ponly_m.cpp"},

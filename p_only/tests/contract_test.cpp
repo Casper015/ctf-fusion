@@ -12,11 +12,19 @@
 //             an attack has an effect; P(attack and target v) <= P(attack);
 //   orders    the mode orders are legal (move, act, target among candidates)
 //             and two draws with the same keys are identical;
-//   fallback  no prediction fell back to uniform (every team count has a model).
+//   fallback  no prediction fell back to uniform (every team count has a model);
+//   coherent  every state handed to the network keeps the rules' invariants and
+//             agrees with the carrier's search (ponly Counters::inconsistent == 0);
+//   engine    with the recorded orders (argument 1, orders_nXX.txt.gz unzipped),
+//             the carrier's own turn kernel (C08 stepExact, v12 simStep) applied
+//             to each real turn reproduces the engine's next state field by field:
+//             positions, HP, carried flags, respawn times, flags, scores and attack
+//             events. Turns with a pending random flag return are skipped.
 // Prints one summary line; exit status 1 on any failure.
 //
 //   g++ -std=c++20 -O2 -Iinference -Ip_only/include -Ip_only/bots -DCARRIER_C08 p_only/tests/contract_test.cpp
-//   gzip -dc p_only/tests/fixtures/stream_n04.txt.gz | ./a.out
+//   gzip -dc p_only/tests/fixtures/orders_n04.txt.gz > orders.txt
+//   gzip -dc p_only/tests/fixtures/stream_n04.txt.gz | ./a.out orders.txt
 #define PONLY_NO_MAIN 1
 #if defined(CARRIER_C08)
 #include "c08_ponly.hpp"
@@ -28,6 +36,9 @@
 
 #include <cmath>
 #include <cstdio>
+#include <fstream>
+#include <map>
+#include <set>
 
 namespace {
 
@@ -105,9 +116,82 @@ void history(const fusion_hook::PSession& fs, const Game& g, const std::vector<U
     }
 }
 
+// Recorded replies: turn -> (team, reply line).
+std::map<int, std::vector<std::pair<int, std::string>>> loadOrders(const char* path) {
+    std::map<int, std::vector<std::pair<int, std::string>>> out;
+    std::ifstream in(path);
+    std::string line;
+    while (std::getline(in, line)) {
+        std::istringstream s(line);
+        int turn, team;
+        if (!(s >> turn >> team)) continue;
+        std::string rest;
+        std::getline(s, rest);
+        out[turn].push_back({team, rest});
+    }
+    return out;
+}
+
+// Requested cells and acts (target id, -2 pickup, -3 drop, -1 nothing) of every unit.
+template <typename NavT>
+void parseOrders(const std::vector<std::pair<int, std::string>>& replies, const NavT& nav, const std::vector<int>& pos,
+                 std::vector<int>& want, std::vector<int>& acts) {
+    want.assign(pos.size(), -1);
+    acts.assign(pos.size(), -1);
+    for (int i = 0; i < (int)pos.size(); i++) want[i] = pos[i];
+    for (const auto& [team, reply] : replies) {
+        std::istringstream s(reply);
+        int turn;
+        s >> turn;
+        for (int k = 0; k < 3; k++) {
+            std::string mv, act;
+            if (!(s >> mv >> act)) break;
+            const int id = 3 * team + k;
+            if (id >= (int)pos.size() || pos[id] < 0) continue;
+            const int m = std::string("SUDLR").find(mv[0]);
+            if (m >= 0 && m < 5 && nav.nb[pos[id]][m] >= 0) want[id] = nav.nb[pos[id]][m];
+            acts[id] = act == "P" ? -2 : act == "X" ? -3 : act == "-" ? -1 : std::stoi(act);
+        }
+    }
+}
+
+bool flagReturnPending(const Game& g) {
+    for (const auto& f : g.flags)
+        if ((f.status == "dropped" || f.status == "cooldown") && f.return_at <= g.turn) return true;
+    return false;
+}
+
+// The kernel's successor of a real turn against the engine's actual next state.
+void compare(const std::vector<Unit>& units, const std::vector<Flag>& flags, const std::vector<int>& score,
+             const std::set<std::pair<int, int>>& attacks, const Game& real, int turn) {
+    const char* bad = nullptr;
+    for (size_t i = 0; !bad && i < units.size(); i++) {
+        const auto &a = units[i], &b = real.units[i];
+        if (a.x != b.x || a.y != b.y) bad = "unit position";
+        else if (a.hp != b.hp) bad = "unit HP";
+        else if (a.flag != b.flag) bad = "carried flag";
+        else if (a.respawn_at != b.respawn_at) bad = "respawn time";
+    }
+    for (size_t i = 0; !bad && i < flags.size(); i++) {
+        const auto &a = flags[i], &b = real.flags[i];
+        if (a.status != b.status) bad = "flag status";
+        else if (a.x != b.x || a.y != b.y) bad = "flag position";
+        else if (a.holder != b.holder) bad = "flag holder";
+        else if (a.return_at != b.return_at) bad = "flag return time";
+    }
+    if (!bad && score != real.score) bad = "score";
+    std::set<std::pair<int, int>> realAttacks;
+    for (const auto& e : real.events)
+        if (e.type == "attack" && e.args.size() >= 2) realAttacks.insert({e.args[0], e.args[1]});
+    if (!bad && attacks != realAttacks) bad = "attack events";
+    static char msg[96];
+    std::snprintf(msg, sizeof msg, "engine mismatch after turn %d: %s", turn, bad ? bad : "");
+    check(bad == nullptr, turn + 1, msg);
+}
+
 }  // namespace
 
-int main() {
+int main(int argc, char** argv) {
     std::ios::sync_with_stdio(false);
     Game g;
 #if defined(CARRIER_C08)
@@ -117,9 +201,25 @@ int main() {
     Planner p;
 #endif
     std::vector<Unit> previous;
-    int turns = 0;
-    long long branches = 0, fallback = 0;
+    int turns = 0, stepped = 0, skipped = 0;
+    long long branches = 0, fallback = 0, inconsistent = 0;
+    const auto recorded = argc > 1 ? loadOrders(argv[1]) : std::map<int, std::vector<std::pair<int, std::string>>>{};
+    // The kernel's prediction of the next real turn, compared once that turn is read.
+    bool pending = false;
+    int pendingTurn = 0;
+    std::vector<Unit> nextUnits;
+    std::vector<Flag> nextFlags;
+    std::vector<int> nextScore;
+    std::set<std::pair<int, int>> nextAttacks;
+#if defined(CARRIER_C08)
+    multi::Planner kernel;
+#endif
     while (read_turn(g)) {
+        if (pending && g.turn == pendingTurn + 1) {
+            compare(nextUnits, nextFlags, nextScore, nextAttacks, g, pendingTurn);
+            stepped++;
+        }
+        pending = false;
 #if defined(CARRIER_C08)
         const std::string out = g.teams == 2 ? two.decide(g) : many.decide(g);
         const fusion_hook::PSession& fs = g.teams == 2 ? two.session() : many.fSession;
@@ -134,11 +234,44 @@ int main() {
         orders(fs.view, g.me, g.turn);
         branches = fs.counters.branches;
         fallback = fs.counters.fallback;
+        inconsistent = fs.counters.inconsistent;
+        auto it = recorded.find(g.turn);
+        if (it != recorded.end() && g.turn < g.turns) {
+            if (flagReturnPending(g)) {
+                skipped++;
+            } else {
+                std::vector<int> want, acts;
+#if defined(CARRIER_C08)
+                if (!kernel.initialized) { kernel.nav.init(g); kernel.initialized = true; }
+                kernel.respawns(g);
+                parseOrders(it->second, kernel.nav, kernel.pos, want, acts);
+                Game next;
+                if (kernel.stepExact(g, want, acts, next)) {
+                    nextUnits = next.units; nextFlags = next.flags; nextScore = next.score; nextAttacks.clear();
+                    for (const auto& e : next.events)
+                        if (e.type == "attack" && e.args.size() >= 2) nextAttacks.insert({e.args[0], e.args[1]});
+                    pending = true;
+                }
+#else
+                parseOrders(it->second, p.nav, p.pos, want, acts);
+                auto s = p.initialSim(g);
+                std::array<int, 3> ours{};
+                for (int k = 0; k < 3; k++) ours[k] = acts[3 * g.me + k];
+                p.simStep(g, s, g.turn, want, acts, ours);
+                nextUnits = s.u; nextFlags = s.f; nextScore = s.score;
+                nextAttacks = std::set<std::pair<int, int>>(s.attacks.begin(), s.attacks.end());
+                pending = true;
+#endif
+                pendingTurn = g.turn;
+            }
+        }
         previous = g.units;
         turns++;
     }
     check(fallback == 0, g.turn, "a prediction fell back to uniform");
-    std::printf("contract: %d turns, %d teams, %lld checks, %d failures, %lld branch views, %lld fallbacks\n",
-                turns, g.teams, checks, failures, branches, fallback);
+    check(inconsistent == 0, g.turn, "a state handed to the network was inconsistent");
+    std::printf("contract: %d turns, %d teams, %lld checks, %d failures, %lld branch views, %lld fallbacks, "
+                "%lld inconsistent, engine steps %d (skipped %d)\n",
+                turns, g.teams, checks, failures, branches, fallback, inconsistent, stepped, skipped);
     return failures ? 1 : 0;
 }

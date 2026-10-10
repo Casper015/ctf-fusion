@@ -127,6 +127,7 @@ namespace fusion_hook {
             else if (sim.f[i].status == "cooldown") s = fusion::kCooldown;
             st.flags[i] = {sim.f[i].id, s, sim.f[i].x, sim.f[i].y, sim.f[i].holder, sim.f[i].return_at};
         }
+        for (const auto& a : sim.attacks) st.attacks.push_back({a.first, a.second});
         return st;
     }
 
@@ -166,7 +167,8 @@ namespace fusion_hook {
         void report(const Game& g) const {
             if (g.turn != g.turns) return;
             std::cerr << "PONLY builds " << counters.builds << " teams " << counters.teams << " act " << counters.actHeads
-                      << " target " << counters.targetHeads << " fallback " << counters.fallback << std::endl;
+                      << " target " << counters.targetHeads << " fallback " << counters.fallback
+                      << " inconsistent " << counters.inconsistent << " skipped " << counters.skipped << std::endl;
         }
 #else
         void report(const Game&) const {}
@@ -643,10 +645,10 @@ struct Planner {
             for(int m=1;m<5;m++){int q=nav.nb[p][m];if(q>=0&&v+cost<d[q]){d[q]=v+cost;pq.push({d[q],q});}}
         }return d;
     }
-    struct Sim {vector<Unit> u;vector<Flag> f;vector<bool> immune;vector<int> score;};
+    struct Sim {vector<Unit> u;vector<Flag> f;vector<bool> immune;vector<int> score;vector<pair<int,int>> attacks;};
     int sp(const Unit& u)const{return u.x<0?-1:nav.cell(u.x,u.y);}
     Sim initialSim(const Game& g)const{
-        Sim s{g.units,g.flags,immune,g.score};
+        Sim s{g.units,g.flags,immune,g.score,{}};
         for(auto& u:s.u)if(pos[u.id]>=0){u.x=pos[u.id]%nav.n;u.y=pos[u.id]/nav.n;if(immune[u.id]){u.hp=100;u.respawn_at=-1;}}
         for(auto& f:s.f)if((f.status=="dropped"||f.status=="cooldown")&&f.return_at<=g.turn){f.x=f.y=-1;f.status="cooldown";}
         return s;
@@ -675,7 +677,7 @@ struct Planner {
     // voluntary drops, captures. act: target id (attack), -2 pickup, -3 drop,
     // anything else nothing; our three units use ourActs.
     void simStep(const Game& g,Sim& s,int t,vector<int> want,vector<int> act,const array<int,3>& ourActs)const{
-        int N=s.u.size();vector<int> start(N),hpLoss(N,0);vector<bool> blocked(N,false);act.resize(N,-1);
+        int N=s.u.size();vector<int> start(N),hpLoss(N,0);vector<bool> blocked(N,false);act.resize(N,-1);s.attacks.clear();
         for(auto& u:s.u)start[u.id]=sp(u);
         for(int i=0;i<N;i++)if(start[i]>=0){if(want[i]<0||!nav.open(want[i]))want[i]=start[i];for(int j=0;j<i;j++)if(start[j]>=0){
             if(want[i]==want[j])blocked[i]=blocked[j]=true;
@@ -686,8 +688,8 @@ struct Planner {
         for(auto& u:s.u)if(start[u.id]>=0){int p=blocked[u.id]?start[u.id]:want[u.id];u.x=p%nav.n;u.y=p/nav.n;}
         for(int k=0;k<3;k++)act[3*g.me+k]=ourActs[k];
         for(auto& u:s.u){int target=act[u.id];if(target>=0&&target<N&&sp(u)>=0&&u.flag<0&&!s.immune[u.id]){
-            auto& v=s.u[target];if(v.team!=u.team&&sp(v)>=0&&!s.immune[v.id]&&shot(sp(u),sp(v),g))hpLoss[target]+=34;}}
-        for(auto& u:s.u)if(sp(u)>=0){u.hp-=hpLoss[u.id];if(u.hp<=0){if(u.flag>=0){auto& f=s.f[u.flag];f.status="dropped";f.x=u.x;f.y=u.y;f.holder=-1;f.return_at=t+15;}u.x=u.y=-1;u.flag=-1;u.respawn_at=t+10;}}
+            auto& v=s.u[target];if(v.team!=u.team&&sp(v)>=0&&!s.immune[v.id]&&shot(sp(u),sp(v),g)){hpLoss[target]+=34;s.attacks.push_back({u.id,target});}}}
+        for(auto& u:s.u)if(sp(u)>=0){u.hp-=hpLoss[u.id];if(u.hp<=0){if(u.flag>=0){auto& f=s.f[u.flag];f.status="dropped";f.x=u.x;f.y=u.y;f.holder=-1;f.return_at=t+15;}u.x=u.y=-1;u.flag=-1;u.hp=0;u.respawn_at=t+10;}}
         for(auto& u:s.u)if(sp(u)>=0&&u.flag<0&&act[u.id]==-2){for(auto& f:s.f)if(f.x>=0&&f.x==u.x&&f.y==u.y){u.flag=f.id;f.status="carried";f.holder=u.id;f.x=f.y=-1;f.return_at=-1;break;}}
         for(auto& u:s.u)if(sp(u)>=0&&u.flag>=0&&act[u.id]==-3){auto& f=s.f[u.flag];f.status="dropped";f.x=u.x;f.y=u.y;f.holder=-1;f.return_at=t+g.flag_return;u.flag=-1;}
         for(auto& u:s.u)if(sp(u)>=0&&u.flag>=0&&nav.home[u.team][sp(u)]==0){s.score[u.team]++;auto& f=s.f[u.flag];f.status="cooldown";f.holder=-1;f.x=f.y=-1;f.return_at=t+8;u.flag=-1;}

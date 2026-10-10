@@ -5,7 +5,10 @@
 
 Plays one game with the same bot in every seat under relaxed limits (5 s / 1 s; a
 fixture, not a timing or strength measurement) and writes, gzip-compressed, every
-turn block the engine sends seat 0, in order: what a bot reads on stdin.
+turn block the engine sends seat 0, in order: what a bot reads on stdin. Next to it
+(stream_ -> orders_) it writes every team's reply per turn, one line "turn team
+reply", so a test can step the bots' simulators with the real orders and compare
+the result with the engine's next state.
 """
 from __future__ import annotations
 
@@ -33,7 +36,7 @@ def main(argv=None):
     game = engine.Game(a.teams, a.seed, flag_seed=a.seed * 7919 + 1)
     exe = str(Path(a.bot).resolve())   # bots start in their own temporary directory
     bots = [runner.Bot([exe], f"seat{i}", (5.0, 1.0)) for i in range(a.teams)]
-    blocks = []
+    blocks, replies = [], []
     try:
         while not game.done:
             turn = game.turn + 1
@@ -41,6 +44,7 @@ def main(argv=None):
             blocks.append(texts[0])
             starts = [b.send(t) for b, t in zip(bots, texts)]
             lines = [b.receive(t0, turn) for b, t0 in zip(bots, starts)]
+            replies += [f"{turn} {i} {line.strip()}" for i, line in enumerate(lines) if line is not None]
             orders = {}
             for i, (b, line) in enumerate(zip(bots, lines)):
                 try:
@@ -56,6 +60,8 @@ def main(argv=None):
     out.parent.mkdir(parents=True, exist_ok=True)
     text = "".join(t if t.endswith("\n") else t + "\n" for t in blocks)
     out.write_bytes(gzip.compress(text.encode("utf-8"), mtime=0))
+    orders = out.with_name(out.name.replace("stream_", "orders_"))
+    orders.write_bytes(gzip.compress(("\n".join(replies) + "\n").encode("utf-8"), mtime=0))
     print(f"{out}: {len(blocks)} turns, score {game.result()['score']}, {len(text)} bytes")
 
 

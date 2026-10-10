@@ -85,6 +85,7 @@ SESSION = """    template <typename SimType>
             else if (sim.f[i].status == "cooldown") s = fusion::kCooldown;
             st.flags[i] = {sim.f[i].id, s, sim.f[i].x, sim.f[i].y, sim.f[i].holder, sim.f[i].return_at};
         }
+        for (const auto& a : sim.attacks) st.attacks.push_back({a.first, a.second});
         return st;
     }
 
@@ -124,7 +125,8 @@ SESSION = """    template <typename SimType>
         void report(const Game& g) const {
             if (g.turn != g.turns) return;
             std::cerr << "PONLY builds " << counters.builds << " teams " << counters.teams << " act " << counters.actHeads
-                      << " target " << counters.targetHeads << " fallback " << counters.fallback << std::endl;
+                      << " target " << counters.targetHeads << " fallback " << counters.fallback
+                      << " inconsistent " << counters.inconsistent << " skipped " << counters.skipped << std::endl;
         }
 #else
         void report(const Game&) const {}
@@ -202,7 +204,7 @@ RIVALS = """    // The rivals' orders on the network's view of state s: model 0 
     // voluntary drops, captures. act: target id (attack), -2 pickup, -3 drop,
     // anything else nothing; our three units use ourActs.
     void simStep(const Game& g,Sim& s,int t,vector<int> want,vector<int> act,const array<int,3>& ourActs)const{
-        int N=s.u.size();vector<int> start(N),hpLoss(N,0);vector<bool> blocked(N,false);act.resize(N,-1);"""
+        int N=s.u.size();vector<int> start(N),hpLoss(N,0);vector<bool> blocked(N,false);act.resize(N,-1);s.attacks.clear();"""
 
 DROP = """        for(auto& u:s.u)if(sp(u)>=0&&u.flag>=0&&act[u.id]==-3){auto& f=s.f[u.flag];f.status="dropped";f.x=u.x;f.y=u.y;f.holder=-1;f.return_at=t+g.flag_return;u.flag=-1;}"""
 
@@ -288,6 +290,22 @@ expect(850, "int main(){")
 out += L(822, 849)
 out += ["#ifndef PONLY_NO_MAIN  // tests include the bot without its main()", src[849], "#endif"]
 out += L(851, len(src))
+
+# Simulated turns also record their attack events (the network reads hits taken).
+EDITS = [("    struct Sim {vector<Unit> u;vector<Flag> f;vector<bool> immune;vector<int> score;};",
+          "    struct Sim {vector<Unit> u;vector<Flag> f;vector<bool> immune;vector<int> score;vector<pair<int,int>> attacks;};"),
+         ("            auto& v=s.u[target];if(v.team!=u.team&&sp(v)>=0&&!s.immune[v.id]&&shot(sp(u),sp(v),g))hpLoss[target]+=34;}}",
+          "            auto& v=s.u[target];if(v.team!=u.team&&sp(v)>=0&&!s.immune[v.id]&&shot(sp(u),sp(v),g)){hpLoss[target]+=34;s.attacks.push_back({u.id,target});}}}"),
+         ("        Sim s{g.units,g.flags,immune,g.score};", "        Sim s{g.units,g.flags,immune,g.score,{}};"),
+         # A dead unit has HP 0 in the engine (it went negative here).
+         ("        for(auto& u:s.u)if(sp(u)>=0){u.hp-=hpLoss[u.id];if(u.hp<=0){if(u.flag>=0){auto& f=s.f[u.flag];f.status=\"dropped\";f.x=u.x;f.y=u.y;f.holder=-1;f.return_at=t+15;}u.x=u.y=-1;u.flag=-1;u.respawn_at=t+10;}}",
+          "        for(auto& u:s.u)if(sp(u)>=0){u.hp-=hpLoss[u.id];if(u.hp<=0){if(u.flag>=0){auto& f=s.f[u.flag];f.status=\"dropped\";f.x=u.x;f.y=u.y;f.holder=-1;f.return_at=t+15;}u.x=u.y=-1;u.flag=-1;u.hp=0;u.respawn_at=t+10;}}")]
+for old, new in EDITS:
+    hits = [i for i, line in enumerate(out) if line == old]
+    if len(hits) != 1:
+        sys.exit(f"expected one line {old[:60]!r}, found {len(hits)}")
+    out[hits[0]] = new
+
 dst = Path(os.environ.get("PONLY_DERIVE_DIR", REPO / "p_only/bots")) / "v12_ponly.hpp"   # tests derive into a scratch dir
 dst.parent.mkdir(parents=True, exist_ok=True)
 dst.write_text("\n".join(out), encoding="utf-8")

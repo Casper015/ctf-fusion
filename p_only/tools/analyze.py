@@ -18,9 +18,11 @@ they are not game wins. An aa arm ("X~aa") replays X's identical binary: X~aa:X
 measures re-run noise (and its rate of identical final scores).
 
 Timing per arm: faults (late replies count as faults in fusion/runner.py), dead
-games, late replies, the largest first reply, the median of the per-game p99 and
-the largest single reply (max over games of the per-game max). With --matches
-(kept logs of a --stats build) the network call counters per turn are added.
+games, late replies, the largest first reply, the median and the worst of the
+per-game p99 (the size rule of p_only/tools/size_rule.py uses the worst), and the
+largest single reply (max over games of the per-game max). With --matches (kept
+logs of a --stats build) the network call counters per turn are added, and for
+C08 arms the expectimax calls and joint samples per call.
 
 Exit status 2 when any arm misses a scheduled fixture (the report says INCOMPLETE).
 """
@@ -42,7 +44,8 @@ from roster.strength import schedule_identity  # noqa: E402
 
 AA = "~aa"
 BANDS = {"2": (2, 2), "3-5": (3, 5), "6-10": (6, 10), "11-15": (11, 15)}
-COUNTER = re.compile(r"PONLY builds (\d+) teams (\d+) act (\d+) target (\d+) fallback (\d+)")
+COUNTER = re.compile(r"PONLY builds (\d+) teams (\d+) act (\d+) target (\d+) fallback (\d+)(?: inconsistent (\d+) skipped (\d+))?")
+SEARCH = re.compile(r"SEARCH calls (\d+) samples (\d+)")
 
 
 def load_rows(path: Path) -> list[dict]:
@@ -91,7 +94,7 @@ def paired(rows_a: dict, rows_b: dict, fixtures: dict, teams: list[int]) -> dict
 
 def counters(matches: Path, arm_keys: dict) -> dict:
     """Network calls per turn of each arm's seat, from kept match logs (PONLY stderr line)."""
-    acc = defaultdict(lambda: [0, 0, 0, 0, 0, 0])
+    acc = defaultdict(lambda: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])  # 5 counters, turns, inconsistent, skipped, calls, samples, games
     for p in matches.rglob("*.json.gz"):
         key = p.name.split("-")[-1].split(".")[0]
         arm = arm_keys.get(key)
@@ -101,16 +104,32 @@ def counters(matches: Path, arm_keys: dict) -> dict:
         for seat, bot in zip(m["seats"], m["bots"]):
             if not seat["name"].startswith("@candidate"):
                 continue
+            a = acc[arm]
+            a[10] += 1
             for line in bot.get("stderr_tail", []):
                 c = COUNTER.search(line)
                 if c:
-                    a = acc[arm]
                     for i in range(5):
                         a[i] += int(c.group(i + 1))
                     a[5] += len(m.get("blocks", [])) or 1
-    return {arm: {"turns": a[5], "views_per_turn": round(a[0] / a[5], 2), "team_encodes_per_turn": round(a[1] / a[5], 2),
-                  "act_heads_per_turn": round(a[2] / a[5], 2), "target_heads_per_turn": round(a[3] / a[5], 2),
-                  "fallbacks": a[4]} for arm, a in acc.items() if a[5]}
+                    a[6] += int(c.group(6) or 0)
+                    a[7] += int(c.group(7) or 0)
+                s = SEARCH.search(line)
+                if s:
+                    a[8] += int(s.group(1))
+                    a[9] += int(s.group(2))
+    out = {}
+    for arm, a in acc.items():
+        row = {}
+        if a[5]:
+            row.update({"turns": a[5], "views_per_turn": round(a[0] / a[5], 2), "team_encodes_per_turn": round(a[1] / a[5], 2),
+                        "act_heads_per_turn": round(a[2] / a[5], 2), "target_heads_per_turn": round(a[3] / a[5], 2),
+                        "fallbacks": a[4], "inconsistent": a[6], "skipped": a[7]})
+        if a[8]:
+            row.update({"search_calls": a[8], "samples_per_search": round(a[9] / a[8], 1)})
+        if row:
+            out[arm] = row
+    return out
 
 
 def fmt_ci(s):
@@ -163,6 +182,7 @@ def main(argv=None):
                         "late_replies": sum(r.get("late") or 0 for r in rs),
                         "first_ms_max": max((r["first_ms"] for r in rs if r.get("first_ms") is not None), default=None),
                         "p99_ms_median": p99[len(p99) // 2] if p99 else None,
+                        "p99_ms_worst": p99[-1] if p99 else None,
                         "max_ms": max((r["max_ms"] for r in rs if r.get("max_ms") is not None), default=None)}
     comparisons = {}
     for spec in a.compare:
@@ -199,17 +219,19 @@ def main(argv=None):
             md.append(f"| {name} | {band} | {m} | {ci} | {v} | {s['fixtures'] if s else 0} |")
         md.append(f"| {name} | improved / unchanged / degraded | {c['improved']} / {c['unchanged']} / {c['degraded']} | "
                   f"identical scores {c['identical_scores']} of {c['fixtures']} | | |")
-    md += ["", "## Arms", "", "| Arm | Games | Utility | Faults | Dead | Late | First reply max ms | p99 median ms | Max reply ms | Binary |",
-           "|---|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
+    md += ["", "## Arms", "", "| Arm | Games | Utility | Faults | Dead | Late | First reply max ms | p99 median ms | p99 worst game ms | Max reply ms | Binary |",
+           "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
     for arm, s in per_arm.items():
         md.append(f"| {arm} | {s['games']} | {s['utility'] if s['utility'] is not None else 'n/a'} | {s['faults']} | {s['dead_games']} | "
-                  f"{s['late_replies']} | {s['first_ms_max']} | {s['p99_ms_median']} | {s['max_ms']} | `{s['binary_sha256'][:12]}` |")
+                  f"{s['late_replies']} | {s['first_ms_max']} | {s['p99_ms_median']} | {s['p99_ms_worst']} | {s['max_ms']} | `{s['binary_sha256'][:12]}` |")
     if calls:
-        md += ["", "## Network calls per turn (our seat)", "", "| Arm | Turns | Views | Team encodes | Act heads | Target heads | Fallbacks |",
-               "|---|---:|---:|---:|---:|---:|---:|"]
+        md += ["", "## Network calls per turn and search samples (our seat)", "",
+               "| Arm | Turns | Views | Team encodes | Act heads | Target heads | Fallbacks | Inconsistent | Flag-return states | Expectimax calls | Samples per call |",
+               "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
         for arm, c in calls.items():
-            md.append(f"| {arm} | {c['turns']} | {c['views_per_turn']} | {c['team_encodes_per_turn']} | {c['act_heads_per_turn']} | "
-                      f"{c['target_heads_per_turn']} | {c['fallbacks']} |")
+            md.append(f"| {arm} | {c.get('turns', '')} | {c.get('views_per_turn', '')} | {c.get('team_encodes_per_turn', '')} | "
+                      f"{c.get('act_heads_per_turn', '')} | {c.get('target_heads_per_turn', '')} | {c.get('fallbacks', '')} | "
+                      f"{c.get('inconsistent', '')} | {c.get('skipped', '')} | {c.get('search_calls', '')} | {c.get('samples_per_search', '')} |")
     md += ["", "Max reply is the largest single reply over every game; p99 is per game (not pooled). "
            "A late reply counts as a fault. Re-run noise rows (X~aa - X) replay an identical binary."]
     (out / "SCREEN.md").write_text("\n".join(md) + "\n", encoding="utf-8")
