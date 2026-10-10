@@ -1,226 +1,89 @@
 # ctf-fusion
 
-Opponent policy and board value networks for the multi-team Capture The Flag bots of
-[AI_Test](https://github.com/Casper015/AI_Test) (`ctf-arena/Player7`). The repository covers:
-- data collection;
-- training;
-- calibration against the legacy heuristic;
-- integer export to standalone C++ headers;
-- an engine-exact forward simulator.
+**Teaching our Capture the Flag bots to predict what their opponents will do next.**
 
-**First time here?** [docs/FIRST_RUN.md](docs/FIRST_RUN.md) takes a fresh checkout through setup, checks, a 2-minute pilot and the first full roster run of the 130 archived bots, step by step.
+Our bots compete in a Capture the Flag game ([AI_Test](https://github.com/Casper015/AI_Test), `ctf-arena`). Between 2 and 15 teams share one map. Each team has three units that move, shoot, and carry flags home for points. A bot gets 2 seconds for its first move and 50 milliseconds for every move after that. It runs on an ordinary CPU, with no GPU and no internet.
 
-**Changing something?** [CONTRIBUTING.md](CONTRIBUTING.md) says where a file goes, what is committed, how to name branches and commits, and what must pass before a push.
+To plan a good move, a bot has to guess what every other team is about to do. Our older bots make that guess with rules people wrote by hand. This repository replaces the hand-written guess with small neural networks that learned it from thousands of recorded games, and checks at every step that the replacement is really better.
 
-**Design and decisions:**
-- [docs/DESIGN.md](docs/DESIGN.md): the design brief.
-- [docs/REVIEW.md](docs/REVIEW.md): decisions and experiment order.
-- [training/specs/](training/specs/README.md): the contracts — features, action indexing, data format, the 22-model matrix, simulator audit, environment.
-- [docs/ROSTER.md](docs/ROSTER.md): Phase A, evaluating every candidate opponent, admitting an open training pool sampled by behavior group, and freezing evaluation rosters (`roster/`).
-- [reports/reviews/FINGERPRINT_EFFECTIVENESS_REVIEW.md](reports/reviews/FINGERPRINT_EFFECTIVENESS_REVIEW.md): source-backed fingerprint audit and proposed v2 plan for noise/support corrections, flag/survival/combat profiles and useful-novelty validation. Stages 0–2 (evidence identity and coverage, fixed-support distances with evidence states, live outcomes) are implemented; see [docs/ROSTER.md](docs/ROSTER.md).
+## The idea in five steps
 
-**Status:**
-- **Done:**
-  - the pipeline, simulator and runtime contracts are built and tested on this machine (macOS), with seeded test bots and two real judge-bot matches;
-  - the Phase A roster tooling ([docs/ROSTER.md](docs/ROSTER.md)): inventory of 191 candidates (122 eligible after aliases and exclusions), probe suite, behavior fingerprints, noise-corrected distances with complete-linkage groups per team count, strength screen, the open training registry with its hierarchical sampler, frozen evaluation rosters and an optional fixed panel. Fingerprints, screens and admission still run on the host;
-  - the deployment contracts from the source review of 2026-10-08 ([REVIEW.md §7](docs/REVIEW.md#7-source-review-2026-10-08-and-what-changed)): binary tool output, one declared adapter scored by the gate, a fail-closed gate bound to the exact artifact, feature spec v2, strict holdouts, layer-width limits.
-- **Not yet done:**
-  - no model trained on real data;
-  - nothing integrated into a bot;
-  - no Windows run;
-  - no host latency baseline. Every latency figure in this repository is an estimate until `tools/host/env_check.py` runs on the host.
+1. **Play and record games.** Our bots play many games against a wide range of opponents (the *roster*: 130+ archived bots, grouped by how they behave). Every turn is saved.
+2. **Learn from them.** Two networks train on those records:
+   - **P**, the *policy*, predicts what each opponent team does next;
+   - **V**, the *value*, estimates how good a position is for us.
+3. **Check them against the old guess.** On games the networks never saw, P must predict the opponents better than the hand-written rules, by a clear margin, for each number of teams separately. Where it doesn't, the bot falls back to the old rules automatically. We call this check the *gate*.
+4. **Turn them into C++.** The networks are exported as plain C++ with integer arithmetic, which matches the Python version bit for bit. They fit easily inside the 50 ms limit.
+5. **Put them in a bot and play.** The networks go into two of our strongest existing bots, called *carriers*. We compare the result with the original bots in thousands of paired games on the official test machine.
 
-The baseline comes from `tools/host/env_check.py` on the target host, never from a development machine.
+## Where things stand (October 2026)
 
-## How it fits together
+| | |
+|---|---|
+| **Networks** | P and V are trained in five sizes, from S (about 30,000 multiply-adds per opponent) to XXL (about 680,000). Each size has 11 models: one for each of 2–8, 10, 12 and 15 teams, plus a general model for 9, 11, 13 and 14. **Every size passes the gate for all 14 team counts.** |
+| **Speed** | Even the largest size fits. In the timing run on the test machine (8, 12 and 15 teams), the slowest reply of the heaviest bot was 31.4 ms, against the 50 ms limit. |
+| **Bots** | Two carriers, `C08` and `v12`, each in two versions. *Hybrid*: the network's guess mixed with the old one. *P-only*: every guess about opponents comes from P. |
+| **Match results** | Promising, not yet confirmed. In the first 280-map screen, the C08 P-only bot beat the original C08: +4.0 points of "share of other teams beaten", 95% interval +0.8 to +7.1. On a second set of fresh maps the gain was +2.9, but its interval touched zero. The v12 P-only bots showed the reverse pattern: not shown on the first maps, clearly ahead on the second (+5 to +7). |
+| **Next** | Controlled experiments to separate what helps: a bigger P, more search, or V. Then a deeper lookahead, then a large confirmation run. All of it is on the [task board](tasks/README.md). |
 
-```text
-AI_Test engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶ data/raw/nXX/*.json.gz   (protocol text + replies)
-                                          │ dataset.py: C++ extractor (inference/features.hpp) + labels, --append for phase 2
-                                          ▼
-                                   data/shards/nXX/<split>/*.npz  (+ index.json manifest)
-             heuristic_baseline.py ──▶ qh_*.npy  (legacy forecast q_H, replayed from AI_Test nextgen)
-                                          │ train_policy.py / train_value.py  --model general, then --model nXX --init general
-                                          ▼
-                                   runs/<policy|value>_<model>/  (model.npz + config.json with data digest, seed, commits)
-                                          │ evaluate_offline.py ──▶ reports/models/s/<model>.md/.json  (alpha + use gate per team count)
-                                          │ export_weights.py
-                                          ▼
-              inference/models/weights_<model>.hpp, MANIFEST.json, registry.hpp (forTeams dispatch)
-```
+The numbers come from [bots/p_only/report/](bots/p_only/report/screen/SCREEN.md) and [reports/models/](reports/README.md).
 
-**The model matrix** ([MODEL_MATRIX.md](training/specs/MODEL_MATRIX.md)):
-- dedicated P and V models for 2, 3, 4, 5, 6, 7, 8, 10, 12 and 15 teams;
-- a general P and V, pretrained on every count, which warm-starts the dedicated models and serves 9, 11, 13 and 14 — 22 artifacts in all.
+## Where things are
 
-`profiles/nXX.json` and `profiles/general.json` define the matrix, so there is no per-model code.
+| Folder | What's inside |
+|---|---|
+| [`bots/`](bots/hybrid/README.md) | The bots we build: `hybrid/` (network mixed with the old guess) and [`p_only/`](bots/p_only/README.md) (network only), with their tools, tests and match reports |
+| `fusion/`, `training/` | The Python side: recording games, building datasets, training, the gate, exporting to C++ |
+| `inference/` | The C++ that goes inside a bot: game state, features, the network code, the simulator, and the exported models (`models*/`) |
+| `roster/`, `profiles/` | The opponents: every archived bot, how they behave, which ones we train against |
+| `reports/` | Results: gate reports per model, measurements from the test machine, match results, written reviews |
+| `docs/` | Design, decisions and deeper explanations; start with the [technical overview](docs/TECHNICAL_OVERVIEW.md) |
+| `tasks/` | The [task board](tasks/README.md): what is being worked on, by whom, and what is next |
+| `tools/`, `tests/` | Scripts for the test machine, experiments and reports, plus the automatic checks |
 
-**Safety properties, each enforced by a test:**
-- **One feature implementation.** Features exist once, in C++ (`inference/features.hpp`), shared by the extractor and the bot.
-- **Exact integer inference.** The network accumulators (and so the logits) are integer and bit-identical to the Python emulation; the incremental value accumulator equals the full pass. Probabilities come from `exp` in double precision, so they can differ in the last bits across platforms.
-- **SIMD multiply-add kernels, same bits.** Layers run on 16-bit multiply-add kernels (`inference/simd.hpp`): AVX2 chosen at runtime on x86-64, SSE2 otherwise (every x86-64 CPU, no compiler flags), NEON on ARM, scalar elsewhere or with `-DFUSION_SIMD=0`. Integer sums are exact in any order, so every path gives the scalar loop's bits; `tools/cpp/kernel_check.cpp` checks each path the CPU runs (tests, `env_check`, `capacity_bench`).
-- **Byte-exact tool output.** Raw-record tools write binary stdout on Windows too, and every record's turn and team columns are checked on read.
-- **No heap use per turn.** Nothing allocates on the per-turn path after turn 1.
-- **Engine-exact simulator.** `inference/sim.hpp` reproduces every recorded engine turn.
-- **Safe fallback, fail closed.** The gate scores the integer model the exporter ships, through the declared adapter (`inference/adapter.hpp`), against the legacy forecast. It needs the gain to clear two map-clustered standard errors on enough maps. A team count that fails, or lacks a complete legacy forecast, exports α = 0, which is exactly the legacy bot. The report names the artifact it approves (checkpoint hashes, weight digest, schema, adapter), and the exporter refuses any other.
-- **Bounded buffers.** Explicit capacity ceilings and generated native assertions enforce layer dimensions. The default is 256; named presets supply larger ceilings, evaluation/export infer actual shapes, and native artifact tools compile with the recorded capacity. A bot including inference headers before its registry must set `FUSION_MAX_WIDTH` globally first.
+## Who works here, and how
 
-**Capacity experiments.** Training accepts `--capacity S|M|L|XL|XXL` ([docs/LARGER_MODEL_EXPERIMENTS.md](docs/LARGER_MODEL_EXPERIMENTS.md)); P and V can choose different presets and individual hidden flags still override them. XXL is the largest preset: wider shapes failed the inference budget under load on the host. Custom wide architectures without a preset retain explicit `--max-width` validation. The default model stays S. Wider models are experimental until trained quality and complete-turn timing are confirmed.
+People and several AI agents work in this repository at the same time, from different machines: the Windows test machine, a Mac, cloud sandboxes. To keep them from getting in each other's way:
 
-## Layout
+- **All work is a task** on the [board](tasks/README.md). `python tools/repo/task.py list` shows what is open, who is doing what, and what is blocked waiting for a person.
+- **Agents follow [AGENTS.md](AGENTS.md).** Each one claims a task, works in its own copy of the repository, and may only change the folders that task names. Two agents can't take the same task or edit the same folders at once.
+- **Where files go, and what may be committed,** is in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Everything tracked belongs to exactly one of the folders below. **Where does my file go, and what may I commit?** See [CONTRIBUTING.md](CONTRIBUTING.md); it is enforced by `tests/test_repo_layout.py`.
+## Getting started
 
-```text
-README.md, CONTRIBUTING.md        this map and the rules for using the repository
-requirements.txt, compile_flags.txt, .gitignore, .gitattributes
-
-── code ────────────────────────────────────────────────────────────────────────────────
-fusion/           Python core: paths, runner (Windows-safe bots), native (C++ tool builds), schema, matchlog,
-                  protocol, labels, nn (numpy MLP + Adam), models, quant (integer format + exact emulation),
-                  mixture, metrics, capacity, torch_backend
-training/         pipeline commands: collect, dataset, heuristic_baseline, train_policy, train_value,
-                  evaluate_offline, export_weights, common; specs/ = the contracts (FEATURES generated, ACTIONS,
-                  DATA_FORMAT, MODEL_MATRIX, SIMULATOR_AUDIT, ENVIRONMENT)
-roster/           Phase A, the opponent roster: inventory, archive, probes, fingerprint, distance, strength,
-                  trajectory, assess, registry, sampling, catalog, pool (docs/ROSTER.md)
-  bots/           every inventoried bot source by sha256, manifest, inventory snapshot (vendored, never edit)
-  new_bots/       136 more CTF bots found in AI_Test (8 independent, 128 forks), with a full-roster inventory
-  report/         Phase A results (fingerprints, distances, strength screen, admission, training selection)
-inference/        C++ headers that ship in a bot: state, features, simd, mlp, policy, value, adapter, sim;
-                  models/ (tier S) and models_m, models_l, models_xl, models_xxl = generated weights + registry.hpp
-tests/            test_math, test_contracts, test_roster, test_pipeline, test_capacity_profiles,
-                  test_generate_roster_report, test_repo_layout
-
-── configuration ───────────────────────────────────────────────────────────────────────
-profiles/         n02.json ... n15.json, general.json (the model matrix), pool.json + open_training_pool*.json
-                  (opponents), screen_light.json
-
-── bots we build ───────────────────────────────────────────────────────────────────────
-bots/hybrid/      C08 and Player5 v12 carriers with the mixture integration (<carrier>_Fusion.hpp + one thin
-                  wrapper .cpp per policy size, control and pvl variants)
-bots/p_only/           the P-only bots: self-contained sub-project with its own include/, bots/, tools/, tests/,
-                  profiles/ and report/ (bots/p_only/README.md, bots/p_only/TASK.md)
-
-── tools ───────────────────────────────────────────────────────────────────────────────
-tools/cpp/        C++ contract checks and benchmark drivers, compiled by fusion/native.py (infer_check, sim_check,
-                  kernel_check, adapter_check, registry_check, runtime_check, size_bench, bench_inference, ...)
-tools/host/       run on the target machine: env_check, capacity_bench, bench_training
-tools/pipeline/   steps that produce committed inputs: train_tier_ladder, recommend_training_pool,
-                  check_pilot_evidence, build_carrier_variants, gen_feature_spec, fetch_benchmark
-tools/screens/    match-playing experiments: run_light_screen, run_carrier_screen, run_standard_bt_tournament,
-                  run_v_ablation_screen and their smoke tests
-tools/reporting/  report generators and analyses: generate_*_report, benchmark_*, duel_review, export_results, plots
-tools/random_bot.py, tools/noise_bot.py   test opponents; committed pools name them by path, so they stay put
-
-── results and documents ───────────────────────────────────────────────────────────────
-reports/models/   offline gate report per model: s/ m/ l/ xl/ xxl/ (n02.md/.json ... general.md/.json, SUMMARY.md)
-reports/host/     host measurements: env_check_*, capacity_*, training_bench_*, multithreading, SIMD, consolidated
-reports/eval/     match results: Bradley-Terry tournament, carrier screens, V ablation
-reports/reviews/  written reviews and audits (one file per review, commit hash in the name when it pins a state)
-docs/             DESIGN, REVIEW, ROSTER, SOURCES, FIRST_RUN, LARGER_MODEL_EXPERIMENTS, PATH_MAP
-  benchmark/      analysis of the AI_Test heuristic benchmark + games_5plus.csv.gz (cleaned per-game rows)
-  handoffs/       briefs, plans and prompts written for the next agent or the host
-
-── local only, never committed ─────────────────────────────────────────────────────────
-build/  data/  runs/  runs_*/     compiled binaries, raw match logs and shards, training checkpoints
-```
-
-Moved a path you remember? [docs/PATH_MAP.md](docs/PATH_MAP.md) lists every old location.
-
-## Requirements
-
-**Software:**
-- Python 3.10+ and numpy. PyTorch is optional: `--backend torch --device cuda` trains on the GPU with the same objective (parity-tested); see [ENVIRONMENT.md](training/specs/ENVIRONMENT.md#training-backend).
-- A C++20 compiler: g++ 11+, clang 14+, or w64devkit on Windows. `CXX` overrides the choice.
-- A checkout of AI_Test `main`, which provides the engine, every opponent bot, and the legacy planner for q_H.
-
-**Placement.** Keep this repository outside OneDrive.
+You need Python 3.10+ with NumPy, a C++20 compiler (g++, clang, or w64devkit on Windows), and git. To run games you also need a checkout of AI_Test.
 
 ```bash
-export AI_TEST_ROOT=~/code/AI_Test
+git clone https://github.com/Casper015/ctf-fusion.git && cd ctf-fusion
+pip install -r requirements.txt
+python -m unittest discover -s tests -t .        # about 20 seconds
 ```
 
-## Tests (about 25 s, light load)
+To run games, point to AI_Test first: `export AI_TEST_ROOT=~/code/AI_Test`. The tests then also play short test games. A full first run, step by step, is in [docs/FIRST_RUN.md](docs/FIRST_RUN.md).
 
-```bash
-python -m unittest discover -s tests -t .
-```
+**Two rules worth knowing:**
+- Speed and strength are measured only on the Windows test machine. Numbers from a laptop don't count.
+- Keep the repository outside OneDrive.
 
-`tests/test_math.py` and `tests/test_contracts.py` need only a C++ compiler. `tests/test_pipeline.py` needs `AI_TEST_ROOT`; it plays about 20 short matches between instant test bots and checks:
-- features against the engine;
-- the simulator against every turn;
-- labels;
-- appends;
-- the model matrix: general, a warm-started dedicated model, the gate report, export, registry, parity, the runtime contract, and that an export refuses a report made for another artifact or adapter;
-- strict (fixture) and actor-row holdouts;
-- the legacy baseline;
-- learnability.
+## Words used in this project
 
-## On the Windows host
+| Word | Meaning |
+|---|---|
+| **P / policy network** | Predicts each opponent team's next moves: where its units go, whether they shoot, whom they target. |
+| **V / value network** | Scores a position: how well is this going for us? |
+| **q_H, the legacy forecast** | The old hand-written guess of opponent moves, which P has to beat. |
+| **Gate** | The check that P beats q_H on unseen games, per team count. If it fails, that team count keeps the old guess. |
+| **Size / tier** | Network size: S, M, L, XL, XXL. Bigger is more accurate but slower. |
+| **Carrier** | An existing strong bot that we add the networks to (`C08`, `v12`). |
+| **Hybrid / P-only** | Hybrid mixes the network's guess with the old one. P-only uses the network's guess alone. |
+| **Screen** | A batch of paired games: every bot version plays the same maps, so the differences are fair. |
+| **Host / test machine** | The Windows machine (`DESKTOP-G60OJUD`) that matches the competition's conditions. |
+| **"Helps" / "not shown"** | Helps means the whole 95% interval is above zero. Not shown means we can't yet tell the change from luck. |
 
-```bash
-python tools/host/env_check.py --ai-test C:/path/to/AI_Test --teams 2 6 15
-```
+## Read more
 
-It builds every pool bot, plays headless matches under the real limits, checks the protocol, records each bot's first-turn and p50/p95/p99/max latency, replays the matches through the simulator, and times the inference. The output is `reports/host/env_check_<host>.md`.
-
-### How big can the models be?
-
-```bash
-python tools/host/capacity_bench.py --ai-test C:/path/to/AI_Test --tiers S M L XL
-```
-
-It first checks the SIMD kernels against the scalar loop on that CPU, then replays a real-sized match for every team count 2–15, runs as many copies at once as the match has seats, and times the bot's per-turn inference (policy for every opponent team, plus value-network search nodes) for a ladder of network sizes. Each size gets a verdict against the turn's inference budget (5 ms, with a 1.5× safety factor for a slower judge machine), the number of value nodes that still fit, and the header source size it adds. The output is `reports/host/capacity_<host>.md`; its ceiling is the largest size to train. By default every size is timed twice, with the SIMD kernels and with the old scalar loop (`--kernels both`), and the report's last table gives the speedup. `tools/reporting/generate_multithreading_report.py` compares a loaded run with a `--seats 1` run, computing every statement from the two reports.
-
-| Tier | P MACs per opponent team | V MACs per node | header per model | all 11 models | `FUSION_MAX_WIDTH` |
-|---|---:|---:|---:|---:|---:|
-| S (default today) | 30,096 | 8,976 | 209 KiB | 2.2 MiB | 256 |
-| M | 64,288 | 22,048 | 470 KiB | 5.0 MiB | 256 |
-| L | 120,576 | 60,480 | 993 KiB | 10.7 MiB | 512 |
-| XL | 273,920 | 120,896 | 2.1 MiB | 23.5 MiB | 1024 |
-| XXL | 678,912 | 372,864 | 5.9 MiB | 64.4 MiB | 2048 |
-
-These sizes need no timing. The timing columns come only from the host. `--verify` checks correctness on any machine, without timing. A tier above width 256 is trained and exported with `--max-width` and needs the bot built with `-DFUSION_MAX_WIDTH`; the exported header refuses to compile otherwise.
-
-## Full run
-
-```bash
-# E0: data (phase 1: 1,500 matches per count; profiles/ define pools). Resumable, deterministic fixtures.
-python -m training.collect --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --workers 8
-python -m training.dataset --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --workers 8
-python -m training.heuristic_baseline --teams 2 3 4 5 6 7 8 9 10 11 12 13 14 15 --split val test
-
-# E1: general model, then dedicated models warm-started from it. Start with a few representative ones
-#     (n02, n05, n15); train the whole matrix only once they beat the legacy forecast on held-out data,
-#     strict holdout included.
-python -m training.train_policy --model general --out runs/policy_general
-python -m training.train_value  --model general --out runs/value_general
-for m in n02 n03 n04 n05 n06 n07 n08 n10 n12 n15; do
-  python -m training.train_policy --model $m --init runs/policy_general --out runs/policy_$m
-  python -m training.train_value  --model $m --init runs/value_general  --out runs/value_$m
-done
-for m in general n02 n03 n04 n05 n06 n07 n08 n10 n12 n15; do
-  # evaluate_offline quantizes the runs itself and gates the integer model; export must use the same --adapter
-  python -m training.evaluate_offline --model $m --policy runs/policy_$m --value runs/value_$m --out reports/models/s/$m
-  python -m training.export_weights   --model $m --policy runs/policy_$m --value runs/value_$m --report reports/models/s/$m.json
-done
-
-# Phase 2 for a count that needs more data (keeps every phase-1 shard)
-python -m training.collect --teams 8 --start 1500 --matches 6000 --workers 8
-python -m training.dataset --teams 8 --append
-```
-
-**Options:**
-- `--workers`: every match runs one process per team, all searching at once. Keep `workers × teams` at or below the physical core count, or collection causes the timeouts it records.
-- `--turn-ms` relaxes the limit on an oversubscribed machine. Faults are recorded either way, and missing replies never become labels.
-- `--holdout-family <family>` in `dataset.py` keeps one opponent family out of training, for an out-of-distribution report. `--holdout-mode fixture` (default) reserves whole matches with that family; `actor-row` only that family's own rows, a weaker test. Splits group by map (`--split-by map`).
-- `evaluate_offline.py`: `--adapter` (`joint-v2` default, or `marginal-v1`), `--min-gain`, `--min-maps` (20), `--z` (2).
-
-**Decision rule.** A count uses q_θ only where its report gate says `use`. Then compare `Player5_Omega_LIT` with and without it in paired matches, per size ([REVIEW.md](docs/REVIEW.md) §4–5).
-
-## Rules carried over from AI_Test
-
-- **Budget.** The search keeps its 30 ms budget, inside the 35 ms compute target and the 40 ms output cutoff of `turn_budget_ms`. Inference must fit inside it.
-- **Where to test.** No latency tests or large match batches on development machines; the host and cluster measure strength and timing.
-- **Language.** Everything in this repository is English.
+- [docs/TECHNICAL_OVERVIEW.md](docs/TECHNICAL_OVERVIEW.md): the pipeline in detail, the guarantees each test enforces, all commands.
+- [docs/DESIGN.md](docs/DESIGN.md) and [docs/REVIEW.md](docs/REVIEW.md): why it is built this way, and the decisions so far.
+- [docs/ROSTER.md](docs/ROSTER.md): how opponents are chosen.
+- [bots/p_only/README.md](bots/p_only/README.md): the P-only bots and their experiments.
+- [docs/PATH_MAP.md](docs/PATH_MAP.md): where files moved in the October 2026 reorganization.
