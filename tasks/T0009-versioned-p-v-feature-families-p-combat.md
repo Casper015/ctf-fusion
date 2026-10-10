@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-10 18:32Z claude@caspers-macbook: created
 - 2026-10-10 18:32Z claude@caspers-macbook: claimed
+- 2026-10-10 19:01Z claude@caspers-macbook: note: milestone: families p2/p3/v2/v3 with compatibility checks (0e51c2c), frozen-carrier V data, branch continuations, V pilot training/eval tooling (0e1c07e); pushed to claude/t0009-versioned-p-v-feature-families-p-combat. Next: P-only carriers consuming p3/v3, V deployment routes and bench, profiles, docs, PR.
