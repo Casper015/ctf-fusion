@@ -1,0 +1,80 @@
+{
+ "_comment": "Joint-action search experiment (task T0018, docs/SEARCH_PORTFOLIO.md): the family carriers with the committed XXL policy and V off, each experimental setting on its own. Arm A is the current search built from the same header; on recorded games it replies as the production carrier (bots/p_only/tests/test_search_portfolio.py). `include` adds variants.json.",
+ "include": [
+  "bots/p_only/profiles/variants.json"
+ ],
+ "variants": [
+  {
+   "name": "c08_search_a",
+   "carrier": "C08",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/c08_search_a.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 0,
+   "portfolio_moves": 0,
+   "ply2_mode": 0
+  },
+  {
+   "name": "c08_search_b",
+   "carrier": "C08",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/c08_search_b.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 3,
+   "portfolio_moves": 3,
+   "ply2_mode": 0
+  },
+  {
+   "name": "c08_search_c",
+   "carrier": "C08",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/c08_search_c.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 0,
+   "portfolio_moves": 0,
+   "ply2_mode": 1
+  },
+  {
+   "name": "c08_search_d",
+   "carrier": "C08",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/c08_search_d.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 3,
+   "portfolio_moves": 3,
+   "ply2_mode": 1
+  },
+  {
+   "name": "v12_search_a",
+   "carrier": "V12",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/v12_search_a.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 0,
+   "portfolio_moves": 0,
+   "ply2_mode": 0
+  },
+  {
+   "name": "v12_search_b",
+   "carrier": "V12",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/v12_search_b.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 3,
+   "portfolio_moves": 3,
+   "ply2_mode": 0
+  }
+ ]
+}

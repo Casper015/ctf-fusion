@@ -45,7 +45,8 @@ from roster.strength import schedule_identity  # noqa: E402
 AA = "~aa"
 BANDS = {"2": (2, 2), "3-5": (3, 5), "6-10": (6, 10), "11-15": (11, 15)}
 COUNTER = re.compile(r"PONLY builds (\d+) teams (\d+) act (\d+) target (\d+) fallback (\d+)(?: inconsistent (\d+) skipped (\d+))?")
-LINE = re.compile(r"^(SEARCH|VALUE) (.*)$")
+LINE = re.compile(r"^(SEARCH|VALUE|PLY2|PORTFOLIO|VBUDGET) (.*)$")
+SETTINGS = {"fixed", "mode", "cache", "k", "moves", "max_calls", "deadline_ms"}  # build settings, not counters
 PAIR = re.compile(r"(\w+) (-?[0-9.]+(?:e-?\d+)?)")
 TERM = re.compile(r"([+-]?)\s*([A-Za-z0-9_~]+)")
 
@@ -136,7 +137,7 @@ def counters(matches: Path, arm_keys: dict) -> dict:
                 if s:
                     e = extra[arm]
                     for k, v in PAIR.findall(s.group(2)):
-                        if not k.startswith("coef_") and k != "fixed":
+                        if not k.startswith("coef_") and k not in SETTINGS:
                             e[f"{s.group(1).lower()}.{k}"] += float(v)
                         else:
                             e[f"{s.group(1).lower()}.{k}"] = float(v)
@@ -159,6 +160,32 @@ def counters(matches: Path, arm_keys: dict) -> dict:
                         "survivors_per_search": round(e["search.survivors"] / calls, 2) if "search.survivors" in e else None,
                         "fixed_samples": int(e.get("search.fixed", 0)),
                         "refine_cut_share": round(e["search.refine_cuts"] / e["search.refines"], 4) if e.get("search.refines") else None})
+        if e.get("ply2.predictions") is not None and calls:
+            row["ply2"] = {"mode": int(e.get("ply2.mode", 0)), "cache": int(e.get("ply2.cache", 0)),
+                           "predictions_per_search": round(e["ply2.predictions"] / calls, 1),
+                           "prediction_ms_per_search": round(1000 * e.get("ply2.seconds", 0) / calls, 3),
+                           "view_builds_per_search": round(e.get("ply2.view_builds", 0) / calls, 1),
+                           "view_hit_share": round(e.get("ply2.view_hits", 0) / e["ply2.view_calls"], 4) if e.get("ply2.view_calls") else None,
+                           "memo_hit_share": round(e.get("ply2.memo_hits", 0) / (e.get("ply2.memo_hits", 0) + e.get("ply2.memo_misses", 0)), 4)
+                           if e.get("ply2.memo_hits", 0) + e.get("ply2.memo_misses", 0) else None}
+            if e.get("ply2.diag_searches"):
+                n = e["ply2.diag_searches"]
+                row["ply2"] |= {"diag_move_diff_share": round(e.get("ply2.diag_move_diff", 0) / e["ply2.diag_pairs"], 4) if e.get("ply2.diag_pairs") else None,
+                                "diag_aim_l1_per_pair": round(e.get("ply2.diag_aim_l1", 0) / e["ply2.diag_pairs"], 4) if e.get("ply2.diag_pairs") else None,
+                                "diag_first_top_changed_share": round(e.get("ply2.diag_first_top_changed", 0) / n, 4),
+                                "diag_final_top_changed_share": round(e.get("ply2.diag_top_changed", 0) / n, 4),
+                                "diag_first_swaps_per_search": round(e.get("ply2.diag_first_swaps", 0) / n, 2)}
+        if e.get("portfolio.calls"):
+            turns = e.get("portfolio.turns", 0) or 1
+            row["portfolio"] = {"k": int(e.get("portfolio.k", 0)), "moves": int(e.get("portfolio.moves", 0)),
+                                "assignments_per_call": round(e.get("portfolio.assignments", 0) / e["portfolio.calls"], 2),
+                                "waits_per_call": round(e.get("portfolio.waits", 0) / e["portfolio.calls"], 2),
+                                "searched_per_turn": round(e.get("portfolio.searched", 0) / turns, 2),
+                                "refined_per_turn": round(e.get("portfolio.refined", 0) / turns, 2),
+                                "same_move_sets": int(e.get("portfolio.same_move", 0)), "cuts": int(e.get("portfolio.cut", 0)),
+                                "overkill_skipped": int(e.get("portfolio.overkill_skipped", 0))}
+        if e.get("vbudget.skipped_calls") is not None:
+            row["vbudget"] = {"skipped_calls": int(e["vbudget.skipped_calls"]), "fallback_decisions": int(e.get("vbudget.fallback_decisions", 0))}
         if any(k.startswith("value.") for k in e):
             turns = e.get("value.turns", 0) or 1
             v = {"value_seconds_per_turn_ms": round(1000 * e.get("value.seconds", 0) / turns, 3)}
@@ -296,6 +323,24 @@ def main(argv=None):
                       f"{c['truncated_share']} | {c['rollouts_per_search'] if c['rollouts_per_search'] is not None else 'n/a'} | "
                       f"{c['plans_per_search']} | {c['survivors_per_search'] if c['survivors_per_search'] is not None else 'n/a'} | "
                       f"{c['refine_cut_share'] if c['refine_cut_share'] is not None else 'n/a'} |")
+    experimental = {arm: c for arm, c in calls.items() if c.get("ply2") or c.get("portfolio")}
+    if experimental:
+        md += ["", "## Search experiment counters (our seat; docs/SEARCH_PORTFOLIO.md)", "",
+               "Ply 2 (C08): predictions and their time per search call, distinct successor states built, P-view cache and "
+               "settlement-memo hit shares; diagnostic arms (mode 2) also report how often a plan's own ply-2 draw differs from "
+               "the shared one and how often the best plan changes. Portfolio: complete assignments per shortlist call, "
+               "alternatives entering the sampled search and the refinement per turn, candidate sets holding two orders of one "
+               "movement, deadline cuts inside the alternatives. Timings are host timings only when this report comes from the host.", "",
+               "| Arm | Ply-2 mode | Predictions per call | Prediction ms per call | States built per call | View hits | Memo hits | "
+               "Draws differ | Top changed (first / final) | Assignments per call | Searched per turn | Refined per turn | Same-move sets | Cuts |",
+               "|---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|---:|---:|"]
+        for arm, c in experimental.items():
+            p, q = c.get("ply2", {}), c.get("portfolio", {})
+            top = (f"{p['diag_first_top_changed_share']} / {p['diag_final_top_changed_share']}" if "diag_first_top_changed_share" in p else "")
+            md.append(f"| {arm} | {p.get('mode', '')} | {p.get('predictions_per_search', '')} | {p.get('prediction_ms_per_search', '')} | "
+                      f"{p.get('view_builds_per_search', '')} | {p.get('view_hit_share', '')} | {p.get('memo_hit_share', '')} | "
+                      f"{p.get('diag_move_diff_share', '')} | {top} | {q.get('assignments_per_call', '')} | {q.get('searched_per_turn', '')} | "
+                      f"{q.get('refined_per_turn', '')} | {q.get('same_move_sets', '')} | {q.get('cuts', '')} |")
     valued = {arm: c["value"] for arm, c in calls.items() if c.get("value")}
     if valued:
         md += ["", "## Value term (V arms, our seat)", "",

@@ -60,6 +60,42 @@
 #ifndef PONLY_V_DEADLINE_MS
 #define PONLY_V_DEADLINE_MS 1e9
 #endif
+#ifndef PONLY_PORTFOLIO_K
+#define PONLY_PORTFOLIO_K 0  // 0: the current search; K >= 2: complete action assignments per shortlisted movement
+#endif
+#ifndef PONLY_PORTFOLIO_MOVES
+#define PONLY_PORTFOLIO_MOVES 3  // shortlisted joint movements, the incumbent's first
+#endif
+#ifndef PONLY_PLY2_MODE
+#define PONLY_PLY2_MODE 0  // C08: 0 reference-plan ply-2 predictions, 1 per branch, 2 diagnostic (plays as 0)
+#endif
+#ifndef PONLY_PLY2_CACHE
+#define PONLY_PLY2_CACHE 1
+#endif
+#ifndef PONLY_PLY2_CACHE_SIZE
+#define PONLY_PLY2_CACHE_SIZE 64
+#endif
+#ifndef PONLY_TURN_MS
+#define PONLY_TURN_MS 35
+#endif
+#ifndef PONLY_REFINE_MS
+#define PONLY_REFINE_MS 24
+#endif
+// Tests only: act as if v12's refinement deadline passed from candidate PONLY_TEST_CUT_AT on.
+#ifdef PONLY_TEST_CUT_AT
+#define PONLY_CUT_TEST(i) ((size_t)(i) >= (size_t)PONLY_TEST_CUT_AT)
+#else
+#define PONLY_CUT_TEST(i) false
+#endif
+#include <string>
+// The protocol action of one unit for a search target code: an enemy id attacks, -2 picks up (a carrier
+// cannot: wait), -3 drops (only a carrier: else wait), -1 and anything else wait. Never a pickup for -1.
+inline std::string ponlyActionText(int target, bool carrying) {
+    if (target >= 0) return std::to_string(target);
+    if (target == -2) return carrying ? "-" : "P";
+    if (target == -3) return carrying ? "X" : "-";
+    return "-";
+}
 #include "combat.hpp"
 #if PONLY_POLICY_FAMILY == 3
 #include "ponly_p3.hpp"
@@ -554,6 +590,219 @@ inline Choice choose(const std::vector<std::string>& map,
     return best;
 }
 
+
+// Portfolio counters (PONLY_PORTFOLIO_K): movements re-evaluated, complete assignments kept, explicit waits,
+// overkill subsets skipped, alternatives entering the sampled search / the refinement, refinement candidate
+// sets with two orders of the same movement, deadline cuts inside the alternatives.
+struct PortfolioStats { long long calls = 0, movements = 0, assignments = 0, waits = 0, overkill = 0, searched = 0, refined = 0, sameMove = 0, cut = 0; };
+
+// Generated from choose() by bots/p_only/tools/derive/search_experiment.py (PONLY_PORTFOLIO_K).
+inline void choosePortfolio(const std::vector<std::string>& map,
+        const std::array<Fighter,3>& own,
+        const std::array<std::vector<Move>,3>& options,
+        const std::vector<Enemy>& enemies,
+        const Params& params, const std::vector<std::array<int,3>>& shortlist, int K,
+        std::vector<Choice>& alts, PortfolioStats& ps) {
+    ps.calls++;
+    if(options[0].empty() || options[1].empty() || options[2].empty()) return;
+    std::array<double,3> stayScore{};
+    int armedMask=0;
+    for(int i=0;i<3;++i) {
+        stayScore[i]=options[i][0].score;
+        for(const Move& m:options[i]) if(m.p==own[i].p) stayScore[i]=m.score;
+        if(alive(own[i]) && !own[i].immune && own[i].flag<0) armedMask|=1<<i;
+    }
+    const int E=int(enemies.size());
+    std::vector<bool> relevant(E,false);
+    for(int e=0;e<E;++e) if(alive(enemies[e].u))
+        for(int i=0;i<3;++i) if(alive(own[i]) && distance(enemies[e].u.p,own[i].p)<=4)
+            relevant[e]=true;
+    for(int a=0;a<int(options[0].size());++a)
+    for(int b=0;b<int(options[1].size());++b)
+    for(int c=0;c<int(options[2].size());++c) {
+        std::array<int,3> indices{a,b,c};
+        if(std::find(shortlist.begin(),shortlist.end(),indices)==shortlist.end()) continue;
+        ps.movements++;
+        std::array<Pos,3> want{options[0][a].p,options[1][b].p,options[2][c].p};
+        bool valid=true;
+        for(int i=0;i<3;++i) if(alive(own[i])) {
+            if(wall(map,want[i])) valid=false;
+            for(int j=i+1;j<3;++j) if(alive(own[j]) && want[i]==want[j]) valid=false;
+        }
+        if(!valid) continue;
+
+        // Closure of movement dependence within our team; same-team cycles work.
+        std::array<int,3> dependencies{1,2,4};
+        for(int pass=0;pass<3;++pass) for(int i=0;i<3;++i) if(alive(own[i]))
+            for(int j=0;j<3;++j) if(i!=j && alive(own[j]) && want[i]==own[j].p)
+                dependencies[i]|=dependencies[j];
+
+        std::vector<std::array<double,3>> directBlock(E);
+        std::array<double,3> success{1,1,1};
+        for(int e=0;e<E;++e) {
+            if(!relevant[e]) continue;
+            for(const Outcome& out:enemies[e].forecast) {
+                for(int i=0;i<3;++i) if(detail::blocks(own[i],want[i],enemies[e].u,out.p)) {
+                    directBlock[e][i]+=out.prob;
+                }
+            }
+            for(int i=0;i<3;++i) {
+                double p=0;
+                for(const Outcome& out:enemies[e].forecast) {
+                    bool hit=false;
+                    for(int j=0;j<3;++j) if((dependencies[i]&(1<<j)) &&
+                        detail::blocks(own[j],want[j],enemies[e].u,out.p)) hit=true;
+                    if(hit) p+=out.prob;
+                }
+                success[i]*=std::max(0.0,1.0-p);
+            }
+        }
+        double value=0;
+        for(int i=0;i<3;++i) if(alive(own[i])) {
+            value+=success[i]*options[i][indices[i]].score+(1-success[i])*stayScore[i];
+            if(want[i]!=own[i].p) value-=params.collisionCost*(1-success[i]);
+        }
+
+        // Threatened squads retain mutual support before the first volley.
+        for(int i=0;i<3;++i)for(int j=i+1;j<3;++j)
+            if((armedMask&(1<<i)) && (armedMask&(1<<j)) && distance(own[i].p,own[j].p)<=5) {
+                bool transitThreat=false;
+                for(const Enemy& e:enemies) if(e.u.flag<0 && !e.u.immune &&
+                    (distance(e.u.p,own[i].p)<=6 || distance(e.u.p,own[j].p)<=6)) {transitThreat=true;break;}
+                if(transitThreat)value-=.80*std::max(0,distance(want[i],want[j])-3);
+            }
+
+        std::vector<std::array<double,3>> incoming(E);
+        std::array<int,3> worstShots{};
+        std::vector<std::array<double,8>> utilities(E);
+
+        for(int e=0;e<E;++e) {
+            const Enemy& enemy=enemies[e];
+            if(!relevant[e]) continue;
+            std::array<double,3> pOther{};
+            for(int i=0;i<3;++i) {
+                double unblocked=1;
+                for(int f=0;f<E;++f) if(f!=e) unblocked*=std::max(0.0,1-directBlock[f][i]);
+                pOther[i]=1-unblocked;
+            }
+            std::array<double,8> blockProb{};
+            for(int mask=0;mask<8;++mask) {
+                blockProb[mask]=1;
+                for(int i=0;i<3;++i) blockProb[mask]*=(mask&(1<<i)) ? pOther[i] : 1-pOther[i];
+            }
+            std::array<bool,3> possibleShot{};
+            for(int oi=0;oi<(int)enemy.forecast.size();oi++) { const Outcome& out=enemy.forecast[oi];if(out.prob<=1e-9)continue;
+                for(int block=0;block<8;++block) if(blockProb[block]>1e-9) {
+                    const auto pos=detail::simulate(own,want,enemy.u,out.p,block);
+                    double probability=out.prob*blockProb[block];
+                    int hitMask=0;
+                    if(!enemy.u.immune) for(int i=0;i<3;++i)
+                        if((armedMask&(1<<i)) && canAttack(map,pos[i],pos[3])) hitMask|=1<<i;
+                    for(int subset=1;subset<8;++subset) if(!(subset&~armedMask)) {
+                        int hits=0;
+                        for(int i=0;i<3;++i) if((subset&hitMask)&(1<<i)) ++hits;
+                        double offensive=std::min(enemy.u.hp,34*hits)*params.dealtHpValue;
+                        if(34*hits>=enemy.u.hp)
+                            offensive+=enemy.killValue+(enemy.u.flag>=0 ? params.carrierKillExtra : 0);
+                        utilities[e][subset]+=probability*offensive;
+                    }
+                    // The network's order lands when the settled cells allow the shot:
+                    // P(attack and target = our unit i | this move).
+                    if(enemy.u.flag>=0 || enemy.u.immune || out.fire<=0) continue;
+                    for(int i=0;i<3;++i) if(alive(own[i]) && !own[i].immune && canAttack(map,pos[3],pos[i])) {
+                        possibleShot[i]=true;
+                        incoming[e][i]+=probability*out.aim[i];
+                    }
+                }
+            }
+            for(int i=0;i<3;++i) if(possibleShot[i]) ++worstShots[i];
+        }
+
+        std::array<double,3> survival{1,1,1};
+        for(int i=0;i<3;++i) if(alive(own[i]) && !own[i].immune) {
+            const int lethal=(own[i].hp+33)/34;
+            std::array<double,4> hitCount{1,0,0,0};
+            double expectedHits=0;
+            for(int e=0;e<E;++e) {
+                double p=std::clamp(incoming[e][i],0.0,1.0);
+                expectedHits+=p;
+                auto next=hitCount;
+                next.fill(0);
+                for(int k=0;k<4;++k) {
+                    next[k]+=hitCount[k]*(1-p);
+                    next[std::min(3,k+1)]+=hitCount[k]*p;
+                }
+                hitCount=next;
+            }
+            double death=0;
+            for(int k=lethal;k<4;++k) death+=hitCount[k];
+            survival[i]=1-death;
+            value-=expectedHits*(params.incomingHitCost+(own[i].flag>=0 ? params.carrierHitExtra : 0));
+            value-=death*(params.ownDeathCost+(own[i].flag>=0 ? params.carrierDeathExtra : 0));
+            if(own[i].flag>=0 && worstShots[i]>=lethal)
+                value-=params.carrierWorstDeathCost*(1-death);
+        }
+
+        // k-best version of the attack/pickup DP above: per used-shooter mask, the K best distinct target
+        // assignments. A subset with a shooter that adds nothing to the target's utility is skipped: that
+        // shooter is left for other targets or a pickup (no unintended overkill).
+        struct KCell { double value; std::array<int,3> target; };
+        std::array<std::vector<KCell>,8> kd;
+        kd[0].push_back(KCell{0.0,{-2,-2,-2}});
+        auto keep=[&](std::vector<KCell>& cell,const KCell& x){
+            for(const KCell& y:cell) if(y.target==x.target) return;
+            cell.push_back(x);
+            std::stable_sort(cell.begin(),cell.end(),[](const KCell& p,const KCell& q){return p.value>q.value;});
+            if((int)cell.size()>K) cell.pop_back();
+        };
+        for(int e=0;e<E;++e) if(alive(enemies[e].u) && !enemies[e].u.immune) {
+            auto next=kd;
+            for(int used=0;used<8;++used) for(const KCell& from:kd[used]) {
+                int remaining=armedMask&~used;
+                for(int sub=remaining;sub;sub=(sub-1)&remaining) {
+                    if(utilities[e][sub]<=1e-8) continue;
+                    bool idle=false;
+                    for(int i=0;i<3;++i) if((sub&(1<<i)) && (sub&~(1<<i)) && utilities[e][sub&~(1<<i)]>=utilities[e][sub]-1e-8) idle=true;
+                    if(idle) { ps.overkill++; continue; }
+                    KCell x=from;
+                    x.value+=utilities[e][sub];
+                    for(int i=0;i<3;++i) if(sub&(1<<i)) x.target[i]=enemies[e].u.id;
+                    keep(next[used|sub],x);
+                }
+            }
+            kd=next;
+        }
+        std::vector<Choice> local;
+        for(int used=0;used<8;++used) for(const KCell& cell:kd[used]) {
+            double action=cell.value;
+            std::array<int,3> t=cell.target;
+            for(int i=0;i<3;++i) if(!(used&(1<<i)) && own[i].flag<0)
+                action+=options[i][indices[i]].pickupValue*success[i]*survival[i];
+            for(int i=0;i<3;++i) if(own[i].flag>=0) t[i]=-1;
+            local.push_back(Choice{indices,t,value+action});
+            // Wait instead of picking up where a pickup is possible: the unit stays unladen (and can fire next turn).
+            for(int i=0;i<3;++i) if(!(used&(1<<i)) && own[i].flag<0 && alive(own[i]) && options[i][indices[i]].pickupValue>0) {
+                Choice w=local.back();
+                w.target[i]=-1;
+                w.value-=options[i][indices[i]].pickupValue*success[i]*survival[i];
+                local.push_back(w);
+                ps.waits++;
+            }
+        }
+        std::stable_sort(local.begin(),local.end(),[](const Choice& p,const Choice& q){return p.value>q.value;});
+        int kept=0;
+        for(const Choice& c:local) {
+            if(kept>=K) break;
+            bool dup=false;
+            for(const Choice& o:alts) if(o.moveIndex==c.moveIndex && o.target==c.target) dup=true;
+            if(dup) continue;
+            alts.push_back(c);
+            ++kept;
+            ps.assignments++;
+        }
+    }
+}
+
 } // namespace ctfcombat
 
 struct Nav {
@@ -583,6 +832,18 @@ struct Task {int type=0,id=-1,p=-1;double reward=0,contest=0;};
 struct Planner {
     fusion_hook::PSession fSession;
     ponly::View branchView;  // the network's view of each simulated state in refine()
+    ctfcombat::PortfolioStats portStats;              // PONLY_PORTFOLIO_K
+    std::vector<ctfcombat::Choice> portfolioAlts;     // this turn's alternatives, distinct complete orders
+    // Portfolio counters (PONLY_STATS: one stderr line at the last turn).
+    void portfolioReport(const Game& g)const{
+#if PONLY_STATS && PONLY_PORTFOLIO_K
+        if(g.turn==g.turns)std::cerr<<"PORTFOLIO k "<<PONLY_PORTFOLIO_K<<" moves "<<PONLY_PORTFOLIO_MOVES<<" calls "<<portStats.calls
+            <<" movements "<<portStats.movements<<" assignments "<<portStats.assignments<<" waits "<<portStats.waits<<" overkill_skipped "<<portStats.overkill
+            <<" searched "<<portStats.searched<<" refined "<<portStats.refined<<" same_move "<<portStats.sameMove<<" cut "<<portStats.cut<<std::endl;
+#else
+        (void)g;
+#endif
+    }
     Nav nav; bool initialized=false; vector<Unit> prev;
     array<int,3> oldType{{-1,-1,-1}},oldId{{-1,-1,-1}};
     vector<int> pos; vector<bool> immune; vector<double> threat; array<vector<double>,3> route;
@@ -747,7 +1008,7 @@ struct Planner {
         return true;
     }
     void vBudgetReport(const Game& g) const {
-#if PONLY_STATS
+#if PONLY_STATS && MOD_FUSION_V  // V-off builds have nothing to bound (and match logs keep only 5 stderr lines)
         if (g.turn == g.turns) std::cerr << "VBUDGET max_calls " << PONLY_V_MAX_CALLS << " deadline_ms " << PONLY_V_DEADLINE_MS
                                          << " skipped_calls " << vSkipped << " fallback_decisions " << vFallbacks << std::endl;
 #else
@@ -815,7 +1076,14 @@ struct Planner {
         sort(beam.begin(),beam.end(),[](auto& a,auto& b){return a.value>b.value;});if(beam.size()>4)beam.resize(4);
         bool hasVolley=false;for(auto& c:beam)if(c.target[0]>=0&&c.target[1]>=0&&c.target[2]>=0)hasVolley=true;
         if(!hasVolley&&std::isfinite(bestVolley.value))beam.push_back(bestVolley);
-        auto deadline=chrono::steady_clock::now()+chrono::milliseconds(24);Sim start=initialSim(g);
+#if PONLY_PORTFOLIO_K
+        // Alternatives join after the base candidates, deduplicated by complete order.
+        const size_t baseCount=beam.size();
+        for(const auto& a:portfolioAlts){bool dup=false;for(const auto& b:beam)dup=dup||(b.moveIndex==a.moveIndex&&b.target==a.target);
+            if(!dup){beam.push_back(a);portStats.refined++;}}
+        {int same=0;for(size_t i=0;i<beam.size();i++)for(size_t j=i+1;j<beam.size();j++)same+=beam[i].moveIndex==beam[j].moveIndex;portStats.sameMove+=same>0;}
+#endif
+        auto deadline=chrono::steady_clock::now()+chrono::milliseconds(PONLY_REFINE_MS);Sim start=initialSim(g);
         double best=-1e100;ctfcombat::Choice answer=fallback;
 #if MOD_FUSION_V
         double bestH=-1e100;ctfcombat::Choice answerH=fallback;  // the same choice without V
@@ -825,7 +1093,12 @@ struct Planner {
             double totalH=0;
 #endif
             for(int model=0;model<2;model++){
-                if(chrono::steady_clock::now()>deadline)return fallback;
+                if(chrono::steady_clock::now()>deadline||PONLY_CUT_TEST(&candidate-beam.data())){
+#if PONLY_PORTFOLIO_K
+                    // Inside the alternatives every base candidate has been compared: keep the best so far.
+                    if(size_t(&candidate-beam.data())>=baseCount&&best>-1e99){portStats.cut++;return answer;}
+#endif
+                    return fallback;}
                 Sim one=start;array<int,3> acts=candidate.target;
                 // Ply 1: the rivals' orders from the network at the root.
                 vector<int> want,act;rivalOrders(g,fSession.view,one,model,11,want,act);
@@ -874,7 +1147,7 @@ struct Planner {
         return answer;
     }
     string decide(Game& g){
-        vTurnBegin();fSession.update(g);fSession.report(g);valueReport(g);vBudgetReport(g);
+        vTurnBegin();fSession.update(g);fSession.report(g);valueReport(g);vBudgetReport(g);portfolioReport(g);
         if(!initialized){nav.init(g);initialized=true;}respawns(g);forecast(g);auto jobs=assign(g);
         array<ctfcombat::Fighter,3> own;array<vector<ctfcombat::Move>,3> options;
         for(int k=0;k<3;k++){
@@ -896,10 +1169,25 @@ struct Planner {
                 options[k].push_back({{q%nav.n,q/nav.n},letters[m],score,pickup});
             }
         }
-        ctfcombat::Params params;vector<ctfcombat::Choice> beam;auto choice=ctfcombat::choose(g.map,own,options,foes,params,&beam);choice=refine(g,jobs,options,beam,choice);
+        ctfcombat::Params params;vector<ctfcombat::Choice> beam;auto choice=ctfcombat::choose(g.map,own,options,foes,params,&beam);
+#if PONLY_PORTFOLIO_K
+        {
+            std::vector<std::array<int,3>> shortlist{choice.moveIndex};
+            std::vector<ctfcombat::Choice> pool=beam;
+            std::stable_sort(pool.begin(),pool.end(),[](const ctfcombat::Choice& p,const ctfcombat::Choice& q){return p.value>q.value;});
+            for(const auto& c:pool){if((int)shortlist.size()>=PONLY_PORTFOLIO_MOVES)break;
+                if(std::find(shortlist.begin(),shortlist.end(),c.moveIndex)==shortlist.end())shortlist.push_back(c.moveIndex);}
+            portfolioAlts.clear();
+            ctfcombat::choosePortfolio(g.map,own,options,foes,params,shortlist,PONLY_PORTFOLIO_K,portfolioAlts,portStats);
+            // Orders already in the beam stay there once.
+            portfolioAlts.erase(std::remove_if(portfolioAlts.begin(),portfolioAlts.end(),[&](const ctfcombat::Choice& a){
+                for(const auto& b:beam)if(b.moveIndex==a.moveIndex&&b.target==a.target)return true;return false;}),portfolioAlts.end());
+        }
+#endif
+        choice=refine(g,jobs,options,beam,choice);
         string out=to_string(g.turn);
         for(int k=0;k<3;k++){int m=choice.moveIndex[k],target=choice.target[k];if(m<0||m>=(int)options[k].size())m=0;
-            out+=' ';out+=options[k][m].code;out+=' ';if(target>=0)out+=to_string(target);else out+=(g.units[3*g.me+k].flag>=0?"-":"P");}
+            out+=' ';out+=options[k][m].code;out+=' ';out+=ponlyActionText(target,g.units[3*g.me+k].flag>=0);}
         prev=g.units;return out;
     }
 };
