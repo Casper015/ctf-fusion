@@ -44,6 +44,7 @@ import numpy as np
 from fusion.models import ValueNet, value_columns
 from fusion.nn import Adam
 from fusion.paths import model_counts
+from fusion.paths import sha256
 from fusion.schema import layout as feature_layout
 from training.common import (Run, add_training_args, batches, data_manifest, fit, resolve_hidden, run_features, subset,
                              torch_fit, warm_start)
@@ -103,7 +104,7 @@ def load_rank(rank_dir: str, split: str, family: str, layout) -> dict | None:
 
 def load_data(a, counts):
     if a.cache:
-        from training.value_cache import load_cache  # noqa: PLC0415
+        from training.value_cache import cache_identity, load_cache  # noqa: PLC0415
         meta = json.loads((Path(a.cache) / "meta.json").read_text(encoding="utf-8"))
         out = []
         for split in ("train", a.val_split):
@@ -112,7 +113,8 @@ def load_data(a, counts):
             if not set(np.unique(teams).tolist()) <= set(counts):  # this model serves fewer counts than the cache holds
                 d = {k: np.asarray(v[np.isin(teams, counts)]) for k, v in d.items()}
             out.append(d)
-        return out[0], out[1], {"cache": str(a.cache), "cache_meta": {k: meta[k] for k in ("features", "data", "rows")}}
+        return out[0], out[1], {"cache": str(a.cache), "cache_identity": cache_identity(a.cache),
+                               "cache_meta": {k: meta[k] for k in ("features", "data", "rows")}}
     train = load(a.shards, counts, "train", FIELDS, families=(a.value_family,))
     val = load(a.shards, counts, a.val_split, FIELDS, families=(a.value_family,))
     return train, val, data_manifest(a.shards, counts)
@@ -133,6 +135,7 @@ def main(argv=None):
     ap.add_argument("--soft-targets", help="teacher probabilities for the training rows (training.distill_value)")
     ap.add_argument("--soft-weight", type=float, default=0.0, help="share of the teacher's probability in the outcome target")
     a = ap.parse_args(argv)
+    pipeline_started = time.time()
     hidden, capacity = resolve_hidden(a, "value")
     rng = np.random.default_rng(a.seed)
     counts = model_counts(a.model)
@@ -148,6 +151,10 @@ def main(argv=None):
         if len(soft) != rows_len(train) or meta.get("cache") != str(a.cache):
             raise SystemExit(f"{a.soft_targets} does not belong to these training rows (made for {meta.get('cache')}, "
                              f"{len(soft)} rows; here {a.cache}, {rows_len(train)} rows)")
+        if meta.get("cache_sha256") and meta["cache_sha256"] != data.get("cache_identity", {}).get("sha256"):
+            raise SystemExit("teacher targets were made from different cache contents")
+        if meta.get("targets_sha256") and meta["targets_sha256"] != sha256(Path(a.soft_targets)):
+            raise SystemExit("teacher target contents differ from their manifest")
         y = np.array(train["v_y"], dtype=np.float32)
         y[:, 0] = (1 - a.soft_weight) * y[:, 0] + a.soft_weight * soft.astype(np.float32)
         train = dict(train) | {"v_y": y}
@@ -202,13 +209,17 @@ def main(argv=None):
     if a.backend == "torch":
         best = torch_fit(lambda tb, dev: tb.ValueTrainer(model, layout, train, val, cfg, a, dev, rank), a, run, rng, on_best)
     else:
-        best = fit(model, train_epoch, lambda: evaluate(model, layout, val, cfg), a, run, rng, opt, on_best)
-    z = np.concatenate([model.logits(inputs(model, layout, val, i))[:, 0] for i in batches(rows_len(val), 8192, None)])
+        best = fit(model, train_epoch, lambda: evaluate(model, layout, val, cfg, a.val_batch), a, run, rng, opt, on_best)
+    fit_seconds = time.time() - started
+    calibration_started = time.time()
+    z = np.concatenate([model.logits(inputs(model, layout, val, i))[:, 0] for i in batches(rows_len(val), a.val_batch, None)])
     beta = fit_value_temperature(z.astype(np.float64), np.asarray(val["v_y"])[:, 0].astype(np.float64),
                                  np.asarray(val["weight"]).astype(np.float64))
     seconds = round(time.time() - started, 1)
     run.log(stage="calibrated", beta=beta, seconds=seconds)
-    run.save(model.state() | {"beta": np.array(beta)}, best_val=best, beta=beta, train_seconds=seconds)
+    run.save(model.state() | {"beta": np.array(beta)}, best_val=best, beta=beta, train_seconds=seconds,
+             fit_seconds=round(fit_seconds, 3), calibration_seconds=round(time.time() - calibration_started, 3),
+             pipeline_seconds=round(time.time() - pipeline_started, 3))
 
 
 if __name__ == "__main__":

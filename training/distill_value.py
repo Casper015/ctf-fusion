@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -30,7 +31,7 @@ from fusion.paths import sha256
 from fusion.schema import layout as feature_layout
 from training import train_value
 from training.export_weights import load_value
-from training.value_cache import load_cache
+from training.value_cache import cache_identity, load_cache
 
 
 def teacher_probs(teacher, beta: float, v: np.ndarray, layout, device: str, size: int = 32768) -> np.ndarray:
@@ -41,6 +42,7 @@ def teacher_probs(teacher, beta: float, v: np.ndarray, layout, device: str, size
 
         from fusion import torch_backend as tb  # noqa: PLC0415
         dev = tb.pick_device(device)
+        tb.configure(dev, False)  # teacher targets use the same FP32 reference policy
         net = tb.TorchMLP(teacher.net, dev)
         sc = torch.tensor(scale, dtype=torch.float64, device=dev)
         with torch.no_grad():
@@ -61,7 +63,11 @@ def main(argv=None):
     ap.add_argument("--cache", required=True, help="V-only cache (the student trains on its train split)")
     ap.add_argument("--soft-weight", type=float, default=0.5)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--teacher-batch", type=int, default=2048, help="bounded teacher inference batch (5XL needs measured VRAM)")
     a, rest = ap.parse_known_args(argv)
+    if a.teacher_batch < 1:
+        raise SystemExit("--teacher-batch must be positive")
+    started = time.perf_counter()
     L = feature_layout()
     teacher, beta = load_value(Path(a.teacher), L)
     family = teacher.family
@@ -71,10 +77,12 @@ def main(argv=None):
     train = load_cache(a.cache, "train", family)
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    soft = teacher_probs(teacher, beta, train["v"], L, device)
+    soft = teacher_probs(teacher, beta, train["v"], L, device, a.teacher_batch)
     np.save(out / "teacher_train.npy", soft)
     meta = {"teacher": str(a.teacher), "teacher_sha256": sha256(Path(a.teacher) / "model.npz"), "teacher_beta": beta,
-            "family": family, "cache": str(a.cache), "rows": int(len(soft))}
+            "family": family, "cache": str(a.cache), "rows": int(len(soft)),
+            "cache_sha256": cache_identity(a.cache)["sha256"], "targets_sha256": sha256(out / "teacher_train.npy"),
+            "teacher_batch": a.teacher_batch, "target_seconds": round(time.perf_counter() - started, 3)}
     (out / "teacher_train.json").write_text(json.dumps(meta, indent=1), encoding="utf-8")
     model = next((rest[i + 1] for i, x in enumerate(rest) if x == "--model"), None)
     args = (["--model", "general"] if model is None else []) + rest + [
@@ -82,6 +90,8 @@ def main(argv=None):
         "--soft-weight", str(a.soft_weight), "--out", a.out]
     print(f"[distill] teacher {a.teacher} ({family}), {len(soft)} rows, soft weight {a.soft_weight}", flush=True)
     train_value.main(args)
+    (out / "distill_pipeline.json").write_text(json.dumps({"target_seconds": meta["target_seconds"],
+        "pipeline_seconds": round(time.perf_counter() - started, 3)}, indent=1), encoding="utf-8")
 
 
 if __name__ == "__main__":

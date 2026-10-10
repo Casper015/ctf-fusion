@@ -177,18 +177,18 @@ VALUE_CPP = {"v2": ("fusion::ValueModel", None, {"value": "fusion::kV"}),
 FAMILY_VERSION = {"p3": "fusion::kPolicyFamilyP3 == 3", "v3": "fusion::kValueFamilyV3 == 3"}
 
 
-def _emit_nets(out: list[str], nets: dict[str, dict], inputs: dict[str, str], check_inputs: bool) -> None:
+def _emit_nets(out: list[str], nets: dict[str, dict], inputs: dict[str, str], check_inputs: bool, array_writer=_array) -> None:
     for name, q in nets.items():
         rows = []
         for i, layer in enumerate(q["layers"]):
-            out.append(_array(f"{name}_w{i}", "int16_t", layer["w"]))
-            out.append(_array(f"{name}_b{i}", "int32_t", layer["b"]))
+            out.append(array_writer(f"{name}_w{i}", "int16_t", layer["w"]))
+            out.append(array_writer(f"{name}_b{i}", "int32_t", layer["b"]))
             o, n_in = layer["w"].shape
             # The value accumulator updates one first-layer column per changed feature: a column-major
             # copy makes those columns contiguous for the SIMD kernel (same integers, same results).
             transposed = name == "value" and i == 0
             if transposed:
-                out.append(_array(f"{name}_w{i}T", "int16_t", np.ascontiguousarray(layer["w"].T)))
+                out.append(array_writer(f"{name}_w{i}T", "int16_t", np.ascontiguousarray(layer["w"].T)))
             rows.append(f"    {{{n_in}, {o}, {name}_w{i}, {name}_b{i}, {layer['shift']}, {'true' if layer['hidden'] else 'false'}"
                         + (f", {name}_w{i}T" if transposed else "") + "},")
             out.append(f'static_assert({n_in} <= fusion::kMaxWidth && {o} <= fusion::kMaxWidth, "{name} layer {i} exceeds kMaxWidth");')
@@ -198,7 +198,7 @@ def _emit_nets(out: list[str], nets: dict[str, dict], inputs: dict[str, str], ch
 
 
 def shared_value_header(name: str, value_net: dict, value_family: str, sources: dict,
-                        generator: str = "training/export_mixed.py") -> str:
+                        generator: str = "training/export_mixed.py", array_writer=_array) -> str:
     """One value network shared by every model of a set (fusion::models::<name>::kValue), written once: a wide V is
     not copied into each model's header. Model headers alias it (header(shared_value=name))."""
     required = buffer_width([widest({"value": value_net})])
@@ -210,7 +210,7 @@ def shared_value_header(name: str, value_net: dict, value_family: str, sources: 
            "#include <cstdint>", "", '#include "value.hpp"', *([f'#include "{VALUE_CPP[value_family][1]}"'] if VALUE_CPP[value_family][1] else []), "",
            *([f'static_assert({FAMILY_VERSION[value_family]}, "model trained on feature family {value_family}");'] if value_family in FAMILY_VERSION else []),
            "", f"namespace fusion::models::{name} {{", ""]
-    _emit_nets(out, {"value": value_net}, VALUE_CPP[value_family][2], True)
+    _emit_nets(out, {"value": value_net}, VALUE_CPP[value_family][2], True, array_writer)
     out += [f"inline constexpr {VALUE_CPP[value_family][0]} kValue{{{{value_layers, {len(value_net['layers'])}, {value_net['out_exp']}}}}};",
             "", f"}}  // namespace fusion::models::{name}", f"#endif  // FUSION_MODEL_{name.upper()}_HPP", ""]
     return "\n".join(out)
@@ -218,7 +218,8 @@ def shared_value_header(name: str, value_net: dict, value_family: str, sources: 
 
 def header(model: str, nets: dict[str, dict], alpha: dict[int, float], sources: dict, adapter: str = "joint-v2",
            spec_version: int | None = None, generator: str = "training/export_weights.py",
-           policy_family: str = "p2", value_family: str = "v2", shared_value: tuple[str, dict] | None = None) -> str:
+           policy_family: str = "p2", value_family: str = "v2", shared_value: tuple[str, dict] | None = None,
+           array_writer=_array) -> str:
     """One model's header. With shared_value=(name, value net) the value arrays live in weights_<name>.hpp
     (shared_value_header) and this header aliases them; `nets` then holds the policy heads only."""
     spec_version = feature_layout().schema["spec_version"] if spec_version is None else spec_version
@@ -245,7 +246,7 @@ def header(model: str, nets: dict[str, dict], alpha: dict[int, float], sources: 
         out += [f"inline constexpr int kPolicyFamily = {policy_family[1:]};  // {policy_family}",
                 f"inline constexpr int kValueFamily = {value_family[1:]};  // {value_family}", ""]
     inputs = POLICY_CPP[policy_family][2] | VALUE_CPP[value_family][2]
-    _emit_nets(out, nets, inputs, not legacy)
+    _emit_nets(out, nets, inputs, not legacy, array_writer)
     net = lambda n: f"{{{n}_layers, {len(nets[n]['layers'])}, {nets[n]['out_exp']}}}"
     value_line = (f"inline constexpr {VALUE_CPP[value_family][0]} kValue{{{net('value')}}};" if shared_value is None else
                   f"inline constexpr const {VALUE_CPP[value_family][0]}& kValue = fusion::models::{shared_value[0]}::kValue;  // shared")

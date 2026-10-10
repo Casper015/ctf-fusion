@@ -71,6 +71,7 @@ def add_training_args(ap, batch: int):
     ap.add_argument("--lr", type=float, default=1e-3)
     ap.add_argument("--min-lr", type=float, default=1e-4)
     ap.add_argument("--batch", type=int, default=batch)
+    ap.add_argument("--val-batch", type=int, default=8192, help="value validation batch size; measure alongside training VRAM")
     ap.add_argument("--weight-decay", type=float, default=1e-5)
     ap.add_argument("--max-rows", type=int, default=0, help="subsample the training split (0 = all)")
     ap.add_argument("--seed", type=int, default=1)
@@ -103,6 +104,8 @@ def resolve_hidden(args, kind: str):
     from fusion.quant import MAX_WIDTH  # noqa: PLC0415
     if kind not in ("policy", "value"):
         raise ValueError("kind must be policy or value")
+    if getattr(args, "batch", 1) < 1 or getattr(args, "val_batch", 8192) < 1:
+        raise SystemExit("--batch and --val-batch must be positive")
     base = preset(args.capacity or "S")
     heads = POLICY_HEADS if kind == "policy" else ("value",)
     selected = {h: base[h] for h in heads}
@@ -185,6 +188,8 @@ def torch_fit(make_trainer, args, run: Run, rng, on_best=None):
     from fusion import torch_backend as tb  # noqa: PLC0415  (optional dependency)
     dev = tb.pick_device(args.device)
     env = tb.configure(dev, args.tf32)
+    if dev.type == "cuda":
+        tb.torch.cuda.reset_peak_memory_stats(dev)
     trainer = make_trainer(tb, dev)
     print(f"[torch] {env} train rows {'resident' if trainer.train.resident else 'streamed'}, "
           f"val rows {'resident' if trainer.val.resident else 'streamed'}", flush=True)
@@ -213,7 +218,8 @@ def fit(model, train_step, val_loss, args, run: Run, rng, opt, on_best=None):
         val = val_loss()
         if not (np.isfinite(train) and np.isfinite(val)):
             raise FloatingPointError(f"non-finite loss at epoch {epoch}: train {train}, val {val}")
-        run.log(epoch=epoch, lr=float(opt.lr), train=train, val=val, seconds=round(time.time() - t0, 3))
+        run.log(epoch=epoch, lr=float(opt.lr), train=train, val=val, seconds=round(time.time() - t0, 3),
+                optimizer_steps=opt.t)
         if val < best - 1e-5:
             best, best_state, waited = val, {k: v.copy() for k, v in model.state().items()}, 0
             if on_best:

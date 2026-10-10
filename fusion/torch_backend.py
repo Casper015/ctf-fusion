@@ -424,6 +424,7 @@ class ValueTrainer:
 
     def __init__(self, model: ValueNet, layout: Layout, train: dict, val: dict, cfg: dict, args, dev, rank: dict | None = None):
         self.model, self.cfg, self.batch, self.dev = model, cfg, args.batch, dev
+        self.val_batch = getattr(args, "val_batch", 8192)
         self.dl = DeviceLayout(layout, dev, model.family)
         self.rank = None
         if rank is not None:  # resolved pairs (training.train_value.load_rank), kept on the device
@@ -476,7 +477,8 @@ class ValueTrainer:
         return loss
 
     @torch.no_grad()
-    def evaluate(self, size=8192):
+    def evaluate(self, size=None):
+        size = self.val_batch if size is None else size
         t0 = time.time()
         total = torch.zeros((), dtype=torch.float64, device=self.dev)
         for b in self.val.minibatches(np.arange(self.val.n), size):
@@ -498,5 +500,7 @@ class ValueTrainer:
 def peak_memory(dev) -> dict:
     if dev.type != "cuda":
         return {}
-    return {"peak_allocated_gb": round(torch.cuda.max_memory_allocated(dev) / 2 ** 30, 3),
+    return {"peak_allocated_bytes": torch.cuda.max_memory_allocated(dev),
+            "peak_reserved_bytes": torch.cuda.max_memory_reserved(dev),
+            "peak_allocated_gb": round(torch.cuda.max_memory_allocated(dev) / 2 ** 30, 3),
             "peak_reserved_gb": round(torch.cuda.max_memory_reserved(dev) / 2 ** 30, 3)}

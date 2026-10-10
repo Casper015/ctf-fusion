@@ -88,11 +88,33 @@ def extract(stream_text: str) -> np.ndarray:
     return rec
 
 
+def model_dependencies(header: Path) -> list[Path]:
+    """Hash every local include, including shared V and initializer chunks, in build identities."""
+    seen = set()
+
+    def visit(path):
+        path = path.resolve()
+        if path in seen:
+            return
+        seen.add(path)
+        with path.open(encoding="utf-8") as stream:
+            for line in stream:
+                match = re.match(r'\s*#\s*include\s*"([^"]+)"', line)
+                if match:
+                    for base in (path.parent, REPO / "inference"):
+                        target = base / match.group(1)
+                        if target.is_file():
+                            visit(target)
+                            break
+    visit(Path(header))
+    return sorted(seen)
+
+
 def model_tool(tool: str, model_header: Path, namespace: str) -> Path:
     """Build a tool that takes one exported model header (infer_check, runtime_check), for its feature families."""
     model_header = Path(model_header).resolve()
     pfam, vfam = model_families(model_header)
-    return build(REPO / "tools" / "cpp" / f"{tool}.cpp", f"{tool}_{namespace.split('::')[-1]}_{pfam}{vfam}", deps=[model_header],
+    return build(REPO / "tools" / "cpp" / f"{tool}.cpp", f"{tool}_{namespace.split('::')[-1]}_{pfam}{vfam}", deps=model_dependencies(model_header),
                  defines=[f'FUSION_MODEL_HEADER="{model_header.as_posix()}"', f"FUSION_MODEL_NS={namespace}",
                           f"FUSION_MAX_WIDTH={model_buffer_width(model_header)}",
                           f"FUSION_POLICY_FAMILY={pfam[1:]}", f"FUSION_VALUE_FAMILY={vfam[1:]}"],

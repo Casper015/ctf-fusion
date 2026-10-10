@@ -287,6 +287,9 @@ class TestTorchBackend(unittest.TestCase):
                       "map": np.zeros(300, np.int64), "tags": np.zeros(300, np.uint8)}
             for k, v in arrays.items():
                 np.save(os.path.join(split, f"{k}.npy"), v)
+            os.makedirs(os.path.join(tmp, "val"))
+            for k, v in arrays.items():
+                np.save(os.path.join(tmp, "val", f"{k}.npy"), np.ones_like(v[:80]) if k == "map" else v[:80])
             with open(os.path.join(tmp, "meta.json"), "w") as f:
                 json.dump({"features": families.record(self.layout.schema, "v3")}, f)
             out = os.path.join(tmp, "sweep.json")
@@ -295,6 +298,7 @@ class TestTorchBackend(unittest.TestCase):
             rep = json.load(open(out))
             self.assertEqual([r["batch"] for r in rep["results"]], [64, 128])
             self.assertTrue(all(r["timed_steps"] == 2 and r["rows_per_second"] for r in rep["results"]))
+            self.assertTrue(all(r["validation_rows"] == 80 and r["val_batch"] == r["batch"] for r in rep["results"]))
 
     def test_distill_teacher_probabilities_match_numpy(self):
         from fusion.models import value_columns  # noqa: PLC0415

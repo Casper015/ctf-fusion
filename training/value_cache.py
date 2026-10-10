@@ -32,11 +32,34 @@ import numpy as np
 from fusion import families
 from fusion.models import value_inputs
 from fusion.schema import layout as feature_layout
+from fusion.paths import sha256
 from training.common import data_manifest
 from training.dataset import check_schema, count_key, load, load_index
 
 FIELDS = ("rec", "v_y", "weight", "teams", "turn", "match")
 TAGS = {"carrier": 1, "drop": 2, "interception": 4, "close": 8}
+
+
+def cache_identity(cache: str | Path) -> dict:
+    """Content digests and map membership, also for caches made before file digests existed.
+
+    Reading test membership/hashes audits split integrity; it does not score test labels.
+    """
+    import hashlib
+    cache = Path(cache)
+    files, maps = {}, {}
+    for split in ("train", "val", "test"):
+        directory = cache / split
+        if not directory.is_dir():
+            continue
+        for path in sorted(directory.glob("*.npy")):
+            files[path.relative_to(cache).as_posix()] = sha256(path)
+        maps[split] = np.unique(np.load(directory / "map.npy", mmap_mode="r")).astype(np.int64).tolist()
+    for a, b in (("train", "val"), ("train", "test"), ("val", "test")):
+        if set(maps.get(a, [])) & set(maps.get(b, [])):
+            raise ValueError(f"cache map leakage between {a} and {b}")
+    digest = hashlib.sha256(json.dumps(files, sort_keys=True).encode()).hexdigest()
+    return {"sha256": digest, "files": files, "maps": maps, "meta_sha256": sha256(cache / "meta.json")}
 
 
 def row_tags(rec: np.ndarray, layout) -> np.ndarray:
