@@ -1,0 +1,53 @@
+{
+ "c08_control": {
+  "digest": "39922e9e43803fd953110786b8c2bf1658205ab110cc3013ebcc943ca24d1a86",
+  "components": {
+   "variant": "c08_control",
+   "bundle_sha256": "1bf1cf4b3a31e422df7e0e8054eef7b6e4f7af72e9ca8cedd0965e80bfa202e5",
+   "binary_sha256": "1ba9c44b889e294bbbe5029b069e69c885197a377d74039bcaaa4b8e85f07ab2",
+   "inputs_sha256": "24b0543798085498a6499f0de407ca3f6a6c9556852340dea4086bede0cd954e",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "b9ab355f578485972da58f942da75ebda9204881b3cf382040c88d7d524ab782",
+   "schedule": "e23fa561705fd244519ace39448bea00afd8a23791dba0d3d76f88ecd0c6f28f",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ },
+ "c08_ponly_xxl": {
+  "digest": "1ea7d796607402fb5272af698de9a7484d22038dcf2608a5d09c03f0dc549e3d",
+  "components": {
+   "variant": "c08_ponly_xxl",
+   "bundle_sha256": "434e8133ccf1449ddc69a3a9d4c10cdb103f5073b7f271cf9f621c01bba3c0c4",
+   "binary_sha256": "e12ca06aa829214a66bf6c152d5d198793bb6f8213e007f1e5a85d2b9f0e63e4",
+   "inputs_sha256": "23dab5675e0293bf209a8fca4f02e530317ed9ddf9aa8c6f6a6b49d96ae5667b",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "b9ab355f578485972da58f942da75ebda9204881b3cf382040c88d7d524ab782",
+   "schedule": "e23fa561705fd244519ace39448bea00afd8a23791dba0d3d76f88ecd0c6f28f",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ },
+ "c08_ponly_pxxl_v3xl_v": {
+  "digest": "8ff2aace575b9f53456638c64fa722a981744cecaf0f06693c8ec216f4c0477e",
+  "components": {
+   "variant": "c08_ponly_pxxl_v3xl_v",
+   "bundle_sha256": "9af9e915ef7f0881fc72204dd4f5791f034e2f8fe111bfbc246fb586c200f3b2",
+   "binary_sha256": "e426690b1b39bd0b3ba0ff285d61b1f8b442db28363ac3a1a39703be48d674aa",
+   "inputs_sha256": "d0524d58c7b62a7863b4b5a1c71ebb5861bd5771fff8d962f104df44b40db991",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "b9ab355f578485972da58f942da75ebda9204881b3cf382040c88d7d524ab782",
+   "schedule": "e23fa561705fd244519ace39448bea00afd8a23791dba0d3d76f88ecd0c6f28f",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ }
+}

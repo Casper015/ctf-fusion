@@ -377,9 +377,9 @@ class TestExportRuns(unittest.TestCase):
                 text = (out / e["header"]).read_text()
                 self.assertIn("fusion::models::shared_value::kValue;  // shared", text)
                 self.assertNotIn("value_w0", text)  # the value arrays live in the shared header only
-                z, ref = np.load(out / f"weights_{model}.npz"), np.load(REPO / "inference" / "models_m" / f"weights_{model}.npz")
-                for k in z.files:
-                    np.testing.assert_array_equal(z[k], ref[k])  # P copied exactly
+                with np.load(out / f"weights_{model}.npz") as z, np.load(REPO / "inference" / "models_m" / f"weights_{model}.npz") as ref:
+                    for k in z.files:
+                        np.testing.assert_array_equal(z[k], ref[k])  # P copied exactly
             r = native.run_tool(native.registry_check(out))
             self.assertEqual(r.returncode, 0, r.stderr.decode())
             self.assertIn("2 n02", r.stdout.decode())

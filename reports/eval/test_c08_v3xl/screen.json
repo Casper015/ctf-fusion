@@ -1,0 +1,364 @@
+{
+ "schedule": "e23fa561705fd244519ace39448bea00afd8a23791dba0d3d76f88ecd0c6f28f",
+ "seed": 20261102,
+ "fixtures": 70,
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "incomplete": {},
+ "stale_rows": {},
+ "arms": {
+  "c08_control": {
+   "games": 70,
+   "binary_sha256": "1ba9c44b889e294bbbe5029b069e69c885197a377d74039bcaaa4b8e85f07ab2",
+   "utility": 0.73865,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 45.7,
+   "p99_ms_median": 23.712,
+   "p99_ms_worst": 28.606,
+   "max_ms": 30.198
+  },
+  "c08_ponly_xxl": {
+   "games": 70,
+   "binary_sha256": "e12ca06aa829214a66bf6c152d5d198793bb6f8213e007f1e5a85d2b9f0e63e4",
+   "utility": 0.7437,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 48.2,
+   "p99_ms_median": 30.271,
+   "p99_ms_worst": 31.21,
+   "max_ms": 32.03
+  },
+  "c08_ponly_pxxl_v3xl_v": {
+   "games": 70,
+   "binary_sha256": "e426690b1b39bd0b3ba0ff285d61b1f8b442db28363ac3a1a39703be48d674aa",
+   "utility": 0.77227,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 49.5,
+   "p99_ms_median": 30.349,
+   "p99_ms_worst": 31.189,
+   "max_ms": 31.554
+  }
+ },
+ "comparisons": {
+  "c08_ponly_pxxl_v3xl_v - c08_ponly_xxl": {
+   "overall": {
+    "mean": 0.02857,
+    "ci95": [
+     -0.03137,
+     0.08851
+    ],
+    "se": 0.03058,
+    "fixtures": 70,
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 5,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": -0.13056,
+     "ci95": [
+      -0.29479,
+      0.03368
+     ],
+     "se": 0.0838,
+     "fixtures": 15,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": 0.15098,
+     "ci95": [
+      0.03138,
+      0.27057
+     ],
+     "se": 0.06102,
+     "fixtures": 25,
+     "verdict": "helps"
+    },
+    "11-15": {
+     "mean": 0.00735,
+     "ci95": [
+      -0.05708,
+      0.07178
+     ],
+     "se": 0.03287,
+     "fixtures": 25,
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.0,
+    "4": -0.06667,
+    "5": -0.325,
+    "6": 0.24,
+    "7": 0.31667,
+    "8": 0.08571,
+    "9": 0.1125,
+    "10": 0.0,
+    "11": 0.05,
+    "12": 0.00909,
+    "13": -0.03333,
+    "14": -0.04615,
+    "15": 0.05714
+   },
+   "improved": 20,
+   "unchanged": 32,
+   "degraded": 18,
+   "identical_scores": 5,
+   "fixtures": 70
+  },
+  "c08_ponly_pxxl_v3xl_v - c08_control": {
+   "overall": {
+    "mean": 0.03362,
+    "ci95": [
+     -0.02801,
+     0.09525
+    ],
+    "se": 0.03144,
+    "fixtures": 70,
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.1,
+     "ci95": [
+      -0.096,
+      0.296
+     ],
+     "se": 0.1,
+     "fixtures": 5,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": -0.06111,
+     "ci95": [
+      -0.2658,
+      0.14358
+     ],
+     "se": 0.10443,
+     "fixtures": 15,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": 0.06715,
+     "ci95": [
+      -0.02252,
+      0.15682
+     ],
+     "se": 0.04575,
+     "fixtures": 25,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": 0.04365,
+     "ci95": [
+      -0.02786,
+      0.11516
+     ],
+     "se": 0.03648,
+     "fixtures": 25,
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.1,
+    "3": -0.05,
+    "4": 0.06667,
+    "5": -0.2,
+    "6": -0.02,
+    "7": 0.01667,
+    "8": 0.05714,
+    "9": 0.2375,
+    "10": 0.04444,
+    "11": 0.22,
+    "12": -0.03636,
+    "13": -0.05,
+    "14": -0.01538,
+    "15": 0.1
+   },
+   "improved": 30,
+   "unchanged": 24,
+   "degraded": 16,
+   "identical_scores": 0,
+   "fixtures": 70
+  },
+  "c08_ponly_xxl - c08_control": {
+   "overall": {
+    "mean": 0.00505,
+    "ci95": [
+     -0.06478,
+     0.07488
+    ],
+    "se": 0.03563,
+    "fixtures": 70,
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.1,
+     "ci95": [
+      -0.096,
+      0.296
+     ],
+     "se": 0.1,
+     "fixtures": 5,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": 0.06944,
+     "ci95": [
+      -0.09225,
+      0.23114
+     ],
+     "se": 0.0825,
+     "fixtures": 15,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": -0.08383,
+     "ci95": [
+      -0.23154,
+      0.06389
+     ],
+     "se": 0.07537,
+     "fixtures": 25,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": 0.0363,
+     "ci95": [
+      -0.03758,
+      0.11018
+     ],
+     "se": 0.0377,
+     "fixtures": 25,
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.1,
+    "3": -0.05,
+    "4": 0.13333,
+    "5": 0.125,
+    "6": -0.26,
+    "7": -0.3,
+    "8": -0.02857,
+    "9": 0.125,
+    "10": 0.04444,
+    "11": 0.17,
+    "12": -0.04545,
+    "13": -0.01667,
+    "14": 0.03077,
+    "15": 0.04286
+   },
+   "improved": 26,
+   "unchanged": 25,
+   "degraded": 19,
+   "identical_scores": 0,
+   "fixtures": 70
+  }
+ },
+ "rerun_noise": {},
+ "network_calls": {
+  "c08_ponly_xxl": {
+   "turns": 28000,
+   "views_per_turn": 280.31,
+   "team_encodes_per_turn": 518.44,
+   "act_heads_per_turn": 565.85,
+   "target_heads_per_turn": 364.86,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 1113984,
+   "search_calls": 25935,
+   "samples_per_search": 358.0,
+   "requested_per_search": 512.0,
+   "truncated_share": 0.7031,
+   "rollouts_per_search": 3676.0,
+   "plans_per_search": 24.4,
+   "survivors_per_search": 1.98,
+   "fixed_samples": 0,
+   "refine_cut_share": 0.1107
+  },
+  "c08_control": {
+   "search_calls": 25935,
+   "samples_per_search": 512.0,
+   "requested_per_search": 512.0,
+   "truncated_share": 0.0006,
+   "rollouts_per_search": null,
+   "plans_per_search": 25.8,
+   "survivors_per_search": null,
+   "fixed_samples": 0,
+   "refine_cut_share": null
+  },
+  "c08_ponly_pxxl_v3xl_v": {
+   "turns": 28000,
+   "views_per_turn": 279.24,
+   "team_encodes_per_turn": 512.63,
+   "act_heads_per_turn": 552.63,
+   "target_heads_per_turn": 357.1,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 1119213,
+   "search_calls": 25935,
+   "samples_per_search": 359.7,
+   "requested_per_search": 512.0,
+   "truncated_share": 0.6957,
+   "rollouts_per_search": 3716.0,
+   "plans_per_search": 24.5,
+   "survivors_per_search": 1.98,
+   "fixed_samples": 0,
+   "refine_cut_share": 0.117,
+   "value": {
+    "value_seconds_per_turn_ms": 0.075,
+    "refine": {
+     "calls_per_turn": 1.518,
+     "exact": 62,
+     "decisions": 8164,
+     "changed": 1143,
+     "changed_share": 0.14,
+     "coefficient": 50.0
+    },
+    "beam": {
+     "calls_per_turn": 1.057,
+     "exact": 98,
+     "decisions": 17295,
+     "changed": 2342,
+     "changed_share": 0.1354,
+     "coefficient": 35.0
+    }
+   }
+  }
+ },
+ "identities": {
+  "c08_control": "39922e9e43803fd953110786b8c2bf1658205ab110cc3013ebcc943ca24d1a86",
+  "c08_ponly_xxl": "1ea7d796607402fb5272af698de9a7484d22038dcf2608a5d09c03f0dc549e3d",
+  "c08_ponly_pxxl_v3xl_v": "8ff2aace575b9f53456638c64fa722a981744cecaf0f06693c8ec216f4c0477e"
+ }
+}

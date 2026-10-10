@@ -27,6 +27,7 @@
   {"name": "v12_ponly_pxl_vm", "carrier": "v12", "role": "ponly", "tier": "XL", "value_tier": null, "fixed_samples": 0, "source": "bots/p_only/bots/variants/v12_ponly_pxl_vm.cpp", "models": "inference/models_pxl_vm"},
   {"name": "v12_ponly_pxl_vm_v", "carrier": "v12", "role": "ponly_v", "tier": "XL", "value_tier": "M", "fixed_samples": 0, "source": "bots/p_only/bots/variants/v12_ponly_pxl_vm_v.cpp", "models": "inference/models_pxl_vm"},
   {"name": "v12_ponly_pxxl_vm", "carrier": "v12", "role": "ponly", "tier": "XXL", "value_tier": null, "fixed_samples": 0, "source": "bots/p_only/bots/variants/v12_ponly_pxxl_vm.cpp", "models": "inference/models_pxxl_vm"},
-  {"name": "v12_ponly_pxxl_vm_v", "carrier": "v12", "role": "ponly_v", "tier": "XXL", "value_tier": "M", "fixed_samples": 0, "source": "bots/p_only/bots/variants/v12_ponly_pxxl_vm_v.cpp", "models": "inference/models_pxxl_vm"}
+  {"name": "v12_ponly_pxxl_vm_v", "carrier": "v12", "role": "ponly_v", "tier": "XXL", "value_tier": "M", "fixed_samples": 0, "source": "bots/p_only/bots/variants/v12_ponly_pxxl_vm_v.cpp", "models": "inference/models_pxxl_vm"},
+  {"name": "c08_ponly_pxxl_v3xl_v", "carrier": "C08", "role": "ponly_v", "tier": "XXL", "value_tier": "XL", "fixed_samples": 0, "source": "bots/p_only/bots/variants/c08_ponly_pxxl_v3xl_v.cpp", "models": "inference/models_pxxl_v3xl"}
  ]
 }

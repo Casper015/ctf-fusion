@@ -1,0 +1,63 @@
+{
+ "_comment": "Ablation test: C08 P-XXL + V3-XL vs C08 P-XXL (pure P) and C08 Control under identical fixtures.",
+ "seed": 20261102,
+ "teams": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "maps_per_count": 5,
+ "workers": 6,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "keep_matches": true,
+ "reference": [
+  "Astra",
+  "Sol",
+  "Fable",
+  "Sonnet",
+  "Opus",
+  "DeepSeek",
+  "Qwen",
+  "MiMo",
+  "Kimi",
+  "GLM",
+  "Player5",
+  "Baseline",
+  "Player4",
+  "Player2_v005"
+ ],
+ "arms": [
+  "c08_control",
+  "c08_ponly_xxl",
+  "c08_ponly_pxxl_v3xl_v"
+ ],
+ "aa": [],
+ "comparisons": [
+  [
+   "c08_ponly_pxxl_v3xl_v",
+   "c08_ponly_xxl"
+  ],
+  [
+   "c08_ponly_pxxl_v3xl_v",
+   "c08_control"
+  ],
+  [
+   "c08_ponly_xxl",
+   "c08_control"
+  ]
+ ],
+ "work_dir": "data/p_only/test_c08_v3xl",
+ "report_dir": "reports/eval/test_c08_v3xl"
+}

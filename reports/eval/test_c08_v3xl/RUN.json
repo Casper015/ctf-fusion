@@ -1,0 +1,108 @@
+{
+ "created": "2026-10-10T14:30:59",
+ "smoke": false,
+ "config": {
+  "_comment": "Ablation test: C08 P-XXL + V3-XL vs C08 P-XXL (pure P) and C08 Control under identical fixtures.",
+  "seed": 20261102,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 5,
+  "workers": 6,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "reference": [
+   "Astra",
+   "Sol",
+   "Fable",
+   "Sonnet",
+   "Opus",
+   "DeepSeek",
+   "Qwen",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player5",
+   "Baseline",
+   "Player4",
+   "Player2_v005"
+  ],
+  "arms": [
+   "c08_control",
+   "c08_ponly_xxl",
+   "c08_ponly_pxxl_v3xl_v"
+  ],
+  "aa": [],
+  "comparisons": [
+   [
+    "c08_ponly_pxxl_v3xl_v",
+    "c08_ponly_xxl"
+   ],
+   [
+    "c08_ponly_pxxl_v3xl_v",
+    "c08_control"
+   ],
+   [
+    "c08_ponly_xxl",
+    "c08_control"
+   ]
+  ],
+  "work_dir": "data/p_only/test_c08_v3xl",
+  "report_dir": "reports/eval/test_c08_v3xl"
+ },
+ "effective": {
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 5,
+  "turn_ms": 50,
+  "arms": [
+   "c08_control",
+   "c08_ponly_xxl",
+   "c08_ponly_pxxl_v3xl_v"
+  ],
+  "aa": [],
+  "workers": 6
+ },
+ "ctf_fusion_commit": "337c6d1d4fec67f469b6b6632904b2d01703abc0",
+ "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+ "host": "DESKTOP-G60OJUD",
+ "os": "Windows-10-10.0.19045-SP0",
+ "cpu_count": 32,
+ "python": "3.14.3",
+ "wall_seconds": {
+  "build": 55.6,
+  "schedule": 0.2,
+  "run": 317.6,
+  "analyze": 1.2,
+  "total": 374.7
+ },
+ "analysis_status": 0
+}
