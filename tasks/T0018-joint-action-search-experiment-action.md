@@ -1,13 +1,13 @@
 ---
 id: T0018
 title: "Joint-action search experiment: action portfolio and branch-conditioned ply-2 predictions (code)"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [bots/p_only/tools/, bots/p_only/bots/, bots/p_only/profiles/, bots/p_only/tests/, docs/SEARCH_PORTFOLIO.md]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0018-joint-action-search-experiment-action
 updated: 2026-10-10
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-10 22:39Z claude@caspers-macbook: created
+- 2026-10-10 22:39Z claude@caspers-macbook: claimed
