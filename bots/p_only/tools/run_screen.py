@@ -84,7 +84,10 @@ def main(argv=None):
     sched, results = work / "schedule.json", work / "results.jsonl"
     manifest_path = REPO / "build" / "p_only" / "manifest.json"
     if not a.analyze_only:
-        step("build", [str(REPO / "bots" / "p_only" / "tools" / "build.py"), "--stats", *arms], timings)
+        build = [str(REPO / "bots" / "p_only" / "tools" / "build.py"), "--stats"]
+        if cfg.get("variants"):  # another variant list (e.g. the feature-family variants)
+            build += ["--variants", str(REPO / cfg["variants"])]
+        step("build", build + [*arms], timings)
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))["variants"]
         if not sched.exists():
             sched_cmd = ["-m", "roster.strength", "schedule", "--maps-per-count", str(maps), "--teams", *map(str, teams),

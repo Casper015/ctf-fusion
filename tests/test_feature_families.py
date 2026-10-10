@@ -343,3 +343,56 @@ class TestRuntimeAgreesWithExtraction(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def fake_run(path: Path, kind: str, family: str, hidden, seed: int = 0) -> Path:
+    """A training-run directory as train_policy / train_value write it (random weights)."""
+    L = layout()
+    rng = np.random.default_rng(seed)
+    model = PolicyNet(L, rng, hidden, family) if kind == "policy" else ValueNet(L, rng, hidden, family)
+    path.mkdir(parents=True, exist_ok=True)
+    state = model.state() | ({} if kind == "policy" else {"beta": np.array(1.0)})
+    np.savez(path / "model.npz", **state)
+    (path / "config.json").write_text(json.dumps({"kind": kind, "hidden": hidden, "features": families.record(native.schema(), family)}),
+                                      encoding="utf-8")
+    return path
+
+
+class TestExportRuns(unittest.TestCase):
+    """training.export_mixed with runs: a frozen committed P paired with a trained V (written once, shared), and a
+    trained p3 policy paired with a committed V."""
+
+    def test_frozen_p_with_value_run(self):
+        from training import export_mixed  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as d:
+            run = fake_run(Path(d) / "value_run", "value", "v3", [64, 16])
+            out = export_mixed.export_runs(Path(d) / "set", policy_tier="m", value_run=run)
+            man = json.loads((out / "MANIFEST.json").read_text())
+            src = json.loads((REPO / "inference" / "models_m" / "MANIFEST.json").read_text())
+            self.assertEqual(sorted(man), sorted(src))
+            self.assertEqual(len(list(out.glob("weights_shared_value.hpp"))), 1)
+            for model, e in man.items():
+                self.assertEqual((e["features"]["policy"]["family"], e["features"]["value"]["family"]), ("p2", "v3"))
+                self.assertEqual(e["sources"]["policy"]["weights_digest"], src[model]["identity"]["weights_digest"])
+                text = (out / e["header"]).read_text()
+                self.assertIn("fusion::models::shared_value::kValue;  // shared", text)
+                self.assertNotIn("value_w0", text)  # the value arrays live in the shared header only
+                z, ref = np.load(out / f"weights_{model}.npz"), np.load(REPO / "inference" / "models_m" / f"weights_{model}.npz")
+                for k in z.files:
+                    np.testing.assert_array_equal(z[k], ref[k])  # P copied exactly
+            r = native.run_tool(native.registry_check(out))
+            self.assertEqual(r.returncode, 0, r.stderr.decode())
+            self.assertIn("2 n02", r.stdout.decode())
+
+    def test_p3_policy_run_with_committed_value(self):
+        from training import export_mixed  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as d:
+            run = fake_run(Path(d) / "policy_run", "policy", "p3", {"mover": [16], "squad": [32, 16], "act": [16], "target": [8]})
+            out = export_mixed.export_runs(Path(d) / "set", policy_run=run, value_tier="m")
+            man = json.loads((out / "MANIFEST.json").read_text())
+            self.assertEqual(list(man), ["general"])
+            self.assertEqual(export_weights.manifest_families(man["general"]), ("p3", "v2"))
+            self.assertEqual(native.model_families(out / "weights_general.hpp"), ("p3", "v2"))
+            r = native.run_tool(native.registry_check(out))
+            self.assertEqual(r.returncode, 0, r.stderr.decode())
+            self.assertIn("15 general", r.stdout.decode())
