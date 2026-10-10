@@ -61,6 +61,7 @@ Other rules:
 | File(s) | Generator |
 |---|---|
 | `inference/models*/weights_*.hpp`, `.npz`, `registry.hpp`, `MANIFEST.json` | `python -m training.export_weights` |
+| `inference/models_p<tier>_v<tier>/` (mixed P/V sets: exact copies of committed arrays) | `python -m training.export_mixed --policy-tier <t> --value-tier <t>` (`tests/test_mixed_export.py` re-derives and compares) |
 | `training/specs/FEATURES.md` | `python tools/pipeline/gen_feature_spec.py` (a test fails when it drifts) |
 | `bots/hybrid/*_Fusion.hpp` variants | `tools/pipeline/build_carrier_variants.py` |
 | `p_only/bots/c08_ponly.hpp`, `v12_ponly.hpp`, `c08_control.hpp` | `p_only/tools/derive/make_*.py` (a test re-derives and compares) |
