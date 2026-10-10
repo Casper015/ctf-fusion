@@ -17,7 +17,7 @@ TOOLS_DIRS = {"cpp", "host", "pipeline", "reporting", "repo", "screens"}
 TOOLS_FILES = {"random_bot.py", "noise_bot.py", "README.md"}   # the bots are named by path in committed pools: do not move
 REPORT_DIRS = {"models", "host", "eval", "reviews"}
 TIERS = {"s", "m", "l", "xl", "xxl"}
-MODEL_STUDIES = {"v_pilot", "p_features"}   # offline reports of controlled model comparisons (docs/FEATURE_FAMILIES.md)
+MODEL_STUDIES = {"v_pilot", "p_features", "v_capacity_5xl"}   # controlled model comparisons (docs/FEATURE_FAMILIES.md, docs/V_CAPACITY_5XL.md)
 LOCAL_ONLY = ("build/", "data/", "runs/")
 VENDORED = ("roster/bots/src/", "roster/new_bots/")
 

@@ -1,0 +1,6 @@
+{
+ "batch": 2048,
+ "val_batch": 2048,
+ "reason": "All measured batches fit. Use the original XL training batch for this bounded first comparison; 4096 offers only a modest large-model throughput gain and is not validated as faster to convergence. Hold 2048 fixed across arms and teacher/student.",
+ "profile_commit": "130f766c6db4c15d299fe338bc00f69defaf29ad"
+}
