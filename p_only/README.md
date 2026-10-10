@@ -10,7 +10,7 @@ The commands run from the repository root, with the AI_Test checkout in `AI_TEST
 
 ```sh
 python -m unittest discover -s p_only/tests -v          # ~15 s: no hand-written identifiers, bundles, contract on recorded games
-python p_only/tools/build.py --stats                     # ~1 min: 12 bundled single-file bots + build/p_only/manifest.json
+python p_only/tools/build.py --stats                     # ~2 min: 16 bundled single-file bots + build/p_only/manifest.json
 python p_only/tools/run_screen.py --smoke                # ~1 min: 8 games, relaxed limits, checks the chain (not evidence)
 python p_only/tools/run_screen.py                        # the paired screen (p_only/profiles/screen.json), official limits
 ```
@@ -25,7 +25,7 @@ The offline structure scan is already generated at [report/STRUCTURE_SCAN.md](re
 |---|---|
 | `include/ponly.hpp` | The P-only opponent model. A `View` holds the network's predictions for one state (the real root or a simulated state): joint team moves and unit marginals, P(act \| move), P(target \| attack, move), mode and seeded draws. With no model it falls back to uniform over what the rules allow, and counts every fallback. |
 | `bots/c08_ponly.hpp`, `bots/v12_ponly.hpp` | The new carriers. Each header comment lists exactly what was removed and kept. |
-| `bots/variants/*.cpp` | Thin wrappers: policy size S, M or L, and the experimental value term (`_m_v`). |
+| `bots/variants/*.cpp` | Thin wrappers: policy size S, M, L, XL or XXL, and the experimental value term (`_m_v`). |
 | `profiles/variants.json` | All buildable bots: the P-only variants plus the unchanged controls and the earlier mixture ("hybrid") integrations from `candidate/`. |
 | `profiles/screen.json` | The paired screen: arms, re-run (A/A) copies, comparisons, seed 20261031, 20 maps per count. |
 | `tools/bundle.py` | Inlines a bot's local includes into one `.cpp`, the file a judge compiles and the identity a screen records. |
