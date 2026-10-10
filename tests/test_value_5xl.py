@@ -31,17 +31,19 @@ class TestValue5XL(unittest.TestCase):
             build, data = root / "build", root / "data"
             build.mkdir()
             data.mkdir()
-            (build / "screen_time.json").write_text(json.dumps({"work_dir": "data"}))
-            (data / "identities.json").write_text(json.dumps({arm: {"digest": "frozen"} for arm in ("cap_off_time", "cap_5xl_time")}))
+            configured_pairs = [["cap_5xl_time", "cap_off_time"]]
+            (build / "screen_time.json").write_text(json.dumps({"work_dir": "data", "comparisons": configured_pairs}))
+            (data / "identities.json").write_text(json.dumps({arm: {"digest": "frozen"} for arm in ("cap_off_time", "cap_5xl_time", "cap_5xl_time~aa")}))
             (data / "schedule.json").write_text(json.dumps({"fixtures": [1, 2, 3, 4]}))
             rows = [{"arm": arm, "fixture_id": i, "map_seed": i, "identity": "frozen", "utility": y, "faults": 0}
-                    for arm in ("cap_off_time", "cap_5xl_time")
+                    for arm in ("cap_off_time", "cap_5xl_time", "cap_5xl_time~aa")
                     for i, y in enumerate([0., 0., 0., 0.] if arm == "cap_off_time" else [1., -1., 1., -1.])]
             def write():
                 (data / "results.jsonl").write_text("\n".join(json.dumps(r) for r in rows))
             write()
             with mock.patch.object(summary, "REPO", root):
                 result = summary.screen_summary("time", build)
+                self.assertEqual(result["config"]["comparisons"], configured_pairs)
                 interval = result["paired"]["cap_5xl_time:cap_off_time"]
                 self.assertEqual(interval["clusters"], 4)
                 self.assertEqual(interval["verdict"], "not shown")

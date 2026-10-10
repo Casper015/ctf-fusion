@@ -1,7 +1,7 @@
 {
  "generated_by": "python -m training.summarize_value_capacity",
  "default_changed": false,
- "generator_sha256": "5776ef4dc5291909670c2edc61692725b4fdf3ab96a3aa0e23a73a24764d745c",
+ "generator_sha256": "029e61ff3965aa11dd18ac08d5f068c9e451b479afe78de89391f429c9c8bef9",
  "implemented": true,
  "trained": true,
  "training_seeds": [
@@ -12122,18 +12122,6 @@
      [
       "cap_student_time",
       "cap_xl_time"
-     ],
-     [
-      "cap_5xl_time~aa",
-      "cap_5xl_time"
-     ],
-     [
-      "cap_student_time~aa",
-      "cap_student_time"
-     ],
-     [
-      "cap_xl_time~aa",
-      "cap_xl_time"
      ]
     ],
     "work_dir": "data/v_capacity_5xl/screen_time",
@@ -13181,18 +13169,6 @@
      ],
      [
       "cap_student_work",
-      "cap_xl_work"
-     ],
-     [
-      "cap_5xl_work~aa",
-      "cap_5xl_work"
-     ],
-     [
-      "cap_student_work~aa",
-      "cap_student_work"
-     ],
-     [
-      "cap_xl_work~aa",
       "cap_xl_work"
      ]
     ],

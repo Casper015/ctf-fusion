@@ -1,6 +1,6 @@
 """What a value network (and the policy's encoding) costs on the host, with real exported weights (Route A evidence).
 
-    python tools/repo/task.py lock cpu --task T00xx -- python tools/host/value_cost.py \\
+    python tools/repo/task.py lock --task T00xx cpu -- python tools/host/value_cost.py \\
         --set inference/models_pxxl_vD --calls 7 --copies 1 6 15 --out reports/host/value_cost_DESKTOP-G60OJUD
     python tools/host/value_cost.py --set inference/models_pxxl_vD --verify     # development machines: correctness only
 
