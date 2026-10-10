@@ -1,0 +1,111 @@
+{
+ "created": "2026-10-10T15:13:35",
+ "smoke": false,
+ "config": {
+  "_comment": "Matched comparison: New V (V3-XL) vs strictly matched V-off (c08_ponly_pxxl_v3xl) vs Old V (c08_ponly_pxxl_vm_v) and A/A noise.",
+  "seed": 20261108,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 10,
+  "workers": 8,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "reference": [
+   "Astra",
+   "Sol",
+   "Fable",
+   "Sonnet",
+   "Opus",
+   "DeepSeek",
+   "Qwen",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player5",
+   "Baseline",
+   "Player4",
+   "Player2_v005"
+  ],
+  "arms": [
+   "c08_ponly_pxxl_v3xl",
+   "c08_ponly_pxxl_vm_v",
+   "c08_ponly_pxxl_v3xl_v"
+  ],
+  "aa": [
+   "c08_ponly_pxxl_v3xl_v"
+  ],
+  "comparisons": [
+   [
+    "c08_ponly_pxxl_v3xl_v",
+    "c08_ponly_pxxl_v3xl"
+   ],
+   [
+    "c08_ponly_pxxl_v3xl_v",
+    "c08_ponly_pxxl_vm_v"
+   ],
+   [
+    "c08_ponly_pxxl_vm_v",
+    "c08_ponly_pxxl_v3xl"
+   ]
+  ],
+  "work_dir": "data/p_only/screen_v3xl_matched",
+  "report_dir": "reports/eval/screen_v3xl_matched"
+ },
+ "effective": {
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 10,
+  "turn_ms": 50,
+  "arms": [
+   "c08_ponly_pxxl_v3xl",
+   "c08_ponly_pxxl_vm_v",
+   "c08_ponly_pxxl_v3xl_v"
+  ],
+  "aa": [
+   "c08_ponly_pxxl_v3xl_v"
+  ],
+  "workers": 8
+ },
+ "ctf_fusion_commit": "21e84528b581db922d753dc2b2990ab88ad5a258",
+ "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+ "host": "DESKTOP-G60OJUD",
+ "os": "Windows-10-10.0.19045-SP0",
+ "cpu_count": 32,
+ "python": "3.14.3",
+ "wall_seconds": {
+  "build": 0.9,
+  "run": 713.8,
+  "analyze": 3.0,
+  "total": 717.8
+ },
+ "analysis_status": 0
+}

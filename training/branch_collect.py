@@ -198,16 +198,16 @@ def _root_job(job) -> dict | None:
             "root_outcome": float(pairwise_outcome(match["result"]["score"])[seat])}
 
 
-def resolve_commands(match: dict, manifest: dict, carrier: str, root: Path) -> list[list[str]]:
+def resolve_commands(match: dict, manifest: dict, carrier: str, root: Path) -> list[list[str]] | None:
     """Commands for every seat: the frozen carrier binary (its SHA-256 must equal the match's), the roster bots by
-    pool entry (their sources must be unchanged)."""
+    pool entry (their sources must be unchanged). Returns None if the match was played by another candidate arm."""
     pool = {e["name"]: e for e in load_pool()["bots"]}
     m = manifest[carrier]
     out = []
     for s in match["seats"]:
         if s["name"] == CANDIDATE:
             if s["sha256"] != m["binary_sha256"]:
-                raise SystemExit(f"{match['match_id']}: the carrier binary changed since the match was played (rebuilt?)")
+                return None
             out.append([str(REPO / m["binary"])])
             continue
         path = bot_path(pool[s["name"]], root)
@@ -243,6 +243,8 @@ def main(argv=None):
     for f in files:
         match = matchlog.load(f)
         commands = resolve_commands(match, manifest, a.carrier, root)
+        if commands is None:
+            continue
         for t in root_turns(match, a.roots_per_match):
             out = Path(a.out) / f"n{match['teams']:02d}" / f"{match['match_id']}-t{t:03d}.json.gz"
             if not out.exists():
