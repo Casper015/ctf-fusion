@@ -21,13 +21,15 @@ from fusion.schema import layout as feature_layout
 from fusion.paths import model_counts
 from training.common import (Run, add_training_args, batches, data_manifest, fit, policy_rows, resolve_hidden,
                              run_features, subset, torch_fit, warm_start)
-from training.dataset import load
+from training.dataset import load, load_index
 
 LABELS = ("y_move", "y_joint", "y_act", "y_tgt")
 
 
 def prepare(shards, counts, split, max_rows, rng, keep_unlabeled=False, family="p2"):
-    """Policy rows of a split: valid replies from families that give labels (not the noise bot)."""
+    """Policy rows of a split: valid replies from families that give labels (not the noise bot, not our own carrier)."""
+    if load_index(shards)["options"].get("rows") == "designated":
+        raise SystemExit(f"{shards} holds only a designated carrier's own rows (value data); P learns opponents")
     d = load(shards, counts, split, families=(family,))
     keep = policy_rows(d, shards, keep_unlabeled)
     idx = np.nonzero(keep)[0]

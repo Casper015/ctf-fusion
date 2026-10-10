@@ -126,8 +126,10 @@ def policy_rows(d: dict, shards, keep_unlabeled: bool = False) -> np.ndarray:
     from fusion.paths import is_unlabeled, unlabeled_families  # noqa: PLC0415
     from training.dataset import load_index  # noqa: PLC0415
     keep = d["valid"].copy()
+    names = load_index(shards)["families"]
+    # Our own designated carrier ("candidate", screen runs with keep_matches) is never an opponent label.
+    keep &= ~np.isin(d["family"], [i for i, name in enumerate(names) if name == "candidate"])
     if not keep_unlabeled:
-        names = load_index(shards)["families"]
         unlabeled = unlabeled_families()
         drop = [i for i, name in enumerate(names) if is_unlabeled(name, unlabeled)]
         keep &= ~np.isin(d["family"], drop)
@@ -178,7 +180,7 @@ def warm_start(model, init_run, schema: dict | None = None) -> str | None:
     return str(init_run)
 
 
-def torch_fit(make_trainer, args, run: Run, rng):
+def torch_fit(make_trainer, args, run: Run, rng, on_best=None):
     """fit() on the torch backend; the trained (best) weights end in the NumPy model the trainer wraps."""
     from fusion import torch_backend as tb  # noqa: PLC0415  (optional dependency)
     dev = tb.pick_device(args.device)
@@ -186,17 +188,17 @@ def torch_fit(make_trainer, args, run: Run, rng):
     trainer = make_trainer(tb, dev)
     print(f"[torch] {env} train rows {'resident' if trainer.train.resident else 'streamed'}, "
           f"val rows {'resident' if trainer.val.resident else 'streamed'}", flush=True)
-    best = fit(trainer, trainer.train_epoch, trainer.evaluate, args, run, rng, trainer.opt)
+    best = fit(trainer, trainer.train_epoch, trainer.evaluate, args, run, rng, trainer.opt, on_best)
     run.config["backend"] = env | {"timing": trainer.timing} | tb.peak_memory(dev)
     return best
 
 
-def fit(model, train_step, val_loss, args, run: Run, rng, opt):
+def fit(model, train_step, val_loss, args, run: Run, rng, opt, on_best=None):
     """Epoch loop with a learning-rate schedule, plateau decay and early stopping. Keeps the best state.
 
     On `patience` epochs without improvement the learning rate halves (up to
     --plateau-decay times) and training continues from the best state; after
-    that it stops.
+    that it stops. `on_best(epoch, val, state)` runs on every new best (checkpoints).
     """
     best, best_state, waited, decays = float("inf"), None, 0, 0
     scale = 1.0
@@ -214,6 +216,8 @@ def fit(model, train_step, val_loss, args, run: Run, rng, opt):
         run.log(epoch=epoch, lr=float(opt.lr), train=train, val=val, seconds=round(time.time() - t0, 3))
         if val < best - 1e-5:
             best, best_state, waited = val, {k: v.copy() for k, v in model.state().items()}, 0
+            if on_best:
+                on_best(epoch, val, best_state)
             continue
         waited += 1
         if waited < args.patience:

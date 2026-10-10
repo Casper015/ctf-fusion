@@ -30,7 +30,7 @@ import time
 import numpy as np
 import torch
 
-from .models import JOINT, TARGET_COLS, PolicyNet, ValueNet
+from .models import JOINT, TARGET_COLS, PolicyNet, ValueNet, value_columns
 from .schema import Layout
 
 
@@ -283,6 +283,13 @@ class TorchValue:
     def params(self):
         return self.net.params
 
+    def rank_loss(self, xa, xb, y, w, cfg: dict):
+        """fusion.models.ValueNet.rank_loss: rank_weight x weighted pairwise logistic loss on the outcome logit."""
+        z = self.net.forward(torch.cat([xa, xb]))[:, 0]
+        B = xa.shape[0]
+        loss = _BCE.apply(z[:B] - z[B:], y, w) / w.sum().clamp(min=1e-12)
+        return cfg.get("rank_weight", 1.0) * loss, loss.detach()
+
     def loss(self, x, y, w, cfg: dict):
         wsum = w.sum().clamp(min=1e-12)
         aux = cfg.get("aux_weight", 0.25)
@@ -297,12 +304,6 @@ class TorchValue:
 
     def from_ref(self):
         self.net.from_ref()
-
-
-def value_columns(rec: np.ndarray, layout: Layout, family: str) -> np.ndarray:
-    """The raw int16 value inputs of a family (fusion.models.value_inputs without the scaling)."""
-    parts = [layout.get(rec, "v")] + ([layout.get(rec, "vx")] if family == "v3" else [])
-    return np.ascontiguousarray(np.concatenate(parts, axis=-1))
 
 
 class RowSource:
@@ -421,9 +422,14 @@ class ValueTrainer:
     (resident if they fit, else streamed). Rows may also come as a V-only cache (`v` already the family's columns,
     training/value_cache.py)."""
 
-    def __init__(self, model: ValueNet, layout: Layout, train: dict, val: dict, cfg: dict, args, dev):
+    def __init__(self, model: ValueNet, layout: Layout, train: dict, val: dict, cfg: dict, args, dev, rank: dict | None = None):
         self.model, self.cfg, self.batch, self.dev = model, cfg, args.batch, dev
         self.dl = DeviceLayout(layout, dev, model.family)
+        self.rank = None
+        if rank is not None:  # resolved pairs (training.train_value.load_rank), kept on the device
+            t = lambda a: torch.from_numpy(np.ascontiguousarray(a)).to(dev)  # noqa: E731
+            self.rank = {"v": t(rank["cand_v"]), "a": t(rank["a"]).long(), "b": t(rank["b"]).long(), "y": t(rank["y"]),
+                         "w": t(rank["w"]), "batch": args.rank_batch, "perm": None, "pos": 0}
         self.net = TorchValue(model, dev)
         self.opt = TorchAdam(self.net.params, lr=args.lr, weight_decay=args.weight_decay)
         budget = args.gpu_resident_gb * 2 ** 30
@@ -446,6 +452,8 @@ class ValueTrainer:
             w = b["weight"]
             self.opt.zero_grad()
             loss, out = self.net.loss(self._x(b["v"]), b["v_y"], w, self.cfg)
+            if self.rank is not None:
+                loss = loss + self._rank_step(rng)
             loss.backward()
             self.opt.step()
             total += out["outcome"].double() * w.sum().double()
@@ -455,6 +463,17 @@ class ValueTrainer:
         self.timing["train_seconds"] += dt
         self.timing["rows_per_second"].append(round(self.train.n / dt))
         return value
+
+    def _rank_step(self, rng):
+        """The next minibatch of resolved pairs, in the order of a NumPy permutation (same stream as NumPy)."""
+        r = self.rank
+        n = len(r["y"])
+        if r["perm"] is None or r["pos"] >= n:
+            r["perm"], r["pos"] = torch.from_numpy(rng.permutation(n)).to(self.dev), 0
+        p = r["perm"][r["pos"]:r["pos"] + r["batch"]]
+        r["pos"] += r["batch"]
+        loss, _ = self.net.rank_loss(self._x(r["v"][r["a"][p]]), self._x(r["v"][r["b"][p]]), r["y"][p], r["w"][p], self.cfg)
+        return loss
 
     @torch.no_grad()
     def evaluate(self, size=8192):

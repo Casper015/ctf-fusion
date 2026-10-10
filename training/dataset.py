@@ -15,6 +15,11 @@ Rows are split by map (--split-by map, the default): train / val / test from
 a hash of the map seed, so neither a match nor a map ever feeds two splits
 (--split-by match hashes the match id instead).
 
+--rows designated keeps only the rows of each match's designated seat (the frozen carrier of a
+screen run with keep_matches, seat name "@candidate"): value data under that carrier's own
+continuation policy (bots/p_only/profiles/collect_v_data.json). Those rows are our own
+carrier's decisions, so training.train_policy refuses such shards.
+
 --holdout-family F reserves an `ood` split that never enters training:
   --holdout-mode fixture (default, the strict test): every match with a seat
       of family F goes to `ood` whole, every team's rows, so the held-out
@@ -76,9 +81,16 @@ def split_key(match: dict, split_by: str) -> str:
     return f"map-{match['map_seed']}" if split_by == "map" else match["match_id"]
 
 
+def designated_team(match: dict) -> int:
+    seats = [i for i, s in enumerate(match["seats"]) if s["name"] == "@candidate" or s.get("family") == "candidate"]
+    if len(seats) != 1:
+        raise ValueError(f"{match['match_id']}: --rows designated needs exactly one designated seat, found {seats}")
+    return seats[0]
+
+
 def process(job):
     """One match -> selected rows (dict of arrays) plus its metadata."""
-    path, stride, keep, holdout, split_by, holdout_mode = job
+    path, stride, keep, holdout, split_by, holdout_mode, rows_mode = job
     match = matchlog.load(path)
     layout = Layout(native.schema())
     rec = native.extract(matchlog.seat_stream(match, 0))
@@ -90,6 +102,8 @@ def process(job):
     offset = int(unit_hash("stride", match["match_id"]) * stride)
     rate = np.array([keep[s] for s in STRATA])[lab["stratum"]]
     take = ((turn - 1) % stride == offset) & (rng.random(len(rec)) < rate)
+    if rows_mode == "designated":
+        take &= team == designated_team(match)
     families = [s["family"] for s in match["seats"]]
     rows = {k: v[take] for k, v in lab.items()} | {
         "rec": rec[take], "weight": (stride / rate[take]).astype(np.float32), "turn": turn[take].astype(np.int16),
@@ -231,6 +245,8 @@ def main(argv=None):
     ap.add_argument("--holdout-mode", choices=("fixture", "actor-row"), default="fixture",
                     help="fixture: whole matches with a held-out seat go to ood (strict); actor-row: only that team's rows")
     ap.add_argument("--split-by", choices=("map", "match"), default="map", help="unit that never straddles two splits")
+    ap.add_argument("--rows", choices=("all", "designated"), default="all",
+                    help="designated: only the designated seat's rows (frozen-carrier value data)")
     ap.add_argument("--shard-rows", type=int, default=200_000)
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--append", action="store_true", help="add matches missing from an existing index")
@@ -239,6 +255,8 @@ def main(argv=None):
     out_dir = Path(args.out)
     options = {"stride": args.stride, "keep": args.keep_map, "holdout_family": sorted(args.holdout_family),
                "holdout_mode": args.holdout_mode, "split_by": args.split_by}
+    if args.rows != "all":  # recorded only when set, so earlier indexes keep matching for --append
+        options["rows"] = args.rows
     index = {"schema": native.schema(), "options": options, "families": [], "matches": [], "counts": {}, "history": []}
     if (out_dir / "index.json").exists():
         if not args.append:
@@ -253,7 +271,7 @@ def main(argv=None):
     files = [f for f in matchlog.iter_matches(args.raw, args.teams) if f.name.split(".")[0] not in known]
     print(f"[dataset] {len(files)} new matches ({len(known)} already indexed)", flush=True)
     native.extractor()  # compile before forking
-    jobs = [(f, args.stride, args.keep_map, set(args.holdout_family), args.split_by, args.holdout_mode) for f in files]
+    jobs = [(f, args.stride, args.keep_map, set(args.holdout_family), args.split_by, args.holdout_mode, args.rows) for f in files]
     buffers = defaultdict(list)
     families, matches = index["families"], index["matches"]
     pool = mp.Pool(args.workers) if args.workers > 1 else None

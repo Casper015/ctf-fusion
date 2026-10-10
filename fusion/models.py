@@ -85,6 +85,12 @@ def policy_batch(rec: np.ndarray, layout: Layout, normalize: bool = True, family
                        layout.get(rec, "act_legal").astype(bool), cf, layout.get(rec, "cand") >= 0)
 
 
+def value_columns(rec: np.ndarray, layout: Layout, family: str = "v2") -> np.ndarray:
+    """The raw int16 value inputs of a family (value_inputs without the scaling): what a V-only cache stores."""
+    parts = [layout.get(rec, "v")] + ([layout.get(rec, "vx")] if family == "v3" else [])
+    return np.ascontiguousarray(np.concatenate(parts, axis=-1))
+
+
 def value_inputs(rec: np.ndarray, layout: Layout, normalize: bool = True, family: str = "v2") -> np.ndarray:
     v = layout.get(rec, "v")
     if family == "v3":
@@ -226,6 +232,19 @@ class ValueNet:
 
     def logits(self, x, keep=False):
         return self.net.forward(x, keep)
+
+    def rank_loss(self, xa, xb, y, w, cfg: dict, backward: bool) -> float:
+        """Pairwise logistic loss on the outcome logit, P(a better than b) = sigmoid(z_a - z_b), weighted mean;
+        accumulates rank_weight x its gradient (both states in one forward pass, so one backward)."""
+        wsum = max(float(np.sum(w)), 1e-12)
+        B = len(xa)
+        z = self.logits(np.concatenate([xa, xb]), keep=backward)[:, 0]
+        loss, g = bce_with_logits(z[:B] - z[B:], y, w)
+        if backward:
+            grad = np.zeros((2 * B, len(self.HEADS)), np.float32)
+            grad[:B, 0], grad[B:, 0] = g, -g
+            self.net.backward(cfg.get("rank_weight", 1.0) * grad / wsum)
+        return loss / wsum
 
     def loss(self, x, y, w, cfg: dict, backward: bool) -> dict:
         wsum = max(float(w.sum()), 1e-12)
