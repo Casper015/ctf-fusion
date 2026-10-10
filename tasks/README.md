@@ -1,0 +1,65 @@
+# The task board
+
+Everything anyone is working on, human or agent, is one file in this folder. To see the board:
+
+```bash
+python tools/repo/task.py list          # open, active, blocked and in-review tasks
+python tools/repo/task.py list --all    # also done and dropped
+```
+
+or open the `T*.md` files here on GitHub. The agent protocol around the board is in [AGENTS.md](../AGENTS.md).
+
+## Why a board instead of handoff prompts
+
+Before 2026-10-10, work was passed on through long "prompt for the next agent" files in five different folders. Their status was buried in prose, and two of them gave opposite git rules. Nobody could tell what was open, who was on it, or whether two agents were about to edit the same folder. The board fixes that:
+
+| Problem | Board |
+|---|---|
+| What is open? Who has it? | One file per task, with a `status` and an `owner`. `list` shows them all. |
+| Two agents take the same work | `claim` is atomic. The second agent is refused. |
+| Two agents edit the same files | Each task declares its `writes`. A claim is refused while another active task writes there, and `land` refuses files outside them. |
+| The next agent starts from zero | The task's `Handoff` section always says what is done, what is next and the exact commands. Its `Log` keeps the history. |
+| A host-only job lands on a laptop | `needs` lists what the machine must have. `claim` checks it. |
+
+## A task file
+
+`tasks/T0002-p-only-stage-1-capacity-and-sampling.md`:
+
+```markdown
+---
+id: T0002
+title: "P-only stage 1: capacity and sampling screen at two plies"
+status: active                       # open, active, blocked, review, done, dropped
+owner: codex@desktop-g60ojud         # who holds it now (tool@machine); empty when open
+needs: [host]                        # host, cuda, ai-test; [] = any machine
+writes: [bots/p_only/report/capacity/]   # the only paths this task may change
+depends: [T0001]                     # tasks that must be done first
+land: direct                         # direct = task.py land; pr = through a pull request
+branch: codex/t0002-p-only-stage-1-capacity-and-sampling
+updated: 2026-10-10
+---
+
+## Goal          what it delivers and why, with links to the spec
+## Done when     the checks that close it
+## Handoff       the current state, rewritten by whoever stops: done, next, commands, doubts
+## Log           one line per event, appended: claimed, notes, landed, handed off, done
+```
+
+The `#` comments above are only for this explanation. Real files have none. The front matter is valid YAML: values that are not a single plain word are in double quotes, and an empty value is `""`.
+
+**Statuses:**
+
+| Status | Meaning |
+|---|---|
+| `open` | Anyone whose machine has the `needs` can claim it, once its `depends` are done. |
+| `active` | The owner is working on it. Its `writes` are reserved. |
+| `blocked` | It waits for a human decision: the question is in `Handoff`. |
+| `review` | The work is in a pull request (linked in the log). |
+| `done`, `dropped` | Finished, or decided against (the reason is in `Handoff`). |
+
+## For humans
+
+- **Add work:** `python tools/repo/task.py --as casper@mac new --title "..." --writes path/ [--needs host] [--depends T0003] --goal "..." --done-when "..."`. You can also write a file by hand in the format above. Commit and push it alone, and run `python tools/repo/task.py check` first.
+- **Answer a blocked task:** read its `Handoff`, then reply with `python tools/repo/task.py --as casper@mac note T0004 "Answer: use a new seed"`. The agent sees it on its next `show`.
+- **Reassign or stop work:** tell the owner in a note, or edit the file and push.
+- **Keep tasks small:** something one agent can finish and land in a day or two, with lanes as narrow as the work allows. Split big phases into several tasks with `depends`.

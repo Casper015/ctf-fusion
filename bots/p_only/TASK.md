@@ -1,5 +1,8 @@
 # Task for the host agent: P-only bots
 
+> **Status and ownership of these phases live on the [task board](../../tasks/README.md)** (T0001-T0007); this file stays their specification. Work on a phase through [AGENTS.md](../../AGENTS.md): claim its task, work in the task's worktree, land with `task.py land`.
+
+
 Written 2026-10-09 for the agent that runs ctf-fusion on DESKTOP-G60OJUD. Read [README.md](README.md) first; it has the commands, what was built and what is already verified. Work in the phases below, in order, and land each phase's results through a pull request before starting the next.
 
 **Order and status.** The second-turn state fix and the 2-turn scripted control (c08_control_2ply) are already in the code; don't screen anything built before them. Phase 0 can start now and depends on nothing else. Phase 1 adds the XL and XXL timing and the size rule. Phase 2, the screen, runs only after Phase 1 has applied that rule. Phase 3 does its offline check before building anything. Phase 4 is the four-turn lookahead. Phase 5 is V and the final confirmation. The XL/XXL evidence backfill runs on the GPU in parallel.
@@ -9,7 +12,7 @@ Written 2026-10-09 for the agent that runs ctf-fusion on DESKTOP-G60OJUD. Read [
 - **Runtime:** bots are CPU-only C++. The first reply is limited to 2 s and every later reply to 50 ms. That deadline is the only hard limit; source size and memory are free.
 - **English only:** every repository file is in English.
 - **Git:**
-  - Follow [CONTRIBUTING.md](../../CONTRIBUTING.md): never commit to `main`; work on a `<area>/<short-topic>` branch and open a pull request. Don't commit unrelated files.
+  - Follow [AGENTS.md](../../AGENTS.md): claim the phase's task, work in its worktree on its branch, and land with `task.py land` (or a pull request when the task says `land: pr`). Don't commit unrelated files.
   - Never use a bare `git stash`.
   - Commit reports, not raw data: `data/` and `build/` stay out of git.
 - **Report what the data shows:**

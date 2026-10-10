@@ -1,10 +1,10 @@
 # Using this repository
 
-The rules for working in `ctf-fusion`: where a file goes, what is committed, how branches and commits are named, and what must pass before a push. The map of folders is in the [README](README.md#layout). `tests/test_repo_layout.py` enforces the structural rules below.
+The rules for working in `ctf-fusion`: where a file goes, what is committed, how branches and commits are named, and what must pass before a push. How several people and agents share the work (the task board, worktrees, lanes, locks) is in [AGENTS.md](AGENTS.md). The map of folders is in the [README](README.md#where-things-are). `tests/test_repo_layout.py` and `tests/test_task_board.py` enforce the structural rules.
 
 ## The short version
 
-1. **Never commit to `main`.** Branch, commit, open a pull request.
+1. **Every piece of work is a task on the [board](tasks/README.md).** Agents claim it, work in their own worktree and branch, and land with `task.py land` or a pull request ([AGENTS.md](AGENTS.md)). Humans may commit a small, self-contained change straight to `main` when no active task writes those paths: check `python tools/repo/task.py list` first.
 2. **One folder per kind of thing** (table below). Don't add files to the repository root, and don't create a new top-level folder without updating the test and the README in the same commit.
 3. **Source and small results are committed. Binaries, raw logs and checkpoints are not.**
 4. **Generated files are regenerated, never hand-edited.**
@@ -32,7 +32,9 @@ The rules for working in `ctf-fusion`: where a file goes, what is committed, how
 | A host measurement | `reports/host/` | Name ends in the host: `capacity_<HOST>.json`. |
 | A match-result summary | `reports/eval/` | |
 | A written review or audit | `reports/reviews/` | One file per review; put the commit hash it pins in the name. |
-| A design note, plan, or decision | `docs/` | Briefs for the next agent: `docs/handoffs/<topic>/`. |
+| A design note, plan, or decision | `docs/` | |
+| Work to do, who is doing it, what the next person needs to know | `tasks/` | Through `tools/repo/task.py`. No separate "prompt for the next agent" files: write the task's Handoff instead. |
+| Repository housekeeping (the task board) | `tools/repo/` | |
 | Analysis of the AI_Test heuristic benchmark | `docs/benchmark/` | |
 
 If nothing fits, the file probably doesn't belong in the repository. Ask before inventing a folder.
@@ -67,6 +69,7 @@ Other rules:
 | `bots/p_only/bots/c08_ponly.hpp`, `v12_ponly.hpp`, `c08_control.hpp` | `bots/p_only/tools/derive/make_*.py` (a test re-derives and compares) |
 | `reports/**`, `docs/benchmark/*TABLES.md`, `roster/report/**` | the script named in the file's header |
 | `roster/bots/src/**` | vendored sources, named by sha256: never edit |
+| `tasks/T*.md` | `tools/repo/task.py`. Humans may edit by hand; run `task.py check` before pushing. |
 
 To change a generated file, change its generator, regenerate, and commit both together.
 
@@ -78,12 +81,13 @@ These locations are named by committed hashes, manifests or the host's build scr
 - `tools/random_bot.py` and `tools/noise_bot.py` (pools and roster results name them as `@repo/tools/...`).
 - `profiles/pool.json`, `profiles/open_training_pool*.json`, `profiles/n*.json`, `profiles/general.json`.
 - Everything under `roster/bots/` and `roster/new_bots/`.
+- The local folders `build/p_only/` and `data/p_only/`, which keep their names although the code moved to `bots/p_only/` (the host's runs live there). `bots/p_only/tools/bundle.py` prints inlined paths relative to `bots/` so that bundles stay byte-identical: don't change that.
 
 Result files record the paths of the day they were made. [docs/PATH_MAP.md](docs/PATH_MAP.md) maps the old layout to the current one.
 
 ## Branches, commits, pull requests
 
-**Branch names** are `<area>/<short-topic>`, lowercase, hyphenated: `docs/model-export-review`, `models/tier-xl-export`, `chore/reorganize-repo`, `fix/gate-adapter-mismatch`. Start from an up-to-date `main`. Keep a branch to one topic.
+**Branch names.** A task's branch is made by `task.py claim`: `<tool>/<task id>-<slug>`, for example `codex/t0002-p-only-stage-1-capacity-and-sampling`. Work outside the board uses `<area>/<short-topic>`, lowercase and hyphenated: `docs/model-export-review`, `fix/gate-adapter-mismatch`. Start from an up-to-date `main`. Keep a branch to one topic.
 
 **Commit messages** start with the area, then an imperative summary, 72 characters or fewer:
 
@@ -93,9 +97,9 @@ p_only: consistent second-turn states, 2-ply scripted control
 docs: review trained model exports and native artifact correctness
 ```
 
-Areas in use: `docs`, `train`, `training`, `models`, `eval`, `bench`, `roster`, `p_only`, `handoff`. Use `chore` for moves and cleanups. Put the why in the body when it isn't obvious from the diff. One logical change per commit; a pure move (`git mv` plus reference fixes) never also changes behavior.
+Areas in use: `docs`, `train`, `training`, `models`, `eval`, `bench`, `roster`, `p_only`, `screen`. Use `chore` for moves and cleanups. `tasks:` commits come from `task.py` only. Agents end every commit message with an `Agent: <tool>@<machine>` line. Put the why in the body when it isn't obvious from the diff. One logical change per commit; a pure move (`git mv` plus reference fixes) never also changes behavior.
 
-**Pull requests** target `main`, say what changed and how it was checked, and link the report or review that justifies a model or bot change. Merge with a merge commit, as the history already does. Don't force-push a branch someone else has pulled, and never force-push `main`.
+**Pull requests** are required when the task says `land: pr`, and for shared core code (`fusion/`, `training/`, `inference/*.hpp`, `tests/`, `tools/cpp/`), models, and bots that go to the host. A PR targets `main`, says what changed and how it was checked, links its task, and links the report or review that justifies a model or bot change. Merge with a merge commit, as the history already does. Don't force-push a branch someone else has pulled, and never force-push `main`.
 
 **Trained models and bots.** A change to `inference/models*/` ships with the offline gate report it was exported from (`reports/models/<tier>/`) in the same pull request. A bot variant that goes to the host ships with its screen result under `reports/eval/` or `bots/p_only/report/`.
 
@@ -103,8 +107,9 @@ Areas in use: `docs`, `train`, `training`, `models`, `eval`, `bench`, `roster`, 
 
 ```bash
 export AI_TEST_ROOT=~/code/AI_Test                 # without it the end-to-end pipeline tests are skipped
-python -m unittest discover -s tests -t .          # ~10 s without AI_Test, ~25 s with it
-python -m unittest discover -s bots/p_only/tests        # ~20 s, when you touched bots/p_only/ or bots/hybrid/
+python -m unittest discover -s tests -t .          # ~20 s without AI_Test, longer with it
+python -m unittest discover -s bots/p_only/tests   # ~80 s, when you touched bots/p_only/ or bots/hybrid/
+python tools/repo/task.py check                   # when you touched tasks/ by hand
 ```
 
 - A moved or renamed file: `git grep -n "<old path>"` returns nothing outside `docs/PATH_MAP.md`, frozen results and vendored sources.

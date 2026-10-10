@@ -1,5 +1,8 @@
 # Execution prompt for the ctf-fusion implementation agent
 
+> **Archived brief, written before the task board (2026-10-10).** Don't follow its git or workflow rules; follow [AGENTS.md](../../../AGENTS.md). Which of its steps are still open is tracked in task [T0008](../../../tasks/T0008-triage-the-handoff-prompts-written.md).
+
+
 Implement the following project in the current ctf-fusion and AI_Test repositories. This is an execution request, not a request for another architecture essay. Evaluate the available bots, build an open registry of useful training opponents with no fixed size limit, keep frozen evaluation rosters separate, implement adaptive opponent prediction and memory-aware CPU inference, and add an optional CUDA training backend. Keep every production bot CPU-only. Read this folder's plans and evaluation tools before editing.
 
 ## Constraints and baseline

@@ -1,5 +1,8 @@
 # Execution Prompt: Correct P/V Integration, Then Confirm Carrier and Capacity
 
+> **Archived brief, written before the task board (2026-10-10).** Don't follow its git or workflow rules; follow [AGENTS.md](../../../AGENTS.md). Which of its steps are still open is tracked in task [T0008](../../../tasks/T0008-triage-the-handoff-prompts-written.md).
+
+
 This is a proposed task for a subsequent implementation agent. Publishing this document does not perform or approve deployment of the experimental variants. Read [current status](CURRENT_STATUS_AND_V_ABLATION_REVIEW.md) first, then the two reports linked by [the bundle index](README.md). Recheck the repository's current source before acting; findings are anchored to 0a0badc.
 
 ## Objective

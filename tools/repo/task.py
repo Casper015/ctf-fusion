@@ -1,0 +1,600 @@
+"""The task board: how several agents, on different machines, share work in this repository (AGENTS.md).
+
+    python tools/repo/task.py list [--all] [--mine] [--ready]  # the board, read from origin/main
+    python tools/repo/task.py show T0003
+    python tools/repo/task.py new --title "..." --writes bots/p_only/report/capacity/ [--needs host] [--depends T0001]
+    python tools/repo/task.py claim T0003                      # atomic: only one agent can win
+    python tools/repo/task.py start T0003                      # own git worktree + branch for the task
+    python tools/repo/task.py note T0003 "screen 40% done, no faults"
+    python tools/repo/task.py land T0003                       # rebase, lane check, tests, fast-forward main
+    python tools/repo/task.py handoff T0003 --status open --text "what is done, what is next, exact commands"
+    python tools/repo/task.py done T0003 --text "result: bots/p_only/report/capacity/SCREEN.md"
+    python tools/repo/task.py lock cpu -- python bots/p_only/tools/run_screen.py ...   # machine-wide, one at a time
+    python tools/repo/task.py check                            # validate tasks/*.md in this checkout
+
+Who you are: --as or CTF_AGENT (tool@machine, e.g. codex@desktop-g60ojud). What your machine has: --can or
+CTF_CAN (comma list of host, cuda, ai-test).
+
+Every board change is one small commit pushed straight to origin/main with git plumbing: it never touches your
+working copy or branch, so it works from any worktree. The push only succeeds if main has not moved since the
+change was computed; otherwise the change is recomputed on the new main and its preconditions are checked again
+(compare-and-swap). Two agents claiming the same task therefore cannot both win.
+"""
+from __future__ import annotations
+
+import argparse
+import contextlib
+import datetime as dt
+import json
+import os
+import re
+import shlex
+import socket
+import subprocess
+import sys
+import tempfile
+import time
+from pathlib import Path
+
+FIELDS = ["id", "title", "status", "owner", "needs", "writes", "depends", "land", "branch", "updated"]
+LISTS = {"needs", "writes", "depends"}
+STATUSES = ("open", "active", "blocked", "review", "done", "dropped")
+CAPABILITIES = ("host", "cuda", "ai-test")
+SECTIONS = ("Goal", "Done when", "Handoff", "Log")
+TASK_FILE = re.compile(r"^(T\d{4})-[a-z0-9-]+\.md$")
+AGENT = re.compile(r"^[a-z0-9._-]+@[a-z0-9._-]+$")
+DIR = "tasks"
+DEFAULT_TEST = [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-t", "."]
+
+
+class BoardError(Exception):
+    """A refused board operation: the message says why and what to do."""
+
+
+# ------------------------------------------------------------------ task files
+
+def parse(text: str) -> tuple[dict, str]:
+    if not text.startswith("---\n") or "\n---\n" not in text[3:]:
+        raise BoardError("a task file starts with a '---' front matter block")
+    end = text.index("\n---\n", 3)
+    meta: dict = {}
+    for line in text[4:end].split("\n"):
+        if not line.strip():
+            continue
+        key, sep, value = line.partition(":")
+        if not sep:
+            raise BoardError(f"front matter line without 'key: value': {line!r}")
+        key, value = key.strip(), value.strip()
+        if key in LISTS:
+            meta[key] = [v.strip().strip('"') for v in value.strip("[]").split(",") if v.strip()]
+        elif value.startswith('"'):
+            meta[key] = json.loads(value)
+        else:
+            meta[key] = "" if value in ("-", "~", "null") else value
+    return meta, text[end + len("\n---\n"):]
+
+
+PLAIN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._@/+-]*$")
+
+
+def render(meta: dict, body: str) -> str:
+    """Front matter that is also valid YAML (GitHub renders it): plain words stay plain, anything else is quoted."""
+    lines = ["---"]
+    for key in FIELDS:
+        value = meta.get(key, [] if key in LISTS else "")
+        if key in LISTS:
+            text = "[" + ", ".join(v if PLAIN.match(v) else json.dumps(v) for v in value) + "]"
+        else:
+            text = value if PLAIN.match(value) and key != "title" else json.dumps(value, ensure_ascii=False)
+        lines.append(f"{key}: {text}")
+    return "\n".join(lines) + "\n---\n" + body
+
+
+def section_span(body: str, name: str) -> tuple[int, int]:
+    m = re.search(rf"^## {re.escape(name)}[ \t]*\n", body, re.M)
+    if not m:
+        raise BoardError(f"the task has no '## {name}' section")
+    nxt = re.search(r"^## ", body[m.end():], re.M)
+    return m.end(), (m.end() + nxt.start()) if nxt else len(body)
+
+
+def set_section(body: str, name: str, text: str) -> str:
+    a, b = section_span(body, name)
+    return body[:a] + "\n" + text.strip() + "\n\n" + body[b:].lstrip("\n")
+
+
+def append_log(body: str, line: str) -> str:
+    a, b = section_span(body, "Log")
+    current, rest = body[a:b].strip(), body[b:].lstrip("\n")
+    return body[:a] + "\n" + (current + "\n" if current else "") + line + "\n" + ("\n" + rest if rest else "")
+
+
+def slugify(title: str, limit: int = 40) -> str:
+    words, out = re.findall(r"[a-z0-9]+", title.lower()), ""
+    for w in words:
+        if out and len(out) + 1 + len(w) > limit:
+            break
+        out = f"{out}-{w}" if out else w[:limit]
+    return out or "task"
+
+
+def norm(path: str) -> str:
+    return path.replace("\\", "/").lstrip("./")
+
+
+def covers(lane: str, path: str) -> bool:
+    lane, path = norm(lane), norm(path)
+    return path == lane or path.startswith(lane if lane.endswith("/") else lane + "/")
+
+
+def overlaps(a: list[str], b: list[str]) -> bool:
+    return any(covers(x, y) or covers(y, x) for x in a for y in b)
+
+
+def now() -> str:
+    return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%MZ")
+
+
+def validate(name: str, meta: dict, body: str, ids: set[str]) -> list[str]:
+    """Problems with one task file (empty when valid)."""
+    out = []
+    m = TASK_FILE.match(name)
+    if not m:
+        return [f"{name}: file name must be T<4 digits>-<slug>.md"]
+    for key in FIELDS:
+        if key not in meta:
+            out.append(f"{name}: missing field '{key}'")
+    if meta.get("id") != m.group(1):
+        out.append(f"{name}: id {meta.get('id')!r} does not match the file name")
+    if meta.get("status") not in STATUSES:
+        out.append(f"{name}: status must be one of {', '.join(STATUSES)}")
+    if meta.get("status") == "active" and not AGENT.match(meta.get("owner", "")):
+        out.append(f"{name}: an active task needs an owner (tool@machine)")
+    if meta.get("status") == "open" and meta.get("owner"):
+        out.append(f"{name}: an open task has no owner")
+    if meta.get("owner") and not AGENT.match(meta["owner"]):
+        out.append(f"{name}: owner must look like tool@machine")
+    for cap in meta.get("needs", []):
+        if cap not in CAPABILITIES:
+            out.append(f"{name}: unknown capability {cap!r} (known: {', '.join(CAPABILITIES)})")
+    if not meta.get("writes"):
+        out.append(f"{name}: writes must list the paths the task may change")
+    for w in meta.get("writes", []):
+        if w.startswith("/") or ".." in Path(w).parts:
+            out.append(f"{name}: write path {w!r} must be relative to the repository")
+    for d in meta.get("depends", []):
+        if d not in ids:
+            out.append(f"{name}: depends on unknown task {d}")
+    if meta.get("land") not in ("direct", "pr"):
+        out.append(f"{name}: land must be direct or pr")
+    for s in SECTIONS:
+        if not re.search(rf"^## {re.escape(s)}[ \t]*$", body, re.M):
+            out.append(f"{name}: missing section '## {s}'")
+    return out
+
+
+# ------------------------------------------------------------------ git
+
+def git(*args: str, cwd: Path, env: dict | None = None, input: bytes | None = None, check: bool = True) -> str:
+    r = subprocess.run(["git", *args], cwd=str(cwd), env=env, input=input, capture_output=True)
+    if check and r.returncode:
+        raise BoardError(f"git {' '.join(args)} failed: {r.stderr.decode(errors='replace').strip()}")
+    return r.stdout.decode("utf-8", errors="replace").strip() if r.returncode == 0 else r.stderr.decode(errors="replace")
+
+
+class Board:
+    """The tasks/ folder of <remote>/<branch>, changed only by compare-and-swap pushes."""
+
+    def __init__(self, cwd: Path, remote: str = "origin", branch: str = "main"):
+        self.cwd, self.remote, self.branch = Path(cwd), remote, branch
+        self.ref = f"refs/remotes/{remote}/{branch}"
+
+    def fetch(self) -> str:
+        git("fetch", "-q", self.remote, self.branch, cwd=self.cwd)
+        return git("rev-parse", self.ref, cwd=self.cwd)
+
+    def tasks(self, rev: str) -> dict[str, tuple[str, dict, str]]:
+        """id -> (file name, meta, body) at a commit."""
+        out = {}
+        names = git("ls-tree", "--name-only", f"{rev}:{DIR}", cwd=self.cwd, check=False)
+        for name in names.split("\n") if not names.startswith("fatal") else []:
+            m = TASK_FILE.match(name)
+            if m:
+                meta, body = parse(git("show", f"{rev}:{DIR}/{name}", cwd=self.cwd))
+                out[m.group(1)] = (name, meta, body)
+        return out
+
+    def cas(self, edit, message: str, tries: int = 6) -> tuple[str, object]:
+        """edit(tasks) -> ({file name: new text}, result); commit those files on the newest main and push.
+
+        A rejected push means main moved: refetch and recompute (edit raises BoardError if its precondition no
+        longer holds). Returns (commit, result)."""
+        for attempt in range(tries):
+            base = self.fetch()
+            changes, result = edit(self.tasks(base))
+            if not changes:
+                return base, result
+            with tempfile.TemporaryDirectory() as tmp:
+                env = {**os.environ, "GIT_INDEX_FILE": str(Path(tmp) / "index")}
+                git("read-tree", base, cwd=self.cwd, env=env)
+                for name, text in changes.items():
+                    blob = git("hash-object", "-w", "--stdin", cwd=self.cwd, input=text.encode("utf-8"))
+                    git("update-index", "--add", "--cacheinfo", f"100644,{blob},{DIR}/{name}", cwd=self.cwd, env=env)
+                tree = git("write-tree", cwd=self.cwd, env=env)
+            commit = git("commit-tree", tree, "-p", base, "-m", message, cwd=self.cwd)
+            r = subprocess.run(["git", "push", "-q", self.remote, f"{commit}:refs/heads/{self.branch}"], cwd=str(self.cwd),
+                               capture_output=True, text=True)
+            if r.returncode == 0:
+                self.fetch()
+                return commit, result
+            if not re.search(r"rejected|fetch first|non-fast-forward|stale info|cannot lock ref", r.stderr):
+                raise BoardError(f"push to {self.remote}/{self.branch} failed: {r.stderr.strip()}")
+            time.sleep(0.5 * (attempt + 1))
+        raise BoardError(f"{self.remote}/{self.branch} kept moving; try again")
+
+
+# ------------------------------------------------------------------ operations (each one compare-and-swap)
+
+def find(tasks: dict, tid: str) -> tuple[str, dict, str]:
+    tid = tid.upper()
+    if tid not in tasks:
+        raise BoardError(f"no task {tid} on the board")
+    return tasks[tid]
+
+
+def op_claim(board: Board, tid: str, agent: str, can: set[str], force: bool = False) -> str:
+    def edit(tasks):
+        name, meta, body = find(tasks, tid)
+        if meta["status"] == "active" and meta["owner"] == agent:
+            return {}, meta["branch"]
+        if meta["status"] != "open" and not (meta["owner"] == agent or force):
+            raise BoardError(f"{tid} is {meta['status']}" + (f", held by {meta['owner']}" if meta["owner"] else "") +
+                             "; pick another task or ask the owner to hand it off")
+        missing = set(meta["needs"]) - can
+        if missing and not force:
+            raise BoardError(f"{tid} needs {', '.join(sorted(missing))}, which this machine does not have (CTF_CAN)")
+        waiting = [d for d in meta["depends"] if d not in tasks or tasks[d][1]["status"] != "done"]
+        if waiting and not force:
+            raise BoardError(f"{tid} waits for {', '.join(waiting)}; --force only if the owner of those agrees")
+        clash = [f"{o} ({m['owner']})" for o, (_, m, _) in tasks.items()
+                 if o != meta["id"] and m["status"] == "active" and overlaps(m["writes"], meta["writes"])]
+        if clash and not force:
+            raise BoardError(f"{tid} writes where active task {', '.join(clash)} writes; wait, or split the lanes")
+        meta = {**meta, "status": "active", "owner": agent, "updated": now()[:10],
+                "branch": meta["branch"] or f"{agent.split('@')[0]}/{meta['id'].lower()}-{name[6:-3]}"[:80]}
+        return {name: render(meta, append_log(body, f"- {now()} {agent}: claimed" + (" (forced)" if force else "")))}, meta["branch"]
+    return board.cas(edit, f"tasks: {agent} claims {tid.upper()}\n\nAgent: {agent}")[1]
+
+
+def op_update(board: Board, tid: str, agent: str, *, status: str | None = None, handoff: str | None = None,
+              note: str | None = None, verb: str = "note") -> None:
+    def edit(tasks):
+        name, meta, body = find(tasks, tid)
+        if meta["owner"] and meta["owner"] != agent and status is not None:
+            raise BoardError(f"{tid} is held by {meta['owner']}; only the owner changes its status")
+        if status:
+            meta = {**meta, "status": status, "updated": now()[:10]}
+            if status == "open":
+                meta["owner"] = ""
+            elif status != "dropped" and not meta["owner"]:
+                meta["owner"] = agent
+        if handoff is not None:
+            body = set_section(body, "Handoff", f"*{now()} {agent}:*\n\n{handoff}")
+        line = f"- {now()} {agent}: {verb}" + (f" -> {status}" if status and status != verb else "") + (f": {note}" if note else "")
+        return {name: render(meta, append_log(body, line))}, None
+    board.cas(edit, f"tasks: {agent} {verb} {tid.upper()}" + (f" ({status})" if status and status != verb else "") + f"\n\nAgent: {agent}")
+
+
+def op_new(board: Board, agent: str, title: str, needs: list[str], writes: list[str], depends: list[str],
+           land: str, goal: str, done_when: str) -> str:
+    for cap in needs:
+        if cap not in CAPABILITIES:
+            raise BoardError(f"unknown capability {cap!r} (known: {', '.join(CAPABILITIES)})")
+    if not writes:
+        raise BoardError("--writes is required: the paths this task may change")
+
+    def edit(tasks):
+        tid = f"T{max([int(t[1:]) for t in tasks] or [0]) + 1:04d}"
+        for d in depends:
+            find(tasks, d)
+        meta = {"id": tid, "title": title, "status": "open", "owner": "", "needs": needs, "writes": [norm(w) for w in writes],
+                "depends": [d.upper() for d in depends], "land": land, "branch": "", "updated": now()[:10]}
+        body = (f"\n## Goal\n\n{goal or 'TODO: what this task delivers and why.'}\n\n"
+                f"## Done when\n\n{done_when or 'TODO: the checks that close it.'}\n\n"
+                f"## Handoff\n\nNot started.\n\n## Log\n\n- {now()} {agent}: created\n")
+        return {f"{tid}-{slugify(title)}.md": render(meta, body)}, tid
+    return board.cas(edit, f"tasks: {agent} creates {title[:50]}\n\nAgent: {agent}")[1]
+
+
+# ------------------------------------------------------------------ local machine: worktrees, lanes, locks
+
+def main_root(cwd: Path) -> Path:
+    common = Path(git("rev-parse", "--path-format=absolute", "--git-common-dir", cwd=cwd))
+    return common.parent
+
+
+def op_start(board: Board, tid: str, agent: str) -> Path:
+    base = board.fetch()
+    _, meta, _ = find(board.tasks(base), tid)
+    if meta["status"] != "active" or meta["owner"] != agent:
+        raise BoardError(f"claim {tid} first (it is {meta['status']}, owner {meta['owner'] or 'none'})")
+    root = main_root(board.cwd)
+    path = root.parent / f"{root.name}.worktrees" / meta["id"]
+    if path.exists():
+        return path
+    has_branch = git("rev-parse", "--verify", "--quiet", f"refs/heads/{meta['branch']}", cwd=board.cwd, check=False)
+    if has_branch and not has_branch.startswith(("fatal", "error")) and re.fullmatch(r"[0-9a-f]{40}", has_branch):
+        git("worktree", "add", str(path), meta["branch"], cwd=board.cwd)
+    else:
+        git("worktree", "add", "-b", meta["branch"], str(path), board.ref, cwd=board.cwd)
+    data = root / "data"
+    if data.is_dir() and not (path / "data").exists():          # raw logs and shards are large: share, don't copy
+        try:
+            os.symlink(data, path / "data", target_is_directory=True)
+        except OSError:
+            if os.name == "nt":
+                subprocess.run(["cmd", "/c", "mklink", "/J", str(path / "data"), str(data)], capture_output=True)
+    return path
+
+
+def outside_lanes(changed: list[str], writes: list[str]) -> list[str]:
+    return [f for f in changed if not any(covers(w, f) for w in writes)]
+
+
+def op_land(board: Board, tid: str, agent: str, test: list[str] | None) -> str:
+    base = board.fetch()
+    _, meta, _ = find(board.tasks(base), tid)
+    if meta["owner"] != agent:
+        raise BoardError(f"{tid} is held by {meta['owner'] or 'nobody'}, not {agent}")
+    if git("status", "--porcelain", cwd=board.cwd):
+        raise BoardError("commit or remove your changes first (the working copy is not clean)")
+    for attempt in range(3):
+        r = subprocess.run(["git", "rebase", "-q", board.ref], cwd=str(board.cwd), capture_output=True, text=True)
+        if r.returncode:
+            subprocess.run(["git", "rebase", "--abort"], cwd=str(board.cwd), capture_output=True)
+            raise BoardError(f"rebase on {board.remote}/{board.branch} conflicts; resolve it by hand:\n{r.stdout}{r.stderr}")
+        changed = [c for c in git("diff", "--name-only", f"{board.ref}...HEAD", cwd=board.cwd).split("\n") if c]
+        if not changed:
+            raise BoardError("nothing to land: the branch has no commits beyond main")
+        outside = outside_lanes(changed, meta["writes"])
+        if outside:
+            raise BoardError(f"{tid} may write only {', '.join(meta['writes'])}; these are outside: {', '.join(outside)}. "
+                             "Move them to another task, or open a pull request.")
+        if meta["land"] == "pr":
+            raise BoardError(f"{tid} lands through a pull request: git push -u {board.remote} HEAD && gh pr create --fill")
+        if test:
+            print(f"[land] {' '.join(test)}", flush=True)
+            if subprocess.run(test, cwd=str(board.cwd)).returncode:
+                raise BoardError("tests failed; nothing was pushed")
+        r = subprocess.run(["git", "push", "-q", board.remote, f"HEAD:refs/heads/{board.branch}"], cwd=str(board.cwd),
+                           capture_output=True, text=True)
+        if r.returncode == 0:
+            head = git("rev-parse", "HEAD", cwd=board.cwd)
+            op_update(board, tid, agent, note=f"{head[:10]} on {board.branch}, {len(changed)} file(s)", verb="landed")
+            return head
+        board.fetch()                                              # main moved while testing: rebase and retest
+    raise BoardError(f"{board.remote}/{board.branch} kept moving; run land again")
+
+
+def lock_dir() -> Path:
+    return Path(os.environ.get("CTF_LOCK_DIR") or Path.home() / ".ctf-fusion" / "locks")
+
+
+@contextlib.contextmanager
+def machine_lock(name: str, info: dict, wait: float = 0):
+    """Exclusive across every checkout and worktree of this machine (one file per lock name)."""
+    if not re.fullmatch(r"[a-z0-9_-]+", name):
+        raise BoardError("lock names are lowercase words, e.g. cpu or gpu")
+    path = lock_dir() / f"{name}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    deadline = time.time() + wait
+    while True:
+        try:
+            fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+            break
+        except FileExistsError:
+            if time.time() >= deadline:
+                holder = path.read_text(encoding="utf-8", errors="replace") if path.exists() else "?"
+                raise BoardError(f"lock {name} is held: {holder}\nWait (--wait SECONDS), or if that process is gone: "
+                                 f"python tools/repo/task.py unlock {name}") from None
+            time.sleep(5)
+    with os.fdopen(fd, "w", encoding="utf-8") as f:
+        json.dump({**info, "pid": os.getpid(), "machine": socket.gethostname(), "since": now()}, f)
+    try:
+        yield path
+    finally:
+        with contextlib.suppress(FileNotFoundError):
+            path.unlink()
+
+
+# ------------------------------------------------------------------ command line
+
+def read_worktree(root: Path) -> dict[str, tuple[str, dict, str]]:
+    out = {}
+    for p in sorted((root / DIR).glob("T*.md")):
+        m = TASK_FILE.match(p.name)
+        if m:
+            meta, body = parse(p.read_text(encoding="utf-8"))
+            out[m.group(1)] = (p.name, meta, body)
+    return out
+
+
+def check(tasks: dict) -> tuple[list[str], list[str]]:
+    errors, warnings = [], []
+    ids = set(tasks)
+    for tid, (name, meta, body) in tasks.items():
+        errors += validate(name, meta, body, ids)
+    active = [(t, m) for t, (_, m, _) in tasks.items() if m.get("status") == "active"]
+    for i, (a, ma) in enumerate(active):
+        for b, mb in active[i + 1:]:
+            if overlaps(ma.get("writes", []), mb.get("writes", [])):
+                warnings.append(f"{a} and {b} are both active and write overlapping paths")
+    return errors, warnings
+
+
+def identity(args) -> str:
+    agent = (args.agent or os.environ.get("CTF_AGENT", "")).lower()
+    if not AGENT.match(agent):
+        raise BoardError("say who you are: --as tool@machine or CTF_AGENT=tool@machine (e.g. claude@caspers-macbook)")
+    return agent
+
+
+def capabilities(args) -> set[str]:
+    raw = args.can if args.can is not None else os.environ.get("CTF_CAN", "")
+    can = {c.strip() for c in raw.split(",") if c.strip()}
+    unknown = can - set(CAPABILITIES)
+    if unknown:
+        raise BoardError(f"unknown capability {', '.join(sorted(unknown))} (known: {', '.join(CAPABILITIES)})")
+    return can
+
+
+def text_arg(args) -> str:
+    if getattr(args, "file", None):
+        return Path(args.file).read_text(encoding="utf-8") if args.file != "-" else sys.stdin.read()
+    return args.text or ""
+
+
+def print_board(tasks: dict, show_all: bool, mine: str | None, ready_for: set[str] | None) -> None:
+    rows = []
+    for tid in sorted(tasks):
+        _, m, _ = tasks[tid]
+        deps_done = all(d in tasks and tasks[d][1]["status"] == "done" for d in m["depends"])
+        if not show_all and m["status"] in ("done", "dropped"):
+            continue
+        if mine and m["owner"] != mine:
+            continue
+        if ready_for is not None and not (m["status"] == "open" and deps_done and set(m["needs"]) <= ready_for):
+            continue
+        state = m["status"] + ("" if deps_done or m["status"] != "open" else " (waits)")
+        rows.append((tid, state, m["owner"] or "-", ",".join(m["needs"]) or "any", m["title"]))
+    if not rows:
+        print("(nothing)")
+        return
+    w = [max(len(r[i]) for r in rows) for i in range(4)]
+    for r in rows:
+        print(f"{r[0]:<{w[0]}}  {r[1]:<{w[1]}}  {r[2]:<{w[2]}}  {r[3]:<{w[3]}}  {r[4]}")
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description="The shared task board (AGENTS.md).", formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--as", dest="agent", help="tool@machine (default: CTF_AGENT)")
+    ap.add_argument("--can", help="comma list of host, cuda, ai-test (default: CTF_CAN)")
+    ap.add_argument("--remote", default=os.environ.get("CTF_REMOTE", "origin"))
+    ap.add_argument("--branch", default=os.environ.get("CTF_BRANCH", "main"))
+    sub = ap.add_subparsers(dest="cmd", required=True)
+    p = sub.add_parser("list", help="the board (open, active, blocked, review)")
+    p.add_argument("--all", action="store_true", help="also done and dropped")
+    p.add_argument("--mine", action="store_true", help="only tasks you hold")
+    p.add_argument("--ready", action="store_true", help="open tasks this machine can take now")
+    p.add_argument("--offline", action="store_true", help="read the last fetched board, don't fetch")
+    p = sub.add_parser("show", help="print one task")
+    p.add_argument("id")
+    p = sub.add_parser("new", help="add a task")
+    p.add_argument("--title", required=True)
+    p.add_argument("--writes", nargs="+", default=[], help="paths the task may change (folders end in /)")
+    p.add_argument("--needs", nargs="*", default=[], choices=CAPABILITIES)
+    p.add_argument("--depends", nargs="*", default=[])
+    p.add_argument("--land", choices=("direct", "pr"), default="direct")
+    p.add_argument("--goal", default="")
+    p.add_argument("--done-when", default="")
+    p = sub.add_parser("claim", help="take an open task (atomic)")
+    p.add_argument("id")
+    p.add_argument("--force", action="store_true", help="ignore needs, depends and lane overlaps")
+    p = sub.add_parser("start", help="create the task's worktree and branch next to this repository")
+    p.add_argument("id")
+    for verb, helptext in (("note", "append a line to the log"), ("handoff", "stop or pass on: rewrite the Handoff section"),
+                           ("done", "close the task"), ("drop", "close without doing it")):
+        p = sub.add_parser(verb, help=helptext)
+        p.add_argument("id")
+        if verb == "note":
+            p.add_argument("text")
+        else:
+            p.add_argument("--text", help="the handoff / result text")
+            p.add_argument("--file", help="read the text from a file ('-' = stdin)")
+        if verb == "handoff":
+            p.add_argument("--status", choices=("open", "blocked", "review", "active"), default="open")
+    p = sub.add_parser("land", help="rebase, check lanes, run tests, fast-forward main")
+    p.add_argument("id")
+    p.add_argument("--test", help="test command (default: the core unit tests)")
+    p.add_argument("--no-test", action="store_true")
+    p = sub.add_parser("lock", help="run a command holding a machine-wide lock (cpu for timing/strength runs, gpu for training)")
+    p.add_argument("name")
+    p.add_argument("--wait", type=float, default=0, help="seconds to wait for the lock")
+    p.add_argument("--task", default="")
+    p.add_argument("command", nargs=argparse.REMAINDER)
+    sub.add_parser("locks", help="list held locks on this machine")
+    p = sub.add_parser("unlock", help="remove a lock whose process is gone")
+    p.add_argument("name")
+    p = sub.add_parser("check", help="validate tasks/*.md in this checkout")
+    args = ap.parse_args(argv)
+
+    cwd = Path.cwd()
+    board = Board(cwd, args.remote, args.branch)
+    try:
+        if args.cmd == "check":
+            tasks = read_worktree(Path(git("rev-parse", "--show-toplevel", cwd=cwd)))
+            errors, warnings = check(tasks)
+            for w in warnings:
+                print("warning:", w)
+            for e in errors:
+                print("error:", e)
+            print(f"[task] {len(tasks)} tasks, {len(errors)} errors, {len(warnings)} warnings")
+            return 1 if errors else 0
+        if args.cmd in ("list", "show"):
+            try:
+                rev = git("rev-parse", board.ref, cwd=cwd) if getattr(args, "offline", False) else board.fetch()
+            except BoardError as e:
+                print(f"warning: cannot fetch the board ({e}); showing the last fetched one", file=sys.stderr)
+                rev = git("rev-parse", board.ref, cwd=cwd)
+            tasks = board.tasks(rev)
+            if args.cmd == "show":
+                name, meta, body = find(tasks, args.id)
+                print(render(meta, body))
+            else:
+                mine = identity(args) if args.mine else None
+                print_board(tasks, args.all, mine, capabilities(args) if args.ready else None)
+            return 0
+        if args.cmd == "locks":
+            for p in sorted(lock_dir().glob("*.json")) if lock_dir().is_dir() else []:
+                print(f"{p.stem}: {p.read_text(encoding='utf-8', errors='replace')}")
+            return 0
+        if args.cmd == "unlock":
+            p = lock_dir() / f"{args.name}.json"
+            if p.exists():
+                print(f"removing {args.name}: {p.read_text(encoding='utf-8', errors='replace')}")
+                p.unlink()
+            return 0
+        if args.cmd == "lock":
+            command = args.command[1:] if args.command[:1] == ["--"] else args.command
+            if not command:
+                raise BoardError("give the command after --")
+            info = {"agent": os.environ.get("CTF_AGENT", ""), "task": args.task, "command": shlex.join(command)}
+            with machine_lock(args.name, info, args.wait):
+                return subprocess.call(command)
+        agent = identity(args)
+        if args.cmd == "new":
+            print(op_new(board, agent, args.title, args.needs, args.writes, args.depends, args.land, args.goal, args.done_when))
+        elif args.cmd == "claim":
+            branch = op_claim(board, args.id, agent, capabilities(args), args.force)
+            print(f"{args.id.upper()} is yours. Branch {branch}. Next: python tools/repo/task.py start {args.id.upper()}")
+        elif args.cmd == "start":
+            print(op_start(board, args.id, agent))
+        elif args.cmd == "note":
+            op_update(board, args.id, agent, note=args.text, verb="note")
+        elif args.cmd == "handoff":
+            op_update(board, args.id, agent, status=args.status, handoff=text_arg(args), verb="handoff")
+        elif args.cmd in ("done", "drop"):
+            text = text_arg(args)
+            status = "done" if args.cmd == "done" else "dropped"
+            op_update(board, args.id, agent, status=status, handoff=text or None, verb=status)
+        elif args.cmd == "land":
+            test = None if args.no_test else (shlex.split(args.test) if args.test else DEFAULT_TEST)
+            print(f"landed {op_land(board, args.id, agent, test)[:10]}")
+        return 0
+    except BoardError as e:
+        print(f"[task] {e}", file=sys.stderr)
+        return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,5 +1,8 @@
 # Prompt for the next agent: finish the first roster evidence run and correct the report
 
+> **Archived brief, written before the task board (2026-10-10).** Don't follow its git or workflow rules; follow [AGENTS.md](../../AGENTS.md). Which of its steps are still open is tracked in task [T0008](../../tasks/T0008-triage-the-handoff-prompts-written.md).
+
+
 Copy everything below the line into the next agent's first message.
 
 ---

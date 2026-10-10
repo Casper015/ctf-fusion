@@ -1,6 +1,8 @@
 # Local, regenerable, never committed (see CONTRIBUTING.md)
 build/
 data/
+# data as a symlink too (task.py start links the main checkout's data/ into each worktree)
+/data
 runs/
 runs_*/
 __pycache__/
