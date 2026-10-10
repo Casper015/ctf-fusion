@@ -1,6 +1,6 @@
 # Task for the host agent: P-only bots
 
-Written 2026-10-09 for the agent that runs ctf-fusion on DESKTOP-G60OJUD. Read [README.md](README.md) first; it has the commands, what was built and what is already verified. Work in the phases below, in order, and commit each phase's results to `main` before starting the next.
+Written 2026-10-09 for the agent that runs ctf-fusion on DESKTOP-G60OJUD. Read [README.md](README.md) first; it has the commands, what was built and what is already verified. Work in the phases below, in order, and land each phase's results through a pull request before starting the next.
 
 **Order and status.** The second-turn state fix and the 2-turn scripted control (c08_control_2ply) are already in the code; don't screen anything built before them. Phase 0 can start now and depends on nothing else. Phase 1 adds the XL and XXL timing and the size rule. Phase 2, the screen, runs only after Phase 1 has applied that rule. Phase 3 does its offline check before building anything. Phase 4 is the four-turn lookahead. Phase 5 is V and the final confirmation. The XL/XXL evidence backfill runs on the GPU in parallel.
 
@@ -9,7 +9,7 @@ Written 2026-10-09 for the agent that runs ctf-fusion on DESKTOP-G60OJUD. Read [
 - **Runtime:** bots are CPU-only C++. The first reply is limited to 2 s and every later reply to 50 ms. That deadline is the only hard limit; source size and memory are free.
 - **English only:** every repository file is in English.
 - **Git:**
-  - Commit directly to `main`, and don't commit unrelated files.
+  - Follow [CONTRIBUTING.md](../CONTRIBUTING.md): never commit to `main`; work on a `<area>/<short-topic>` branch and open a pull request. Don't commit unrelated files.
   - Never use a bare `git stash`.
   - Commit reports, not raw data: `data/` and `build/` stay out of git.
 - **Report what the data shows:**
@@ -105,7 +105,7 @@ This is not about multi-team games in general. At the root, every opponent can a
 2. **Only if the gains concentrate near us,** build the tiered arm:
    - the root view stays at the admitted size;
    - in the second-turn views, teams in contact (distance 3 or less, or a flag carrier) get the large size and the rest of the 6-tile radius gets S;
-   - this needs two registries in one binary, compiled at the larger buffer width.
+   - this needs two model sizes in one binary, compiled at the larger buffer width. The exported sizes share include guards and namespaces (`FUSION_MODEL_GENERAL_HPP`, `fusion::models::general` in every tier), so including two registries does not give two model sets. Add tier-specific identities, or a combined registry, through `training.export_weights`; never hand-edit weight headers. Verify which model's digest serves each call.
 
    Hold the per-turn wall-clock budget fixed, and record samples per call, the size used per prediction, and the timing.
 3. **Screen it on fresh tuning maps** against the single-size arm, for team counts 3–15, reported by band.
@@ -137,7 +137,7 @@ Keep the same single P (one next-turn predictor, applied again at each simulated
 ## Evidence backfill for XL and XXL (GPU; doesn't block the screen)
 
 The trend from S to XXL is one seed, 8 epochs, with no per-epoch logs (89ee436). These steps decide whether size conclusions can be trusted:
-- **Correct the record:** 89ee436's commit message says `inv_teams` count weighting, but every manifest records `count_weighting none`. A correction note is now at the top of `reports/models/xl/SUMMARY.md` and `reports/models/xxl/SUMMARY.md`; don't rewrite the pushed history.
+- **The weighting record is consistent:** the `general` P and V of every size record `inv_teams` count weighting, as 89ee436 says; single-count models record `none`, as expected. An earlier correction note claiming otherwise was wrong and has been replaced in `reports/models/xl/SUMMARY.md` and `reports/models/xxl/SUMMARY.md`.
 - **More seeds or the logs:** train 1–2 more seeds for L, XL and XXL with the identical configuration, or commit the per-epoch training logs, so we can tell whether XL and XXL were still improving at epoch 8.
 - **Keep M separate:** M was trained with NumPy while L and up used PyTorch, so the M-to-L step mixes a backend change into the size change. Keep M in its own family and out of the size trend; compare sizes from L up, or retrain M on PyTorch.
 
