@@ -1,7 +1,7 @@
 ---
 id: T0018
 title: "Joint-action search experiment: action portfolio and branch-conditioned ply-2 predictions (code)"
-status: active
+status: review
 owner: claude@caspers-macbook
 needs: []
 writes: [bots/p_only/tools/, bots/p_only/bots/, bots/p_only/profiles/, bots/p_only/tests/, docs/SEARCH_PORTFOLIO.md]
@@ -21,9 +21,38 @@ PR merged; production carriers byte-identical; flags-off family carrier replies 
 
 ## Handoff
 
-Not started.
+*2026-10-10 23:27Z claude@caspers-macbook:*
+
+Status: in review as https://github.com/Casper015/ctf-fusion/pull/10 (branch claude/t0018-joint-action-search-experiment-action, commits 1402ea6, cf16c05). Code and development-machine checks only. No timing or strength measured.
+
+Done:
+- search_experiment.py, applied by make_families.py to the family carriers, every setting off by default:
+  - PONLY_PORTFOLIO_K / _MOVES: action portfolio.
+  - PONLY_PLY2_MODE 1 / 2 (C08): per-branch ply-2 predictions / diagnostic.
+  - PONLY_PLY2_CACHE: exact-state P-view cache.
+  - The v12 wait/drop serialization and C08 rollout pickup fixes.
+- Production carriers byte-identical. With every setting off, the family carriers reply as production on the recorded 2- and 4-team games.
+- Tools:
+  - branch_portfolio.py and branch_regret.py: complete-order branch candidates, explicit arm selection that stops on a changed binary.
+  - search_diag.py: fixed-work replays.
+  - analyze.py: reads the PLY2 and PORTFOLIO counter lines.
+- Profiles: variants_search.json (C08 A/B/C/D, v12 A/B) and screen_search.json (seed 20261220).
+- Design note: docs/SEARCH_PORTFOLIO.md.
+- Checks: core suite 152 OK with AI_TEST_ROOT; bots/p_only suite 33 OK; screen dry run; one smoke game per arm with 0 faults.
+
+Next:
+1. A human reviews and merges PR #10 (merge commit), then: python tools/repo/task.py done T0018 --text "merged as <sha>".
+2. T0019 (host) runs the fixed-work diagnostics, the equal-time screen and the branch regret, with exact commands in its Goal.
+
+Unchecked / caveats:
+- v12's fixed 24 ms refinement deadline makes its 15-team replays machine-dependent, for the production carrier too. Equivalence is tested where no deadline binds.
+- The C08 duel planner (2 teams) has no portfolio or per-branch ply-2 path; arms B-D equal A there.
+- v12 gets no drop alternatives (its evaluation has no possession-loss accounting).
+- Per-branch ply-2 costs about 9.5x the predictions per search; whether that leaves enough samples at 30 ms is what T0019 measures.
+- screen_v3xl_matched.json (7964c60) reuses seed 20261108; it is not a fresh confirmation.
 
 ## Log
 
 - 2026-10-10 22:39Z claude@caspers-macbook: created
 - 2026-10-10 22:39Z claude@caspers-macbook: claimed
+- 2026-10-10 23:27Z claude@caspers-macbook: handoff -> review
