@@ -22,6 +22,39 @@ from training.header_chunks import FILE_LIMIT, HeaderWriter, verify_chunks
 
 
 class TestValue5XL(unittest.TestCase):
+    def test_exploratory_screen_requires_current_distinct_rows_and_map_uncertainty(self):
+        from training import summarize_value_capacity as summary
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            build, data = root / "build", root / "data"
+            build.mkdir()
+            data.mkdir()
+            (build / "screen_time.json").write_text(json.dumps({"work_dir": "data"}))
+            (data / "identities.json").write_text(json.dumps({arm: {"digest": "frozen"} for arm in ("cap_off_time", "cap_5xl_time")}))
+            (data / "schedule.json").write_text(json.dumps({"fixtures": [1, 2, 3, 4]}))
+            rows = [{"arm": arm, "fixture_id": i, "map_seed": i, "identity": "frozen", "utility": y, "faults": 0}
+                    for arm in ("cap_off_time", "cap_5xl_time")
+                    for i, y in enumerate([0., 0., 0., 0.] if arm == "cap_off_time" else [1., -1., 1., -1.])]
+            def write():
+                (data / "results.jsonl").write_text("\n".join(json.dumps(r) for r in rows))
+            write()
+            with mock.patch.object(summary, "REPO", root):
+                result = summary.screen_summary("time", build)
+                interval = result["paired"]["cap_5xl_time:cap_off_time"]
+                self.assertEqual(interval["clusters"], 4)
+                self.assertEqual(interval["verdict"], "not shown")
+                self.assertGreater(interval["hi"], 1.8)
+                self.assertFalse(result["arms"]["cap_5xl_time"]["deadline_passes_observed_games"])
+                rows.append(rows[0])
+                write()
+                with self.assertRaisesRegex(ValueError, "duplicate"):
+                    summary.screen_summary("time", build)
+                rows.pop()
+                rows[0]["identity"] = "old"
+                write()
+                with self.assertRaisesRegex(ValueError, "stale"):
+                    summary.screen_summary("time", build)
+
     def test_complete_candidates_are_bounded_deterministic_and_cover_actions(self):
         from fusion.protocol import parse_reply
         block = ("TURN 5\nSCORE 0 0\nUNITS 6\n"
@@ -151,6 +184,8 @@ class TestValue5XL(unittest.TestCase):
             with mock.patch.object(evaluate_value, "probs", return_value=np.full(12, 0.5)):
                 result = evaluate_value.rank_metrics(model, 1, {"path": path}, layout())
             self.assertEqual(result["pair_accuracy"]["mean"], 0.5)
+            self.assertEqual(result["pair_accuracy"]["verdict"], "not shown")
+            self.assertEqual(result["pair_accuracy"]["reference"], 0.5)
 
 
 if __name__ == "__main__":

@@ -118,8 +118,15 @@ def rank_metrics(model, beta, rank: dict, layout, size=2048) -> dict:
     valid_on = np.isfinite(regret_on)
     pair_maps = z["root_map"][roots[a]]
     majority = float((ww * yy).sum() / ww.sum()) if ww.sum() > 0 else None
+    accuracy = clustered_mean_ci(correct, ww, pair_maps) if keep.any() else None
+    versus_random = clustered_mean_ci(correct - 0.5, ww, pair_maps) if keep.any() else None
+    if accuracy is not None:
+        accuracy["verdict"] = versus_random["verdict"]
+        accuracy["reference"] = 0.5
+    versus_majority = (clustered_mean_ci(correct - (yy == int(majority >= 0.5)), ww, pair_maps)
+                       if majority is not None else None)
     return {"roots": int(len(regret)), "resolved_pairs": int(keep.sum()), "uncertain_pairs": int((~keep).sum()),
-            "pair_accuracy": clustered_mean_ci(correct, ww, pair_maps) if keep.any() else None,
+            "pair_accuracy": accuracy, "pair_vs_random": versus_random, "pair_vs_majority": versus_majority,
             "pair_random_baseline": 0.5, "pair_majority_baseline": max(majority, 1 - majority) if majority is not None else None,
             "pair_majority_note": "descriptive label-frequency baseline on this split; not a fitted policy",
             "regret": clustered_mean_ci(regret, np.ones_like(regret), maps),

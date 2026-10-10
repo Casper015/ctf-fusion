@@ -110,7 +110,16 @@ python -m training.check_value_capacity --set build/v_capacity_5xl/sets/5XL --ru
 python bots/p_only/tools/build.py --stats --variants build/v_capacity_5xl/variants.json
 python tools/repo/task.py lock --task T0016 cpu -- python bots/p_only/tools/run_screen.py --config build/v_capacity_5xl/screen_time.json
 python tools/repo/task.py lock --task T0016 cpu -- python bots/p_only/tools/run_screen.py --config build/v_capacity_5xl/screen_work.json
+python -m training.summarize_value_capacity --build build/v_capacity_5xl --out reports/models/v_capacity_5xl
 ```
+
+The existing screen analyzer runs into ignored `build/` reports. With only one
+map per count, its within-count intervals cannot estimate variance. The summary
+supplement binds the schedule, binary identities and result digest, refuses
+stale or duplicate rows, and computes paired utility differences over the four
+independent maps with a small-sample t multiplier. It records game-level full
+reply percentiles, `VALUE`, `VBUDGET` and `SEARCH` counters, and observed deadline
+status. None of these small screens establishes game-strength superiority.
 
 The student is experimental even if its teacher has lower validation loss.
 Distillation retains v3 and combines real outcomes with teacher targets.
