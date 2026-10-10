@@ -1,0 +1,221 @@
+"""Paired analysis of a P-only screen: what each arm gains over another on identical fixtures.
+
+    python p_only/tools/analyze.py --results data/p_only/screen/results.jsonl --schedule data/p_only/screen/schedule.json \\
+        --manifest build/p_only/manifest.json --arms c08_control c08_ponly_m --aa c08_control \\
+        --compare c08_ponly_m:c08_control --out p_only/report/screen [--matches data/p_only/screen/matches]
+
+Rows count only when their binary SHA-256 is the manifest's for that arm (older
+builds are reported as stale) and their schedule is this schedule. Each fixture
+is one independent map group; the result per game is the arm's pairwise utility
+(each other team beaten 1, tied 0.5, divided by teams - 1).
+
+For "A:B" the per-fixture difference u_A - u_B is averaged per team count, the
+counts are weighted equally (overall) or within the bands 2, 3-5, 6-10 and 11-15,
+and the 95% interval is mean +- 1.96 * sqrt(sum_c var_c / n_c) / C. Verdict:
+"helps" when the interval is above zero, "hurts" when below, else "not shown".
+improved/unchanged/degraded count fixtures by the sign of the paired difference;
+they are not game wins. An aa arm ("X~aa") replays X's identical binary: X~aa:X
+measures re-run noise (and its rate of identical final scores).
+
+Timing per arm: faults (late replies count as faults in fusion/runner.py), dead
+games, late replies, the largest first reply, the median of the per-game p99 and
+the largest single reply (max over games of the per-game max). With --matches
+(kept logs of a --stats build) the network call counters per turn are added.
+
+Exit status 2 when any arm misses a scheduled fixture (the report says INCOMPLETE).
+"""
+from __future__ import annotations
+
+import argparse
+import gzip
+import json
+import math
+import re
+import sys
+from collections import defaultdict
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO))
+
+from roster.strength import schedule_identity  # noqa: E402
+
+AA = "~aa"
+BANDS = {"2": (2, 2), "3-5": (3, 5), "6-10": (6, 10), "11-15": (11, 15)}
+COUNTER = re.compile(r"PONLY builds (\d+) teams (\d+) act (\d+) target (\d+) fallback (\d+)")
+
+
+def load_rows(path: Path) -> list[dict]:
+    if not path.is_file():
+        return []
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+
+
+def binary_of(arm: str, manifest: dict) -> str:
+    return manifest[arm.removesuffix(AA)]["binary_sha256"]
+
+
+def paired(rows_a: dict, rows_b: dict, fixtures: dict, teams: list[int]) -> dict:
+    """Paired difference A - B over the fixtures both played."""
+    per = defaultdict(list)
+    same = 0
+    for fid, ra in rows_a.items():
+        rb = rows_b.get(fid)
+        if rb is None:
+            continue
+        per[fixtures[fid]["teams"]].append(ra["utility"] - rb["utility"])
+        same += ra["score"] == rb["score"]
+    def summary(counts):
+        counts = [c for c in counts if per.get(c)]
+        if not counts:
+            return None
+        means = [sum(per[c]) / len(per[c]) for c in counts]
+        var = 0.0
+        for c, m in zip(counts, means):
+            n = len(per[c])
+            if n > 1:
+                var += sum((x - m) ** 2 for x in per[c]) / (n - 1) / n
+        mean = sum(means) / len(counts)
+        se = math.sqrt(var) / len(counts)
+        lo, hi = mean - 1.96 * se, mean + 1.96 * se
+        n = sum(len(per[c]) for c in counts)
+        return {"mean": round(mean, 5), "ci95": [round(lo, 5), round(hi, 5)], "se": round(se, 5), "fixtures": n,
+                "verdict": "helps" if lo > 0 else "hurts" if hi < 0 else "not shown"}
+    diffs = [x for c in per for x in per[c]]
+    out = {"overall": summary(teams), "bands": {b: summary([c for c in teams if lo <= c <= hi]) for b, (lo, hi) in BANDS.items()},
+           "per_count": {str(c): round(sum(per[c]) / len(per[c]), 5) for c in teams if per.get(c)},
+           "improved": sum(x > 0 for x in diffs), "unchanged": sum(x == 0 for x in diffs), "degraded": sum(x < 0 for x in diffs),
+           "identical_scores": same, "fixtures": len(diffs)}
+    return out
+
+
+def counters(matches: Path, arm_keys: dict) -> dict:
+    """Network calls per turn of each arm's seat, from kept match logs (PONLY stderr line)."""
+    acc = defaultdict(lambda: [0, 0, 0, 0, 0, 0])
+    for p in matches.rglob("*.json.gz"):
+        key = p.name.split("-")[-1].split(".")[0]
+        arm = arm_keys.get(key)
+        if arm is None:
+            continue
+        m = json.loads(gzip.decompress(p.read_bytes()))
+        for seat, bot in zip(m["seats"], m["bots"]):
+            if not seat["name"].startswith("@candidate"):
+                continue
+            for line in bot.get("stderr_tail", []):
+                c = COUNTER.search(line)
+                if c:
+                    a = acc[arm]
+                    for i in range(5):
+                        a[i] += int(c.group(i + 1))
+                    a[5] += len(m.get("blocks", [])) or 1
+    return {arm: {"turns": a[5], "views_per_turn": round(a[0] / a[5], 2), "team_encodes_per_turn": round(a[1] / a[5], 2),
+                  "act_heads_per_turn": round(a[2] / a[5], 2), "target_heads_per_turn": round(a[3] / a[5], 2),
+                  "fallbacks": a[4]} for arm, a in acc.items() if a[5]}
+
+
+def fmt_ci(s):
+    if not s:
+        return "n/a", "n/a", ""
+    return f"{s['mean']:+.4f}", f"[{s['ci95'][0]:+.4f}, {s['ci95'][1]:+.4f}]", s["verdict"]
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--results", required=True)
+    ap.add_argument("--schedule", required=True)
+    ap.add_argument("--manifest", required=True)
+    ap.add_argument("--arms", nargs="+", required=True)
+    ap.add_argument("--aa", nargs="*", default=[])
+    ap.add_argument("--compare", action="append", default=[], help="A:B, the paired difference A - B")
+    ap.add_argument("--matches", help="kept match logs (network call counters)")
+    ap.add_argument("--out", required=True)
+    a = ap.parse_args(argv)
+    sched = json.loads(Path(a.schedule).read_text(encoding="utf-8"))
+    sid = schedule_identity(sched)
+    fixtures = {fx["fixture_id"]: fx for fx in sched["fixtures"]}
+    teams = sorted({fx["teams"] for fx in fixtures.values()})
+    manifest = json.loads(Path(a.manifest).read_text(encoding="utf-8"))["variants"]
+    arms = list(a.arms) + [x + AA for x in a.aa]
+    rows = {arm: {} for arm in arms}
+    stale = defaultdict(int)
+    for r in load_rows(Path(a.results)):
+        arm = r["candidate"]
+        if arm not in rows:
+            continue
+        if r.get("schedule") != sid or r["source_sha256"] != binary_of(arm, manifest):
+            stale[arm] += 1
+            continue
+        rows[arm][r["fixture_id"]] = r
+    missing = {arm: sorted(set(fixtures) - set(rows[arm])) for arm in arms}
+    incomplete = {arm: len(m) for arm, m in missing.items() if m}
+
+    per_arm = {}
+    for arm in arms:
+        rs = list(rows[arm].values())
+        by = defaultdict(list)
+        for r in rs:
+            by[r["teams"]].append(r["utility"])
+        means = [sum(v) / len(v) for v in by.values()]
+        p99 = sorted(r["p99_ms"] for r in rs if r.get("p99_ms") is not None)
+        per_arm[arm] = {"games": len(rs), "binary_sha256": binary_of(arm, manifest),
+                        "utility": round(sum(means) / len(means), 5) if means else None,
+                        "faults": sum(r["faults"] for r in rs), "dead_games": sum(1 for r in rs if r.get("dead")),
+                        "late_replies": sum(r.get("late") or 0 for r in rs),
+                        "first_ms_max": max((r["first_ms"] for r in rs if r.get("first_ms") is not None), default=None),
+                        "p99_ms_median": p99[len(p99) // 2] if p99 else None,
+                        "max_ms": max((r["max_ms"] for r in rs if r.get("max_ms") is not None), default=None)}
+    comparisons = {}
+    for spec in a.compare:
+        x, _, y = spec.partition(":")
+        if x in rows and y in rows:
+            comparisons[f"{x} - {y}"] = paired(rows[x], rows[y], fixtures, teams)
+    noise = {f"{x}{AA} - {x}": paired(rows[x + AA], rows[x], fixtures, teams) for x in a.aa if x in rows}
+    calls = {}
+    if a.matches and Path(a.matches).is_dir():
+        import hashlib
+        keys = {hashlib.sha256(arm.encode()).hexdigest()[:10]: arm for arm in arms}
+        calls = counters(Path(a.matches), keys)
+
+    out = Path(a.out)
+    out.mkdir(parents=True, exist_ok=True)
+    result = {"schedule": sid, "seed": sched.get("seed"), "fixtures": len(fixtures), "team_counts": teams,
+              "incomplete": incomplete, "stale_rows": dict(stale), "arms": per_arm, "comparisons": comparisons,
+              "rerun_noise": noise, "network_calls": calls}
+    (out / "screen.json").write_text(json.dumps(result, indent=1) + "\n", encoding="utf-8")
+
+    md = [f"# P-only paired screen{' (INCOMPLETE)' if incomplete else ''}", "",
+          f"Schedule `{sid}`, seed {sched.get('seed')}, {len(fixtures)} fixtures over team counts {teams[0]}-{teams[-1]} "
+          f"({len(fixtures) // max(1, len(teams))} maps per count). Utility: share of the other teams beaten (ties half). "
+          "Intervals: 95%, map groups per count, counts weighted equally. improved/unchanged/degraded count fixtures by "
+          "the sign of the paired difference; they are not wins.", ""]
+    if incomplete:
+        md += ["**Missing fixtures:** " + ", ".join(f"{k} {v}" for k, v in incomplete.items()), ""]
+    if stale:
+        md += ["Stale rows ignored (other binary or schedule): " + ", ".join(f"{k} {v}" for k, v in stale.items()), ""]
+    md += ["## Paired differences", "", "| Comparison | Band | Mean | 95% interval | Verdict | Fixtures |", "|---|---|---:|---|---|---:|"]
+    for name, c in list(comparisons.items()) + list(noise.items()):
+        for band, s in [("all", c["overall"])] + list(c["bands"].items()):
+            m, ci, v = fmt_ci(s)
+            md.append(f"| {name} | {band} | {m} | {ci} | {v} | {s['fixtures'] if s else 0} |")
+        md.append(f"| {name} | improved / unchanged / degraded | {c['improved']} / {c['unchanged']} / {c['degraded']} | "
+                  f"identical scores {c['identical_scores']} of {c['fixtures']} | | |")
+    md += ["", "## Arms", "", "| Arm | Games | Utility | Faults | Dead | Late | First reply max ms | p99 median ms | Max reply ms | Binary |",
+           "|---|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
+    for arm, s in per_arm.items():
+        md.append(f"| {arm} | {s['games']} | {s['utility'] if s['utility'] is not None else 'n/a'} | {s['faults']} | {s['dead_games']} | "
+                  f"{s['late_replies']} | {s['first_ms_max']} | {s['p99_ms_median']} | {s['max_ms']} | `{s['binary_sha256'][:12]}` |")
+    if calls:
+        md += ["", "## Network calls per turn (our seat)", "", "| Arm | Turns | Views | Team encodes | Act heads | Target heads | Fallbacks |",
+               "|---|---:|---:|---:|---:|---:|---:|"]
+        for arm, c in calls.items():
+            md.append(f"| {arm} | {c['turns']} | {c['views_per_turn']} | {c['team_encodes_per_turn']} | {c['act_heads_per_turn']} | "
+                      f"{c['target_heads_per_turn']} | {c['fallbacks']} |")
+    md += ["", "Max reply is the largest single reply over every game; p99 is per game (not pooled). "
+           "A late reply counts as a fault. Re-run noise rows (X~aa - X) replay an identical binary."]
+    (out / "SCREEN.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    print("\n".join(md))
+    sys.exit(2 if incomplete else 0)
+
+
+if __name__ == "__main__":
+    main()

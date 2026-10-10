@@ -1,0 +1,2448 @@
+// C08 Player5_Omega_LIT carrier with the P-only opponent model.
+//
+// Every prediction about what opponents will do comes from the policy network
+// through p_only/include/ponly.hpp: movement, firing, targets, pickups and
+// drops at the root; the joint enemy samples of the expectimax search; the
+// rivals' ply-2 orders in every sampled rollout (one network view per sample);
+// and the rivals' orders and forecasts on the simulated states of the checked
+// lookahead (each predicted from that state, with the root as its previous
+// observation, never written into the real history).
+//
+// Removed from candidate/C08_Player5_Omega_LIT_Fusion.hpp: the hand-written
+// movement forecasts (multi and duel) and their mixture weight, the opponent
+// goal and target guesses, attention/priority/crossfire/focus weights and the
+// last-target habit, the ground-flag pickup-versus-fire rule, the learned
+// per-team drop rates and their contexts for rivals, "a blocked rival always
+// fires", the scripted rival steps of the playouts (MOD_PLAYOUT) and the
+// hand-written rival fire allocation of the lookahead. The duel's 24-sample
+// refinement, never active at two teams in this build (Expectimax is frozen to
+// multi-team counts), is deleted with its V term.
+// Kept: game rules (legal moves, settlement, range and line of fire, respawns,
+// flag returns), our own task assignment, candidate moves, scoring, search and
+// evaluation; the duel's reachability-based carrier-route risk. MOD_FUSION_V
+// adds the optional value terms of the multi-team planner. PONLY_STATS=1
+// prints the network call counters on stderr at the last turn.
+// Player5_Omega_LIT: Player5_Omega with all four search-literature genes (SH, ASYM, PLAYOUT, RISK); additivity not assumed.
+// Generated from nextgen/master.cpp 4cd8163b9d577b3c with modules carrier_dp.inc c917208fbadc, drop.inc 6ac0f3c5637b, expectimax.inc e9def98fa4fb, habits.inc b582335e92ec, habits_duel.inc 644840cb5b5f, habits_multi.inc 62db5ef59afc, macro5.inc 5c6cfaacf57b.
+// Lineage: Control_Hybrid 98a9568798ee, R3_CL_checked 294846930414, R3_CFL_conditional 1e9c6e0d0ebd.
+// Enabled: MOD_CHECKED, MOD_FLAGSHOOT, MOD_DROP, MOD_TERMINAL, MOD_EXPECTIMAX, MOD_WEIGHTS_TUNED, MOD_SH, MOD_ASYM, MOD_PLAYOUT, MOD_RISK. Per-team-count masks MOD_*_SIZES default to every applicable size; frozen here: MOD_EXPECTIMAX_SIZES=NG_SIZES_MULTI.
+#define MOD_CHECKED 1
+#define MOD_FLAGSHOOT 1
+#define MOD_CFL 0
+#define MOD_DROP 1
+#define MOD_HABITS 0
+#define MOD_TERMINAL 1
+#define MOD_CDP 0
+#define MOD_FLAGS 0
+#define MOD_ESCORT 0
+#define MOD_HEALTHY 0
+#define MOD_EXPECTIMAX 1
+#define MOD_WEIGHTS_TUNED 1
+#define MOD_HYBRID_MACRO 0
+#define MOD_SH 1
+#define MOD_ASYM 1
+#define MOD_PLAYOUT 1
+#define MOD_RISK 1
+#define NG_TRACE 0
+#define NG_UNCACHED_NEIGHBORS 0
+#define CTF_RELAY 0
+#define MOD_EXPECTIMAX_SIZES NG_SIZES_MULTI
+
+#ifndef MOD_FUSION_V
+#define MOD_FUSION_V 0
+#endif
+// Hybrid CTF bot: duel planner for 2-team games, multi-team combat planner for 3-15 teams.
+// Built from two user-supplied reference bots (experiments/ref-demo.cpp and experiments/ref-player5.cpp).
+#include <algorithm>
+#include <array>
+#include <chrono>
+#include <cmath>
+#include <cstdint>
+#include <functional>
+#include <iostream>
+#include <limits>
+#include <numeric>
+#include <queue>
+#include <sstream>
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
+
+#include "features.hpp"
+#include "policy.hpp"
+#include "adapter.hpp"
+#include "value.hpp"
+#include "state.hpp"
+#include "ponly.hpp"
+
+#if defined(FUSION_TIER_M)
+#include "models_m/registry.hpp"
+#elif defined(FUSION_TIER_L)
+#include "models_l/registry.hpp"
+#elif defined(FUSION_TIER_XL)
+#include "models_xl/registry.hpp"
+#elif defined(FUSION_TIER_XXL)
+#include "models_xxl/registry.hpp"
+#else
+#include "models/registry.hpp"
+#endif
+
+using namespace std;
+
+struct Unit { int id, team, x, y, hp, flag, respawn_at; };      // Dead units have x = y = -1
+struct Flag { int id; string status; int x, y, holder, return_at; };
+struct Event { string type; vector<int> args; };
+
+struct Game {
+    int teams = 0, me = 0, size = 0, turns = 0, hp = 0, damage = 0, respawn = 0, flag_return = 0, flag_cooldown = 0;
+    vector<string> map;
+    vector<pair<int, int>> bases;
+    vector<pair<int, int>> spots;
+    int turn = 0;
+    vector<int> score;
+    vector<Unit> units;
+    vector<Flag> flags;
+    vector<Event> events;
+};
+
+namespace fusion_hook {
+    inline fusion::Static makeStatic(const Game& g) {
+        fusion::Static s;
+        s.teams = g.teams;
+        s.me = g.me;
+        s.size = g.size;
+        s.turns = g.turns;
+        s.hp = g.hp;
+        s.damage = g.damage;
+        s.respawn = g.respawn;
+        s.flagReturn = g.flag_return;
+        s.flagCooldown = g.flag_cooldown;
+        s.wall.assign(g.size * g.size, 0);
+        for (int y = 0; y < g.size; y++)
+            for (int x = 0; x < g.size; x++)
+                s.wall[y * g.size + x] = (g.map[y][x] == '#');
+        s.baseCenter.resize(g.bases.size());
+        for (size_t i = 0; i < g.bases.size(); i++)
+            s.baseCenter[i] = {g.bases[i].first, g.bases[i].second};
+        s.spots.resize(g.spots.size());
+        for (size_t i = 0; i < g.spots.size(); i++)
+            s.spots[i] = {g.spots[i].first, g.spots[i].second};
+        return s;
+    }
+
+    inline fusion::State makeState(const Game& g) {
+        fusion::State s;
+        s.turn = g.turn;
+        s.score = g.score;
+        s.units.resize(g.units.size());
+        for (size_t i = 0; i < g.units.size(); i++) {
+            s.units[i] = {g.units[i].id, g.units[i].team, g.units[i].x, g.units[i].y, g.units[i].hp, g.units[i].flag, g.units[i].respawn_at};
+        }
+        s.flags.resize(g.flags.size());
+        for (size_t i = 0; i < g.flags.size(); i++) {
+            int st = fusion::kHome;
+            if (g.flags[i].status == "carried") st = fusion::kCarried;
+            else if (g.flags[i].status == "dropped") st = fusion::kDropped;
+            else if (g.flags[i].status == "cooldown") st = fusion::kCooldown;
+            s.flags[i] = {g.flags[i].id, st, g.flags[i].x, g.flags[i].y, g.flags[i].holder, g.flags[i].return_at};
+        }
+        for (const auto& e : g.events) {
+            if (e.type == "attack" && e.args.size() >= 2)
+                s.attacks.push_back({e.args[0], e.args[1]});
+        }
+        return s;
+    }
+
+    // `view` holds the network's predictions for the current real turn; its
+    // history is the previous real observation. A branch (a simulated state
+    // inside the checked lookahead) goes to `branchView` with the root state as
+    // its previous observation; the real history never sees it. `cur` is the
+    // view that forecasts and rival orders read; callers restore it.
+    struct PSession {
+        bool initialized = false;
+        fusion::Board board;
+        fusion::State lastReal;
+        bool hasReal = false;
+        ponly::View view, branchView;
+        ponly::View* cur = &view;
+        mutable ponly::Counters counters;
+        const fusion::models::ModelSet* model = nullptr;
+
+        PSession() = default;
+        PSession(const PSession&) = delete;
+        PSession& operator=(const PSession&) = delete;
+
+        const fusion::PolicyModel* policy() const { return model ? model->policy : nullptr; }
+
+        void update(const Game& g) {
+            if (!initialized) { board.init(makeStatic(g)); initialized = true; }
+            model = fusion::models::forTeams(g.teams);
+            fusion::State s = makeState(g);
+            view.counters = &counters;
+            view.build(board, s, hasReal ? &lastReal : nullptr, g.me, policy());
+            lastReal = std::move(s);
+            hasReal = true;
+            cur = &view;
+        }
+
+        // A simulated successor of the root: the branch view becomes current.
+        void branch(const Game& next) {
+            branchView.counters = &counters;
+            counters.branches++;
+            branchView.build(board, makeState(next), &view.state(), next.me, policy());
+            cur = &branchView;
+        }
+
+        // A view of state `s` for the teams in `teams` (root as previous observation).
+        void predictInto(const fusion::State& s, int me, ponly::View& out, const std::vector<char>* teams) const {
+            out.counters = &counters;
+            out.build(board, s, &view.state(), me, policy(), teams);
+        }
+
+        double evalGameValue(const Game& g) const {
+            if (!model || !model->value) return 0.5;
+            fusion::State st = makeState(g);
+            fusion::TurnView vw;
+            fusion::makeView(board, st, nullptr, vw);
+            fusion::ValueFeatures vf;
+            fusion::encodeValue(board, st, vw, g.me, vf);
+            return fusion::value(*model->value, vf);
+        }
+
+#if PONLY_STATS
+        // One line of counters on stderr at the last turn (screen builds only).
+        void report(const Game& g) const {
+            if (g.turn != g.turns) return;
+            std::cerr << "PONLY builds " << counters.builds << " teams " << counters.teams << " act " << counters.actHeads
+                      << " target " << counters.targetHeads << " fallback " << counters.fallback << std::endl;
+        }
+#else
+        void report(const Game&) const {}
+#endif
+    };
+}
+
+bool read_turn(Game& g) {
+    string w;
+    while (cin >> w) {
+        if (w == "INIT") {
+            cin >> g.teams >> g.me >> g.size >> g.turns >> g.hp >> g.damage >> g.respawn >> g.flag_return >> g.flag_cooldown;
+        } else if (w == "MAP") {
+            g.map.assign(g.size, "");
+            for (auto& row : g.map) cin >> row;
+        } else if (w == "BASES") {
+            int k; cin >> k; g.bases.resize(k);
+            for (auto& b : g.bases) cin >> b.first >> b.second;
+        } else if (w == "SPOTS") {
+            int k; cin >> k; g.spots.resize(k);
+            for (auto& s : g.spots) cin >> s.first >> s.second;
+        } else if (w == "TURN") {
+            cin >> g.turn;
+        } else if (w == "SCORE") {
+            g.score.resize(g.teams);
+            for (auto& s : g.score) cin >> s;
+        } else if (w == "UNITS") {
+            int k; cin >> k; g.units.resize(k);
+            for (auto& u : g.units) { string tag; cin >> tag >> u.id >> u.team >> u.x >> u.y >> u.hp >> u.flag >> u.respawn_at; }
+        } else if (w == "FLAGS") {
+            int k; cin >> k; g.flags.resize(k);
+            for (auto& f : g.flags) { string tag; cin >> tag >> f.id >> f.status >> f.x >> f.y >> f.holder >> f.return_at; }
+        } else if (w == "EVENTS") {
+            int k; cin >> k; g.events.assign(k, {});
+            string line; getline(cin, line);
+            for (auto& e : g.events) {
+                getline(cin, line);
+                istringstream in(line);
+                string tag; in >> tag >> e.type;
+                for (int v; in >> v;) e.args.push_back(v);
+            }
+        } else if (w == "END") {
+            return true;
+        }
+    }
+    return false;
+}
+
+#ifndef C_MULTI
+#define C_MULTI 1.0
+#endif
+#ifndef C_DUEL
+#define C_DUEL 1.0
+#endif
+#ifndef F_MULTI
+#define F_MULTI 0.0
+#endif
+#ifndef F_DUEL
+#define F_DUEL 1.0
+#endif
+#ifndef PICK_BONUS
+#define PICK_BONUS 8.5
+#endif
+#ifndef SHOT_MIX
+#define SHOT_MIX 0.0
+#endif
+#ifndef COLLISION_WEIGHT
+#define COLLISION_WEIGHT .7
+#endif
+
+// Next-generation module switches (numeric; 0 disables). The validated Player 5
+// foundation is MOD_CHECKED (R3_CL_checked lookahead) plus MOD_FLAGSHOOT
+// (R3_CFL_conditional fire and neighborhood cache). Exports resolve every switch.
+// Control_Hybrid's macro layer (timed camp coverage, kept camp option, flag
+// duplicate support rule). 0 = the plain Player5 macro layer used by the R3
+// planner and by Player2's v005 (Hybrid_Expectimax).
+// Per-team-count activation: bit t of a mask enables that module in t-team
+// games, so one binary can be evaluated, and later composed, size by size.
+#define NG_SIZES_ALL 0xFFFCu
+#define NG_SIZES_MULTI 0xFFF8u
+#ifndef MOD_CFL_SIZES
+#define MOD_CFL_SIZES NG_SIZES_ALL
+#endif
+#ifndef MOD_DROP_SIZES
+#define MOD_DROP_SIZES NG_SIZES_MULTI
+#endif
+#ifndef MOD_HABITS_SIZES
+#define MOD_HABITS_SIZES NG_SIZES_ALL
+#endif
+#ifndef MOD_TERMINAL_SIZES
+#define MOD_TERMINAL_SIZES NG_SIZES_ALL
+#endif
+#ifndef MOD_CDP_SIZES
+#define MOD_CDP_SIZES NG_SIZES_MULTI
+#endif
+#ifndef MOD_FLAGS_SIZES
+#define MOD_FLAGS_SIZES NG_SIZES_ALL
+#endif
+#ifndef MOD_ESCORT_SIZES
+#define MOD_ESCORT_SIZES NG_SIZES_ALL
+#endif
+#ifndef MOD_HEALTHY_SIZES
+#define MOD_HEALTHY_SIZES NG_SIZES_ALL
+#endif
+#ifndef MOD_EXPECTIMAX_SIZES
+#define MOD_EXPECTIMAX_SIZES NG_SIZES_ALL
+#endif
+#ifndef MOD_HYBRID_MACRO_SIZES
+#define MOD_HYBRID_MACRO_SIZES NG_SIZES_ALL
+#endif
+struct NgActive {bool cfl=false,drop=false,habits=false,terminal=false,cdp=false,flags=false,escort=false,healthy=false,expectimax=false,hybridMacro=false;};
+inline NgActive ngActive(int teams){
+    auto on=[&](bool compiled,unsigned mask){return compiled&&teams>=0&&teams<32&&((mask>>teams)&1u);};
+    NgActive a;a.cfl=on(MOD_CFL,MOD_CFL_SIZES);a.drop=on(MOD_DROP,MOD_DROP_SIZES);a.habits=on(MOD_HABITS,MOD_HABITS_SIZES);
+    a.terminal=on(MOD_TERMINAL,MOD_TERMINAL_SIZES);a.cdp=on(MOD_CDP,MOD_CDP_SIZES);a.flags=on(MOD_FLAGS,MOD_FLAGS_SIZES);
+    a.escort=on(MOD_ESCORT,MOD_ESCORT_SIZES);a.healthy=on(MOD_HEALTHY,MOD_HEALTHY_SIZES);a.expectimax=on(MOD_EXPECTIMAX,MOD_EXPECTIMAX_SIZES);
+    a.hybridMacro=on(MOD_HYBRID_MACRO,MOD_HYBRID_MACRO_SIZES);
+    return a;
+}
+// Search-literature genes on top of MOD_EXPECTIMAX (search/SEARCH_API.md):
+// MOD_SH sequential halving over every joint plan, MOD_ASYM asymmetric action
+// abstraction of the plan set, MOD_PLAYOUT 4-ply scripted playouts, MOD_RISK
+// entropic-risk aggregation of sampled outcomes. Same size masks as modules.
+#ifndef MOD_SH_SIZES
+#define MOD_SH_SIZES NG_SIZES_MULTI
+#endif
+#ifndef MOD_ASYM_SIZES
+#define MOD_ASYM_SIZES NG_SIZES_MULTI
+#endif
+#ifndef MOD_PLAYOUT_SIZES
+#define MOD_PLAYOUT_SIZES NG_SIZES_MULTI
+#endif
+#ifndef MOD_RISK_SIZES
+#define MOD_RISK_SIZES NG_SIZES_MULTI
+#endif
+struct NgGenes {bool sh=false,asym=false,playout=false,risk=false;};
+inline NgGenes ngGenes(int teams){
+    auto on=[&](bool compiled,unsigned mask){return compiled&&teams>=0&&teams<32&&((mask>>teams)&1u);};
+    NgGenes a;a.sh=on(MOD_SH,MOD_SH_SIZES);a.asym=on(MOD_ASYM,MOD_ASYM_SIZES);a.playout=on(MOD_PLAYOUT,MOD_PLAYOUT_SIZES);a.risk=on(MOD_RISK,MOD_RISK_SIZES);
+    return a;
+}
+// Sampled two-ply expectimax over joint plans (Player2 v005 lineage).
+//
+// Separated from the planners so the search can be profiled, replaced or
+// optimized on its own. It is a pure function of `Input`: it reads no planner
+// state, is deterministic for a given number of samples, and is anytime with
+// respect to its deadline. See nextgen/search/SEARCH_API.md.
+//
+// Layers (each header stands alone):
+//   types.hpp       data model, Config
+//   dynamics.hpp    physical settlement and fire: what happens
+//   evaluation.hpp  DefaultEvaluator: what it is worth (pluggable)
+//   rollout.hpp     one sampled rollout = dynamics + evaluation (+ Breakdown)
+//   sampling.hpp    joint enemy samples (common random numbers), aggregation
+//   expectimax.hpp  this file: search::rank, the sampling schedule over plans
+#ifndef NG_SEARCH_EXPECTIMAX_HPP
+#define NG_SEARCH_EXPECTIMAX_HPP
+#include <algorithm>
+#include <array>
+#include <chrono>
+#include <vector>
+// Data model of the separated search (see search/SEARCH_API.md).
+//
+// Plain data shared by every layer: the static board and its geometry, the
+// units and their candidate moves, the joint plans to rank, budgets and
+// options. Behavior lives elsewhere:
+//   dynamics.hpp   what physically happens (settlement, fire, scripted steps)
+//   evaluation.hpp what outcomes are worth (the only reader of point values)
+//   rollout.hpp    one sampled rollout = dynamics + evaluation
+//   sampling.hpp   joint enemy samples and per-plan aggregation
+//   expectimax.hpp search::rank, the sampling schedule over plans
+#ifndef NG_SEARCH_TYPES_HPP
+#define NG_SEARCH_TYPES_HPP
+#include <array>
+#include <cstdlib>
+#include <string>
+#include <vector>
+
+namespace search {
+
+// Budget and shape. `configFor(teams)` is the single place for per-team-count
+// overrides (team sizes are evaluated separately: 2/3/4/5/6/8/10/15).
+struct Config {
+    double turnBudgetMs = 30;       // search must finish this long after the turn starts
+    double refineReserveMs = 5;     // left for the exact checked lookahead when it will run
+    int maxPlans = 24;              // analytic joint plans re-scored by sampling
+    int maxSamples = 512;           // upper bound on joint enemy samples per turn
+    double analyticWeight = .3;     // final = analyticWeight*analytic + sampledWeight*mean
+    double sampledWeight = .7;
+    double continuationWeight = .7; // weight of the ply-2 value inside a rollout
+    // Literature options; the defaults reproduce Player2 v005 exactly.
+    double riskTau = 0;             // 0 = sample mean; > 0 = entropic risk -tau*log E[exp(-v/tau)]
+    bool halving = false;           // sequential halving over the plan set instead of uniform sweeps
+};
+inline Config configFor(int teams) { Config c; (void)teams; return c; }
+
+// Static board: grid width, neighbor table (index 0 = stay; -1 = wall), base
+// distance per team and the map rows used for line-of-fire checks.
+struct Board {
+    int n = 0;
+    const std::vector<std::array<int,5>>* nb = nullptr;
+    const std::vector<std::vector<int>>* home = nullptr;
+    const std::vector<std::string>* map = nullptr;
+    int man(int a, int b) const { return std::abs(a % n - b % n) + std::abs(a / n - b / n); }
+    bool shot(int a, int b) const {
+        if (a < 0 || b < 0 || man(a, b) > 2) return false;
+        const int x = a % n, y = a / n, dx = b % n - x, dy = b / n - y;
+        if (std::abs(dx) == 2 && dy == 0) return (*map)[y][x + dx / 2] != '#';
+        if (std::abs(dy) == 2 && dx == 0) return (*map)[y + dy / 2][x] != '#';
+        if (std::abs(dx) == 1 && std::abs(dy) == 1) return (*map)[y][x + dx] != '#' || (*map)[y + dy][x] != '#';
+        return true;
+    }
+};
+struct Costs {  // same units as the planner's combat parameters
+    double incomingHitCost = 1.1, carrierHitExtra = 3, ownDeathCost = 12, carrierDeathExtra = 45;
+    double dealtHpValue = .04, carrierKillExtra = 18, collisionCost = 1.5, routeWeight = 1.7;
+};
+struct Fighter { int id = -1, team = -1, cell = -1, hp = 0; bool carrying = false, immune = false; };
+// A candidate move. `pickup > 0` also marks the destination as a flag cell:
+// an unladen unit that moves there without firing picks the flag up.
+struct Option { int cell = -1; double score = 0, pickup = 0, capture = 0; };
+struct Ally {      // one of our three units and its candidate moves
+    Fighter f;
+    std::vector<Option> options;
+    const std::vector<double>* cellValue = nullptr;  // ply-2 value of standing on a cell
+};
+struct Rival {     // an opponent with the network's destinations
+    Fighter f;
+    std::vector<int> cell;
+    std::vector<double> prob;                        // P(destination)
+    std::vector<std::array<double,3>> aim;           // P(attack and target = our unit k | destination)
+    double killValue = 11;
+};
+struct Plan { std::array<int,3> move{}, target{}; double value = 0; int source = -1; };
+// The rivals' ply-2 orders (P-only), per rival: the network's move index (-1:
+// no prediction, the rival keeps its cell) and P(attack and target = our unit
+// k) after that move.
+struct Ply2 { std::vector<int> move; std::vector<std::array<double,3>> aim; };
+struct Input;
+// Predicts Ply2 for joint sample `sample` from the settled ply-1 cells of every
+// search unit (our units 0..2, then the rivals; -1 = not on the board).
+struct Ply2Source {
+    virtual void predict(const Input& in, const std::vector<int>& cells, int sample, Ply2& out) const = 0;
+    virtual ~Ply2Source() = default;
+};
+struct Input {
+    Board board;
+    int me = 0, turn = 0;
+    Costs costs;
+    std::array<Ally,3> allies;
+    std::vector<Rival> rivals;
+    const std::vector<double>* pickCell = nullptr;   // pickup value of reaching a flag cell
+    std::vector<Plan> plans;                         // analytic joint plans (move = option index)
+    const ponly::View* view = nullptr;               // the network at the root: joint enemy samples
+    const Ply2Source* ply2 = nullptr;                // the network at ply 2: the rivals' next orders
+};
+struct Stats { int samples = 0, plans = 0; };
+
+}  // namespace search
+#endif  // NG_SEARCH_TYPES_HPP
+// Physical settlement and dynamics of one sampled rollout (namespace
+// search::dynamics). Everything here answers "what happens": where units end
+// up, who can shoot whom, hit-count distributions, volley hits and kills, and
+// the scripted enemy steps of later plies. Nothing here reads a point value
+// (Costs, killValue, cellValue, pickCell, Option scores); evaluation.hpp turns
+// these outcomes into points, rollout.hpp composes the two.
+//
+// All state lives in `World`, allocated once per search::rank call. Its
+// cell-indexed tables are left clean after every use, so a rollout costs O(U)
+// for settlement and 13 cell probes per shooter instead of O(U) unit scans.
+// Units are always visited in ascending index order, so floating-point sums
+// are bit-identical to a full scan.
+#ifndef NG_SEARCH_DYNAMICS_HPP
+#define NG_SEARCH_DYNAMICS_HPP
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <cstdlib>
+#include <vector>
+
+namespace search {
+namespace dynamics {
+
+// Unit index a: 0..2 are our allies, 3+e is rival e.
+struct World {
+    int U = 0, E = 0, N = 0, n = 0, rows = 0;
+    // Ply 1: start cells, intents, settled cells.
+    std::vector<int> start, want, at, team;
+    std::vector<char> live, blocked;
+    // Our volley at the settled cells (per rival).
+    std::vector<int> hits, hpE;
+    std::vector<char> targeted, killed;
+    // Ply 2: rival cells (-1 = dead or killed) and the sample's predicted orders.
+    std::vector<int> e2;
+    Ply2 p2;
+    // Cell-indexed tables, clean (-1 / 0) between uses.
+    std::vector<int> occ;        // cell -> live unit starting there (fixed per call)
+    std::vector<int> wantCount;  // cell (+1 slot for "none") -> live units wanting it
+    std::vector<int> head, next; // cell -> first unit, unit -> next unit (bucket lists, ascending)
+    std::vector<int> touched, gather, close;
+    // Per-sample transposition table keyed by our joint move. Settlement and
+    // incoming fire do not depend on firing targets, so plans that share a joint
+    // move and differ only in targets reuse them within a sample. (The planner
+    // emits one plan per joint move, so there it never hits; plan generators
+    // that vary targets do.)
+    int sample = 0;
+    std::array<int,125> stamp{};
+    std::vector<int> memoAt;
+    std::array<std::array<double,3>,125> memoHits{}, memoDeath{};
+
+    void reset(int U_, int E_, int N_, int n_) {
+        U = U_; E = E_; N = N_; n = n_; rows = n_ > 0 ? N_ / n_ : 0;
+        start.assign(U, 0); want.assign(U, 0); at.assign(U, 0); team.assign(U, 0); live.assign(U, 0); blocked.assign(U, 0);
+        hits.assign(E, 0); hpE.assign(E, 0); targeted.assign(E, 0); killed.assign(E, 0);
+        e2.assign(E, -1); p2.move.assign(E, -1); p2.aim.assign(E, {0, 0, 0});
+        occ.assign(N, -1); wantCount.assign(N + 1, 0); head.assign(N, -1); next.assign(U, -1);
+        touched.clear(); gather.clear(); close.clear(); memoAt.assign(125 * size_t(U), -1); stamp.fill(-1); sample = 0;
+    }
+    // Bucket units by cell; `cellOf(a) < 0` excludes a unit. Units are pushed in
+    // descending order so each bucket lists them in ascending order.
+    template <typename F> void bucket(F cellOf) {
+        for (int a = U - 1; a >= 0; a--) { const int c = cellOf(a); if (c < 0) continue; if (head[c] < 0) touched.push_back(c); next[a] = head[c]; head[c] = a; }
+    }
+    void clearBuckets() { for (int c : touched) head[c] = -1; touched.clear(); }
+    // Bucketed units within Manhattan distance `r` of cell `c`, ascending by index.
+    const std::vector<int>& near(int c, int r) {
+        gather.clear(); if (c < 0) return gather;
+        const int x = c % n, y = c / n;
+        for (int dy = -r; dy <= r; dy++) { const int yy = y + dy; if (yy < 0 || yy >= rows) continue; const int w = r - std::abs(dy);
+            for (int dx = -w; dx <= w; dx++) { const int xx = x + dx; if (xx < 0 || xx >= n) continue;
+                for (int a = head[yy * n + xx]; a >= 0; a = next[a]) gather.push_back(a); } }
+        std::sort(gather.begin(), gather.end());
+        return gather;
+    }
+};
+
+inline const Fighter& fighter(const Input& in, int a) { return a < 3 ? in.allies[a].f : in.rivals[a - 3].f; }
+
+// One shooter's hit probability p folded into a hit-count distribution (0..3+).
+inline void addShot(std::array<double,4>& h, double p) {
+    std::array<double,4> nx{};
+    for (int x = 0; x < 4; x++) { nx[x] += h[x] * (1 - p); nx[std::min(3, x + 1)] += h[x] * p; }
+    h = nx;
+}
+
+// Fixed per search call: start cells, liveness, teams and the start-cell index.
+inline void prepare(const Input& in, World& w) {
+    for (int i = 0; i < 3; i++) { w.start[i] = in.allies[i].f.cell; w.live[i] = w.start[i] >= 0; w.team[i] = in.me; }
+    for (int e = 0; e < w.E; e++) { const int j = 3 + e; w.start[j] = in.rivals[e].f.cell; w.live[j] = w.start[j] >= 0; w.team[j] = in.rivals[e].f.team; }
+    for (int a = 0; a < w.U; a++) if (w.live[a]) w.occ[w.start[a]] = a;
+}
+
+// Rival intents of one joint sample: rival e heads for its forecast cell pick[e].
+inline void setRivalIntents(const Input& in, const std::vector<int>& pick, World& w) {
+    for (int e = 0; e < w.E; e++) { const Rival& r = in.rivals[e]; const int j = 3 + e; w.want[j] = r.cell.empty() ? w.start[j] : r.cell[pick[e]]; }
+}
+
+// Our intents under a plan: ally k heads for its option plan.move[k].
+inline void setOwnIntents(const Input& in, const Plan& c, World& w) {
+    for (int i = 0; i < 3; i++) w.want[i] = w.live[i] ? in.allies[i].options[c.move[i]].cell : -1;
+}
+
+// Engine movement settlement: shared destinations block, cross-team head-on
+// swaps block, and moves into a cell whose occupant stays block, to a fixed point.
+inline void settle(World& w) {
+    auto slot = [&](int c) { return c < 0 ? w.N : c; };
+    for (int a = 0; a < w.U; a++) { w.blocked[a] = 0; if (w.live[a]) w.wantCount[slot(w.want[a])]++; }
+    for (int a = 0; a < w.U; a++) if (w.live[a]) {
+        if (w.wantCount[slot(w.want[a])] > 1) w.blocked[a] = 1;
+        if (w.want[a] >= 0 && w.want[a] != w.start[a]) { const int b = w.occ[w.want[a]];
+            if (b >= 0 && b != a && w.team[a] != w.team[b] && w.want[b] == w.start[a]) w.blocked[a] = w.blocked[b] = 1; }
+    }
+    for (int a = 0; a < w.U; a++) if (w.live[a]) w.wantCount[slot(w.want[a])] = 0;
+    for (bool ch = true; ch;) {
+        ch = false;
+        for (int a = 0; a < w.U; a++) if (w.live[a] && !w.blocked[a] && w.want[a] != w.start[a] && w.want[a] >= 0) {
+            const int b = w.occ[w.want[a]];
+            if (b >= 0 && b != a && (w.blocked[b] || w.want[b] == w.start[b])) { w.blocked[a] = 1; ch = true; }
+        }
+    }
+    for (int a = 0; a < w.U; a++) w.at[a] = w.blocked[a] ? w.start[a] : w.want[a];
+}
+
+// What ply 1 does to our units: expected incoming hits and death probability.
+struct Ply1 { std::array<double,3> hits{}, death{}; };
+
+// Incoming fire at the settled cells (P-only): rival e attacks our unit k with
+// the network's probability for its sampled destination, P(attack and target
+// = k), and the order lands when the settled cells allow the shot. Per-ally hit
+// counts are convolved.
+inline Ply1 incomingFire(const Input& in, const std::vector<int>& pick, World& w) {
+    const Board& B = in.board;
+    Ply1 out;
+    std::array<std::array<double,4>,3> hc{};
+    for (int k = 0; k < 3; k++) hc[k] = {1, 0, 0, 0};
+    for (int e = 0; e < w.E; e++) {
+        const Rival& r = in.rivals[e]; const int j = 3 + e;
+        if (!w.live[j] || r.f.carrying || r.f.immune || r.cell.empty()) continue;
+        const auto& aim = r.aim[pick[e]];
+        for (int k = 0; k < 3; k++) {
+            if (!w.live[k] || in.allies[k].f.immune || aim[k] <= 0 || !B.shot(w.at[j], w.at[k])) continue;
+            out.hits[k] += aim[k]; addShot(hc[k], aim[k]);
+        }
+    }
+    for (int k = 0; k < 3; k++) {
+        const Fighter& f = in.allies[k].f;
+        if (!w.live[k] || f.immune) continue;
+        int lethal = (f.hp + 33) / 34; for (int x = std::min(lethal, 3); x < 4; x++) out.death[k] += hc[k][x];
+    }
+    return out;
+}
+
+// Ply 1 for a plan: settlement and incoming fire, through the per-sample
+// transposition table when the joint move has a key (every unit <= 5 options).
+inline Ply1 ply1(const Input& in, const Plan& c, const std::vector<int>& pick, World& w) {
+    int key = 0;
+    for (int i = 0; i < 3; i++) { const int m = w.live[i] ? c.move[i] : 0; if (m < 0 || m >= 5) { key = -1; break; } key = key * 5 + m; }
+    if (key >= 0 && w.stamp[key] == w.sample) {
+        std::copy(w.memoAt.begin() + size_t(key) * w.U, w.memoAt.begin() + size_t(key + 1) * w.U, w.at.begin());
+        return Ply1{w.memoHits[key], w.memoDeath[key]};
+    }
+    setOwnIntents(in, c, w);
+    settle(w);
+    const Ply1 out = incomingFire(in, pick, w);
+    if (key >= 0) {
+        w.stamp[key] = w.sample; std::copy(w.at.begin(), w.at.end(), w.memoAt.begin() + size_t(key) * w.U);
+        w.memoHits[key] = out.hits; w.memoDeath[key] = out.death;
+    }
+    return out;
+}
+
+// Our volley at the settled cells: hits on each targeted rival, its remaining
+// HP and whether it dies. Carriers and immune units do not fire.
+inline void volley(const Input& in, const Plan& c, World& w) {
+    const Board& B = in.board;
+    for (int e = 0; e < w.E; e++) {
+        const Fighter& f = in.rivals[e].f; const int j = 3 + e; int hits = 0; bool any = false;
+        w.hpE[e] = f.hp; w.killed[e] = 0; w.hits[e] = 0; w.targeted[e] = 0;
+        if (!w.live[j] || f.immune) continue;
+        for (int k = 0; k < 3; k++) if (c.target[k] == f.id) {
+            any = true; const Fighter& o = in.allies[k].f;
+            if (w.live[k] && !o.immune && !o.carrying && B.shot(w.at[k], w.at[j])) hits++;
+        }
+        if (!any) continue;
+        w.targeted[e] = 1; w.hits[e] = hits; w.hpE[e] = f.hp - 34 * hits; w.killed[e] = w.hpE[e] <= 0;
+    }
+}
+
+// Ply-2 rival cells (P-only): each surviving rival takes the network's move
+// drawn for this sample from its settled ply-1 cell (into a wall: it stays).
+// Rivals without a prediction (teams too far from our units to reach them by
+// ply 2) keep their cell. Killed rivals drop out.
+inline void rivalsStep2(const Input& in, World& w) {
+    const auto& nb = *in.board.nb;
+    for (int e = 0; e < w.E; e++) {
+        const int j = 3 + e; w.e2[e] = -1;
+        if (!w.live[j] || w.killed[e]) continue;
+        const int m = w.p2.move[e];
+        w.e2[e] = m < 0 || nb[w.at[j]][m] < 0 ? w.at[j] : nb[w.at[j]][m];
+    }
+}
+
+// Ply 2. beginPly indexes the positions of the ply (our units at `cur`,
+// surviving rivals at e2) for range queries until endPly.
+inline void beginPly(World& w, const std::array<int,3>& cur) {
+    w.bucket([&](int a) { return !w.live[a] ? -1 : a < 3 ? cur[a] : w.e2[a - 3]; });
+}
+inline void endPly(World& w) { w.clearBuckets(); }
+
+// Rivals that can reach any follow-up cell of `cell` (distance <= 1) within
+// range 2, i.e. surviving rivals within distance 3, ascending.
+inline const std::vector<int>& rivalsNear(World& w, int cell) {
+    w.close.clear(); for (int a : w.near(cell, 3)) if (a >= 3) w.close.push_back(a - 3);
+    return w.close;
+}
+
+// Exposure of our unit k if it steps to q at ply 2 with expected HP `hp`: the
+// rivals in `close` follow the network's ply-2 orders, P(attack and target =
+// our unit k), which land when the shot from their ply-2 cell reaches q.
+struct Exposure { double hits = 0, death = 0; };
+inline Exposure exposure(const Input& in, const World& w, int k, int q, double hp, const std::vector<int>& close) {
+    const Board& B = in.board;
+    const int lethal = std::max(1, (int)std::ceil(std::max(1.0, hp) / 34.0));
+    std::array<double,4> h{1, 0, 0, 0}; Exposure out;
+    for (int e : close) {
+        const double pp = w.p2.aim[e][k];
+        if (pp <= 0 || !B.shot(w.e2[e], q)) continue;
+        out.hits += pp; addShot(h, pp);
+    }
+    for (int x = std::min(lethal, 3); x < 4; x++) out.death += h[x];
+    return out;
+}
+
+// Can a unit on q shoot surviving rival e at this ply?
+inline bool canShoot(const Input& in, const World& w, int q, int e) { return !in.rivals[e].f.immune && in.board.shot(q, w.e2[e]); }
+
+}  // namespace dynamics
+}  // namespace search
+#endif  // NG_SEARCH_DYNAMICS_HPP
+// State and leaf evaluation of a rollout (namespace search::eval): the only
+// place where physical outcomes from dynamics.hpp become points.
+//
+// An evaluator is any type with the members of DefaultEvaluator below (same
+// names and signatures, all const). search::rank and search::rollout take it as
+// a template parameter, so a custom evaluator costs no virtual calls:
+//
+//   struct MyEval : search::eval::DefaultEvaluator {
+//       double potential(const search::Input& in, int k, int cell, bool picked, bool carrying) const {
+//           return DefaultEvaluator::potential(in, k, cell, picked, carrying) + myBonus(cell);
+//       }
+//   };
+//   auto ranked = search::rank(in, cfg, deadline, &stats, 0, MyEval{});
+//
+// Terms are combined by rollout.hpp in a fixed order (see its header comment);
+// DefaultEvaluator reproduces Player2 v005 (with the foundation's conditional
+// fire and survival-gated capture) bit for bit.
+#ifndef NG_SEARCH_EVALUATION_HPP
+#define NG_SEARCH_EVALUATION_HPP
+#include <algorithm>
+#include <vector>
+
+namespace search {
+namespace eval {
+
+struct DefaultEvaluator {
+    // Cost of `hits` expected incoming hits and death probability `death` for
+    // one of our units (a carrier pays extra). Used on ply 1 and every later ply.
+    double fireCost(const Input& in, bool carrying, double hits, double death) const {
+        const Costs& P = in.costs;
+        return hits * (P.incomingHitCost + (carrying ? P.carrierHitExtra : 0)) + death * (P.ownDeathCost + (carrying ? P.carrierDeathExtra : 0));
+    }
+    // Ply 1, our volley: damage dealt to rival e by `hits` hits, and the bonus
+    // for killing it (more for a carrier).
+    double dealtValue(const Input& in, int e, int hits) const { return std::min(in.rivals[e].f.hp, 34 * hits) * in.costs.dealtHpValue; }
+    double killValue(const Input& in, int e) const { const Rival& r = in.rivals[e]; return r.killValue + (r.f.carrying ? in.costs.carrierKillExtra : 0); }
+    // Ply 1, movement: the option's score when the move happens, otherwise the
+    // stay score minus the collision cost.
+    double moveValue(const Input& in, int k, const Option& mv, bool moved, double stayScore) const {
+        (void)k; return moved ? mv.score : stayScore - in.costs.collisionCost;
+    }
+    // Ply 1, a carrier's delivery (capture value of the reached or kept cell),
+    // gated by survival of the volley.
+    double deliveryValue(const Input& in, int k, const Option& mv, bool moved, double stayCapture, double death) const {
+        (void)in; (void)k; return (1 - death) * (moved ? mv.capture : stayCapture);
+    }
+    // Ply 1, a flag pickup, gated by survival.
+    double pickupValue(const Input& in, int k, const Option& mv, double death) const { (void)in; (void)k; return mv.pickup * (1 - death); }
+    // Plies 2..H, positional value of our unit k standing on `cell`: a unit that
+    // just picked a flag up follows the route home (delivery worth 70);
+    // otherwise the planner's cellValue, plus half the pickup value for an
+    // unladen unit.
+    double potential(const Input& in, int k, int cell, bool picked, bool carrying) const {
+        const auto& home = *in.board.home;
+        if (picked) return -in.costs.routeWeight * home[in.me][cell] + (home[in.me][cell] == 0 ? 70 : 0);
+        double val = in.allies[k].cellValue ? (*in.allies[k].cellValue)[cell] : 0;
+        if (!carrying) val += (*in.pickCell)[cell] * .5;
+        return val;
+    }
+    // Positional value credited to our unit k when it is lost on `cell` during ply 1.
+    double lostValue(const Input& in, int k, int cell) const { return in.allies[k].cellValue ? (*in.allies[k].cellValue)[cell] : 0; }
+    // Plies 2..H, value of having a shot at rival e (HP after our ply-1 volley):
+    // one hit, plus half the kill value if one hit can kill.
+    double shotValue(const Input& in, int e, int hpAfterVolley) const {
+        const Rival& r = in.rivals[e];
+        return 34 * in.costs.dealtHpValue + (hpAfterVolley <= 34 ? .5 * (r.killValue + (r.f.carrying ? in.costs.carrierKillExtra : 0)) : 0);
+    }
+};
+
+}  // namespace eval
+}  // namespace search
+#endif  // NG_SEARCH_EVALUATION_HPP
+// One sampled rollout of one joint plan: dynamics.hpp says what happens,
+// the evaluator (evaluation.hpp) says what it is worth.
+//
+// Value, in this order (the order is part of the bit-exact contract):
+//   ply 1   v  = - sum_k fireCost(our unit k, incoming hits, death)
+//              + sum_e [dealtValue(e) + killValue(e) if killed]       (our volley)
+//              + sum_k [moveValue + deliveryValue (carriers) + pickupValue (pickups)]
+//   ply 2    the rivals take the network's ply-2 orders (one draw per joint
+//            sample); our surviving units step greedily on
+//              potential - fireCost + best shotValue (unladen units only);
+//            units lost at ply 1 keep the potential of the cell where they fell
+//   result   v + continuationWeight * v2
+// P-only: there are no scripted later plies.
+#ifndef NG_SEARCH_ROLLOUT_HPP
+#define NG_SEARCH_ROLLOUT_HPP
+#include <algorithm>
+#include <array>
+#include <vector>
+
+namespace search {
+
+// Stay score and capture value per ally: blocked moves fall back to them.
+struct StayTerms { std::array<double,3> score{}, capture{}; };
+inline StayTerms stayTerms(const Input& in) {
+    StayTerms st;
+    for (int i = 0; i < 3; i++) {
+        const Ally& a = in.allies[i]; if (a.options.empty()) continue;
+        st.score[i] = a.options[0].score; st.capture[i] = a.options[0].capture;
+        for (const auto& m : a.options) if (m.cell == a.f.cell) { st.score[i] = m.score; st.capture[i] = m.capture; }
+    }
+    return st;
+}
+
+// Additive terms of rollouts, for inspection and scoring tools; ranking does
+// not use it. rollout() adds its terms to every field (zero it first, or sum
+// over samples); `total` gets the returned value, and the other fields sum to
+// it up to floating-point rounding.
+struct Breakdown { double incoming = 0, volley = 0, movement = 0, delivery = 0, pickup = 0, continuation = 0, total = 0; };
+
+// Requires dynamics::prepare(in, w) for this input and the rival intents of
+// the sample (dynamics::setRivalIntents, w.sample) already set.
+template <typename Eval>
+inline double rollout(const Input& in, const Config& cfg, const Plan& c, const StayTerms& stay,
+        const std::vector<int>& pick, dynamics::World& w, const Eval& ev, Breakdown* bd = nullptr) {
+    const auto& nb = *in.board.nb;
+    // Ply 1: settlement and incoming fire.
+    const dynamics::Ply1 p1 = dynamics::ply1(in, c, pick, w);
+    double v = 0;
+    for (int k = 0; k < 3; k++) {
+        const Fighter& f = in.allies[k].f;
+        if (!w.live[k] || f.immune) continue;
+        const double cost = ev.fireCost(in, f.carrying, p1.hits[k], p1.death[k]);
+        v -= cost; if (bd) bd->incoming -= cost;
+    }
+    // Ply 1: our volley at the settled cells.
+    dynamics::volley(in, c, w);
+    for (int e = 0; e < w.E; e++) {
+        if (!w.targeted[e]) continue;
+        const double dealt = ev.dealtValue(in, e, w.hits[e]); v += dealt; if (bd) bd->volley += dealt;
+        if (w.killed[e]) { const double kill = ev.killValue(in, e); v += kill; if (bd) bd->volley += kill; }
+    }
+    // Ply 1: movement, survival-gated delivery and pickups.
+    std::array<bool,3> picked{};
+    for (int k = 0; k < 3; k++) {
+        if (!w.live[k]) continue;
+        const Option& mv = in.allies[k].options[c.move[k]]; const bool moved = w.at[k] == mv.cell;
+        const double move = ev.moveValue(in, k, mv, moved, stay.score[k]); v += move; if (bd) bd->movement += move;
+        if (in.allies[k].f.carrying) { const double d = ev.deliveryValue(in, k, mv, moved, stay.capture[k], p1.death[k]); v += d; if (bd) bd->delivery += d; }
+        if (!in.allies[k].f.carrying && c.target[k] < 0 && moved && mv.pickup > 0) {
+            const double pk = ev.pickupValue(in, k, mv, p1.death[k]); v += pk; if (bd) bd->pickup += pk; picked[k] = true;
+        }
+    }
+    // Ply 2 (P-only).
+    dynamics::rivalsStep2(in, w);
+    std::array<int,3> cur{}; std::array<double,3> hpNow{}, alive{}, dead{};
+    for (int k = 0; k < 3; k++) {
+        if (!w.live[k]) continue;
+        cur[k] = w.at[k]; hpNow[k] = in.allies[k].f.hp - 34 * p1.hits[k]; alive[k] = 1 - p1.death[k];
+        dead[k] = p1.death[k] * ev.lostValue(in, k, w.at[k]);
+    }
+    double v2 = 0;
+    dynamics::beginPly(w, cur);
+    for (int k = 0; k < 3; k++) {
+        if (!w.live[k]) continue;
+        const int p = cur[k]; const bool car = in.allies[k].f.carrying || picked[k];
+        const std::vector<int>& close = dynamics::rivalsNear(w, p);
+        double best = -1e300;
+        for (int m = 0; m < 5; m++) {
+            const int q = nb[p][m]; if (q < 0) continue;
+            double val = ev.potential(in, k, q, picked[k], car);
+            const dynamics::Exposure x = dynamics::exposure(in, w, k, q, hpNow[k], close);
+            val -= ev.fireCost(in, car, x.hits, x.death);
+            if (!car) {
+                double off = 0;
+                for (int e : close) if (dynamics::canShoot(in, w, q, e)) off = std::max(off, ev.shotValue(in, e, w.hpE[e]));
+                val += off;
+            }
+            best = std::max(best, val);
+        }
+        v2 += alive[k] * best + dead[k];
+    }
+    dynamics::endPly(w);
+    const double continuation = cfg.continuationWeight * v2;
+    const double total = v + continuation;
+    if (bd) { bd->continuation += continuation; bd->total += total; }
+    return total;
+}
+
+}  // namespace search
+#endif  // NG_SEARCH_ROLLOUT_HPP
+// Joint enemy sampling and per-plan aggregation for search::rank.
+//
+// JointSampler (P-only): in sample s every opponent team takes one draw from
+// the network's joint at the root (uniform keyed by turn, team and s), so every
+// plan meets the same joint sample (common random numbers) and the sequence is
+// deterministic. A rival of a team without a prediction draws from its outcome
+// probabilities (uniform; counted by the session).
+//
+// PlanScores: per-plan running statistic of rollout values, either the mean or
+// the entropic risk -tau*log mean exp(-v/tau) (a soft minimum: the value
+// against the worst reweighting of the forecast within a KL budget), kept as a
+// streaming log-sum-exp; and the final blend with the analytic plan value.
+#ifndef NG_SEARCH_SAMPLING_HPP
+#define NG_SEARCH_SAMPLING_HPP
+#include <cmath>
+#include <cstdint>
+#include <vector>
+
+namespace search {
+
+struct JointSampler {
+    const ponly::View* view = nullptr;
+    explicit JointSampler(const Input& in) : view(in.view) {}
+    // pick[e] = destination index of rival e in joint sample `smp`.
+    void draw(const Input& in, int smp, std::vector<int>& pick) const {
+        const auto& nb = *in.board.nb;
+        std::array<std::array<int,3>,16> team{}; std::array<char,16> drawn{};
+        for (size_t e = 0; e < in.rivals.size(); e++) {
+            const Rival& r = in.rivals[e]; const int t = r.f.team, id = r.f.id;
+            int ch = 0;
+            if (view && view->has(t) && r.f.cell >= 0 && t >= 0 && t < 16) {
+                if (!drawn[t]) { view->jointDraw(t, ponly::uniform(in.turn, t, smp, 7), team[t].data()); drawn[t] = 1; }
+                const int want = nb[r.f.cell][team[t][id % 3]];
+                for (int o = 0; o < (int)r.cell.size(); o++) if (r.cell[o] == want) { ch = o; break; }
+            } else {
+                const double u = ponly::uniform(in.turn, id, smp, 9); double acc = 0;
+                for (int o = 0; o < (int)r.prob.size(); o++) { ch = o; acc += r.prob[o]; if (u < acc) break; }
+            }
+            pick[e] = ch;
+        }
+    }
+};
+
+// P-only ply 2: once per joint sample, the network predicts the rivals' next
+// orders on the ply-1 state that the sample reaches under a reference plan,
+// and every plan of the sample shares them. Requires the sample's rival
+// intents (dynamics::setRivalIntents) already set.
+inline void predictPly2(const Input& in, const Plan& ref, int smp, dynamics::World& w, std::vector<int>& cells) {
+    if (!in.ply2) { w.p2.move.assign(w.E, -1); w.p2.aim.assign(w.E, {0, 0, 0}); return; }
+    dynamics::setOwnIntents(in, ref, w); dynamics::settle(w);
+    cells.assign(w.U, -1);
+    for (int a = 0; a < w.U; a++) if (w.live[a]) cells[a] = w.at[a];
+    in.ply2->predict(in, cells, smp, w.p2);
+}
+
+struct PlanScores {
+    double tau = 0;
+    std::vector<int> count;
+    std::vector<double> sum, lseMax, lseSum;
+    PlanScores(int plans, double riskTau) : tau(riskTau), count(plans, 0), sum(plans, 0.0), lseMax(plans, -1e300), lseSum(plans, 0.0) {}
+    bool risk() const { return tau > 0; }
+    void add(int ci, double x) {
+        count[ci]++;
+        if (!risk()) { sum[ci] += x; return; }
+        const double z = -x / tau;
+        if (z > lseMax[ci]) { lseSum[ci] = lseSum[ci] * std::exp(lseMax[ci] - z) + 1; lseMax[ci] = z; } else lseSum[ci] += std::exp(z - lseMax[ci]);
+    }
+    double sampled(int ci) const { return risk() ? -tau * (lseMax[ci] + std::log(lseSum[ci] / count[ci])) : sum[ci] / count[ci]; }
+    // analyticWeight * analytic + sampledWeight * sampled; the mean path keeps
+    // the original operation order (sampledWeight * sum / n).
+    double blended(int ci, double analytic, const Config& cfg) const {
+        return risk() ? cfg.analyticWeight * analytic + cfg.sampledWeight * sampled(ci)
+                      : cfg.analyticWeight * analytic + cfg.sampledWeight * sum[ci] / count[ci];
+    }
+};
+
+}  // namespace search
+#endif  // NG_SEARCH_SAMPLING_HPP
+
+namespace search {
+
+// Re-scores up to cfg.maxPlans analytic plans (the best by analytic value)
+// against joint enemy samples until `deadline` (or cfg.maxSamples /
+// fixedSamples > 0 samples), with uniform sweeps or sequential halving
+// (cfg.halving). Returns the plans best-first, valued
+// analyticWeight*analytic + sampledWeight*sampled (mean or entropic risk), or
+// an empty vector if no sample completed or nothing was searched.
+template <typename Eval = eval::DefaultEvaluator>
+inline std::vector<Plan> rank(const Input& in, const Config& cfg, std::chrono::steady_clock::time_point deadline,
+        Stats* stats = nullptr, int fixedSamples = 0, const Eval& ev = Eval{}) {
+    const int E = int(in.rivals.size());
+    if (in.plans.empty() || E == 0) return {};
+    std::vector<Plan> plans = in.plans;
+    std::sort(plans.begin(), plans.end(), [](const Plan& a, const Plan& b) { return a.value > b.value; });
+    if ((int)plans.size() > cfg.maxPlans) plans.resize(cfg.maxPlans);
+    const int C = plans.size();
+    const StayTerms stay = stayTerms(in);
+    dynamics::World world; world.reset(3 + E, E, int(in.board.nb->size()), in.board.n);
+    dynamics::prepare(in, world);
+    const JointSampler sampler(in);
+    std::vector<int> pick(E), cells; std::vector<double> tmp(C);
+    auto draw = [&](int smp, const Plan& ref) {
+        sampler.draw(in, smp, pick); dynamics::setRivalIntents(in, pick, world); world.sample = smp;
+        predictPly2(in, ref, smp, world, cells);
+    };
+    PlanScores scores(C, cfg.riskTau);
+    int done = 0;
+    if (!cfg.halving) {
+        const int limit = fixedSamples > 0 ? fixedSamples : cfg.maxSamples;
+        for (int smp = 0; smp < limit; smp++) {
+            if (fixedSamples <= 0 && std::chrono::steady_clock::now() >= deadline) break;
+            draw(smp, plans[0]);
+            for (int ci = 0; ci < C; ci++) tmp[ci] = rollout(in, cfg, plans[ci], stay, pick, world, ev);
+            for (int ci = 0; ci < C; ci++) scores.add(ci, tmp[ci]);
+            done++;
+        }
+        if (stats) { stats->samples = done; stats->plans = C; }
+        if (!done) return {};
+        for (int ci = 0; ci < C; ci++) plans[ci].value = scores.blended(ci, plans[ci].value, cfg);
+        std::sort(plans.begin(), plans.end(), [](const Plan& a, const Plan& b) { return a.value > b.value; });
+        return plans;
+    }
+    // Sequential halving (Karnin, Koren and Somekh 2013; the root rule of Gumbel
+    // AlphaZero): ceil(log2 C) rounds share the time budget equally; each round
+    // sweeps common samples over the surviving plans, then keeps the better half
+    // by blended score. Every survivor has seen exactly the same samples, and no
+    // plan is sampled more than maxSamples times.
+    const auto t0 = std::chrono::steady_clock::now();
+    const auto total = deadline - t0;
+    int rounds = 1; while ((1 << rounds) < C) rounds++;
+    std::vector<int> alive(C); for (int ci = 0; ci < C; ci++) alive[ci] = ci;
+    std::vector<int> out;  // eliminated plans, best-first within each later round
+    auto blended = [&](int ci) { return scores.blended(ci, plans[ci].value, cfg); };
+    for (int r = 0; r < rounds && !alive.empty(); r++) {
+        const auto roundEnd = t0 + total * (r + 1) / rounds;
+        const int quota = fixedSamples > 0 ? std::max(1, fixedSamples / rounds) : cfg.maxSamples - scores.count[alive[0]];
+        for (int got = 0; got < quota; got++) {
+            if (fixedSamples <= 0 && std::chrono::steady_clock::now() >= roundEnd) break;
+            draw(done, plans[alive[0]]);
+            for (int ci : alive) scores.add(ci, rollout(in, cfg, plans[ci], stay, pick, world, ev));
+            done++;
+        }
+        if (scores.count[alive[0]] == 0) break;
+        std::stable_sort(alive.begin(), alive.end(), [&](int a, int b) { return blended(a) > blended(b); });
+        if (r + 1 == rounds || alive.size() <= 1) break;
+        const size_t keep = (alive.size() + 1) / 2;
+        out.insert(out.begin(), alive.begin() + keep, alive.end());
+        alive.resize(keep);
+    }
+    if (stats) { stats->samples = done; stats->plans = C; }
+    if (!done) return {};
+    std::vector<Plan> ranked;
+    for (int ci : alive) { Plan pl = plans[ci]; pl.value = scores.count[ci] ? blended(ci) : -1e300; ranked.push_back(pl); }
+    for (int ci : out) { Plan pl = plans[ci]; pl.value = blended(ci); ranked.push_back(pl); }
+    return ranked;
+}
+
+// Inspection: one rollout of `plan` against joint sample `sample` (the same
+// sample search::rank would draw), with its value terms. For tools and agents
+// that score or compare plans or evaluators; ranking never calls it.
+template <typename Eval = eval::DefaultEvaluator>
+inline Breakdown evaluatePlan(const Input& in, const Config& cfg, const Plan& plan, int sample, const Eval& ev = Eval{}) {
+    Breakdown bd;
+    const int E = int(in.rivals.size());
+    dynamics::World world; world.reset(3 + E, E, int(in.board.nb->size()), in.board.n);
+    dynamics::prepare(in, world);
+    std::vector<int> pick(E);
+    const JointSampler sampler(in); sampler.draw(in, sample, pick);
+    dynamics::setRivalIntents(in, pick, world); world.sample = sample;
+    std::vector<int> cells; predictPly2(in, plan, sample, world, cells);
+    rollout(in, cfg, plan, stayTerms(in), pick, world, ev, &bd);
+    return bd;
+}
+
+}  // namespace search
+#endif  // NG_SEARCH_EXPECTIMAX_HPP
+
+
+namespace multi {
+#ifndef CTF_LOOKAHEAD
+#define CTF_LOOKAHEAD 1
+#endif
+
+// Tuned parameter bundle (Player5 autotune, confirmed in 1,170 paired games).
+// Isolated in R3_WEIGHTS_tuned for controlled A/B ablation.
+constexpr double W_ground=30.434542;
+constexpr double W_home_small=0.15;
+constexpr double W_home_large=0.9003127;
+constexpr double W_approach=0.9;
+constexpr double W_late=0.9;
+constexpr double W_camp=8.1214587;
+constexpr double W_camp_home=0.32;
+constexpr double W_camp_approach=0.4375542;
+constexpr double W_camp_duplicate=8;
+constexpr double W_flag_duplicate=14;
+constexpr double W_contest_discount=3;
+constexpr double W_escort=11;
+constexpr double W_deny_small=19;
+constexpr double W_deny_large=10.792114;
+constexpr double W_deny_remote=0.40298439;
+constexpr double W_cohesion=0.29081377;
+constexpr double W_pickup=22;
+constexpr double W_route=1.7;
+constexpr double W_death=12;
+constexpr double W_hit=1.1;
+constexpr double W_damage=0.04;
+constexpr double W_carrier_death=45;
+constexpr double W_carrier_hit=3;
+constexpr double W_worst=10;
+namespace ctfcombat {
+
+struct Pos { int x = -1, y = -1; };
+inline bool operator==(Pos a, Pos b) { return a.x == b.x && a.y == b.y; }
+inline bool operator!=(Pos a, Pos b) { return !(a == b); }
+inline int distance(Pos a, Pos b) { return std::abs(a.x-b.x) + std::abs(a.y-b.y); }
+struct Fighter {
+    int id = -1, team = -1;
+    Pos p;
+    int hp = 0, flag = -1;
+    bool immune = false;
+};
+// One destination of an opponent unit, from the policy network: the move's
+// probability; after it, the probabilities of attacking, picking up and
+// dropping; and of attacking each of our three units (attack and target).
+struct Outcome { Pos p; double prob = 0; double fire = 0, pickup = 0, drop = 0; std::array<double,3> aim{}; };
+struct Enemy {
+    Fighter u;
+    std::vector<Outcome> forecast;
+    double killValue = 11.0;
+};
+struct Move {
+    Pos p;
+    char code = 'S';
+    double score = 0;
+    double pickupValue = 0;
+    double captureValue = 0;
+};
+struct Params {
+    double dealtHpValue = 0.04;
+    double carrierKillExtra = 18.0;
+    double incomingHitCost = 1.1;
+    double ownDeathCost = 12.0;
+    double carrierDeathExtra = 45.0;
+    double carrierHitExtra = 3.0;
+    double carrierWorstDeathCost = 10.0;
+    double collisionCost = 1.5;
+};
+struct Choice {
+    std::array<int,3> moveIndex{0,0,0};
+    // -1 idle, -2 pickup (default for any unladen unit), otherwise enemy ID.
+    std::array<int,3> target{-2,-2,-2};
+    double value = -std::numeric_limits<double>::infinity();
+    // Movement/task score before tactical and capture terms; the checked
+    // lookahead replaces those immediate terms by realized branch outcomes.
+    double positionValue = 0;
+};
+
+inline bool alive(const Fighter& u) { return u.hp > 0 && u.p.x >= 0; }
+inline bool wall(const std::vector<std::string>& map, Pos p) {
+    return p.x < 0 || p.y < 0 || p.y >= int(map.size()) ||
+        p.x >= int(map[p.y].size()) || map[p.y][p.x] == '#';
+}
+inline bool canAttack(const std::vector<std::string>& map, Pos a, Pos b) {
+    int dx = b.x-a.x, dy = b.y-a.y;
+    if (std::abs(dx)+std::abs(dy) > 2) return false;
+    if (std::abs(dx) == 2 && dy == 0) return !wall(map,{a.x+dx/2,a.y});
+    if (std::abs(dy) == 2 && dx == 0) return !wall(map,{a.x,a.y+dy/2});
+    if (std::abs(dx) == 1 && std::abs(dy) == 1)
+        return !wall(map,{a.x+dx,a.y}) || !wall(map,{a.x,a.y+dy});
+    return true;
+}
+
+namespace detail {
+
+inline bool blocks(const Fighter& own, Pos want, const Fighter& e, Pos eWant) {
+    if (!alive(own) || !alive(e) || want == own.p) return false;
+    return want == eWant || (want == e.p && eWant == own.p);
+}
+
+// Exact movement for the three allies and one sampled enemy. Remaining enemies
+// are represented by a sampled mask of initially blocked allied movements.
+inline std::array<Pos,4> simulate(const std::array<Fighter,3>& own,
+        const std::array<Pos,3>& want, const Fighter& enemy, Pos eWant,
+        int externalBlocked) {
+    std::array<Pos,4> start{own[0].p,own[1].p,own[2].p,enemy.p};
+    std::array<Pos,4> dest{want[0],want[1],want[2],eWant};
+    std::array<bool,4> live{alive(own[0]),alive(own[1]),alive(own[2]),alive(enemy)};
+    int blocked = externalBlocked;
+    for (int i=0;i<4;++i) if (live[i]) for(int j=i+1;j<4;++j) if(live[j]) {
+        if (dest[i] == dest[j]) blocked |= (1<<i)|(1<<j);
+        if (j == 3 && dest[i] == start[j] && dest[j] == start[i])
+            blocked |= (1<<i)|(1<<j);
+    }
+    for (int pass=0;pass<4;++pass) {
+        int before=blocked;
+        for(int i=0;i<4;++i) if(live[i] && !(blocked&(1<<i)) && dest[i]!=start[i])
+            for(int j=0;j<4;++j) if(i!=j && live[j] && dest[i]==start[j] &&
+                    ((blocked&(1<<j)) || dest[j]==start[j])) blocked|=1<<i;
+        if (blocked == before) break;
+    }
+    for(int i=0;i<4;++i) if(blocked&(1<<i)) dest[i]=start[i];
+    return dest;
+}
+
+struct DpCell {
+    double value=-std::numeric_limits<double>::infinity();
+    std::array<int,3> target{-2,-2,-2};
+};
+
+} // namespace detail
+
+inline Choice choose(const std::vector<std::string>& map,
+        const std::array<Fighter,3>& own,
+        const std::array<std::vector<Move>,3>& options,
+        const std::vector<Enemy>& enemies,
+        const Params& params = Params{}, std::vector<Choice>* beam=nullptr, const std::chrono::steady_clock::time_point* deadline=nullptr,
+        std::vector<Choice>* all=nullptr) {
+    Choice best;
+    if(options[0].empty() || options[1].empty() || options[2].empty()) return best;
+    std::array<double,3> stayScore{},stayCapture{};
+    int armedMask=0;
+    for(int i=0;i<3;++i) {
+        stayScore[i]=options[i][0].score;
+        for(const Move& m:options[i]) if(m.p==own[i].p) {stayScore[i]=m.score;stayCapture[i]=m.captureValue;}
+        if(alive(own[i]) && !own[i].immune && own[i].flag<0) armedMask|=1<<i;
+    }
+    const int E=int(enemies.size());
+    std::vector<bool> relevant(E,false);
+    for(int e=0;e<E;++e) if(alive(enemies[e].u))
+        for(int i=0;i<3;++i) if(alive(own[i]) && distance(enemies[e].u.p,own[i].p)<=4)
+            relevant[e]=true;
+    std::vector<std::array<double,3>> directBlock(E),incoming(E);
+    std::vector<std::array<double,8>> utilities(E);
+    for(int a=0;a<int(options[0].size());++a)
+    for(int b=0;b<int(options[1].size());++b)
+    for(int c=0;c<int(options[2].size());++c) {
+        if(deadline&&std::isfinite(best.value)&&((a*25+b*5+c)&15)==0&&std::chrono::steady_clock::now()>=*deadline)return best;
+        std::array<int,3> indices{a,b,c};
+        std::array<Pos,3> want{options[0][a].p,options[1][b].p,options[2][c].p};
+        bool valid=true;
+        for(int i=0;i<3;++i) if(alive(own[i])) {
+            if(wall(map,want[i])) valid=false;
+            for(int j=i+1;j<3;++j) if(alive(own[j]) && want[i]==want[j]) valid=false;
+        }
+        if(!valid) continue;
+
+        // Closure of movement dependence within our team; same-team cycles work.
+        std::array<int,3> dependencies{1,2,4};
+        for(int pass=0;pass<3;++pass) for(int i=0;i<3;++i) if(alive(own[i]))
+            for(int j=0;j<3;++j) if(i!=j && alive(own[j]) && want[i]==own[j].p)
+                dependencies[i]|=dependencies[j];
+
+        for(auto& row:directBlock)row.fill(0.);
+        std::array<double,3> success{1,1,1};
+        for(int e=0;e<E;++e) {
+            if(!relevant[e]) continue;
+            for(const Outcome& out:enemies[e].forecast) {
+                for(int i=0;i<3;++i) if(detail::blocks(own[i],want[i],enemies[e].u,out.p)) {
+                    directBlock[e][i]+=out.prob;
+                }
+            }
+            for(int i=0;i<3;++i) {
+                double p=0;
+                for(const Outcome& out:enemies[e].forecast) {
+                    bool hit=false;
+                    for(int j=0;j<3;++j) if((dependencies[i]&(1<<j)) &&
+                        detail::blocks(own[j],want[j],enemies[e].u,out.p)) hit=true;
+                    if(hit) p+=out.prob;
+                }
+                success[i]*=std::max(0.0,1.0-p);
+            }
+        }
+        double value=0;
+        for(int i=0;i<3;++i) if(alive(own[i])) {
+            value+=success[i]*options[i][indices[i]].score+(1-success[i])*stayScore[i];
+            if(want[i]!=own[i].p) value-=params.collisionCost*(1-success[i]);
+        }
+
+        // Threatened squads retain mutual support before the first volley.
+        for(int i=0;i<3;++i)for(int j=i+1;j<3;++j)
+            if((armedMask&(1<<i)) && (armedMask&(1<<j)) && distance(own[i].p,own[j].p)<=5) {
+                bool transitThreat=false;
+                for(const Enemy& e:enemies) if(e.u.flag<0 && !e.u.immune &&
+                    (distance(e.u.p,own[i].p)<=6 || distance(e.u.p,own[j].p)<=6)) {transitThreat=true;break;}
+                if(transitThreat)value-=W_cohesion*std::max(0,distance(want[i],want[j])-3);
+            }
+        const double positionValue=value;
+
+        for(auto& row:incoming)row.fill(0.);
+        std::array<int,3> worstShots{};
+        for(auto& row:utilities)row.fill(0.);
+
+        for(int e=0;e<E;++e) {
+            const Enemy& enemy=enemies[e];
+            if(!relevant[e]) continue;
+            std::array<double,3> pOther{};
+            for(int i=0;i<3;++i) {
+                double unblocked=1;
+                for(int f=0;f<E;++f) if(f!=e) unblocked*=std::max(0.0,1-directBlock[f][i]);
+                pOther[i]=1-unblocked;
+            }
+            std::array<double,8> blockProb{};
+            for(int mask=0;mask<8;++mask) {
+                blockProb[mask]=1;
+                for(int i=0;i<3;++i) blockProb[mask]*=(mask&(1<<i)) ? pOther[i] : 1-pOther[i];
+            }
+            std::array<bool,3> possibleShot{};
+            for(int oi=0;oi<(int)enemy.forecast.size();oi++) { const Outcome& out=enemy.forecast[oi];if(out.prob<=1e-9)continue;
+                for(int block=0;block<8;++block) if(blockProb[block]>1e-9) {
+                    const auto pos=detail::simulate(own,want,enemy.u,out.p,block);
+                    double probability=out.prob*blockProb[block];
+                    int hitMask=0;
+                    if(!enemy.u.immune) for(int i=0;i<3;++i)
+                        if((armedMask&(1<<i)) && canAttack(map,pos[i],pos[3])) hitMask|=1<<i;
+                    for(int subset=1;subset<8;++subset) if(!(subset&~armedMask)) {
+                        int hits=0;
+                        for(int i=0;i<3;++i) if((subset&hitMask)&(1<<i)) ++hits;
+                        double offensive=std::min(enemy.u.hp,34*hits)*params.dealtHpValue;
+                        if(34*hits>=enemy.u.hp)
+                            offensive+=enemy.killValue+(enemy.u.flag>=0 ? params.carrierKillExtra : 0);
+                        utilities[e][subset]+=probability*offensive;
+                    }
+                    // The network's order lands when the settled cells allow the shot:
+                    // P(attack and target = our unit i | this move).
+                    if(enemy.u.flag>=0 || enemy.u.immune || out.fire<=1e-9) continue;
+                    for(int i=0;i<3;++i) if(alive(own[i]) && !own[i].immune && canAttack(map,pos[3],pos[i])) {
+                        possibleShot[i]=true;
+                        incoming[e][i]+=probability*out.aim[i];
+                    }
+                }
+            }
+            for(int i=0;i<3;++i) if(possibleShot[i]) ++worstShots[i];
+        }
+
+        std::array<double,3> survival{1,1,1};
+        for(int i=0;i<3;++i) if(alive(own[i]) && !own[i].immune) {
+            const int lethal=(own[i].hp+33)/34;
+            std::array<double,4> hitCount{1,0,0,0};
+            double expectedHits=0;
+            for(int e=0;e<E;++e) {
+                double p=std::clamp(incoming[e][i],0.0,1.0);
+                expectedHits+=p;
+                auto next=hitCount;
+                next.fill(0);
+                for(int k=0;k<4;++k) {
+                    next[k]+=hitCount[k]*(1-p);
+                    next[std::min(3,k+1)]+=hitCount[k]*p;
+                }
+                hitCount=next;
+            }
+            double death=0;
+            for(int k=lethal;k<4;++k) death+=hitCount[k];
+            survival[i]=1-death;
+            value-=expectedHits*(params.incomingHitCost+(own[i].flag>=0 ? params.carrierHitExtra : 0));
+            value-=death*(params.ownDeathCost+(own[i].flag>=0 ? params.carrierDeathExtra : 0));
+            if(own[i].flag>=0 && worstShots[i]>=lethal)
+                value-=params.carrierWorstDeathCost*(1-death);
+        }
+        // Attacks and deaths resolve before delivery. A base entry only pays
+        // when the carrier actually reaches it and survives the volley.
+        for(int i=0;i<3;++i) if(alive(own[i]) && own[i].flag>=0)
+            value+=survival[i]*(success[i]*options[i][indices[i]].captureValue+
+                               (1-success[i])*stayCapture[i]);
+
+        std::array<detail::DpCell,8> dp;
+        dp[0].value=0;
+        for(int e=0;e<E;++e) if(alive(enemies[e].u) && !enemies[e].u.immune) {
+            auto next=dp;
+            for(int used=0;used<8;++used) if(std::isfinite(dp[used].value)) {
+                int remaining=armedMask&~used;
+                for(int sub=remaining;sub;sub=(sub-1)&remaining) {
+                    if(utilities[e][sub]<=1e-8) continue;
+                    int combined=used|sub;
+                    double candidate=dp[used].value+utilities[e][sub];
+                    if(candidate>next[combined].value+1e-9) {
+                        next[combined]=dp[used];
+                        next[combined].value=candidate;
+                        for(int i=0;i<3;++i) if(sub&(1<<i)) next[combined].target[i]=enemies[e].u.id;
+                    }
+                }
+            }
+            dp=next;
+        }
+        double actionValue=-std::numeric_limits<double>::infinity();
+        std::array<int,3> targets{-2,-2,-2};
+        for(int used=0;used<8;++used) if(std::isfinite(dp[used].value)) {
+            double candidate=dp[used].value;
+            for(int i=0;i<3;++i) if(!(used&(1<<i)) && own[i].flag<0)
+                candidate+=options[i][indices[i]].pickupValue*success[i]*survival[i];
+            if(candidate>actionValue+1e-9) { actionValue=candidate; targets=dp[used].target; }
+        }
+        for(int i=0;i<3;++i) if(own[i].flag>=0) targets[i]=-1;
+        value+=actionValue;
+        if(beam){Choice candidate{indices,targets,value,positionValue};
+            if(beam->size()<8)beam->push_back(candidate);
+            else{int w=0;for(int z=1;z<(int)beam->size();z++)if((*beam)[z].value<(*beam)[w].value)w=z;
+                if(value>(*beam)[w].value)(*beam)[w]=candidate;}}
+        if(value>best.value+1e-9) best={indices,targets,value,positionValue};
+        if(all) all->push_back({indices,targets,value,positionValue});
+    }
+    return best;
+}
+
+} // namespace ctfcombat
+
+struct Nav {
+    int n=0,N=0; vector<array<int,5>> nb; vector<uint16_t> all;
+    vector<vector<int>> home; vector<vector<int>> spawn; vector<int> floors;
+    int cell(int x,int y)const{return y*n+x;}
+    int dist(int a,int b)const{return a<0||b<0?999:all[(size_t)a*N+b];}
+    bool open(int p)const{return p>=0&&p<N&&nb[p][0]>=0;}
+    void init(const Game& g) {
+        n=g.size;N=n*n;nb.resize(N);all.assign((size_t)N*N,999);home.assign(g.teams,vector<int>(N,999));spawn.resize(g.teams);
+        const int dx[]={0,0,0,-1,1},dy[]={0,-1,1,0,0};
+        for(int p=0;p<N;p++) {
+            nb[p].fill(-1);int x=p%n,y=p/n;if(g.map[y][x]=='#')continue;floors.push_back(p);
+            for(int m=0;m<5;m++){int xx=x+dx[m],yy=y+dy[m];if(xx>=0&&xx<n&&yy>=0&&yy<n&&g.map[yy][xx]!='#')nb[p][m]=cell(xx,yy);}
+        }
+        vector<int> q(N);
+        for(int s:floors){auto* d=&all[(size_t)s*N];int b=0,e=0;q[e++]=s;d[s]=0;while(b<e){int p=q[b++];for(int m=1;m<5;m++){int v=nb[p][m];if(v>=0&&d[v]==999){d[v]=d[p]+1;q[e++]=v;}}}}
+        int c=n/2;
+        for(int t=0;t<g.teams;t++){
+            int bx=g.bases[t].first,by=g.bases[t].second;for(int yy=by-1;yy<=by+1;yy++)for(int xx=bx-1;xx<=bx+1;xx++)spawn[t].push_back(cell(xx,yy));
+            stable_sort(spawn[t].begin(),spawn[t].end(),[&](int a,int b){auto key=[&](int p){return pair<int,int>{abs(p%n-c)+abs(p/n-c),abs(p%n-bx)+2*abs(p/n-by)};};return key(a)<key(b);});
+            for(int p:floors)for(int b:spawn[t])home[t][p]=min(home[t][p],dist(p,b));
+        }
+    }
+};
+struct Task {int type=0,id=-1,p=-1;double reward=0,contest=0;};
+struct Planner {
+    Nav nav; bool initialized=false; vector<Unit> prev;
+    // Module activation for this game's team count (cached; see ngActive).
+    mutable NgActive act;mutable int actTeams=-1;
+    const NgActive& active(const Game& g)const{if(actTeams!=g.teams){act=ngActive(g.teams);actTeams=g.teams;}return act;}
+    array<int,3> oldType{{-1,-1,-1}},oldId{{-1,-1,-1}};
+    vector<int> pos; vector<bool> immune; vector<double> threat; array<vector<double>,3> route;
+    vector<ctfcombat::Enemy> foes;
+    static constexpr const char* letters="SUDLR";
+    int man(int a,int b)const {return a<0||b<0?999:abs(a%nav.n-b%nav.n)+abs(a/nav.n-b/nav.n);}
+    bool shot(int a,int b,const Game& g)const{
+        if(a<0||b<0||man(a,b)>2)return false;
+        int x=a%nav.n,y=a/nav.n,dx=b%nav.n-x,dy=b/nav.n-y;
+        if(abs(dx)==2&&dy==0)return g.map[y][x+dx/2]!='#';
+        if(abs(dy)==2&&dx==0)return g.map[y+dy/2][x]!='#';
+        if(abs(dx)==1&&abs(dy)==1)return g.map[y][x+dx]!='#'||g.map[y+dy][x]!='#';return true;
+    }
+    void respawns(const Game& g){
+        pos.assign(g.units.size(),-1);immune.assign(g.units.size(),false);vector<bool> occupied(nav.N,false);
+        for(auto& u:g.units)if(u.x>=0){pos[u.id]=nav.cell(u.x,u.y);occupied[pos[u.id]]=true;}
+        for(auto& u:g.units)if(u.x<0&&u.respawn_at<=g.turn){for(int p:nav.spawn[u.team])if(!occupied[p]){pos[u.id]=p;occupied[p]=true;immune[u.id]=true;break;}}
+    }
+    bool available(const Flag& f,const Game& g)const{return f.x>=0&&(f.status=="home"||(f.status=="dropped"&&f.return_at>g.turn));}
+    int flagEta(const Unit& u,int q,const Game& g)const {
+        if(u.flag>=0)return 999;
+        if(pos[u.id]>=0)return nav.dist(pos[u.id],q);
+        return 999;
+    }
+    double timedCampValue(int from,int q,const Game& g)const {
+        if(from<0||q<0)return 0;
+        int homeFlags=0;bool excluded=false;
+        for(const auto& f:g.flags)if(f.status=="home"){
+            ++homeFlags;if(f.x>=0&&q==nav.cell(f.x,f.y))excluded=true;
+        }
+        if(excluded)return 0;
+        const int empty=max(1,(int)g.spots.size()-homeFlags);
+        const int approach=nav.dist(from,q),home=nav.home[g.me][q];
+        double expected=0;
+        for(const auto& f:g.flags)if(f.status=="cooldown"||f.status=="dropped"){
+            const int delay=f.return_at-g.turn;
+            if(delay<0||delay>4||approach>delay+1||f.return_at+home>g.turns)continue;
+            if(delay>0&&f.status=="dropped"&&f.x>=0){
+                int recovery=999;const int fp=nav.cell(f.x,f.y);
+                for(const auto& v:g.units)if(v.flag<0&&pos[v.id]>=0)recovery=min(recovery,nav.dist(pos[v.id],fp));
+                if(recovery<=delay)continue;
+            }
+            expected+=12.0/empty/(1.0+.3*delay)/(1.0+home/12.0);
+        }
+        return expected;
+    }
+
+    // ---- Direction 6 (MOD_EXPECTIMAX) inside multi::Planner: adapter from the
+    // planner's state to the separated search (nextgen/search/expectimax.hpp).
+    // The search itself holds no planner state; budgets live in search::Config.
+    search::Stats lastSearch;
+    // Same gate as refineChecked: will the exact checked lookahead run this turn?
+    bool refineGate(const Game& g){
+        if(g.turn>=g.turns)return false;int nearby=0;
+        for(const auto&e:foes){bool close=false;for(int k=0;k<3;k++)if(pos[3*g.me+k]>=0&&man(pos[3*g.me+k],nav.cell(e.u.p.x,e.u.p.y))<=5)close=true;nearby+=close;}
+        if(nearby==0||nearby>9)return false;
+        bool flagBattle=ownedFlags(g)!=0;
+        for(const auto&f:g.flags)if(available(f,g)){int q=nav.cell(f.x,f.y);bool ownClose=false,rivalClose=false;
+            for(int k=0;k<3;k++)if(pos[3*g.me+k]>=0&&man(pos[3*g.me+k],q)<=4)ownClose=true;
+            for(const auto&e:foes)if(e.u.flag<0&&man(nav.cell(e.u.p.x,e.u.p.y),q)<=4)rivalClose=true;flagBattle|=ownClose&&rivalClose;}
+        if(!flagBattle)return false;
+        for(const auto&f:g.flags)if((f.status=="cooldown"||f.status=="dropped")&&f.return_at<=g.turn+1)return false;
+        return true;
+    }
+    vector<ctfcombat::Choice> deepen(const Game& g,const array<ctfcombat::Fighter,3>& own,const array<vector<ctfcombat::Move>,3>& options,
+            const ctfcombat::Params& params,const vector<ctfcombat::Choice>& cands,const array<vector<double>,3>& cellValue,const vector<double>& pickCell,
+            chrono::steady_clock::time_point stop,int fixedSamples=0){
+        search::Input in;in.board={nav.n,&nav.nb,&nav.home,&g.map};in.me=g.me;in.turn=g.turn;in.pickCell=&pickCell;
+        in.costs={params.incomingHitCost,params.carrierHitExtra,params.ownDeathCost,params.carrierDeathExtra,params.dealtHpValue,params.carrierKillExtra,params.collisionCost,W_route};
+        auto cellOf=[&](ctfcombat::Pos p){return p.x<0?-1:nav.cell(p.x,p.y);};
+        for(int k=0;k<3;k++){auto& a=in.allies[k];a.f={own[k].id,own[k].team,cellOf(own[k].p),own[k].hp,own[k].flag>=0,own[k].immune};
+            for(const auto& m:options[k])a.options.push_back({cellOf(m.p),m.score,m.pickupValue,m.captureValue});
+            a.cellValue=cellValue[k].empty()?nullptr:&cellValue[k];}
+        for(const auto& e:foes){search::Rival r;r.f={e.u.id,e.u.team,cellOf(e.u.p),e.u.hp,e.u.flag>=0,e.u.immune};r.killValue=e.killValue;
+            for(const auto& o:e.forecast){r.cell.push_back(cellOf(o.p));r.prob.push_back(o.prob);r.aim.push_back(o.aim);}
+            in.rivals.push_back(std::move(r));}
+        in.view=fSession.cur;
+        // Ply-2 predictions only for teams that can reach our units by ply 2
+        // (within Manhattan 6 of one of them now); the others cannot matter there.
+        ply2Source.fs=&fSession;ply2Source.g=&g;ply2Source.n=nav.n;ply2Source.teams.assign(g.teams,0);
+        for(const auto& e:foes){const int p=cellOf(e.u.p);for(int k=0;k<3;k++){int a=cellOf(own[k].p);if(a>=0&&p>=0&&man(a,p)<=6)ply2Source.teams[e.u.team]=1;}}
+        in.ply2=&ply2Source;
+        search::Config cfg=search::configFor(g.teams);const NgGenes genes=ngGenes(g.teams);(void)genes;
+        if(genes.asym){
+            // Asymmetric action abstraction (Moraes and Lelis, AAAI 2018): the
+            // analytic top plans, plus every joint move of the (at most two)
+            // critical units -- carriers first, then units nearest a threat
+            // within 4 tiles -- with the other units fixed to the best plan's move.
+            vector<int> keep=asymmetricPlans(g,own,cands,cfg.maxPlans);
+            for(int i:keep)in.plans.push_back({cands[i].moveIndex,cands[i].target,cands[i].value,i});
+            cfg.maxPlans=int(in.plans.size());
+        }else
+        for(int i=0;i<(int)cands.size();i++)in.plans.push_back({cands[i].moveIndex,cands[i].target,cands[i].value,i});
+        // Sequential halving over every joint plan (up to 5^3) instead of
+        // uniform sweeps over the analytic top 24.
+        if(genes.sh){cfg.halving=true;cfg.maxPlans=max(cfg.maxPlans,int(in.plans.size()));}
+        // P-only: no scripted playouts (MOD_PLAYOUT); the network predicts ply 2.
+        if(genes.risk)cfg.riskTau=W_death;  // soft minimum on the scale of one unit's death
+        auto ranked=search::rank(in,cfg,stop,&lastSearch,fixedSamples);
+        vector<ctfcombat::Choice> out;for(const auto& p:ranked){auto c=cands[p.source];c.value=p.value;out.push_back(c);}
+        return out;
+    }
+    // Indices into `cands` (one entry per joint move, analytic value): the top
+    // `top` by value plus the full expansion of the critical units' moves.
+    vector<int> asymmetricPlans(const Game& g,const array<ctfcombat::Fighter,3>& own,const vector<ctfcombat::Choice>& cands,int top)const{
+        vector<int> order(cands.size());iota(order.begin(),order.end(),0);
+        stable_sort(order.begin(),order.end(),[&](int a,int b){return cands[a].value>cands[b].value;});
+        vector<char> chosen(cands.size(),0);vector<int> keep;
+        for(int i=0;i<(int)order.size()&&i<top;i++){chosen[order[i]]=1;keep.push_back(order[i]);}
+        if(order.empty())return keep;
+        // Criticality: carriers, then the nearest threatened units (Manhattan <= 4 to an armed rival).
+        array<pair<int,int>,3> rank;int count=0;
+        for(int k=0;k<3;k++){if(own[k].p.x<0)continue;const int p=nav.cell(own[k].p.x,own[k].p.y);int d=99;
+            for(const auto& e:foes)if(e.u.p.x>=0&&e.u.flag<0&&!e.u.immune)d=min(d,man(p,nav.cell(e.u.p.x,e.u.p.y)));
+            if(own[k].flag>=0)rank[count++]={-1,k};else if(d<=4)rank[count++]={d,k};}
+        sort(rank.begin(),rank.begin()+count);
+        array<bool,3> critical{};for(int i=0;i<count&&i<2;i++)critical[rank[i].second]=true;
+        if(!count)return keep;
+        const auto& best=cands[order[0]].moveIndex;
+        for(int i=0;i<(int)cands.size();i++){if(chosen[i])continue;bool match=true;
+            for(int k=0;k<3;k++)if(!critical[k]&&cands[i].moveIndex[k]!=best[k])match=false;
+            if(match){chosen[i]=1;keep.push_back(i);}}
+        (void)g;return keep;
+    }
+    // P-only forecast: every legal destination of an opponent unit with the
+    // network's move probability, its attack, pickup and drop probabilities
+    // after the move, and its aim at each of our units. A unit without a
+    // prediction gets uniform moves (counted). The threat map weighs cells
+    // within reach of each destination by the probability of moving there and
+    // firing.
+    void forecast(const Game& g){
+        foes.clear();threat.assign(nav.N,0);ponly::View& v=*fSession.cur;
+        for(auto& u:g.units)if(u.team!=g.me&&pos[u.id]>=0){
+            int p=pos[u.id];
+            ctfcombat::Enemy e;e.u={u.id,u.team,{p%nav.n,p/nav.n},immune[u.id]?100:u.hp,u.flag,immune[u.id]};
+            e.killValue=11+(u.flag>=0?16:0);
+            const bool known=v.has(u.team)&&v.origin(u.id)>=0;double total=0;
+            if(!known)fSession.counters.fallback++;
+            for(int m=0;m<5;m++)if(nav.nb[p][m]>=0){int q=nav.nb[p][m];ctfcombat::Outcome o;o.p={q%nav.n,q/nav.n};
+                if(known){o.prob=v.move(u.id,m);const auto& a=v.act(u.id,m);o.fire=a[fusion::kAttack];o.pickup=a[fusion::kPickup];o.drop=a[fusion::kDrop];
+                    for(int k=0;k<3;k++)o.aim[k]=v.aim(u.id,m,3*g.me+k);}
+                else o.prob=1.;
+                total+=o.prob;e.forecast.push_back(o);}
+            for(auto& o:e.forecast)o.prob=total>0?o.prob/total:1./e.forecast.size();
+            foes.push_back(e);
+            for(auto& o:e.forecast)if(o.fire>0){int q=nav.cell(o.p.x,o.p.y);for(int dy=-2;dy<=2;dy++)for(int dx=-2;dx<=2;dx++)if(abs(dx)+abs(dy)<=2){int x=o.p.x+dx,y=o.p.y+dy;if(x<0||x>=nav.n||y<0||y>=nav.n)continue;int r=nav.cell(x,y);if(nav.open(r)&&shot(q,r,g))threat[r]+=o.prob*o.fire;}}
+        }
+    }
+    int intercept(const Unit& u,int from)const{
+        int p=pos[u.id],h=nav.home[u.team][p],best=-1;double cost=1e9;if(h<=1)return p;
+        for(int q:nav.floors){int dt=nav.dist(p,q);if(dt>min(h,14)||nav.home[u.team][q]+dt>h+1)continue;
+            int d=nav.dist(from,q);if(d>dt+2)continue;double v=max(dt,d-2)+.18*d+.3*nav.home[u.team][q];if(v<cost){cost=v;best=q;}}
+        return best;
+    }
+    vector<Task> tasks(const Game& g){
+        vector<Task> ts;
+        for(auto& f:g.flags)if(available(f,g)){
+            int q=nav.cell(f.x,f.y),ct=0;vector<int> tdist(g.teams,999);
+            for(auto& u:g.units)if(u.team!=g.me&&u.flag<0){int d=flagEta(u,q,g);tdist[u.team]=min(tdist[u.team],d);if(d<=6)ct++;}
+            int nt=0;for(int d:tdist)if(d<=6)nt++;double cont=min(3.,ct*.75)*(nt>1?.7:1.);
+            ts.push_back({1,f.id,q,W_ground-(g.teams>=6?W_home_large:W_home_small)*nav.home[g.me][q],cont});
+        }
+        for(auto& u:g.units)if(pos[u.id]>=0&&u.flag>=0){
+            if(u.team==g.me)ts.push_back({3,u.id,pos[u.id],W_escort+min(7.,threat[pos[u.id]]*5),0});
+            else ts.push_back({2,u.id,pos[u.id],(g.teams<=3?W_deny_small:W_deny_large)-W_deny_remote*max(0,nav.home[g.me][pos[u.id]]-7)+(abs(g.score[u.team]-g.score[g.me])<=1?3:0),0});
+        }
+        for(int j=0;j<(int)g.spots.size();j++){
+            int q=nav.cell(g.spots[j].first,g.spots[j].second);bool occupied=false;
+            for(auto& f:g.flags)if(available(f,g)&&q==nav.cell(f.x,f.y))occupied=true;if(occupied)continue;
+            int home=nav.home[g.me][q];double crowd=0;
+            for(auto& u:g.units)if(u.team!=g.me&&pos[u.id]>=0){int d=nav.dist(pos[u.id],q);if(d<=4)crowd+=.5*(5-d);}
+            double reward=W_camp-W_camp_home*home-min(6.,crowd*.55);if(j==g.me)reward+=1.2;
+            ts.push_back({4,j,q,reward,0});
+        }
+        if(ts.empty())ts.push_back({4,g.me,nav.cell(g.spots[g.me].first,g.spots[g.me].second),8,0});return ts;
+    }
+    double taskValue(int k,const Task& t,const Game& g,int& target){
+        const Unit& u=g.units[3*g.me+k];int p=pos[u.id];target=t.p;if(p<0)return -1000;
+        if(u.flag>=0){target=-2;return t.type==0?1000:-10000;}
+        if(t.type==2){auto& v=g.units[t.id];target=intercept(v,p);if(target<0)return -1000;return t.reward-.9*nav.dist(p,target)-.55*max(0,nav.home[v.team][pos[v.id]]-10);}
+        if(t.type==3){int cp=pos[t.id];double best=1e9;int bq=cp;
+            for(int m=0;m<5;m++)if(nav.nb[cp][m]>=0){int q=nav.nb[cp][m];double cv=nav.home[g.me][q]+.4*nav.dist(p,q);if(cv<best){best=cv;bq=q;}}
+            target=bq;return t.reward-.65*max(0,nav.dist(p,bq)-2);
+        }
+        int d=nav.dist(p,t.p);
+        if(t.type==1){auto& f=g.flags[t.id];if(f.status=="dropped"&&d>f.return_at-g.turn)return -1000;
+            int rival=999;for(auto& v:g.units)if(v.team!=g.me&&v.flag<0)rival=min(rival,flagEta(v,t.p,g));
+            double late=max(0,d-rival-1);double val=t.reward-W_approach*d-W_late*late;
+            if(rival<=1&&d>4&&t.contest<1.5)val-=10;
+            if(g.turn+max(0,d-1)+nav.home[g.me][t.p]>g.turns)val-=30;return val;
+        }
+        if(!hybridMacro(g))return t.reward-W_camp_approach*d;
+        return t.reward-W_camp_approach*d+timedCampValue(p,t.p,g);
+    }
+    bool hybridMacro(const Game& g)const{
+        (void)g;return false;
+    }
+    array<Task,3> assign(const Game& g){
+        const bool hybrid=hybridMacro(g);
+        vector<Task> ts=tasks(g);array<vector<pair<double,int>>,3> ranked;
+        vector<array<int,3>> targets(ts.size());vector<array<double,3>> vals(ts.size()),timedVals(ts.size());
+        for(int i=0;i<(int)ts.size();i++)for(int k=0;k<3;k++){
+            int q;double v=taskValue(k,ts[i],g,q);targets[i][k]=q;if(ts[i].type==oldType[k]&&ts[i].id==oldId[k])v+=.9;
+            vals[i][k]=v;ranked[k].push_back({v,i});
+            timedVals[i][k]=hybrid&&ts[i].type==4?timedCampValue(pos[3*g.me+k],ts[i].p,g):0;
+        }
+        for(int k=0;k<3;k++){
+            sort(ranked[k].rbegin(),ranked[k].rend());
+            if(!hybrid){if(ranked[k].size()>8)ranked[k].resize(8);continue;}
+            pair<double,int> camp{-1e20,-1};
+            for(auto entry:ranked[k])if(ts[entry.second].type==4){camp=entry;break;}
+            if(ranked[k].size()>8)ranked[k].resize(8);
+            if(camp.second>=0&&none_of(ranked[k].begin(),ranked[k].end(),[&](auto entry){return entry.second==camp.second;}))ranked[k].back()=camp;
+        }
+        double best=-1e20;array<int,3> ids{};
+        for(auto a:ranked[0])for(auto b:ranked[1])for(auto c:ranked[2]){
+            array<int,3> id{{a.second,b.second,c.second}};double value=a.first+b.first+c.first;
+            for(int i=0;i<3;i++)if(pos[3*g.me+i]<0)value-=vals[id[i]][i];
+            for(int i=0;i<3;i++)for(int j=i+1;j<3;j++)if(pos[3*g.me+i]>=0&&pos[3*g.me+j]>=0){
+                if(id[i]==id[j]){Task& t=ts[id[i]];if(t.type==1&&!hybrid)value-=W_flag_duplicate-W_contest_discount*t.contest;
+                    if(t.type==4)value-=W_camp_duplicate;if(t.type==2)value-=3;if(t.type==3)value-=3;}
+                else {int d=nav.dist(targets[id[i]][i],targets[id[j]][j]);if(d<=4)value+=.5*(5-d);}
+            }
+            if(hybrid)for(int i=0;i<3;i++)if(pos[3*g.me+i]>=0&&g.units[3*g.me+i].flag<0){
+                bool first=true;for(int j=0;j<i;j++)if(pos[3*g.me+j]>=0&&g.units[3*g.me+j].flag<0&&id[j]==id[i])first=false;
+                if(!first)continue;
+                const Task& task=ts[id[i]];int count=0;double timedSum=0,timedBest=0;
+                for(int j=i;j<3;j++)if(pos[3*g.me+j]>=0&&g.units[3*g.me+j].flag<0&&id[j]==id[i]){
+                    ++count;
+                    const double timed=timedVals[id[i]][j];
+                    timedSum+=timed;timedBest=max(timedBest,timed);
+                }
+                if(task.type==1&&count>1){
+                    const double support=task.contest>0?min(task.reward,8.0+7.0*task.contest):0;
+                    value-=(count-1)*(task.reward-support);
+                }
+                if(task.type==4&&count>1&&timedSum>0){
+                    value-=(timedSum-timedBest);
+                }
+            }
+            if(value>best){best=value;ids=id;}
+        }
+        array<Task,3> out;
+        for(int k=0;k<3;k++){out[k]=ts[ids[k]];out[k].p=targets[ids[k]][k];oldType[k]=out[k].type;oldId[k]=out[k].id;
+            if(g.units[3*g.me+k].flag>=0){out[k]={0,g.units[3*g.me+k].flag,-2,0,0};oldType[k]=0;}}
+        return out;
+    }
+    vector<double> homeRoute(const Game& g,int uid){
+        vector<double> d(nav.N,1e9);priority_queue<pair<double,int>,vector<pair<double,int>>,greater<pair<double,int>>> pq;
+        for(int p:nav.spawn[g.me]){d[p]=0;pq.push({0,p});}const Unit& u=g.units[uid];double hp=immune[uid]?100:u.hp;
+        while(!pq.empty()){
+            auto [v,p]=pq.top();pq.pop();if(v>d[p]+1e-6)continue;
+            double risk=threat[p],shield=0;for(int k=0;k<3;k++){int id=3*g.me+k;if(id!=uid&&pos[id]>=0&&g.units[id].flag<0&&man(pos[id],p)<=3)shield+=.3;}
+            risk=max(0.,risk-shield);
+            double cost=1+min(12.,risk*(hp<=34?7.:hp<=68?5.:3.));
+            for(int m=1;m<5;m++){int q=nav.nb[p][m];if(q>=0&&v+cost<d[q]){d[q]=v+cost;pq.push({d[q],q});}}
+        }return d;
+    }
+    fusion_hook::PSession fSession;
+    // The network's ply-2 orders for the sampled search: one view per joint
+    // sample of the ply-1 state its reference plan reaches (root: previous observation).
+    struct Ply2FromNetwork : search::Ply2Source {
+        const fusion_hook::PSession* fs=nullptr;const Game* g=nullptr;int n=0;
+        vector<char> teams;mutable ponly::View scratch;
+        void predict(const search::Input& in,const vector<int>& cells,int sample,search::Ply2& out)const override{
+            const int E=int(in.rivals.size());out.move.assign(E,-1);out.aim.assign(E,{0,0,0});
+            bool any=false;for(char c:teams)any|=c!=0;if(!any||!fs)return;
+            fusion::State st=fs->view.state();st.turn+=1;st.attacks.clear();
+            auto place=[&](int id,int c){if(id<0||c<0)return;auto& u=st.units[id];u.x=c%n;u.y=c/n;if(u.respawnAt>=0){u.hp=g->hp;u.respawnAt=-1;}};
+            for(int a=0;a<3;a++)place(in.allies[a].f.id,cells[a]);
+            for(int e=0;e<E;e++)place(in.rivals[e].f.id,cells[3+e]);
+            fs->predictInto(st,g->me,scratch,&teams);
+            array<array<int,3>,16> mv{};array<char,16> drawn{};
+            for(int e=0;e<E;e++){const int id=in.rivals[e].f.id,t=id/3;if(t<0||t>=16||!scratch.has(t)||scratch.origin(id)<0)continue;
+                if(!drawn[t]){scratch.jointDraw(t,ponly::uniform(st.turn,t,sample,29),mv[t].data());drawn[t]=1;}
+                const int m=mv[t][id%3];out.move[e]=m;
+                for(int k=0;k<3;k++){const int ally=in.allies[k].f.id;out.aim[e][k]=ally>=0?scratch.aim(id,m,ally):0.;}}
+        }
+    } ply2Source;
+    chrono::steady_clock::time_point decisionDeadline;
+    // Public-state-only deterministic turn kernel. Unknown random returns are
+    // not guessed: return false and retain the unrefined policy instead.
+    bool stepExact(const Game& g,const vector<int>& requested,const vector<int>& actions,Game& next){
+        for(const auto& f:g.flags)if((f.status=="cooldown"||f.status=="dropped")&&f.return_at<=g.turn)return false;
+        respawns(g);next=g;next.turn=g.turn+1;next.events.clear();
+        const int U=(int)g.units.size();vector<int> start=pos,want(U,-1),owner(nav.N,-1),count(nav.N,0),damage(U,0);vector<bool> blocked(U,false);
+        for(int i=0;i<U;i++)if(start[i]>=0){
+            owner[start[i]]=i;int q=i<(int)requested.size()?requested[i]:start[i];
+            if(!nav.open(q)||man(q,start[i])>1)q=start[i];want[i]=q;count[q]++;
+            auto& u=next.units[i];u.x=start[i]%nav.n;u.y=start[i]/nav.n;u.hp=immune[i]?g.hp:u.hp;u.respawn_at=-1;
+        }
+        for(int i=0;i<U;i++)if(start[i]>=0){
+            if(count[want[i]]>1)blocked[i]=true;int j=owner[want[i]];
+            if(j>=0&&j!=i&&g.units[i].team!=g.units[j].team&&want[j]==start[i])blocked[i]=blocked[j]=true;
+        }
+        for(bool changed=true;changed;){changed=false;for(int i=0;i<U;i++)if(start[i]>=0&&!blocked[i]&&want[i]!=start[i]){
+            int j=owner[want[i]];if(j>=0&&(blocked[j]||want[j]==start[j])){blocked[i]=true;changed=true;}}}
+        for(int i=0;i<U;i++)if(start[i]>=0){if(blocked[i])want[i]=start[i];next.units[i].x=want[i]%nav.n;next.units[i].y=want[i]/nav.n;}
+        auto action=[&](int i){return i<(int)actions.size()?actions[i]:-1;};
+        // All attack orders use pre-damage eligibility and contribute together.
+        for(int i=0;i<U;i++)if(start[i]>=0&&next.units[i].flag<0&&!immune[i]){
+            int t=action(i);if(t>=0&&t<U&&start[t]>=0&&!immune[t]&&g.units[t].team!=g.units[i].team&&shot(want[i],want[t],g)){damage[t]+=g.damage;next.events.push_back({"attack",{i,t}});}
+        }
+        for(int i=0;i<U;i++)if(start[i]>=0){auto& u=next.units[i];u.hp-=damage[i];if(u.hp<=0){
+            if(u.flag>=0){auto& f=next.flags[u.flag];f.status="dropped";f.holder=-1;f.x=u.x;f.y=u.y;f.return_at=g.turn+g.flag_return;}
+            u.x=u.y=-1;u.flag=-1;u.hp=0;u.respawn_at=g.turn+g.respawn;
+        }}
+        // Pickups precede voluntary drops: a teammate cannot pick up a newly
+        // dropped flag in this same turn. Dead carriers cannot execute X.
+        for(auto& u:next.units)if(u.x>=0&&u.flag<0&&action(u.id)==-2){
+            for(auto& f:next.flags)if((f.status=="home"||f.status=="dropped")&&f.x==u.x&&f.y==u.y){
+                u.flag=f.id;f.status="carried";f.x=f.y=-1;f.holder=u.id;f.return_at=-1;break;}
+        }
+        for(auto& u:next.units)if(u.x>=0&&u.flag>=0&&action(u.id)==-3){auto& f=next.flags[u.flag];
+            f.status="dropped";f.holder=-1;f.x=u.x;f.y=u.y;f.return_at=g.turn+g.flag_return;u.flag=-1;}
+        for(auto& u:next.units)if(u.x>=0&&u.flag>=0&&nav.home[u.team][nav.cell(u.x,u.y)]==0){
+            auto& f=next.flags[u.flag];f.status="cooldown";f.holder=-1;f.x=f.y=-1;f.return_at=g.turn+g.flag_cooldown;
+            next.events.push_back({"capture",{u.id,u.team,u.flag}});
+            u.flag=-1;next.score[u.team]++;
+        }
+        return true;
+    }
+    struct Runtime {vector<Unit> previous;array<int,3> type,id;vector<int> positions;vector<bool> immunity;vector<double> hazards;array<vector<double>,3> routes;vector<ctfcombat::Enemy> enemies;ponly::View* view;};
+    Runtime saveRuntime()const{return {prev,oldType,oldId,pos,immune,threat,route,foes,fSession.cur};}
+    void restoreRuntime(const Runtime& s){prev=s.previous;oldType=s.type;oldId=s.id;pos=s.positions;immune=s.immunity;threat=s.hazards;route=s.routes;foes=s.enemies;fSession.cur=s.view;}
+    // Checked lookahead (R3_CL_checked lineage). Structured decisions are
+    // simulated directly; future plans never serialize and reparse a command.
+    enum class ActionKind {Idle,Pickup,Drop,Attack};
+    struct Action {ActionKind kind=ActionKind::Idle;int target=-1;
+        static Action fromTarget(int t){return t>=0?Action{ActionKind::Attack,t}:t==-2?Action{ActionKind::Pickup,-1}:t==-3?Action{ActionKind::Drop,-1}:Action{};}
+        int code()const{return kind==ActionKind::Attack?target:kind==ActionKind::Pickup?-2:kind==ActionKind::Drop?-3:-1;}
+        string text()const{return kind==ActionKind::Attack?to_string(target):kind==ActionKind::Pickup?"P":kind==ActionKind::Drop?"X":"-";}
+    };
+    struct Decision {array<int,3>wanted{{-1,-1,-1}};array<Action,3>actions{};array<char,3>move{{'S','S','S'}};};
+    // ---- Direction 2 (MOD_DROP): scored voluntary drop and learned enemy drops.
+    // Own X is only ever a scored lookahead candidate (R3_DROP_scored lineage);
+    // ownership-loss accounting keeps a drop from dodging the flag's value.
+    // Context of a carrier standing at q, from a unit list (current or previous
+    // real snapshot): -1 without a pursuer, else bits for several pursuers,
+    // two or more lives, home farther than lives+1, and a stronger mate nearby.
+    int dropContext(const vector<Unit>& units,int uid,int q,int damage)const{
+        const Unit& c=units[uid];int pursuers=0;bool mate=false;
+        for(const auto& v:units)if(v.id!=uid&&v.x>=0&&v.hp>0&&v.flag<0){const int d=man(q,nav.cell(v.x,v.y));
+            if(v.team!=c.team&&d<=3)pursuers++;
+            else if(v.team==c.team&&d<=2&&v.hp>=c.hp+damage)mate=true;}
+        if(!pursuers)return -1;
+        const int lives=(c.hp+damage-1)/damage;
+        return (pursuers>=2)|(lives>=2)<<1|(nav.home[c.team][q]>lives+1)<<2|mate<<3;
+    }
+    static void addUniqueCandidate(vector<ctfcombat::Choice>& candidates,const ctfcombat::Choice& c){
+        for(const auto&old:candidates)if(old.moveIndex==c.moveIndex&&old.target==c.target)return;
+        candidates.push_back(c);
+    }
+    // Teammate hand-off: an unladen, healthier teammate ends adjacent to the
+    // carrier's cell and can deliver in time. Combat denial: no safe homeward
+    // step, a denial target in reach, and the carrier is spent or out of time.
+    bool eligibleOwnDrop(const Game& g,const array<vector<ctfcombat::Move>,3>& options,const ctfcombat::Choice& c,int k)const{
+        const auto&u=g.units[3*g.me+k];if(u.flag<0||pos[u.id]<0||immune[u.id]||g.turn+1>=g.turns)return false;
+        auto pp=options[k][c.moveIndex[k]].p;int q=nav.cell(pp.x,pp.y);if(nav.home[g.me][q]==0)return false;
+        if(dropContext(g.units,u.id,q,g.damage)<0)return false;
+        for(int j=0;j<3;j++)if(j!=k){const auto&v=g.units[3*g.me+j];if(pos[v.id]<0||v.flag>=0||v.hp<u.hp+g.damage)continue;
+            auto rp=options[j][c.moveIndex[j]].p;int r=nav.cell(rp.x,rp.y);
+            if(man(q,r)<=1&&g.turn+1+nav.home[g.me][q]<=g.turns)return true;
+        }
+        bool noEscape=true;for(int m=0;m<5;m++){int r=nav.nb[q][m];if(r<0||nav.home[g.me][r]>nav.home[g.me][q])continue;
+            if(dropContext(g.units,u.id,r,g.damage)<0)noEscape=false;}
+        bool denial=false;for(const auto&v:g.units)if(v.team!=g.me&&v.x>=0){int p=nav.cell(v.x,v.y);if(man(q,p)>3)continue;
+            if(v.flag>=0&&nav.home[v.team][p]<=3)denial=true;else if(v.flag<0&&v.hp<=g.damage)denial=true;}
+        return noEscape&&denial&&(u.hp<=g.damage||g.turn+nav.home[g.me][q]>g.turns);
+    }
+    void appendOwnDrops(const Game& g,const array<vector<ctfcombat::Move>,3>& options,vector<ctfcombat::Choice>& candidates)const{
+        vector<ctfcombat::Choice> base=candidates;sort(base.begin(),base.end(),[](const auto&a,const auto&b){return a.value>b.value;});
+        int added=0;for(const auto&c:base)for(int k=0;k<3;k++)if(eligibleOwnDrop(g,options,c,k)){
+            auto drop=c;drop.target[k]=-3;size_t before=candidates.size();addUniqueCandidate(candidates,drop);if(candidates.size()>before&&++added>=2)return;
+        }
+    }
+    // The rivals' orders from the network's view of this state (the root, or a
+    // branch inside refineChecked): model 0 is each team's most probable joint
+    // move and act, model 1 one draw shared by every candidate. acts: target id
+    // (attack), -2 pickup, -3 drop, -1 nothing.
+    void rivalOrders(const Game& g,int model,vector<int>& want,vector<int>& acts){
+        want=pos;acts.assign(g.units.size(),-1);ponly::View& v=*fSession.cur;
+        for(int t=0;t<g.teams;t++)if(t!=g.me){
+            if(!v.has(t)){for(int k=0;k<3;k++)if(pos[3*t+k]>=0)fSession.counters.fallback++;continue;}
+            auto orders=v.teamOrders(t,model==0?-1:0,17);
+            for(int k=0;k<3;k++){int id=3*t+k;if(pos[id]<0)continue;int q=nav.nb[pos[id]][orders[k].move];want[id]=q>=0?q:pos[id];
+                acts[id]=orders[k].act==fusion::kAttack?orders[k].target:orders[k].act==fusion::kPickup?-2:orders[k].act==fusion::kDrop?-3:-1;}
+        }
+    }
+    unsigned ownedFlags(const Game& g)const{unsigned mask=0;for(const auto&u:g.units)if(u.team==g.me&&u.x>=0&&u.flag>=0)mask|=1u<<u.flag;return mask;}
+    unsigned deliveredFlags(const Game& g)const{unsigned mask=0;for(const auto&e:g.events)if(e.type=="capture"&&e.args.size()==3&&e.args[1]==g.me)mask|=1u<<e.args[2];return mask;}
+    // A root- or middle-owned flag lost at the endpoint costs once, whether the
+    // holder died carrying it or dropped it first. Physical deaths cost separately.
+    double ownershipLoss(const Game& root,const Game& middle,const Game& end)const{
+        unsigned delivered=deliveredFlags(middle)|deliveredFlags(end),owned=ownedFlags(root)|ownedFlags(middle);
+        unsigned lost=owned&~ownedFlags(end)&~delivered;int count=0;while(lost){count+=lost&1;lost>>=1;}
+        return W_carrier_death*resourceScale(root)*count;
+    }
+    // Future material (HP, units, held assets) loses value over the final eight
+    // turns; delivered captures and still-feasible enemy deliveries keep theirs.
+    double resourceScale(const Game& g)const{return active(g).terminal?clamp((g.turns-g.turn)/8.,0.,1.):1.;}
+    double terminalFlags(const Game& g)const{double value=0;for(const auto& f:g.flags)if(f.status=="carried"&&f.holder>=0){const auto&u=g.units[f.holder];if(u.x<0)continue;int q=nav.cell(u.x,u.y);
+            if(active(g).terminal&&nav.home[u.team][q]>max(0,g.turns-g.turn+1))continue;
+            double v=30./(1+.10*nav.home[u.team][q]);
+            value+=u.team==g.me?v:-.5*v;}
+        return active(g).terminal&&g.turn>g.turns?0:value;
+    }
+    double realized(const Game& before,const Game& after)const{
+        double value=70.*(after.score[before.me]-before.score[before.me]);for(int t=0;t<before.teams;t++)if(t!=before.me)value-=35.*(after.score[t]-before.score[t]);
+        vector<int> ownHits(before.units.size(),0),allHits(before.units.size(),0);
+        for(const auto&e:after.events)if(e.type=="attack"&&e.args.size()==2){int a=e.args[0],t=e.args[1];allHits[t]++;if(before.units[a].team==before.me)ownHits[t]++;}
+        for(const auto&u:before.units)if(u.x>=0){const auto&v=after.units[u.id];bool dead=v.x<0;double hit=(u.hp-max(0,v.hp))/double(before.damage);
+            if(u.team==before.me)value-=resourceScale(before)*(W_hit*hit+W_death*dead);
+            else if(ownHits[u.id]){double share=ownHits[u.id]/double(max(1,allHits[u.id]));value+=share*(resourceScale(before)*(W_damage*(u.hp-max(0,v.hp))+11*dead)+(dead&&u.flag>=0&&(!active(before).terminal||nav.home[u.team][nav.cell(u.x,u.y)]<=before.turns-before.turn+1)?34:0));}}
+        return value;
+    }
+    ctfcombat::Choice refineChecked(const Game& g,const array<vector<ctfcombat::Move>,3>& options,vector<ctfcombat::Choice> beam,ctfcombat::Choice fallback){
+        if(g.turn>=g.turns)return fallback;int nearby=0;for(const auto&e:foes){bool close=false;for(int k=0;k<3;k++)if(pos[3*g.me+k]>=0&&man(pos[3*g.me+k],nav.cell(e.u.p.x,e.u.p.y))<=5)close=true;nearby+=close;}
+        if(nearby==0||nearby>9)return fallback;bool flagBattle=ownedFlags(g)!=0;
+        for(const auto&f:g.flags)if(available(f,g)){int q=nav.cell(f.x,f.y);bool ownClose=false,rivalClose=false;for(int k=0;k<3;k++)if(pos[3*g.me+k]>=0&&man(pos[3*g.me+k],q)<=4)ownClose=true;for(const auto&e:foes)if(e.u.flag<0&&man(nav.cell(e.u.p.x,e.u.p.y),q)<=4)rivalClose=true;flagBattle|=ownClose&&rivalClose;}
+        if(!flagBattle)return fallback;
+        // The engine returns to a random free spot before movement. A bot does
+        // not know the draw, so do not silently delete or predict that flag.
+        for(const auto&f:g.flags)if((f.status=="cooldown"||f.status=="dropped")&&f.return_at<=g.turn+1)return fallback;
+        sort(beam.begin(),beam.end(),[](const auto&a,const auto&b){return a.value>b.value;});int width=g.teams<=5?4:2;if(beam.size()>size_t(width))beam.resize(width);
+        vector<ctfcombat::Choice> candidates{fallback};for(auto c:beam)if(c.value>=fallback.value-12&&c.moveIndex!=fallback.moveIndex)candidates.push_back(c);
+        if(active(g).drop)appendOwnDrops(g,options,candidates);
+        auto saved=saveRuntime();auto outer=decisionDeadline;decisionDeadline=min(outer,chrono::steady_clock::now()+chrono::milliseconds(20));
+        ctfcombat::Choice answer=fallback;double best=-1e100;
+        double answerWorst=-1e100;
+        for(const auto&candidate:candidates){double mean=0,worst=1e100;bool complete=true;
+            // X only matters if the dropper survives this turn; otherwise prune.
+            bool dropSurvives=true;
+            for(int model=0;model<2;model++){
+                if(chrono::steady_clock::now()>=decisionDeadline){complete=false;break;}
+                restoreRuntime(saved);vector<int>want,acts;rivalOrders(g,model,want,acts);
+                for(int k=0;k<3;k++){int i=3*g.me+k;auto p=options[k][candidate.moveIndex[k]].p;if(pos[i]>=0)want[i]=nav.cell(p.x,p.y);acts[i]=candidate.target[k];}
+                Game next;if(!stepExact(g,want,acts,next)){complete=false;break;}
+                for(int k=0;k<3;k++)if(candidate.target[k]==-3&&next.units[3*g.me+k].x<0)dropSurvives=false;
+                prev=g.units;auto follow=planTurn(next,false);
+                if(chrono::steady_clock::now()>=decisionDeadline){complete=false;break;}
+                vector<int>want2,acts2;rivalOrders(next,model,want2,acts2);for(int k=0;k<3;k++){int i=3*g.me+k;if(pos[i]>=0)want2[i]=follow.wanted[k];acts2[i]=follow.actions[k].code();}
+                Game end;if(!stepExact(next,want2,acts2,end)){complete=false;break;}
+                if(chrono::steady_clock::now()>=decisionDeadline){complete=false;break;}
+                double outcome=realized(g,next)+.75*realized(next,end)-ownershipLoss(g,next,end)+terminalFlags(end)-terminalFlags(g);
+#if MOD_FUSION_V
+                if (fSession.model && fSession.model->value) {
+                    double vEnd = fSession.evalGameValue(end);
+                    outcome += 50.0 * (vEnd - 0.5);
+                }
+#endif
+                mean+=.5*outcome;worst=min(worst,outcome);
+            }
+            if(!complete)break;
+            if(!dropSurvives)continue;
+            // Replace immediate tactical/capture prediction by branch outcomes;
+            // keep the gold movement/task score once. No repeated capture bonus.
+            double value=candidate.positionValue+.8*mean+.2*worst;
+            // Extreme caution: X releases possession, momentum and an exposed
+            // flag. A drop must beat the best kept-flag plan by the Hybrid's
+            // relay margin (5) and must not worsen the worst sampled outcome.
+            bool dropping=false;for(int t:candidate.target)dropping|=t==-3;
+            if(dropping&&(value<best+5||worst<answerWorst))continue;
+            if(value>best+1e-8){best=value;answer=candidate;
+                answerWorst=worst;
+            }
+        }
+        restoreRuntime(saved);decisionDeadline=outer;return answer;
+    }
+
+    Decision planTurn(Game& g,bool refineAllowed){
+        const auto planStart=chrono::steady_clock::now();
+        if(refineAllowed)decisionDeadline=chrono::steady_clock::now()+chrono::milliseconds(g.turn==1?1800:35);
+        // The real turn updates the root view and history; a branch only the branch view.
+        if(refineAllowed)fSession.update(g);else fSession.branch(g);
+        if(!initialized){nav.init(g);initialized=true;}respawns(g);forecast(g);auto jobs=assign(g);
+        array<ctfcombat::Fighter,3> own;array<vector<ctfcombat::Move>,3> options;
+        for(int k=0;k<3;k++){
+            const Unit& u=g.units[3*g.me+k];int p=pos[u.id],hp=immune[u.id]?100:u.hp;
+            own[k]={u.id,u.team,{p<0?-1:p%nav.n,p<0?-1:p/nav.n},hp,u.flag,immune[u.id]};
+            if(p<0){options[k].push_back({{-1,-1},'S',0,0});continue;}if(u.flag>=0)route[k]=homeRoute(g,u.id);
+            for(int m=0;m<5;m++)if(nav.nb[p][m]>=0){int q=nav.nb[p][m];double score=0,pickup=0,capture=0;
+                if(u.flag>=0){score=-W_route*route[k][q];if(nav.home[g.me][q]==0)capture=70;}
+                else {
+                    if(jobs[k].type==3){int d=nav.dist(q,jobs[k].p);score=-.85*max(0,d-2);}
+                    else if(jobs[k].p>=0)score=-1.05*nav.dist(q,jobs[k].p);
+                    // A pickup that cannot be delivered is worthless; a last-tick base pickup captures now.
+                    for(auto& f:g.flags)if(available(f,g)&&q==nav.cell(f.x,f.y))pickup=!active(g).terminal?W_pickup-.2*nav.home[g.me][q]:nav.home[g.me][q]>g.turns-g.turn?0:(g.turns-g.turn<8&&nav.home[g.me][q]==0?70:W_pickup-.2*nav.home[g.me][q]);
+                    bool returnNow=false;for(auto& f:g.flags)if((f.status=="cooldown"||f.status=="dropped")&&f.return_at<=g.turn)returnNow=true;
+                    if(returnNow)for(auto& s:g.spots)if(q==nav.cell(s.first,s.second))pickup=max(pickup,4./max(1,(int)g.spots.size()-(int)g.flags.size()));
+                    if(jobs[k].type==4&&nav.dist(q,jobs[k].p)<=1)score+=.08;
+                }
+                if(m==0&&q!=jobs[k].p&&u.flag<0)score-=.05;
+                if(prev.size()==g.units.size()&&prev[u.id].x>=0){int pp=nav.cell(prev[u.id].x,prev[u.id].y);if(q==pp&&p!=pp)score-=.12;}
+                options[k].push_back({{q%nav.n,q/nav.n},letters[m],score,pickup,capture});
+            }
+        }
+        ctfcombat::Params params;params.ownDeathCost=W_death;params.incomingHitCost=W_hit;params.dealtHpValue=W_damage;params.carrierDeathExtra=W_carrier_death;params.carrierHitExtra=W_carrier_hit;params.carrierWorstDeathCost=W_worst;
+        const double material=resourceScale(g);
+        params.ownDeathCost*=material;params.incomingHitCost*=material;params.dealtHpValue*=material;
+        params.carrierDeathExtra*=material;params.carrierHitExtra*=material;params.carrierWorstDeathCost*=material;params.carrierKillExtra*=material;
+        for(auto& e:foes){e.killValue*=material;if(e.u.flag>=0&&nav.home[e.u.team][nav.cell(e.u.p.x,e.u.p.y)]<=g.turns-g.turn+1)e.killValue+=34*(1-material);}
+        vector<ctfcombat::Choice> beam;const bool refine=CTF_LOOKAHEAD&&refineAllowed;
+        // Anytime sampled expectimax ranks up to 24 joint candidates within the
+        // per-turn thinking budget; its ranking seeds the checked lookahead.
+        const bool deep=refineAllowed&&active(g).expectimax&&g.turn>1&&!foes.empty();vector<ctfcombat::Choice> all;
+        auto choice=ctfcombat::choose(g.map,own,options,foes,params,refine?&beam:nullptr,&decisionDeadline,deep?&all:nullptr);
+        if(deep){
+            array<vector<double>,3> cellValue;vector<double> pickCell(nav.N,0.0);
+            for(auto& f:g.flags)if(available(f,g)){int q=nav.cell(f.x,f.y);pickCell[q]=W_pickup-.2*nav.home[g.me][q];}
+            for(int k=0;k<3;k++){const Unit& u=g.units[3*g.me+k];if(pos[u.id]<0)continue;cellValue[k].assign(nav.N,0.0);
+                for(int q:nav.floors){double cv=0;
+                    if(u.flag>=0)cv=-W_route*min(200.0,route[k][q])+(nav.home[g.me][q]==0?70:0);
+                    else if(jobs[k].type==3)cv=-.85*max(0,nav.dist(q,jobs[k].p)-2);
+                    else if(jobs[k].p>=0)cv=-1.05*nav.dist(q,jobs[k].p);
+                    cellValue[k][q]=cv;}}
+            // One per-turn search budget (search::Config, 30 ms by default) shared by
+            // the sampled expectimax and, when it will run, the checked lookahead.
+            const auto cfg=search::configFor(g.teams);
+            const auto budget=planStart+chrono::microseconds(int64_t(1000*cfg.turnBudgetMs));
+            const auto reserve=chrono::microseconds(int64_t(1000*(refineGate(g)?cfg.refineReserveMs:0.)));
+            auto ranked=deepen(g,own,options,params,all,cellValue,pickCell,min(decisionDeadline,budget-reserve));
+            decisionDeadline=min(decisionDeadline,budget);
+            if(!ranked.empty()){choice=ranked[0];beam.assign(ranked.begin(),ranked.begin()+min<size_t>(8,ranked.size()));
+#if MOD_FUSION_V
+                if (fSession.model && fSession.model->value && beam.size() > 1 && !refineGate(g)) {
+                    double bestVal = -1e100;
+                    ctfcombat::Choice bestChoice = choice;
+                    for (auto& c : beam) {
+                        vector<int> want, acts;
+                        rivalOrders(g, 0, want, acts);
+                        for(int k=0;k<3;k++){int i=3*g.me+k;auto p=options[k][c.moveIndex[k]].p;if(pos[i]>=0)want[i]=nav.cell(p.x,p.y);acts[i]=c.target[k];}
+                        Game nxt;
+                        if (stepExact(g, want, acts, nxt)) {
+                            double vVal = fSession.evalGameValue(nxt);
+                            double score = c.value + 35.0 * (vVal - 0.5);
+                            if (score > bestVal) {
+                                bestVal = score;
+                                bestChoice = c;
+                            }
+                        }
+                    }
+                    choice = bestChoice;
+                }
+#endif
+            }
+        }
+        if(refine)choice=refineChecked(g,options,beam,choice);
+        Decision result;
+        for(int k=0;k<3;k++){int m=choice.moveIndex[k],t=choice.target[k];if(m<0||m>=(int)options[k].size())m=0;
+            result.move[k]=options[k][m].code;auto p=options[k][m].p;result.wanted[k]=p.x<0?-1:nav.cell(p.x,p.y);result.actions[k]=Action::fromTarget(t);}
+        return result;
+    }
+    string decide(Game& g){
+        if(!initialized){nav.init(g);initialized=true;}
+        auto result=planTurn(g,true);fSession.report(g);
+        string out=to_string(g.turn);for(int k=0;k<3;k++){out+=' ';out+=result.move[k];out+=' ';out+=result.actions[k].text();}prev=g.units;return out;}
+};
+}  // namespace multi
+
+
+namespace duel {
+struct Mission {
+    int type, key, p, unit = -1;
+    double danger = 0;
+};
+struct Prediction {
+    int id;
+    array<int,5> p;
+    array<double,5> pr;
+    array<double,5> fire;              // P(attack | move)
+    array<array<double,3>,5> aim;      // P(attack and target = our unit k | move)
+};
+struct Choice { int target; double v; };
+
+class Player {
+    int n=0, cells=0, me=0;
+    vector<array<int,5>> nb;
+    vector<vector<uint16_t>> dist;
+    vector<vector<int>> bd;
+    vector<int> oldp, oldhp, occupied;
+    array<int,3> lastmission{{-100,-100,-100}};
+    vector<Unit> u;
+    vector<int> pos;
+    vector<bool> immune;
+    vector<Prediction> pred;
+    vector<Mission> missions;
+    vector<array<int,3>> goal;
+    array<int,3> assigned, own;
+    array<double,3> rolew;
+    array<vector<double>,3> route;
+    array<array<double,5>,3> block;
+    fusion_hook::PSession fSession;
+    NgActive act;  // module activation for 2-team games
+    // Endgame resource scale (final eight turns) and turns left for delivery.
+    double material=1;int remaining=1000;
+    // Probability of being able to shoot a particular enemy from each move.
+    array<array<vector<array<double,5>>,5>,3> hit;
+    const array<char,5> mc{{'S','U','D','L','R'}};
+    int D(int a,int b) const { return a<0||b<0 ? 999 : dist[a][b]; }
+    int man(int a,int b) const { return abs(a%n-b%n)+abs(a/n-b/n); }
+    bool shot(int a,int b) const {
+        if(a<0||b<0) return false;
+        int dx=b%n-a%n,dy=b/n-a/n;
+        if(abs(dx)+abs(dy)>2) return false;
+        if(abs(dx)==2) return nb[a][dx>0?4:3]>=0;
+        if(abs(dy)==2) return nb[a][dy>0?2:1]>=0;
+        if(abs(dx)==1 && abs(dy)==1) return nb[a][dx>0?4:3]>=0 || nb[a][dy>0?2:1]>=0;
+        return true;
+    }
+    int cell(int x,int y) const { return x<0 ? -1 : y*n+x; }
+    void init(const Game& g) {
+        n=g.size;cells=n*n;me=g.me;
+        nb.resize(cells);dist.resize(cells);
+        for(int p=0;p<cells;p++) {
+            nb[p].fill(-1);
+            if(g.map[p/n][p%n]=='#') continue;
+            nb[p][0]=p;
+            const int dx[5]={0,0,0,-1,1},dy[5]={0,-1,1,0,0};
+            for(int m=1;m<5;m++) {
+                int x=p%n+dx[m],y=p/n+dy[m];
+                if(x>=0&&y>=0&&x<n&&y<n&&g.map[y][x]!='#') nb[p][m]=y*n+x;
+            }
+        }
+        vector<int> q(cells);
+        for(int p=0;p<cells;p++) {
+            dist[p].assign(cells,999);
+            if(nb[p][0]<0) continue;
+            int head=0,tail=0;q[tail++]=p;dist[p][p]=0;
+            while(head<tail) {
+                int a=q[head++];
+                for(int m=1;m<5;m++) { int b=nb[a][m];
+                    if(b>=0&&dist[p][b]==999) {dist[p][b]=dist[p][a]+1;q[tail++]=b;}
+                }
+            }
+        }
+        bd.assign(g.teams,vector<int>(cells,999));
+        for(int t=0;t<g.teams;t++) for(int p=0;p<cells;p++)
+            for(int dy=-1;dy<=1;dy++) for(int dx=-1;dx<=1;dx++)
+                bd[t][p]=min(bd[t][p],D(p,cell(g.bases[t].first+dx,g.bases[t].second+dy)));
+        oldp.assign(g.units.size(),-1);oldhp.assign(g.units.size(),100);
+    }
+    void update(const Game& g) {
+        u=g.units;pos.assign(u.size(),-1);immune.assign(u.size(),false);
+        occupied.assign(cells,-1);
+        for(auto& a:u) {pos[a.id]=cell(a.x,a.y);if(a.x>=0)occupied[pos[a.id]]=a.id;}
+        for(auto& a:u) if(pos[a.id]<0&&a.respawn_at<=g.turn&&a.respawn_at>=0) {
+            vector<int> spawn;
+            for(int dy=-1;dy<=1;dy++) for(int dx=-1;dx<=1;dx++) spawn.push_back(cell(g.bases[a.team].first+dx,g.bases[a.team].second+dy));
+            int c=cell(n/2,n/2),bc=cell(g.bases[a.team].first,g.bases[a.team].second);
+            stable_sort(spawn.begin(),spawn.end(),[&](int x,int y){
+                return make_pair(man(x,c),abs(x%n-bc%n)+2*abs(x/n-bc/n))<make_pair(man(y,c),abs(y%n-bc%n)+2*abs(y/n-bc/n));
+            });
+            for(int p:spawn) if(occupied[p]<0){pos[a.id]=p;occupied[p]=a.id;a.hp=100;a.flag=-1;immune[a.id]=true;break;}
+        }
+        for(int k=0;k<3;k++)own[k]=3*me+k;
+    }
+    vector<double> safeRoute(int uid,const Game& g) {
+        vector<double> d(cells,1e9),cost(cells,1);
+        for(int p=0;p<cells;p++) if(nb[p][0]>=0) {
+            double risk=0;
+            for(auto& e:u) if(e.team!=me&&pos[e.id]>=0&&e.flag<0&&!immune[e.id]) {
+                int r=D(p,pos[e.id]);
+                if(r>7)continue;
+                double escort=0;
+                for(int id:own) if(id!=uid&&pos[id]>=0&&u[id].flag<0) {
+                    int dd=D(pos[id],pos[e.id]);
+                    if(dd<=4)escort+= (u[id].hp>34?0.6:0.3);
+                }
+                double v=r<=2?3.5:r==3?2.8:r==4?1.5:r==5?.6:.15;
+                risk+=v*(.5+.5*e.hp/100.0)/(1+escort*1.6);
+            }
+            cost[p]=1+min(6.0,risk)*(u[uid].hp<=34?.85:u[uid].hp<=68?.6:.45);
+        }
+        priority_queue<pair<double,int>,vector<pair<double,int>>,greater<pair<double,int>>> q;
+        for(int p=0;p<cells;p++) if(bd[me][p]==0){d[p]=0;q.push({0,p});}
+        while(!q.empty()) {
+            auto [v,p]=q.top();q.pop();if(v!=d[p])continue;
+            for(int m=1;m<5;m++){int b=nb[p][m];if(b>=0&&d[b]>v+(cost[b]+cost[p])*.5){d[b]=v+(cost[b]+cost[p])*.5;q.push({d[b],b});}}
+        }
+        return d;
+    }
+    int intercept(int uid,int enemy) const {
+        int a=pos[uid],b=pos[enemy],t=u[enemy].team;
+        if(a<0||b<0)return b;
+        int p=b;vector<int> path{p};
+        while(bd[t][p]>0&&path.size()<80) {
+            int best=-1;
+            for(int m=1;m<5;m++)if(nb[p][m]>=0&&bd[t][nb[p][m]]<bd[t][p]){
+                int z=nb[p][m];if(best<0||D(a,z)<D(a,best))best=z;
+            }
+            if(best<0)break;p=best;path.push_back(p);
+        }
+        int best=b;double val=1e9;
+        for(int j=0;j<(int)path.size();j++) {
+            double v=max(0,D(a,path[j])-2-j)*3.0+j*.35+D(a,path[j])*.1;
+            if(v<val){val=v;best=path[j];}
+        }
+        return best;
+    }
+    void plan(const Game& g) {
+        missions.clear();goal.clear();
+        auto add=[&](Mission m){missions.push_back(m);array<int,3> a; a.fill(m.p);goal.push_back(a);};
+        for(auto& f:g.flags) if((f.status=="home"||f.status=="dropped")&&f.x>=0&&(f.return_at<0||f.return_at>g.turn))
+            add({0,f.id,cell(f.x,f.y)});
+        for(auto& e:u) if(e.team!=me&&pos[e.id]>=0&&e.flag>=0&&bd[e.team][pos[e.id]]>0) {
+            bool can=false;for(int id:own)if(pos[id]>=0&&u[id].flag<0&&D(pos[id],pos[e.id])<=bd[e.team][pos[e.id]]+3)can=true;
+            if(can) {add({1,100+e.id,pos[e.id],e.id});for(int k=0;k<3;k++)goal.back()[k]=intercept(own[k],e.id);}
+        }
+        for(int id:own)if(pos[id]>=0&&u[id].flag>=0) {
+            double threat=0;int bad=-1;double bv=0;
+            for(auto& e:u)if(e.team!=me&&pos[e.id]>=0&&e.flag<0&&!immune[e.id]) {
+                int d=D(pos[e.id],pos[id]);double v=d<=3?2.0:d<=5?1.2:d<=7?.5:0;
+                threat+=v;if(v>bv){bv=v;bad=e.id;}
+            }
+            if(threat>.1&&bd[me][pos[id]]>1){add({2,200+id,pos[id],id,min(4.0,threat)});
+                if(bad>=0)goal.back().fill(pos[bad]);
+            }
+        }
+        vector<pair<int,int>> ss;
+        for(int j=0;j<(int)g.spots.size();j++)ss.push_back({bd[me][cell(g.spots[j].first,g.spots[j].second)],j});
+        sort(ss.begin(),ss.end());
+        for(int j=0;j<min(3,(int)ss.size());j++){int s=ss[j].second;add({3,300+s,cell(g.spots[s].first,g.spots[s].second)});}
+        if(missions.empty())add({3,300,cell(n/2,n/2)});
+        int M=missions.size();
+        array<vector<int>,3> options;
+        for(int k=0;k<3;k++) {
+            int id=own[k];assigned[k]=-1;rolew[k]=.85;route[k].clear();
+            if(pos[id]<0||u[id].flag>=0){options[k]={-1};if(pos[id]>=0)route[k]=safeRoute(id,g);continue;}
+            vector<pair<double,int>> order;
+            for(int j=0;j<M;j++) {
+                auto& m=missions[j];int d=D(pos[id],goal[j][k]);double val=0;
+                if(m.type==0)val=240.0/(8+d+bd[me][m.p]);
+                if(m.type==1)val=100.0/(6+d+bd[u[m.unit].team][pos[m.unit]]);
+                if(m.type==2)val=12*m.danger/(3+d);
+                if(m.type==3)val=2.8/(1+.15*d);
+                if(lastmission[k]==m.key)val+=.3;
+                order.push_back({val,j});
+            }
+            sort(order.rbegin(),order.rend());
+            for(int j=0;j<min(7,M);j++)options[k].push_back(order[j].second);
+        }
+        double best=-1e30;
+        for(int a:options[0])for(int b:options[1])for(int c:options[2]) {
+            array<int,3> as{{a,b,c}};double v=0;
+            for(int j=0;j<M;j++) {
+                int cnt=0,mind=999;double extra=0,health=0;
+                for(int k=0;k<3;k++)if(as[k]==j){cnt++;int d=D(pos[own[k]],goal[j][k]);mind=min(mind,d);extra+=d;health+=(u[own[k]].hp<=34?.65:u[own[k]].hp<=68?.85:1.0);}
+                if(!cnt)continue;
+                auto& m=missions[j];
+                if(m.type==0) {
+                    vector<int> nearest(g.teams,999),force(g.teams,0);int eMin=999;
+                    for(auto& e:u)if(e.team!=me&&pos[e.id]>=0&&e.flag<0){nearest[e.team]=min(nearest[e.team],D(pos[e.id],m.p));eMin=min(eMin,D(pos[e.id],m.p));}
+                    for(auto& e:u)if(e.team!=me&&pos[e.id]>=0&&e.flag<0&&D(pos[e.id],m.p)<=nearest[e.team]+3&&nearest[e.team]<=mind+3)force[e.team]++;
+                    double ef=0,others=0;for(int t=0;t<g.teams;t++)if(t!=me&&force[t]){others+=force[t];ef=max(ef,(double)force[t]);}
+                    ef+=.15*(others-ef);
+                    double pr=.97;
+                    if(eMin<=mind+3) {double lead=exp(max(-1.0,min(1.5,.22*(mind-eMin))));pr=.08+.90*health*health/(health*health+ef*ef*lead);}
+                    double vv=240.0/(8+mind+bd[me][m.p])*pr;
+                    if(mind+bd[me][m.p]+g.turn>g.turns)vv*=.08;
+                    if(cnt>1&&eMin<=mind+3)vv+=.7*(cnt-1);
+                    v+=vv-.045*(extra-cnt*mind);
+                } else if(m.type==1) {
+                    int e=m.unit;double pr=.25+.75*health*health/(health*health+2.0);
+                    double leader=1+min(.6,.12*max(0,g.score[u[e].team]-g.score[me]));
+                    v+=100*pr*leader/(6+mind+bd[u[e].team][pos[e]])-.06*(extra-cnt*mind);
+                } else if(m.type==2) {
+                    int d=D(pos[m.unit],m.p);
+                    double escortWeight=g.teams>=6?1.8:1.0;
+                    v+=escortWeight*min(14.0,6*m.danger)*(1-exp(-.8*cnt))/(1+.13*mind)-.03*extra;
+                } else v+=2.5/(1+.13*mind)+.12*(cnt-1)-.04*(extra-cnt*mind);
+            }
+            for(int k=0;k<3;k++)if(as[k]>=0&&missions[as[k]].key==lastmission[k])v+=.12;
+            if(v>best){best=v;assigned=as;}
+        }
+        for(int k=0;k<3;k++)if(assigned[k]>=0) {
+            auto& m=missions[assigned[k]];lastmission[k]=m.key;
+            if(m.type==0) {
+                int runner=k;
+                for(int h=0;h<3;h++)if(assigned[h]==assigned[k]&&D(pos[own[h]],m.p)+(100-u[own[h]].hp)*.025<D(pos[own[runner]],m.p)+(100-u[own[runner]].hp)*.025)runner=h;
+                rolew[k]=runner==k?1.0:.72;
+            } else if(m.type==1)rolew[k]=.85;
+            else if(m.type==2)rolew[k]=.65;
+            else rolew[k]=.6;
+        }
+    }
+    // P-only: each enemy unit's legal moves with the network's probabilities,
+    // and after each move its attack probability and aim at our units. A unit
+    // without a prediction gets uniform moves (counted).
+    void predict(const Game& g) {
+        (void)g;pred.clear();ponly::View& v=*fSession.cur;
+        for(auto& e:u)if(e.team!=me&&pos[e.id]>=0) {
+            Prediction pr;pr.id=e.id;pr.p=nb[pos[e.id]];pr.pr.fill(0);pr.fire.fill(0);for(auto& a:pr.aim)a.fill(0);
+            const bool known=v.has(e.team)&&v.origin(e.id)>=0;double sum=0;int cnt=0;
+            if(!known)fSession.counters.fallback++;
+            for(int m=0;m<5;m++)if(pr.p[m]>=0){cnt++;
+                if(known){pr.pr[m]=v.move(e.id,m);pr.fire[m]=v.fire(e.id,m);for(int k=0;k<3;k++)pr.aim[m][k]=v.aim(e.id,m,own[k]);}
+                else pr.pr[m]=1;
+                sum+=pr.pr[m];}
+            for(int m=0;m<5;m++)if(pr.p[m]>=0)pr.pr[m]=sum>0?pr.pr[m]/sum:1./cnt;
+            pred.push_back(pr);
+        }
+        for(int k=0;k<3;k++)for(int m=0;m<5;m++) {
+            hit[k][m].assign(pred.size(),{});block[k][m]=0;
+            int a=pos[own[k]];if(a<0||nb[a][m]<0)continue;int p=nb[a][m];
+            double unblocked=1;
+            for(int j=0;j<(int)pred.size();j++) {
+                auto& e=pred[j];double bp=0;int b=pos[e.id];
+                for(int h=0;h<5;h++)if(e.p[h]>=0) {
+                    int q=e.p[h],ap=p,bp0=q;
+                    if(p==q||(p==b&&q==a)||(p==b&&q==b)) {ap=a;bp0=b;bp+=e.pr[h];}
+                    if(q==a&&p==a)bp0=b;
+                    hit[k][m][j][h]=shot(ap,bp0)?1.0:0.0;
+                }
+                unblocked*=1-bp;
+            }
+            block[k][m]=1-unblocked;
+        }
+    }
+    // Expected incoming fire under the network's predictions: enemy j moving h
+    // attacks our unit k with P(attack and target = k | h), and the shot lands
+    // when the cells allow it (hit table). Hit counts per unit are convolved.
+    double incoming(const array<int,3>& move,array<double,3>& death,array<double,3>& expected) const {
+        array<array<double,4>,3> dp{};array<double,3> eh{};
+        for(int k=0;k<3;k++)dp[k][0]=1;
+        for(int j=0;j<(int)pred.size();j++) {
+            auto& e=pred[j];if(u[e.id].flag>=0||immune[e.id])continue;
+            array<double,3> prob{};
+            for(int h=0;h<5;h++)if(e.p[h]>=0)
+                for(int k=0;k<3;k++)if(pos[own[k]]>=0&&!immune[own[k]]&&hit[k][move[k]][j][h]>0)prob[k]+=e.pr[h]*e.aim[h][k];
+            for(int k=0;k<3;k++) {
+                eh[k]+=prob[k];
+                array<double,4> z{};
+                for(int a=0;a<4;a++){z[a]+=dp[k][a]*(1-prob[k]);z[min(3,a+1)]+=dp[k][a]*prob[k];}dp[k]=z;
+            }
+        }
+        double v=0;
+        for(int k=0;k<3;k++)if(pos[own[k]]>=0) {
+            int id=own[k],need=(u[id].hp+33)/34;death[k]=0;
+            for(int a=need;a<4;a++)death[k]+=dp[k][a];
+            double dmg=0;for(int a=0;a<4;a++)dmg+=dp[k][a]*min(a,need);
+            double life= u[id].flag>=0 ? 24.0+max(0,12-bd[me][pos[id]])*.5 : 8.0;
+            if(bd[me][pos[id]]<4&&u[id].flag<0)life=6;
+            v-=dmg*(u[id].flag>=0?2.1:1.1)+life*death[k];
+            if(u[id].flag>=0&&u[id].hp<=68)v-=eh[k]*1.2;
+        }
+        for(int k=0;k<3;k++)expected[k]=eh[k];
+        // Survival gating keeps unscaled probabilities; only material costs decay.
+        return material*v;
+    }
+    using FutureTable=array<vector<array<array<double,4>,5>>,3>;
+    FutureTable futureTable(const array<int,3>& mv,const array<int,3>& pp,const Game& g) const {
+        FutureTable ft;
+        for(int k=0;k<3;k++) {
+            ft[k].resize(pred.size());int id=own[k],p=pp[k];if(p<0)continue;
+            bool carry=u[id].flag>=0;
+            for(auto& f:g.flags)if(f.x>=0&&cell(f.x,f.y)==p&&(f.return_at<0||f.return_at>g.turn))carry=true;
+            if(!carry||bd[me][p]==0)continue;
+            vector<int> path{p};
+            while(bd[me][path.back()]>0&&path.size()<9) {
+                int a=path.back(),best=-1;double bv=1e9;
+                for(int m=1;m<5;m++)if(nb[a][m]>=0&&bd[me][nb[a][m]]<bd[me][a]) {
+                    int z=nb[a][m];double v=0;
+                    for(auto& e:pred)if(u[e.id].flag<0&&D(z,pos[e.id])<=6)v+=1.0/(.4+D(z,pos[e.id]));
+                    if(v<bv){bv=v;best=z;}
+                }
+                if(best<0)break;path.push_back(best);
+            }
+            for(int j=0;j<(int)pred.size();j++) {
+                int enemy=pred[j].id;
+                if(u[enemy].flag>=0||D(p,pos[enemy])>7)continue;
+                int need=(u[enemy].hp+33)/34;
+                for(int h=0;h<5;h++)if(pred[j].p[h]>=0) {
+                    int q=pred[j].p[h],first=99;
+                    for(int step=1;step<(int)path.size();step++)if(D(q,path[step])<=step+2){first=step;break;}
+                    if(first==99)continue;
+                    double support=0;
+                    for(int s=0;s<3;s++)if(s!=k&&pp[s]>=0&&u[own[s]].flag<0) {
+                        int d=D(pp[s],q);
+                        support+=d<=2?1:d==3?.95:d==4?.60:d==5?.25:0;
+                    }
+                    for(int shots=0;shots<4;shots++) {
+                        if(shots>=need)continue;
+                        int kill=support>.15?(int)ceil((need-shots)/support):99;
+                        int exposed=max(0,min({bd[me][p],kill,7})-first+1);
+                        ft[k][j][h][shots]=exposed*.85;
+                    }
+                }
+            }
+        }
+        return ft;
+    }
+    double futureRisk(const array<int,3>& mv,const array<int,3>& targets,const FutureTable& ft,const array<double,3>& now,const array<int,3>& pp) const {
+        array<double,3> future{};
+        for(int j=0;j<(int)pred.size();j++)for(int h=0;h<5;h++)if(pred[j].p[h]>=0) {
+            int cnt=0;
+            for(int k=0;k<3;k++)if(targets[k]==j&&hit[k][mv[k]][j][h]>.5)cnt++;
+            for(int k=0;k<3;k++)if(u[own[k]].flag>=0||targets[k]<0)future[k]+=pred[j].pr[h]*ft[k][j][h][cnt];
+        }
+        double value=0;
+        for(int k=0;k<3;k++)if(pp[k]>=0&&future[k]>0&&(u[own[k]].flag>=0||targets[k]<0)) {
+            if(n>23&&u[own[k]].flag<0)continue;
+            double need=(u[own[k]].hp+33)/34;
+            double danger=max(0.0,min(1.0,(now[k]+future[k]-need+.45)/1.3));
+            value-=danger*(u[own[k]].flag>=0?15:18);
+            value-=future[k]*.3;
+        }
+        return material*value;
+    }
+    double firing(const array<int,3>& move,const array<int,3>& targets) const {
+        double v=0;
+        for(int j=0;j<(int)pred.size();j++) {
+            int id=pred[j].id;if(immune[id])continue;
+            bool any=false;for(int k=0;k<3;k++)if(targets[k]==j)any=true;if(!any)continue;
+            int need=(u[id].hp+33)/34;
+            double kill=0,hits=0;
+            int legal=0;for(int h=0;h<5;h++)if(pred[j].p[h]>=0)legal++;
+            for(int h=0;h<5;h++)if(pred[j].p[h]>=0) {
+                int cnt=0;for(int k=0;k<3;k++)if(targets[k]==j&&hit[k][move[k]][j][h]>.5)cnt++;
+                double mix=u[id].flag>=0?.06:SHOT_MIX;
+                double probability=(1-mix)*pred[j].pr[h]+mix/legal;
+                hits+=probability*min(need,cnt);if(cnt>=need)kill+=probability;
+            }
+            // Denying an enemy carrier keeps full value while it can still deliver.
+            double value=7,denial=u[id].flag>=0?14.0/(1+.05*bd[me][pos[id]]):0;
+            for(int k=0;k<3;k++)if(pos[own[k]]>=0&&u[own[k]].flag>=0&&D(pos[id],pos[own[k]])<=5)value+=5;
+            const bool deliverable=u[id].flag>=0&&bd[u[id].team][pos[id]]<=remaining+1;
+            v+=material*hits*1.75+kill*(material*value+(deliverable?denial:material*denial));
+        }
+        return v;
+    }
+public:
+    const fusion_hook::PSession& session() const { return fSession; }
+    string decide(const Game& g) {
+        fSession.update(g);fSession.report(g);
+        if(!n)init(g);update(g);act=ngActive(g.teams);
+        if(act.terminal){remaining=g.turns-g.turn;material=clamp(remaining/8.,0.,1.);}
+        plan(g);predict(g);
+        array<vector<int>,3> moves;
+        array<array<double,5>,3> positional{};
+        array<array<vector<int>,5>,3> actions;
+        array<array<double,5>,3> pickup{};
+        for(int k=0;k<3;k++) {
+            int id=own[k],a=pos[id];
+            if(a<0){moves[k]={0};actions[k][0]={-1};continue;}
+            for(int m=0;m<5;m++)if(nb[a][m]>=0) {
+                int p=nb[a][m];moves[k].push_back(m);
+                double v=0;
+                if(u[id].flag>=0) {
+                    double rd=route[k][p];v=-1.5*(.7*rd+.3*bd[me][p]);
+                    if(bd[me][p]==0)v+=30;
+                    v-=.15*(m==0);
+                } else if(assigned[k]>=0) {
+                    auto& ms=missions[assigned[k]];int gp=goal[assigned[k]][k];int d=D(p,gp);
+                    if(ms.type==0&&rolew[k]<.9&&d==0)d=1;
+                    if(ms.type==1)d=max(0,d-1);
+                    if(ms.type==2)d=max(0,d-2);
+                    v=-rolew[k]*d;
+                    if(ms.type==0)for(int h=0;h<3;h++)if(h!=k&&assigned[h]==assigned[k]&&pos[own[h]]>=0)v-=.1*max(0,D(p,pos[own[h]])-3);
+                }
+                v-=block[k][m]*1.7;
+                if(m!=0)v+=(g.turn*7919+id*193+m*769)%103*.00015;
+                positional[k][m]=v;
+                vector<pair<double,int>> opts;
+                if(u[id].flag<0&&!immune[id])for(int j=0;j<(int)pred.size();j++)if(!immune[pred[j].id]) {
+                    double h=0;for(int z=0;z<5;z++)h+=pred[j].pr[z]*hit[k][m][j][z];
+                    if(h>.025){int e=pred[j].id;double val=h*(1.75+(u[e].hp<=34?7:u[e].hp<=68?3:1)+(u[e].flag>=0?7:0));opts.push_back({val,j});}
+                }
+                sort(opts.rbegin(),opts.rend());
+                for(int z=0;z<min(4,(int)opts.size());z++)actions[k][m].push_back(opts[z].second);
+                bool flaghere=false;
+                for(auto& f:g.flags)if(f.x>=0&&cell(f.x,f.y)==p&&(f.return_at<0||f.return_at>g.turn))flaghere=true;
+                // A pickup whose delivery cannot finish before the end is worthless.
+                if(u[id].flag<0&&flaghere){pickup[k][m]=bd[me][p]>remaining?0:PICK_BONUS*(1-block[k][m]);actions[k][m].push_back(-1);}
+                if(actions[k][m].empty())actions[k][m].push_back(-1);
+                if(u[id].flag>=0){actions[k][m]={-1};pickup[k][m]=0;}
+            }
+        }
+        double best=-1e50;array<int,3> bm{{0,0,0}},ba{{-1,-1,-1}};
+        for(int a:moves[0])for(int b:moves[1])for(int c:moves[2]) {
+            array<int,3> mv{{a,b,c}},pp{{-1,-1,-1}};bool good=true;
+            for(int k=0;k<3;k++)if(pos[own[k]]>=0)pp[k]=nb[pos[own[k]]][mv[k]];
+            for(int k=0;k<3;k++)for(int h=k+1;h<3;h++)if(pp[k]>=0&&pp[k]==pp[h])good=false;
+            if(!good)continue;
+            double combat=g.teams==2?C_DUEL:C_MULTI,futurescale=g.teams==2?F_DUEL:F_MULTI;
+            array<double,3> death{},expected{};double value=combat*incoming(mv,death,expected);
+            for(int k=0;k<3;k++)value+=positional[k][mv[k]];
+            auto ft=futureTable(mv,pp,g);
+            for(int x:actions[0][a])for(int y:actions[1][b])for(int z:actions[2][c]) {
+                array<int,3> ac{{x,y,z}};double fr=futurescale*futureRisk(mv,ac,ft,expected,pp);
+                double v=value+combat*firing(mv,ac)+fr;
+                for(int k=0;k<3;k++)if(ac[k]<0)v+=pickup[k][mv[k]]*(1-death[k]);
+                if(v>best){best=v;bm=mv;ba=ac;}
+            }
+        }
+        string out=to_string(g.turn);
+        for(int k=0;k<3;k++) {out+=' ';out+=mc[bm[k]];out+=' ';out+=ba[k]>=0?to_string(pred[ba[k]].id):"P";}
+        for(int id=0;id<(int)u.size();id++){oldp[id]=pos[id];oldhp[id]=u[id].hp;}
+        return out;
+    }
+};
+}  // namespace duel
+
+
+#ifndef PONLY_NO_MAIN  // tests include the bot without its main()
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    Game g;
+    multi::Planner many;
+    duel::Player two;
+    while (read_turn(g)) cout << (g.teams == 2 ? two.decide(g) : many.decide(g)) << endl;
+    return 0;
+}
+#endif
+

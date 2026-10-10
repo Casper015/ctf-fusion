@@ -1,0 +1,549 @@
+"""Derive p_only/bots/c08_ponly.hpp from candidate/C08_Player5_Omega_LIT_Fusion.hpp.
+
+Record of how the P-only carrier was made (source snapshot 99ecbe1). Every replaced
+range is checked at both ends, so the script refuses a changed source instead of
+splicing at the wrong place. Run: python p_only/tools/derive/make_c08.py
+"""
+import os
+import sys
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[3]
+src = (REPO / "candidate/C08_Player5_Omega_LIT_Fusion.hpp").read_text(encoding="utf-8").split("\n")
+edits = {}          # original line -> replacement lines ([] deletes)
+
+
+def expect(n, text):
+    if text not in src[n - 1]:
+        sys.exit(f"line {n}: expected {text!r}, got {src[n - 1][:90]!r}")
+
+
+def block(a, b, first, last, text):
+    """Replace original lines a..b (checked at both ends) by `text` (None deletes)."""
+    expect(a, first)
+    expect(b, last)
+    for n in range(a, b + 1):
+        if n in edits:
+            sys.exit(f"line {n} edited twice")
+        edits[n] = []
+    if text is not None:
+        edits[a] = text.strip("\n").split("\n")
+
+
+def inline(n, old, new):
+    expect(n, old)
+    if n in edits:
+        sys.exit(f"line {n} edited twice")
+    edits[n] = [src[n - 1].replace(old, new, 1)]
+
+
+# ---------------------------------------------------------------- header, includes, session
+block(27, 32, "#ifndef MOD_FUSION_P", "#endif", """
+#ifndef MOD_FUSION_V
+#define MOD_FUSION_V 0
+#endif""")
+block(51, 69, "#if MOD_FUSION_P || MOD_FUSION_V", "#endif", """
+#include "features.hpp"
+#include "policy.hpp"
+#include "adapter.hpp"
+#include "value.hpp"
+#include "state.hpp"
+#include "ponly.hpp"
+
+#if defined(FUSION_TIER_M)
+#include "models_m/registry.hpp"
+#elif defined(FUSION_TIER_L)
+#include "models_l/registry.hpp"
+#elif defined(FUSION_TIER_XL)
+#include "models_xl/registry.hpp"
+#elif defined(FUSION_TIER_XXL)
+#include "models_xxl/registry.hpp"
+#else
+#include "models/registry.hpp"
+#endif""")
+block(89, 89, "#if MOD_FUSION_P || MOD_FUSION_V", "#if MOD_FUSION_P || MOD_FUSION_V", None)
+block(138, 187, "struct Session {", "};", """
+    // `view` holds the network's predictions for the current real turn; its
+    // history is the previous real observation. A branch (a simulated state
+    // inside the checked lookahead) goes to `branchView` with the root state as
+    // its previous observation; the real history never sees it. `cur` is the
+    // view that forecasts and rival orders read; callers restore it.
+    struct PSession {
+        bool initialized = false;
+        fusion::Board board;
+        fusion::State lastReal;
+        bool hasReal = false;
+        ponly::View view, branchView;
+        ponly::View* cur = &view;
+        mutable ponly::Counters counters;
+        const fusion::models::ModelSet* model = nullptr;
+
+        PSession() = default;
+        PSession(const PSession&) = delete;
+        PSession& operator=(const PSession&) = delete;
+
+        const fusion::PolicyModel* policy() const { return model ? model->policy : nullptr; }
+
+        void update(const Game& g) {
+            if (!initialized) { board.init(makeStatic(g)); initialized = true; }
+            model = fusion::models::forTeams(g.teams);
+            fusion::State s = makeState(g);
+            view.counters = &counters;
+            view.build(board, s, hasReal ? &lastReal : nullptr, g.me, policy());
+            lastReal = std::move(s);
+            hasReal = true;
+            cur = &view;
+        }
+
+        // A simulated successor of the root: the branch view becomes current.
+        void branch(const Game& next) {
+            branchView.counters = &counters;
+            counters.branches++;
+            branchView.build(board, makeState(next), &view.state(), next.me, policy());
+            cur = &branchView;
+        }
+
+        // A view of state `s` for the teams in `teams` (root as previous observation).
+        void predictInto(const fusion::State& s, int me, ponly::View& out, const std::vector<char>* teams) const {
+            out.counters = &counters;
+            out.build(board, s, &view.state(), me, policy(), teams);
+        }
+
+        double evalGameValue(const Game& g) const {
+            if (!model || !model->value) return 0.5;
+            fusion::State st = makeState(g);
+            fusion::TurnView vw;
+            fusion::makeView(board, st, nullptr, vw);
+            fusion::ValueFeatures vf;
+            fusion::encodeValue(board, st, vw, g.me, vf);
+            return fusion::value(*model->value, vf);
+        }
+
+#if PONLY_STATS
+        // One line of counters on stderr at the last turn (screen builds only).
+        void report(const Game& g) const {
+            if (g.turn != g.turns) return;
+            std::cerr << "PONLY builds " << counters.builds << " teams " << counters.teams << " act " << counters.actHeads
+                      << " target " << counters.targetHeads << " fallback " << counters.fallback << std::endl;
+        }
+#else
+        void report(const Game&) const {}
+#endif
+    };""")
+block(189, 189, "#endif", "#endif", None)
+
+# ---------------------------------------------------------------- search: types
+block(375, 376, "int plies = 2;", "double plyDiscount", None)
+block(412, 417, "struct Rival {", "};", """
+struct Rival {     // an opponent with the network's destinations
+    Fighter f;
+    std::vector<int> cell;
+    std::vector<double> prob;                        // P(destination)
+    std::vector<std::array<double,3>> aim;           // P(attack and target = our unit k | destination)
+    double killValue = 11;
+};""")
+block(419, 430, "struct Input {", "};", """
+// The rivals' ply-2 orders (P-only), per rival: the network's move index (-1:
+// no prediction, the rival keeps its cell) and P(attack and target = our unit
+// k) after that move.
+struct Ply2 { std::vector<int> move; std::vector<std::array<double,3>> aim; };
+struct Input;
+// Predicts Ply2 for joint sample `sample` from the settled ply-1 cells of every
+// search unit (our units 0..2, then the rivals; -1 = not on the board).
+struct Ply2Source {
+    virtual void predict(const Input& in, const std::vector<int>& cells, int sample, Ply2& out) const = 0;
+    virtual ~Ply2Source() = default;
+};
+struct Input {
+    Board board;
+    int me = 0, turn = 0;
+    Costs costs;
+    std::array<Ally,3> allies;
+    std::vector<Rival> rivals;
+    const std::vector<double>* pickCell = nullptr;   // pickup value of reaching a flag cell
+    std::vector<Plan> plans;                         // analytic joint plans (move = option index)
+    const ponly::View* view = nullptr;               // the network at the root: joint enemy samples
+    const Ply2Source* ply2 = nullptr;                // the network at ply 2: the rivals' next orders
+};""")
+
+# ---------------------------------------------------------------- search: dynamics
+block(467, 470, "// Plies 2..H: rival cells", "ownPri;", """
+    // Ply 2: rival cells (-1 = dead or killed) and the sample's predicted orders.
+    std::vector<int> e2;
+    Ply2 p2;""")
+inline(490, "e2.assign(E, -1); prevE.assign(E, -1); cross.assign(E, 0); ownPri.assign(E, {0, 0, 0});", "e2.assign(E, -1); p2.move.assign(E, -1); p2.aim.assign(E, {0, 0, 0});")
+block(514, 522, "// Target-priority rule", "", None)
+block(571, 601, "// Incoming fire at the settled cells", "}", """
+// Incoming fire at the settled cells (P-only): rival e attacks our unit k with
+// the network's probability for its sampled destination, P(attack and target
+// = k), and the order lands when the settled cells allow the shot. Per-ally hit
+// counts are convolved.
+inline Ply1 incomingFire(const Input& in, const std::vector<int>& pick, World& w) {
+    const Board& B = in.board;
+    Ply1 out;
+    std::array<std::array<double,4>,3> hc{};
+    for (int k = 0; k < 3; k++) hc[k] = {1, 0, 0, 0};
+    for (int e = 0; e < w.E; e++) {
+        const Rival& r = in.rivals[e]; const int j = 3 + e;
+        if (!w.live[j] || r.f.carrying || r.f.immune || r.cell.empty()) continue;
+        const auto& aim = r.aim[pick[e]];
+        for (int k = 0; k < 3; k++) {
+            if (!w.live[k] || in.allies[k].f.immune || aim[k] <= 0 || !B.shot(w.at[j], w.at[k])) continue;
+            out.hits[k] += aim[k]; addShot(hc[k], aim[k]);
+        }
+    }
+    for (int k = 0; k < 3; k++) {
+        const Fighter& f = in.allies[k].f;
+        if (!w.live[k] || f.immune) continue;
+        int lethal = (f.hp + 33) / 34; for (int x = std::min(lethal, 3); x < 4; x++) out.death[k] += hc[k][x];
+    }
+    return out;
+}""")
+block(639, 661, "// Scripted enemy step", "}", """
+// Ply-2 rival cells (P-only): each surviving rival takes the network's move
+// drawn for this sample from its settled ply-1 cell (into a wall: it stays).
+// Rivals without a prediction (teams too far from our units to reach them by
+// ply 2) keep their cell. Killed rivals drop out.
+inline void rivalsStep2(const Input& in, World& w) {
+    const auto& nb = *in.board.nb;
+    for (int e = 0; e < w.E; e++) {
+        const int j = 3 + e; w.e2[e] = -1;
+        if (!w.live[j] || w.killed[e]) continue;
+        const int m = w.p2.move[e];
+        w.e2[e] = m < 0 || nb[w.at[j]][m] < 0 ? w.at[j] : nb[w.at[j]][m];
+    }
+}""")
+block(663, 664, "// Plies 2..H. beginPly", "// surviving rivals at e2", """
+// Ply 2. beginPly indexes the positions of the ply (our units at `cur`,
+// surviving rivals at e2) for range queries until endPly.""")
+block(670, 688, "// Attention every armed rival", "", None)
+block(696, 711, "// Exposure of our unit k", "}", """
+// Exposure of our unit k if it steps to q at ply 2 with expected HP `hp`: the
+// rivals in `close` follow the network's ply-2 orders, P(attack and target =
+// our unit k), which land when the shot from their ply-2 cell reaches q.
+struct Exposure { double hits = 0, death = 0; };
+inline Exposure exposure(const Input& in, const World& w, int k, int q, double hp, const std::vector<int>& close) {
+    const Board& B = in.board;
+    const int lethal = std::max(1, (int)std::ceil(std::max(1.0, hp) / 34.0));
+    std::array<double,4> h{1, 0, 0, 0}; Exposure out;
+    for (int e : close) {
+        const double pp = w.p2.aim[e][k];
+        if (pp <= 0 || !B.shot(w.e2[e], q)) continue;
+        out.hits += pp; addShot(h, pp);
+    }
+    for (int x = std::min(lethal, 3); x < 4; x++) out.death += h[x];
+    return out;
+}""")
+
+# ---------------------------------------------------------------- search: rollout
+block(798, 804, "//   ply 2..H our surviving units", "// With plies = 2 this is Player2 v005", """
+//   ply 2    the rivals take the network's ply-2 orders (one draw per joint
+//            sample); our surviving units step greedily on
+//              potential - fireCost + best shotValue (unladen units only);
+//            units lost at ply 1 keep the potential of the cell where they fell
+//   result   v + continuationWeight * v2
+// P-only: there are no scripted later plies.""")
+block(864, 908, "// Plies 2..H.", "}", """
+    // Ply 2 (P-only).
+    dynamics::rivalsStep2(in, w);
+    std::array<int,3> cur{}; std::array<double,3> hpNow{}, alive{}, dead{};
+    for (int k = 0; k < 3; k++) {
+        if (!w.live[k]) continue;
+        cur[k] = w.at[k]; hpNow[k] = in.allies[k].f.hp - 34 * p1.hits[k]; alive[k] = 1 - p1.death[k];
+        dead[k] = p1.death[k] * ev.lostValue(in, k, w.at[k]);
+    }
+    double v2 = 0;
+    dynamics::beginPly(w, cur);
+    for (int k = 0; k < 3; k++) {
+        if (!w.live[k]) continue;
+        const int p = cur[k]; const bool car = in.allies[k].f.carrying || picked[k];
+        const std::vector<int>& close = dynamics::rivalsNear(w, p);
+        double best = -1e300;
+        for (int m = 0; m < 5; m++) {
+            const int q = nb[p][m]; if (q < 0) continue;
+            double val = ev.potential(in, k, q, picked[k], car);
+            const dynamics::Exposure x = dynamics::exposure(in, w, k, q, hpNow[k], close);
+            val -= ev.fireCost(in, car, x.hits, x.death);
+            if (!car) {
+                double off = 0;
+                for (int e : close) if (dynamics::canShoot(in, w, q, e)) off = std::max(off, ev.shotValue(in, e, w.hpE[e]));
+                val += off;
+            }
+            best = std::max(best, val);
+        }
+        v2 += alive[k] * best + dead[k];
+    }
+    dynamics::endPly(w);""")
+
+# ---------------------------------------------------------------- search: sampling and rank
+block(919, 922, "// JointSampler: sample s gives rival e", "// numbers), and the sequence is deterministic.", """
+// JointSampler (P-only): in sample s every opponent team takes one draw from
+// the network's joint at the root (uniform keyed by turn, team and s), so every
+// plan meets the same joint sample (common random numbers) and the sequence is
+// deterministic. A rival of a team without a prediction draws from its outcome
+// probabilities (uniform; counted by the session).""")
+block(936, 990, "struct JointSampler {", "};", """
+struct JointSampler {
+    const ponly::View* view = nullptr;
+    explicit JointSampler(const Input& in) : view(in.view) {}
+    // pick[e] = destination index of rival e in joint sample `smp`.
+    void draw(const Input& in, int smp, std::vector<int>& pick) const {
+        const auto& nb = *in.board.nb;
+        std::array<std::array<int,3>,16> team{}; std::array<char,16> drawn{};
+        for (size_t e = 0; e < in.rivals.size(); e++) {
+            const Rival& r = in.rivals[e]; const int t = r.f.team, id = r.f.id;
+            int ch = 0;
+            if (view && view->has(t) && r.f.cell >= 0 && t >= 0 && t < 16) {
+                if (!drawn[t]) { view->jointDraw(t, ponly::uniform(in.turn, t, smp, 7), team[t].data()); drawn[t] = 1; }
+                const int want = nb[r.f.cell][team[t][id % 3]];
+                for (int o = 0; o < (int)r.cell.size(); o++) if (r.cell[o] == want) { ch = o; break; }
+            } else {
+                const double u = ponly::uniform(in.turn, id, smp, 9); double acc = 0;
+                for (int o = 0; o < (int)r.prob.size(); o++) { ch = o; acc += r.prob[o]; if (u < acc) break; }
+            }
+            pick[e] = ch;
+        }
+    }
+};
+
+// P-only ply 2: once per joint sample, the network predicts the rivals' next
+// orders on the ply-1 state that the sample reaches under a reference plan,
+// and every plan of the sample shares them. Requires the sample's rival
+// intents (dynamics::setRivalIntents) already set.
+inline void predictPly2(const Input& in, const Plan& ref, int smp, dynamics::World& w, std::vector<int>& cells) {
+    if (!in.ply2) { w.p2.move.assign(w.E, -1); w.p2.aim.assign(w.E, {0, 0, 0}); return; }
+    dynamics::setOwnIntents(in, ref, w); dynamics::settle(w);
+    cells.assign(w.U, -1);
+    for (int a = 0; a < w.U; a++) if (w.live[a]) cells[a] = w.at[a];
+    in.ply2->predict(in, cells, smp, w.p2);
+}""")
+block(1037, 1038, "std::vector<int> pick(E); std::vector<double> tmp(C);", "auto draw = [&](int smp)", """
+    std::vector<int> pick(E), cells; std::vector<double> tmp(C);
+    auto draw = [&](int smp, const Plan& ref) {
+        sampler.draw(in, smp, pick); dynamics::setRivalIntents(in, pick, world); world.sample = smp;
+        predictPly2(in, ref, smp, world, cells);
+    };""")
+inline(1045, "draw(smp);", "draw(smp, plans[0]);")
+inline(1072, "draw(done);", "draw(done, plans[alive[0]]);")
+inline(1102, "dynamics::setRivalIntents(in, pick, world); world.sample = sample;",
+       "dynamics::setRivalIntents(in, pick, world); world.sample = sample;\n    std::vector<int> cells; predictPly2(in, plan, sample, world, cells);")
+
+# ---------------------------------------------------------------- ctfcombat
+block(1134, 1134, "W_other_attention", "W_other_attention", None)
+block(1155, 1155, "struct Outcome", "struct Outcome", """
+// One destination of an opponent unit, from the policy network: the move's
+// probability; after it, the probabilities of attacking, picking up and
+// dropping; and of attacking each of our three units (attack and target).
+struct Outcome { Pos p; double prob = 0; double fire = 0, pickup = 0, drop = 0; std::array<double,3> aim{}; };""")
+block(1159, 1159, "double attention = 1.0;", "double attention = 1.0;", None)
+block(1236, 1243, "inline double priority", "", None)
+block(1271, 1277, "// Crossfire between opponents", "}", None)
+block(1369, 1382, "// A zero conditional firing chance", "incoming[e][i]+=", """
+                    // The network's order lands when the settled cells allow the shot:
+                    // P(attack and target = our unit i | this move).
+                    if(enemy.u.flag>=0 || enemy.u.immune || out.fire<=1e-9) continue;
+                    for(int i=0;i<3;++i) if(alive(own[i]) && !own[i].immune && canAttack(map,pos[3],pos[i])) {
+                        possibleShot[i]=true;
+                        incoming[e][i]+=probability*out.aim[i];
+                    }""")
+
+# ---------------------------------------------------------------- multi::Planner
+block(1534, 1550, "bool groundFlagAt", "    }", None)
+block(1578, 1582, "for(const auto& o:e.forecast){r.cell.push_back", "#endif", """
+            for(const auto& o:e.forecast){r.cell.push_back(cellOf(o.p));r.prob.push_back(o.prob);r.aim.push_back(o.aim);}
+            in.rivals.push_back(std::move(r));}
+        in.view=fSession.cur;
+        // Ply-2 predictions only for teams that can reach our units by ply 2
+        // (within Manhattan 6 of one of them now); the others cannot matter there.
+        ply2Source.fs=&fSession;ply2Source.g=&g;ply2Source.n=nav.n;ply2Source.teams.assign(g.teams,0);
+        for(const auto& e:foes){const int p=cellOf(e.u.p);for(int k=0;k<3;k++){int a=cellOf(own[k].p);if(a>=0&&p>=0&&man(a,p)<=6)ply2Source.teams[e.u.team]=1;}}
+        in.ply2=&ply2Source;""")
+block(1597, 1597, "if(genes.playout)cfg.plies=4;", "if(genes.playout)cfg.plies=4;", """
+        // P-only: no scripted playouts (MOD_PLAYOUT); the network predicts ply 2.""")
+block(1625, 1694, "void forecast(const Game& g){", "    }", """
+    // P-only forecast: every legal destination of an opponent unit with the
+    // network's move probability, its attack, pickup and drop probabilities
+    // after the move, and its aim at each of our units. A unit without a
+    // prediction gets uniform moves (counted). The threat map weighs cells
+    // within reach of each destination by the probability of moving there and
+    // firing.
+    void forecast(const Game& g){
+        foes.clear();threat.assign(nav.N,0);ponly::View& v=*fSession.cur;
+        for(auto& u:g.units)if(u.team!=g.me&&pos[u.id]>=0){
+            int p=pos[u.id];
+            ctfcombat::Enemy e;e.u={u.id,u.team,{p%nav.n,p/nav.n},immune[u.id]?100:u.hp,u.flag,immune[u.id]};
+            e.killValue=11+(u.flag>=0?16:0);
+            const bool known=v.has(u.team)&&v.origin(u.id)>=0;double total=0;
+            if(!known)fSession.counters.fallback++;
+            for(int m=0;m<5;m++)if(nav.nb[p][m]>=0){int q=nav.nb[p][m];ctfcombat::Outcome o;o.p={q%nav.n,q/nav.n};
+                if(known){o.prob=v.move(u.id,m);const auto& a=v.act(u.id,m);o.fire=a[fusion::kAttack];o.pickup=a[fusion::kPickup];o.drop=a[fusion::kDrop];
+                    for(int k=0;k<3;k++)o.aim[k]=v.aim(u.id,m,3*g.me+k);}
+                else o.prob=1.;
+                total+=o.prob;e.forecast.push_back(o);}
+            for(auto& o:e.forecast)o.prob=total>0?o.prob/total:1./e.forecast.size();
+            foes.push_back(e);
+            for(auto& o:e.forecast)if(o.fire>0){int q=nav.cell(o.p.x,o.p.y);for(int dy=-2;dy<=2;dy++)for(int dx=-2;dx<=2;dx++)if(abs(dx)+abs(dy)<=2){int x=o.p.x+dx,y=o.p.y+dy;if(x<0||x>=nav.n||y<0||y>=nav.n)continue;int r=nav.cell(x,y);if(nav.open(r)&&shot(q,r,g))threat[r]+=o.prob*o.fire;}}
+        }
+    }""")
+block(1805, 1807, "#if MOD_FUSION_P || MOD_FUSION_V", "#endif", """
+    fusion_hook::PSession fSession;
+    // The network's ply-2 orders for the sampled search: one view per joint
+    // sample of the ply-1 state its reference plan reaches (root: previous observation).
+    struct Ply2FromNetwork : search::Ply2Source {
+        const fusion_hook::PSession* fs=nullptr;const Game* g=nullptr;int n=0;
+        vector<char> teams;mutable ponly::View scratch;
+        void predict(const search::Input& in,const vector<int>& cells,int sample,search::Ply2& out)const override{
+            const int E=int(in.rivals.size());out.move.assign(E,-1);out.aim.assign(E,{0,0,0});
+            bool any=false;for(char c:teams)any|=c!=0;if(!any||!fs)return;
+            fusion::State st=fs->view.state();st.turn+=1;st.attacks.clear();
+            auto place=[&](int id,int c){if(id<0||c<0)return;auto& u=st.units[id];u.x=c%n;u.y=c/n;if(u.respawnAt>=0){u.hp=g->hp;u.respawnAt=-1;}};
+            for(int a=0;a<3;a++)place(in.allies[a].f.id,cells[a]);
+            for(int e=0;e<E;e++)place(in.rivals[e].f.id,cells[3+e]);
+            fs->predictInto(st,g->me,scratch,&teams);
+            array<array<int,3>,16> mv{};array<char,16> drawn{};
+            for(int e=0;e<E;e++){const int id=in.rivals[e].f.id,t=id/3;if(t<0||t>=16||!scratch.has(t)||scratch.origin(id)<0)continue;
+                if(!drawn[t]){scratch.jointDraw(t,ponly::uniform(st.turn,t,sample,29),mv[t].data());drawn[t]=1;}
+                const int m=mv[t][id%3];out.move[e]=m;
+                for(int k=0;k<3;k++){const int ally=in.allies[k].f.id;out.aim[e][k]=ally>=0?scratch.aim(id,m,ally):0.;}}
+        }
+    } ply2Source;""")
+block(1851, 1853, "struct Runtime {", "void restoreRuntime", """
+    struct Runtime {vector<Unit> previous;array<int,3> type,id;vector<int> positions;vector<bool> immunity;vector<double> hazards;array<vector<double>,3> routes;vector<ctfcombat::Enemy> enemies;ponly::View* view;};
+    Runtime saveRuntime()const{return {prev,oldType,oldId,pos,immune,threat,route,foes,fSession.cur};}
+    void restoreRuntime(const Runtime& s){prev=s.previous;oldType=s.type;oldId=s.id;pos=s.positions;immune=s.immunity;threat=s.hazards;route=s.routes;foes=s.enemies;fSession.cur=s.view;}""")
+block(1878, 1912, "// Beta(0.25,16) prior per context", "    }", None)
+block(1940, 1969, "void rivalOrders(const Game& g,int model", "    }", """
+    // The rivals' orders from the network's view of this state (the root, or a
+    // branch inside refineChecked): model 0 is each team's most probable joint
+    // move and act, model 1 one draw shared by every candidate. acts: target id
+    // (attack), -2 pickup, -3 drop, -1 nothing.
+    void rivalOrders(const Game& g,int model,vector<int>& want,vector<int>& acts){
+        want=pos;acts.assign(g.units.size(),-1);ponly::View& v=*fSession.cur;
+        for(int t=0;t<g.teams;t++)if(t!=g.me){
+            if(!v.has(t)){for(int k=0;k<3;k++)if(pos[3*t+k]>=0)fSession.counters.fallback++;continue;}
+            auto orders=v.teamOrders(t,model==0?-1:0,17);
+            for(int k=0;k<3;k++){int id=3*t+k;if(pos[id]<0)continue;int q=nav.nb[pos[id]][orders[k].move];want[id]=q>=0?q:pos[id];
+                acts[id]=orders[k].act==fusion::kAttack?orders[k].target:orders[k].act==fusion::kPickup?-2:orders[k].act==fusion::kDrop?-3:-1;}
+        }
+    }""")
+inline(2018, "rivalAttacks(g,want,acts);Game next;", "Game next;")
+inline(2023, "rivalAttacks(next,want2,acts2);Game end;", "Game end;")
+block(2054, 2056, "#if MOD_FUSION_P || MOD_FUSION_V", "#endif", """
+        // The real turn updates the root view and history; a branch only the branch view.
+        if(refineAllowed)fSession.update(g);else fSession.branch(g);""")
+block(2114, 2114, "rivalAttacks(g, want, acts);", "rivalAttacks(g, want, acts);", None)
+block(2138, 2138, "if(active(g).drop)observeDrops(g);", "if(active(g).drop)observeDrops(g);", None)
+inline(2139, "auto result=planTurn(g,true);", "auto result=planTurn(g,true);fSession.report(g);")
+
+# ---------------------------------------------------------------- duel::Player
+block(2154, 2154, "array<double,5> other;", "array<double,5> other;", """
+    array<double,5> fire;              // P(attack | move)
+    array<array<double,3>,5> aim;      // P(attack and target = our unit k | move)""")
+inline(2163, "vector<int> oldp, lasttarget, oldhp, occupied;", "vector<int> oldp, oldhp, occupied;")
+block(2169, 2169, "vector<double> otherFocus;", "vector<double> otherFocus;", None)
+block(2176, 2178, "#if MOD_FUSION_P || MOD_FUSION_V", "#endif", """
+    fusion_hook::PSession fSession;""")
+block(2197, 2199, "double tw(int id) const {", "    }", None)
+inline(2229, "oldp.assign(g.units.size(),-1);lasttarget.assign(g.units.size(),-1);", "oldp.assign(g.units.size(),-1);")
+block(2244, 2244, "lasttarget[e.args[0]]=e.args[1];", "lasttarget[e.args[0]]=e.args[1];", None)
+block(2376, 2442, "void predict(const Game& g) {", "        }", """
+    // P-only: each enemy unit's legal moves with the network's probabilities,
+    // and after each move its attack probability and aim at our units. A unit
+    // without a prediction gets uniform moves (counted).
+    void predict(const Game& g) {
+        (void)g;pred.clear();ponly::View& v=*fSession.cur;
+        for(auto& e:u)if(e.team!=me&&pos[e.id]>=0) {
+            Prediction pr;pr.id=e.id;pr.p=nb[pos[e.id]];pr.pr.fill(0);pr.fire.fill(0);for(auto& a:pr.aim)a.fill(0);
+            const bool known=v.has(e.team)&&v.origin(e.id)>=0;double sum=0;int cnt=0;
+            if(!known)fSession.counters.fallback++;
+            for(int m=0;m<5;m++)if(pr.p[m]>=0){cnt++;
+                if(known){pr.pr[m]=v.move(e.id,m);pr.fire[m]=v.fire(e.id,m);for(int k=0;k<3;k++)pr.aim[m][k]=v.aim(e.id,m,own[k]);}
+                else pr.pr[m]=1;
+                sum+=pr.pr[m];}
+            for(int m=0;m<5;m++)if(pr.p[m]>=0)pr.pr[m]=sum>0?pr.pr[m]/sum:1./cnt;
+            pred.push_back(pr);
+        }""")
+block(2460, 2513, "double incoming(const array<int,3>& move", "    }", """
+    // Expected incoming fire under the network's predictions: enemy j moving h
+    // attacks our unit k with P(attack and target = k | h), and the shot lands
+    // when the cells allow it (hit table). Hit counts per unit are convolved.
+    double incoming(const array<int,3>& move,array<double,3>& death,array<double,3>& expected) const {
+        array<array<double,4>,3> dp{};array<double,3> eh{};
+        for(int k=0;k<3;k++)dp[k][0]=1;
+        for(int j=0;j<(int)pred.size();j++) {
+            auto& e=pred[j];if(u[e.id].flag>=0||immune[e.id])continue;
+            array<double,3> prob{};
+            for(int h=0;h<5;h++)if(e.p[h]>=0)
+                for(int k=0;k<3;k++)if(pos[own[k]]>=0&&!immune[own[k]]&&hit[k][move[k]][j][h]>0)prob[k]+=e.pr[h]*e.aim[h][k];
+            for(int k=0;k<3;k++) {
+                eh[k]+=prob[k];
+                array<double,4> z{};
+                for(int a=0;a<4;a++){z[a]+=dp[k][a]*(1-prob[k]);z[min(3,a+1)]+=dp[k][a]*prob[k];}dp[k]=z;
+            }
+        }
+        double v=0;
+        for(int k=0;k<3;k++)if(pos[own[k]]>=0) {
+            int id=own[k],need=(u[id].hp+33)/34;death[k]=0;
+            for(int a=need;a<4;a++)death[k]+=dp[k][a];
+            double dmg=0;for(int a=0;a<4;a++)dmg+=dp[k][a]*min(a,need);
+            double life= u[id].flag>=0 ? 24.0+max(0,12-bd[me][pos[id]])*.5 : 8.0;
+            if(bd[me][pos[id]]<4&&u[id].flag<0)life=6;
+            v-=dmg*(u[id].flag>=0?2.1:1.1)+life*death[k];
+            if(u[id].flag>=0&&u[id].hp<=68)v-=eh[k]*1.2;
+        }
+        for(int k=0;k<3;k++)expected[k]=eh[k];
+        // Survival gating keeps unscaled probabilities; only material costs decay.
+        return material*v;
+    }""")
+block(2549, 2550, "double w=u[id].hp<=34?15", "ft[k][j][h][shots]=exposed*.85*w/(w+pred[j].other[h]);", """
+                        ft[k][j][h][shots]=exposed*.85;""")
+block(2596, 2671, "struct Candidate {", "    }", None)
+block(2674, 2677, "const auto decideStart", "#endif", """
+        fSession.update(g);fSession.report(g);""")
+block(2722, 2722, "vector<Candidate> candidates;", "vector<Candidate> candidates;", None)
+block(2732, 2732, "Candidate candidate{", "Candidate candidate{", None)
+block(2738, 2738, "if(v>candidate.value)candidate=", "if(v>candidate.value)candidate=", None)
+block(2740, 2740, "candidates.push_back(candidate);", "candidates.push_back(candidate);", None)
+block(2742, 2816, "// Direction 6 in duels", "        }", None)
+
+inline(2672, "public:", "public:\n    const fusion_hook::PSession& session() const { return fSession; }")
+block(2826, 2826, "int main() {", "int main() {", """
+#ifndef PONLY_NO_MAIN  // tests include the bot without its main()
+int main() {""")
+inline(2834, "}", "}\n#endif")
+
+HEADER = """// C08 Player5_Omega_LIT carrier with the P-only opponent model.
+//
+// Every prediction about what opponents will do comes from the policy network
+// through p_only/include/ponly.hpp: movement, firing, targets, pickups and
+// drops at the root; the joint enemy samples of the expectimax search; the
+// rivals' ply-2 orders in every sampled rollout (one network view per sample);
+// and the rivals' orders and forecasts on the simulated states of the checked
+// lookahead (each predicted from that state, with the root as its previous
+// observation, never written into the real history).
+//
+// Removed from candidate/C08_Player5_Omega_LIT_Fusion.hpp: the hand-written
+// movement forecasts (multi and duel) and their mixture weight, the opponent
+// goal and target guesses, attention/priority/crossfire/focus weights and the
+// last-target habit, the ground-flag pickup-versus-fire rule, the learned
+// per-team drop rates and their contexts for rivals, "a blocked rival always
+// fires", the scripted rival steps of the playouts (MOD_PLAYOUT) and the
+// hand-written rival fire allocation of the lookahead. The duel's 24-sample
+// refinement, never active at two teams in this build (Expectimax is frozen to
+// multi-team counts), is deleted with its V term.
+// Kept: game rules (legal moves, settlement, range and line of fire, respawns,
+// flag returns), our own task assignment, candidate moves, scoring, search and
+// evaluation; the duel's reachability-based carrier-route risk. MOD_FUSION_V
+// adds the optional value terms of the multi-team planner. PONLY_STATS=1
+// prints the network call counters on stderr at the last turn."""
+
+for n in sorted(edits):
+    if n < 1 or n > len(src):
+        sys.exit(f"bad line {n}")
+out = HEADER.split("\n")
+for i, line in enumerate(src, 1):
+    out += edits[i] if i in edits else [line]
+dst = Path(os.environ.get("PONLY_DERIVE_DIR", REPO / "p_only/bots")) / "c08_ponly.hpp"   # tests derive into a scratch dir
+dst.parent.mkdir(parents=True, exist_ok=True)
+dst.write_text("\n".join(out), encoding="utf-8")
+print(dst, len(out), "lines")

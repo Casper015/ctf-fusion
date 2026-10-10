@@ -1,0 +1,6290 @@
+{
+ "inventory": "roster/new_bots/inventory.json",
+ "bots": [
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp",
+   "name": "ctf-arena_Player5_v12_rollout_volley",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 649,
+   "opponent_model": [
+    "forecast",
+    "rivalWants"
+   ],
+   "lookahead": [
+    "simulate",
+    "simStep",
+    "refine"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.7703,
+   "lcb": 0.7228,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.806,
+    "6-10": 0.708,
+    "11-15": 0.766
+   },
+   "max_ms": 8.613,
+   "p99_ms_median": 2.428,
+   "screen_rank": 1,
+   "readiness": 3,
+   "integrated": "v12 (P-only built)"
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_HABITS_adaptive.cpp",
+   "name": "R3_HABITS_adaptive",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1723,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "observe("
+   ],
+   "duel_split": true,
+   "utility": 0.7556,
+   "lcb": 0.6911,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.822,
+    "6-10": 0.678,
+    "11-15": 0.745
+   },
+   "max_ms": 15.03,
+   "p99_ms_median": 4.878,
+   "screen_rank": 2,
+   "readiness": 3
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-mc2.cpp",
+   "name": "cand-mc2",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1333,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "refine",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "utility": 0.7472,
+   "lcb": 0.683,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.717,
+    "6-10": 0.707,
+    "11-15": 0.755
+   },
+   "max_ms": 18.741,
+   "p99_ms_median": 2.246,
+   "screen_rank": 3,
+   "readiness": 3
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-mc1.cpp",
+   "name": "cand-mc1",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1333,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "refine",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "utility": 0.7454,
+   "lcb": 0.6805,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.708,
+    "6-10": 0.707,
+    "11-15": 0.755
+   },
+   "max_ms": 18.343,
+   "p99_ms_median": 2.0585,
+   "screen_rank": 4,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_external_CL.cpp",
+   "name": "Control_external_CL",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 778,
+   "opponent_model": [
+    "forecast",
+    "rivalWants"
+   ],
+   "lookahead": [
+    "simulate",
+    "simStep",
+    "refine"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.7434,
+   "lcb": 0.6758,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.789,
+    "6-10": 0.69,
+    "11-15": 0.718
+   },
+   "max_ms": 14.554,
+   "p99_ms_median": 2.1319999999999997,
+   "screen_rank": 5,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_EXPECTIMAX_sampled.cpp",
+   "name": "R3_EXPECTIMAX_sampled",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1804,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact",
+    "refineChecked"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "utility": 0.7388,
+   "lcb": 0.6772,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.817,
+    "6-10": 0.635,
+    "11-15": 0.744
+   },
+   "max_ms": 32.783,
+   "p99_ms_median": 30.2415,
+   "screen_rank": 6,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-s1-controls/exports/S1_C_Adaptive6p_Fast15.cpp",
+   "name": "S1_C_Adaptive6p_Fast15",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2248,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_WEIGHT_CACHE",
+    "HABITS_SIZES",
+    "habits"
+   ],
+   "duel_split": true,
+   "utility": 0.7378,
+   "lcb": 0.6749,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.764,
+    "6-10": 0.71,
+    "11-15": 0.698
+   },
+   "max_ms": 31.45,
+   "p99_ms_median": 16.633499999999998,
+   "screen_rank": 7,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C20_R3_HABITS_adaptive.cpp",
+   "name": "C20_R3_HABITS_adaptive",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1727,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "observe("
+   ],
+   "duel_split": true,
+   "utility": 0.7318,
+   "lcb": 0.6618,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.711,
+    "6-10": 0.678,
+    "11-15": 0.745
+   },
+   "max_ms": 10.815,
+   "p99_ms_median": 4.6370000000000005,
+   "screen_rank": 8,
+   "readiness": 3
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_small_runner.cpp",
+   "name": "ctf-arena_Player5_small_runner",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 514,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.7253,
+   "lcb": 0.6618,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.725,
+    "6-10": 0.649,
+    "11-15": 0.747
+   },
+   "max_ms": 6.788,
+   "p99_ms_median": 1.3485,
+   "screen_rank": 9,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp",
+   "name": "C04_G_PLAYOUT_4ply",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2186,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "utility": 0.7224,
+   "lcb": 0.6529,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.753,
+    "6-10": 0.637,
+    "11-15": 0.734
+   },
+   "max_ms": 31.402,
+   "p99_ms_median": 30.244500000000002,
+   "screen_rank": 10,
+   "readiness": 3
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-012.cpp",
+   "name": "cand-012",
+   "lineage": "lineage:cand-012",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 601,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.7111,
+   "lcb": 0.6393,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.778,
+    "6-10": 0.607,
+    "11-15": 0.717
+   },
+   "max_ms": 4.168,
+   "p99_ms_median": 0.9504999999999999,
+   "screen_rank": 11,
+   "readiness": 1
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C08_Player5_Omega_LIT.cpp",
+   "name": "C08_Player5_Omega_LIT",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2212,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "utility": 0.7109,
+   "lcb": 0.6506,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.839,
+    "6-10": 0.617,
+    "11-15": 0.67
+   },
+   "max_ms": 32.365,
+   "p99_ms_median": 25.044,
+   "screen_rank": 12,
+   "readiness": 3,
+   "integrated": "C08 (P-only built)"
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_HABITS_adaptive.cpp",
+   "name": "R3_HABITS_adaptive",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 859,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HabitVector",
+    "habit",
+    "Habit"
+   ],
+   "duel_split": false,
+   "utility": 0.7085,
+   "lcb": 0.6372,
+   "tier": "above",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.717,
+    "6-10": 0.636,
+    "11-15": 0.758
+   },
+   "max_ms": 12.378,
+   "p99_ms_median": 5.0705,
+   "screen_rank": 13,
+   "readiness": 3
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_runner_v8.cpp",
+   "name": "ctf-arena_Player5_runner_v8",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 539,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.7075,
+   "lcb": 0.6498,
+   "tier": "above",
+   "bands": {
+    "2": 0.9,
+    "3-5": 0.708,
+    "6-10": 0.651,
+    "11-15": 0.725
+   },
+   "max_ms": 8.021,
+   "p99_ms_median": 1.5525,
+   "screen_rank": 14,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+   "name": "Sol",
+   "lineage": "lineage:gpt-6.1-sol",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 712,
+   "opponent_model": [
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "utility": 0.7073,
+   "lcb": 0.6424,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.653,
+    "6-10": 0.689,
+    "11-15": 0.7
+   },
+   "max_ms": 18.674,
+   "p99_ms_median": 3.8474999999999997,
+   "screen_rank": 15,
+   "readiness": 3
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_volley_trio.cpp",
+   "name": "ctf-arena_Player5_v12_volley_trio",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 674,
+   "opponent_model": [
+    "forecast",
+    "rivalWants"
+   ],
+   "lookahead": [
+    "simulate",
+    "simStep",
+    "refine"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.7054,
+   "lcb": 0.644,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.739,
+    "6-10": 0.614,
+    "11-15": 0.718
+   },
+   "max_ms": 17.756,
+   "p99_ms_median": 2.403,
+   "screen_rank": 16,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_FLAGS_joint.cpp",
+   "name": "R3_FLAGS_joint",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1512,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "utility": 0.7021,
+   "lcb": 0.6389,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.767,
+    "6-10": 0.567,
+    "11-15": 0.739
+   },
+   "max_ms": 12.41,
+   "p99_ms_median": 4.9895,
+   "screen_rank": 17,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C22_R3_WEIGHTS_tuned.cpp",
+   "name": "C22_R3_WEIGHTS_tuned",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1499,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "utility": 0.7,
+   "lcb": 0.635,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.764,
+    "6-10": 0.622,
+    "11-15": 0.68
+   },
+   "max_ms": 12.668,
+   "p99_ms_median": 4.631,
+   "screen_rank": 18,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_WEIGHTS_tuned.cpp",
+   "name": "R3_WEIGHTS_tuned",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1495,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "utility": 0.697,
+   "lcb": 0.6348,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.75,
+    "6-10": 0.622,
+    "11-15": 0.68
+   },
+   "max_ms": 11.784,
+   "p99_ms_median": 4.5920000000000005,
+   "screen_rank": 19,
+   "readiness": 3
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_round3_macro_candidate.cpp",
+   "name": "ctf-arena_Player5_round3_macro_candidate",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 897,
+   "opponent_model": [
+    "forecast",
+    "rivalWants"
+   ],
+   "lookahead": [
+    "simulate",
+    "simStep",
+    "refine"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.6957,
+   "lcb": 0.628,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.669,
+    "6-10": 0.673,
+    "11-15": 0.673
+   },
+   "max_ms": 9.994,
+   "p99_ms_median": 2.1395,
+   "screen_rank": 20,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-s1-controls/exports/S1_D_CrowdHabit.cpp",
+   "name": "S1_D_CrowdHabit",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2550,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_WEIGHT_CACHE",
+    "HABITS_SIZES",
+    "habits"
+   ],
+   "duel_split": true,
+   "utility": 0.692,
+   "lcb": 0.6235,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.714,
+    "6-10": 0.607,
+    "11-15": 0.703
+   },
+   "max_ms": 32.911,
+   "p99_ms_median": 30.1265,
+   "screen_rank": 21,
+   "readiness": 3
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v2.cpp",
+   "name": "ctf-arena_Player5_macro_v2",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 507,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.6866,
+   "lcb": 0.6173,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.7,
+    "6-10": 0.573,
+    "11-15": 0.729
+   },
+   "max_ms": 7.627,
+   "p99_ms_median": 1.3370000000000002,
+   "screen_rank": 22,
+   "readiness": 3
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_hunter.cpp",
+   "name": "ctf-arena_Player5_hunter",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 539,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.6817,
+   "lcb": 0.6087,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.747,
+    "6-10": 0.602,
+    "11-15": 0.659
+   },
+   "max_ms": 5.412,
+   "p99_ms_median": 1.2530000000000001,
+   "screen_rank": 23,
+   "readiness": 3
+  },
+  {
+   "id": "New_AI_Test/Player5/workspace/submission/bot.cpp",
+   "name": "bot",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 885,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": true,
+   "utility": 0.6768,
+   "lcb": 0.6094,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.719,
+    "6-10": 0.631,
+    "11-15": 0.633
+   },
+   "max_ms": 6.688,
+   "p99_ms_median": 1.35,
+   "screen_rank": 24,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+   "name": "Astra",
+   "lineage": "lineage:gpt-6-astra",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 640,
+   "opponent_model": [
+    "enemyPrediction"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": true,
+   "utility": 0.6582,
+   "lcb": 0.5982,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.661,
+    "6-10": 0.635,
+    "11-15": 0.612
+   },
+   "max_ms": 24.91,
+   "p99_ms_median": 11.5975,
+   "screen_rank": 25,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-stress-pack/bots_v2/Player5.cpp",
+   "name": "Player5",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1050,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": true,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": true,
+   "utility": 0.6458,
+   "lcb": 0.5737,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.633,
+    "6-10": 0.624,
+    "11-15": 0.605
+   },
+   "max_ms": 16.904,
+   "p99_ms_median": 13.241,
+   "screen_rank": 26,
+   "readiness": 4
+  },
+  {
+   "id": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+   "name": "Sonnet",
+   "lineage": "lineage:sonnet-5.5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 525,
+   "opponent_model": [
+    "rival"
+   ],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.64,
+   "lcb": 0.5765,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.631,
+    "6-10": 0.591,
+    "11-15": 0.623
+   },
+   "max_ms": 4.823,
+   "p99_ms_median": 1.0870000000000002,
+   "screen_rank": 27,
+   "readiness": 2
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-011.cpp",
+   "name": "cand-011",
+   "lineage": "lineage:cand-011",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 554,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.6384,
+   "lcb": 0.5788,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.614,
+    "6-10": 0.573,
+    "11-15": 0.646
+   },
+   "max_ms": 6.781,
+   "p99_ms_median": 1.045,
+   "screen_rank": 28,
+   "readiness": 1
+  },
+  {
+   "id": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+   "name": "Fable",
+   "lineage": "lineage:fable-5.1",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 571,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.6062,
+   "lcb": 0.5403,
+   "tier": "above",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.581,
+    "6-10": 0.486,
+    "11-15": 0.663
+   },
+   "max_ms": 6.832,
+   "p99_ms_median": 1.291,
+   "screen_rank": 29,
+   "readiness": 1
+  },
+  {
+   "id": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+   "name": "Opus",
+   "lineage": "lineage:opus-5.5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 590,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.5735,
+   "lcb": 0.5008,
+   "tier": "above",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.514,
+    "6-10": 0.553,
+    "11-15": 0.584
+   },
+   "max_ms": 5.684,
+   "p99_ms_median": 1.0125,
+   "screen_rank": 30,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_fortress.cpp",
+   "name": "ctf-arena_Player5_fortress",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 539,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.532,
+   "lcb": 0.4643,
+   "tier": "level",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.536,
+    "6-10": 0.431,
+    "11-15": 0.537
+   },
+   "max_ms": 5.539,
+   "p99_ms_median": 1.2645,
+   "screen_rank": 31,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+   "name": "DeepSeek",
+   "lineage": "lineage:deepseek-v4.1-flash",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 534,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.5246,
+   "lcb": 0.4511,
+   "tier": "level",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.65,
+    "6-10": 0.401,
+    "11-15": 0.518
+   },
+   "max_ms": 6.687,
+   "p99_ms_median": 1.349,
+   "screen_rank": 32,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_raider.cpp",
+   "name": "ctf-arena_Player5_sparring_raider",
+   "lineage": "lineage:ctf-arena_Player5_sparring",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 81,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.5093,
+   "lcb": 0.433,
+   "tier": "level",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.414,
+    "6-10": 0.354,
+    "11-15": 0.663
+   },
+   "max_ms": 4.893,
+   "p99_ms_median": 0.9915,
+   "screen_rank": 33,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_adaptive.cpp",
+   "name": "ctf-arena_Player5_sparring_adaptive",
+   "lineage": "lineage:ctf-arena_Player5_sparring",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 94,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.507,
+   "lcb": 0.4403,
+   "tier": "level",
+   "bands": {
+    "2": 0.9,
+    "3-5": 0.514,
+    "6-10": 0.415,
+    "11-15": 0.516
+   },
+   "max_ms": 5.519,
+   "p99_ms_median": 1.116,
+   "screen_rank": 34,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring.cpp",
+   "name": "ctf-arena_Player5_sparring",
+   "lineage": "lineage:ctf-arena_Player5_sparring",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 81,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.5056,
+   "lcb": 0.4292,
+   "tier": "level",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.575,
+    "6-10": 0.416,
+    "11-15": 0.495
+   },
+   "max_ms": 4.52,
+   "p99_ms_median": 0.9265,
+   "screen_rank": 35,
+   "readiness": 1
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/incumbent-v001.cpp",
+   "name": "incumbent-v001",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 438,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.483,
+   "lcb": 0.401,
+   "tier": "level",
+   "bands": {
+    "2": 0.4,
+    "3-5": 0.458,
+    "6-10": 0.45,
+    "11-15": 0.548
+   },
+   "max_ms": 5.736,
+   "p99_ms_median": 0.9675,
+   "screen_rank": 36,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_runner.cpp",
+   "name": "ctf-arena_Player5_sparring_runner",
+   "lineage": "lineage:ctf-arena_Player5_sparring",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 95,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.4754,
+   "lcb": 0.3981,
+   "tier": "level",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.606,
+    "6-10": 0.346,
+    "11-15": 0.462
+   },
+   "max_ms": 4.613,
+   "p99_ms_median": 0.9764999999999999,
+   "screen_rank": 37,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player4_v9_latest.cpp",
+   "name": "ctf-arena_Player4_v9_latest",
+   "lineage": "lineage:Player4",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 854,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.4452,
+   "lcb": 0.3798,
+   "tier": "level",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.497,
+    "6-10": 0.342,
+    "11-15": 0.406
+   },
+   "max_ms": 5.556,
+   "p99_ms_median": 0.827,
+   "screen_rank": 38,
+   "readiness": 1
+  },
+  {
+   "id": "ctf-stress-pack/bots/Player2.cpp",
+   "name": "Player2",
+   "lineage": "lineage:Player2",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 583,
+   "opponent_model": [
+    "predictPositions"
+   ],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.4397,
+   "lcb": 0.3604,
+   "tier": "level",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.381,
+    "6-10": 0.36,
+    "11-15": 0.483
+   },
+   "max_ms": 4.122,
+   "p99_ms_median": 0.857,
+   "screen_rank": 39,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-stress-pack/bots/Player4.cpp",
+   "name": "Player4",
+   "lineage": "lineage:Player4",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 902,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.4396,
+   "lcb": 0.3709,
+   "tier": "level",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.378,
+    "6-10": 0.334,
+    "11-15": 0.47
+   },
+   "max_ms": 5.7,
+   "p99_ms_median": 0.877,
+   "screen_rank": 40,
+   "readiness": 1
+  },
+  {
+   "id": "New_AI_Test/Player4/workspace/experiments/candidate-v005-15p-intercept.cpp",
+   "name": "candidate-v005-15p-intercept",
+   "lineage": "lineage:candidate-v002-risk",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 466,
+   "opponent_model": [],
+   "lookahead": [
+    "search"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.4246,
+   "lcb": 0.3491,
+   "tier": "level",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.503,
+    "6-10": 0.328,
+    "11-15": 0.4
+   },
+   "max_ms": 8.873,
+   "p99_ms_median": 1.4344999999999999,
+   "screen_rank": 41,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player4_v8_winning.cpp",
+   "name": "ctf-arena_Player4_v8_winning",
+   "lineage": "lineage:Player4",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 849,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.42,
+   "lcb": 0.3556,
+   "tier": "below",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.475,
+    "6-10": 0.329,
+    "11-15": 0.362
+   },
+   "max_ms": 5.442,
+   "p99_ms_median": 0.9430000000000001,
+   "screen_rank": 42,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/roster/new_bots/independent/AI_Arena_CTF_Player01_bot.cpp",
+   "name": "AI_Arena_CTF_Player01_bot",
+   "lineage": "lineage:AI_Arena_CTF_Player01_bot",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 413,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.4195,
+   "lcb": 0.3435,
+   "tier": "below",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.556,
+    "6-10": 0.242,
+    "11-15": 0.44
+   },
+   "max_ms": 6.152,
+   "p99_ms_median": 1.5394999999999999,
+   "screen_rank": 43,
+   "readiness": 1
+  },
+  {
+   "id": "ctf-stress-pack/bots/Player3.cpp",
+   "name": "Player3",
+   "lineage": "lineage:Player3",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 571,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.4085,
+   "lcb": 0.339,
+   "tier": "below",
+   "bands": {
+    "2": 1.0,
+    "3-5": 0.364,
+    "6-10": 0.297,
+    "11-15": 0.428
+   },
+   "max_ms": 6.852,
+   "p99_ms_median": 0.836,
+   "screen_rank": 44,
+   "readiness": 1
+  },
+  {
+   "id": "ctf-stress-pack/bots/baseline.cpp",
+   "name": "Baseline",
+   "lineage": "lineage:baseline",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 233,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.3877,
+   "lcb": 0.3174,
+   "tier": "below",
+   "bands": {
+    "2": 0.6,
+    "3-5": 0.553,
+    "6-10": 0.267,
+    "11-15": 0.367
+   },
+   "max_ms": 5.741,
+   "p99_ms_median": 0.998,
+   "screen_rank": 45,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_tune.cpp",
+   "name": "ctf-arena_Player3_variants_bot_tune",
+   "lineage": "lineage:Player3",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 631,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.3861,
+   "lcb": 0.3117,
+   "tier": "below",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.319,
+    "6-10": 0.328,
+    "11-15": 0.402
+   },
+   "max_ms": 8.503,
+   "p99_ms_median": 0.845,
+   "screen_rank": 46,
+   "readiness": 1
+  },
+  {
+   "id": "New_AI_Test/player7/workspace/submission/bot.cpp",
+   "name": "bot",
+   "lineage": "lineage:bot",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 208,
+   "opponent_model": [
+    "predicted_spawn"
+   ],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.3837,
+   "lcb": 0.325,
+   "tier": "below",
+   "bands": {
+    "2": 0.9,
+    "3-5": 0.494,
+    "6-10": 0.251,
+    "11-15": 0.347
+   },
+   "max_ms": 17.675,
+   "p99_ms_median": 2.1470000000000002,
+   "screen_rank": 47,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+   "name": "Kimi",
+   "lineage": "lineage:kimi-k3",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 599,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.3744,
+   "lcb": 0.3007,
+   "tier": "below",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.494,
+    "6-10": 0.213,
+    "11-15": 0.379
+   },
+   "max_ms": 7.315,
+   "p99_ms_median": 1.4344999999999999,
+   "screen_rank": 48,
+   "readiness": 1
+  },
+  {
+   "id": "New_AI_Test/Player4/workspace/experiments/candidate-v002-risk.cpp",
+   "name": "candidate-v002-risk",
+   "lineage": "lineage:candidate-v002-risk",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 483,
+   "opponent_model": [],
+   "lookahead": [
+    "search"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.3729,
+   "lcb": 0.3014,
+   "tier": "below",
+   "bands": {
+    "2": 0.6,
+    "3-5": 0.506,
+    "6-10": 0.241,
+    "11-15": 0.38
+   },
+   "max_ms": 6.381,
+   "p99_ms_median": 1.4945,
+   "screen_rank": 49,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player4_v5.cpp",
+   "name": "ctf-arena_Player4_v5",
+   "lineage": "lineage:ctf-arena_Player4_v3",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 632,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.3656,
+   "lcb": 0.2956,
+   "tier": "below",
+   "bands": {
+    "2": 0.2,
+    "3-5": 0.303,
+    "6-10": 0.308,
+    "11-15": 0.494
+   },
+   "max_ms": 6.386,
+   "p99_ms_median": 0.909,
+   "screen_rank": 50,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/roster/new_bots/independent/AI_Arena_CTF_Player02_bot.cpp",
+   "name": "AI_Arena_CTF_Player02_bot",
+   "lineage": "lineage:AI_Arena_CTF_Player02_bot",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 156,
+   "opponent_model": [
+    "enemyPred"
+   ],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.3506,
+   "lcb": 0.2771,
+   "tier": "below",
+   "bands": {
+    "2": 0.6,
+    "3-5": 0.4,
+    "6-10": 0.265,
+    "11-15": 0.356
+   },
+   "max_ms": 9.147,
+   "p99_ms_median": 1.0385,
+   "screen_rank": 51,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "name": "MiMo",
+   "lineage": "lineage:mimo-v2.6-pro",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 476,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.3364,
+   "lcb": 0.2659,
+   "tier": "below",
+   "bands": {
+    "2": 0.8,
+    "3-5": 0.347,
+    "6-10": 0.245,
+    "11-15": 0.328
+   },
+   "max_ms": 9.305,
+   "p99_ms_median": 1.366,
+   "screen_rank": 52,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player4_v3.cpp",
+   "name": "ctf-arena_Player4_v3",
+   "lineage": "lineage:ctf-arena_Player4_v3",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 591,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.3026,
+   "lcb": 0.2365,
+   "tier": "below",
+   "bands": {
+    "2": 0.0,
+    "3-5": 0.253,
+    "6-10": 0.336,
+    "11-15": 0.36
+   },
+   "max_ms": 4.467,
+   "p99_ms_median": 0.9724999999999999,
+   "screen_rank": 53,
+   "readiness": 1
+  },
+  {
+   "id": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+   "name": "Qwen",
+   "lineage": "lineage:qwen-3.8-max",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 654,
+   "opponent_model": [
+    "predict"
+   ],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.2912,
+   "lcb": 0.2248,
+   "tier": "below",
+   "bands": {
+    "2": 0.4,
+    "3-5": 0.297,
+    "6-10": 0.252,
+    "11-15": 0.305
+   },
+   "max_ms": 4.603,
+   "p99_ms_median": 1.2635,
+   "screen_rank": 54,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/independent/ctf-arena_Player4_v2.cpp",
+   "name": "ctf-arena_Player4_v2",
+   "lineage": "lineage:ctf-arena_Player4_v2",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 673,
+   "opponent_model": [],
+   "lookahead": [
+    "simulate_friendly_moves"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.2764,
+   "lcb": 0.2151,
+   "tier": "below",
+   "bands": {
+    "2": 0.0,
+    "3-5": 0.219,
+    "6-10": 0.259,
+    "11-15": 0.384
+   },
+   "max_ms": 7.154,
+   "p99_ms_median": 0.8745,
+   "screen_rank": 55,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+   "name": "GLM",
+   "lineage": "lineage:glm-5.3",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 616,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.2115,
+   "lcb": 0.1574,
+   "tier": "below",
+   "bands": {
+    "2": 0.1,
+    "3-5": 0.239,
+    "6-10": 0.15,
+    "11-15": 0.279
+   },
+   "max_ms": 4.448,
+   "p99_ms_median": 1.046,
+   "screen_rank": 56,
+   "readiness": 1
+  },
+  {
+   "id": "ctf-stress-pack/bots/Player1.cpp",
+   "name": "Player1",
+   "lineage": "lineage:Player1",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 386,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.2071,
+   "lcb": 0.1543,
+   "tier": "below",
+   "bands": {
+    "2": 0.0,
+    "3-5": 0.278,
+    "6-10": 0.223,
+    "11-15": 0.19
+   },
+   "max_ms": 5.558,
+   "p99_ms_median": 0.7715,
+   "screen_rank": 57,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp",
+   "name": "ctf-arena_Player1_t2_snapshot_01076b3d",
+   "lineage": "lineage:ctf-arena_Player1_t2_snapshot_01076b3d",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 343,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.2047,
+   "lcb": 0.1384,
+   "tier": "below",
+   "bands": {
+    "2": 0.4,
+    "3-5": 0.158,
+    "6-10": 0.127,
+    "11-15": 0.271
+   },
+   "max_ms": 4.877,
+   "p99_ms_median": 1.1724999999999999,
+   "screen_rank": 58,
+   "readiness": 1
+  },
+  {
+   "id": "New_AI_Test/Player3/workspace/experiments/incumbent-v001.cpp",
+   "name": "incumbent-v001",
+   "lineage": "lineage:candidate-v002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 195,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.1499,
+   "lcb": 0.1034,
+   "tier": "below",
+   "bands": {
+    "2": 0.2,
+    "3-5": 0.061,
+    "6-10": 0.095,
+    "11-15": 0.248
+   },
+   "max_ms": 5.477,
+   "p99_ms_median": 0.996,
+   "screen_rank": 59,
+   "readiness": 1
+  },
+  {
+   "id": "ctf-stress-pack/bots/Player6.cpp",
+   "name": "Player6",
+   "lineage": "lineage:Player6",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 488,
+   "opponent_model": [
+    "predictFoe"
+   ],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.0912,
+   "lcb": 0.056,
+   "tier": "below",
+   "bands": {
+    "2": 0.0,
+    "3-5": 0.117,
+    "6-10": 0.112,
+    "11-15": 0.073
+   },
+   "max_ms": 3.404,
+   "p99_ms_median": 0.817,
+   "screen_rank": 60,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+   "name": "doubao-seed-2.1-turbo",
+   "lineage": "lineage:doubao-seed-2.1-turbo",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 273,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.0792,
+   "lcb": 0.0466,
+   "tier": "below",
+   "bands": {
+    "2": 0.0,
+    "3-5": 0.0,
+    "6-10": 0.055,
+    "11-15": 0.166
+   },
+   "max_ms": 4.936,
+   "p99_ms_median": 0.9015,
+   "screen_rank": 61,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/tools/random_bot.py",
+   "name": "Random",
+   "lineage": "lineage:py:random_bot",
+   "from": "repo",
+   "lang": "py",
+   "loc": 66,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.0321,
+   "lcb": 0.0168,
+   "tier": "below",
+   "bands": {
+    "2": 0.0,
+    "3-5": 0.0,
+    "6-10": 0.024,
+    "11-15": 0.066
+   },
+   "max_ms": 10.46,
+   "p99_ms_median": 0.906,
+   "screen_rank": 62,
+   "readiness": 1
+  },
+  {
+   "id": "New_AI_Test/Player0/judge/ctf/workspace/submission/bot.cpp",
+   "name": "bot",
+   "lineage": "lineage:AI_Arena_CTF_bot",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 73,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.0097,
+   "lcb": 0.0044,
+   "tier": "below",
+   "bands": {
+    "2": 0.0,
+    "3-5": 0.0,
+    "6-10": 0.002,
+    "11-15": 0.025
+   },
+   "max_ms": 3.914,
+   "p99_ms_median": 0.7645,
+   "screen_rank": 63,
+   "readiness": 1
+  },
+  {
+   "id": "@repo/tools/noise_bot.py",
+   "name": "Noise",
+   "lineage": "lineage:py:noise_bot",
+   "from": "repo",
+   "lang": "py",
+   "loc": 10,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "utility": 0.0094,
+   "lcb": 0.0056,
+   "tier": "below",
+   "bands": {
+    "2": 0.0,
+    "3-5": 0.0,
+    "6-10": 0.002,
+    "11-15": 0.024
+   },
+   "max_ms": 4.119,
+   "p99_ms_median": 0.598,
+   "screen_rank": 64,
+   "readiness": 1
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega.cpp",
+   "name": "Player5_Omega",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1889,
+   "opponent_model": [
+    "forecast",
+    "forecastDrops",
+    "rivalDrops",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict"
+   ],
+   "lookahead": [
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact",
+    "refineChecked"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Full.cpp",
+   "name": "Astra_Full",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2507,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "observe("
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track1_10k_suite/bots/B2_Player2_v005.cpp",
+   "name": "Player2_v005",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1495,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "refine",
+    "rollout",
+    "settle"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega_defaultWeights.cpp",
+   "name": "Player5_Omega_defaultWeights",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1889,
+   "opponent_model": [
+    "forecast",
+    "forecastDrops",
+    "rivalDrops",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict"
+   ],
+   "lookahead": [
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact",
+    "refineChecked"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/Player5_Omega_hybridMacro.cpp",
+   "name": "Player5_Omega_hybridMacro",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1889,
+   "opponent_model": [
+    "forecast",
+    "forecastDrops",
+    "rivalDrops",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict"
+   ],
+   "lookahead": [
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact",
+    "refineChecked"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_DROP_scored.cpp",
+   "name": "R3_DROP_scored",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1571,
+   "opponent_model": [
+    "forecast",
+    "forecastDrops",
+    "rivalDrops",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_DROP_scored.cpp",
+   "name": "R3_DROP_scored",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 775,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Carrier.cpp",
+   "name": "Astra_Carrier",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2272,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Habits.cpp",
+   "name": "Astra_Habits",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2441,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "observe("
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Joint.cpp",
+   "name": "Astra_Joint",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2206,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track1_10k_suite/bots/Control_Omega.cpp",
+   "name": "Control_Omega",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2184,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C03_G_ASYM_plans.cpp",
+   "name": "C03_G_ASYM_plans",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2209,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C05_G_RISK_entropic.cpp",
+   "name": "C05_G_RISK_entropic",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2186,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C06_G_SH_halving.cpp",
+   "name": "C06_G_SH_halving",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2186,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C07_Player5_Omega.cpp",
+   "name": "C07_Player5_Omega",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2185,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C09_Player5_Omega_defaultWeights.cpp",
+   "name": "C09_Player5_Omega_defaultWeights",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2185,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C10_Player5_Omega_hybridMacro.cpp",
+   "name": "C10_Player5_Omega_hybridMacro",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2185,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "forecastDrops",
+    "rivalDrops"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C14_R3_DROP_scored.cpp",
+   "name": "C14_R3_DROP_scored",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1575,
+   "opponent_model": [
+    "forecast",
+    "forecastDrops",
+    "rivalDrops",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "dropCounts"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C17_R3_EXPECTIMAX_anytime.cpp",
+   "name": "C17_R3_EXPECTIMAX_anytime",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2100,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-s1-controls/exports/S1_A_Conservative.cpp",
+   "name": "S1_A_Conservative",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2247,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_WEIGHT_CACHE",
+    "HABITS_SIZES",
+    "habits"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-s1-controls/exports/S1_B_DuelPlus.cpp",
+   "name": "S1_B_DuelPlus",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2247,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_WEIGHT_CACHE",
+    "HABITS_SIZES",
+    "habits"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-s1-controls/exports/S2_1_StepGuard.cpp",
+   "name": "S2_1_StepGuard",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2251,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_WEIGHT_CACHE",
+    "HABITS_SIZES",
+    "habits"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-s1-controls/exports/S2_2_Fast15All.cpp",
+   "name": "S2_2_Fast15All",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2247,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_WEIGHT_CACHE",
+    "HABITS_SIZES",
+    "habits"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-s1-controls/exports/S2_3_RiskStrong.cpp",
+   "name": "S2_3_RiskStrong",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2248,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_WEIGHT_CACHE",
+    "HABITS_SIZES",
+    "habits"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-s1-controls/exports/S2_4_ReturnAware.cpp",
+   "name": "S2_4_ReturnAware",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2252,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_WEIGHT_CACHE",
+    "HABITS_SIZES",
+    "habits"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-s1-controls/exports/S2_5_Risk3plus.cpp",
+   "name": "S2_5_Risk3plus",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 2247,
+   "opponent_model": [
+    "rivalsFirstStep",
+    "rivalsNextStep",
+    "rivalsNear",
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "settle",
+    "rollout",
+    "rank",
+    "simulate",
+    "refineGate",
+    "stepExact"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_WEIGHT_CACHE",
+    "HABITS_SIZES",
+    "habits"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v4_learn.cpp",
+   "name": "ctf-arena_Player5_v4_learn",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 558,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": true,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 3
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v4_learn_original.cpp",
+   "name": "ctf-arena_Player5_v4_learn_original",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 559,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": true,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 3
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v6_combo.cpp",
+   "name": "ctf-arena_Player5_v6_combo",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 651,
+   "opponent_model": [
+    "forecastOriginal",
+    "forecastLearn",
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": true,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 3
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v8_fast_combo.cpp",
+   "name": "ctf-arena_Player5_v8_fast_combo",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 653,
+   "opponent_model": [
+    "forecastOriginal",
+    "forecastLearn",
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": true,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 3
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-d2.cpp",
+   "name": "cand-d2",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1499,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "refine",
+    "rollout",
+    "settle"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/timing-d1.cpp",
+   "name": "timing-d1",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1503,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "refine",
+    "rollout",
+    "settle"
+   ],
+   "sampling": true,
+   "time_budget": true,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 3
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/Control_Hybrid.cpp",
+   "name": "Control_Hybrid",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1403,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineLocal",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CFL_conditional.cpp",
+   "name": "R3_CFL_conditional",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1530,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-stress-pack/bots/Player5.cpp",
+   "name": "Player5",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 541,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/Control_NG_foundation.cpp",
+   "name": "Control_NG_foundation",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1495,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CDP_horizon.cpp",
+   "name": "R3_CDP_horizon",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1559,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_CL_terminal.cpp",
+   "name": "R3_CL_terminal",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1503,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_ESCORT_mech.cpp",
+   "name": "R3_ESCORT_mech",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1516,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/R3_HEALTHY_pickup.cpp",
+   "name": "R3_HEALTHY_pickup",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1504,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CFL_conditional.cpp",
+   "name": "R3_CFL_conditional",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 724,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_checked.cpp",
+   "name": "R3_CL_checked",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 718,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CL_terminal.cpp",
+   "name": "R3_CL_terminal",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 724,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/R3_CML_macro.cpp",
+   "name": "R3_CML_macro",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 828,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C02_Control_NG_foundation.cpp",
+   "name": "C02_Control_NG_foundation",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1499,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C11_R3_CDP_horizon.cpp",
+   "name": "C11_R3_CDP_horizon",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1563,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C12_R3_CFL_conditional.cpp",
+   "name": "C12_R3_CFL_conditional",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1534,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C13_R3_CL_terminal.cpp",
+   "name": "C13_R3_CL_terminal",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1507,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C15_R3_ESCORT_healthy.cpp",
+   "name": "C15_R3_ESCORT_healthy",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1529,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C16_R3_ESCORT_mech.cpp",
+   "name": "C16_R3_ESCORT_mech",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1520,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C19_R3_FLAGS_joint.cpp",
+   "name": "C19_R3_FLAGS_joint",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1516,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-benchmark-v3/track2_2k_c_series/bots/C21_R3_HEALTHY_pickup.cpp",
+   "name": "C21_R3_HEALTHY_pickup",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1508,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [
+    "HABITS",
+    "HABITS_SIZES",
+    "habits",
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-stress-pack/bots/modular_bot.cpp",
+   "name": "modular_bot",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 739,
+   "opponent_model": [
+    "forecast",
+    "rivalWants"
+   ],
+   "lookahead": [
+    "simulate",
+    "simStep",
+    "refine"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-stress-pack/bots/modular_bot_clean.cpp",
+   "name": "modular_bot_clean",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 722,
+   "opponent_model": [
+    "forecast",
+    "rivalWants"
+   ],
+   "lookahead": [
+    "simulate",
+    "simStep",
+    "refine"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "ctf-stress-pack/bots/modular_bot_v3.cpp",
+   "name": "modular_bot_v3",
+   "lineage": "lineage:Player5",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 776,
+   "opponent_model": [
+    "forecast",
+    "rivalWants"
+   ],
+   "lookahead": [
+    "simulate",
+    "simStep",
+    "refine"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/Player5_v2_testing_build_source-eec477a97c6549d62a71f9b4121fb2ba7d1f5b0969a5c7db772a7f6fe97eb6f2.cpp",
+   "name": "Player5_v2_testing_build_source-eec477a97c6549d62a71f9b4121fb2ba7d1f5b0969a5c7db772a7f6fe97eb6f2",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 639,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_champion_172.cpp",
+   "name": "ctf-arena_Player5_champion_172",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 514,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_discipline.cpp",
+   "name": "ctf-arena_Player5_duel_discipline",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 539,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_focused.cpp",
+   "name": "ctf-arena_Player5_duel_focused",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 583,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_pack.cpp",
+   "name": "ctf-arena_Player5_duel_pack",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 539,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_duel_trio.cpp",
+   "name": "ctf-arena_Player5_duel_trio",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 539,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_final_candidate.cpp",
+   "name": "ctf-arena_Player5_final_candidate",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 541,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v3.cpp",
+   "name": "ctf-arena_Player5_macro_v3",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 512,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v4.cpp",
+   "name": "ctf-arena_Player5_macro_v4",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 509,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_round3_CFL_uncached.cpp",
+   "name": "ctf-arena_Player5_round3_CFL_uncached",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 721,
+   "opponent_model": [
+    "forecast",
+    "rivalOrders",
+    "rivalAttacks"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineChecked"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_small_control.cpp",
+   "name": "ctf-arena_Player5_small_control",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 514,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_small_no_raid.cpp",
+   "name": "ctf-arena_Player5_small_no_raid",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 514,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_testing_v1.cpp",
+   "name": "ctf-arena_Player5_testing_v1",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 505,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tune17_fast.cpp",
+   "name": "ctf-arena_Player5_tune17_fast",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 539,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_recommended.cpp",
+   "name": "ctf-arena_Player5_tuning_recommended",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_000.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_000",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_001.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_001",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_002.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_002",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_003.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_003",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_004.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_004",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_005.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_005",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_006.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_006",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_007.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_007",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_008.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_008",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_009.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_009",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_010.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_010",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_011.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_011",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_012.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_012",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_013.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_013",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_014.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_014",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_015.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_015",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_016.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_016",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_017.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_017",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_018.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_018",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_019.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_019",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_020.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_020",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_021.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_021",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_022.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_022",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_023.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_023",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_024.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_024",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_025.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_025",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_026.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_026",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_027.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_027",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_028.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_028",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_029.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_029",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_030.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_030",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_031.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_031",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_032.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_032",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_033.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_033",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_034.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_034",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_035.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_035",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_036.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_036",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_037.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_037",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_038.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_038",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_039.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_039",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_040.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_040",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_041.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_041",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_042.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_042",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_043.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_043",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_045.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_045",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_046.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_046",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_047.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_047",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_048.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_048",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_049.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_049",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_tuning_tune_050.cpp",
+   "name": "ctf-arena_Player5_tuning_tune_050",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v1.cpp",
+   "name": "ctf-arena_Player5_v1",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 504,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v11_pickup_forecast.cpp",
+   "name": "ctf-arena_Player5_v11_pickup_forecast",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 525,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v11_trio_forecast.cpp",
+   "name": "ctf-arena_Player5_v11_trio_forecast",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 550,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v13_spawn_macro.cpp",
+   "name": "ctf-arena_Player5_v13_spawn_macro",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 519,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v13_spawn_tuned.cpp",
+   "name": "ctf-arena_Player5_v13_spawn_tuned",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 544,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v14_flag_rollout.cpp",
+   "name": "ctf-arena_Player5_v14_flag_rollout",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 658,
+   "opponent_model": [
+    "forecast",
+    "rivalWants"
+   ],
+   "lookahead": [
+    "simulate",
+    "simStep",
+    "refine"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v15_physical_rollout.cpp",
+   "name": "ctf-arena_Player5_v15_physical_rollout",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 660,
+   "opponent_model": [
+    "forecast",
+    "rivalWants"
+   ],
+   "lookahead": [
+    "simulate",
+    "simStep",
+    "refine"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v16_marginal_cautious.cpp",
+   "name": "ctf-arena_Player5_v16_marginal_cautious",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v16_marginal_fire.cpp",
+   "name": "ctf-arena_Player5_v16_marginal_fire",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 536,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v18_scratch.cpp",
+   "name": "ctf-arena_Player5_v18_scratch",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 516,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v19_fast_io.cpp",
+   "name": "ctf-arena_Player5_v19_fast_io",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 516,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_attention.cpp",
+   "name": "ctf-arena_Player5_v2_attention",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 504,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_capture.cpp",
+   "name": "ctf-arena_Player5_v2_capture",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 545,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_combined.cpp",
+   "name": "ctf-arena_Player5_v2_combined",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 549,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_core.cpp",
+   "name": "ctf-arena_Player5_v2_core",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 623,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lastTarget"
+   ],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_focus.cpp",
+   "name": "ctf-arena_Player5_v2_focus",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 549,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_macro.cpp",
+   "name": "ctf-arena_Player5_v2_macro",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 645,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_macro_deny.cpp",
+   "name": "ctf-arena_Player5_v2_macro_deny",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 683,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_macro_screen_v1.cpp",
+   "name": "ctf-arena_Player5_v2_macro_screen_v1",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 640,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_micro.cpp",
+   "name": "ctf-arena_Player5_v2_micro",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 615,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lastTarget"
+   ],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_micro_screen.cpp",
+   "name": "ctf-arena_Player5_v2_micro_screen",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 622,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lastTarget"
+   ],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_perf_combined.cpp",
+   "name": "ctf-arena_Player5_v2_perf_combined",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 728,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineLocal"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_perf_profile.cpp",
+   "name": "ctf-arena_Player5_v2_perf_profile",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 734,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineLocal"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_perf_prune.cpp",
+   "name": "ctf-arena_Player5_v2_perf_prune",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 728,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineLocal"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_perf_reserve.cpp",
+   "name": "ctf-arena_Player5_v2_perf_reserve",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 728,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineLocal"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_perf_sharing.cpp",
+   "name": "ctf-arena_Player5_v2_perf_sharing",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 728,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineLocal"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_pickup.cpp",
+   "name": "ctf-arena_Player5_v2_pickup",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 576,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v2_tactics.cpp",
+   "name": "ctf-arena_Player5_v2_tactics",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 678,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate",
+    "stepExact",
+    "refineLocal"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_base.cpp",
+   "name": "ctf-arena_Player5_v3_base",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 633,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_aggressive.cpp",
+   "name": "ctf-arena_Player5_v3_grid_aggressive",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 633,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_balanced.cpp",
+   "name": "ctf-arena_Player5_v3_grid_balanced",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 633,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_cohesive.cpp",
+   "name": "ctf-arena_Player5_v3_grid_cohesive",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 633,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_focused.cpp",
+   "name": "ctf-arena_Player5_v3_grid_focused",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 633,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_grid_hardy.cpp",
+   "name": "ctf-arena_Player5_v3_grid_hardy",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 633,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v3_pressure.cpp",
+   "name": "ctf-arena_Player5_v3_pressure",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 645,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v5_relay.cpp",
+   "name": "ctf-arena_Player5_v5_relay",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 563,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v5_relay_pickup.cpp",
+   "name": "ctf-arena_Player5_v5_relay_pickup",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 563,
+   "opponent_model": [
+    "forecast"
+   ],
+   "lookahead": [
+    "simulate"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v7_rollout.cpp",
+   "name": "ctf-arena_Player5_v7_rollout",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 637,
+   "opponent_model": [
+    "forecast",
+    "rivalWants"
+   ],
+   "lookahead": [
+    "simulate",
+    "simStep",
+    "refine"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v8_fast_rollout.cpp",
+   "name": "ctf-arena_Player5_v8_fast_rollout",
+   "lineage": "lineage:Player5",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 640,
+   "opponent_model": [
+    "forecast",
+    "rivalWants"
+   ],
+   "lookahead": [
+    "simulate",
+    "simStep",
+    "refine"
+   ],
+   "sampling": false,
+   "time_budget": true,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 2
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-f1.cpp",
+   "name": "cand-f1",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1233,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-h1.cpp",
+   "name": "cand-h1",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1215,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-m1.cpp",
+   "name": "cand-m1",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1215,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-m2.cpp",
+   "name": "cand-m2",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1215,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-m3.cpp",
+   "name": "cand-m3",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1215,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-m4.cpp",
+   "name": "cand-m4",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1215,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-r1.cpp",
+   "name": "cand-r1",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1215,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-r2.cpp",
+   "name": "cand-r2",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1233,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/diag-fc.cpp",
+   "name": "diag-fc",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1233,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/timing-h1.cpp",
+   "name": "timing-h1",
+   "lineage": "lineage:Control_Hybrid",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 1223,
+   "opponent_model": [
+    "forecast",
+    "predict",
+    "enemyMoves"
+   ],
+   "lookahead": [
+    "simulate",
+    "settle"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [
+    "lasttarget"
+   ],
+   "duel_split": true,
+   "readiness": 2
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/Player6_ab_revB_bot.cpp",
+   "name": "Player6_ab_revB_bot",
+   "lineage": "lineage:Player6",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 489,
+   "opponent_model": [
+    "predictFoe"
+   ],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 1
+  },
+  {
+   "id": "New_AI_Test/Player4/workspace/experiments/candidate-v003-intercept.cpp",
+   "name": "candidate-v003-intercept",
+   "lineage": "lineage:candidate-v002-risk",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 463,
+   "opponent_model": [],
+   "lookahead": [
+    "search"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 1
+  },
+  {
+   "id": "New_AI_Test/Player4/workspace/experiments/candidate-v004-intercept-clean.cpp",
+   "name": "candidate-v004-intercept-clean",
+   "lineage": "lineage:candidate-v002-risk",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 463,
+   "opponent_model": [],
+   "lookahead": [
+    "search"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 1
+  },
+  {
+   "id": "New_AI_Test/Player4/workspace/experiments/incumbent-v001.cpp",
+   "name": "incumbent-v001",
+   "lineage": "lineage:candidate-v002-risk",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 443,
+   "opponent_model": [],
+   "lookahead": [
+    "search"
+   ],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 1
+  },
+  {
+   "id": "ctf-stress-pack/bots/kimi-k3.cpp",
+   "name": "kimi-k3",
+   "lineage": "lineage:kimi-k3",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 599,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/AI_Arena_CTF_bot.cpp",
+   "name": "AI_Arena_CTF_bot",
+   "lineage": "lineage:AI_Arena_CTF_bot",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 77,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player1_bot.cpp",
+   "name": "ctf-arena_Player1_bot",
+   "lineage": "lineage:AI_Arena_CTF_bot",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 68,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player3_bot_snapshot_4cfacfe83e48f0f4.cpp",
+   "name": "ctf-arena_Player3_bot_snapshot_4cfacfe83e48f0f4",
+   "lineage": "lineage:Player3",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 615,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_c1.cpp",
+   "name": "ctf-arena_Player3_variants_bot_c1",
+   "lineage": "lineage:Player3",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 584,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_v2.cpp",
+   "name": "ctf-arena_Player3_variants_bot_v2",
+   "lineage": "lineage:Player3",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 587,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "@repo/roster/new_bots/forks/ctf-arena_Player4_v10_flank_optimized.cpp",
+   "name": "ctf-arena_Player4_v10_flank_optimized",
+   "lineage": "lineage:Player4",
+   "from": "repo",
+   "lang": "cpp",
+   "loc": 903,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-002.cpp",
+   "name": "cand-002",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 454,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-003.cpp",
+   "name": "cand-003",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 454,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-004.cpp",
+   "name": "cand-004",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 464,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-005.cpp",
+   "name": "cand-005",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 457,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-006.cpp",
+   "name": "cand-006",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 454,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-007.cpp",
+   "name": "cand-007",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 454,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-008.cpp",
+   "name": "cand-008",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 454,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-009.cpp",
+   "name": "cand-009",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 462,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/cand-010.cpp",
+   "name": "cand-010",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 454,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/timing-v002.cpp",
+   "name": "timing-v002",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 460,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player2/workspace/experiments/timing-v003.cpp",
+   "name": "timing-v003",
+   "lineage": "lineage:cand-002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 460,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player3/workspace/experiments/candidate-v002.cpp",
+   "name": "candidate-v002",
+   "lineage": "lineage:candidate-v002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 197,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player3/workspace/experiments/candidate-v003.cpp",
+   "name": "candidate-v003",
+   "lineage": "lineage:candidate-v002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 198,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  },
+  {
+   "id": "New_AI_Test/Player3/workspace/experiments/candidate-v004.cpp",
+   "name": "candidate-v004",
+   "lineage": "lineage:candidate-v002",
+   "from": "archive",
+   "lang": "cpp",
+   "loc": 202,
+   "opponent_model": [],
+   "lookahead": [],
+   "sampling": false,
+   "time_budget": false,
+   "habits": [],
+   "duel_split": false,
+   "readiness": 0
+  }
+ ]
+}

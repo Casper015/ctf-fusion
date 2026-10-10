@@ -1,0 +1,17 @@
+{
+ "_comment": "Bots that p_only/tools/build.py bundles into single .cpp files and compiles. role: control = the unchanged carrier (no network); hybrid = the earlier Fusion integration (network mixed with the hand-written forecast); ponly = every opponent prediction from the network; ponly_v = ponly plus the experimental value term.",
+ "variants": [
+  {"name": "c08_control",  "carrier": "C08", "role": "control", "tier": null, "source": "candidate/C08_Player5_Omega_LIT_control.cpp"},
+  {"name": "c08_hybrid_m", "carrier": "C08", "role": "hybrid",  "tier": "M",  "source": "candidate/C08_Player5_Omega_LIT_p_m.cpp"},
+  {"name": "c08_ponly_s",  "carrier": "C08", "role": "ponly",   "tier": "S",  "source": "p_only/bots/variants/c08_ponly_s.cpp"},
+  {"name": "c08_ponly_m",  "carrier": "C08", "role": "ponly",   "tier": "M",  "source": "p_only/bots/variants/c08_ponly_m.cpp"},
+  {"name": "c08_ponly_l",  "carrier": "C08", "role": "ponly",   "tier": "L",  "source": "p_only/bots/variants/c08_ponly_l.cpp"},
+  {"name": "c08_ponly_m_v","carrier": "C08", "role": "ponly_v", "tier": "M",  "source": "p_only/bots/variants/c08_ponly_m_v.cpp"},
+  {"name": "v12_control",  "carrier": "v12", "role": "control", "tier": null, "source": "candidate/Player5_v12_control.cpp"},
+  {"name": "v12_hybrid_m", "carrier": "v12", "role": "hybrid",  "tier": "M",  "source": "candidate/Player5_v12_p_m.cpp"},
+  {"name": "v12_ponly_s",  "carrier": "v12", "role": "ponly",   "tier": "S",  "source": "p_only/bots/variants/v12_ponly_s.cpp"},
+  {"name": "v12_ponly_m",  "carrier": "v12", "role": "ponly",   "tier": "M",  "source": "p_only/bots/variants/v12_ponly_m.cpp"},
+  {"name": "v12_ponly_l",  "carrier": "v12", "role": "ponly",   "tier": "L",  "source": "p_only/bots/variants/v12_ponly_l.cpp"},
+  {"name": "v12_ponly_m_v","carrier": "v12", "role": "ponly_v", "tier": "M",  "source": "p_only/bots/variants/v12_ponly_m_v.cpp"}
+ ]
+}
