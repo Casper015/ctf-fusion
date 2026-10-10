@@ -1,0 +1,75 @@
+{
+ "meta": {
+  "host": "DESKTOP-G60OJUD",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "python": "3.14.3",
+  "model": "n02",
+  "max_rows": 200000,
+  "epochs": 1,
+  "tf32": false,
+  "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+  "created": "2026-10-09T17:50:25"
+ },
+ "rows": [
+  {
+   "kind": "policy",
+   "tier": "L",
+   "backend": "numpy",
+   "batch": 1024,
+   "rows": 200000,
+   "epochs": 1,
+   "wall_seconds": 22.67,
+   "epoch_seconds": 7.691,
+   "rows_per_second": 26004,
+   "val": 2.6751662540960655,
+   "gpu": null,
+   "peak_allocated_gb": null,
+   "peak_reserved_gb": null
+  },
+  {
+   "kind": "policy",
+   "tier": "L",
+   "backend": "torch-cuda",
+   "batch": 1024,
+   "rows": 200000,
+   "epochs": 1,
+   "wall_seconds": 17.86,
+   "epoch_seconds": 2.022,
+   "rows_per_second": 98912,
+   "val": 2.6753083693991453,
+   "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+   "peak_allocated_gb": 0.385,
+   "peak_reserved_gb": 0.432
+  },
+  {
+   "kind": "value",
+   "tier": "L",
+   "backend": "numpy",
+   "batch": 1024,
+   "rows": 200000,
+   "epochs": 1,
+   "wall_seconds": 2.33,
+   "epoch_seconds": 1.24,
+   "rows_per_second": 161290,
+   "val": 0.23570053207761316,
+   "gpu": null,
+   "peak_allocated_gb": null,
+   "peak_reserved_gb": null
+  },
+  {
+   "kind": "value",
+   "tier": "L",
+   "backend": "torch-cuda",
+   "batch": 1024,
+   "rows": 200000,
+   "epochs": 1,
+   "wall_seconds": 1.78,
+   "epoch_seconds": 0.655,
+   "rows_per_second": 305344,
+   "val": 0.23594671487349045,
+   "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+   "peak_allocated_gb": 0.385,
+   "peak_reserved_gb": 0.432
+  }
+ ]
+}

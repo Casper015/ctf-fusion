@@ -1,8 +1,9 @@
 """Train, evaluate, and export model matrices for size tiers (M, L, XL, XXL).
 
+Supports both NumPy (CPU) and PyTorch (CUDA GPU) backends.
+
 Usage:
-    python tools/train_tier_ladder.py --tiers M
-    python tools/train_tier_ladder.py --tiers M L XL XXL
+    python tools/train_tier_ladder.py --tiers L XL XXL --backend torch --device cuda
     python tools/train_tier_ladder.py --dry-run
 """
 from __future__ import annotations
@@ -17,39 +18,14 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
-TIERS = {
-    "M": {
-        "mover": "32",
-        "squad": "128,64",
-        "act": "32",
-        "target": "16",
-        "value": "256,32",
-        "max_width": 256,
-    },
-    "L": {
-        "mover": "64",
-        "squad": "256,64",
-        "act": "64",
-        "target": "16",
-        "value": "512,64",
-        "max_width": 512,
-    },
-    "XL": {
-        "mover": "128",
-        "squad": "512,128",
-        "act": "128",
-        "target": "32",
-        "value": "1024,64",
-        "max_width": 1024,
-    },
-    "XXL": {
-        "mover": "256",
-        "squad": "1024,256",
-        "act": "256",
-        "target": "32",
-        "value": "2048,128",
-        "max_width": 2048,
-    },
+from fusion.capacity import TIERS, buffer_width
+
+TIER_CONFIGS = {
+    t: {
+        "capacity": t,
+        "max_width": buffer_width(w for widths in TIERS[t].values() for w in widths),
+    }
+    for t in ("M", "L", "XL", "XXL")
 }
 
 DEFAULT_MODELS = [
@@ -98,13 +74,15 @@ def train_tier(
     models: list[str],
     shards: str,
     epochs: int,
+    backend: str,
+    device: str,
     skip_completed: bool,
     dry_run: bool,
 ) -> None:
-    if tier not in TIERS:
-        raise ValueError(f"Unknown tier: {tier}. Available: {list(TIERS.keys())}")
+    if tier not in TIER_CONFIGS:
+        raise ValueError(f"Unknown tier: {tier}. Available: {list(TIER_CONFIGS.keys())}")
 
-    cfg = TIERS[tier]
+    cfg = TIER_CONFIGS[tier]
     tier_lower = tier.lower()
     runs_dir = REPO / f"runs_{tier_lower}"
     reports_dir = REPO / f"reports_{tier_lower}"
@@ -114,7 +92,7 @@ def train_tier(
     reports_dir.mkdir(parents=True, exist_ok=True)
     models_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"\n{'='*70}\nStarting Size Tier {tier} (max_width={cfg['max_width']})\n{'='*70}", flush=True)
+    print(f"\n{'='*70}\nStarting Size Tier {tier} (capacity={cfg['capacity']}, backend={backend}, device={device}, max_width={cfg['max_width']})\n{'='*70}", flush=True)
 
     # 1. Train Value models
     for m in models:
@@ -127,8 +105,9 @@ def train_tier(
             sys.executable, "-m", "training.train_value",
             "--shards", shards,
             "--model", m,
-            "--hidden", cfg["value"],
-            "--max-width", str(cfg["max_width"]),
+            "--capacity", cfg["capacity"],
+            "--backend", backend,
+            "--device", device,
             "--epochs", str(epochs),
             "--out", str(out_v),
         ]
@@ -149,11 +128,9 @@ def train_tier(
             sys.executable, "-m", "training.train_policy",
             "--shards", shards,
             "--model", m,
-            "--hidden-mover", cfg["mover"],
-            "--hidden-squad", cfg["squad"],
-            "--hidden-act", cfg["act"],
-            "--hidden-target", cfg["target"],
-            "--max-width", str(cfg["max_width"]),
+            "--capacity", cfg["capacity"],
+            "--backend", backend,
+            "--device", device,
             "--epochs", str(epochs),
             "--out", str(out_p),
         ]
@@ -206,6 +183,7 @@ def train_tier(
             summary_lines = [
                 f"# Size Tier {tier} Export Summary",
                 f"- Models exported: {len(manifest)} / {len(models)}",
+                f"- Backend: {backend} ({device})",
                 f"- Required FUSION_MAX_WIDTH: {cfg['max_width']}",
                 "",
                 "| Model | Params | Mover | Squad | Act | Tgt | Val | Per-Team MACs | Gated Alphas |",
@@ -225,10 +203,12 @@ def train_tier(
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Train size ladder matrices (M, L, XL, XXL)")
-    parser.add_argument("--tiers", nargs="+", choices=list(TIERS.keys()), default=["M", "L", "XL", "XXL"])
+    parser = argparse.ArgumentParser(description="Train size ladder matrices (M, L, XL, XXL) on CPU or GPU")
+    parser.add_argument("--tiers", nargs="+", choices=list(TIER_CONFIGS.keys()), default=["L", "XL", "XXL"])
     parser.add_argument("--models", nargs="+", default=DEFAULT_MODELS)
     parser.add_argument("--shards", default="data/shards")
+    parser.add_argument("--backend", choices=["numpy", "torch"], default="torch")
+    parser.add_argument("--device", default="cuda")
     parser.add_argument("--epochs", type=int, default=8)
     parser.add_argument("--no-skip", action="store_true", help="Do not skip completed artifacts")
     parser.add_argument("--dry-run", action="store_true", help="Print plan without running")
@@ -240,6 +220,8 @@ def main():
             models=args.models,
             shards=args.shards,
             epochs=args.epochs,
+            backend=args.backend,
+            device=args.device,
             skip_completed=not args.no_skip,
             dry_run=args.dry_run,
         )
