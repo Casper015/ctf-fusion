@@ -27,12 +27,18 @@ choice for C08's beam re-ranking), so no decision mixes candidates scored with a
 PONLY_STATS one more stderr line reports the bound: VBUDGET max_calls .. deadline_ms .. skipped_calls ..
 fallback_decisions ..
 
+The search experiment of task T0018 (search_experiment.py: action portfolio, per-branch ply-2 predictions,
+their counters) is applied on top, every part off by default.
+
 Every replaced text is matched exactly with its expected count, so a changed source is refused, never
 spliced at the wrong place. PONLY_DERIVE_DIR redirects the output (tests re-derive and compare).
 """
 import os
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import search_experiment  # noqa: E402  (task T0018: the search experiment's settings, off by default)
 
 REPO = Path(__file__).resolve().parents[4]
 OUT = Path(os.environ["PONLY_DERIVE_DIR"]) if os.environ.get("PONLY_DERIVE_DIR") else None
@@ -178,7 +184,7 @@ v12f = carrier_header("v12 P-only carrier", "v12_ponly.hpp") + apply(v12, [
     ("        fSession.update(g);fSession.report(g);valueReport(g);",
      "        vTurnBegin();fSession.update(g);fSession.report(g);valueReport(g);vBudgetReport(g);", 1),
 ], "v12_ponly.hpp")
-write("bots/p_only/bots/v12_ponly_f.hpp", v12f)
+write("bots/p_only/bots/v12_ponly_f.hpp", search_experiment.v12(v12f))
 
 c08 = (REPO / "bots/p_only/bots/c08_ponly.hpp").read_text(encoding="utf-8")
 c08f = carrier_header("C08 P-only carrier", "c08_ponly.hpp") + apply(c08, [
@@ -205,5 +211,5 @@ c08f = carrier_header("C08 P-only carrier", "c08_ponly.hpp") + apply(c08, [
     ("        auto result=planTurn(g,true);fSession.report(g);searchReport(g);",
      "        vTurnBegin();auto result=planTurn(g,true);fSession.report(g);searchReport(g);vBudgetReport(g);", 1),
 ], "c08_ponly.hpp")
-write("bots/p_only/bots/c08_ponly_f.hpp", c08f)
+write("bots/p_only/bots/c08_ponly_f.hpp", search_experiment.c08(c08f))
 print("wrote ponly_p3.hpp, v12_ponly_f.hpp, c08_ponly_f.hpp" + (f" to {OUT}" if OUT else ""))
