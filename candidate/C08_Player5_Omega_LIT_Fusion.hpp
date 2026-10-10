@@ -48,10 +48,11 @@
 #include <utility>
 #include <vector>
 
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
 #include "features.hpp"
 #include "policy.hpp"
 #include "adapter.hpp"
+#include "value.hpp"
 #include "state.hpp"
 
 #if defined(FUSION_TIER_M)
@@ -85,7 +86,7 @@ struct Game {
     vector<Event> events;
 };
 
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
 namespace fusion_hook {
     inline fusion::Static makeStatic(const Game& g) {
         fusion::Static s;
@@ -172,6 +173,16 @@ namespace fusion_hook {
                     }
                 }
             }
+        }
+
+        double evalGameValue(const Game& g) const {
+            if (!model || !model->value) return 0.5;
+            fusion::State st = makeState(g);
+            fusion::TurnView vw;
+            fusion::makeView(board, st, nullptr, vw);
+            fusion::ValueFeatures vf;
+            fusion::encodeValue(board, st, vw, g.me, vf);
+            return fusion::value(*model->value, vf);
         }
     };
 }
@@ -1791,7 +1802,7 @@ struct Planner {
             for(int m=1;m<5;m++){int q=nav.nb[p][m];if(q>=0&&v+cost<d[q]){d[q]=v+cost;pq.push({d[q],q});}}
         }return d;
     }
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
     fusion_hook::Session fSession;
 #endif
     chrono::steady_clock::time_point decisionDeadline;
@@ -2012,6 +2023,12 @@ struct Planner {
                 rivalAttacks(next,want2,acts2);Game end;if(!stepExact(next,want2,acts2,end)){complete=false;break;}
                 if(chrono::steady_clock::now()>=decisionDeadline){complete=false;break;}
                 double outcome=realized(g,next)+.75*realized(next,end)-ownershipLoss(g,next,end)+terminalFlags(end)-terminalFlags(g);
+#if MOD_FUSION_V
+                if (fSession.model && fSession.model->value) {
+                    double vEnd = fSession.evalGameValue(end);
+                    outcome += 50.0 * (vEnd - 0.5);
+                }
+#endif
                 mean+=.5*outcome;worst=min(worst,outcome);
             }
             if(!complete)break;
@@ -2034,7 +2051,7 @@ struct Planner {
     Decision planTurn(Game& g,bool refineAllowed){
         const auto planStart=chrono::steady_clock::now();
         if(refineAllowed)decisionDeadline=chrono::steady_clock::now()+chrono::milliseconds(g.turn==1?1800:35);
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
         fSession.update(g);
 #endif
         if(!initialized){nav.init(g);initialized=true;}respawns(g);forecast(g);auto jobs=assign(g);
@@ -2085,7 +2102,30 @@ struct Planner {
             const auto reserve=chrono::microseconds(int64_t(1000*(refineGate(g)?cfg.refineReserveMs:0.)));
             auto ranked=deepen(g,own,options,params,all,cellValue,pickCell,min(decisionDeadline,budget-reserve));
             decisionDeadline=min(decisionDeadline,budget);
-            if(!ranked.empty()){choice=ranked[0];beam.assign(ranked.begin(),ranked.begin()+min<size_t>(8,ranked.size()));}
+            if(!ranked.empty()){choice=ranked[0];beam.assign(ranked.begin(),ranked.begin()+min<size_t>(8,ranked.size()));
+#if MOD_FUSION_V
+                if (fSession.model && fSession.model->value && beam.size() > 1 && !refineGate(g)) {
+                    double bestVal = -1e100;
+                    ctfcombat::Choice bestChoice = choice;
+                    for (auto& c : beam) {
+                        vector<int> want, acts;
+                        rivalOrders(g, 0, want, acts);
+                        for(int k=0;k<3;k++){int i=3*g.me+k;auto p=options[k][c.moveIndex[k]].p;if(pos[i]>=0)want[i]=nav.cell(p.x,p.y);acts[i]=c.target[k];}
+                        rivalAttacks(g, want, acts);
+                        Game nxt;
+                        if (stepExact(g, want, acts, nxt)) {
+                            double vVal = fSession.evalGameValue(nxt);
+                            double score = c.value + 35.0 * (vVal - 0.5);
+                            if (score > bestVal) {
+                                bestVal = score;
+                                bestChoice = c;
+                            }
+                        }
+                    }
+                    choice = bestChoice;
+                }
+#endif
+            }
         }
         if(refine)choice=refineChecked(g,options,beam,choice);
         Decision result;
@@ -2133,7 +2173,7 @@ class Player {
     array<double,3> rolew;
     array<vector<double>,3> route;
     array<array<double,5>,3> block;
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
     fusion_hook::Session fSession;
 #endif
     NgActive act;  // module activation for 2-team games
@@ -2632,7 +2672,7 @@ class Player {
 public:
     string decide(const Game& g) {
         const auto decideStart=chrono::steady_clock::now();
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
         fSession.update(g);
 #endif
         if(!n)init(g);update(g);act=ngActive(g.teams);
@@ -2755,6 +2795,22 @@ public:
                     actual+=v/samples;
                 }
                 double value=(1-COLLISION_WEIGHT)*ca.value+COLLISION_WEIGHT*actual;
+#if MOD_FUSION_V
+                if (fSession.model && fSession.model->value) {
+                    auto p0 = settle(ca.mv, enemyMoves[0]);
+                    Game nextGame = g;
+                    for (int id = 0; id < (int)nextGame.units.size(); id++) {
+                        if (p0[id] >= 0) {
+                            nextGame.units[id].x = p0[id] % n;
+                            nextGame.units[id].y = p0[id] / n;
+                        } else {
+                            nextGame.units[id].x = nextGame.units[id].y = -1;
+                        }
+                    }
+                    double vVal = fSession.evalGameValue(nextGame);
+                    value += 25.0 * (vVal - 0.5);
+                }
+#endif
                 if(value>refinedBest){refinedBest=value;bm=ca.mv;ba=ca.ac;}
             }
         }

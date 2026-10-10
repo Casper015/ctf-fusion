@@ -20,10 +20,11 @@
 #define MOD_FUSION_V 0
 #endif
 
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
 #include "features.hpp"
 #include "policy.hpp"
 #include "adapter.hpp"
+#include "value.hpp"
 #include "state.hpp"
 
 #if defined(FUSION_TIER_M)
@@ -49,7 +50,7 @@ struct Game {
     int turn=0; vector<int> score; vector<Unit> units; vector<Flag> flags; vector<Event> events;
 };
 
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
 namespace fusion_hook {
     inline fusion::Static makeStatic(const Game& g) {
         fusion::Static s;
@@ -136,6 +137,31 @@ namespace fusion_hook {
                     }
                 }
             }
+        }
+
+        template <typename SimType>
+        double evalSimValue(const SimType& sim, int turn, int me) const {
+            if (!model || !model->value) return 0.5;
+            fusion::State st;
+            st.turn = turn;
+            st.score = sim.score;
+            st.units.resize(sim.u.size());
+            for (size_t i = 0; i < sim.u.size(); i++) {
+                st.units[i] = {sim.u[i].id, sim.u[i].team, sim.u[i].x, sim.u[i].y, sim.u[i].hp, sim.u[i].flag, sim.u[i].respawn_at};
+            }
+            st.flags.resize(sim.f.size());
+            for (size_t i = 0; i < sim.f.size(); i++) {
+                int s = fusion::kHome;
+                if (sim.f[i].status == "carried") s = fusion::kCarried;
+                else if (sim.f[i].status == "dropped") s = fusion::kDropped;
+                else if (sim.f[i].status == "cooldown") s = fusion::kCooldown;
+                st.flags[i] = {sim.f[i].id, s, sim.f[i].x, sim.f[i].y, sim.f[i].holder, sim.f[i].return_at};
+            }
+            fusion::TurnView vw;
+            fusion::makeView(board, st, nullptr, vw);
+            fusion::ValueFeatures vf;
+            fusion::encodeValue(board, st, vw, me, vf);
+            return fusion::value(*model->value, vf);
         }
     };
 }
@@ -495,7 +521,7 @@ struct Nav {
 };
 struct Task {int type=0,id=-1,p=-1;double reward=0,contest=0;};
 struct Planner {
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
     fusion_hook::Session fSession;
 #endif
     Nav nav; bool initialized=false; vector<Unit> prev;
@@ -778,13 +804,19 @@ struct Planner {
                 array<int,3> nextWant;for(int k=0;k<3;k++){auto& m=opts[k][follow.moveIndex[k]];nextWant[k]=m.p.x<0?-1:nav.cell(m.p.x,m.p.y);}
                 auto nextRivals=rivalWants(g,two,nextWant,model,false);simStep(g,two,g.turn+1,nextRivals,follow.target);
                 double value=.2*simIncrement(g,start,one,jobs)+.7*simIncrement(g,one,two,jobs);
+#if MOD_FUSION_V
+                if (fSession.model && fSession.model->value) {
+                    double vVal = fSession.evalSimValue(two, g.turn + 2, g.me);
+                    value += 40.0 * (vVal - 0.5);
+                }
+#endif
                 total+=value*(model==0?.7:.3);scenarios++;
             }
             if(scenarios==2&&candidate.value+total>best){best=candidate.value+total;answer=candidate;}
         }return answer;
     }
     string decide(Game& g){
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
         fSession.update(g);
 #endif
         if(!initialized){nav.init(g);initialized=true;}respawns(g);forecast(g);auto jobs=assign(g);

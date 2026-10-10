@@ -39,10 +39,11 @@ def build_fusion_hpp():
 
     # 2. Includes: include inference headers and appropriate model registry
     include_anchor = "using namespace std;"
-    include_insert = """#if MOD_FUSION_P
+    include_insert = """#if MOD_FUSION_P || MOD_FUSION_V
 #include "features.hpp"
 #include "policy.hpp"
 #include "adapter.hpp"
+#include "value.hpp"
 #include "state.hpp"
 
 #if defined(FUSION_TIER_M)
@@ -76,7 +77,7 @@ using namespace std;"""
     vector<Event> events;
 };
 
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
 namespace fusion_hook {
     inline fusion::Static makeStatic(const Game& g) {
         fusion::Static s;
@@ -163,6 +164,16 @@ namespace fusion_hook {
                     }
                 }
             }
+        }
+
+        double evalGameValue(const Game& g) const {
+            if (!model || !model->value) return 0.5;
+            fusion::State st = makeState(g);
+            fusion::TurnView vw;
+            fusion::makeView(board, st, nullptr, vw);
+            fusion::ValueFeatures vf;
+            fusion::encodeValue(board, st, vw, g.me, vf);
+            return fusion::value(*model->value, vf);
         }
     };
 }
@@ -315,43 +326,86 @@ namespace fusion_hook {
 
     planturn_insert = """        const auto planStart=chrono::steady_clock::now();
         if(refineAllowed)decisionDeadline=chrono::steady_clock::now()+chrono::milliseconds(g.turn==1?1800:35);
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
         fSession.update(g);
 #endif
         if(!initialized){nav.init(g);initialized=true;}respawns(g);forecast(g);auto jobs=assign(g);"""
     assert planturn_anchor in code
     code = code.replace(planturn_anchor, planturn_insert, 1)
 
-    # 9. multi::Planner member: fSession
+    # 9. multi::Planner refineChecked: hook V into outcome
+    refine_outcome_anchor = """                double outcome=realized(g,next)+.75*realized(next,end)-ownershipLoss(g,next,end)+terminalFlags(end)-terminalFlags(g);
+                mean+=.5*outcome;worst=min(worst,outcome);"""
+    refine_outcome_insert = """                double outcome=realized(g,next)+.75*realized(next,end)-ownershipLoss(g,next,end)+terminalFlags(end)-terminalFlags(g);
+#if MOD_FUSION_V
+                if (fSession.model && fSession.model->value) {
+                    double vEnd = fSession.evalGameValue(end);
+                    outcome += 50.0 * (vEnd - 0.5);
+                }
+#endif
+                mean+=.5*outcome;worst=min(worst,outcome);"""
+    assert refine_outcome_anchor in code
+    code = code.replace(refine_outcome_anchor, refine_outcome_insert, 1)
+
+    # 10. multi::Planner planTurn beam rerank: hook V when refineGate is false
+    beam_rerank_anchor = """            if(!ranked.empty()){choice=ranked[0];beam.assign(ranked.begin(),ranked.begin()+min<size_t>(8,ranked.size()));}"""
+    beam_rerank_insert = """            if(!ranked.empty()){choice=ranked[0];beam.assign(ranked.begin(),ranked.begin()+min<size_t>(8,ranked.size()));
+#if MOD_FUSION_V
+                if (fSession.model && fSession.model->value && beam.size() > 1 && !refineGate(g)) {
+                    double bestVal = -1e100;
+                    ctfcombat::Choice bestChoice = choice;
+                    for (auto& c : beam) {
+                        vector<int> want, acts;
+                        rivalOrders(g, 0, want, acts);
+                        for(int k=0;k<3;k++){int i=3*g.me+k;auto p=options[k][c.moveIndex[k]].p;if(pos[i]>=0)want[i]=nav.cell(p.x,p.y);acts[i]=c.target[k];}
+                        rivalAttacks(g, want, acts);
+                        Game nxt;
+                        if (stepExact(g, want, acts, nxt)) {
+                            double vVal = fSession.evalGameValue(nxt);
+                            double score = c.value + 35.0 * (vVal - 0.5);
+                            if (score > bestVal) {
+                                bestVal = score;
+                                bestChoice = c;
+                            }
+                        }
+                    }
+                    choice = bestChoice;
+                }
+#endif
+            }"""
+    assert beam_rerank_anchor in code
+    code = code.replace(beam_rerank_anchor, beam_rerank_insert, 1)
+
+    # 11. multi::Planner member: fSession
     planner_member_anchor = "    chrono::steady_clock::time_point decisionDeadline;"
-    planner_member_insert = """#if MOD_FUSION_P
+    planner_member_insert = """#if MOD_FUSION_P || MOD_FUSION_V
     fusion_hook::Session fSession;
 #endif
     chrono::steady_clock::time_point decisionDeadline;"""
     assert planner_member_anchor in code
     code = code.replace(planner_member_anchor, planner_member_insert, 1)
 
-    # 10. duel::Player member: fSession
+    # 12. duel::Player member: fSession
     duel_member_anchor = "    NgActive act;  // module activation for 2-team games"
-    duel_member_insert = """#if MOD_FUSION_P
+    duel_member_insert = """#if MOD_FUSION_P || MOD_FUSION_V
     fusion_hook::Session fSession;
 #endif
     NgActive act;  // module activation for 2-team games"""
     assert duel_member_anchor in code
     code = code.replace(duel_member_anchor, duel_member_insert, 1)
 
-    # 11. duel::Player::decide: update fSession
+    # 13. duel::Player::decide: update fSession
     duel_decide_anchor = """        const auto decideStart=chrono::steady_clock::now();
         if(!n)init(g);update(g);act=ngActive(g.teams);"""
     duel_decide_insert = """        const auto decideStart=chrono::steady_clock::now();
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
         fSession.update(g);
 #endif
         if(!n)init(g);update(g);act=ngActive(g.teams);"""
     assert duel_decide_anchor in code
     code = code.replace(duel_decide_anchor, duel_decide_insert, 1)
 
-    # 12. duel::Player::predict: mix marginal
+    # 14. duel::Player::predict: mix marginal
     duel_predict_anchor = """            for(int m=0;m<5;m++)if(pr.p[m]>=0)pr.pr[m]=.90*pr.pr[m]/sum+.10/cnt;
             pred.push_back(pr);"""
     duel_predict_insert = """            for(int m=0;m<5;m++)if(pr.p[m]>=0)pr.pr[m]=.90*pr.pr[m]/sum+.10/cnt;
@@ -368,7 +422,7 @@ namespace fusion_hook {
     assert duel_predict_anchor in code
     code = code.replace(duel_predict_anchor, duel_predict_insert, 1)
 
-    # 13. duel::Player duel refinement: team draw
+    # 15. duel::Player duel refinement: team draw
     duel_refine_anchor = """            constexpr int samples=24;vector<vector<int>> enemyMoves(samples,vector<int>(pred.size()));
             for(int s=0;s<samples;s++)for(int j=0;j<(int)pred.size();j++) {
                 uint32_t h=(uint32_t)(g.turn*101+pred[j].id*7919+187);
@@ -406,38 +460,79 @@ namespace fusion_hook {
     assert duel_refine_anchor in code
     code = code.replace(duel_refine_anchor, duel_refine_insert, 1)
 
+    duel_v_anchor = """                double value=(1-COLLISION_WEIGHT)*ca.value+COLLISION_WEIGHT*actual;
+                if(value>refinedBest){refinedBest=value;bm=ca.mv;ba=ca.ac;}"""
+    duel_v_insert = """                double value=(1-COLLISION_WEIGHT)*ca.value+COLLISION_WEIGHT*actual;
+#if MOD_FUSION_V
+                if (fSession.model && fSession.model->value) {
+                    auto p0 = settle(ca.mv, enemyMoves[0]);
+                    Game nextGame = g;
+                    for (int id = 0; id < (int)nextGame.units.size(); id++) {
+                        if (p0[id] >= 0) {
+                            nextGame.units[id].x = p0[id] % n;
+                            nextGame.units[id].y = p0[id] / n;
+                        } else {
+                            nextGame.units[id].x = nextGame.units[id].y = -1;
+                        }
+                    }
+                    double vVal = fSession.evalGameValue(nextGame);
+                    value += 25.0 * (vVal - 0.5);
+                }
+#endif
+                if(value>refinedBest){refinedBest=value;bm=ca.mv;ba=ca.ac;}"""
+    assert duel_v_anchor in code
+    code = code.replace(duel_v_anchor, duel_v_insert, 1)
+
     target_hpp = CANDIDATE_DIR / "C08_Player5_Omega_LIT_Fusion.hpp"
     target_hpp.write_text(code, encoding="utf-8")
     print(f"Generated {target_hpp} ({len(code)} bytes)")
 
     # Generate the variant bot source files
     variants = {
-        "C08_Player5_Omega_LIT_control.cpp": """// Frozen C08 Control: MOD_FUSION_P=0 (bit-identical to C08_Player5_Omega_LIT.cpp)
+        "C08_Player5_Omega_LIT_control.cpp": """// Frozen C08 Control: MOD_FUSION_P=0, MOD_FUSION_V=0 (bit-identical to C08_Player5_Omega_LIT.cpp)
 #define MOD_FUSION_P 0
+#define MOD_FUSION_V 0
 #include "C08_Player5_Omega_LIT_Fusion.hpp"
 """,
-        "C08_Player5_Omega_LIT_p_s.cpp": """// C08 Carrier + Tier S Opponent Policy (MOD_FUSION_P=1, FUSION_TIER_S=1)
+        "C08_Player5_Omega_LIT_p_s.cpp": """// C08 Carrier + Tier S Opponent Policy
 #define MOD_FUSION_P 1
+#define MOD_FUSION_V 0
 #define FUSION_TIER_S 1
 #include "C08_Player5_Omega_LIT_Fusion.hpp"
 """,
-        "C08_Player5_Omega_LIT_p_m.cpp": """// C08 Carrier + Tier M Opponent Policy (MOD_FUSION_P=1, FUSION_TIER_M=1)
+        "C08_Player5_Omega_LIT_p_m.cpp": """// C08 Carrier + Tier M Opponent Policy (P-M without V / 卸掉V)
 #define MOD_FUSION_P 1
+#define MOD_FUSION_V 0
 #define FUSION_TIER_M 1
 #include "C08_Player5_Omega_LIT_Fusion.hpp"
 """,
-        "C08_Player5_Omega_LIT_p_l.cpp": """// C08 Carrier + Tier L Opponent Policy (MOD_FUSION_P=1, FUSION_TIER_L=1)
+        "C08_Player5_Omega_LIT_pm_no_v.cpp": """// C08 Carrier + Tier M Opponent Policy (P-M without V / 卸掉V)
 #define MOD_FUSION_P 1
+#define MOD_FUSION_V 0
+#define FUSION_TIER_M 1
+#include "C08_Player5_Omega_LIT_Fusion.hpp"
+""",
+        "C08_Player5_Omega_LIT_pm_with_v.cpp": """// C08 Carrier + Tier M Policy + Value (P-M with V)
+#define MOD_FUSION_P 1
+#define MOD_FUSION_V 1
+#define FUSION_TIER_M 1
+#include "C08_Player5_Omega_LIT_Fusion.hpp"
+""",
+        "C08_Player5_Omega_LIT_p_l.cpp": """// C08 Carrier + Tier L Opponent Policy
+#define MOD_FUSION_P 1
+#define MOD_FUSION_V 0
 #define FUSION_TIER_L 1
 #include "C08_Player5_Omega_LIT_Fusion.hpp"
 """,
-        "C08_Player5_Omega_LIT_p_xl.cpp": """// C08 Carrier + Tier XL Opponent Policy (MOD_FUSION_P=1, FUSION_TIER_XL=1)
+        "C08_Player5_Omega_LIT_p_xl.cpp": """// C08 Carrier + Tier XL Opponent Policy
 #define MOD_FUSION_P 1
+#define MOD_FUSION_V 0
 #define FUSION_TIER_XL 1
 #include "C08_Player5_Omega_LIT_Fusion.hpp"
 """,
-        "C08_Player5_Omega_LIT_p_xxl.cpp": """// C08 Carrier + Tier XXL Opponent Policy (MOD_FUSION_P=1, FUSION_TIER_XXL=1)
+        "C08_Player5_Omega_LIT_p_xxl.cpp": """// C08 Carrier + Tier XXL Opponent Policy
 #define MOD_FUSION_P 1
+#define MOD_FUSION_V 0
 #define FUSION_TIER_XXL 1
 #include "C08_Player5_Omega_LIT_Fusion.hpp"
 """,
@@ -462,10 +557,11 @@ def build_player5_v12_fusion():
 #define MOD_FUSION_V 0
 #endif
 
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
 #include "features.hpp"
 #include "policy.hpp"
 #include "adapter.hpp"
+#include "value.hpp"
 #include "state.hpp"
 
 #if defined(FUSION_TIER_M)
@@ -493,7 +589,7 @@ using namespace std;"""
     int turn=0; vector<int> score; vector<Unit> units; vector<Flag> flags; vector<Event> events;
 };
 
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
 namespace fusion_hook {
     inline fusion::Static makeStatic(const Game& g) {
         fusion::Static s;
@@ -581,6 +677,31 @@ namespace fusion_hook {
                 }
             }
         }
+
+        template <typename SimType>
+        double evalSimValue(const SimType& sim, int turn, int me) const {
+            if (!model || !model->value) return 0.5;
+            fusion::State st;
+            st.turn = turn;
+            st.score = sim.score;
+            st.units.resize(sim.u.size());
+            for (size_t i = 0; i < sim.u.size(); i++) {
+                st.units[i] = {sim.u[i].id, sim.u[i].team, sim.u[i].x, sim.u[i].y, sim.u[i].hp, sim.u[i].flag, sim.u[i].respawn_at};
+            }
+            st.flags.resize(sim.f.size());
+            for (size_t i = 0; i < sim.f.size(); i++) {
+                int s = fusion::kHome;
+                if (sim.f[i].status == "carried") s = fusion::kCarried;
+                else if (sim.f[i].status == "dropped") s = fusion::kDropped;
+                else if (sim.f[i].status == "cooldown") s = fusion::kCooldown;
+                st.flags[i] = {sim.f[i].id, s, sim.f[i].x, sim.f[i].y, sim.f[i].holder, sim.f[i].return_at};
+            }
+            fusion::TurnView vw;
+            fusion::makeView(board, st, nullptr, vw);
+            fusion::ValueFeatures vf;
+            fusion::encodeValue(board, st, vw, me, vf);
+            return fusion::value(*model->value, vf);
+        }
     };
 }
 #endif"""
@@ -590,7 +711,7 @@ namespace fusion_hook {
     # 3. Session in struct Planner
     planner_anchor = "struct Planner {\n    Nav nav; bool initialized=false; vector<Unit> prev;"
     planner_insert = """struct Planner {
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
     fusion_hook::Session fSession;
 #endif
     Nav nav; bool initialized=false; vector<Unit> prev;"""
@@ -600,7 +721,7 @@ namespace fusion_hook {
     # 4. In decide: fSession.update(g)
     decide_anchor = "    string decide(Game& g){\n        if(!initialized){nav.init(g);initialized=true;}respawns(g);forecast(g);auto jobs=assign(g);"
     decide_insert = """    string decide(Game& g){
-#if MOD_FUSION_P
+#if MOD_FUSION_P || MOD_FUSION_V
         fSession.update(g);
 #endif
         if(!initialized){nav.init(g);initialized=true;}respawns(g);forecast(g);auto jobs=assign(g);"""
@@ -633,27 +754,57 @@ namespace fusion_hook {
     assert forecast_anchor in code
     code = code.replace(forecast_anchor, forecast_insert, 1)
 
+    # 6. In refine: evaluate future state two with V
+    refine_anchor = """                double value=.2*simIncrement(g,start,one,jobs)+.7*simIncrement(g,one,two,jobs);
+                total+=value*(model==0?.7:.3);scenarios++;"""
+    refine_insert = """                double value=.2*simIncrement(g,start,one,jobs)+.7*simIncrement(g,one,two,jobs);
+#if MOD_FUSION_V
+                if (fSession.model && fSession.model->value) {
+                    double vVal = fSession.evalSimValue(two, g.turn + 2, g.me);
+                    value += 40.0 * (vVal - 0.5);
+                }
+#endif
+                total+=value*(model==0?.7:.3);scenarios++;"""
+    assert refine_anchor in code
+    code = code.replace(refine_anchor, refine_insert, 1)
+
     target_hpp = CANDIDATE_DIR / "Player5_v12_Fusion.hpp"
     target_hpp.write_text(code, encoding="utf-8")
     print(f"Generated {target_hpp} ({len(code)} bytes)")
 
     v12_variants = {
-        "Player5_v12_control.cpp": """// Frozen Player5_v12 Control: MOD_FUSION_P=0
+        "Player5_v12_control.cpp": """// Frozen Player5_v12 Control: MOD_FUSION_P=0, MOD_FUSION_V=0
 #define MOD_FUSION_P 0
+#define MOD_FUSION_V 0
 #include "Player5_v12_Fusion.hpp"
 """,
         "Player5_v12_p_s.cpp": """// Player5_v12 Carrier + Tier S Opponent Policy
 #define MOD_FUSION_P 1
+#define MOD_FUSION_V 0
 #define FUSION_TIER_S 1
 #include "Player5_v12_Fusion.hpp"
 """,
-        "Player5_v12_p_m.cpp": """// Player5_v12 Carrier + Tier M Opponent Policy
+        "Player5_v12_p_m.cpp": """// Player5_v12 Carrier + Tier M Opponent Policy (P-M without V / 卸掉V)
 #define MOD_FUSION_P 1
+#define MOD_FUSION_V 0
+#define FUSION_TIER_M 1
+#include "Player5_v12_Fusion.hpp"
+""",
+        "Player5_v12_pm_no_v.cpp": """// Player5_v12 Carrier + Tier M Opponent Policy (P-M without V / 卸掉V)
+#define MOD_FUSION_P 1
+#define MOD_FUSION_V 0
+#define FUSION_TIER_M 1
+#include "Player5_v12_Fusion.hpp"
+""",
+        "Player5_v12_pm_with_v.cpp": """// Player5_v12 Carrier + Tier M Policy + Value (P-M with V)
+#define MOD_FUSION_P 1
+#define MOD_FUSION_V 1
 #define FUSION_TIER_M 1
 #include "Player5_v12_Fusion.hpp"
 """,
         "Player5_v12_p_l.cpp": """// Player5_v12 Carrier + Tier L Opponent Policy
 #define MOD_FUSION_P 1
+#define MOD_FUSION_V 0
 #define FUSION_TIER_L 1
 #include "Player5_v12_Fusion.hpp"
 """,
