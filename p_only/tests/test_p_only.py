@@ -20,6 +20,7 @@ sys.path.insert(0, str(REPO / "p_only" / "tools"))
 
 import analyze  # noqa: E402
 import bundle  # noqa: E402
+import screen_runner  # noqa: E402
 import size_rule  # noqa: E402
 from fusion.runner import find_compiler  # noqa: E402
 
@@ -90,9 +91,12 @@ class Bundle(unittest.TestCase):
                 text, files = bundle.bundle(REPO / v["source"])
                 active = [line for line in text.splitlines() if bundle.INCLUDE.match(line)]
                 self.assertEqual(active, [], "a local include was left in the bundle")
-                if v["tier"]:
-                    self.assertTrue(any(f"models_{v['tier'].lower()}" in str(f).replace("\\", "/") or (v["tier"] == "S" and "/models/" in str(f).replace("\\", "/"))
-                                        for f in files), "the bundle lacks its tier's weights")
+                paths = [str(f).replace("\\", "/") for f in files]
+                if v.get("models"):
+                    self.assertTrue(any(f"{v['models']}/" in f for f in paths), "the bundle lacks its mixed model set")
+                elif v["tier"]:
+                    self.assertTrue(any(f"models_{v['tier'].lower()}/" in f or (v["tier"] == "S" and "/models/" in f)
+                                        for f in paths), "the bundle lacks its tier's weights")
 
 
 class SizeRule(unittest.TestCase):
@@ -114,6 +118,26 @@ class SizeRule(unittest.TestCase):
         self.assertIsNone(d["c08"])
 
 
+class Runner(unittest.TestCase):
+    def test_interleaved_balanced_order(self):
+        fixtures = [{"fixture_id": f"f{i}"} for i in range(6)]
+        arms = ["a", "b", "c"]
+        order = screen_runner.job_order(fixtures, arms)
+        self.assertEqual(len(order), 18)
+        for i in range(6):                      # each fixture runs every arm, consecutively
+            self.assertEqual(sorted(arm for fx, arm in order[3 * i:3 * i + 3]), arms)
+        for pos in range(3):                    # every arm takes every position equally often
+            self.assertEqual(sorted(order[3 * i + pos][1] for i in range(6)), sorted(arms * 2))
+
+    def test_aa_identity_is_the_base_identity(self):
+        manifest = {"x": {"bundle_sha256": "b", "binary_sha256": "e", "inputs": [{"path": "inference/models_xl/w.hpp", "sha256": "1"}]}}
+        ids = screen_runner.identities(["x", "x~aa"], manifest, {"fixtures": [], "reference": []}, (2.0, 0.05))
+        self.assertEqual(ids["x"]["digest"], ids["x~aa"]["digest"])
+        manifest["x"]["inputs"][0]["sha256"] = "2"      # a changed model is another identity
+        self.assertNotEqual(screen_runner.identities(["x"], manifest, {"fixtures": [], "reference": []}, (2.0, 0.05))["x"]["digest"],
+                            ids["x"]["digest"])
+
+
 class Analyze(unittest.TestCase):
     def test_paired_difference(self):
         fixtures = {f"f{i}": {"teams": 2 if i < 4 else 5} for i in range(8)}
@@ -125,6 +149,50 @@ class Analyze(unittest.TestCase):
         self.assertEqual(r["identical_scores"], 4)
         self.assertEqual(r["bands"]["2"]["fixtures"], 4)
         self.assertIsNone(r["bands"]["6-10"])
+
+    def test_interaction_contrast(self):
+        fixtures = {f"f{i}": {"teams": 3} for i in range(4)}
+        u = {"A": 0.5, "B": 0.75, "C": 0.5, "D": 1.0}          # V helps by .25 at XL and .5 at XXL
+        rows = {k: {f: {"utility": v, "score": [0]} for f in fixtures} for k, v in u.items()}
+        name, terms = analyze.parse_contrast("ix=D-C-B+A")
+        self.assertEqual([w for w, _ in terms], [1, -1, -1, 1])
+        r = analyze.contrast([(w, rows[a]) for w, a in terms], fixtures, [3])
+        self.assertAlmostEqual(r["overall"]["mean"], 0.25)
+
+
+@unittest.skipUnless(CXX, "no C++ compiler")
+class Replay(unittest.TestCase):
+    """Fixed-work replay (tests/replay_test.cpp): V off equals V compiled in at weight 0, and V never changes P."""
+
+    def outputs(self, carrier: str, defines: list[str], stream: Path, tmp: str) -> tuple[list[list[str]], int]:
+        exe = Path(tmp) / ("replay_" + carrier + "_" + "_".join(d.lstrip("-D").replace("=", "") for d in defines))
+        subprocess.run([CXX, "-std=c++20", "-O2", f"-I{REPO / 'inference'}", f"-I{REPO / 'p_only' / 'include'}", f"-I{BOTS}",
+                        f"-DCARRIER_{carrier}", "-DFUSION_TIER_PXL_VM", *defines, str(REPO / "p_only" / "tests" / "replay_test.cpp"),
+                        "-o", str(exe)], check=True, capture_output=True)
+        lines = subprocess.run([str(exe)], input=gzip.decompress(stream.read_bytes()), capture_output=True, timeout=900,
+                               check=True).stdout.decode().splitlines()
+        return [line.split(" ", 2) for line in lines[:-1]], int(lines[-1].split()[1])
+
+    def run_replay(self, carrier: str, fixed: list[str], zero: list[str]):
+        stream = REPO / "p_only" / "tests" / "fixtures" / "stream_n04.txt.gz"
+        with tempfile.TemporaryDirectory() as tmp:
+            off, t_off = self.outputs(carrier, fixed, stream, tmp)
+            nil, t_nil = self.outputs(carrier, fixed + ["-DMOD_FUSION_V=1", *zero], stream, tmp)
+            on, t_on = self.outputs(carrier, fixed + ["-DMOD_FUSION_V=1"], stream, tmp)
+        if t_off or t_nil or t_on:
+            self.skipTest(f"a deadline truncated the fixed-work search ({t_off}, {t_nil}, {t_on}): equivalence not testable here")
+        self.assertEqual(len(off), 400)
+        self.assertEqual([r[2] for r in off], [r[2] for r in nil], "V at weight 0 changed a reply")
+        self.assertEqual([r[1] for r in off], [r[1] for r in nil])
+        self.assertEqual([r[1] for r in off], [r[1] for r in on], "turning V on changed the network's predictions")
+        changed = sum(a[2] != b[2] for a, b in zip(off, on))
+        print(f"\n[replay] {carrier}: V on changed {changed} of {len(off)} replies on the 4-team game", file=sys.stderr)
+
+    def test_c08(self):
+        self.run_replay("C08", ["-DPONLY_FIXED_SAMPLES=64"], ["-DPONLY_V_REFINE=0", "-DPONLY_V_BEAM=0"])
+
+    def test_v12(self):
+        self.run_replay("V12", [], ["-DPONLY_V_ROLLOUT=0"])
 
 
 @unittest.skipUnless(CXX, "no C++ compiler")

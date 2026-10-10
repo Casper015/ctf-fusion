@@ -581,7 +581,173 @@ for n in sorted(edits):
 out = HEADER.split("\n")
 for i, line in enumerate(src, 1):
     out += edits[i] if i in edits else [line]
+
+# ---------------------------------------------------------------- experiment switches (applied to the derived text)
+POST = [
+("#ifndef MOD_FUSION_V\n#define MOD_FUSION_V 0\n#endif",
+ """#ifndef MOD_FUSION_V
+#define MOD_FUSION_V 0
+#endif
+// PONLY_FIXED_SAMPLES=N (diagnostic equal-work mode): every expectimax call asks
+// for exactly N joint samples instead of filling the 30 ms search budget. The
+// hard turn deadline (35 ms compute target) still binds: a call that reaches it
+// stops and is counted as truncated, and the checked lookahead keeps only that
+// hard deadline. 0 = the deployed fixed-time mode.
+#ifndef PONLY_FIXED_SAMPLES
+#define PONLY_FIXED_SAMPLES 0
+#endif
+// V coefficients (MOD_FUSION_V): heuristic points per unit of V - 0.5 in the
+// checked lookahead (refine) and in the one-ply beam re-ranking. Tuning
+// parameters, not validated constants.
+#ifndef PONLY_V_REFINE
+#define PONLY_V_REFINE 50.0
+#endif
+#ifndef PONLY_V_BEAM
+#define PONLY_V_BEAM 35.0
+#endif"""),
+("#elif defined(FUSION_TIER_XXL)\n#include \"models_xxl/registry.hpp\"\n#else",
+ "#elif defined(FUSION_TIER_XXL)\n#include \"models_xxl/registry.hpp\"\n#elif defined(FUSION_TIER_PXL_VM)\n#include \"models_pxl_vm/registry.hpp\"\n#elif defined(FUSION_TIER_PXXL_VM)\n#include \"models_pxxl_vm/registry.hpp\"\n#else"),
+("struct Stats { int samples = 0, plans = 0; };",
+ """// samples: joint samples completed; requested: the call's target (fixed
+// samples, or cfg.maxSamples when time-bounded); rollouts: plan evaluations;
+// survivors: plans still compared at the end (all, without halving);
+// truncated: a deadline stopped the call before its target.
+struct Stats { int samples = 0, plans = 0, requested = 0, survivors = 0; long long rollouts = 0; bool truncated = false; };"""),
+("            if (fixedSamples <= 0 && std::chrono::steady_clock::now() >= deadline) break;",
+ "            if (std::chrono::steady_clock::now() >= deadline) break;  // binds in both modes"),
+("        if (stats) { stats->samples = done; stats->plans = C; }\n        if (!done) return {};",
+ "        if (stats) { stats->samples = done; stats->plans = C; stats->requested = limit; stats->survivors = C;\n                     stats->rollouts = (long long)done * C; stats->truncated = done < limit; }\n        if (!done) return {};"),
+("    std::vector<int> out;  // eliminated plans, best-first within each later round",
+ "    std::vector<int> out;  // eliminated plans, best-first within each later round\n    bool cut = false; long long rolled = 0;"),
+("            if (fixedSamples <= 0 && std::chrono::steady_clock::now() >= roundEnd) break;",
+ "            // Fixed samples: only the hard deadline stops a round (counted); time mode: the round's share.\n            if (std::chrono::steady_clock::now() >= (fixedSamples > 0 ? deadline : roundEnd)) { cut = cut || fixedSamples > 0; break; }"),
+("            for (int ci : alive) scores.add(ci, rollout(in, cfg, plans[ci], stay, pick, world, ev));\n            done++;",
+ "            for (int ci : alive) scores.add(ci, rollout(in, cfg, plans[ci], stay, pick, world, ev));\n            rolled += (long long)alive.size(); done++;"),
+("    if (stats) { stats->samples = done; stats->plans = C; }\n    if (!done) return {};\n    std::vector<Plan> ranked;",
+ "    if (stats) { stats->samples = done; stats->plans = C; stats->requested = fixedSamples > 0 ? fixedSamples : cfg.maxSamples;\n                 stats->survivors = int(alive.size()); stats->rollouts = rolled;\n                 stats->truncated = fixedSamples > 0 ? cut : done < cfg.maxSamples; }\n    if (!done) return {};\n    std::vector<Plan> ranked;"),
+("auto ranked=search::rank(in,cfg,stop,&lastSearch,fixedSamples);statSearches++;statSamples+=lastSearch.samples;",
+ "auto ranked=search::rank(in,cfg,stop,&lastSearch,fixedSamples);statSearches++;statSamples+=lastSearch.samples;\n        statRequested+=lastSearch.requested;statTruncated+=lastSearch.truncated;statRollouts+=lastSearch.rollouts;statPlans+=lastSearch.plans;statSurvivors+=lastSearch.survivors;"),
+("    long long statSearches=0,statSamples=0;",
+ """    long long statSearches=0,statSamples=0,statRequested=0,statTruncated=0,statRollouts=0,statPlans=0,statSurvivors=0;
+#if MOD_FUSION_V
+    // V use per path (0: checked lookahead, 1: one-ply beam): network calls, exact
+    // terminal utilities, decisions taken with V, decisions V changed against the
+    // same path without V, and seconds spent encoding and evaluating.
+    long long vCalls[2]={0,0},vExact[2]={0,0},vDecisions[2]={0,0},vChanged[2]={0,0};double vSeconds=0;
+    double stateValue(const Game& s,int path){
+        if(s.turn>s.turns){vExact[path]++;double u=0;int n=0;
+            for(int t=0;t<s.teams;t++)if(t!=s.me){u+=s.score[s.me]>s.score[t]?1.:s.score[s.me]==s.score[t]?.5:0.;n++;}return n?u/n:.5;}
+        const auto t0=chrono::steady_clock::now();vCalls[path]++;const double v=fSession.evalGameValue(s);
+        vSeconds+=chrono::duration<double>(chrono::steady_clock::now()-t0).count();return v;}
+#endif"""),
+("        if(g.turn==g.turns)std::cerr<<\"SEARCH calls \"<<statSearches<<\" samples \"<<statSamples<<std::endl;",
+ """        if(g.turn!=g.turns)return;
+        std::cerr<<"SEARCH calls "<<statSearches<<" samples "<<statSamples<<" requested "<<statRequested<<" truncated "<<statTruncated
+                 <<" rollouts "<<statRollouts<<" plans "<<statPlans<<" survivors "<<statSurvivors<<" fixed "<<PONLY_FIXED_SAMPLES<<std::endl;
+#if MOD_FUSION_V
+        std::cerr<<"VALUE refine_calls "<<vCalls[0]<<" refine_exact "<<vExact[0]<<" refine_decisions "<<vDecisions[0]<<" refine_changed "<<vChanged[0]
+                 <<" beam_calls "<<vCalls[1]<<" beam_exact "<<vExact[1]<<" beam_decisions "<<vDecisions[1]<<" beam_changed "<<vChanged[1]
+                 <<" seconds "<<vSeconds<<" coef_refine "<<PONLY_V_REFINE<<" coef_beam "<<PONLY_V_BEAM<<std::endl;
+#endif"""),
+("            auto ranked=deepen(g,own,options,params,all,cellValue,pickCell,min(decisionDeadline,budget-reserve));\n            decisionDeadline=min(decisionDeadline,budget);",
+ """#if PONLY_FIXED_SAMPLES
+            // Equal-work mode: exactly PONLY_FIXED_SAMPLES samples, bounded only by the hard turn deadline.
+            (void)budget;(void)reserve;
+            auto ranked=deepen(g,own,options,params,all,cellValue,pickCell,decisionDeadline,PONLY_FIXED_SAMPLES);
+#else
+            auto ranked=deepen(g,own,options,params,all,cellValue,pickCell,min(decisionDeadline,budget-reserve));
+            decisionDeadline=min(decisionDeadline,budget);
+#endif"""),
+("auto saved=saveRuntime();auto outer=decisionDeadline;decisionDeadline=min(outer,chrono::steady_clock::now()+chrono::milliseconds(20));",
+ "auto saved=saveRuntime();auto outer=decisionDeadline;\n#if !PONLY_FIXED_SAMPLES\n        decisionDeadline=min(outer,chrono::steady_clock::now()+chrono::milliseconds(20));\n#endif"),
+("        double answerWorst=-1e100;\n        for(const auto&candidate:candidates){double mean=0,worst=1e100;bool complete=true;",
+ "        double answerWorst=-1e100;\n#if MOD_FUSION_V\n        ctfcombat::Choice answerH=fallback;double bestH=-1e100,answerWorstH=-1e100;  // the same choice without V\n#endif\n        for(const auto&candidate:candidates){double mean=0,worst=1e100;bool complete=true;\n#if MOD_FUSION_V\n            double meanH=0,worstH=1e100;\n#endif"),
+("""#if MOD_FUSION_V
+                if (fSession.model && fSession.model->value) {
+                    double vEnd = fSession.evalGameValue(end);
+                    outcome += 50.0 * (vEnd - 0.5);
+                }
+#endif
+                mean+=.5*outcome;worst=min(worst,outcome);""",
+ """#if MOD_FUSION_V
+                meanH+=.5*outcome;worstH=min(worstH,outcome);
+                // V of this scenario's settled end state (the exact pairwise utility once
+                // the game is over); the two scenarios combine through mean and worst.
+                if (fSession.model && fSession.model->value) outcome += PONLY_V_REFINE * (stateValue(end,0) - 0.5);
+#endif
+                mean+=.5*outcome;worst=min(worst,outcome);"""),
+("            bool dropping=false;for(int t:candidate.target)dropping|=t==-3;\n            if(dropping&&(value<best+5||worst<answerWorst))continue;",
+ """            bool dropping=false;for(int t:candidate.target)dropping|=t==-3;
+#if MOD_FUSION_V
+            {const double valueH=candidate.positionValue+.8*meanH+.2*worstH;
+             if(!(dropping&&(valueH<bestH+5||worstH<answerWorstH))&&valueH>bestH+1e-8){bestH=valueH;answerH=candidate;answerWorstH=worstH;}}
+#endif
+            if(dropping&&(value<best+5||worst<answerWorst))continue;"""),
+("        restoreRuntime(saved);decisionDeadline=outer;return answer;",
+ "#if MOD_FUSION_V\n        if(fSession.model&&fSession.model->value){vDecisions[0]++;if(answer.moveIndex!=answerH.moveIndex||answer.target!=answerH.target)vChanged[0]++;}\n#endif\n        restoreRuntime(saved);decisionDeadline=outer;return answer;"),
+("""                    double bestVal = -1e100;
+                    ctfcombat::Choice bestChoice = choice;
+                    for (auto& c : beam) {
+                        vector<int> want, acts;
+                        rivalOrders(g, 0, want, acts);
+                        for(int k=0;k<3;k++){int i=3*g.me+k;auto p=options[k][c.moveIndex[k]].p;if(pos[i]>=0)want[i]=nav.cell(p.x,p.y);acts[i]=c.target[k];}
+                        Game nxt;
+                        if (stepExact(g, want, acts, nxt)) {
+                            double vVal = fSession.evalGameValue(nxt);
+                            double score = c.value + 35.0 * (vVal - 0.5);
+                            if (score > bestVal) {
+                                bestVal = score;
+                                bestChoice = c;
+                            }
+                        }
+                    }
+                    choice = bestChoice;""",
+ """                    // One scenario, every rival on its most probable order (model 0), settled
+                    // exactly; V of that successor (exact utility once the game is over). Only the
+                    // plans that survived the search's final round compete: sequential halving
+                    // values eliminated plans on fewer samples, so their values are not comparable
+                    // (with every V coefficient 0 this hook then keeps the search's choice).
+                    double bestVal = -1e100;
+                    ctfcombat::Choice bestChoice = choice;
+                    const size_t pool = std::min(beam.size(), size_t(std::max(1, lastSearch.survivors)));
+                    for (size_t bi = 0; bi < pool; bi++) {
+                        const auto& c = beam[bi];
+                        vector<int> want, acts;
+                        rivalOrders(g, 0, want, acts);
+                        for(int k=0;k<3;k++){int i=3*g.me+k;auto p=options[k][c.moveIndex[k]].p;if(pos[i]>=0)want[i]=nav.cell(p.x,p.y);acts[i]=c.target[k];}
+                        Game nxt;
+                        if (stepExact(g, want, acts, nxt)) {
+                            double score = c.value + PONLY_V_BEAM * (stateValue(nxt,1) - 0.5);
+                            if (score > bestVal) {
+                                bestVal = score;
+                                bestChoice = c;
+                            }
+                        }
+                    }
+                    vDecisions[1]++;if(bestChoice.moveIndex!=choice.moveIndex||bestChoice.target!=choice.target)vChanged[1]++;
+                    choice = bestChoice;"""),
+]
+POST += [
+("if(chrono::steady_clock::now()>=decisionDeadline){complete=false;break;}",
+ "if(chrono::steady_clock::now()>=decisionDeadline){complete=false;refineCut=true;break;}", 3),
+("        auto saved=saveRuntime();auto outer=decisionDeadline;",
+ "        auto saved=saveRuntime();auto outer=decisionDeadline;bool refineCut=false;  // a deadline stopped the lookahead", 1),
+("        restoreRuntime(saved);decisionDeadline=outer;return answer;",
+ "        statRefines++;statRefineCuts+=refineCut;\n        restoreRuntime(saved);decisionDeadline=outer;return answer;", 1),
+("    long long statSearches=0,statSamples=0,statRequested=0,statTruncated=0,statRollouts=0,statPlans=0,statSurvivors=0;",
+ "    long long statSearches=0,statSamples=0,statRequested=0,statTruncated=0,statRollouts=0,statPlans=0,statSurvivors=0;\n"
+ "    long long statRefines=0,statRefineCuts=0;  // checked lookaheads run, and those a deadline stopped early", 1),
+("<<\" survivors \"<<statSurvivors<<\" fixed \"<<PONLY_FIXED_SAMPLES<<std::endl;",
+ "<<\" survivors \"<<statSurvivors<<\" fixed \"<<PONLY_FIXED_SAMPLES\n                 <<\" refines \"<<statRefines<<\" refine_cuts \"<<statRefineCuts<<std::endl;", 1),
+]
+text = "\n".join(out)
+for item in POST:
+    old, new, times = item if len(item) == 3 else (*item, 1)
+    if text.count(old) != times:
+        sys.exit(f"POST: expected {times} occurrence(s) of {old[:70]!r}, found {text.count(old)}")
+    text = text.replace(old, new)
+
 dst = Path(os.environ.get("PONLY_DERIVE_DIR", REPO / "p_only/bots")) / "c08_ponly.hpp"   # tests derive into a scratch dir
 dst.parent.mkdir(parents=True, exist_ok=True)
-dst.write_text("\n".join(out), encoding="utf-8")
-print(dst, len(out), "lines")
+dst.write_text(text, encoding="utf-8")
+print(dst, text.count("\n") + 1, "lines")

@@ -3,7 +3,7 @@
     python p_only/tools/record_stream.py --teams 4 --seed 31 --bot build/p_only/bin/c08_control-<hash> \\
         --out p_only/tests/fixtures/stream_n04.txt.gz
 
-Plays one game with the same bot in every seat under relaxed limits (5 s / 1 s; a
+Plays one game with the given bots in the seats (in rotation) under relaxed limits (5 s / 1 s; a
 fixture, not a timing or strength measurement) and writes, gzip-compressed, every
 turn block the engine sends seat 0, in order: what a bot reads on stdin. Next to it
 (stream_ -> orders_) it writes every team's reply per turn, one line "turn team
@@ -28,14 +28,14 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--teams", type=int, required=True)
     ap.add_argument("--seed", type=int, required=True)
-    ap.add_argument("--bot", required=True, help="executable played in every seat")
+    ap.add_argument("--bot", required=True, nargs="+", help="executables, assigned to the seats in rotation")
     ap.add_argument("--ai-test")
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     engine = load_engine(ai_test_root(a.ai_test))
     game = engine.Game(a.teams, a.seed, flag_seed=a.seed * 7919 + 1)
-    exe = str(Path(a.bot).resolve())   # bots start in their own temporary directory
-    bots = [runner.Bot([exe], f"seat{i}", (5.0, 1.0)) for i in range(a.teams)]
+    exes = [str(Path(b).resolve()) for b in a.bot]   # bots start in their own temporary directory
+    bots = [runner.Bot([exes[i % len(exes)]], f"seat{i}", (5.0, 1.0)) for i in range(a.teams)]
     blocks, replies = [], []
     try:
         while not game.done:
@@ -62,7 +62,11 @@ def main(argv=None):
     out.write_bytes(gzip.compress(text.encode("utf-8"), mtime=0))
     orders = out.with_name(out.name.replace("stream_", "orders_"))
     orders.write_bytes(gzip.compress(("\n".join(replies) + "\n").encode("utf-8"), mtime=0))
-    print(f"{out}: {len(blocks)} turns, score {game.result()['score']}, {len(text)} bytes")
+    events = {}
+    for line in text.splitlines():
+        if line.startswith("E "):
+            events[line.split()[1]] = events.get(line.split()[1], 0) + 1
+    print(f"{out}: {len(blocks)} turns, score {game.result()['score']}, {len(text)} bytes, events {events}")
 
 
 if __name__ == "__main__":

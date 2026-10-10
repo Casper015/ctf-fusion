@@ -49,6 +49,11 @@ HEADER = """// Player5 v12 (rollout_volley) carrier with the P-only opponent mod
 INCLUDES = """#ifndef MOD_FUSION_V
 #define MOD_FUSION_V 0
 #endif
+// V coefficient (MOD_FUSION_V): heuristic points per unit of V - 0.5 at the end
+// of the two-ply rollout. A tuning parameter, not a validated constant.
+#ifndef PONLY_V_ROLLOUT
+#define PONLY_V_ROLLOUT 40.0
+#endif
 
 #include "features.hpp"
 #include "policy.hpp"
@@ -65,6 +70,10 @@ INCLUDES = """#ifndef MOD_FUSION_V
 #include "models_xl/registry.hpp"
 #elif defined(FUSION_TIER_XXL)
 #include "models_xxl/registry.hpp"
+#elif defined(FUSION_TIER_PXL_VM)
+#include "models_pxl_vm/registry.hpp"
+#elif defined(FUSION_TIER_PXXL_VM)
+#include "models_pxxl_vm/registry.hpp"
 #else
 #include "models/registry.hpp"
 #endif"""
@@ -190,6 +199,25 @@ RIVALS = """    // The rivals' orders on the network's view of state s: model 0 
     // probable joint move and act of each team, model 1 one draw (the same
     // draw for every candidate; `salt` separates the plies). want = destination
     // cell; act = target id (attack), -2 pickup, -3 drop, -1 nothing.
+#if MOD_FUSION_V
+    // V use in the rollout: network calls, exact terminal utilities, decisions taken
+    // with V, decisions V changed against the same rollout without V, and seconds
+    // spent encoding and evaluating.
+    long long vCalls=0,vExact=0,vDecisions=0,vChanged=0;double vSeconds=0;
+    double stateValue(const Game& g,const Sim& s,int turn){
+        if(turn>g.turns){vExact++;double u=0;int n=0;
+            for(int t=0;t<g.teams;t++)if(t!=g.me){u+=s.score[g.me]>s.score[t]?1.:s.score[g.me]==s.score[t]?.5:0.;n++;}return n?u/n:.5;}
+        const auto t0=chrono::steady_clock::now();vCalls++;const double v=fSession.evalSimValue(s,turn,g.me);
+        vSeconds+=chrono::duration<double>(chrono::steady_clock::now()-t0).count();return v;}
+#endif
+    void valueReport(const Game& g)const{
+#if PONLY_STATS && MOD_FUSION_V
+        if(g.turn==g.turns)std::cerr<<"VALUE rollout_calls "<<vCalls<<" rollout_exact "<<vExact<<" rollout_decisions "<<vDecisions
+                                    <<" rollout_changed "<<vChanged<<" seconds "<<vSeconds<<" coef_rollout "<<PONLY_V_ROLLOUT<<std::endl;
+#else
+        (void)g;
+#endif
+    }
     void rivalOrders(const Game& g,ponly::View& v,const Sim& s,int model,uint32_t salt,vector<int>& want,vector<int>& act)const{
         want.assign(s.u.size(),-1);act.assign(s.u.size(),-1);
         for(int t=0;t<g.teams;t++)if(t!=g.me){
@@ -217,7 +245,13 @@ REFINE = r"""    ctfcombat::Choice refine(const Game& g,const array<Task,3>& job
         if(!hasVolley&&std::isfinite(bestVolley.value))beam.push_back(bestVolley);
         auto deadline=chrono::steady_clock::now()+chrono::milliseconds(24);Sim start=initialSim(g);
         double best=-1e100;ctfcombat::Choice answer=fallback;
+#if MOD_FUSION_V
+        double bestH=-1e100;ctfcombat::Choice answerH=fallback;  // the same choice without V
+#endif
         for(auto& candidate:beam){double total=0;int scenarios=0;
+#if MOD_FUSION_V
+            double totalH=0;
+#endif
             for(int model=0;model<2;model++){
                 if(chrono::steady_clock::now()>deadline)return fallback;
                 Sim one=start;array<int,3> acts=candidate.target;
@@ -240,15 +274,22 @@ REFINE_TAIL = r"""                ctfcombat::Params params;auto follow=ctfcombat
                 simStep(g,two,g.turn+1,want2,act2,follow.target);
                 double value=.2*simIncrement(g,start,one,jobs)+.7*simIncrement(g,one,two,jobs);
 #if MOD_FUSION_V
-                if (fSession.model && fSession.model->value) {
-                    double vVal = fSession.evalSimValue(two, g.turn + 2, g.me);
-                    value += 40.0 * (vVal - 0.5);
-                }
+                totalH+=value*(model==0?.7:.3);
+                // V of this scenario's settled state after both plies (the exact pairwise
+                // utility once the game is over); the scenarios combine with the same weights.
+                if (fSession.model && fSession.model->value) value += PONLY_V_ROLLOUT * (stateValue(g, two, g.turn + 2) - 0.5);
 #endif
                 total+=value*(model==0?.7:.3);scenarios++;
             }
+#if MOD_FUSION_V
+            if(scenarios==2&&candidate.value+totalH>bestH){bestH=candidate.value+totalH;answerH=candidate;}
+#endif
             if(scenarios==2&&candidate.value+total>best){best=candidate.value+total;answer=candidate;}
-        }return answer;
+        }
+#if MOD_FUSION_V
+        if(fSession.model&&fSession.model->value){vDecisions++;if(answer.moveIndex!=answerH.moveIndex||answer.target!=answerH.target)vChanged++;}
+#endif
+        return answer;
     }"""
 
 # our ply-2 option generation is kept verbatim (original lines 792-801)
@@ -285,7 +326,7 @@ out += REFINE.rstrip("\n").split("\n")
 out += L(792, 802)            # our ply-2 options, unchanged
 out += REFINE_TAIL.split("\n")
 out += L(818, 818)
-out += ["        fSession.update(g);fSession.report(g);"]
+out += ["        fSession.update(g);fSession.report(g);valueReport(g);"]
 expect(850, "int main(){")
 out += L(822, 849)
 out += ["#ifndef PONLY_NO_MAIN  // tests include the bot without its main()", src[849], "#endif"]

@@ -1600,7 +1600,8 @@ struct Planner {
         if(genes.risk)cfg.riskTau=W_death;  // soft minimum on the scale of one unit's death
         auto ranked=search::rank(in,cfg,stop,&lastSearch,fixedSamples);
 #if PONLY_STATS
-        statSearches++;statSamples+=lastSearch.samples;
+        statSearches++;statSamples+=lastSearch.samples;statRequested+=cfg.maxSamples;
+        statTruncated+=lastSearch.samples<cfg.maxSamples;statPlans+=lastSearch.plans;
 #endif
         vector<ctfcombat::Choice> out;for(const auto& p:ranked){auto c=cands[p.source];c.value=p.value;out.push_back(c);}
         return out;
@@ -1812,9 +1813,10 @@ struct Planner {
 #endif
     // Expectimax calls and joint samples (PONLY_STATS: one stderr line at the last turn).
 #if PONLY_STATS
-    long long statSearches=0,statSamples=0;
+    long long statSearches=0,statSamples=0,statRequested=0,statTruncated=0,statPlans=0;
     void searchReport(const Game& g)const{
-        if(g.turn==g.turns)std::cerr<<"SEARCH calls "<<statSearches<<" samples "<<statSamples<<std::endl;
+        if(g.turn==g.turns)std::cerr<<"SEARCH calls "<<statSearches<<" samples "<<statSamples<<" requested "<<statRequested
+                                    <<" truncated "<<statTruncated<<" plans "<<statPlans<<" fixed 0"<<std::endl;
     }
 #else
     void searchReport(const Game&)const{}
