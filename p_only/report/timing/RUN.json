@@ -1,0 +1,65 @@
+{
+ "created": "2026-10-09T23:31:31",
+ "smoke": false,
+ "config": {
+  "_comment": "Phase 1 timing under screen load (p_only/tools/run_screen.py --config p_only/profiles/timing.json, then p_only/tools/size_rule.py --apply). The heaviest team counts, 5 maps each, every C08 P-only size and v12 at XL/XXL, with the screen's worker count so the CPU load matches. Seed 20261101 is for timing only: not strength evidence, never reused for tuning or confirmation.",
+  "seed": 20261101,
+  "teams": [
+   8,
+   12,
+   15
+  ],
+  "maps_per_count": 5,
+  "workers": 6,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "arms": [
+   "c08_control",
+   "c08_ponly_m",
+   "c08_ponly_l",
+   "c08_ponly_xl",
+   "c08_ponly_xxl",
+   "v12_ponly_xl",
+   "v12_ponly_xxl"
+  ],
+  "aa": [],
+  "comparisons": [],
+  "work_dir": "data/p_only/timing",
+  "report_dir": "p_only/report/timing"
+ },
+ "effective": {
+  "teams": [
+   8,
+   12,
+   15
+  ],
+  "maps_per_count": 5,
+  "turn_ms": 50,
+  "arms": [
+   "c08_control",
+   "c08_ponly_m",
+   "c08_ponly_l",
+   "c08_ponly_xl",
+   "c08_ponly_xxl",
+   "v12_ponly_xl",
+   "v12_ponly_xxl"
+  ],
+  "aa": [],
+  "workers": 6
+ },
+ "ctf_fusion_commit": "738014244abd43e64a00a5161d17b7b15c5f36d8",
+ "ai_test_commit": "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87",
+ "host": "DESKTOP-G60OJUD",
+ "os": "Windows-10-10.0.19045-SP0",
+ "cpu_count": 32,
+ "python": "3.14.3",
+ "wall_seconds": {
+  "build": 1.3,
+  "schedule": 0.2,
+  "run": 132.8,
+  "analyze": 0.8,
+  "total": 135.2
+ },
+ "analysis_status": 0
+}

@@ -91,7 +91,7 @@ class Bundle(unittest.TestCase):
                 active = [line for line in text.splitlines() if bundle.INCLUDE.match(line)]
                 self.assertEqual(active, [], "a local include was left in the bundle")
                 if v["tier"]:
-                    self.assertTrue(any(f"models_{v['tier'].lower()}" in str(f) or (v["tier"] == "S" and "/models/" in str(f))
+                    self.assertTrue(any(f"models_{v['tier'].lower()}" in str(f).replace("\\", "/") or (v["tier"] == "S" and "/models/" in str(f).replace("\\", "/"))
                                         for f in files), "the bundle lacks its tier's weights")
 
 
