@@ -1,13 +1,13 @@
 ---
 id: T0020
 title: "Fix C08 per-branch search deadlines and branch-regret comparison validity"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [bots/p_only/tools/, bots/p_only/bots/, bots/p_only/profiles/, bots/p_only/tests/, docs/SEARCH_PORTFOLIO.md]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0020-fix-c08-per-branch-search-deadlines-and
 updated: 2026-10-10
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-10 23:45Z claude@caspers-macbook: created
+- 2026-10-10 23:45Z claude@caspers-macbook: claimed
