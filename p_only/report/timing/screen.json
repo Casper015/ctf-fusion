@@ -1,0 +1,174 @@
+{
+ "schedule": "bb6e85e6d52200b4b844f811259359a831e36207790f6c2785b1e479dee84b81",
+ "seed": 20261101,
+ "fixtures": 15,
+ "team_counts": [
+  8,
+  12,
+  15
+ ],
+ "incomplete": {},
+ "stale_rows": {},
+ "arms": {
+  "c08_control": {
+   "games": 15,
+   "binary_sha256": "cc509993a3be70cf6cbb629d945da936b5dfff7c994992c97e940565f1df78f2",
+   "utility": 0.58506,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 42.0,
+   "p99_ms_median": 25.833,
+   "p99_ms_worst": 28.362,
+   "max_ms": 29.367
+  },
+  "c08_ponly_m": {
+   "games": 15,
+   "binary_sha256": "04b2ab3e4d464a54d468abe05660dea4dfcb882192e0e5d4c76f228289fee13d",
+   "utility": 0.69242,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 45.9,
+   "p99_ms_median": 30.165,
+   "p99_ms_worst": 30.199,
+   "max_ms": 30.255
+  },
+  "c08_ponly_l": {
+   "games": 15,
+   "binary_sha256": "229b1e6bdd0037790392de8d715429a6518d42ca6a766ec9ca8f9a4cece0f869",
+   "utility": 0.72554,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 44.0,
+   "p99_ms_median": 30.174,
+   "p99_ms_worst": 30.211,
+   "max_ms": 30.737
+  },
+  "c08_ponly_xl": {
+   "games": 15,
+   "binary_sha256": "8f08a1dc0d55d15f5585862defba50951645e1d7d6fc9f9ac85e0f68aeece514",
+   "utility": 0.72641,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 40.2,
+   "p99_ms_median": 30.22,
+   "p99_ms_worst": 30.597,
+   "max_ms": 31.017
+  },
+  "c08_ponly_xxl": {
+   "games": 15,
+   "binary_sha256": "bbbb1d1b1199174dfedb235b5a917e45ec6e095218ea1e42b8ff01429197de25",
+   "utility": 0.77511,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 42.6,
+   "p99_ms_median": 30.652,
+   "p99_ms_worst": 31.198,
+   "max_ms": 31.442
+  },
+  "v12_ponly_xl": {
+   "games": 15,
+   "binary_sha256": "0e8b839ce380d3d9f836992b9987adb1196290a9a8953a479f3aec0159e4dda7",
+   "utility": 0.7658,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 46.7,
+   "p99_ms_median": 5.796,
+   "p99_ms_worst": 8.053,
+   "max_ms": 8.91
+  },
+  "v12_ponly_xxl": {
+   "games": 15,
+   "binary_sha256": "9898cb04d6c0e125dc08b7cbc8168b781afea99459c3395831b552edbb38e131",
+   "utility": 0.73225,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 50.5,
+   "p99_ms_median": 8.453,
+   "p99_ms_worst": 10.55,
+   "max_ms": 12.165
+  }
+ },
+ "comparisons": {},
+ "rerun_noise": {},
+ "network_calls": {
+  "c08_ponly_m": {
+   "turns": 6000,
+   "views_per_turn": 439.45,
+   "team_encodes_per_turn": 980.03,
+   "act_heads_per_turn": 969.86,
+   "target_heads_per_turn": 679.04,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 421485,
+   "search_calls": 5985,
+   "samples_per_search": 492.8
+  },
+  "c08_ponly_xxl": {
+   "turns": 6000,
+   "views_per_turn": 275.37,
+   "team_encodes_per_turn": 536.02,
+   "act_heads_per_turn": 641.76,
+   "target_heads_per_turn": 382.89,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 254104,
+   "search_calls": 5985,
+   "samples_per_search": 327.3
+  },
+  "c08_ponly_xl": {
+   "turns": 6000,
+   "views_per_turn": 377.94,
+   "team_encodes_per_turn": 803.0,
+   "act_heads_per_turn": 855.85,
+   "target_heads_per_turn": 565.79,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 343066,
+   "search_calls": 5985,
+   "samples_per_search": 427.7
+  },
+  "c08_ponly_l": {
+   "turns": 6000,
+   "views_per_turn": 431.48,
+   "team_encodes_per_turn": 945.5,
+   "act_heads_per_turn": 951.11,
+   "target_heads_per_turn": 649.91,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 386345,
+   "search_calls": 5985,
+   "samples_per_search": 477.3
+  },
+  "v12_ponly_xl": {
+   "turns": 6000,
+   "views_per_turn": 7.85,
+   "team_encodes_per_turn": 82.37,
+   "act_heads_per_turn": 340.55,
+   "target_heads_per_turn": 108.91,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 0
+  },
+  "c08_control": {
+   "search_calls": 5985,
+   "samples_per_search": 511.9
+  },
+  "v12_ponly_xxl": {
+   "turns": 6000,
+   "views_per_turn": 7.69,
+   "team_encodes_per_turn": 80.63,
+   "act_heads_per_turn": 334.96,
+   "target_heads_per_turn": 105.74,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 0
+  }
+ }
+}
