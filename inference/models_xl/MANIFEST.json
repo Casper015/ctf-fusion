@@ -1,0 +1,3990 @@
+{
+ "general": {
+  "header": "weights_general.hpp",
+  "header_sha256": "7fe2657f732f77450d49c504d3ca2fd37a8eeb1595828c9d2c0fe257f3345a89",
+  "npz_sha256": "76a2baf9492b9cea2a46bccf5312898a74f9adad900eaa59a4ddd483942485c8",
+  "identity": {
+   "model": "general",
+   "policy_sha256": "dfe6383f029c0626fc8ad8156fa8693a513de1fb88d135526040588dfa27cd59",
+   "value_sha256": "a4f0a001318ddd90b8262b62cb4188ecfebe1825948e1421c1dc819d4c09f67d",
+   "weights_digest": "f093315842c2071abab959c57ec52262feb3a2b0ff827d114441132eaec6285d",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "9": 0.9713596664004451,
+   "11": 0.9786870538764865,
+   "13": 0.9772011399576856,
+   "14": 0.9775920848795985
+  },
+  "gates": {
+   "9": {
+    "alpha": 0.9713596664004451,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 246738,
+    "use": true,
+    "gain": 1.1054731173691619,
+    "gain_se": 0.014521191309375242,
+    "maps": 144,
+    "reason": ""
+   },
+   "11": {
+    "alpha": 0.9786870538764865,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 271546,
+    "use": true,
+    "gain": 1.1896813538522366,
+    "gain_se": 0.014256428541786964,
+    "maps": 145,
+    "reason": ""
+   },
+   "13": {
+    "alpha": 0.9772011399576856,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 287323,
+    "use": true,
+    "gain": 1.0954713032988177,
+    "gain_se": 0.010589578277191355,
+    "maps": 163,
+    "reason": ""
+   },
+   "14": {
+    "alpha": 0.9775920848795985,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 303687,
+    "use": true,
+    "gain": 1.0490843847551974,
+    "gain_se": 0.010970821765173892,
+    "maps": 123,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_xl\\general.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     9,
+     11,
+     13,
+     14
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "28ef26e541580963",
+    "fit_matches": "e0b4e45ca285c6a3"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   9,
+   11,
+   13,
+   14
+  ],
+  "beta": {
+   "joint": 1.0353617849635288,
+   "act": 1.0222134914836798,
+   "target": 1.0100024213752503,
+   "value": 1.006434391354032
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+    "model_sha256": "dfe6383f029c0626fc8ad8156fa8693a513de1fb88d135526040588dfa27cd59",
+    "config": {
+     "kind": "policy",
+     "model": "general",
+     "capacity": "XL",
+     "hidden": {
+      "mover": [
+       128
+      ],
+      "squad": [
+       512,
+       128
+      ],
+      "act": [
+       128
+      ],
+      "target": [
+       32
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "general",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+      "init": null,
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 512,
+      "count_weighting": "inv_teams",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": null,
+      "hidden_mover": null,
+      "hidden_act": null,
+      "hidden_target": null,
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": null,
+     "data": {
+      "team_counts": [
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15
+      ],
+      "digest": "e2472a8610a9776c",
+      "matches_by_count": {
+       "n02": 1500,
+       "n03": 1500,
+       "n04": 1500,
+       "n05": 1500,
+       "n06": 1500,
+       "n07": 1500,
+       "n08": 1500,
+       "n09": 1500,
+       "n10": 1500,
+       "n11": 1500,
+       "n12": 1500,
+       "n13": 1500,
+       "n14": 1500,
+       "n15": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252,
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570,
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754,
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001,
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678,
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705,
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539,
+       "n09/test": 220668,
+       "n09/train": 1833367,
+       "n09/val": 247145,
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304,
+       "n11/test": 266771,
+       "n11/train": 2222340,
+       "n11/val": 271858,
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298,
+       "n13/test": 360820,
+       "n13/train": 2669696,
+       "n13/val": 287509,
+       "n14/test": 293937,
+       "n14/train": 2988795,
+       "n14/val": 303963,
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 24153825,
+      "val": 2981919
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:31:39",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 1643.8828301429749,
+       "val_seconds": 22.27183961868286,
+       "rows_per_second": [
+        122995,
+        122183,
+        101552,
+        95214,
+        123499,
+        128805,
+        128499,
+        129014
+       ]
+      },
+      "peak_allocated_gb": 6.072,
+      "peak_reserved_gb": 6.137
+     },
+     "best_val": 2.2508079081572694,
+     "beta": {
+      "joint": 1.0353617849635288,
+      "act": 1.0222134914836798,
+      "target": 1.0100024213752503
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+    "model_sha256": "a4f0a001318ddd90b8262b62cb4188ecfebe1825948e1421c1dc819d4c09f67d",
+    "config": {
+     "kind": "value",
+     "model": "general",
+     "capacity": "XL",
+     "hidden": [
+      1024,
+      64
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "general",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+      "init": null,
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 1024,
+      "count_weighting": "inv_teams",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "aux_weight": 0.25,
+      "hidden": null
+     },
+     "seed": 1,
+     "init": null,
+     "data": {
+      "team_counts": [
+       2,
+       3,
+       4,
+       5,
+       6,
+       7,
+       8,
+       9,
+       10,
+       11,
+       12,
+       13,
+       14,
+       15
+      ],
+      "digest": "e2472a8610a9776c",
+      "matches_by_count": {
+       "n02": 1500,
+       "n03": 1500,
+       "n04": 1500,
+       "n05": 1500,
+       "n06": 1500,
+       "n07": 1500,
+       "n08": 1500,
+       "n09": 1500,
+       "n10": 1500,
+       "n11": 1500,
+       "n12": 1500,
+       "n13": 1500,
+       "n14": 1500,
+       "n15": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252,
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570,
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754,
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001,
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678,
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705,
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539,
+       "n09/test": 220668,
+       "n09/train": 1833367,
+       "n09/val": 247145,
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304,
+       "n11/test": 266771,
+       "n11/train": 2222340,
+       "n11/val": 271858,
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298,
+       "n13/test": 360820,
+       "n13/train": 2669696,
+       "n13/val": 287509,
+       "n14/test": 293937,
+       "n14/train": 2988795,
+       "n14/val": 303963,
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 24193790,
+      "val": 2986476
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:20:59",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 353.0955638885498,
+       "val_seconds": 3.7002663612365723,
+       "rows_per_second": [
+        763766,
+        532213,
+        532597,
+        528189,
+        516629,
+        558049,
+        496018,
+        528617
+       ]
+      },
+      "peak_allocated_gb": 3.37,
+      "peak_reserved_gb": 3.391
+     },
+     "best_val": 0.5072805962780979,
+     "beta": 1.006434391354032
+    }
+   }
+  },
+  "params": {
+   "mover": 5377,
+   "squad": 195965,
+   "act": 5764,
+   "target": 289,
+   "value": 121985
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 5248,
+   "squad": 195200,
+   "act": 5632,
+   "target": 256,
+   "value": 120896,
+   "joint_policy_per_team": 273920
+  },
+  "accumulator_bound": {
+   "mover": 69790586,
+   "squad": 127668485,
+   "act": 139341268,
+   "target": 29876580,
+   "value": 56349089
+  },
+  "exported": "2026-10-09T20:52:37"
+ },
+ "n02": {
+  "header": "weights_n02.hpp",
+  "header_sha256": "c43b6eb7cdad76feafcafb1b11de81d18a8cac44a761112cd184a15721a57e42",
+  "npz_sha256": "e38d8d0990692e048ebc62fc4a257906a53b286b331c28cf9fa9a9dc8ac99c79",
+  "identity": {
+   "model": "n02",
+   "policy_sha256": "db853b4fbe874c6ddacff28314232e1d87b18bd33612b16acf6e219cece4ab56",
+   "value_sha256": "866a679efc4916da110ed9c75ae12438bd54843587702d4c0a4d8d95d579b757",
+   "weights_digest": "444a0c6645dc167756f72395d3cbd7ab6e7b7cc97c4567fd948f6a0073e2c44f",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "2": 0.9917761142953263
+  },
+  "gates": {
+   "2": {
+    "alpha": 0.9917761142953263,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 57159,
+    "use": true,
+    "gain": 1.3662257526265567,
+    "gain_se": 0.048903060572182765,
+    "maps": 151,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_xl\\n02.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     2
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "cfa572f0d6fdc2b4",
+    "fit_matches": "59f1bdd7bfdaec1b"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   2
+  ],
+  "beta": {
+   "joint": 1.0085705149177748,
+   "act": 1.0220352454653283,
+   "target": 1.0435170334856463,
+   "value": 1.1147359088534077
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n02",
+    "model_sha256": "db853b4fbe874c6ddacff28314232e1d87b18bd33612b16acf6e219cece4ab56",
+    "config": {
+     "kind": "policy",
+     "model": "n02",
+     "capacity": "XL",
+     "hidden": {
+      "mover": [
+       128
+      ],
+      "squad": [
+       512,
+       128
+      ],
+      "act": [
+       128
+      ],
+      "target": [
+       32
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n02",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n02",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 512,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": null,
+      "hidden_mover": null,
+      "hidden_act": null,
+      "hidden_target": null,
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+     "data": {
+      "team_counts": [
+       2
+      ],
+      "digest": "0dc9608ecb02344a",
+      "matches_by_count": {
+       "n02": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 405867,
+      "val": 57159
+     },
+     "spec_version": 2,
+     "repo_commit": "e11c45bc51f79ccfa187b84506f23a20071ec25f",
+     "started": "2026-10-09T20:11:50",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 25.610705614089966,
+       "val_seconds": 0.40315818786621094,
+       "rows_per_second": [
+        121204,
+        126005,
+        128305,
+        128749,
+        127277,
+        129651,
+        125352,
+        128106
+       ]
+      },
+      "peak_allocated_gb": 0.664,
+      "peak_reserved_gb": 0.725
+     },
+     "best_val": 1.9327914043483443,
+     "beta": {
+      "joint": 1.0085705149177748,
+      "act": 1.0220352454653283,
+      "target": 1.0435170334856463
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n02",
+    "model_sha256": "866a679efc4916da110ed9c75ae12438bd54843587702d4c0a4d8d95d579b757",
+    "config": {
+     "kind": "value",
+     "model": "n02",
+     "capacity": "XL",
+     "hidden": [
+      1024,
+      64
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n02",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n02",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 1024,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "aux_weight": 0.25,
+      "hidden": null
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+     "data": {
+      "team_counts": [
+       2
+      ],
+      "digest": "0dc9608ecb02344a",
+      "matches_by_count": {
+       "n02": 1500
+      },
+      "rows": {
+       "n02/test": 52021,
+       "n02/train": 407948,
+       "n02/val": 57252
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 407948,
+      "val": 57252
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:27:19",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 4.309589624404907,
+       "val_seconds": 0.05863213539123535,
+       "rows_per_second": [
+        615405,
+        770827,
+        780387,
+        795542,
+        787506,
+        787104,
+        788808,
+        771995
+       ]
+      },
+      "peak_allocated_gb": 0.141,
+      "peak_reserved_gb": 0.207
+     },
+     "best_val": 0.21709211659933164,
+     "beta": 1.1147359088534077
+    }
+   }
+  },
+  "params": {
+   "mover": 5377,
+   "squad": 195965,
+   "act": 5764,
+   "target": 289,
+   "value": 121985
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 5248,
+   "squad": 195200,
+   "act": 5632,
+   "target": 256,
+   "value": 120896,
+   "joint_policy_per_team": 273920
+  },
+  "accumulator_bound": {
+   "mover": 70218844,
+   "squad": 134698842,
+   "act": 142693099,
+   "target": 32185881,
+   "value": 41074532
+  },
+  "exported": "2026-10-09T20:52:37"
+ },
+ "n03": {
+  "header": "weights_n03.hpp",
+  "header_sha256": "e65a06bc50e2304412fe6a0ea9968f212093efb08dd2a8124a945a830171ee9f",
+  "npz_sha256": "0b11ad38ca84b32a902336f375822a16f57a87ce0834fb00dea23474a87ac4b0",
+  "identity": {
+   "model": "n03",
+   "policy_sha256": "6aed62c9c4f1be2d35c31180340a74bf4076b6d58904a2181620c8406a70932d",
+   "value_sha256": "ed2431d7995f2c71d27c7253b26be591aa1f8cd3e8d2ec4ff139a19fe334f4fd",
+   "weights_digest": "03df1d3be73b212b9dcea311f802dfba7b9e675d4a47ec8e1bca43874817f9e6",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "3": 0.9812149482266839
+  },
+  "gates": {
+   "3": {
+    "alpha": 0.9812149482266839,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 67385,
+    "use": true,
+    "gain": 1.6026771150386299,
+    "gain_se": 0.03157456321385437,
+    "maps": 160,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_xl\\n03.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     3
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "d52bbe92d1494729",
+    "fit_matches": "3a0f82c933b42ca1"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   3
+  ],
+  "beta": {
+   "joint": 1.0167405617687,
+   "act": 1.0131610460984226,
+   "target": 1.0168075460154422,
+   "value": 1.0096106778829967
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n03",
+    "model_sha256": "6aed62c9c4f1be2d35c31180340a74bf4076b6d58904a2181620c8406a70932d",
+    "config": {
+     "kind": "policy",
+     "model": "n03",
+     "capacity": "XL",
+     "hidden": {
+      "mover": [
+       128
+      ],
+      "squad": [
+       512,
+       128
+      ],
+      "act": [
+       128
+      ],
+      "target": [
+       32
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n03",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n03",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 512,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": null,
+      "hidden_mover": null,
+      "hidden_act": null,
+      "hidden_target": null,
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+     "data": {
+      "team_counts": [
+       3
+      ],
+      "digest": "afa761c02aaeaf6d",
+      "matches_by_count": {
+       "n03": 1500
+      },
+      "rows": {
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 570635,
+      "val": 67385
+     },
+     "spec_version": 2,
+     "repo_commit": "e11c45bc51f79ccfa187b84506f23a20071ec25f",
+     "started": "2026-10-09T20:12:31",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 35.052443504333496,
+       "val_seconds": 0.4749894142150879,
+       "rows_per_second": [
+        125585,
+        129905,
+        130340,
+        130561,
+        131237,
+        131584,
+        131416,
+        131475
+       ]
+      },
+      "peak_allocated_gb": 0.877,
+      "peak_reserved_gb": 0.938
+     },
+     "best_val": 2.0422553388595714,
+     "beta": {
+      "joint": 1.0167405617687,
+      "act": 1.0131610460984226,
+      "target": 1.0168075460154422
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n03",
+    "model_sha256": "ed2431d7995f2c71d27c7253b26be591aa1f8cd3e8d2ec4ff139a19fe334f4fd",
+    "config": {
+     "kind": "value",
+     "model": "n03",
+     "capacity": "XL",
+     "hidden": [
+      1024,
+      64
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n03",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n03",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 1024,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "aux_weight": 0.25,
+      "hidden": null
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+     "data": {
+      "team_counts": [
+       3
+      ],
+      "digest": "afa761c02aaeaf6d",
+      "matches_by_count": {
+       "n03": 1500
+      },
+      "rows": {
+       "n03/test": 76163,
+       "n03/train": 572751,
+       "n03/val": 67570
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 572751,
+      "val": 67570
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:27:27",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 5.953738212585449,
+       "val_seconds": 0.07722663879394531,
+       "rows_per_second": [
+        668890,
+        796357,
+        779102,
+        774183,
+        772027,
+        786416,
+        808236,
+        790579
+       ]
+      },
+      "peak_allocated_gb": 0.162,
+      "peak_reserved_gb": 0.24
+     },
+     "best_val": 0.4878122822090055,
+     "beta": 1.0096106778829967
+    }
+   }
+  },
+  "params": {
+   "mover": 5377,
+   "squad": 195965,
+   "act": 5764,
+   "target": 289,
+   "value": 121985
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 5248,
+   "squad": 195200,
+   "act": 5632,
+   "target": 256,
+   "value": 120896,
+   "joint_policy_per_team": 273920
+  },
+  "accumulator_bound": {
+   "mover": 71310332,
+   "squad": 137143210,
+   "act": 69964400,
+   "target": 29894404,
+   "value": 59195113
+  },
+  "exported": "2026-10-09T20:52:37"
+ },
+ "n04": {
+  "header": "weights_n04.hpp",
+  "header_sha256": "4f2f3ce7393564da23131430c965a78e375bcda21a89a0f8de95f85149d75e47",
+  "npz_sha256": "fd83675be56e30acd975263e5f42c5c06de7a26fe7d20e6ef1b9b1bce06c8045",
+  "identity": {
+   "model": "n04",
+   "policy_sha256": "e1569f1f6dc81e9ed5fd86c7bd094c77828453ce0abb4c7da0da32bb7f3edf46",
+   "value_sha256": "14129d820ed95b215285034a7c55997960dbad7ae45b4744bf6d7b054e765f25",
+   "weights_digest": "64453e1ef1bf97595a24f64fa18eaadad839ed50928ea766feb99d7742fe75c2",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "4": 0.9829159614621841
+  },
+  "gates": {
+   "4": {
+    "alpha": 0.9829159614621841,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 98473,
+    "use": true,
+    "gain": 1.6177117486169708,
+    "gain_se": 0.04058612824662813,
+    "maps": 138,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_xl\\n04.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     4
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "40534733e42dc828",
+    "fit_matches": "14bd7accb1e59704"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   4
+  ],
+  "beta": {
+   "joint": 1.0176527006329121,
+   "act": 1.036406412702962,
+   "target": 0.9386035348573736,
+   "value": 0.9841906302220527
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n04",
+    "model_sha256": "e1569f1f6dc81e9ed5fd86c7bd094c77828453ce0abb4c7da0da32bb7f3edf46",
+    "config": {
+     "kind": "policy",
+     "model": "n04",
+     "capacity": "XL",
+     "hidden": {
+      "mover": [
+       128
+      ],
+      "squad": [
+       512,
+       128
+      ],
+      "act": [
+       128
+      ],
+      "target": [
+       32
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n04",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n04",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 512,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": null,
+      "hidden_mover": null,
+      "hidden_act": null,
+      "hidden_target": null,
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+     "data": {
+      "team_counts": [
+       4
+      ],
+      "digest": "5d99d6cba21b4f88",
+      "matches_by_count": {
+       "n04": 1500
+      },
+      "rows": {
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 757176,
+      "val": 98473
+     },
+     "spec_version": 2,
+     "repo_commit": "e11c45bc51f79ccfa187b84506f23a20071ec25f",
+     "started": "2026-10-09T20:13:24",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 46.33351182937622,
+       "val_seconds": 0.6944503784179688,
+       "rows_per_second": [
+        127186,
+        129761,
+        128606,
+        131585,
+        132413,
+        132048,
+        131812,
+        132686
+       ]
+      },
+      "peak_allocated_gb": 1.142,
+      "peak_reserved_gb": 1.195
+     },
+     "best_val": 2.091451622886895,
+     "beta": {
+      "joint": 1.0176527006329121,
+      "act": 1.036406412702962,
+      "target": 0.9386035348573736
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n04",
+    "model_sha256": "14129d820ed95b215285034a7c55997960dbad7ae45b4744bf6d7b054e765f25",
+    "config": {
+     "kind": "value",
+     "model": "n04",
+     "capacity": "XL",
+     "hidden": [
+      1024,
+      64
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n04",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n04",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 1024,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "aux_weight": 0.25,
+      "hidden": null
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+     "data": {
+      "team_counts": [
+       4
+      ],
+      "digest": "5d99d6cba21b4f88",
+      "matches_by_count": {
+       "n04": 1500
+      },
+      "rows": {
+       "n04/test": 87319,
+       "n04/train": 759411,
+       "n04/val": 98754
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 759411,
+      "val": 98754
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:27:36",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 7.802515983581543,
+       "val_seconds": 0.10510969161987305,
+       "rows_per_second": [
+        685742,
+        787665,
+        803799,
+        782347,
+        791429,
+        799323,
+        808399,
+        785748
+       ]
+      },
+      "peak_allocated_gb": 0.187,
+      "peak_reserved_gb": 0.252
+     },
+     "best_val": 0.5214242850920522,
+     "beta": 0.9841906302220527
+    }
+   }
+  },
+  "params": {
+   "mover": 5377,
+   "squad": 195965,
+   "act": 5764,
+   "target": 289,
+   "value": 121985
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 5248,
+   "squad": 195200,
+   "act": 5632,
+   "target": 256,
+   "value": 120896,
+   "joint_policy_per_team": 273920
+  },
+  "accumulator_bound": {
+   "mover": 70873835,
+   "squad": 138795866,
+   "act": 71712566,
+   "target": 28286361,
+   "value": 56335383
+  },
+  "exported": "2026-10-09T20:52:38"
+ },
+ "n05": {
+  "header": "weights_n05.hpp",
+  "header_sha256": "882fe4f769f0269fc43b02b6a867024538d5a8e282577179ccda4432c9eeba8f",
+  "npz_sha256": "571334c084c953bcb9b068a6a5aa0c751fd9da1326fc2fe8c9b7e2ad6e747f06",
+  "identity": {
+   "model": "n05",
+   "policy_sha256": "82515cd906baacff240cce9eb2098b8d345a695daca936859708e0029347d54c",
+   "value_sha256": "99dee213da305f9fdd4e0df0c22e6dd1dd68c23ada2d50a5673cb7fd60c40af6",
+   "weights_digest": "ade2fd8b053886bd488bbf97bd6ef34c9e0a35e308bba210d92743464c744d2d",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "5": 0.9597386949539375
+  },
+  "gates": {
+   "5": {
+    "alpha": 0.9597386949539375,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 146691,
+    "use": true,
+    "gain": 1.1220843076893754,
+    "gain_se": 0.025262873024934955,
+    "maps": 147,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_xl\\n05.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     5
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "861cbac7fa0dffa1",
+    "fit_matches": "48bb6677dbbaa261"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   5
+  ],
+  "beta": {
+   "joint": 1.004896151486916,
+   "act": 1.0283782700978406,
+   "target": 1.0184521476513306,
+   "value": 0.9812501690580118
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n05",
+    "model_sha256": "82515cd906baacff240cce9eb2098b8d345a695daca936859708e0029347d54c",
+    "config": {
+     "kind": "policy",
+     "model": "n05",
+     "capacity": "XL",
+     "hidden": {
+      "mover": [
+       128
+      ],
+      "squad": [
+       512,
+       128
+      ],
+      "act": [
+       128
+      ],
+      "target": [
+       32
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n05",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n05",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 512,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": null,
+      "hidden_mover": null,
+      "hidden_act": null,
+      "hidden_target": null,
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+     "data": {
+      "team_counts": [
+       5
+      ],
+      "digest": "414a2878a4fc0c9b",
+      "matches_by_count": {
+       "n05": 1500
+      },
+      "rows": {
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1004610,
+      "val": 146691
+     },
+     "spec_version": 2,
+     "repo_commit": "e11c45bc51f79ccfa187b84506f23a20071ec25f",
+     "started": "2026-10-09T20:14:35",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 61.20147514343262,
+       "val_seconds": 1.0029590129852295,
+       "rows_per_second": [
+        127531,
+        130217,
+        131064,
+        133192,
+        131879,
+        132244,
+        131788,
+        132808
+       ]
+      },
+      "peak_allocated_gb": 1.501,
+      "peak_reserved_gb": 1.57
+     },
+     "best_val": 2.3083062525745692,
+     "beta": {
+      "joint": 1.004896151486916,
+      "act": 1.0283782700978406,
+      "target": 1.0184521476513306
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n05",
+    "model_sha256": "99dee213da305f9fdd4e0df0c22e6dd1dd68c23ada2d50a5673cb7fd60c40af6",
+    "config": {
+     "kind": "value",
+     "model": "n05",
+     "capacity": "XL",
+     "hidden": [
+      1024,
+      64
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n05",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n05",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 1024,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "aux_weight": 0.25,
+      "hidden": null
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+     "data": {
+      "team_counts": [
+       5
+      ],
+      "digest": "414a2878a4fc0c9b",
+      "matches_by_count": {
+       "n05": 1500
+      },
+      "rows": {
+       "n05/test": 125309,
+       "n05/train": 1007475,
+       "n05/val": 147001
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1007475,
+      "val": 147001
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:27:48",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 10.446857929229736,
+       "val_seconds": 0.14628243446350098,
+       "rows_per_second": [
+        716702,
+        761703,
+        783665,
+        798868,
+        780409,
+        776760,
+        776464,
+        783255
+       ]
+      },
+      "peak_allocated_gb": 0.222,
+      "peak_reserved_gb": 0.295
+     },
+     "best_val": 0.5198276124219366,
+     "beta": 0.9812501690580118
+    }
+   }
+  },
+  "params": {
+   "mover": 5377,
+   "squad": 195965,
+   "act": 5764,
+   "target": 289,
+   "value": 121985
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 5248,
+   "squad": 195200,
+   "act": 5632,
+   "target": 256,
+   "value": 120896,
+   "joint_policy_per_team": 273920
+  },
+  "accumulator_bound": {
+   "mover": 69139678,
+   "squad": 134371186,
+   "act": 69435533,
+   "target": 30887008,
+   "value": 55068606
+  },
+  "exported": "2026-10-09T20:52:38"
+ },
+ "n06": {
+  "header": "weights_n06.hpp",
+  "header_sha256": "38ba28b39621233a7c181d69e172c3cc72f336ef9ee393181dee1141478ca996",
+  "npz_sha256": "6dfa8e77efe1ffa14dbf50339973d55dc6df3eb55a2cf2c2412c01c3b8dd97e5",
+  "identity": {
+   "model": "n06",
+   "policy_sha256": "6c10787cb1a3a3119a47504117a100579c8b3f12ba0958f1216098f745a35f5e",
+   "value_sha256": "ed8f8d73b35abc05ffc0ff9168a7d218515890bf4b79c14d86ad87f3f52d7cb3",
+   "weights_digest": "b9cc56c804303aa5b7a46b6e3da440f64d3ea3146dcb97f4b088eccb438b78b8",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "6": 0.9777742762525268
+  },
+  "gates": {
+   "6": {
+    "alpha": 0.9777742762525268,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 143369,
+    "use": true,
+    "gain": 1.5655154857698141,
+    "gain_se": 0.026554693232318623,
+    "maps": 153,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_xl\\n06.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     6
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "3177328fab41d64a",
+    "fit_matches": "e6de3152b5c8c0d2"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   6
+  ],
+  "beta": {
+   "joint": 1.0122471015091143,
+   "act": 1.0011581550325213,
+   "target": 1.018937275271231,
+   "value": 0.9918339802541285
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n06",
+    "model_sha256": "6c10787cb1a3a3119a47504117a100579c8b3f12ba0958f1216098f745a35f5e",
+    "config": {
+     "kind": "policy",
+     "model": "n06",
+     "capacity": "XL",
+     "hidden": {
+      "mover": [
+       128
+      ],
+      "squad": [
+       512,
+       128
+      ],
+      "act": [
+       128
+      ],
+      "target": [
+       32
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n06",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n06",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 512,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": null,
+      "hidden_mover": null,
+      "hidden_act": null,
+      "hidden_target": null,
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+     "data": {
+      "team_counts": [
+       6
+      ],
+      "digest": "023c8adc317e66ec",
+      "matches_by_count": {
+       "n06": 1500
+      },
+      "rows": {
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1144815,
+      "val": 143369
+     },
+     "spec_version": 2,
+     "repo_commit": "e11c45bc51f79ccfa187b84506f23a20071ec25f",
+     "started": "2026-10-09T20:16:10",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 69.38122487068176,
+       "val_seconds": 0.9975330829620361,
+       "rows_per_second": [
+        128435,
+        129338,
+        133453,
+        133146,
+        133194,
+        133099,
+        133134,
+        132434
+       ]
+      },
+      "peak_allocated_gb": 1.666,
+      "peak_reserved_gb": 1.736
+     },
+     "best_val": 2.251759054477208,
+     "beta": {
+      "joint": 1.0122471015091143,
+      "act": 1.0011581550325213,
+      "target": 1.018937275271231
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n06",
+    "model_sha256": "ed8f8d73b35abc05ffc0ff9168a7d218515890bf4b79c14d86ad87f3f52d7cb3",
+    "config": {
+     "kind": "value",
+     "model": "n06",
+     "capacity": "XL",
+     "hidden": [
+      1024,
+      64
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n06",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n06",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 1024,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "aux_weight": 0.25,
+      "hidden": null
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+     "data": {
+      "team_counts": [
+       6
+      ],
+      "digest": "023c8adc317e66ec",
+      "matches_by_count": {
+       "n06": 1500
+      },
+      "rows": {
+       "n06/test": 146762,
+       "n06/train": 1147498,
+       "n06/val": 143678
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1147498,
+      "val": 143678
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:28:03",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 11.803895235061646,
+       "val_seconds": 0.14585208892822266,
+       "rows_per_second": [
+        714856,
+        787050,
+        777628,
+        788354,
+        783545,
+        799321,
+        783549,
+        794154
+       ]
+      },
+      "peak_allocated_gb": 0.239,
+      "peak_reserved_gb": 0.312
+     },
+     "best_val": 0.5254994881251046,
+     "beta": 0.9918339802541285
+    }
+   }
+  },
+  "params": {
+   "mover": 5377,
+   "squad": 195965,
+   "act": 5764,
+   "target": 289,
+   "value": 121985
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 5248,
+   "squad": 195200,
+   "act": 5632,
+   "target": 256,
+   "value": 120896,
+   "joint_policy_per_team": 273920
+  },
+  "accumulator_bound": {
+   "mover": 69657376,
+   "squad": 139180448,
+   "act": 67352251,
+   "target": 29880121,
+   "value": 54076347
+  },
+  "exported": "2026-10-09T20:52:38"
+ },
+ "n07": {
+  "header": "weights_n07.hpp",
+  "header_sha256": "798f59c788859fa1c843c689afeff44ea78b8879bef555aac73551cbeb4c36dc",
+  "npz_sha256": "75a90b902ae89b9d36aa83e8c1b58b3f70e09baa87600ab6aff6b4ceba731655",
+  "identity": {
+   "model": "n07",
+   "policy_sha256": "e08642de40bed31249f7448ef98653f6a471b715d5eb613ade65108342c72496",
+   "value_sha256": "b5f2f501b332ef1b63af904aa9f0de964b5ecbf12380544547d40ea2e4c44580",
+   "weights_digest": "0c219475c225c7ad31c629b333d5b941f07b38019175344152724dfccb423305",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "7": 0.9759113702852136
+  },
+  "gates": {
+   "7": {
+    "alpha": 0.9759113702852136,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 151625,
+    "use": true,
+    "gain": 1.3525158096487033,
+    "gain_se": 0.022413731017592777,
+    "maps": 151,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_xl\\n07.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     7
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "e5a111dece15559c",
+    "fit_matches": "6480ced49b79d035"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   7
+  ],
+  "beta": {
+   "joint": 1.0209535583273253,
+   "act": 1.0191759091783315,
+   "target": 0.9898121866291079,
+   "value": 0.9772517563086618
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n07",
+    "model_sha256": "e08642de40bed31249f7448ef98653f6a471b715d5eb613ade65108342c72496",
+    "config": {
+     "kind": "policy",
+     "model": "n07",
+     "capacity": "XL",
+     "hidden": {
+      "mover": [
+       128
+      ],
+      "squad": [
+       512,
+       128
+      ],
+      "act": [
+       128
+      ],
+      "target": [
+       32
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n07",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n07",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 512,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": null,
+      "hidden_mover": null,
+      "hidden_act": null,
+      "hidden_target": null,
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+     "data": {
+      "team_counts": [
+       7
+      ],
+      "digest": "68772b087c0ae829",
+      "matches_by_count": {
+       "n07": 1500
+      },
+      "rows": {
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1401850,
+      "val": 151625
+     },
+     "spec_version": 2,
+     "repo_commit": "e11c45bc51f79ccfa187b84506f23a20071ec25f",
+     "started": "2026-10-09T20:17:54",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 86.37957072257996,
+       "val_seconds": 1.0635249614715576,
+       "rows_per_second": [
+        128079,
+        130651,
+        132406,
+        131884,
+        132497,
+        132291,
+        128408,
+        123038
+       ]
+      },
+      "peak_allocated_gb": 1.988,
+      "peak_reserved_gb": 2.051
+     },
+     "best_val": 2.235407476092025,
+     "beta": {
+      "joint": 1.0209535583273253,
+      "act": 1.0191759091783315,
+      "target": 0.9898121866291079
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n07",
+    "model_sha256": "b5f2f501b332ef1b63af904aa9f0de964b5ecbf12380544547d40ea2e4c44580",
+    "config": {
+     "kind": "value",
+     "model": "n07",
+     "capacity": "XL",
+     "hidden": [
+      1024,
+      64
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n07",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n07",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 1024,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "aux_weight": 0.25,
+      "hidden": null
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+     "data": {
+      "team_counts": [
+       7
+      ],
+      "digest": "68772b087c0ae829",
+      "matches_by_count": {
+       "n07": 1500
+      },
+      "rows": {
+       "n07/test": 174158,
+       "n07/train": 1405507,
+       "n07/val": 151705
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1405507,
+      "val": 151705
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:28:20",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 14.46600604057312,
+       "val_seconds": 0.1526179313659668,
+       "rows_per_second": [
+        728001,
+        787338,
+        781272,
+        782449,
+        780352,
+        783201,
+        784942,
+        794671
+       ]
+      },
+      "peak_allocated_gb": 0.268,
+      "peak_reserved_gb": 0.338
+     },
+     "best_val": 0.535287455316118,
+     "beta": 0.9772517563086618
+    }
+   }
+  },
+  "params": {
+   "mover": 5377,
+   "squad": 195965,
+   "act": 5764,
+   "target": 289,
+   "value": 121985
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 5248,
+   "squad": 195200,
+   "act": 5632,
+   "target": 256,
+   "value": 120896,
+   "joint_policy_per_team": 273920
+  },
+  "accumulator_bound": {
+   "mover": 69316468,
+   "squad": 137749495,
+   "act": 67984930,
+   "target": 29311289,
+   "value": 52173750
+  },
+  "exported": "2026-10-09T20:52:38"
+ },
+ "n08": {
+  "header": "weights_n08.hpp",
+  "header_sha256": "4fc246302b0f19ee53a8e7522b98bd60a2bfd699a47433e2471e502f1a910161",
+  "npz_sha256": "835b097527a160b15ab06cc3572f592a2b35acfd35399f071490eb7602240ca8",
+  "identity": {
+   "model": "n08",
+   "policy_sha256": "d308c0c843552041f3b93ed8b24b76be5c1c42bff223f874b4975e7b34b3df7e",
+   "value_sha256": "49612c5384c4ac02b7cdcc1fd8c4261724853ede065becc9967e86b7a9f72f84",
+   "weights_digest": "7b10fe3f52829ed9f3c330714aa552f5b24c0d30fd9c9fb3fbfe6bf015243903",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "8": 0.9766176056918687
+  },
+  "gates": {
+   "8": {
+    "alpha": 0.9766176056918687,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 208862,
+    "use": true,
+    "gain": 1.2864415861643612,
+    "gain_se": 0.018299243455742787,
+    "maps": 154,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_xl\\n08.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     8
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "448c95864c932479",
+    "fit_matches": "52627c98342e6101"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   8
+  ],
+  "beta": {
+   "joint": 1.0139639361019288,
+   "act": 0.9995111561086949,
+   "target": 0.9937981149716901,
+   "value": 0.993109007682383
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n08",
+    "model_sha256": "d308c0c843552041f3b93ed8b24b76be5c1c42bff223f874b4975e7b34b3df7e",
+    "config": {
+     "kind": "policy",
+     "model": "n08",
+     "capacity": "XL",
+     "hidden": {
+      "mover": [
+       128
+      ],
+      "squad": [
+       512,
+       128
+      ],
+      "act": [
+       128
+      ],
+      "target": [
+       32
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n08",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n08",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 512,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": null,
+      "hidden_mover": null,
+      "hidden_act": null,
+      "hidden_target": null,
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+     "data": {
+      "team_counts": [
+       8
+      ],
+      "digest": "a406fc85ee64b711",
+      "matches_by_count": {
+       "n08": 1500
+      },
+      "rows": {
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1577542,
+      "val": 208862
+     },
+     "spec_version": 2,
+     "repo_commit": "e11c45bc51f79ccfa187b84506f23a20071ec25f",
+     "started": "2026-10-09T20:19:56",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 98.5624635219574,
+       "val_seconds": 1.4690356254577637,
+       "rows_per_second": [
+        129398,
+        127206,
+        127010,
+        123285,
+        129400,
+        133247,
+        130896,
+        124501
+       ]
+      },
+      "peak_allocated_gb": 2.271,
+      "peak_reserved_gb": 2.332
+     },
+     "best_val": 2.3091272016510005,
+     "beta": {
+      "joint": 1.0139639361019288,
+      "act": 0.9995111561086949,
+      "target": 0.9937981149716901
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n08",
+    "model_sha256": "49612c5384c4ac02b7cdcc1fd8c4261724853ede065becc9967e86b7a9f72f84",
+    "config": {
+     "kind": "value",
+     "model": "n08",
+     "capacity": "XL",
+     "hidden": [
+      1024,
+      64
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n08",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n08",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 1024,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "aux_weight": 0.25,
+      "hidden": null
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+     "data": {
+      "team_counts": [
+       8
+      ],
+      "digest": "a406fc85ee64b711",
+      "matches_by_count": {
+       "n08": 1500
+      },
+      "rows": {
+       "n08/test": 205034,
+       "n08/train": 1579572,
+       "n08/val": 209539
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 1579572,
+      "val": 209539
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:28:39",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 16.22868537902832,
+       "val_seconds": 0.20631790161132812,
+       "rows_per_second": [
+        731453,
+        787493,
+        786545,
+        779262,
+        792073,
+        780443,
+        787730,
+        787925
+       ]
+      },
+      "peak_allocated_gb": 0.296,
+      "peak_reserved_gb": 0.379
+     },
+     "best_val": 0.5343773175479862,
+     "beta": 0.993109007682383
+    }
+   }
+  },
+  "params": {
+   "mover": 5377,
+   "squad": 195965,
+   "act": 5764,
+   "target": 289,
+   "value": 121985
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 5248,
+   "squad": 195200,
+   "act": 5632,
+   "target": 256,
+   "value": 120896,
+   "joint_policy_per_team": 273920
+  },
+  "accumulator_bound": {
+   "mover": 69173272,
+   "squad": 128871668,
+   "act": 133169156,
+   "target": 29828067,
+   "value": 51213814
+  },
+  "exported": "2026-10-09T20:52:39"
+ },
+ "n10": {
+  "header": "weights_n10.hpp",
+  "header_sha256": "e3b87b5282500f052705b347da78ea7a4ae0329e3db69231294c232ca97ffca0",
+  "npz_sha256": "1a5df16c1693de5dfe20f715e4f645c00dd60ffb66bbba50518620e6a1427289",
+  "identity": {
+   "model": "n10",
+   "policy_sha256": "8b2847236226996ba926cda2c1955e31e5371e2b065c89e50f4051681be8d27d",
+   "value_sha256": "51c15efe31de690bf3e19390ae6f2eee8130be9a4189a8fa4e89ea26bc99bce3",
+   "weights_digest": "a1418f4db884477ac7a64cb09b0ff3f64ec95d537b73ea25393be5c196e3dee0",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "10": 0.97438218464506
+  },
+  "gates": {
+   "10": {
+    "alpha": 0.97438218464506,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 248775,
+    "use": true,
+    "gain": 1.071098162418795,
+    "gain_se": 0.014220470918346318,
+    "maps": 120,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_xl\\n10.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     10
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "602685782d48cdff",
+    "fit_matches": "ca955319298583de"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   10
+  ],
+  "beta": {
+   "joint": 1.01250171534392,
+   "act": 1.0141317271856205,
+   "target": 1.0245598406427345,
+   "value": 0.9883924293064794
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n10",
+    "model_sha256": "8b2847236226996ba926cda2c1955e31e5371e2b065c89e50f4051681be8d27d",
+    "config": {
+     "kind": "policy",
+     "model": "n10",
+     "capacity": "XL",
+     "hidden": {
+      "mover": [
+       128
+      ],
+      "squad": [
+       512,
+       128
+      ],
+      "act": [
+       128
+      ],
+      "target": [
+       32
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n10",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n10",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 512,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": null,
+      "hidden_mover": null,
+      "hidden_act": null,
+      "hidden_target": null,
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+     "data": {
+      "team_counts": [
+       10
+      ],
+      "digest": "bdc73e848581f332",
+      "matches_by_count": {
+       "n10": 1500
+      },
+      "rows": {
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2103929,
+      "val": 248775
+     },
+     "spec_version": 2,
+     "repo_commit": "e11c45bc51f79ccfa187b84506f23a20071ec25f",
+     "started": "2026-10-09T20:22:23",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 161.73397016525269,
+       "val_seconds": 2.1394073963165283,
+       "rows_per_second": [
+        129766,
+        106811,
+        101445,
+        95783,
+        104049,
+        98408,
+        98080,
+        104847
+       ]
+      },
+      "peak_allocated_gb": 2.959,
+      "peak_reserved_gb": 3.029
+     },
+     "best_val": 2.3422050195181168,
+     "beta": {
+      "joint": 1.01250171534392,
+      "act": 1.0141317271856205,
+      "target": 1.0245598406427345
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n10",
+    "model_sha256": "51c15efe31de690bf3e19390ae6f2eee8130be9a4189a8fa4e89ea26bc99bce3",
+    "config": {
+     "kind": "value",
+     "model": "n10",
+     "capacity": "XL",
+     "hidden": [
+      1024,
+      64
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n10",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n10",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 1024,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "aux_weight": 0.25,
+      "hidden": null
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+     "data": {
+      "team_counts": [
+       10
+      ],
+      "digest": "bdc73e848581f332",
+      "matches_by_count": {
+       "n10": 1500
+      },
+      "rows": {
+       "n10/test": 204716,
+       "n10/train": 2106566,
+       "n10/val": 249304
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2106566,
+      "val": 249304
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:29:01",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 21.6762912273407,
+       "val_seconds": 0.25421929359436035,
+       "rows_per_second": [
+        746045,
+        788183,
+        775658,
+        781268,
+        779678,
+        787748,
+        785750,
+        777101
+       ]
+      },
+      "peak_allocated_gb": 0.361,
+      "peak_reserved_gb": 0.43
+     },
+     "best_val": 0.5371175070722376,
+     "beta": 0.9883924293064794
+    }
+   }
+  },
+  "params": {
+   "mover": 5377,
+   "squad": 195965,
+   "act": 5764,
+   "target": 289,
+   "value": 121985
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 5248,
+   "squad": 195200,
+   "act": 5632,
+   "target": 256,
+   "value": 120896,
+   "joint_policy_per_team": 273920
+  },
+  "accumulator_bound": {
+   "mover": 66965767,
+   "squad": 124919209,
+   "act": 65665336,
+   "target": 30927775,
+   "value": 47985120
+  },
+  "exported": "2026-10-09T20:52:39"
+ },
+ "n12": {
+  "header": "weights_n12.hpp",
+  "header_sha256": "b200c8544904c4fe28b18dfc986e5e52eb0932c7be1480a68850a18d77d38a17",
+  "npz_sha256": "6914cd0e280f84ae667723c2ecb8c34bd35bf75328029ba2456ec2b5a042433d",
+  "identity": {
+   "model": "n12",
+   "policy_sha256": "87752204e226f2efe98c84e9b01869a8f779d961600f32d3eadaa5be8827a1b5",
+   "value_sha256": "efe365c3852e7c40c1c3456a30c98e407ec00ca2f0f44735ccf65f193d0ab62a",
+   "weights_digest": "8418e25b7dfb7c4eb759d72371b7fbec3b3c8ca470efe194ff4fc7e0911449f9",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "12": 0.9805400206476438
+  },
+  "gates": {
+   "12": {
+    "alpha": 0.9805400206476438,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 321975,
+    "use": true,
+    "gain": 1.1649609039886013,
+    "gain_se": 0.013505582051884511,
+    "maps": 161,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_xl\\n12.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     12
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "b40fbab3276fd7f0",
+    "fit_matches": "18745a4740dcf6af"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   12
+  ],
+  "beta": {
+   "joint": 1.0163578750216664,
+   "act": 1.038985915289783,
+   "target": 0.9896396785627202,
+   "value": 0.9903911395077469
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n12",
+    "model_sha256": "87752204e226f2efe98c84e9b01869a8f779d961600f32d3eadaa5be8827a1b5",
+    "config": {
+     "kind": "policy",
+     "model": "n12",
+     "capacity": "XL",
+     "hidden": {
+      "mover": [
+       128
+      ],
+      "squad": [
+       512,
+       128
+      ],
+      "act": [
+       128
+      ],
+      "target": [
+       32
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n12",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n12",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 512,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": null,
+      "hidden_mover": null,
+      "hidden_act": null,
+      "hidden_target": null,
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+     "data": {
+      "team_counts": [
+       12
+      ],
+      "digest": "848854a125d90f51",
+      "matches_by_count": {
+       "n12": 1500
+      },
+      "rows": {
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2368257,
+      "val": 321975
+     },
+     "spec_version": 2,
+     "repo_commit": "e11c45bc51f79ccfa187b84506f23a20071ec25f",
+     "started": "2026-10-09T20:26:09",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 164.35912609100342,
+       "val_seconds": 2.422130823135376,
+       "rows_per_second": [
+        127409,
+        129485,
+        84658,
+        90433,
+        128177,
+        129532,
+        128701,
+        130421
+       ]
+      },
+      "peak_allocated_gb": 3.37,
+      "peak_reserved_gb": 3.436
+     },
+     "best_val": 2.2812361128802547,
+     "beta": {
+      "joint": 1.0163578750216664,
+      "act": 1.038985915289783,
+      "target": 0.9896396785627202
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n12",
+    "model_sha256": "efe365c3852e7c40c1c3456a30c98e407ec00ca2f0f44735ccf65f193d0ab62a",
+    "config": {
+     "kind": "value",
+     "model": "n12",
+     "capacity": "XL",
+     "hidden": [
+      1024,
+      64
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n12",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n12",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 1024,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "aux_weight": 0.25,
+      "hidden": null
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+     "data": {
+      "team_counts": [
+       12
+      ],
+      "digest": "848854a125d90f51",
+      "matches_by_count": {
+       "n12": 1500
+      },
+      "rows": {
+       "n12/test": 324133,
+       "n12/train": 2371799,
+       "n12/val": 322298
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 2371799,
+      "val": 322298
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:29:29",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 21.357743501663208,
+       "val_seconds": 0.2803840637207031,
+       "rows_per_second": [
+        742436,
+        778007,
+        784140,
+        783317,
+        777427,
+        782741,
+        795636
+       ]
+      },
+      "peak_allocated_gb": 0.403,
+      "peak_reserved_gb": 0.482
+     },
+     "best_val": 0.5450339875245342,
+     "beta": 0.9903911395077469
+    }
+   }
+  },
+  "params": {
+   "mover": 5377,
+   "squad": 195965,
+   "act": 5764,
+   "target": 289,
+   "value": 121985
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 5248,
+   "squad": 195200,
+   "act": 5632,
+   "target": 256,
+   "value": 120896,
+   "joint_policy_per_team": 273920
+  },
+  "accumulator_bound": {
+   "mover": 66843522,
+   "squad": 119025939,
+   "act": 66725259,
+   "target": 30216113,
+   "value": 47568036
+  },
+  "exported": "2026-10-09T20:52:39"
+ },
+ "n15": {
+  "header": "weights_n15.hpp",
+  "header_sha256": "b0cb1a52318b59b8794cc29c1dd2dd6fc3b2155ff8eb3301b19559a954c23b67",
+  "npz_sha256": "481700535ff6c9cdecb662f9fdc8f72bdd1890e939fa2df95c7c31b0d91e7cd5",
+  "identity": {
+   "model": "n15",
+   "policy_sha256": "26542605c81a7277ba9525438089fdd6dc994773f67ad9cbecb7024d6983f3a1",
+   "value_sha256": "ab77d9149634d14b16df5dd3d213308de1880c2b01cd949adfedd269cb50d90d",
+   "weights_digest": "fc3db9e0f6a49e229ce80f1c7b8a0e5eff09c1da7879c723390f67d8052745f6",
+   "spec_version": 2,
+   "schema_digest": "d3813c50359fb9cf",
+   "adapter": "joint-v2"
+  },
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "alpha": {
+   "15": 0.9811399507567082
+  },
+  "gates": {
+   "15": {
+    "alpha": 0.9811399507567082,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 428311,
+    "use": true,
+    "gain": 1.0020376734681338,
+    "gain_se": 0.010488803931548557,
+    "maps": 128,
+    "reason": ""
+   }
+  },
+  "value_approved": false,
+  "gate_report": {
+   "path": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\reports_xl\\n15.json",
+   "split": "test",
+   "fit_split": "val",
+   "dataset": {
+    "team_counts": [
+     15
+    ],
+    "options": {
+     "stride": 2,
+     "keep": {
+      "flag": 1.0,
+      "contact": 1.0,
+      "respawn": 0.6,
+      "quiet": 0.35
+     },
+     "holdout_family": [],
+     "holdout_mode": "fixture",
+     "split_by": "map"
+    },
+    "split": "test",
+    "fit_split": "val",
+    "eval_matches": "003fe9175f164760",
+    "fit_matches": "0f5f96cfae1e545e"
+   },
+   "baseline": {
+    "legacy_complete": true,
+    "reason": "",
+    "builds": [
+     "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+    ]
+   }
+  },
+  "served_team_counts": [
+   15
+  ],
+  "beta": {
+   "joint": 1.0206599712999775,
+   "act": 1.0072429561211051,
+   "target": 0.9995483703334023,
+   "value": 1.0025748374361436
+  },
+  "sources": {
+   "policy": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n15",
+    "model_sha256": "26542605c81a7277ba9525438089fdd6dc994773f67ad9cbecb7024d6983f3a1",
+    "config": {
+     "kind": "policy",
+     "model": "n15",
+     "capacity": "XL",
+     "hidden": {
+      "mover": [
+       128
+      ],
+      "squad": [
+       512,
+       128
+      ],
+      "act": [
+       128
+      ],
+      "target": [
+       32
+      ]
+     },
+     "args": {
+      "shards": "data/shards",
+      "model": "n15",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_n15",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 1024,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 512,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "smoothing": 0.01,
+      "act_weight": 0.5,
+      "target_weight": 0.5,
+      "hidden_squad": null,
+      "hidden_mover": null,
+      "hidden_act": null,
+      "hidden_target": null,
+      "keep_unlabeled": false
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\policy_general",
+     "data": {
+      "team_counts": [
+       15
+      ],
+      "digest": "f9669a1229bfd172",
+      "matches_by_count": {
+       "n15": 1500
+      },
+      "rows": {
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 3117354,
+      "val": 428311
+     },
+     "spec_version": 2,
+     "repo_commit": "0a0badcac454ade998f5f21afca63ebf43d796e8",
+     "started": "2026-10-09T20:30:08",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 189.52170658111572,
+       "val_seconds": 2.869706392288208,
+       "rows_per_second": [
+        130063,
+        131535,
+        131511,
+        131515,
+        131828,
+        132032,
+        131928,
+        132319
+       ]
+      },
+      "peak_allocated_gb": 4.41,
+      "peak_reserved_gb": 4.48
+     },
+     "best_val": 2.282020518172458,
+     "beta": {
+      "joint": 1.0206599712999775,
+      "act": 1.0072429561211051,
+      "target": 0.9995483703334023
+     }
+    }
+   },
+   "value": {
+    "run": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n15",
+    "model_sha256": "ab77d9149634d14b16df5dd3d213308de1880c2b01cd949adfedd269cb50d90d",
+    "config": {
+     "kind": "value",
+     "model": "n15",
+     "capacity": "XL",
+     "hidden": [
+      1024,
+      64
+     ],
+     "args": {
+      "shards": "data/shards",
+      "model": "n15",
+      "out": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_n15",
+      "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+      "epochs": 8,
+      "patience": 2,
+      "plateau_decay": 1,
+      "lr_schedule": "cosine",
+      "lr": 0.001,
+      "min_lr": 0.0001,
+      "batch": 2048,
+      "weight_decay": 1e-05,
+      "max_rows": 0,
+      "seed": 1,
+      "val_split": "val",
+      "capacity": "XL",
+      "max_width": 1024,
+      "count_weighting": "none",
+      "backend": "torch",
+      "device": "cuda",
+      "tf32": false,
+      "gpu_resident_gb": 6.0,
+      "gpu_window_rows": 1000000,
+      "aux_weight": 0.25,
+      "hidden": null
+     },
+     "seed": 1,
+     "init": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion\\runs_xl\\value_general",
+     "data": {
+      "team_counts": [
+       15
+      ],
+      "digest": "f9669a1229bfd172",
+      "matches_by_count": {
+       "n15": 1500
+      },
+      "rows": {
+       "n15/test": 331044,
+       "n15/train": 3121065,
+       "n15/val": 428900
+      },
+      "registries": [
+       "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+      ],
+      "regimes": {
+       "mixed": 20586,
+       "augmented": 414
+      },
+      "ai_test_commits": [
+       "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+      ],
+      "options": {
+       "stride": 2,
+       "keep": {
+        "flag": 1.0,
+        "contact": 1.0,
+        "respawn": 0.6,
+        "quiet": 0.35
+       },
+       "holdout_family": [],
+       "holdout_mode": "fixture",
+       "split_by": "map"
+      }
+     },
+     "rows": {
+      "train": 3121065,
+      "val": 428900
+     },
+     "spec_version": 2,
+     "repo_commit": "29a6412f38e0f78184477de4203c218ee00edadb",
+     "started": "2026-10-09T19:29:58",
+     "backend": {
+      "backend": "torch",
+      "torch": "2.11.0+cu128",
+      "device": "cuda",
+      "tf32": false,
+      "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+      "gpu_memory_gb": 11.99,
+      "cuda": "12.8",
+      "timing": {
+       "train_seconds": 31.708577394485474,
+       "val_seconds": 0.4194145202636719,
+       "rows_per_second": [
+        758116,
+        780352,
+        791989,
+        778059,
+        789537,
+        804980,
+        795943,
+        802628
+       ]
+      },
+      "peak_allocated_gb": 0.501,
+      "peak_reserved_gb": 0.592
+     },
+     "best_val": 0.5454631679254388,
+     "beta": 1.0025748374361436
+    }
+   }
+  },
+  "params": {
+   "mover": 5377,
+   "squad": 195965,
+   "act": 5764,
+   "target": 289,
+   "value": 121985
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 5248,
+   "squad": 195200,
+   "act": 5632,
+   "target": 256,
+   "value": 120896,
+   "joint_policy_per_team": 273920
+  },
+  "accumulator_bound": {
+   "mover": 65046075,
+   "squad": 113745529,
+   "act": 63005216,
+   "target": 31482431,
+   "value": 44807342
+  },
+  "exported": "2026-10-09T20:52:39"
+ }
+}

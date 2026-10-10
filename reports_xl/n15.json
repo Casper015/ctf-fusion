@@ -1,0 +1,188 @@
+{
+ "model": "n15",
+ "team_counts": [
+  15
+ ],
+ "split": "test",
+ "fit_split": "val",
+ "gate": {
+  "min_gain": 0.01,
+  "min_maps": 20,
+  "z": 2.0
+ },
+ "identity": {
+  "model": "n15",
+  "policy_sha256": "26542605c81a7277ba9525438089fdd6dc994773f67ad9cbecb7024d6983f3a1",
+  "value_sha256": "ab77d9149634d14b16df5dd3d213308de1880c2b01cd949adfedd269cb50d90d",
+  "weights_digest": "fc3db9e0f6a49e229ce80f1c7b8a0e5eff09c1da7879c723390f67d8052745f6",
+  "spec_version": 2,
+  "schema_digest": "d3813c50359fb9cf",
+  "adapter": "joint-v2",
+  "dataset": {
+   "team_counts": [
+    15
+   ],
+   "options": {
+    "stride": 2,
+    "keep": {
+     "flag": 1.0,
+     "contact": 1.0,
+     "respawn": 0.6,
+     "quiet": 0.35
+    },
+    "holdout_family": [],
+    "holdout_mode": "fixture",
+    "split_by": "map"
+   },
+   "split": "test",
+   "fit_split": "val",
+   "eval_matches": "003fe9175f164760",
+   "fit_matches": "0f5f96cfae1e545e"
+  },
+  "baseline": {
+   "legacy_complete": true,
+   "reason": "",
+   "builds": [
+    "{\"planner\": \"ctf-arena/Player7/workspace/experiments/round3/nextgen\", \"sources\": \"fd62e8cbe942f541\"}"
+   ]
+  }
+ },
+ "alpha": {
+  "15": {
+   "alpha": 0.9811399507567082,
+   "baseline": "heuristic",
+   "adapter": "joint-v2",
+   "fit_rows": 428311,
+   "use": true,
+   "gain": 1.0020376734681338,
+   "gain_se": 0.010488803931548557,
+   "maps": 128,
+   "reason": ""
+  }
+ },
+ "policy": {
+  "rows": 330941,
+  "adapter": "joint-v2",
+  "baseline": "heuristic",
+  "inertia_rate": {
+   "15": 0.5303114056587219
+  },
+  "alpha": {
+   "15": {
+    "alpha": 0.9811399507567082,
+    "baseline": "heuristic",
+    "adapter": "joint-v2",
+    "fit_rows": 428311,
+    "use": true,
+    "gain": 1.0020376734681338,
+    "gain_se": 0.010488803931548557,
+    "maps": 128,
+    "reason": ""
+   }
+  },
+  "by_teams": [
+   {
+    "teams": 15,
+    "rows": 330941,
+    "uniform": 3.5557719004373114,
+    "inertia": 3.0023470040063995,
+    "heuristic": 2.982518720627443,
+    "learned": 1.9809489480962723,
+    "quantized": 1.98157714574151,
+    "mixture": 1.9804810471593086,
+    "alpha": 0.9811399507567082,
+    "use": true,
+    "gain": 1.0020376734681338,
+    "gain_se": 0.010488803931548557,
+    "maps": 128,
+    "reason": "",
+    "top1": 0.4396002843978591,
+    "ece": 0.005067542095913158
+   }
+  ],
+  "by_stratum": [
+   {
+    "stratum": "flag",
+    "rows": 156294,
+    "uniform": 3.8141306712550964,
+    "inertia": 3.3251790030551462,
+    "heuristic": 3.1659585309859373,
+    "learned": 2.2009796249623994,
+    "quantized": 2.201539305058922
+   },
+   {
+    "stratum": "contact",
+    "rows": 116557,
+    "uniform": 3.676862871616738,
+    "inertia": 3.085722429899172,
+    "heuristic": 3.2743602291274074,
+    "learned": 2.1941357232227867,
+    "quantized": 2.1948328241697754
+   },
+   {
+    "stratum": "respawn",
+    "rows": 46257,
+    "uniform": 2.337366486894465,
+    "inertia": 1.9570362640566037,
+    "heuristic": 1.883777312764764,
+    "learned": 1.1883235147595914,
+    "quantized": 1.1887898101792902
+   },
+   {
+    "stratum": "quiet",
+    "rows": 11833,
+    "uniform": 4.72231146294496,
+    "inertia": 3.606144628415918,
+    "heuristic": 3.6338551402894557,
+    "learned": 2.036247668038235,
+    "quantized": 2.0373242599928147
+   }
+  ],
+  "unit_move_accuracy": 0.6533751332495675,
+  "blocked_share": 0.012703287036791707,
+  "heuristic_missing_units": 0.0,
+  "heads": {
+   "act": {
+    "rows": 754844,
+    "log_loss": 0.1767549011519436,
+    "accuracy": 0.9189552251833003
+   },
+   "target": {
+    "rows": 224989,
+    "log_loss": 0.2326189024858881,
+    "accuracy": 0.900870276854646
+   }
+  }
+ },
+ "value": {
+  "rows": 331044,
+  "brier": 0.029123173316878782,
+  "brier_constant": 0.09318105487417377,
+  "bce": 0.5471392073834555,
+  "ranking_accuracy": 0.8601439767097778,
+  "ranking_pairs": 1839742,
+  "calibration_error": 0.002447811142900835,
+  "brier_quantized": 0.02912460098862757,
+  "max_abs_quantization_error": 0.012521543188226847,
+  "by_phase": [
+   {
+    "phase": "turns 1-133",
+    "rows": 108619,
+    "brier": 0.057364844182585986,
+    "ranking_accuracy": 0.7408193787890928
+   },
+   {
+    "phase": "turns 134-266",
+    "rows": 110835,
+    "brier": 0.023489724826103484,
+    "ranking_accuracy": 0.8750107129054532
+   },
+   {
+    "phase": "turns 267-400",
+    "rows": 111590,
+    "brier": 0.006632658557104278,
+    "ranking_accuracy": 0.9602533423544897
+   }
+  ]
+ }
+}
