@@ -1,0 +1,35 @@
+{
+ "_comment": "P feature ablation (docs/FEATURE_FAMILIES.md): policy family p2 against p3 at the same capacity (the XXL preset), the same layout-3 shards rebuilt from the same raw matches as the committed models, the same configuration and seed. Offline first (training.compare_policy, stratified by contact, pursuit, retreat, carrier states, distance and team count), then at equal full-turn time with V off (bots/p_only/profiles/screen_p_features.json). Nothing else changes: target head, candidate limit, adapter, search depth and mixture stay as they are.",
+ "shards": {
+  "raw": "data/raw",
+  "out": "data/shards_l3",
+  "options": "the committed models' dataset options (index.json of data/shards)"
+ },
+ "runs": {
+  "p2": "runs/pf_p2_xxl_s1",
+  "p3": "runs/pf_p3_xxl_s1"
+ },
+ "training": {
+  "model": "general",
+  "capacity": "XXL",
+  "backend": "torch",
+  "device": "cuda",
+  "max_width": 2048,
+  "seed": 1,
+  "final_seeds": [
+   1,
+   2,
+   3
+  ],
+  "epochs": 8,
+  "count_weighting": "inv_teams"
+ },
+ "audit": "training.feature_audit on the layout-3 train split (candidate coverage, value aliases) before any limit changes",
+ "evaluation": {
+  "split": "test",
+  "compare": [
+   "p3:p2"
+  ],
+  "report": "reports/models/p_features/"
+ }
+}

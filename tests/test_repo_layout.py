@@ -17,6 +17,7 @@ TOOLS_DIRS = {"cpp", "host", "pipeline", "reporting", "repo", "screens"}
 TOOLS_FILES = {"random_bot.py", "noise_bot.py", "README.md"}   # the bots are named by path in committed pools: do not move
 REPORT_DIRS = {"models", "host", "eval", "reviews"}
 TIERS = {"s", "m", "l", "xl", "xxl"}
+MODEL_STUDIES = {"v_pilot", "p_features"}   # offline reports of controlled model comparisons (docs/FEATURE_FAMILIES.md)
 LOCAL_ONLY = ("build/", "data/", "runs/")
 VENDORED = ("roster/bots/src/", "roster/new_bots/")
 
@@ -59,7 +60,8 @@ class TestRepoLayout(unittest.TestCase):
             self.assertGreaterEqual(len(parts), 3, f"{f}: reports/ holds only {sorted(REPORT_DIRS)} subfolders")
             self.assertIn(parts[1], REPORT_DIRS, f)
             if parts[1] == "models":
-                self.assertIn(parts[2], TIERS, f"{f}: reports/models/<tier>/ with tier in {sorted(TIERS)}")
+                self.assertIn(parts[2], TIERS | MODEL_STUDIES,
+                              f"{f}: reports/models/<tier or study>/ with one of {sorted(TIERS | MODEL_STUDIES)}")
             self.assertRegex(parts[-1], r"\.(md|json|jsonl)$", f"{f}: reports/ tracks .md, .json and .jsonl only")
 
     def test_local_only_never_tracked(self):

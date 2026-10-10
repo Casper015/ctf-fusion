@@ -1,0 +1,138 @@
+{
+ "_comment": "The controlled four-arm V pilot (docs/FEATURE_FAMILIES.md). Every arm: the same frozen-carrier rows (designated seat of bots/p_only/profiles/collect_v_data.json), targets (final pairwise utility under that carrier and the reference roster), map-grouped splits, evaluation (training.evaluate_value) and training procedure; arms differ only in feature family and hidden widths. One training seed per arm for the pilot; three independent seeds for finalists. One shared model conditioned on the team count (`general`), not one per count. The committed M value (inference/models_m, v2, mixed-roster data) is an extra reference. Commands: the GPU task's Goal.",
+ "frozen": {
+  "carrier": "v12_ponly_xxl",
+  "policy": "inference/models_xxl (family p2, committed XXL, every team-count model)",
+  "search": "v12 rollout_volley as in bots/p_only/bots/v12_ponly.hpp, fixed time, V off",
+  "opponents": "roster.strength reference roster frozen in the collection schedule",
+  "data_seed": 20261201,
+  "refresh": "after a V changes the carrier's play substantially, version that carrier and collect again"
+ },
+ "data": {
+  "raw": "data/p_only/v_data/matches",
+  "shards": "data/shards_v12xxl",
+  "rows": "designated",
+  "stride": 2,
+  "keep": "quiet=0.35,respawn=0.6",
+  "split_by": "map",
+  "caches": {
+   "v2": "data/vcache/v12xxl_v2",
+   "v3": "data/vcache/v12xxl_v3"
+  },
+  "branches": {
+   "out": "data/branches/v12_ponly_xxl",
+   "roots_per_match": 2,
+   "candidates": 4,
+   "repeats": 1
+  },
+  "rank": "data/rank/v12_ponly_xxl"
+ },
+ "arms": {
+  "A": {
+   "family": "v2",
+   "hidden": [
+    256,
+    32
+   ]
+  },
+  "B": {
+   "family": "v3",
+   "hidden": [
+    256,
+    32
+   ]
+  },
+  "C": {
+   "family": "v2",
+   "hidden": [
+    8192,
+    512
+   ]
+  },
+  "D": {
+   "family": "v3",
+   "hidden": [
+    8192,
+    512
+   ]
+  }
+ },
+ "params": {
+  "A": 22403,
+  "B": 36227,
+  "C": 4646915,
+  "D": 5089283
+ },
+ "training": {
+  "model": "general",
+  "backend": "torch",
+  "device": "cuda",
+  "precision": "fp32 (no TF32, no mixed precision)",
+  "epochs": 40,
+  "patience": 3,
+  "plateau_decay": 2,
+  "lr_schedule": "cosine",
+  "lr": 0.001,
+  "min_lr": 1e-05,
+  "weight_decay": 1e-05,
+  "aux_weight": 0.25,
+  "count_weighting": "none",
+  "pilot_seed": 1,
+  "final_seeds": [
+   1,
+   2,
+   3
+  ],
+  "batch": "from the sweep: the largest of 2048, 4096, 8192 that fits with margin; the same for every arm",
+  "max_width": 8192,
+  "checkpoint": true
+ },
+ "sweep": {
+  "shapes": [
+   "C",
+   "D"
+  ],
+  "batches": [
+   2048,
+   4096,
+   8192
+  ],
+  "steps": 300,
+  "warmup": 20
+ },
+ "rank": {
+  "weights": [
+   0.0,
+   0.5
+  ],
+  "tie_steps": 1.0,
+  "note": "first pilot without ranking (0.0); a ranking arm repeats the best shape with 0.5"
+ },
+ "distill": {
+  "teacher": "D",
+  "students": {
+   "E": [
+    256,
+    32
+   ],
+   "E_wide": [
+    4096,
+    16
+   ]
+  },
+  "soft_weight": 0.5,
+  "rank_weight": 0.5
+ },
+ "evaluation": {
+  "split": "test",
+  "compare": [
+   "B:A",
+   "D:C",
+   "C:A",
+   "D:B",
+   "E:D",
+   "E:B"
+  ],
+  "report": "reports/models/v_pilot/"
+ }
+}

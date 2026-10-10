@@ -26,8 +26,8 @@ from fusion import matchlog, native, runner
 from fusion.paths import REPO, ai_test_root, git_commit, load_engine, load_json, sha256
 from fusion.protocol import DELTAS, parse_block, parse_reply
 from fusion.schema import layout
-from training import (branch_collect, branch_dataset, collect, compare_policy, dataset, evaluate_value, feature_audit,
-                      train_policy, train_value, value_cache)
+from training import (branch_collect, branch_dataset, collect, compare_policy, dataset, distill_value, evaluate_value,
+                      feature_audit, train_policy, train_value, value_cache)
 
 TEAMS = (3, 4)
 MATCHES = 4
@@ -161,6 +161,15 @@ class TestValuePipeline(unittest.TestCase):
             cfg = json.loads((runs[name] / "config.json").read_text())
             self.assertEqual(cfg["features"]["family"], fam)
             self.assertTrue((runs[name] / "model_best.npz").exists())
+        student = self.tmp / "run_E"
+        distill_value.main(["--teacher", str(runs["D"]), "--cache", str(caches["v3"]), "--soft-weight", "0.5", "--hidden", "8,4",
+                            "--epochs", "1", "--batch", "256", "--out", str(student)])
+        cfg = json.loads((student / "config.json").read_text())
+        self.assertEqual(cfg["data"]["soft_targets"]["teacher"], str(runs["D"]))
+        self.assertEqual(cfg["features"]["family"], "v3")
+        with self.assertRaises(SystemExit):  # a student must read the teacher's family
+            distill_value.main(["--teacher", str(runs["D"]), "--cache", str(caches["v3"]), "--value-family", "v2",
+                                "--hidden", "8,4", "--out", str(self.tmp / "run_bad")])
         evaluate_value.main(["--cache", str(caches["v3"]), "--cache-for", f"v2={caches['v2']}", "--split", "train",
                              "--run", f"A={runs['A']}", "--run", f"B={runs['B']}", "--run", f"D={runs['D']}",
                              "--compare", "B:A", "--compare", "D:B", "--out", str(self.tmp / "veval")])

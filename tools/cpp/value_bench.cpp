@@ -14,7 +14,9 @@
 //   incr     the accumulator moved from the previous call's state, then the tail (first-layer reuse)
 //
 // The tail (every layer after the first) is the same work in both: for a wide-first network it is most of
-// the cost, and no first-layer cache removes it. Output: one JSON line with p50/p95/p99/max microseconds per
+// the cost, and no first-layer cache removes it. The model's policy is timed too, once per turn for every
+// opponent team as a P-only root view does it: the shared view and (p3) combat summary, encoding, and the
+// joint movement head (policy_view_us per turn, policy_encode_us and policy_joint_us per team). Output: one JSON line with p50/p95/p99/max microseconds per
 // call for each part, per-turn totals at `calls_per_turn`, the share of the first layer in a full pass, the
 // count of changed first-layer inputs per incremental update (the reuse actually available), and the static
 // weight bytes. --verify does no timing: incremental and full results must be equal bit for bit.
@@ -77,12 +79,34 @@ int main(int argc, char** argv) {
     CombatSummary cs;
     VFeatures f;
     VAccumulator acc;
-    Series tView, tEncode, tFull, tIncr, tFirst, changed, turnFull, turnIncr;
+    Series tView, tEncode, tFull, tIncr, tFirst, changed, turnFull, turnIncr, pView, pEncode, pJoint;
+    const PModel& policy = FUSION_MODEL_NS::kPolicy;
+    PFeatures pf;
+    PolicyOutput po;
     long mismatches = 0, checks = 0;
     double sink = 0;
     const Layer& L0 = model.net.layers[0];
     for (size_t t = 0; t + 1 < blocks.size(); t++) {
         double full = 0, incr = 0;
+        {
+            auto a = Clock::now();
+            makeView(board, blocks[t], t ? &blocks[t - 1] : nullptr, view);
+#if FUSION_POLICY_FAMILY == 3
+            summarize(board, rules, blocks[t], view, cs);  // once per state, shared by every team
+#endif
+            auto b = Clock::now();
+            if (!verify) pView.add(us(a, b));
+            for (int team = 0; team < st.teams; team++) {
+                if (team == st.me) continue;
+                auto c = Clock::now();
+                encodeP(board, blocks[t], view, cs, team, pf);
+                auto d = Clock::now();
+                jointPolicy(policy, pf, po);
+                auto e = Clock::now();
+                sink += po.prob[0];
+                if (!verify) { pEncode.add(us(c, d)); pJoint.add(us(d, e)); }
+            }
+        }
         for (int c = 0; c < calls; c++) {
             const State& s = blocks[t + (c & 1)];
             const int team = st.me;
@@ -135,6 +159,9 @@ int main(int argc, char** argv) {
     print("changed_inputs", changed);
     print("turn_full_ms", turnFull);
     print("turn_incremental_ms", turnIncr);
+    print("policy_view_us", pView);
+    print("policy_encode_us", pEncode);
+    print("policy_joint_us", pJoint);
     std::printf("\"first_layer_share\": %.4f, \"sink\": %g}\n", tFull.mean() > 0 ? tFirst.mean() / tFull.mean() : 0.0, sink > 0 ? 0.0 : 1.0);
     return mismatches ? 1 : 0;
 }

@@ -57,6 +57,10 @@ def records(n: int, seed: int = 0):
     valid = cand >= 0
     y_tgt = np.array([[rng.choice(np.nonzero(valid[b, k])[0]) if valid[b, k].any() and rng.random() < 0.7 else -1
                        for k in range(3)] for b in range(n)])
+    extra = np.random.default_rng(seed + 1000)              # p3 / v3 blocks, from their own stream
+    for name in ("pc", "vx"):
+        _, shape = L.blocks[name]
+        put(name, extra.integers(0, 20, (n, *shape)))
     return {"rec": rec, "y_move": move.astype(np.int8), "y_joint": (move[:, 0] * 25 + move[:, 1] * 5 + move[:, 2]).astype(np.int16),
             "y_act": y_act.astype(np.int8), "y_tgt": y_tgt.astype(np.int8),
             "weight": rng.uniform(0.5, 2.0, n).astype(np.float32),
@@ -219,6 +223,87 @@ class TestTorchBackend(unittest.TestCase):
         st = tr.state()
         for k, v in model_np.state().items():
             self.assertLess(np.abs(st[k] - v).mean(), 1e-4, k)
+
+    def test_p3_batch_matches_numpy(self):
+        d = records(64, seed=41)
+        dl = self.tb.DeviceLayout(self.layout, self.dev)
+        X = policy_batch(d["rec"], self.layout, family="p3")
+        Xt = self.tb.DevicePolicyBatch(torch.from_numpy(d["rec"]).to(self.dev), dl, "p3")
+        np.testing.assert_allclose(Xt.mover_in.cpu().numpy(), X.mover_in, rtol=1e-6)
+        np.testing.assert_allclose(Xt.squad_in.cpu().numpy(), X.squad_in, rtol=1e-6)
+        self.assertEqual(X.squad_in.shape[1], 447)
+
+    def test_value_v3_with_ranking_matches_numpy(self):
+        """The ranking loss (training.train_value --rank): same pairs, same order, same updates on both backends."""
+        from fusion.models import value_columns  # noqa: PLC0415
+        from training.common import batches  # noqa: PLC0415
+        d = records(700, seed=51)
+        cfg = {"aux_weight": 0.25, "rank_weight": 0.5}
+        prng = np.random.default_rng(9)
+        cand = records(60, seed=52)["rec"]
+        a, b = prng.integers(0, 60, 300), prng.integers(0, 60, 300)
+        rank = {"cand_v": value_columns(cand, self.layout, "v3"), "a": a, "b": b, "y": (prng.random(300) < 0.5).astype(np.float32),
+                "w": prng.random(300).astype(np.float32)}
+        rx = (rank["cand_v"] / self.layout.value_scale("v3")).astype(np.float32)
+        model_np = ValueNet(self.layout, np.random.default_rng(4), (64, 16), "v3")
+        opt = nn.Adam(model_np.params, lr=1e-3, weight_decay=1e-5)
+        rng_np, cursor, losses_np = np.random.default_rng(2), {"perm": None, "pos": 0}, []
+        for _ in range(2):
+            total = wsum = 0.0
+            for idx in batches(len(d["rec"]), 128, rng_np):
+                model_np.zero_grad()
+                out = model_np.loss(model_np.inputs(d["rec"][idx], self.layout), d["v_y"][idx], d["weight"][idx], cfg, backward=True)
+                if cursor["perm"] is None or cursor["pos"] >= 300:
+                    cursor["perm"], cursor["pos"] = rng_np.permutation(300), 0
+                p = cursor["perm"][cursor["pos"]:cursor["pos"] + 64]
+                cursor["pos"] += 64
+                model_np.rank_loss(rx[a[p]], rx[b[p]], rank["y"][p], rank["w"][p], cfg, backward=True)
+                opt.step(model_np.grads)
+                total += out["outcome"] * float(d["weight"][idx].sum())
+                wsum += float(d["weight"][idx].sum())
+            losses_np.append(total / wsum)
+        tr = self.tb.ValueTrainer(ValueNet(self.layout, np.random.default_rng(4), (64, 16), "v3"), self.layout, d, d, cfg,
+                                  args(batch=128, rank_batch=64), self.dev, rank)
+        rng = np.random.default_rng(2)
+        losses = [tr.train_epoch(rng) for _ in range(2)]
+        np.testing.assert_allclose(losses, losses_np, rtol=2e-4)
+        st = tr.state()
+        for k, v in model_np.state().items():
+            self.assertLess(np.abs(st[k] - v).mean(), 1e-4, k)
+
+    def test_value_sweep_records_each_batch(self):
+        """training.value_sweep's bookkeeping on a tiny cache (a plumbing check; its timings mean nothing here)."""
+        import json  # noqa: PLC0415
+
+        from fusion import families  # noqa: PLC0415
+        from fusion.models import value_columns  # noqa: PLC0415
+        from training import value_sweep  # noqa: PLC0415
+        d = records(300, seed=61)
+        with tempfile.TemporaryDirectory() as tmp:
+            split = os.path.join(tmp, "train")
+            os.makedirs(split)
+            arrays = {"v": value_columns(d["rec"], self.layout, "v3"), "v_y": d["v_y"], "weight": d["weight"],
+                      "teams": np.full(300, 4, np.int8), "turn": np.arange(300, dtype=np.int16), "match": np.zeros(300, np.int32),
+                      "map": np.zeros(300, np.int64), "tags": np.zeros(300, np.uint8)}
+            for k, v in arrays.items():
+                np.save(os.path.join(split, f"{k}.npy"), v)
+            with open(os.path.join(tmp, "meta.json"), "w") as f:
+                json.dump({"features": families.record(self.layout.schema, "v3")}, f)
+            out = os.path.join(tmp, "sweep.json")
+            value_sweep.main(["--cache", tmp, "--value-family", "v3", "--hidden", "32,8", "--batches", "64", "128",
+                              "--steps", "2", "--warmup", "1", "--device", DEVICE, "--out", out])
+            rep = json.load(open(out))
+            self.assertEqual([r["batch"] for r in rep["results"]], [64, 128])
+            self.assertTrue(all(r["timed_steps"] == 2 and r["rows_per_second"] for r in rep["results"]))
+
+    def test_distill_teacher_probabilities_match_numpy(self):
+        from fusion.models import value_columns  # noqa: PLC0415
+        from training.distill_value import teacher_probs  # noqa: PLC0415
+        d = records(200, seed=71)
+        teacher = ValueNet(self.layout, np.random.default_rng(6), (64, 16), "v3")
+        v = value_columns(d["rec"], self.layout, "v3")
+        np.testing.assert_allclose(teacher_probs(teacher, 1.3, v, self.layout, DEVICE), teacher_probs(teacher, 1.3, v, self.layout, "numpy"),
+                                   rtol=1e-5, atol=1e-6)
 
     def test_fit_loop_keeps_the_best_state_in_the_numpy_model(self):
         from training.common import Run, torch_fit  # noqa: PLC0415

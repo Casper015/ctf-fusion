@@ -23,6 +23,10 @@ training.branch_dataset add w x the pairwise logistic loss on the outcome logits
 P(a better than b) = sigmoid(z_a - z_b), weighted so every root counts once. Uncertain pairs (near ties) carry
 no label and no weight. The outcome loss stays the primary objective and the stopping criterion.
 
+Distillation (training.distill_value): --soft-targets FILE (a .npy aligned with the training rows, written by
+distill_value with the teacher's calibrated probabilities) and --soft-weight w train the outcome head on
+(1 - w) x real outcome + w x teacher probability; validation, stopping and calibration stay on real outcomes.
+
 Semantics (unchanged, both backends): float32, clipped ReLU on [0, 1], weighted BCE summed over heads with
 the aux weight, divided by the minibatch weight sum; Adam with coupled L2 decay on matrices only; minibatch
 order from the run's seed. --checkpoint writes the best state (model_best.npz, best.json) on every
@@ -126,6 +130,8 @@ def main(argv=None):
     ap.add_argument("--rank-weight", type=float, default=0.0, help="weight of the pairwise ranking loss (0 = off)")
     ap.add_argument("--rank-batch", type=int, default=512, help="ranking pairs per optimizer step")
     ap.add_argument("--checkpoint", action="store_true", help="write the best state on every improvement")
+    ap.add_argument("--soft-targets", help="teacher probabilities for the training rows (training.distill_value)")
+    ap.add_argument("--soft-weight", type=float, default=0.0, help="share of the teacher's probability in the outcome target")
     a = ap.parse_args(argv)
     hidden, capacity = resolve_hidden(a, "value")
     rng = np.random.default_rng(a.seed)
@@ -135,6 +141,17 @@ def main(argv=None):
     if a.count_weighting == "inv_teams":
         train["weight"] = (np.asarray(train["weight"]) / np.asarray(train["teams"]).astype(np.float32)).astype(np.float32)
         val["weight"] = (np.asarray(val["weight"]) / np.asarray(val["teams"]).astype(np.float32)).astype(np.float32)
+    soft = None
+    if a.soft_targets and a.soft_weight > 0:
+        soft = np.load(a.soft_targets)
+        meta = json.loads(Path(a.soft_targets).with_suffix(".json").read_text(encoding="utf-8"))
+        if len(soft) != rows_len(train) or meta.get("cache") != str(a.cache):
+            raise SystemExit(f"{a.soft_targets} does not belong to these training rows (made for {meta.get('cache')}, "
+                             f"{len(soft)} rows; here {a.cache}, {rows_len(train)} rows)")
+        y = np.array(train["v_y"], dtype=np.float32)
+        y[:, 0] = (1 - a.soft_weight) * y[:, 0] + a.soft_weight * soft.astype(np.float32)
+        train = dict(train) | {"v_y": y}
+        data = data | {"soft_targets": meta | {"path": str(a.soft_targets), "weight": a.soft_weight}}
     if a.max_rows and rows_len(train) > a.max_rows:
         train = subset(train, np.sort(rng.choice(rows_len(train), a.max_rows, replace=False)))
     rank = load_rank(a.rank, "train", a.value_family, layout) if a.rank and a.rank_weight > 0 else None

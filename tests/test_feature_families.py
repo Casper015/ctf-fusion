@@ -383,6 +383,9 @@ class TestExportRuns(unittest.TestCase):
             r = native.run_tool(native.registry_check(out))
             self.assertEqual(r.returncode, 0, r.stderr.decode())
             self.assertIn("2 n02", r.stdout.decode())
+            # The host's cost bench builds against this set: incremental and full V passes agree (no timing here).
+            from tools.host import value_cost  # noqa: PLC0415
+            value_cost.main(["--set", str(out), "--verify", "--streams", str(FIXTURES / "stream_n04.txt.gz")])
 
     def test_p3_policy_run_with_committed_value(self):
         from training import export_mixed  # noqa: PLC0415

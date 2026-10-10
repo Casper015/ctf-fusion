@@ -1,4 +1,4 @@
-"""What a value network costs per call and per turn on the host, with real exported weights (Route A evidence).
+"""What a value network (and the policy's encoding) costs on the host, with real exported weights (Route A evidence).
 
     python tools/repo/task.py lock cpu --task T00xx -- python tools/host/value_cost.py \\
         --set inference/models_pxxl_vD --calls 7 --copies 1 6 15 --out reports/host/value_cost_DESKTOP-G60OJUD
@@ -11,7 +11,9 @@ C08: one per refine scenario or surviving plan, about 2.5). --copies N runs N pr
 busy seats. Reported per set and copy count: per-call view, encoding (v3 includes the combat summary), full
 pass, incremental pass and first layer (p50/p95/p99/max microseconds; the worst copy's percentiles), per-turn
 milliseconds at --calls, the first layer's share of a full pass, the inputs that change between calls (the
-reuse a first-layer accumulator can exploit), weight bytes and buffer width.
+reuse a first-layer accumulator can exploit), weight bytes and buffer width; and the set's policy at the root:
+the shared view (with the p3 combat summary), per-team encoding and the joint head, so p2 and p3 extraction
+costs can be compared with real weights.
 
 This is the V part only. Full-reply percentiles, deadline faults and the search samples V displaces come from
 a timing screen of the deployed variants (bots/p_only/profiles/screen_v_pilot.json, PONLY_STATS). Timing is
@@ -82,7 +84,8 @@ def main(argv=None):
         for n in a.copies:
             rows = run_copies(binary, streams, a.calls, n)
             entry["copies"][str(n)] = {k: worst(rows, k) for k in ("view_us", "encode_us", "full_us", "incremental_us", "first_layer_us",
-                                                                   "turn_full_ms", "turn_incremental_ms", "changed_inputs")}
+                                                                   "turn_full_ms", "turn_incremental_ms", "changed_inputs",
+                                                                   "policy_view_us", "policy_encode_us", "policy_joint_us")}
             entry |= {k: rows[0][k] for k in ("value_in", "first_layer", "layers", "weight_bytes", "max_width")}
             entry["copies"][str(n)]["first_layer_share"] = max(r["first_layer_share"] for r in rows)
             print(f"[value_cost] {d} x{n}: turn p99 {entry['copies'][str(n)]['turn_full_ms']['p99']:.3f} ms "
