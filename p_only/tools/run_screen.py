@@ -79,8 +79,11 @@ def main(argv=None):
         step("build", [str(REPO / "p_only" / "tools" / "build.py"), "--stats", *arms], timings)
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))["variants"]
         if not sched.exists():
-            step("schedule", ["-m", "roster.strength", "schedule", "--maps-per-count", str(maps), "--teams", *map(str, teams),
-                              "--seed", str(cfg["seed"]), "--out", str(sched)], timings)
+            sched_cmd = ["-m", "roster.strength", "schedule", "--maps-per-count", str(maps), "--teams", *map(str, teams),
+                         "--seed", str(cfg["seed"]), "--out", str(sched)]
+            if cfg.get("reference"):
+                sched_cmd += ["--reference", *cfg["reference"]]
+            step("schedule", sched_cmd, timings)
         bots = [f"{arm}={REPO / manifest[arm]['binary']}" for arm in arms]
         bots += [f"{arm}{AA}={REPO / manifest[arm]['binary']}" for arm in aa]
         run = ["-m", "roster.strength", "run", "--schedule", str(sched), "--results", str(results),
