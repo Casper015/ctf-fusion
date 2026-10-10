@@ -1,7 +1,7 @@
 ---
 id: T0017
 title: "Joint-action search experiment: action portfolio and branch-conditioned ply-2 predictions (code)"
-status: open
+status: dropped
 owner: ""
 needs: []
 writes: [bots/p_only/tools/, bots/p_only/bots/, bots/p_only/profiles/, bots/p_only/tests/, training/branch_collect.py, training/branch_dataset.py, tests/test_branch_candidates.py, docs/SEARCH_PORTFOLIO.md]
@@ -21,8 +21,11 @@ PR merged; production carriers byte-identical; flags-off family carrier replies 
 
 ## Handoff
 
-Not started.
+*2026-10-10 22:39Z claude@caspers-macbook:*
+
+Replaced by a task with narrower lanes: T0016 (5XL capacity, active) holds training/ and tests/, and this experiment must stay separate from it; the branch-candidate extension moves to bots/p_only/tools/.
 
 ## Log
 
 - 2026-10-10 22:39Z claude@caspers-macbook: created
+- 2026-10-10 22:39Z claude@caspers-macbook: dropped
