@@ -1,5 +1,5 @@
 {
- "_comment": "Stage 1, capacity and sampling at two plies (p_only/EXPERIMENTS.md). Fresh tuning seed 20261107: never reuse 20261009, 20261020, 20261031 or 20261101. Fixed-time arms are deployment comparisons; *_fs256 arms ask for exactly 256 joint samples per expectimax call (bounded by the hard turn deadline; truncated calls are counted) and are equal-work diagnostics. V is off in every arm. aa arms replay the P-only finalists' identical binaries.",
+ "_comment": "Stage 1, capacity and sampling at two plies (p_only/EXPERIMENTS.md). Fresh tuning seed 20261107: never reuse 20261009, 20261020, 20261031, 20261101 or 20261102. Fixed-time arms are deployment comparisons; *_fs256 arms ask for exactly 256 joint samples per expectimax call (bounded by the hard turn deadline; truncated calls are counted) and are equal-work diagnostics. V is off in every arm. aa arms replay the P-only finalists' identical binaries.",
  "seed": 20261107,
  "teams": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
  "maps_per_count": 20,

@@ -1,0 +1,151 @@
+{
+ "created": "2026-10-10T01:12:25",
+ "smoke": false,
+ "config": {
+  "_comment": "Paired P-only screen (p_only/tools/run_screen.py) with fresh seed 20261102, including un-trained Player4 and Player2_v005 in reference opponent roster to evaluate out-of-distribution opponent generalization.",
+  "seed": 20261102,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 20,
+  "workers": 6,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "reference": [
+   "Astra",
+   "Sol",
+   "Fable",
+   "Sonnet",
+   "Opus",
+   "DeepSeek",
+   "Qwen",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player5",
+   "Baseline",
+   "Player4",
+   "Player2_v005"
+  ],
+  "arms": [
+   "c08_control",
+   "c08_control_2ply",
+   "c08_hybrid_m",
+   "c08_ponly_xxl",
+   "v12_control",
+   "v12_hybrid_m",
+   "v12_ponly_xl",
+   "v12_ponly_xxl"
+  ],
+  "aa": [
+   "c08_control",
+   "v12_control"
+  ],
+  "comparisons": [
+   [
+    "c08_ponly_xxl",
+    "c08_control"
+   ],
+   [
+    "c08_ponly_xxl",
+    "c08_control_2ply"
+   ],
+   [
+    "c08_control_2ply",
+    "c08_control"
+   ],
+   [
+    "c08_ponly_xxl",
+    "c08_hybrid_m"
+   ],
+   [
+    "v12_ponly_xl",
+    "v12_control"
+   ],
+   [
+    "v12_ponly_xxl",
+    "v12_control"
+   ],
+   [
+    "v12_ponly_xxl",
+    "v12_ponly_xl"
+   ],
+   [
+    "v12_ponly_xl",
+    "v12_hybrid_m"
+   ],
+   [
+    "c08_ponly_xxl",
+    "v12_ponly_xl"
+   ],
+   [
+    "c08_ponly_xxl",
+    "v12_ponly_xxl"
+   ]
+  ],
+  "work_dir": "data/p_only/screen_ood_20261102",
+  "report_dir": "p_only/report/screen_ood_20261102"
+ },
+ "effective": {
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 20,
+  "turn_ms": 50,
+  "arms": [
+   "c08_control",
+   "c08_control_2ply",
+   "c08_hybrid_m",
+   "c08_ponly_xxl",
+   "v12_control",
+   "v12_hybrid_m",
+   "v12_ponly_xl",
+   "v12_ponly_xxl"
+  ],
+  "aa": [
+   "c08_control",
+   "v12_control"
+  ],
+  "workers": 6
+ },
+ "ctf_fusion_commit": "9978007a91a15ad8aa713ce5d51afb709e36f2f8",
+ "ai_test_commit": "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87",
+ "host": "DESKTOP-G60OJUD",
+ "os": "Windows-10-10.0.19045-SP0",
+ "cpu_count": 32,
+ "python": "3.14.3",
+ "wall_seconds": {
+  "build": 86.6,
+  "run": 2611.3,
+  "analyze": 13.2,
+  "total": 2711.2
+ },
+ "analysis_status": 0
+}
