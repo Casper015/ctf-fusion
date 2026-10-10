@@ -1,13 +1,13 @@
 ---
 id: T0003
 title: "P-only stage 2: value network V at fixed P"
-status: open
-owner: ""
+status: active
+owner: codex@desktop-g60ojud
 needs: [host]
 writes: [bots/p_only/report/value/]
 depends: [T0002]
 land: direct
-branch: ""
+branch: codex/t0003-p-only-stage-2-value-network-v-at-fixed
 updated: 2026-10-10
 ---
 
@@ -28,3 +28,4 @@ Not started. Command (host): `python tools/repo/task.py lock cpu --task T0003 --
 ## Log
 
 - 2026-10-10 08:52Z claude@caspers-macbook: created from bots/p_only/TASK.md and EXPERIMENTS.md
+- 2026-10-10 09:23Z codex@desktop-g60ojud: claimed (forced)
