@@ -28,16 +28,17 @@ out = ["// C08 Player5_Omega_LIT, unchanged, plus a search statistics line under
        "// (p_only/tools/derive/make_c08_control.py). The network is off (MOD_FUSION_P/V 0)."]
 for i, line in enumerate(src, 1):
     if i == 1599:
-        line = line.replace("fixedSamples);", "fixedSamples);\n#if PONLY_STATS\n        statSearches++;statSamples+=lastSearch.samples;\n#endif", 1)
+        line = line.replace("fixedSamples);", "fixedSamples);\n#if PONLY_STATS\n        statSearches++;statSamples+=lastSearch.samples;statRequested+=cfg.maxSamples;\n        statTruncated+=lastSearch.samples<cfg.maxSamples;statPlans+=lastSearch.plans;\n#endif", 1)
     if i == 2139:
         line = line.replace("auto result=planTurn(g,true);", "auto result=planTurn(g,true);searchReport(g);", 1)
     out.append(line)
     if i == 1807:
         out += ["    // Expectimax calls and joint samples (PONLY_STATS: one stderr line at the last turn).",
                 "#if PONLY_STATS",
-                "    long long statSearches=0,statSamples=0;",
+                "    long long statSearches=0,statSamples=0,statRequested=0,statTruncated=0,statPlans=0;",
                 "    void searchReport(const Game& g)const{",
-                "        if(g.turn==g.turns)std::cerr<<\"SEARCH calls \"<<statSearches<<\" samples \"<<statSamples<<std::endl;",
+                "        if(g.turn==g.turns)std::cerr<<\"SEARCH calls \"<<statSearches<<\" samples \"<<statSamples<<\" requested \"<<statRequested",
+                "                                    <<\" truncated \"<<statTruncated<<\" plans \"<<statPlans<<\" fixed 0\"<<std::endl;",
                 "    }",
                 "#else",
                 "    void searchReport(const Game&)const{}",

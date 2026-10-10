@@ -2,7 +2,7 @@
 
 This folder holds everything needed to build and test the new bots. They are the two carriers, C08 Player5_Omega_LIT and Player5 v12 (rollout_volley), with **every prediction of what opponents will do coming from the trained policy network P**. The hand-written forecasts, the habit and target guesses, and the scripted opponent moves in the lookahead and playouts are deleted, not just switched off. Our own planning is unchanged: task assignment, candidate moves, scoring, search and evaluation.
 
-The host agent's instructions are in [TASK.md](TASK.md). Start there after the quick start below.
+The host agent's instructions are in [TASK.md](TASK.md). Start there after the quick start below. The next controlled runs (capacity and sampling, then V at fixed P) are specified in [EXPERIMENTS.md](EXPERIMENTS.md).
 
 ## Quick start (host)
 
@@ -12,6 +12,8 @@ The commands run from the repository root, with the AI_Test checkout in `AI_TEST
 python -m unittest discover -s p_only/tests -v          # ~20 s: no hand-written identifiers, bundles, contract + engine comparison
 python p_only/tools/build.py --stats                     # ~2 min: 17 bundled single-file bots + build/p_only/manifest.json
 python p_only/tools/run_screen.py --smoke                # ~1 min: 10 games, relaxed limits, checks the chain (not evidence)
+python p_only/tools/run_screen.py --config p_only/profiles/screen_capacity.json   # stage 1 (EXPERIMENTS.md), 2,520 games
+python p_only/tools/run_screen.py --config p_only/profiles/screen_value.json      # stage 2 (EXPERIMENTS.md), 2,240 games
 python p_only/tools/run_screen.py --config p_only/profiles/timing.json   # 105 games: timing under screen load
 python p_only/tools/size_rule.py --apply                 # admits the C08 and v12 sizes into screen.json
 python p_only/tools/run_screen.py                        # the paired screen (p_only/profiles/screen.json), official limits
@@ -37,7 +39,10 @@ The offline structure scan is already generated at [report/STRUCTURE_SCAN.md](re
 | `tools/analyze.py` | Paired differences per team-count band with 95% intervals, re-run noise, faults, late replies, worst-game p99 and max reply time, network calls per turn, and C08 expectimax samples per call. |
 | `tools/size_rule.py` | The fixed Phase 1 rule: the largest C08 P-only size with worst-game p99 at most 40 ms and no fault or late reply; v12 at XL and XXL. `--apply` writes the screen's arms. |
 | `tools/structure_scan.py` | Offline triage of all 258 eligible bots: opponent model, lookahead, sampling, time budget, habits, joined with the light screen. |
-| `tools/record_stream.py` | Records the input a seat receives in a game, and every team's orders (the test fixtures). |
+| `tools/record_stream.py` | Records the input a seat receives in a game, and every team's orders (the test fixtures); several bots rotate over the seats. |
+| `tools/screen_runner.py` | Plays a screen fixture by fixture with the arm order rotated, binds every row to an identity digest (bundle, binary, inlined sources and models, runner, schedule, limits) and resumes only identical evidence. |
+| `profiles/screen_capacity.json`, `profiles/screen_value.json` | The next two controlled stages, with fresh seeds (EXPERIMENTS.md). |
+| `tests/replay_test.cpp` | Fixed-work replay: per turn, a digest of the network's root predictions and the reply (V-off equivalence, P unchanged by V). |
 | `tools/derive/make_*.py` | How the P-only headers and the C08 control (the original plus a stats line compiled only under PONLY_STATS; without it, identical assembly) were derived from `bots/hybrid/*_Fusion.hpp`, with every splice checked. A test re-derives them and compares. |
 | `tests/` | `test_p_only.py` (Python), `contract_test.cpp` (C++ contract), `fixtures/` (two recorded games: inputs and every team's orders). |
 | `report/` | Generated results: the structure scan now, the screen later. |

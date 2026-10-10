@@ -27,9 +27,9 @@ namespace fusion {
 #ifndef FUSION_MAX_WIDTH
 #if defined(FUSION_TIER_XXL)
 #define FUSION_MAX_WIDTH 2048
-#elif defined(FUSION_TIER_XL)
+#elif defined(FUSION_TIER_XL) || defined(FUSION_TIER_PXXL_VM)
 #define FUSION_MAX_WIDTH 1024
-#elif defined(FUSION_TIER_L)
+#elif defined(FUSION_TIER_L) || defined(FUSION_TIER_PXL_VM)
 #define FUSION_MAX_WIDTH 512
 #else
 #define FUSION_MAX_WIDTH 256

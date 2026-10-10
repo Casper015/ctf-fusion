@@ -6,6 +6,8 @@
 //             so no simulated branch reached the real history (the defect of
 //             the C08 Fusion carrier); the root view's state is this real turn
 //             and the view the planner reads at the end of the turn is the root;
+//             a simulated state predicted this turn has this real turn as its
+//             immediate parent (every unit's previous cell is its real cell now);
 //   dists     per active opponent unit: move probabilities sum to 1 over legal
 //             moves and are 0 elsewhere; act probabilities sum to 1 and are 0
 //             for acts without effect; target probabilities sum to 1 whenever
@@ -189,6 +191,17 @@ void compare(const std::vector<Unit>& units, const std::vector<Flag>& flags, con
     check(bad == nullptr, turn + 1, msg);
 }
 
+// A branch view built during this turn: its previous observation is the real turn.
+void branchParent(const ponly::View& b, const Game& g, long long& checked) {
+    if (b.state().turn != g.turn + 1 || b.state().units.size() != g.units.size()) return;
+    checked++;
+    const auto& prev = b.turnView().prevCell;
+    for (size_t i = 0; i < g.units.size(); i++) {
+        const int want = g.units[i].x >= 0 ? g.units[i].y * g.size + g.units[i].x : -1;
+        check(prev[i] == want, g.turn, "a branch's previous observation is not the real turn");
+    }
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
@@ -202,7 +215,7 @@ int main(int argc, char** argv) {
 #endif
     std::vector<Unit> previous;
     int turns = 0, stepped = 0, skipped = 0;
-    long long branches = 0, fallback = 0, inconsistent = 0;
+    long long branches = 0, fallback = 0, inconsistent = 0, parents = 0;
     const auto recorded = argc > 1 ? loadOrders(argv[1]) : std::map<int, std::vector<std::pair<int, std::string>>>{};
     // The kernel's prediction of the next real turn, compared once that turn is read.
     bool pending = false;
@@ -224,9 +237,11 @@ int main(int argc, char** argv) {
         const std::string out = g.teams == 2 ? two.decide(g) : many.decide(g);
         const fusion_hook::PSession& fs = g.teams == 2 ? two.session() : many.fSession;
         check(fs.cur == &fs.view, g.turn, "a branch view is still current after the turn");
+        branchParent(fs.branchView, g, parents);
 #else
         const std::string out = p.decide(g);
         const fusion_hook::PSession& fs = p.fSession;
+        branchParent(p.branchView, g, parents);
 #endif
         check(!out.empty() && std::stoi(out) == g.turn, g.turn, "reply does not start with the turn");
         history(fs, g, previous);
@@ -271,7 +286,7 @@ int main(int argc, char** argv) {
     check(fallback == 0, g.turn, "a prediction fell back to uniform");
     check(inconsistent == 0, g.turn, "a state handed to the network was inconsistent");
     std::printf("contract: %d turns, %d teams, %lld checks, %d failures, %lld branch views, %lld fallbacks, "
-                "%lld inconsistent, engine steps %d (skipped %d)\n",
-                turns, g.teams, checks, failures, branches, fallback, inconsistent, stepped, skipped);
+                "%lld inconsistent, engine steps %d (skipped %d), branch parents checked on %lld turns\n",
+                turns, g.teams, checks, failures, branches, fallback, inconsistent, stepped, skipped, parents);
     return failures ? 1 : 0;
 }
