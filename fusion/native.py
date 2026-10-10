@@ -87,12 +87,24 @@ def extract(stream_text: str) -> np.ndarray:
 
 
 def model_tool(tool: str, model_header: Path, namespace: str) -> Path:
-    """Build a tool that takes one exported model header (infer_check, runtime_check)."""
+    """Build a tool that takes one exported model header (infer_check, runtime_check), for its feature families."""
     model_header = Path(model_header).resolve()
-    return build(REPO / "tools" / "cpp" / f"{tool}.cpp", f"{tool}_{namespace.split('::')[-1]}", deps=[model_header],
+    pfam, vfam = model_families(model_header)
+    return build(REPO / "tools" / "cpp" / f"{tool}.cpp", f"{tool}_{namespace.split('::')[-1]}_{pfam}{vfam}", deps=[model_header],
                  defines=[f'FUSION_MODEL_HEADER="{model_header.as_posix()}"', f"FUSION_MODEL_NS={namespace}",
-                          f"FUSION_MAX_WIDTH={model_buffer_width(model_header)}"],
+                          f"FUSION_MAX_WIDTH={model_buffer_width(model_header)}",
+                          f"FUSION_POLICY_FAMILY={pfam[1:]}", f"FUSION_VALUE_FAMILY={vfam[1:]}"],
                  includes=[REPO / "inference"])
+
+
+def model_families(header: Path) -> tuple[str, str]:
+    """(policy, value) feature families from an exported header's preamble; headers without the line are p2/v2."""
+    with Path(header).open(encoding="utf-8") as f:
+        for _, line in zip(range(64), f):
+            match = re.match(r"// Feature families: policy (p\d+), value (v\d+)", line)
+            if match:
+                return match.group(1), match.group(2)
+    return "p2", "v2"
 
 
 def model_buffer_width(header: Path) -> int:

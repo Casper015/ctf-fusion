@@ -49,6 +49,15 @@ class Run:
         (self.dir / "config.json").write_text(json.dumps(self.config | extra, indent=1), encoding="utf-8")
 
 
+def run_features(schema: dict, family: str) -> dict:
+    """Config entries that bind a run to its feature family: `features`, plus the legacy `spec_version` for p2/v2."""
+    from fusion import families  # noqa: PLC0415
+    out = {"features": families.record(schema, family)}
+    if family in families.LEGACY.values():
+        out["spec_version"] = schema["spec_version"]
+    return out
+
+
 def add_training_args(ap, batch: int):
     """Arguments shared by train_policy and train_value."""
     ap.add_argument("--shards", default="data/shards")
@@ -149,13 +158,17 @@ def check_widths(widths, what: str, limit: int | None = None) -> list[int]:
     return widths
 
 
-def warm_start(model, init_run, spec_version: int | None = None) -> str | None:
+def warm_start(model, init_run, schema: dict | None = None) -> str | None:
+    """Initialize from another run of the same feature family (fusion/families.py) and the same shapes."""
     if not init_run:
         return None
-    if spec_version is not None:
+    if schema is not None:
+        from fusion import families  # noqa: PLC0415
         cfg = json.loads((Path(init_run) / "config.json").read_text(encoding="utf-8"))
-        if cfg.get("spec_version") != spec_version:
-            raise SystemExit(f"--init {init_run} was trained on feature spec v{cfg.get('spec_version')}, this run uses v{spec_version}")
+        feats = families.run_features(cfg, families.kind(model.family))
+        if feats["family"] != model.family:
+            raise SystemExit(f"--init {init_run} was trained on feature family {feats['family']}, this run uses {model.family}")
+        families.check(schema, feats, f"--init {init_run}")
     state = dict(np.load(Path(init_run) / "model.npz"))
     mine = model.state()
     for k, v in mine.items():

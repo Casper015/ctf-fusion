@@ -47,7 +47,7 @@ import numpy as np
 from fusion import metrics, quant
 from fusion.labels import STRATA
 from fusion.mixture import ADAPTERS, adapter_inputs, adapter_prob, fit_alpha
-from fusion.models import QuantizedTier, policy_batch, value_inputs
+from fusion.models import QuantizedTier
 from fusion.nn import masked_log_softmax
 from fusion.paths import model_counts, served_counts
 from fusion.schema import layout as feature_layout
@@ -119,7 +119,7 @@ def learned_joint(model, d, layout, quantized=None):
         if quantized is not None:
             logits, mask = quantized.joint_logits(rec, layout)
         else:
-            X = policy_batch(rec, layout)
+            X = model.batch(rec, layout)
             logits, mask = model.joint_logits(X), X.joint_mask
         logp = masked_log_softmax(logits.astype(np.float64), mask)
         p = np.where(mask, np.exp(logp), 0.0)
@@ -136,7 +136,7 @@ def heads(model, d, layout):
     """Act-head and target-head log-loss / accuracy at the requested move."""
     la, lt = [], []
     for idx in batches(len(d["rec"]), 4096, None):
-        X = policy_batch(d["rec"][idx], layout)
+        X = model.batch(d["rec"][idx], layout)
         move = d["y_move"][idx].astype(np.int64)
         lpa = masked_log_softmax(model.act_logits(X, move).astype(np.float64), X.act_mask(move))
         ya = d["y_act"][idx].astype(np.int64)
@@ -186,7 +186,7 @@ def policy_section(model, tier, d_fit, d_eval, layout, adapter: str, gate: dict,
     rho = fit_inertia(d_fit, layout)
     preds = {}
     w = d_eval["weight"].astype(np.float64)
-    jm = np.concatenate([policy_batch(d_eval["rec"][i], layout).joint_mask for i in batches(len(d_eval["rec"]), 8192, None)])
+    jm = np.concatenate([model.batch(d_eval["rec"][i], layout).joint_mask for i in batches(len(d_eval["rec"]), 8192, None)])
     preds["uniform"] = 1.0 / jm.sum(1)
     inertia_eval = at_label(unit_inertia(d_eval["rec"], layout, d_eval["teams"], rho), d_eval["y_move"])
     preds["inertia"] = inertia_eval.prod(1)
@@ -267,7 +267,7 @@ def policy_section(model, tier, d_fit, d_eval, layout, adapter: str, gate: dict,
 
 def value_section(model, beta, d, layout, quantized):
     """Diagnostics only: no gate approves the value network (export writes kValueApproved = false)."""
-    z = np.concatenate([model.logits(value_inputs(d["rec"][i], layout))[:, 0] for i in batches(len(d["rec"]), 8192, None)])
+    z = np.concatenate([model.logits(model.inputs(d["rec"][i], layout))[:, 0] for i in batches(len(d["rec"]), 8192, None)])
     p = 1 / (1 + np.exp(-beta * z.astype(np.float64)))
     y = d["v_y"][:, 0].astype(np.float64)
     w = d["weight"].astype(np.float64)
@@ -365,10 +365,11 @@ def main(argv=None):
         nets = export_weights.quantize_model(policy, value, beta, layout, a.max_width)
     except ValueError as exc:
         raise SystemExit(f"cannot evaluate the exported model: {exc}") from exc
-    tier = QuantizedTier(export_weights.flat_arrays(nets))
+    tier = QuantizedTier(export_weights.flat_arrays(nets), policy.family, value.family)
     counts = a.teams or served_counts(a.model) or model_counts(a.model)
-    d_eval_all = load(a.shards, counts, a.split)
-    d_fit_all = load(a.shards, counts, a.fit_split)
+    fams = (policy.family, value.family)
+    d_eval_all = load(a.shards, counts, a.split, families=fams)
+    d_fit_all = load(a.shards, counts, a.fit_split, families=fams)
     qh_ok, qh_reason, baselines = baseline_status(a.shards, counts, [a.fit_split, a.split])
     index = load_index(a.shards)
     rows = lambda d: policy_rows(d, a.shards)  # real opponents only
@@ -384,7 +385,8 @@ def main(argv=None):
              "macs": {k: export_weights.macs(q) for k, q in nets.items()} | {"joint_policy_per_team": per_turn}}
     ids = lambda d: hashlib.sha256("\n".join(sorted({index["matches"][i]["match_id"] for i in np.unique(d["match"])}))
                                    .encode()).hexdigest()[:16]
-    identity = export_weights.artifact_identity(a.model, a.policy, a.value, nets, layout, a.adapter) | {
+    features = export_weights.model_features(policy, value, layout)
+    identity = export_weights.artifact_identity(a.model, a.policy, a.value, nets, layout, a.adapter, features) | {
         "dataset": {"team_counts": counts, "options": index["options"], "split": a.split, "fit_split": a.fit_split,
                     "eval_matches": ids(d_eval_all), "fit_matches": ids(d_fit_all)},
         "baseline": {"legacy_complete": qh_ok, "reason": qh_reason, "builds": baselines}}

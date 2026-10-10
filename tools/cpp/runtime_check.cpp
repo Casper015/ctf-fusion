@@ -6,6 +6,9 @@
 //   2. The incremental value accumulator gives the same raw output as the full
 //      forward pass, for every team on every turn (moved from the previous turn).
 //
+// Any feature family: -DFUSION_POLICY_FAMILY / -DFUSION_VALUE_FAMILY (family.hpp);
+// for p3/v3 the combat summary is part of the checked per-turn path.
+//
 // Built and run by tests/test_pipeline.py (fusion.native.model_tool):
 //   g++ -std=c++20 -O2 -DFUSION_MODEL_HEADER="<header>" -DFUSION_MODEL_NS=<namespace>
 //       -Iinference tools/cpp/runtime_check.cpp -o build/runtime_check
@@ -19,6 +22,7 @@
 #include "../../inference/policy.hpp"
 #include "../../inference/sim.hpp"
 #include "../../inference/value.hpp"
+#include "family.hpp"
 #include "stream.hpp"
 #include FUSION_MODEL_HEADER
 
@@ -45,10 +49,11 @@ void operator delete(void* p, std::size_t) noexcept { std::free(p); }
 void operator delete[](void* p, std::size_t) noexcept { std::free(p); }
 
 using namespace fusion;
+using namespace fusion::tools;
 
 int main() {
-    const PolicyModel& policy = FUSION_MODEL_NS::kPolicy;
-    const ValueModel& valueModel = FUSION_MODEL_NS::kValue;
+    const PModel& policy = FUSION_MODEL_NS::kPolicy;
+    const VModel& valueModel = FUSION_MODEL_NS::kValue;
     Static st;
     if (!readInit(std::cin, st)) return 2;
     std::vector<State> blocks;
@@ -57,10 +62,11 @@ int main() {
     board.init(st);
     const Rules rules = rulesOf(st);
     TurnView view;
-    PolicyFeatures pf;
-    ValueFeatures vf;
+    PFeatures pf;
+    VFeatures vf;
+    CombatSummary cs;
     PolicyOutput out;
-    std::vector<ValueAccumulator> acc(st.teams);
+    std::vector<VAccumulator> acc(st.teams);
     std::vector<Order> orders(blocks.empty() ? 0 : blocks[0].units.size());
     Workspace ws;
     State next;
@@ -70,8 +76,9 @@ int main() {
         g_allocations = 0;
         g_counting = t > 0;  // the first turn sizes every buffer
         makeView(board, blocks[t], t ? &blocks[t - 1] : nullptr, view);
+        summarize(board, rules, blocks[t], view, cs);
         for (int team = 0; team < st.teams; team++) {
-            encodePolicy(board, blocks[t], view, team, pf);
+            encodeP(board, blocks[t], view, cs, team, pf);
             jointPolicy(policy, pf, out);
             double probs[kCand];
             for (int k = 0; k < 3; k++)
@@ -81,7 +88,7 @@ int main() {
                         targetPolicy(policy, pf, k, m, probs);
                         sink += probs[0];
                     }
-            encodeValue(board, blocks[t], view, team, vf);
+            encodeV(board, blocks[t], view, cs, team, vf);
             const double full = valueLogit(valueModel, vf);
             update(valueModel, vf, acc[team]);
             const double incremental = valueLogit(valueModel, acc[team]);

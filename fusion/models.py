@@ -4,6 +4,10 @@ The head inputs are built exactly like inference/policy.hpp builds them:
     mover/act  [global, unit k, move features of (k, move)]
     squad      [global, unit 0..2, move features of every (k, move)]
     target     [dist, hp, carrying, support, hit after the move, attacked_by_team, target_home]
+Family p3 (inference/policy_p3.hpp) appends the combat block of (k, move) to
+mover/act and all 15 combat blocks to squad; the target head is unchanged.
+Value family v2 reads the 54 legacy value features, v3 (inference/value_v3.hpp)
+appends the value extension (fusion/families.py).
 Training feeds them divided by the spec scales; the exporter folds those
 scales into the first layer so the C++ side consumes the raw integers.
 """
@@ -52,28 +56,49 @@ class PolicyBatch:
         return np.stack(cols, axis=-1)
 
 
-def policy_batch(rec: np.ndarray, layout: Layout, normalize: bool = True) -> PolicyBatch:
+def policy_batch(rec: np.ndarray, layout: Layout, normalize: bool = True, family: str = "p2") -> PolicyBatch:
+    if family not in ("p2", "p3"):
+        raise ValueError(f"not a policy family: {family}")
     dtype = np.float32 if normalize else np.int64
     g = layout.get(rec, "g").astype(dtype)
     u = layout.get(rec, "u").astype(dtype)
     m = layout.get(rec, "m").astype(dtype)
     cf = layout.get(rec, "cand_f").astype(dtype)
+    c = layout.get(rec, "pc").astype(dtype) if family == "p3" else None
     if normalize:
         g = g / layout.scale("global").astype(dtype)
         u = u / layout.scale("unit").astype(dtype)
         m = m / layout.scale("move").astype(dtype)
         cf = cf / layout.scale("cand_f").astype(dtype)
+        if c is not None:
+            c = c / layout.scale("combat").astype(dtype)
     B = len(rec)
-    mover_in = np.concatenate([np.broadcast_to(g[:, None, None, :], (B, 3, 5, g.shape[1])),
-                               np.broadcast_to(u[:, :, None, :], (B, 3, 5, u.shape[2])), m], axis=-1)
-    squad_in = np.concatenate([g, u.reshape(B, -1), m.reshape(B, -1)], axis=-1)
+    mover_parts = [np.broadcast_to(g[:, None, None, :], (B, 3, 5, g.shape[1])),
+                   np.broadcast_to(u[:, :, None, :], (B, 3, 5, u.shape[2])), m]
+    squad_parts = [g, u.reshape(B, -1), m.reshape(B, -1)]
+    if c is not None:
+        mover_parts.append(c)
+        squad_parts.append(c.reshape(B, -1))
+    mover_in = np.concatenate(mover_parts, axis=-1)
+    squad_in = np.concatenate(squad_parts, axis=-1)
     return PolicyBatch(np.ascontiguousarray(mover_in), squad_in, layout.get(rec, "legal").astype(bool),
                        layout.get(rec, "act_legal").astype(bool), cf, layout.get(rec, "cand") >= 0)
 
 
-def value_inputs(rec: np.ndarray, layout: Layout, normalize: bool = True) -> np.ndarray:
+def value_inputs(rec: np.ndarray, layout: Layout, normalize: bool = True, family: str = "v2") -> np.ndarray:
     v = layout.get(rec, "v")
-    return (v / layout.value_scale()).astype(np.float32) if normalize else v.astype(np.int64)
+    if family == "v3":
+        v = np.concatenate([v, layout.get(rec, "vx")], axis=-1)
+    elif family != "v2":
+        raise ValueError(f"not a value family: {family}")
+    return (v / layout.value_scale(family)).astype(np.float32) if normalize else v.astype(np.int64)
+
+
+def policy_widths(layout: Layout, family: str = "p2") -> dict[str, int]:
+    """Input width of each policy head (inference/policy.hpp kMoverIn / kSquadIn, policy_p3.hpp kMoverInP3 / kSquadInP3)."""
+    G, U, M = len(layout.names("global")), len(layout.names("unit")), len(layout.names("move"))
+    C = len(layout.names("combat")) if family == "p3" else 0
+    return {"mover": G + U + M + C, "squad": G + 3 * U + 15 * M + 15 * C, "act": G + U + M + C, "target": len(TARGET_COLS)}
 
 
 def combine_joint(s: np.ndarray, r: np.ndarray) -> np.ndarray:
@@ -87,16 +112,20 @@ def combine_joint(s: np.ndarray, r: np.ndarray) -> np.ndarray:
 
 
 class PolicyNet:
-    def __init__(self, layout: Layout, rng: np.random.Generator, hidden: dict | None = None):
+    def __init__(self, layout: Layout, rng: np.random.Generator, hidden: dict | None = None, family: str = "p2"):
         hidden = hidden or {"mover": [16], "squad": [64, 32], "act": [16], "target": [8]}
-        G, U, M = len(layout.names("global")), len(layout.names("unit")), len(layout.names("move"))
+        width = policy_widths(layout, family)
         self.hidden = hidden
-        self.mover = MLP([G + U + M, *hidden["mover"], 1], rng)
-        self.squad = MLP([G + 3 * U + 15 * M, *hidden["squad"], JOINT], rng)
-        self.act = MLP([G + U + M, *hidden["act"], 4], rng)
-        self.target = MLP([len(TARGET_COLS), *hidden["target"], 1], rng)
+        self.family = family
+        self.mover = MLP([width["mover"], *hidden["mover"], 1], rng)
+        self.squad = MLP([width["squad"], *hidden["squad"], JOINT], rng)
+        self.act = MLP([width["act"], *hidden["act"], 4], rng)
+        self.target = MLP([width["target"], *hidden["target"], 1], rng)
         self.beta = {"joint": 1.0, "act": 1.0, "target": 1.0}
         self.calibrated = False  # True: heads return beta * logits (evaluation and export)
+
+    def batch(self, rec: np.ndarray, layout: Layout, normalize: bool = True) -> PolicyBatch:
+        return policy_batch(rec, layout, normalize, self.family)
 
     @property
     def nets(self):
@@ -176,9 +205,13 @@ class PolicyNet:
 class ValueNet:
     HEADS = ("outcome", "capture_h", "death_h")
 
-    def __init__(self, layout: Layout, rng: np.random.Generator, hidden=(128, 16)):
+    def __init__(self, layout: Layout, rng: np.random.Generator, hidden=(128, 16), family: str = "v2"):
         self.hidden = list(hidden)
-        self.net = MLP([len(layout.value_scale()), *hidden, len(self.HEADS)], rng)
+        self.family = family
+        self.net = MLP([len(layout.value_scale(family)), *hidden, len(self.HEADS)], rng)
+
+    def inputs(self, rec: np.ndarray, layout: Layout, normalize: bool = True) -> np.ndarray:
+        return value_inputs(rec, layout, normalize, self.family)
 
     @property
     def params(self):
@@ -218,12 +251,24 @@ class QuantizedTier:
 
     NETS = ("mover", "squad", "act", "target", "value")
 
-    def __init__(self, arrays: dict):
+    def __init__(self, arrays: dict, policy_family: str | None = None, value_family: str | None = None, layout: Layout | None = None):
         self.q = {n: quant.unflatten(arrays, n) for n in self.NETS}
+        mover_in, value_in = self.q["mover"]["in"], self.q["value"]["in"]
+        if layout is not None:  # infer the families from the input widths, and check given ones against them
+            by_width = {policy_widths(layout, f)["mover"]: f for f in ("p2", "p3")}
+            v_width = {len(layout.value_scale(f)): f for f in ("v2", "v3") if all(g in layout.specs for g in layout.value_groups(f))}
+            policy_family = policy_family or by_width.get(mover_in)
+            value_family = value_family or v_width.get(value_in)
+            if policy_widths(layout, policy_family or "p2")["mover"] != mover_in:
+                raise ValueError(f"mover input {mover_in} does not match policy family {policy_family}")
+            if len(layout.value_scale(value_family or "v2")) != value_in:
+                raise ValueError(f"value input {value_in} does not match value family {value_family}")
+        self.policy_family = policy_family or "p2"
+        self.value_family = value_family or "v2"
 
     def raw(self, rec: np.ndarray, layout: Layout) -> np.ndarray:
         """Accumulators in the record layout of tools/cpp/infer_check.cpp, (R, 321) int64."""
-        X = policy_batch(rec, layout, normalize=False)
+        X = policy_batch(rec, layout, normalize=False, family=self.policy_family)
         R = len(rec)
         legal = X.legal
         mover = quant.forward_raw(self.q["mover"], X.mover_in)[..., 0] * legal
@@ -234,15 +279,16 @@ class QuantizedTier:
         for m in range(5):
             move = np.full((R, 3), m, np.int64)
             target[..., m] = quant.forward_raw(self.q["target"], X.target_in(move))[..., 0] * X.cand_valid
-        value = quant.forward_raw(self.q["value"], value_inputs(rec, layout, normalize=False))
+        value = quant.forward_raw(self.q["value"], value_inputs(rec, layout, normalize=False, family=self.value_family))
         return np.concatenate([mover.reshape(R, -1), squad, act.reshape(R, -1), target.reshape(R, -1), value], axis=1)
 
     def joint_logits(self, rec: np.ndarray, layout: Layout) -> tuple[np.ndarray, np.ndarray]:
-        X = policy_batch(rec, layout, normalize=False)
+        X = policy_batch(rec, layout, normalize=False, family=self.policy_family)
         s = quant.to_real(self.q["mover"], quant.forward_raw(self.q["mover"], X.mover_in)[..., 0])
         r = quant.to_real(self.q["squad"], quant.forward_raw(self.q["squad"], X.squad_in))
         return combine_joint(s, r), X.joint_mask
 
     def value_prob(self, rec: np.ndarray, layout: Layout) -> np.ndarray:
-        z = quant.to_real(self.q["value"], quant.forward_raw(self.q["value"], value_inputs(rec, layout, normalize=False)))[:, 0]
+        z = quant.to_real(self.q["value"], quant.forward_raw(self.q["value"], value_inputs(rec, layout, normalize=False,
+                                                                                         family=self.value_family)))[:, 0]
         return 1.0 / (1.0 + np.exp(-z))

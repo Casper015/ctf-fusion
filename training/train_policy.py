@@ -15,20 +15,20 @@ import argparse
 import numpy as np
 
 from fusion.mixture import fit_temperature
-from fusion.models import PolicyNet, policy_batch
+from fusion.models import PolicyNet
 from fusion.nn import Adam
 from fusion.schema import layout as feature_layout
 from fusion.paths import model_counts
-from training.common import (Run, add_training_args, batches, data_manifest, fit, policy_rows, resolve_hidden, subset,
-                             torch_fit, warm_start)
+from training.common import (Run, add_training_args, batches, data_manifest, fit, policy_rows, resolve_hidden,
+                             run_features, subset, torch_fit, warm_start)
 from training.dataset import load
 
 LABELS = ("y_move", "y_joint", "y_act", "y_tgt")
 
 
-def prepare(shards, counts, split, max_rows, rng, keep_unlabeled=False):
+def prepare(shards, counts, split, max_rows, rng, keep_unlabeled=False, family="p2"):
     """Policy rows of a split: valid replies from families that give labels (not the noise bot)."""
-    d = load(shards, counts, split)
+    d = load(shards, counts, split, families=(family,))
     keep = policy_rows(d, shards, keep_unlabeled)
     idx = np.nonzero(keep)[0]
     if max_rows and len(idx) > max_rows:
@@ -48,7 +48,7 @@ def evaluate(model, layout, d, cfg, size=4096):
     total, parts = 0.0, {"joint": 0.0, "act": 0.0, "target": 0.0}
     wsum = float(d["weight"].sum())
     for idx in batches(len(d["rec"]), size, None):
-        X = policy_batch(d["rec"][idx], layout)
+        X = model.batch(d["rec"][idx], layout)
         w = d["weight"][idx]
         out = model.loss(X, {k: d[k][idx] for k in LABELS}, w, cfg, backward=False)
         share = float(w.sum()) / wsum
@@ -61,7 +61,7 @@ def evaluate(model, layout, d, cfg, size=4096):
 def collect_logits(model, layout, d, size=4096):
     joint, act, tgt = [], [], []
     for idx in batches(len(d["rec"]), size, None):
-        X = policy_batch(d["rec"][idx], layout)
+        X = model.batch(d["rec"][idx], layout)
         move = d["y_move"][idx].astype(np.int64)
         joint.append(model.joint_logits(X))
         act.append((model.act_logits(X, move).reshape(-1, 4), X.act_mask(move).reshape(-1, 4)))
@@ -73,7 +73,7 @@ def collect_logits(model, layout, d, size=4096):
 def calibrate(model, layout, d):
     joint, act, tgt = collect_logits(model, layout, d)
     w = d["weight"].astype(np.float64)
-    mask = np.concatenate([policy_batch(d["rec"][i], layout).joint_mask for i in batches(len(d["rec"]), 4096, None)])
+    mask = np.concatenate([model.batch(d["rec"][i], layout).joint_mask for i in batches(len(d["rec"]), 4096, None)])
     model.beta["joint"] = fit_temperature(np.concatenate(joint), mask, d["y_joint"].astype(np.int64), w)
     w3 = np.repeat(w, 3)
     model.beta["act"] = fit_temperature(np.concatenate([a for a, _ in act]), np.concatenate([m for _, m in act]),
@@ -92,32 +92,34 @@ def main(argv=None):
     ap.add_argument("--hidden-mover", help="override preset mover hidden widths, comma-separated")
     ap.add_argument("--hidden-act", help="override preset action hidden widths, comma-separated")
     ap.add_argument("--hidden-target", help="override preset target hidden widths, comma-separated")
+    ap.add_argument("--policy-family", choices=("p2", "p3"), default="p2",
+                    help="input feature family (fusion/families.py): p2 legacy, p3 adds the combat-context block")
     ap.add_argument("--keep-unlabeled", action="store_true",
                     help="also learn from families marked policy_labels false in pool.json (the noise bot)")
     a = ap.parse_args(argv)
     hidden, capacity = resolve_hidden(a, "policy")
     rng = np.random.default_rng(a.seed)
     counts = model_counts(a.model)
-    train = prepare(a.shards, counts, "train", a.max_rows, rng, a.keep_unlabeled)
-    val = prepare(a.shards, counts, a.val_split, 0, rng, a.keep_unlabeled)
+    train = prepare(a.shards, counts, "train", a.max_rows, rng, a.keep_unlabeled, a.policy_family)
+    val = prepare(a.shards, counts, a.val_split, 0, rng, a.keep_unlabeled, a.policy_family)
     if a.count_weighting == "inv_teams":
         train["weight"] = (train["weight"] / train["teams"].astype(np.float32)).astype(np.float32)
         val["weight"] = (val["weight"] / val["teams"].astype(np.float32)).astype(np.float32)
     layout = feature_layout()
     check_labels(train, layout)
-    model = PolicyNet(layout, rng, hidden)
-    init = warm_start(model, a.init, layout.schema["spec_version"])
+    model = PolicyNet(layout, rng, hidden, a.policy_family)
+    init = warm_start(model, a.init, layout.schema)
     opt = Adam(model.params, lr=a.lr, weight_decay=a.weight_decay)
     cfg = {"smoothing": a.smoothing, "act_weight": a.act_weight, "target_weight": a.target_weight}
     run = Run(a.out, {"kind": "policy", "model": a.model, "capacity": capacity, "hidden": hidden, "args": vars(a), "seed": a.seed,
                       "init": init, "data": data_manifest(a.shards, counts),
-                      "rows": {"train": len(train["rec"]), "val": len(val["rec"])},
-                      "spec_version": layout.schema["spec_version"]})
+                      "rows": {"train": len(train["rec"]), "val": len(val["rec"])}}
+              | run_features(layout.schema, a.policy_family))
 
     def train_epoch(r):
         total, wsum = 0.0, 0.0
         for idx in batches(len(train["rec"]), a.batch, r):
-            X = policy_batch(train["rec"][idx], layout)
+            X = model.batch(train["rec"][idx], layout)
             w = train["weight"][idx]
             model.zero_grad()
             out = model.loss(X, {k: train[k][idx] for k in LABELS}, w, cfg, backward=True)

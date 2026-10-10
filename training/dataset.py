@@ -45,12 +45,14 @@ from pathlib import Path
 
 import numpy as np
 
+from fusion import families as fam
 from fusion import matchlog, native
 from fusion.labels import STRATA, label_match
 from fusion.paths import REPO, git_commit
 from fusion.schema import Layout
 
 SPLITS = (("train", 0.8), ("val", 0.1), ("test", 0.1))
+LEGACY_FAMILIES = ("p2", "v2")
 DEFAULT_KEEP = {"flag": 1.0, "contact": 1.0, "respawn": 0.6, "quiet": 0.35}
 FIELDS = ("rec", "y_move", "y_joint", "y_act", "y_tgt", "blocked", "valid", "v_y", "stratum", "weight",
           "match", "teams", "family", "turn", "team")
@@ -157,22 +159,20 @@ def load_index(shard_dir) -> dict:
     return json.loads((Path(shard_dir) / "index.json").read_text(encoding="utf-8"))
 
 
-def check_schema(shard_dir) -> None:
-    """Shards built by another feature schema cannot be mixed with this extractor's records or models."""
-    built = load_index(shard_dir)["schema"]
-    now = native.schema()
-    if built != now:
-        raise SystemExit(f"{shard_dir} was built with feature spec v{built.get('spec_version')} "
-                         f"(record width {built.get('record_width')}); the extractor is v{now['spec_version']} "
-                         f"(width {now['record_width']}): rebuild the dataset into a new --out")
+def check_schema(shard_dir, families=LEGACY_FAMILIES) -> None:
+    """Shards are usable for a model when they provide its feature families with the extractor's digests and at
+    the extractor's offsets (fusion/families.py); the record layout version may differ. Anything else must be
+    rebuilt: shards of another encoder cannot be mixed with this extractor's records or models."""
+    fam.check_shards(load_index(shard_dir)["schema"], families, str(shard_dir))
 
 
-def load(shard_dir, counts, split: str, fields=FIELDS) -> dict[str, np.ndarray]:
+def load(shard_dir, counts, split: str, fields=FIELDS, families=LEGACY_FAMILIES) -> dict[str, np.ndarray]:
     """Concatenate one split over team counts. Adds `qh` only when training.heuristic_baseline has run on every shard
-    (load_meta says how many have it and from which legacy planner)."""
+    (load_meta says how many have it and from which legacy planner). `families` are the feature families the
+    caller will read from `rec`; shards that do not provide them are refused."""
     if isinstance(counts, int):
         counts = [counts]
-    check_schema(shard_dir)
+    check_schema(shard_dir, families)
     parts, qh = [], []
     for t in counts:
         d = Path(shard_dir) / count_key(t) / split
@@ -247,7 +247,8 @@ def main(argv=None):
         if index["options"] != options:
             raise SystemExit(f"--append needs the same sampling options as the index: {index['options']}")
         if index["schema"] != native.schema():
-            raise SystemExit("the feature schema changed since this dataset was built; rebuild it into a new --out")
+            raise SystemExit("the extractor's record layout or features changed since this dataset was built; "
+                             "appending would mix layouts: rebuild it into a new --out")
     known = {m["match_id"] for m in index["matches"]}
     files = [f for f in matchlog.iter_matches(args.raw, args.teams) if f.name.split(".")[0] not in known]
     print(f"[dataset] {len(files)} new matches ({len(known)} already indexed)", flush=True)

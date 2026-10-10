@@ -174,12 +174,12 @@ class TorchAdam:
 class DeviceLayout:
     """Record slicing and scales of fusion.schema.Layout, on a device."""
 
-    def __init__(self, layout: Layout, dev):
+    def __init__(self, layout: Layout, dev, value_family: str = "v2"):
         self.layout = layout
         self.blocks = layout.blocks
         self.scales = {g: torch.tensor(layout.scale(g).astype(np.float32), device=dev)
-                       for g in ("global", "unit", "move", "cand_f")}
-        self.vscale = torch.tensor(layout.value_scale(), dtype=torch.float64, device=dev)
+                       for g in ("global", "unit", "move", "cand_f", "combat") if g in layout.specs}
+        self.vscale = torch.tensor(layout.value_scale(value_family), dtype=torch.float64, device=dev)
 
     def get(self, rec, name):
         offset, shape = self.blocks[name]
@@ -190,16 +190,21 @@ class DeviceLayout:
 class DevicePolicyBatch:
     """fusion.models.PolicyBatch built on the device from raw int16 records."""
 
-    def __init__(self, rec, dl: DeviceLayout):
+    def __init__(self, rec, dl: DeviceLayout, family: str = "p2"):
         f = torch.float32
         g = dl.get(rec, "g").to(f) / dl.scales["global"]
         u = dl.get(rec, "u").to(f) / dl.scales["unit"]
         m = dl.get(rec, "m").to(f) / dl.scales["move"]
         self.cand_f = dl.get(rec, "cand_f").to(f) / dl.scales["cand_f"]
         B = rec.shape[0]
-        self.mover_in = torch.cat([g[:, None, None, :].expand(B, 3, 5, g.shape[1]),
-                                   u[:, :, None, :].expand(B, 3, 5, u.shape[2]), m], dim=-1)
-        self.squad_in = torch.cat([g, u.reshape(B, -1), m.reshape(B, -1)], dim=-1)
+        mover = [g[:, None, None, :].expand(B, 3, 5, g.shape[1]), u[:, :, None, :].expand(B, 3, 5, u.shape[2]), m]
+        squad = [g, u.reshape(B, -1), m.reshape(B, -1)]
+        if family == "p3":  # fusion.models.policy_batch: the combat block of (k, move), and all 15 for squad
+            c = dl.get(rec, "pc").to(f) / dl.scales["combat"]
+            mover.append(c)
+            squad.append(c.reshape(B, -1))
+        self.mover_in = torch.cat(mover, dim=-1)
+        self.squad_in = torch.cat(squad, dim=-1)
         self.legal = dl.get(rec, "legal") != 0
         self.act_legal = dl.get(rec, "act_legal") != 0
         self.cand_valid = dl.get(rec, "cand") >= 0
@@ -294,6 +299,12 @@ class TorchValue:
         self.net.from_ref()
 
 
+def value_columns(rec: np.ndarray, layout: Layout, family: str) -> np.ndarray:
+    """The raw int16 value inputs of a family (fusion.models.value_inputs without the scaling)."""
+    parts = [layout.get(rec, "v")] + ([layout.get(rec, "vx")] if family == "v3" else [])
+    return np.ascontiguousarray(np.concatenate(parts, axis=-1))
+
+
 class RowSource:
     """Training rows on the device: resident when they fit the budget, else streamed in windows of whole
     minibatches gathered on the host (next window prepared in a background thread). Both paths visit rows in
@@ -370,7 +381,7 @@ class PolicyTrainer:
         total = torch.zeros((), dtype=torch.float64, device=self.dev)
         wsum = torch.zeros((), dtype=torch.float64, device=self.dev)
         for b in self.train.minibatches(order, self.batch):
-            X = DevicePolicyBatch(b["rec"], self.dl)
+            X = DevicePolicyBatch(b["rec"], self.dl, self.model.family)
             w = b["weight"]
             self.opt.zero_grad()
             loss, out = self.net.loss(X, self._y(b), w, self.cfg)
@@ -389,7 +400,7 @@ class PolicyTrainer:
         t0 = time.time()
         total = torch.zeros((), dtype=torch.float64, device=self.dev)
         for b in self.val.minibatches(np.arange(self.val.n), size):
-            X = DevicePolicyBatch(b["rec"], self.dl)
+            X = DevicePolicyBatch(b["rec"], self.dl, self.model.family)
             w = b["weight"]
             _, out = self.net.loss(X, self._y(b), w, self.cfg)
             total += out["total"].double() * w.sum().double() / self.val_wsum
@@ -406,15 +417,18 @@ class PolicyTrainer:
 
 
 class ValueTrainer:
-    """Drives TorchValue for training.common.fit; the 54 value columns are kept as int16 (resident if they fit)."""
+    """Drives TorchValue for training.common.fit; only the value columns of the model's family are kept, as int16
+    (resident if they fit, else streamed). Rows may also come as a V-only cache (`v` already the family's columns,
+    training/value_cache.py)."""
 
     def __init__(self, model: ValueNet, layout: Layout, train: dict, val: dict, cfg: dict, args, dev):
         self.model, self.cfg, self.batch, self.dev = model, cfg, args.batch, dev
-        self.dl = DeviceLayout(layout, dev)
+        self.dl = DeviceLayout(layout, dev, model.family)
         self.net = TorchValue(model, dev)
         self.opt = TorchAdam(self.net.params, lr=args.lr, weight_decay=args.weight_decay)
         budget = args.gpu_resident_gb * 2 ** 30
-        slim = lambda d: {"v": np.ascontiguousarray(layout.get(d["rec"], "v")), "v_y": d["v_y"], "weight": d["weight"]}  # noqa: E731
+        slim = lambda d: {"v": d["v"] if "v" in d else value_columns(d["rec"], layout, model.family),  # noqa: E731
+                          "v_y": d["v_y"], "weight": d["weight"]}
         self.train = RowSource(slim(train), dev, budget, args.gpu_window_rows)
         self.val = RowSource(slim(val), dev, budget, args.gpu_window_rows)
         self.val_wsum = float(val["weight"].sum())

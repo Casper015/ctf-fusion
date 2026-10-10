@@ -4,18 +4,27 @@
 // specs as JSON instead; fusion/schema.py reads it, so the layout below is
 // defined in exactly one place.
 //
+// Record layout 3 (kLayoutVersion) appends the combat block of policy family
+// p3 (`pc`) and the value extension of family v3 (`vx`) after the layout-2
+// blocks, which keep their offsets: a model of the legacy families p2 / v2
+// reads the same columns from a layout-2 or a layout-3 record. Feature
+// families are versioned apart from the layout (fusion/families.py).
+//
 //   g++ -std=c++20 -O2 tools/cpp/extract_features.cpp -o build/extract_features
 #include <cstdio>
 #include <cstring>
 #include <iostream>
 #include <vector>
 
+#include "../../inference/combat.hpp"
 #include "../../inference/features.hpp"
 #include "stream.hpp"
 
 using namespace fusion;
 
 namespace {
+
+constexpr int kLayoutVersion = 3;
 
 struct Block { const char* name; std::vector<int> shape; };
 
@@ -28,6 +37,8 @@ const std::vector<Block>& layout() {
         {"origin", {3}},         {"cand", {3, kCand}},
         {"cand_f", {3, kCand, kTF}},
         {"v", {kV}},
+        {"pc", {3, kMoves, kPC}},
+        {"vx", {kVX}},
     };
     return blocks;
 }
@@ -50,8 +61,9 @@ void printSpec(const char* name, const FeatureSpec* spec, int n, bool last) {
 }
 
 void printSchema() {
-    std::printf("{\n  \"spec_version\": %d,\n  \"record_width\": %d,\n  \"moves\": %d,\n  \"cand\": %d,\n  \"acts\": %d,\n",
-                kSpecVersion, width(), kMoves, kCand, kActs);
+    std::printf("{\n  \"spec_version\": %d,\n  \"layout_version\": %d,\n  \"combat_version\": %d,\n"
+                "  \"record_width\": %d,\n  \"moves\": %d,\n  \"cand\": %d,\n  \"acts\": %d,\n",
+                kSpecVersion, kLayoutVersion, kCombatVersion, width(), kMoves, kCand, kActs);
     std::printf("  \"layout\": [");
     int offset = 0;
     for (size_t i = 0; i < layout().size(); i++) {
@@ -71,7 +83,9 @@ void printSchema() {
     printSpec("move", kMoveSpec, kM, false);
     printSpec("cand_f", kCandSpec, kTF, false);
     printSpec("value_unit", kValueUnitSpec, kVU, false);
-    printSpec("value_agg", kValueAggSpec, kVA, true);
+    printSpec("value_agg", kValueAggSpec, kVA, false);
+    printSpec("combat", kCombatSpec, kPC, false);
+    printSpec("value_ext", kValueExtSpec, kVX, true);
     std::printf("}\n");
 }
 
@@ -88,17 +102,24 @@ int main(int argc, char** argv) {
     if (!readInit(std::cin, st)) return 1;
     Board board;
     board.init(st);
+    const Rules rules = rulesOf(st);
     State prev, now;
     bool havePrev = false;
     std::vector<int16_t> rec(width());
     PolicyFeatures pf;
     TurnView view;
     ValueFeatures vf;
+    CombatSummary cs;
+    CombatBlock cb;
+    std::array<int16_t, kVX> vx{};
     while (readTurn(std::cin, now)) {
         makeView(board, now, havePrev ? &prev : nullptr, view);
+        summarize(board, rules, now, view, cs);
         for (int team = 0; team < st.teams; team++) {
             encodePolicy(board, now, view, team, pf);
             encodeValue(board, now, view, team, vf);
+            encodeCombatPolicy(board, now, view, cs, team, cb);
+            encodeValueExt(board, now, view, cs, team, vx.data());
             int16_t* r = rec.data();
             *r++ = static_cast<int16_t>(now.turn);
             *r++ = static_cast<int16_t>(team);
@@ -111,6 +132,8 @@ int main(int argc, char** argv) {
             for (const auto& row : pf.cand) for (int v : row) *r++ = static_cast<int16_t>(v);
             for (const auto& unit : pf.candF) for (const auto& c : unit) for (int v : c) *r++ = v;
             for (int v : vf) *r++ = v;
+            for (const auto& unit : cb) for (const auto& mv : unit) for (int v : mv) *r++ = v;
+            for (int v : vx) *r++ = v;
             std::fwrite(rec.data(), sizeof(int16_t), rec.size(), stdout);
         }
         prev = now;
