@@ -1,13 +1,13 @@
 ---
 id: T0021
 title: "CI/CD: GitHub Actions for tests, board check and bot bundle releases"
-status: open
-owner: ""
+status: active
+owner: claude-ci@caspers-macbook
 needs: []
 writes: [github/, tools/repo/release_bots.py, tests/test_release_bots.py, tests/test_repo_layout.py, tests/test_generate_roster_report.py, requirements-dev.txt, CONTRIBUTING.md, AGENTS.md, README.md, docs/TECHNICAL_OVERVIEW.md, tools/README.md]
 depends: []
 land: pr
-branch: ""
+branch: claude-ci/t0021-ci-cd-github-actions-for-tests-board
 updated: 2026-10-10
 ---
 
@@ -28,3 +28,4 @@ Not started.
 ## Log
 
 - 2026-10-10 23:47Z claude@caspers-macbook: created
+- 2026-10-10 23:48Z claude-ci@caspers-macbook: claimed
