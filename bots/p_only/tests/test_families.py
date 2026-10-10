@@ -162,4 +162,4 @@ class FamilyVariants(unittest.TestCase):
                 self.assertIn(f"--out {v['models']}", v["export"])
                 if (REPO / v["models"] / "registry.hpp").exists():
                     out, _ = bundle.bundle(REPO / v["source"])
-                    self.assertNotIn('#include "', out)
+                    self.assertEqual([line for line in out.splitlines() if bundle.INCLUDE.match(line)], [], "a local include was left")

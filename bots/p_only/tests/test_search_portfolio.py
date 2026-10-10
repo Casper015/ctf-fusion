@@ -211,5 +211,49 @@ class SearchPortfolio(unittest.TestCase):
         self.assertGreater(self.counters(err, "PORTFOLIO")["cut"], 0, "the cut inside the alternatives was never exercised")
 
 
+class SearchVariantsAndReports(unittest.TestCase):
+    def test_variants_match_their_declaration(self):
+        sys.path.insert(0, str(REPO / "bots" / "p_only" / "tools"))
+        import build  # noqa: PLC0415
+        import bundle  # noqa: PLC0415
+        variants = [v for v in build.load_variants(REPO / "bots" / "p_only" / "profiles" / "variants_search.json") if v.get("role") == "search"]
+        self.assertEqual({v["name"] for v in variants}, {"c08_search_a", "c08_search_b", "c08_search_c", "c08_search_d", "v12_search_a", "v12_search_b"})
+        for v in variants:
+            text = (REPO / v["source"]).read_text(encoding="utf-8")
+            with self.subTest(variant=v["name"]):
+                self.assertEqual(f"#define PONLY_PORTFOLIO_K {v['portfolio_k']}" in text, v["portfolio_k"] > 0)
+                self.assertEqual(f"#define PONLY_PLY2_MODE {v['ply2_mode']}" in text, v["ply2_mode"] > 0)
+                self.assertIn(f'#include "{v["carrier"].lower()}_ponly_f.hpp"', text)
+                out, files = bundle.bundle(REPO / v["source"])
+                self.assertEqual([line for line in out.splitlines() if bundle.INCLUDE.match(line)], [], "a local include was left")
+                self.assertTrue(any("models_xxl/" in str(f).replace("\\", "/") for f in files), "the bundle lacks the XXL weights")
+        import json  # noqa: PLC0415
+        screen = json.loads((REPO / "bots" / "p_only" / "profiles" / "screen_search.json").read_text(encoding="utf-8"))
+        self.assertTrue(set(screen["arms"]) <= {v["name"] for v in variants})
+        self.assertNotIn(screen["seed"], (20261009, 20261020, 20261031, 20261101, 20261102, 20261107, 20261108, 20261201, 20261210, 20261211))
+
+    def test_analysis_reads_the_counters(self):
+        import json  # noqa: PLC0415
+        sys.path.insert(0, str(REPO / "bots" / "p_only" / "tools"))
+        import analyze  # noqa: PLC0415
+        tail = ["PLY2 mode 2 cache 1 predictions 100 seconds 0.5 view_calls 80 view_hits 20 view_builds 60 memo_hits 30 memo_misses 70 "
+                "diag_searches 10 diag_pairs 200 diag_move_diff 20 diag_aim_l1 5 diag_top_changed 1 diag_swaps 2 diag_compared 20 "
+                "diag_first_top_changed 2 diag_first_swaps 40 diag_first_compared 200",
+                "SEARCH calls 10 samples 640 requested 640 truncated 0 rollouts 9000 plans 200 survivors 20 fixed 64 refines 3 refine_cuts 0",
+                "PORTFOLIO k 3 moves 3 calls 10 movements 30 assignments 60 waits 4 overkill_skipped 9 searched 50 refined 6 same_move 3 cut 1"]
+        with tempfile.TemporaryDirectory() as d:
+            m = {"seats": [{"name": "@candidate"}, {"name": "x"}], "bots": [{"stderr_tail": tail}, {"stderr_tail": []}], "blocks": ["b"] * 10}
+            (Path(d) / "n02").mkdir()
+            (Path(d) / "n02" / "f-0001-abc.json.gz").write_bytes(gzip.compress(json.dumps(m).encode()))
+            row = analyze.counters(Path(d), {"abc": "armX"})["armX"]
+        self.assertEqual(row["ply2"]["mode"], 2)
+        self.assertEqual(row["ply2"]["predictions_per_search"], 10.0)
+        self.assertEqual(row["ply2"]["diag_move_diff_share"], 0.1)
+        self.assertEqual(row["ply2"]["diag_first_top_changed_share"], 0.2)
+        self.assertEqual(row["portfolio"]["k"], 3)
+        self.assertEqual(row["portfolio"]["cuts"], 1)
+        self.assertEqual(row["search_calls"], 10)
+
+
 if __name__ == "__main__":
     unittest.main()

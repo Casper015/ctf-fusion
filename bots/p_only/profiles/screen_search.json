@@ -1,0 +1,69 @@
+{
+ "_comment": "Joint-action search experiment at equal full-turn time (docs/SEARCH_PORTFOLIO.md): C08 arms A (current), B (action portfolio), C (per-branch ply-2 predictions), D (both); v12 arms A and B (v12 already predicts per branch). Committed XXL policy, V off, heuristic evaluation, depth and coefficients fixed; A/A copies of both A arms; interleaved, paired fixtures. Fresh tuning seed 20261220 (never reuse 20261009, 20261020, 20261031, 20261101, 20261102, 20261107 or 20261108, nor the reserved 20261201 (V data), 20261210 (P features) and 20261211 (V pilot)). PONLY_STATS adds the PLY2 and PORTFOLIO counters. A favourable result here is a tuning result: confirmation needs an unseen seed (T0006).",
+ "seed": 20261220,
+ "teams": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "maps_per_count": 20,
+ "workers": 6,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "keep_matches": true,
+ "variants": "bots/p_only/profiles/variants_search.json",
+ "arms": [
+  "c08_search_a",
+  "c08_search_b",
+  "c08_search_c",
+  "c08_search_d",
+  "v12_search_a",
+  "v12_search_b"
+ ],
+ "aa": [
+  "c08_search_a",
+  "v12_search_a"
+ ],
+ "comparisons": [
+  [
+   "c08_search_b",
+   "c08_search_a"
+  ],
+  [
+   "c08_search_c",
+   "c08_search_a"
+  ],
+  [
+   "c08_search_d",
+   "c08_search_a"
+  ],
+  [
+   "c08_search_d",
+   "c08_search_b"
+  ],
+  [
+   "c08_search_d",
+   "c08_search_c"
+  ],
+  [
+   "v12_search_b",
+   "v12_search_a"
+  ]
+ ],
+ "contrasts": {
+  "C08 interaction (portfolio x per-branch ply 2)": "c08_search_d-c08_search_c-c08_search_b+c08_search_a"
+ },
+ "work_dir": "data/p_only/search",
+ "report_dir": "bots/p_only/report/search_portfolio"
+}

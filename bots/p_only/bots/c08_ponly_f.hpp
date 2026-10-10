@@ -2143,7 +2143,7 @@ struct Planner {
         return true;
     }
     void vBudgetReport(const Game& g) const {
-#if PONLY_STATS
+#if PONLY_STATS && MOD_FUSION_V  // V-off builds have nothing to bound (and match logs keep only 5 stderr lines)
         if (g.turn == g.turns) std::cerr << "VBUDGET max_calls " << PONLY_V_MAX_CALLS << " deadline_ms " << PONLY_V_DEADLINE_MS
                                          << " skipped_calls " << vSkipped << " fallback_decisions " << vFallbacks << std::endl;
 #else
