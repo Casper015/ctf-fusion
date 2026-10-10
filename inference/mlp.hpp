@@ -9,7 +9,7 @@
 // Layer inputs travel as int16 (features are clipped small integers, hidden
 // activations 0..kActOne), so each layer is one call of a SIMD multiply-add
 // kernel (simd.hpp). Integer sums are exact in any order: every path gives the
-// same bits as the scalar loop (tools/kernel_check.cpp checks each path).
+// same bits as the scalar loop (tools/cpp/kernel_check.cpp checks each path).
 #ifndef FUSION_MLP_HPP
 #define FUSION_MLP_HPP
 #include <algorithm>
@@ -22,7 +22,7 @@ namespace fusion {
 
 // Widest layer input or output the fixed stack buffers (and the value
 // accumulator) hold. 256 covers the default architectures; a larger model is
-// built with -DFUSION_MAX_WIDTH=<n> (tools/capacity_bench.py measures what a
+// built with -DFUSION_MAX_WIDTH=<n> (tools/host/capacity_bench.py measures what a
 // size costs). Every exported header static_asserts its layers against it.
 #ifndef FUSION_MAX_WIDTH
 #if defined(FUSION_TIER_XXL)

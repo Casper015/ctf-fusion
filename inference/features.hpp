@@ -1,7 +1,7 @@
 // Feature encoders, feature spec v2 (see training/specs/FEATURES.md).
 //
 // This header is the single source of truth for every model input: the
-// training extractor (tools/extract_features.cpp) and the bot call the same
+// training extractor (tools/cpp/extract_features.cpp) and the bot call the same
 // functions, so training and inference cannot drift apart. Every feature is a
 // clipped small integer; training divides by `scale`, and the exporter folds
 // that division into the first layer, so inference stays integer and exact.

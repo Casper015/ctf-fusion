@@ -1,4 +1,4 @@
-"""Derive p_only/bots/c08_ponly.hpp from candidate/C08_Player5_Omega_LIT_Fusion.hpp.
+"""Derive p_only/bots/c08_ponly.hpp from bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp.
 
 Record of how the P-only carrier was made (source snapshot 99ecbe1). Every replaced
 range is checked at both ends, so the script refuses a changed source instead of
@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-src = (REPO / "candidate/C08_Player5_Omega_LIT_Fusion.hpp").read_text(encoding="utf-8").split("\n")
+src = (REPO / "bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp").read_text(encoding="utf-8").split("\n")
 edits = {}          # original line -> replacement lines ([] deletes)
 
 
@@ -560,7 +560,7 @@ HEADER = """// C08 Player5_Omega_LIT carrier with the P-only opponent model.
 // lookahead (each predicted from that state, with the root as its previous
 // observation, never written into the real history).
 //
-// Removed from candidate/C08_Player5_Omega_LIT_Fusion.hpp: the hand-written
+// Removed from bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp: the hand-written
 // movement forecasts (multi and duel) and their mixture weight, the opponent
 // goal and target guesses, attention/priority/crossfire/focus weights and the
 // last-target habit, the ground-flag pickup-versus-fire rule, the learned

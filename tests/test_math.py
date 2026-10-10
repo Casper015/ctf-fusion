@@ -167,7 +167,7 @@ class TestSpecSync(unittest.TestCase):
         import subprocess  # noqa: PLC0415
         import sys  # noqa: PLC0415
         from pathlib import Path  # noqa: PLC0415
-        tool = Path(__file__).resolve().parents[1] / "tools" / "gen_feature_spec.py"
+        tool = Path(__file__).resolve().parents[1] / "tools" / "pipeline" / "gen_feature_spec.py"
         r = subprocess.run([sys.executable, str(tool), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 

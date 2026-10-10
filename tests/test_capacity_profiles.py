@@ -65,7 +65,7 @@ class TestCapacityProfiles(unittest.TestCase):
                 load.assert_not_called()
 
     def test_shape_only_verification_capacity(self):
-        from tools import capacity_bench as cb
+        from tools.host import capacity_bench as cb
         with mock.patch.object(cb, "tier_static", side_effect=AssertionError("allocated synthetic export")):
             self.assertEqual(cb.required_width(capacity.preset("XL"), layout()), 1024)
             self.assertEqual(cb.required_width(capacity.preset("XXL"), layout()), 2048)

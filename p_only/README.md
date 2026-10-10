@@ -28,7 +28,7 @@ The offline structure scan is already generated at [report/STRUCTURE_SCAN.md](re
 | `include/ponly.hpp` | The P-only opponent model. A `View` holds the network's predictions for one state (the real root or a simulated state): joint team moves and unit marginals, P(act \| move), P(target \| attack, move), mode and seeded draws. With no model it falls back to uniform over what the rules allow, and counts every fallback. |
 | `bots/c08_ponly.hpp`, `bots/v12_ponly.hpp` | The new carriers. Each header comment lists exactly what was removed and kept. |
 | `bots/variants/*.cpp` | Thin wrappers: policy size S, M, L, XL or XXL, and the experimental value term (`_m_v`). |
-| `profiles/variants.json` | All buildable bots: the P-only variants, the C08 controls (4-turn scripted as frozen, and `c08_control_2ply` with 2-turn playouts and nothing else changed), the v12 control, and the earlier mixture ("hybrid") integrations from `candidate/`. |
+| `profiles/variants.json` | All buildable bots: the P-only variants, the C08 controls (4-turn scripted as frozen, and `c08_control_2ply` with 2-turn playouts and nothing else changed), the v12 control, and the earlier mixture ("hybrid") integrations from `bots/hybrid/`. |
 | `profiles/timing.json` | Phase 1 timing: team counts 8, 12 and 15, every C08 P-only size and v12 at XL and XXL, at the screen's worker count. |
 | `profiles/screen.json` | The paired screen: arms (the C08 P-only size set by `size_rule.py --apply`), re-run (A/A) copies, comparisons, seed 20261031, 20 maps per count. |
 | `tools/bundle.py` | Inlines a bot's local includes into one `.cpp`, the file a judge compiles and the identity a screen records. |
@@ -38,7 +38,7 @@ The offline structure scan is already generated at [report/STRUCTURE_SCAN.md](re
 | `tools/size_rule.py` | The fixed Phase 1 rule: the largest C08 P-only size with worst-game p99 at most 40 ms and no fault or late reply; v12 at XL and XXL. `--apply` writes the screen's arms. |
 | `tools/structure_scan.py` | Offline triage of all 258 eligible bots: opponent model, lookahead, sampling, time budget, habits, joined with the light screen. |
 | `tools/record_stream.py` | Records the input a seat receives in a game, and every team's orders (the test fixtures). |
-| `tools/derive/make_*.py` | How the P-only headers and the C08 control (the original plus a stats line compiled only under PONLY_STATS; without it, identical assembly) were derived from `candidate/*_Fusion.hpp`, with every splice checked. A test re-derives them and compares. |
+| `tools/derive/make_*.py` | How the P-only headers and the C08 control (the original plus a stats line compiled only under PONLY_STATS; without it, identical assembly) were derived from `bots/hybrid/*_Fusion.hpp`, with every splice checked. A test re-derives them and compares. |
 | `tests/` | `test_p_only.py` (Python), `contract_test.cpp` (C++ contract), `fixtures/` (two recorded games: inputs and every team's orders). |
 | `report/` | Generated results: the structure scan now, the screen later. |
 

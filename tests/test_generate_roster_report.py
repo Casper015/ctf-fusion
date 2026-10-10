@@ -1,10 +1,10 @@
-"""Unit test for tools/generate_roster_report.py."""
+"""Unit test for tools/reporting/generate_roster_report.py."""
 import json
 import tempfile
 import unittest
 from pathlib import Path
 
-from tools.generate_roster_report import generate_report
+from tools.reporting.generate_roster_report import generate_report
 
 
 class TestGenerateRosterReport(unittest.TestCase):

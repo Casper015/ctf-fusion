@@ -1,6 +1,6 @@
 # Phase A: opponent evidence, open training admission and frozen evaluation
 
-The `roster/` package provides inventory, probes, behavior distances, strength evidence, assessments, the open training registry with its hierarchical sampler, a frozen evaluation roster writer and a fixed-panel pool writer. The updated handoff now requires an **open training pool with no 15-bot cap**, plus a separate frozen evaluation roster: [admission plan](../handoffs/diverse15_distance_tiered_policy/BOT_SELECTION_PLAN.md), [grouping/sampling review](../handoffs/diverse15_distance_tiered_policy/BOT_GROUP_AND_SAMPLING_REVIEW.md).
+The `roster/` package provides inventory, probes, behavior distances, strength evidence, assessments, the open training registry with its hierarchical sampler, a frozen evaluation roster writer and a fixed-panel pool writer. The updated handoff now requires an **open training pool with no 15-bot cap**, plus a separate frozen evaluation roster: [admission plan](handoffs/diverse15_distance_tiered_policy/BOT_SELECTION_PLAN.md), [grouping/sampling review](handoffs/diverse15_distance_tiered_policy/BOT_GROUP_AND_SAMPLING_REVIEW.md).
 
 The tools are built and tested on synthetic and replayed data. Fingerprints, strength confirmation and the reviewed admission file remain host work. The fixed-size panel commands are a reference-panel workflow, not a limit on training membership. No final pool or panel is claimed here.
 
@@ -51,7 +51,7 @@ python -m roster.strength schedule --maps-per-count 715 --seed 7 --out data/rost
 python -m roster.strength run --schedule data/roster/confirm_schedule.json --inventory roster/bots/inventory.json --only <finalists> --results data/roster/confirm_results.jsonl
 python -m roster.strength aggregate --results data/roster/confirm_results.jsonl --inventory roster/bots/inventory.json --schedule data/roster/confirm_schedule.json --out data/roster/strength_confirm.json
 python -m roster.catalog --assessments data/roster/bot_assessments.json --distance data/roster/behavior_distance.json --strength data/roster/strength_confirm.json --review data/roster/roster_review.json
-python handoffs/diverse15_distance_tiered_policy/tools/select_roster.py --input data/roster/roster_evidence.json --out data/roster/selected15.json
+python docs/handoffs/diverse15_distance_tiered_policy/tools/select_roster.py --input data/roster/roster_evidence.json --out data/roster/selected15.json
 python -m roster.registry freeze-eval --inventory roster/bots/inventory.json --selected data/roster/selected15.json --registry profiles/open_training_pool.json --name core15 --out profiles/frozen_eval_roster.json
 ```
 
@@ -97,7 +97,7 @@ All builds succeeded. Code aliases include the stress-pack copies of the judge b
 
 **Shortlist (`roster.shortlist`).** From a distance file, it merges bots within 0.05 corrected excess of each other into families (complete linkage) and keeps one representative per family. It ranks families by the distance to their nearest neighbor: core at 0.10 or more, distinct at 0.05 or more, near below that. Family members that are certified different at specific team counts are kept for those counts. It writes a ranked [SHORTLIST.md](../roster/report/selection/SHORTLIST.md) and a draft admission file for `roster.registry build`. First host run: 78 families (32 core, 19 distinct, 27 near) and 13 specialists. The draft admits 64 bots, and `profiles/open_training_pool.json` is built from it, pending a person's review.
 
-**Light strength screen (`tools/run_light_screen.py`, `roster.tiers`).** A paired screen of the admitted bots: 5 maps × 14 team counts = 70 games each, against the frozen reference roster under the official limits. It sorts bots into three tiers against parity with the reference field (above, level, below), flags bots that are unreliable at 50 ms, and rebuilds the pool from a screened admission: strong reliable bots join the field, unreliable bots drop out. One command on the host; see [roster/report/screen_light/README.md](../roster/report/screen_light/README.md).
+**Light strength screen (`tools/screens/run_light_screen.py`, `roster.tiers`).** A paired screen of the admitted bots: 5 maps × 14 team counts = 70 games each, against the frozen reference roster under the official limits. It sorts bots into three tiers against parity with the reference field (above, level, below), flags bots that are unreliable at 50 ms, and rebuilds the pool from a screened admission: strong reliable bots join the field, unreliable bots drop out. One command on the host; see [roster/report/screen_light/README.md](../roster/report/screen_light/README.md).
 
 **Probes.** A probe is one seat of one recorded match, replayed from turn 1, so a bot always sees a complete, valid history. Every bot answers the same probes. The history was produced by other bots' orders, which is the price of identical states; on-policy behavior comes from the screen's live matches, which `--keep-matches` stores.
 
@@ -109,7 +109,7 @@ Selection is deterministic: per team count, matches with the most distinct seat 
 
 **Evidence identity.** Each run records the bot's source and dependency hashes, the suite identity (probes, feature spec, tag rules), the probe identity, repeat and limits, and is stored under a file name that includes that identity. Changed code or a re-frozen suite therefore never resumes or overwrites old runs. `distance` and `assess` keep only runs that match the suite and the inventory, and report the rest as `stale_runs`. Strength rows carry source, engine and schedule identities; `aggregate --inventory --schedule` drops rows of old code or another schedule, and refuses to mix two source hashes of one bot without an inventory.
 
-**Distance (v2, [fingerprint review](../reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md) P0).** For each pair of bots on a probe, the support is fixed by the state: turns where every run of both bots replied validly, and units on the board. On that support, three categorical channels per unit have fixed weights:
+**Distance (v2, [fingerprint review](../reports/reviews/FINGERPRINT_EFFECTIVENESS_REVIEW.md) P0).** For each pair of bots on a probe, the support is fixed by the state: turns where every run of both bots replied validly, and units on the board. On that support, three categorical channels per unit have fixed weights:
 
 - `move`: the canonical requested move, weight 0.5;
 - `action`: wait, pickup, drop or attack, weight 0.3;

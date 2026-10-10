@@ -35,7 +35,7 @@ def _digest(paths, extra) -> str:
 def build(source: Path, name: str, deps=(), defines=(), includes=()) -> Path:
     """Compile `source` into build/<name>-<hash>; deps are extra files that invalidate the cache."""
     source = Path(source)
-    deps = [source, *deps, *sorted((REPO / "inference").glob("*.hpp")), *sorted((REPO / "tools").glob("*.hpp"))]
+    deps = [source, *deps, *sorted((REPO / "inference").glob("*.hpp")), *sorted((REPO / "tools" / "cpp").glob("*.hpp"))]
     key = _digest(deps, (FLAGS, tuple(defines), tuple(map(str, includes)), compiler()))
     out = BUILD / f"{name}-{key}{EXE}"
     if out.is_file():
@@ -52,7 +52,7 @@ def build(source: Path, name: str, deps=(), defines=(), includes=()) -> Path:
 
 @lru_cache(maxsize=1)
 def extractor() -> Path:
-    return build(REPO / "tools" / "extract_features.cpp", "extract_features")
+    return build(REPO / "tools" / "cpp" / "extract_features.cpp", "extract_features")
 
 
 @lru_cache(maxsize=1)
@@ -89,7 +89,7 @@ def extract(stream_text: str) -> np.ndarray:
 def model_tool(tool: str, model_header: Path, namespace: str) -> Path:
     """Build a tool that takes one exported model header (infer_check, runtime_check)."""
     model_header = Path(model_header).resolve()
-    return build(REPO / "tools" / f"{tool}.cpp", f"{tool}_{namespace.split('::')[-1]}", deps=[model_header],
+    return build(REPO / "tools" / "cpp" / f"{tool}.cpp", f"{tool}_{namespace.split('::')[-1]}", deps=[model_header],
                  defines=[f'FUSION_MODEL_HEADER="{model_header.as_posix()}"', f"FUSION_MODEL_NS={namespace}",
                           f"FUSION_MAX_WIDTH={model_buffer_width(model_header)}"],
                  includes=[REPO / "inference"])
@@ -114,7 +114,7 @@ def model_buffer_width(header: Path) -> int:
 
 
 def infer_check(model_header: Path, namespace: str) -> Path:
-    """Parity driver for one exported model header (see tools/infer_check.cpp)."""
+    """Parity driver for one exported model header (see tools/cpp/infer_check.cpp)."""
     return model_tool("infer_check", model_header, namespace)
 
 
@@ -124,7 +124,7 @@ def run_tool(binary: Path, stdin: bytes = b"", args=()) -> subprocess.CompletedP
 
 @lru_cache(maxsize=1)
 def sim_check() -> Path:
-    return build(REPO / "tools" / "sim_check.cpp", "sim_check")
+    return build(REPO / "tools" / "cpp" / "sim_check.cpp", "sim_check")
 
 
 def sim_check_match(match: dict, workdir: Path) -> tuple[bool, str]:
@@ -139,7 +139,7 @@ def sim_check_match(match: dict, workdir: Path) -> tuple[bool, str]:
     return r.returncode == 0, (r.stdout.decode() + r.stderr.decode()).strip()
 
 
-INFER_RECORD = 3 * 5 + 125 + 3 * 5 * 4 + 3 * 8 * 5 + 1  # int32 per (turn, team), tools/infer_check.cpp
+INFER_RECORD = 3 * 5 + 125 + 3 * 5 * 4 + 3 * 8 * 5 + 1  # int32 per (turn, team), tools/cpp/infer_check.cpp
 
 
 def run_infer_check(binary: Path, stream_text: str, rows: int) -> np.ndarray:
@@ -178,8 +178,8 @@ def forecast_dump(ai_test: Path) -> Path:
 
 
 def kernel_check(simd: bool = True, width: int = 1024) -> Path:
-    """Bit-exact parity of the SIMD multiply-add kernels against the original scalar loop (tools/kernel_check.cpp)."""
-    return build(REPO / "tools" / "kernel_check.cpp", f"kernel_check_w{width}{'' if simd else '_scalar'}",
+    """Bit-exact parity of the SIMD multiply-add kernels against the original scalar loop (tools/cpp/kernel_check.cpp)."""
+    return build(REPO / "tools" / "cpp" / "kernel_check.cpp", f"kernel_check_w{width}{'' if simd else '_scalar'}",
                  defines=[f"FUSION_MAX_WIDTH={width}", f"FUSION_SIMD={int(simd)}"])
 
 
@@ -190,21 +190,21 @@ def run_kernel_check(cases: int = 300) -> tuple[bool, str]:
 
 
 def size_bench(width: int, simd: bool = True) -> Path:
-    """The capacity workload driver (tools/size_bench.cpp), with or without the SIMD kernels."""
-    return build(REPO / "tools" / "size_bench.cpp", f"size_bench_w{width}{'' if simd else '_scalar'}",
+    """The capacity workload driver (tools/cpp/size_bench.cpp), with or without the SIMD kernels."""
+    return build(REPO / "tools" / "cpp" / "size_bench.cpp", f"size_bench_w{width}{'' if simd else '_scalar'}",
                  defines=[f"FUSION_MAX_WIDTH={width}", f"FUSION_SIMD={int(simd)}"])
 
 
 @lru_cache(maxsize=1)
 def adapter_check() -> Path:
-    """Exact probabilities and empirical draws of inference/adapter.hpp (tools/adapter_check.cpp)."""
-    return build(REPO / "tools" / "adapter_check.cpp", "adapter_check")
+    """Exact probabilities and empirical draws of inference/adapter.hpp (tools/cpp/adapter_check.cpp)."""
+    return build(REPO / "tools" / "cpp" / "adapter_check.cpp", "adapter_check")
 
 
 def registry_check(models_dir: Path) -> Path:
-    """Dispatch printer compiled against <models_dir>/registry.hpp (tools/registry_check.cpp)."""
+    """Dispatch printer compiled against <models_dir>/registry.hpp (tools/cpp/registry_check.cpp)."""
     models_dir = Path(models_dir).resolve()
     deps = sorted(models_dir.glob("*.hpp"))
     width = max((model_buffer_width(p) for p in deps), default=256)
-    return build(REPO / "tools" / "registry_check.cpp", "registry_check", deps=deps,
+    return build(REPO / "tools" / "cpp" / "registry_check.cpp", "registry_check", deps=deps,
                  defines=[f"FUSION_MAX_WIDTH={width}"], includes=[models_dir, REPO / "inference"])

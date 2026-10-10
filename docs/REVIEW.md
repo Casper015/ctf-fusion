@@ -85,7 +85,7 @@ The pipeline implements that ([MODEL_MATRIX.md](../training/specs/MODEL_MATRIX.m
 
 ### 3.3 One feature implementation, in C++
 
-**One implementation for training and inference.** The extractor (`tools/extract_features.cpp`) and the bot call the same `inference/features.hpp`, so training/inference skew is impossible by construction. Python never reimplements game geometry.
+**One implementation for training and inference.** The extractor (`tools/cpp/extract_features.cpp`) and the bot call the same `inference/features.hpp`, so training/inference skew is impossible by construction. Python never reimplements game geometry.
 
 **Checked against the engine.** The engine-derived rules (spawn order and phase-1 respawns, `can_attack`, flag availability) are checked against the official `engine.py` in `tests/test_pipeline.py`. Respawn predictions are compared with the engine's actual respawn events.
 
@@ -109,7 +109,7 @@ The brief proposes integrating V first. This repository recommends P first:
 
 ### 3.6 Duels: not saturated after all
 
-The first version of this section called the duel saturated: every top candidate won 92.2% of track-1 duels, and habit models lost 8.8 points. Those duels were all against Baseline. Against strong opponents the picture is different ([DUEL_REVIEW.md](DUEL_REVIEW.md); AI_Test `ctf-s1-controls/results/ANALYSIS.md`):
+The first version of this section called the duel saturated: every top candidate won 92.2% of track-1 duels, and habit models lost 8.8 points. Those duels were all against Baseline. Against strong opponents the picture is different ([DUEL_REVIEW.md](benchmark/DUEL_REVIEW.md); AI_Test `ctf-s1-controls/results/ANALYSIS.md`):
 - the duel ceiling is Astra and Sol (the control wins about 46–48%);
 - duel planners differ by several points against single opponents. CFL scores +6.2 over Player2's duel play against Player5 (pooled over 7,626 duels). CFL + expectimax scores +4.1 against Astra and +2.7 against Sol over CFL alone, but −5.1 against Baseline;
 - online habit models move duels opponent by opponent (+5.4 against Player5, −3.0 against Astra), for a net of zero.
@@ -126,7 +126,7 @@ Opponent modeling clearly changes duel results, in both directions, so a learned
 - **`joint-v2` (default).** One mixture choice per opponent team and scenario. With probability α the whole team move comes from the network's 125-way joint, and the team's actions from the network's act and target heads conditioned on those moves (`drawAct`). Otherwise every unit draws from q_H and fires as the legacy planner says.
 - **`marginal-v1`.** Kept as an option, and scored as itself: the gate then fits the product of the integer model's mixed marginals.
 - Both give each unit the same marginal, `(1-α) qH_k + α qNN_k` (`mixedMarginal`), so analytic search terms (expected incoming fire) use it under either.
-- The gate fits α for one adapter, the report records it, the exporter refuses a different one, and the header carries `kAdapter`. `tools/adapter_check.cpp` checks that the C++ probabilities equal the Python ones and that `drawTeam` samples them.
+- The gate fits α for one adapter, the report records it, the exporter refuses a different one, and the header carries `kAdapter`. `tools/cpp/adapter_check.cpp` checks that the C++ probabilities equal the Python ones and that `drawTeam` samples them.
 
 ### 3.8 Things deliberately not built yet
 
@@ -183,7 +183,7 @@ A static review of commit `34a83b0` checked the data and deployment contracts be
 
 | Finding | Fix | Checked by |
 |---|---|---|
-| **P1. Windows corrupts raw tool output.** `extract_features` and `infer_check` wrote binary records to a text-mode stdout; on Windows every `0x0A` byte becomes `0x0D 0x0A`. | Both switch stdout to `_O_BINARY` (`tools/stream.hpp` `binaryStdout`). `fusion.native` checks the byte count and every record's turn and team columns. | `test_contracts`: a stream whose records contain `0x0A`, `0x0D` and `0x1A`; `env_check.py` repeats the check on the host |
+| **P1. Windows corrupts raw tool output.** `extract_features` and `infer_check` wrote binary records to a text-mode stdout; on Windows every `0x0A` byte becomes `0x0D 0x0A`. | Both switch stdout to `_O_BINARY` (`tools/cpp/stream.hpp` `binaryStdout`). `fusion.native` checks the byte count and every record's turn and team columns. | `test_contracts`: a stream whose records contain `0x0A`, `0x0D` and `0x1A`; `env_check.py` repeats the check on the host |
 | **The gate scored a different distribution from the planned adapter.** Joint mixture offline, independent unit mixtures at runtime (§3.7). | One declared adapter per artifact (`joint-v2` by default; `marginal-v1` scored as itself), in C++ and Python, recorded in the report and the header. | `test_contracts`: C++ probabilities equal Python's to 1e-12; 400k draws match them; the coordination example |
 | **Missing q_H switched the comparison to inertia**, so a model could be approved against the wrong baseline. | Without a complete, single-build q_H the gate stays closed; inertia is only a diagnostic. `heuristic_baseline` records the baseline's source digest per shard. | `test_pipeline`: an incomplete baseline closes the gate |
 | **The gate used float predictions.** | `evaluate_offline` quantizes the runs exactly as the exporter does and gates the integer model (temperatures folded in). | Report columns `learned` (float, diagnostic) and `quantized` |
@@ -195,7 +195,7 @@ A static review of commit `34a83b0` checked the data and deployment contracts be
 | **Scope.** V is not a delivery value; latency is unmeasured; the duel was not saturated. | §3.8, §3.1 and §3.6 now say so; α gates only P (`kValueApproved = false`). | — |
 
 Order from here:
-1. Run `tools/env_check.py` on the Windows host: binary records, integer parity, runtime contract, simulator coverage, timing.
+1. Run `tools/host/env_check.py` on the Windows host: binary records, integer parity, runtime contract, simulator coverage, timing.
 2. Collect E0.
 3. Train the general P and a few dedicated models.
 4. Scale only what beats q_H through the declared adapter.

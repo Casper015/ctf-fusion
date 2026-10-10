@@ -310,7 +310,7 @@ class TestStrength(unittest.TestCase):
 
 
 def load_selector():
-    path = REPO / "handoffs" / "diverse15_distance_tiered_policy" / "tools" / "select_roster.py"
+    path = REPO / "docs" / "handoffs" / "diverse15_distance_tiered_policy" / "tools" / "select_roster.py"
     spec = importlib.util.spec_from_file_location("select_roster", path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)

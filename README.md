@@ -10,12 +10,14 @@ Opponent policy and board value networks for the multi-team Capture The Flag bot
 
 **First time here?** [docs/FIRST_RUN.md](docs/FIRST_RUN.md) takes a fresh checkout through setup, checks, a 2-minute pilot and the first full roster run of the 130 archived bots, step by step.
 
+**Changing something?** [CONTRIBUTING.md](CONTRIBUTING.md) says where a file goes, what is committed, how to name branches and commits, and what must pass before a push.
+
 **Design and decisions:**
 - [docs/DESIGN.md](docs/DESIGN.md): the design brief.
 - [docs/REVIEW.md](docs/REVIEW.md): decisions and experiment order.
 - [training/specs/](training/specs/README.md): the contracts — features, action indexing, data format, the 22-model matrix, simulator audit, environment.
 - [docs/ROSTER.md](docs/ROSTER.md): Phase A, evaluating every candidate opponent, admitting an open training pool sampled by behavior group, and freezing evaluation rosters (`roster/`).
-- [reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md](reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md): source-backed fingerprint audit and proposed v2 plan for noise/support corrections, flag/survival/combat profiles and useful-novelty validation. Stages 0–2 (evidence identity and coverage, fixed-support distances with evidence states, live outcomes) are implemented; see [docs/ROSTER.md](docs/ROSTER.md).
+- [reports/reviews/FINGERPRINT_EFFECTIVENESS_REVIEW.md](reports/reviews/FINGERPRINT_EFFECTIVENESS_REVIEW.md): source-backed fingerprint audit and proposed v2 plan for noise/support corrections, flag/survival/combat profiles and useful-novelty validation. Stages 0–2 (evidence identity and coverage, fixed-support distances with evidence states, live outcomes) are implemented; see [docs/ROSTER.md](docs/ROSTER.md).
 
 **Status:**
 - **Done:**
@@ -26,9 +28,9 @@ Opponent policy and board value networks for the multi-team Capture The Flag bot
   - no model trained on real data;
   - nothing integrated into a bot;
   - no Windows run;
-  - no host latency baseline. Every latency figure in this repository is an estimate until `tools/env_check.py` runs on the host.
+  - no host latency baseline. Every latency figure in this repository is an estimate until `tools/host/env_check.py` runs on the host.
 
-The baseline comes from `tools/env_check.py` on the target host, never from a development machine.
+The baseline comes from `tools/host/env_check.py` on the target host, never from a development machine.
 
 ## How it fits together
 
@@ -41,7 +43,7 @@ AI_Test engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶
                                           │ train_policy.py / train_value.py  --model general, then --model nXX --init general
                                           ▼
                                    runs/<policy|value>_<model>/  (model.npz + config.json with data digest, seed, commits)
-                                          │ evaluate_offline.py ──▶ reports/<model>.md/.json  (alpha + use gate per team count)
+                                          │ evaluate_offline.py ──▶ reports/models/s/<model>.md/.json  (alpha + use gate per team count)
                                           │ export_weights.py
                                           ▼
               inference/models/weights_<model>.hpp, MANIFEST.json, registry.hpp (forTeams dispatch)
@@ -56,7 +58,7 @@ AI_Test engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶
 **Safety properties, each enforced by a test:**
 - **One feature implementation.** Features exist once, in C++ (`inference/features.hpp`), shared by the extractor and the bot.
 - **Exact integer inference.** The network accumulators (and so the logits) are integer and bit-identical to the Python emulation; the incremental value accumulator equals the full pass. Probabilities come from `exp` in double precision, so they can differ in the last bits across platforms.
-- **SIMD multiply-add kernels, same bits.** Layers run on 16-bit multiply-add kernels (`inference/simd.hpp`): AVX2 chosen at runtime on x86-64, SSE2 otherwise (every x86-64 CPU, no compiler flags), NEON on ARM, scalar elsewhere or with `-DFUSION_SIMD=0`. Integer sums are exact in any order, so every path gives the scalar loop's bits; `tools/kernel_check.cpp` checks each path the CPU runs (tests, `env_check`, `capacity_bench`).
+- **SIMD multiply-add kernels, same bits.** Layers run on 16-bit multiply-add kernels (`inference/simd.hpp`): AVX2 chosen at runtime on x86-64, SSE2 otherwise (every x86-64 CPU, no compiler flags), NEON on ARM, scalar elsewhere or with `-DFUSION_SIMD=0`. Integer sums are exact in any order, so every path gives the scalar loop's bits; `tools/cpp/kernel_check.cpp` checks each path the CPU runs (tests, `env_check`, `capacity_bench`).
 - **Byte-exact tool output.** Raw-record tools write binary stdout on Windows too, and every record's turn and team columns are checked on read.
 - **No heap use per turn.** Nothing allocates on the per-turn path after turn 1.
 - **Engine-exact simulator.** `inference/sim.hpp` reproduces every recorded engine turn.
@@ -67,28 +69,64 @@ AI_Test engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶
 
 ## Layout
 
+Everything tracked belongs to exactly one of the folders below. **Where does my file go, and what may I commit?** See [CONTRIBUTING.md](CONTRIBUTING.md); it is enforced by `tests/test_repo_layout.py`.
+
 ```text
-docs/             DESIGN (brief), REVIEW (decisions + plan), SOURCES, BENCHMARK_REVIEW / BENCHMARK_5PLUS (heuristic benchmark analysis)
-benchmarks/       games_5plus.csv.gz: cleaned per-game rows (5+ teams) of AI_Test ctf-benchmark-v3
-training/specs/   FEATURES (generated), ACTIONS, DATA_FORMAT, MODEL_MATRIX, SIMULATOR_AUDIT, ENVIRONMENT
-profiles/         n02.json ... n15.json, general.json (matrix, search proposals, budgets, collection), pool.json (opponents)
-fusion/           paths, runner (Windows-safe bots), native (C++ tool builds), schema, matchlog, protocol, labels,
-                  nn (numpy MLP + Adam), models, quant (integer format + exact emulation), mixture, metrics
-training/         collect, dataset, heuristic_baseline, train_policy, train_value, evaluate_offline, export_weights, common
-inference/        state.hpp, features.hpp, simd.hpp (multiply-add kernels), mlp.hpp, policy.hpp,
-                  value.hpp (accumulator, exact terminal value),
-                  adapter.hpp (q_H + q_theta deployment contract), sim.hpp (simulator);
-                  models/weights_<model>.hpp + registry.hpp (generated)
-tools/            extract_features, infer_check, runtime_check, sim_check, registry_check, adapter_check, kernel_check,
-                  bench_inference, size_bench (C++); env_check.py (host check), capacity_bench.py (how big the models can be),
-                  generate_multithreading_report.py / analyze_multithreading.py (loaded vs isolated capacity runs),
-                  gen_feature_spec.py, random_bot.py (test bot), stream.hpp
-roster/           Phase A: inventory, archive, probes, fingerprint, distance, strength, trajectory, assess, registry, sampling, catalog, pool (docs/ROSTER.md)
-  bots/           every inventoried bot source by sha256, manifest, inventory snapshot and README (names, origins, how to run)
-  new_bots/       136 more CTF bots found in AI_Test (8 independent, 128 forks), with a full-roster inventory (roster.newbots)
-tests/            test_math (gradients, quantization, convex fits, spec sync), test_contracts (binary records, v2 features,
-                  adapter, widths, gate identity; no AI_Test needed), test_roster (Phase A tools), test_pipeline (end to end)
+README.md, CONTRIBUTING.md        this map and the rules for using the repository
+requirements.txt, compile_flags.txt, .gitignore, .gitattributes
+
+── code ────────────────────────────────────────────────────────────────────────────────
+fusion/           Python core: paths, runner (Windows-safe bots), native (C++ tool builds), schema, matchlog,
+                  protocol, labels, nn (numpy MLP + Adam), models, quant (integer format + exact emulation),
+                  mixture, metrics, capacity, torch_backend
+training/         pipeline commands: collect, dataset, heuristic_baseline, train_policy, train_value,
+                  evaluate_offline, export_weights, common; specs/ = the contracts (FEATURES generated, ACTIONS,
+                  DATA_FORMAT, MODEL_MATRIX, SIMULATOR_AUDIT, ENVIRONMENT)
+roster/           Phase A, the opponent roster: inventory, archive, probes, fingerprint, distance, strength,
+                  trajectory, assess, registry, sampling, catalog, pool (docs/ROSTER.md)
+  bots/           every inventoried bot source by sha256, manifest, inventory snapshot (vendored, never edit)
+  new_bots/       136 more CTF bots found in AI_Test (8 independent, 128 forks), with a full-roster inventory
+  report/         Phase A results (fingerprints, distances, strength screen, admission, training selection)
+inference/        C++ headers that ship in a bot: state, features, simd, mlp, policy, value, adapter, sim;
+                  models/ (tier S) and models_m, models_l, models_xl, models_xxl = generated weights + registry.hpp
+tests/            test_math, test_contracts, test_roster, test_pipeline, test_capacity_profiles,
+                  test_generate_roster_report, test_repo_layout
+
+── configuration ───────────────────────────────────────────────────────────────────────
+profiles/         n02.json ... n15.json, general.json (the model matrix), pool.json + open_training_pool*.json
+                  (opponents), screen_light.json
+
+── bots we build ───────────────────────────────────────────────────────────────────────
+bots/hybrid/      C08 and Player5 v12 carriers with the mixture integration (<carrier>_Fusion.hpp + one thin
+                  wrapper .cpp per policy size, control and pvl variants)
+p_only/           the P-only bots: self-contained sub-project with its own include/, bots/, tools/, tests/,
+                  profiles/ and report/ (p_only/README.md, p_only/TASK.md)
+
+── tools ───────────────────────────────────────────────────────────────────────────────
+tools/cpp/        C++ contract checks and benchmark drivers, compiled by fusion/native.py (infer_check, sim_check,
+                  kernel_check, adapter_check, registry_check, runtime_check, size_bench, bench_inference, ...)
+tools/host/       run on the target machine: env_check, capacity_bench, bench_training
+tools/pipeline/   steps that produce committed inputs: train_tier_ladder, recommend_training_pool,
+                  check_pilot_evidence, build_carrier_variants, gen_feature_spec, fetch_benchmark
+tools/screens/    match-playing experiments: run_light_screen, run_carrier_screen, run_standard_bt_tournament,
+                  run_v_ablation_screen and their smoke tests
+tools/reporting/  report generators and analyses: generate_*_report, benchmark_*, duel_review, export_results, plots
+tools/random_bot.py, tools/noise_bot.py   test opponents; committed pools name them by path, so they stay put
+
+── results and documents ───────────────────────────────────────────────────────────────
+reports/models/   offline gate report per model: s/ m/ l/ xl/ xxl/ (n02.md/.json ... general.md/.json, SUMMARY.md)
+reports/host/     host measurements: env_check_*, capacity_*, training_bench_*, multithreading, SIMD, consolidated
+reports/eval/     match results: Bradley-Terry tournament, carrier screens, V ablation
+reports/reviews/  written reviews and audits (one file per review, commit hash in the name when it pins a state)
+docs/             DESIGN, REVIEW, ROSTER, SOURCES, FIRST_RUN, LARGER_MODEL_EXPERIMENTS, PATH_MAP
+  benchmark/      analysis of the AI_Test heuristic benchmark + games_5plus.csv.gz (cleaned per-game rows)
+  handoffs/       briefs, plans and prompts written for the next agent or the host
+
+── local only, never committed ─────────────────────────────────────────────────────────
+build/  data/  runs/  runs_*/     compiled binaries, raw match logs and shards, training checkpoints
 ```
+
+Moved a path you remember? [docs/PATH_MAP.md](docs/PATH_MAP.md) lists every old location.
 
 ## Requirements
 
@@ -122,18 +160,18 @@ python -m unittest discover -s tests -t .
 ## On the Windows host
 
 ```bash
-python tools/env_check.py --ai-test C:/path/to/AI_Test --teams 2 6 15
+python tools/host/env_check.py --ai-test C:/path/to/AI_Test --teams 2 6 15
 ```
 
-It builds every pool bot, plays headless matches under the real limits, checks the protocol, records each bot's first-turn and p50/p95/p99/max latency, replays the matches through the simulator, and times the inference. The output is `reports/env_check_<host>.md`.
+It builds every pool bot, plays headless matches under the real limits, checks the protocol, records each bot's first-turn and p50/p95/p99/max latency, replays the matches through the simulator, and times the inference. The output is `reports/host/env_check_<host>.md`.
 
 ### How big can the models be?
 
 ```bash
-python tools/capacity_bench.py --ai-test C:/path/to/AI_Test --tiers S M L XL
+python tools/host/capacity_bench.py --ai-test C:/path/to/AI_Test --tiers S M L XL
 ```
 
-It first checks the SIMD kernels against the scalar loop on that CPU, then replays a real-sized match for every team count 2–15, runs as many copies at once as the match has seats, and times the bot's per-turn inference (policy for every opponent team, plus value-network search nodes) for a ladder of network sizes. Each size gets a verdict against the turn's inference budget (5 ms, with a 1.5× safety factor for a slower judge machine), the number of value nodes that still fit, and the header source size it adds. The output is `reports/capacity_<host>.md`; its ceiling is the largest size to train. By default every size is timed twice, with the SIMD kernels and with the old scalar loop (`--kernels both`), and the report's last table gives the speedup. `tools/generate_multithreading_report.py` compares a loaded run with a `--seats 1` run, computing every statement from the two reports.
+It first checks the SIMD kernels against the scalar loop on that CPU, then replays a real-sized match for every team count 2–15, runs as many copies at once as the match has seats, and times the bot's per-turn inference (policy for every opponent team, plus value-network search nodes) for a ladder of network sizes. Each size gets a verdict against the turn's inference budget (5 ms, with a 1.5× safety factor for a slower judge machine), the number of value nodes that still fit, and the header source size it adds. The output is `reports/host/capacity_<host>.md`; its ceiling is the largest size to train. By default every size is timed twice, with the SIMD kernels and with the old scalar loop (`--kernels both`), and the report's last table gives the speedup. `tools/reporting/generate_multithreading_report.py` compares a loaded run with a `--seats 1` run, computing every statement from the two reports.
 
 | Tier | P MACs per opponent team | V MACs per node | header per model | all 11 models | `FUSION_MAX_WIDTH` |
 |---|---:|---:|---:|---:|---:|
@@ -164,8 +202,8 @@ for m in n02 n03 n04 n05 n06 n07 n08 n10 n12 n15; do
 done
 for m in general n02 n03 n04 n05 n06 n07 n08 n10 n12 n15; do
   # evaluate_offline quantizes the runs itself and gates the integer model; export must use the same --adapter
-  python -m training.evaluate_offline --model $m --policy runs/policy_$m --value runs/value_$m --out reports/$m
-  python -m training.export_weights   --model $m --policy runs/policy_$m --value runs/value_$m --report reports/$m.json
+  python -m training.evaluate_offline --model $m --policy runs/policy_$m --value runs/value_$m --out reports/models/s/$m
+  python -m training.export_weights   --model $m --policy runs/policy_$m --value runs/value_$m --report reports/models/s/$m.json
 done
 
 # Phase 2 for a count that needs more data (keeps every phase-1 shard)

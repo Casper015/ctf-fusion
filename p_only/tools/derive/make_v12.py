@@ -1,4 +1,4 @@
-"""Derive p_only/bots/v12_ponly.hpp from candidate/Player5_v12_Fusion.hpp.
+"""Derive p_only/bots/v12_ponly.hpp from bots/hybrid/Player5_v12_Fusion.hpp.
 
 Record of how the P-only carrier was made (source snapshot 99ecbe1). Every replaced
 range is checked, so the script refuses a changed source instead of splicing at
@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
-src = (REPO / "candidate/Player5_v12_Fusion.hpp").read_text(encoding="utf-8").split("\n")
+src = (REPO / "bots/hybrid/Player5_v12_Fusion.hpp").read_text(encoding="utf-8").split("\n")
 L = lambda a, b: src[a - 1:b]          # 1-based inclusive
 
 
@@ -35,7 +35,7 @@ HEADER = """// Player5 v12 (rollout_volley) carrier with the P-only opponent mod
 // states of the two-turn rollout (each predicted from that state, with the
 // root as its previous observation).
 //
-// Removed from candidate/Player5_v12_Fusion.hpp: the hand-written movement
+// Removed from bots/hybrid/Player5_v12_Fusion.hpp: the hand-written movement
 // forecast and its mixture weight, the opponent goal and target guesses, the
 // attention, priority and crossfire weights, the rules "a unit able to shoot
 // always shoots" and "a unit on a flag picks it up instead of shooting", the

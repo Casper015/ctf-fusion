@@ -222,7 +222,7 @@ class QuantizedTier:
         self.q = {n: quant.unflatten(arrays, n) for n in self.NETS}
 
     def raw(self, rec: np.ndarray, layout: Layout) -> np.ndarray:
-        """Accumulators in the record layout of tools/infer_check.cpp, (R, 321) int64."""
+        """Accumulators in the record layout of tools/cpp/infer_check.cpp, (R, 321) int64."""
         X = policy_batch(rec, layout, normalize=False)
         R = len(rec)
         legal = X.legal

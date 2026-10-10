@@ -6,7 +6,7 @@ This change adds shared shape presets and carries their buffer requirements thro
 
 ## Shared presets
 
-`fusion/capacity.py` is the single definition used by the trainers (`--capacity`), `tools/capacity_bench.py` and `tools/bench_training.py`. P and V can choose capacities independently, and the hidden-layer flags override individual heads.
+`fusion/capacity.py` is the single definition used by the trainers (`--capacity`), `tools/host/capacity_bench.py` and `tools/host/bench_training.py`. P and V can choose capacities independently, and the hidden-layer flags override individual heads.
 
 | Preset | Mover hidden | Squad hidden | Action hidden | Target hidden | V hidden | Buffer width |
 |---|---|---|---|---|---|---:|
@@ -31,7 +31,7 @@ The host capacity reports (`f36e9f3`) also measured two wider shapes, 3XL and 4X
 | 3XL | 2.93 ms | 23.04 ms | only alone |
 | 4XL | 9.73 ms | 191.50 ms | no |
 
-Sources: [isolated](../reports/capacity_extreme_scaling_1seat.json) and [loaded](../reports/capacity_extreme_scaling_16seats.json) host measurements. Shapes wider than XXL could only serve as offline teachers distilled into an XXL-or-smaller student. They can still be trained as custom widths (`--hidden-* ... --max-width N`) but are not presets.
+Sources: [isolated](../reports/host/capacity_extreme_scaling_1seat.json) and [loaded](../reports/host/capacity_extreme_scaling_16seats.json) host measurements. Shapes wider than XXL could only serve as offline teachers distilled into an XXL-or-smaller student. They can still be trained as custom widths (`--hidden-* ... --max-width N`) but are not presets.
 
 ## Train, evaluate and export
 
@@ -46,11 +46,11 @@ python -m training.train_value --model general --backend torch --device cuda --c
 ```
 
 ```sh
-python -m training.evaluate_offline --model general --policy runs/policy_general_xxl --value runs/value_general_xxl --out reports/general_xxl
+python -m training.evaluate_offline --model general --policy runs/policy_general_xxl --value runs/value_general_xxl --out reports/models/xxl/general
 ```
 
 ```sh
-python -m training.export_weights --model general --policy runs/policy_general_xxl --value runs/value_general_xxl --report reports/general_xxl.json --out inference/models_xxl
+python -m training.export_weights --model general --policy runs/policy_general_xxl --value runs/value_general_xxl --report reports/models/xxl/general.json --out inference/models_xxl
 ```
 
 **Testing P and V separately.** P and V can be compared independently, for example an XXL policy with an S value net: `--capacity XXL` on one trainer and the default on the other. The model id stays `general` or `nXX`, so export each configuration you want to keep into its own directory.
@@ -66,7 +66,7 @@ python -m unittest -v tests.test_capacity_profiles
 ```
 
 ```sh
-python tools/capacity_bench.py --verify --tiers XL XXL --teams 2 15 --verify-turns 4 --value-calls 2
+python tools/host/capacity_bench.py --verify --tiers XL XXL --teams 2 15 --verify-turns 4 --value-calls 2
 ```
 
 **What these check.** Verification derives the buffer width from shape metadata without building full synthetic exports. It checks that the native full and incremental value passes agree on synthetic streams; that is correctness, not quality or latency. A separate test exports an XXL-width artifact and checks:
@@ -78,7 +78,7 @@ python tools/capacity_bench.py --verify --tiers XL XXL --teams 2 15 --verify-tur
 On the target CPU, replay real match streams under representative concurrent load:
 
 ```sh
-python tools/capacity_bench.py --raw data/raw --tiers XL XXL --teams 2 5 8 15 --seats 16 --kernels both --value-calls 24 --tag xxl
+python tools/host/capacity_bench.py --raw data/raw --tiers XL XXL --teams 2 5 8 15 --seats 16 --kernels both --value-calls 24 --tag xxl
 ```
 
 Also sweep actual V call counts and complete-bot search workloads. The 50 ms complete reply and 2 s first reply are the hard limits: measure p99, max and faults, not nominal MACs.
@@ -94,4 +94,4 @@ Also sweep actual V call counts and complete-bot search workloads. The 50 ms com
 - V error and branch regret;
 - equal-time paired play on untouched maps and lineages.
 
-Lower training loss alone is not enough: representation, legal support, public-history ambiguity and V's continuing-policy target can matter more than size. Keep the smallest model on the confirmed quality/latency frontier. The data-readiness findings are in [SAMPLING_DATA_READINESS_REVIEW.md](../reports/SAMPLING_DATA_READINESS_REVIEW.md); see its status note for what has since been addressed.
+Lower training loss alone is not enough: representation, legal support, public-history ambiguity and V's continuing-policy target can matter more than size. Keep the smallest model on the confirmed quality/latency frontier. The data-readiness findings are in [SAMPLING_DATA_READINESS_REVIEW.md](../reports/reviews/SAMPLING_DATA_READINESS_REVIEW.md); see its status note for what has since been addressed.

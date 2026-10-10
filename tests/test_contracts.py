@@ -169,7 +169,7 @@ class TestKernels(unittest.TestCase):
             self.skipTest("Rosetta is not installed")
         out = native.BUILD / "kernel_check_x86_64"
         native.BUILD.mkdir(parents=True, exist_ok=True)
-        src = native.REPO / "tools" / "kernel_check.cpp"
+        src = native.REPO / "tools" / "cpp" / "kernel_check.cpp"
         subprocess.run(["clang++", "-arch", "x86_64", "-std=c++20", "-O2", "-DFUSION_MAX_WIDTH=1024", str(src), "-o", str(out)],
                        check=True, capture_output=True)
         r = subprocess.run(["arch", "-x86_64", str(out), "100"], capture_output=True, text=True)
@@ -178,12 +178,12 @@ class TestKernels(unittest.TestCase):
 
 
 class TestCapacityBench(unittest.TestCase):
-    """tools/capacity_bench.py: correctness and arithmetic only. Its timing runs belong on the target host."""
+    """tools/host/capacity_bench.py: correctness and arithmetic only. Its timing runs belong on the target host."""
 
     @classmethod
     def setUpClass(cls):
         import sys  # noqa: PLC0415
-        sys.path.insert(0, str(native.REPO / "tools"))
+        sys.path.insert(0, str(native.REPO / "tools" / "host"))
         import capacity_bench  # noqa: PLC0415
         cls.cb = capacity_bench
 
@@ -192,7 +192,7 @@ class TestCapacityBench(unittest.TestCase):
         self.assertEqual(self.cb.verify(tiers, [3]), 0)  # incremental == full value, buffers of 576
 
     def test_narrow_build_refuses_wide_tiers(self):
-        binary = native.build(native.REPO / "tools" / "size_bench.cpp", "size_bench_w256", defines=["FUSION_MAX_WIDTH=256"])
+        binary = native.build(native.REPO / "tools" / "cpp" / "size_bench.cpp", "size_bench_w256", defines=["FUSION_MAX_WIDTH=256"])
         import tempfile  # noqa: PLC0415
         from pathlib import Path  # noqa: PLC0415
         with tempfile.TemporaryDirectory() as tmp:
@@ -255,17 +255,17 @@ class TestCapacityBench(unittest.TestCase):
 
 
 class TestMultithreadingReport(unittest.TestCase):
-    """tools/generate_multithreading_report.py computes every statement from the committed capacity reports."""
+    """tools/reporting/generate_multithreading_report.py computes every statement from the committed capacity reports."""
 
     def test_report_is_computed(self):
         import sys  # noqa: PLC0415
         from pathlib import Path  # noqa: PLC0415
-        sys.path.insert(0, str(native.REPO / "tools"))
+        sys.path.insert(0, str(native.REPO / "tools" / "reporting"))
         import generate_multithreading_report as g  # noqa: PLC0415
         self.assertEqual(g.ranges([2, 3, 4, 7, 9, 10]), "2–4, 7, 9–10")
         self.assertEqual(g.ranges([]), "none")
-        multi = native.REPO / "reports" / "capacity_DESKTOP-G60OJUD.json"
-        single = native.REPO / "reports" / "capacity_1seat_DESKTOP-G60OJUD.json"
+        multi = native.REPO / "reports" / "host" / "capacity_DESKTOP-G60OJUD.json"
+        single = native.REPO / "reports" / "host" / "capacity_1seat_DESKTOP-G60OJUD.json"
         if not (multi.exists() and single.exists()):
             self.skipTest("committed capacity reports not present")
         r = g.compute(json.loads(multi.read_text(encoding="utf-8")), json.loads(single.read_text(encoding="utf-8")))

@@ -108,14 +108,14 @@ Primary sources: [host run](../screen_light/RUN.json), [screen utilities](../scr
 - [admission_recommended.json](admission_recommended.json): editable proposed admission with reasons, reserved lineages and sampling settings.
 - [assessments_screened.json](assessments_screened.json): assessment metadata joined to the exact matching light-screen sources.
 - [proposed collection pool](../../../profiles/open_training_pool_recommended.json): compatible with the existing registry collector, separate from the active pool.
-- [reproduction tool](../../../tools/recommend_training_pool.py): read-only source analysis and sampler draws; no bot execution.
+- [reproduction tool](../../../tools/pipeline/recommend_training_pool.py): read-only source analysis and sampler draws; no bot execution.
 
 Reproduce the proposal from this evidence snapshot:
 
 The reproduction tool checks canonical JSON identities and normalized-code hashes before writing. A changed corpus or controlling sampler requires a renewed review instead of retaining the old source-revision claim. Line-ending conversion alone does not change its canonical JSON identity; the active pool's original Windows input-byte hashes were verified to match the committed files after CRLF conversion.
 
 ```sh
-python3 tools/recommend_training_pool.py --games 10000
+python3 tools/pipeline/recommend_training_pool.py --games 10000
 ```
 
 On the designated host, first collect a small fresh-map pilot in a **new directory**:

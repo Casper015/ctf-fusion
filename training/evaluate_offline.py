@@ -1,6 +1,6 @@
 """Offline evaluation report and deployment gate for one model of the matrix (Markdown + JSON).
 
-    python -m training.evaluate_offline --model n08 --policy runs/policy_n08 --value runs/value_n08 --out reports/n08 \
+    python -m training.evaluate_offline --model n08 --policy runs/policy_n08 --value runs/value_n08 --out reports/models/s/n08 \
         [--adapter joint-v2]
 
 The model is evaluated on every team count it serves (profiles/); the general

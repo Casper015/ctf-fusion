@@ -1,4 +1,4 @@
-"""Live outcomes per seat from full match logs (reports/FINGERPRINT_EFFECTIVENESS_REVIEW.md, P1 live backfill).
+"""Live outcomes per seat from full match logs (reports/reviews/FINGERPRINT_EFFECTIVENESS_REVIEW.md, P1 live backfill).
 
     python -m roster.trajectory --raw data/raw_screen --inventory data/roster/bot_inventory.json \\
         --out data/roster/live_profiles.json

@@ -5,7 +5,7 @@
 // decoupled from planner state: no navigation members, no cached respawn
 // predictions, no save/restore. It needs only the Board and the rules from
 // INIT, so search, trajectory generation and off-policy branching can share
-// it. tools/sim_check.cpp replays recorded matches through it and compares
+// it. tools/cpp/sim_check.cpp replays recorded matches through it and compares
 // every next state with what the engine actually produced.
 //
 // The one thing the public state cannot know is where a returning flag
