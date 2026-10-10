@@ -1,0 +1,60 @@
+{
+ "_comment": "P feature ablation at equal full-turn time (docs/FEATURE_FAMILIES.md). Policy p2 and p3 retrained at XXL capacity with identical data, configuration and seed (profiles/p_features.json), each paired with value M; V off in every arm. The committed XXL P-only bots are references. Fixed-time deployment games: p3 pays its combat summaries inside the same turn. Tuning seed 20261210 (never reuse 20261009, 20261020, 20261031, 20261101, 20261102, 20261107 or 20261108).",
+ "seed": 20261210,
+ "teams": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "maps_per_count": 20,
+ "workers": 6,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "keep_matches": true,
+ "variants": "bots/p_only/profiles/variants_families.json",
+ "arms": [
+  "v12_pf_p2xxl",
+  "v12_pf_p3xxl",
+  "c08_pf_p2xxl",
+  "c08_pf_p3xxl",
+  "v12_ponly_xxl",
+  "c08_ponly_xxl"
+ ],
+ "aa": [
+  "v12_pf_p3xxl"
+ ],
+ "comparisons": [
+  [
+   "v12_pf_p3xxl",
+   "v12_pf_p2xxl"
+  ],
+  [
+   "c08_pf_p3xxl",
+   "c08_pf_p2xxl"
+  ],
+  [
+   "v12_pf_p2xxl",
+   "v12_ponly_xxl"
+  ],
+  [
+   "c08_pf_p2xxl",
+   "c08_ponly_xxl"
+  ]
+ ],
+ "contrasts": {
+  "p3 effect, carrier interaction": "c08_pf_p3xxl-c08_pf_p2xxl-v12_pf_p3xxl+v12_pf_p2xxl"
+ },
+ "work_dir": "data/p_only/p_features",
+ "report_dir": "bots/p_only/report/p_features"
+}

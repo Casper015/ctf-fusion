@@ -3,6 +3,7 @@
     python bots/p_only/tools/build.py                       # every variant
     python bots/p_only/tools/build.py c08_ponly_m v12_ponly_m
     python bots/p_only/tools/build.py --stats ...           # -DPONLY_STATS=1: network call counters on stderr (screens)
+    python bots/p_only/tools/build.py --variants bots/p_only/profiles/variants_families.json v12_ponly_pxxl_vpD_v
 
 For each variant: bots/p_only/tools/bundle.py inlines its local includes into one
 .cpp (build/p_only/src/<name>.cpp, the file a judge would compile), which is
@@ -40,8 +41,15 @@ def sha256_file(p: Path) -> str:
     return hashlib.sha256(p.read_bytes()).hexdigest()
 
 
-def load_variants() -> list[dict]:
-    return json.loads(VARIANTS.read_text(encoding="utf-8"))["variants"]
+def load_variants(path: Path = VARIANTS) -> list[dict]:
+    """A variant list; its `include` lists (paths from the repository root) come first, names must be unique."""
+    doc = json.loads(Path(path).read_text(encoding="utf-8"))
+    out = [v for inc in doc.get("include", []) for v in load_variants(REPO / inc)]
+    for v in doc["variants"]:
+        if v["name"] in {x["name"] for x in out}:
+            raise SystemExit(f"{path}: variant {v['name']} is defined twice")
+        out.append(v)
+    return out
 
 
 def compiler_version(cxx: str) -> str:
@@ -78,11 +86,12 @@ def main(argv=None):
     ap.add_argument("names", nargs="*", help="variants to build (default: all)")
     ap.add_argument("--stats", action="store_true", help="define PONLY_STATS=1 (P-only bots print call counters)")
     ap.add_argument("--out", default=str(OUT))
+    ap.add_argument("--variants", default=str(VARIANTS), help="variant list (default: bots/p_only/profiles/variants.json)")
     a = ap.parse_args(argv)
     cxx = find_compiler()
     if not cxx:
         raise SystemExit("no C++ compiler found (install g++/clang++ or w64devkit, or set CXX)")
-    variants = load_variants()
+    variants = load_variants(Path(a.variants))
     unknown = set(a.names) - {v["name"] for v in variants}
     if unknown:
         raise SystemExit(f"unknown variants: {sorted(unknown)}")

@@ -1,0 +1,73 @@
+{
+ "_comment": "V pilot at fixed P (docs/FEATURE_FAMILIES.md, profiles/v_pilot.json): the frozen carrier with V off, the existing V (M, v2, mixed-roster data), the pilot arms retrained on frozen-carrier data (A v2 M, B v3 M, C v2 4XL, D v3 4XL; 4XL with the Route A bound) and the distilled student E. Every arm shares the committed XXL P bit for bit. V coefficient: the experimental default (PONLY_V_ROLLOUT 40); tune it on this tuning seed only and freeze it before confirmation. Tuning seed 20261211 (never reuse 20261009, 20261020, 20261031, 20261101, 20261102, 20261107 or 20261108). PONLY_STATS gives V calls, seconds, cut calls and fallback decisions per arm.",
+ "seed": 20261211,
+ "teams": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "maps_per_count": 20,
+ "workers": 6,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "keep_matches": true,
+ "variants": "bots/p_only/profiles/variants_families.json",
+ "arms": [
+  "v12_ponly_pxxl_vm",
+  "v12_ponly_pxxl_vm_v",
+  "v12_ponly_pxxl_vpA_v",
+  "v12_ponly_pxxl_vpB_v",
+  "v12_ponly_pxxl_vpC_v",
+  "v12_ponly_pxxl_vpD_v",
+  "v12_ponly_pxxl_vpE_v"
+ ],
+ "aa": [
+  "v12_ponly_pxxl_vpD_v"
+ ],
+ "comparisons": [
+  [
+   "v12_ponly_pxxl_vm_v",
+   "v12_ponly_pxxl_vm"
+  ],
+  [
+   "v12_ponly_pxxl_vpB_v",
+   "v12_ponly_pxxl_vm"
+  ],
+  [
+   "v12_ponly_pxxl_vpD_v",
+   "v12_ponly_pxxl_vm"
+  ],
+  [
+   "v12_ponly_pxxl_vpE_v",
+   "v12_ponly_pxxl_vm"
+  ],
+  [
+   "v12_ponly_pxxl_vpB_v",
+   "v12_ponly_pxxl_vm_v"
+  ],
+  [
+   "v12_ponly_pxxl_vpD_v",
+   "v12_ponly_pxxl_vpB_v"
+  ],
+  [
+   "v12_ponly_pxxl_vpE_v",
+   "v12_ponly_pxxl_vpD_v"
+  ]
+ ],
+ "contrasts": {
+  "features x capacity (D - C - B + A)": "v12_ponly_pxxl_vpD_v-v12_ponly_pxxl_vpC_v-v12_ponly_pxxl_vpB_v+v12_ponly_pxxl_vpA_v"
+ },
+ "work_dir": "data/p_only/v_pilot",
+ "report_dir": "bots/p_only/report/v_pilot"
+}

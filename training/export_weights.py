@@ -23,6 +23,13 @@ a retrained checkpoint cannot inherit an older positive report. Without
 Alpha gates the opponent policy only. No gate approves the value network yet
 (kValueApproved = false): a bot that uses V needs its own switch and its own
 evidence.
+
+Feature families (fusion/families.py): each run records the family it was
+trained on; the export recomputes the family digest from the extractor and
+refuses a mismatch. A p2/v2 model is exported exactly as before; a p3 or v3
+model's header includes policy_p3.hpp / value_v3.hpp, uses their model
+types and static_asserts its input widths, so new features cannot reach old
+weights (or the reverse). One registry holds one policy and one value family.
 """
 from __future__ import annotations
 
@@ -34,7 +41,7 @@ from pathlib import Path
 
 import numpy as np
 
-from fusion import quant
+from fusion import families, quant
 from fusion.capacity import buffer_width
 from fusion.mixture import ADAPTERS
 from fusion.models import TARGET_COLS, PolicyNet, ValueNet
@@ -43,40 +50,39 @@ from fusion.schema import Layout
 from fusion.schema import layout as feature_layout
 
 
-def input_specs(layout: Layout) -> dict[str, tuple[np.ndarray, np.ndarray, np.ndarray]]:
-    """(scale, lo, hi) of each net's input vector, in the order inference/policy.hpp builds it."""
+def input_specs(layout: Layout, policy_family: str = "p2", value_family: str = "v2") -> dict[str, tuple[np.ndarray, np.ndarray, np.ndarray]]:
+    """(scale, lo, hi) of each net's input vector, in the order inference/policy.hpp (policy_p3.hpp) builds it."""
     def group(*names):
         parts = [(layout.scale(n), *layout.bounds(n)) for n in names]
         return tuple(np.concatenate([p[i] for p in parts]) for i in range(3))
 
-    mover = group("global", "unit", "move")
-    squad = group("global", "unit", "unit", "unit", *(["move"] * 15))
+    combat = ["combat"] if policy_family == "p3" else []
+    mover = group("global", "unit", "move", *combat)
+    squad = group("global", "unit", "unit", "unit", *(["move"] * 15), *(combat * 15))
     cs, (clo, chi) = layout.scale("cand_f"), layout.bounds("cand_f")
     cols = [4 if c is None else c for c in TARGET_COLS]  # every hit bit shares hit_S's spec
     target = (cs[cols], clo[cols], chi[cols])
-    lo, hi = layout.value_bounds()
-    return {"mover": mover, "squad": squad, "act": mover, "target": target, "value": (layout.value_scale(), lo, hi)}
+    lo, hi = layout.value_bounds(value_family)
+    return {"mover": mover, "squad": squad, "act": mover, "target": target, "value": (layout.value_scale(value_family), lo, hi)}
 
 
-def run_config(run: Path, layout: Layout) -> dict:
-    """A run's config.json; refuses a run trained on another feature spec."""
+def run_config(run: Path, layout: Layout, kind: str = "policy") -> dict:
+    """A run's config.json; refuses a run whose feature family the extractor does not reproduce."""
     cfg = json.loads((Path(run) / "config.json").read_text(encoding="utf-8"))
-    if cfg.get("spec_version") != layout.schema["spec_version"]:
-        raise SystemExit(f"{run} was trained on feature spec v{cfg.get('spec_version')}, "
-                         f"the extractor is v{layout.schema['spec_version']}: retrain it")
+    families.check(layout.schema, families.run_features(cfg, kind), str(run))
     return cfg
 
 
 def load_policy(run: Path, layout: Layout) -> PolicyNet:
-    cfg = run_config(run, layout)
-    model = PolicyNet(layout, np.random.default_rng(0), cfg["hidden"])
+    cfg = run_config(run, layout, "policy")
+    model = PolicyNet(layout, np.random.default_rng(0), cfg["hidden"], families.run_features(cfg, "policy")["family"])
     model.load(dict(np.load(run / "model.npz")))
     return model
 
 
 def load_value(run: Path, layout: Layout) -> tuple[ValueNet, float]:
-    cfg = run_config(run, layout)
-    model = ValueNet(layout, np.random.default_rng(0), cfg["hidden"])
+    cfg = run_config(run, layout, "value")
+    model = ValueNet(layout, np.random.default_rng(0), cfg["hidden"], families.run_features(cfg, "value")["family"])
     st = dict(np.load(run / "model.npz"))
     model.load(st)
     return model, float(st.get("beta", 1.0))
@@ -85,7 +91,7 @@ def load_value(run: Path, layout: Layout) -> tuple[ValueNet, float]:
 def quantize_model(policy: PolicyNet, value: ValueNet, value_beta: float, layout: Layout,
                    max_width: int = quant.MAX_WIDTH) -> dict[str, dict]:
     """Integer nets; raises ValueError when a layer does not fit C++ buffers of `max_width`."""
-    spec = input_specs(layout)
+    spec = input_specs(layout, getattr(policy, "family", "p2"), getattr(value, "family", "v2"))
     beta = policy.beta
     nets = {
         "mover": quant.quantize(policy.mover, *spec["mover"], out_mult=beta["joint"]),
@@ -115,12 +121,28 @@ def schema_digest(layout: Layout) -> str:
     return hashlib.sha256(json.dumps(layout.schema, sort_keys=True).encode()).hexdigest()[:16]
 
 
-def artifact_identity(model: str, policy_run, value_run, nets: dict, layout: Layout, adapter: str) -> dict:
+# The full-schema digest every report and manifest recorded before feature families (spec v2, record layout 2).
+# A report identity that carries it describes the families p2 and v2 (fusion/families.py LEGACY_DIGESTS).
+LEGACY_SCHEMA_DIGEST = "d3813c50359fb9cf"
+
+
+def model_features(policy: PolicyNet, value: ValueNet, layout: Layout) -> dict:
+    return {"policy": families.record(layout.schema, policy.family), "value": families.record(layout.schema, value.family)}
+
+
+def artifact_identity(model: str, policy_run, value_run, nets: dict, layout: Layout, adapter: str,
+                      features: dict | None = None) -> dict:
     """What a gate report approves: this model id, these checkpoints, these integer weights
-    (temperatures included), this feature schema, this adapter."""
-    return {"model": model, "policy_sha256": sha256(Path(policy_run) / "model.npz"),
-            "value_sha256": sha256(Path(value_run) / "model.npz"), "weights_digest": quant.digest(flat_arrays(nets)),
-            "spec_version": layout.schema["spec_version"], "schema_digest": schema_digest(layout), "adapter": adapter}
+    (temperatures included), these feature families, this adapter.
+
+    The legacy pair (p2, v2) keeps the identity of before families (spec_version and the full schema digest of
+    layout 2), so reports made then still verify; any other pair is identified by its family digests."""
+    out = {"model": model, "policy_sha256": sha256(Path(policy_run) / "model.npz"),
+           "value_sha256": sha256(Path(value_run) / "model.npz"), "weights_digest": quant.digest(flat_arrays(nets))}
+    names = {k: v["family"] for k, v in (features or {}).items()}
+    if not features or names == families.LEGACY:
+        return out | {"spec_version": layout.schema["spec_version"], "schema_digest": LEGACY_SCHEMA_DIGEST, "adapter": adapter}
+    return out | {"features": {k: {"family": v["family"], "digest": v["digest"]} for k, v in features.items()}, "adapter": adapter}
 
 
 def verified_gates(report: dict, identity: dict) -> dict[int, dict]:
@@ -145,21 +167,17 @@ def widest(nets: dict[str, dict]) -> int:
     return max(max(layer["w"].shape) for q in nets.values() for layer in q["layers"])
 
 
-def header(model: str, nets: dict[str, dict], alpha: dict[int, float], sources: dict, adapter: str = "joint-v2",
-           spec_version: int | None = None, generator: str = "training/export_weights.py") -> str:
-    spec_version = feature_layout().schema["spec_version"] if spec_version is None else spec_version
-    wide = widest(nets)
-    required = buffer_width([wide])
-    out = [f"// Generated by {generator} on {time.strftime('%Y-%m-%d')}. Do not edit.",
-           f"// Model {model}. Sources: " + ", ".join(f"{k}={v}" for k, v in sources.items()),
-           f"// FUSION_MAX_WIDTH_REQUIRED={required}",
-           f"// Widest layer {wide}" + (f": build the bot with -DFUSION_MAX_WIDTH={wide} or more." if wide > quant.MAX_WIDTH else "."),
-           f"#ifndef FUSION_MODEL_{model.upper()}_HPP", f"#define FUSION_MODEL_{model.upper()}_HPP",
-           "#include <cstdint>", "", "// Needs inference/ on the include path (or the headers inlined before this one).",
-           '#include "adapter.hpp"', '#include "policy.hpp"', '#include "value.hpp"', "",
-           f"static_assert(fusion::kSpecVersion == {spec_version}, \"model trained on feature spec v{spec_version}\");", "",
-           f"namespace fusion::models::{model} {{", "",
-           f"inline constexpr int kRequiredMaxWidth = {required};", ""]
+# C++ names per family: (model type, extra header, input-width constant per net).
+POLICY_CPP = {"p2": ("fusion::PolicyModel", None, {"mover": "fusion::kMoverIn", "squad": "fusion::kSquadIn", "act": "fusion::kMoverIn",
+                                                   "target": "fusion::kTargetIn"}),
+              "p3": ("fusion::PolicyModelP3", "policy_p3.hpp", {"mover": "fusion::kMoverInP3", "squad": "fusion::kSquadInP3",
+                                                                "act": "fusion::kMoverInP3", "target": "fusion::kTargetIn"})}
+VALUE_CPP = {"v2": ("fusion::ValueModel", None, {"value": "fusion::kV"}),
+             "v3": ("fusion::ValueModelV3", "value_v3.hpp", {"value": "fusion::kV3"})}
+FAMILY_VERSION = {"p3": "fusion::kPolicyFamilyP3 == 3", "v3": "fusion::kValueFamilyV3 == 3"}
+
+
+def _emit_nets(out: list[str], nets: dict[str, dict], inputs: dict[str, str], check_inputs: bool) -> None:
     for name, q in nets.items():
         rows = []
         for i, layer in enumerate(q["layers"]):
@@ -174,10 +192,65 @@ def header(model: str, nets: dict[str, dict], alpha: dict[int, float], sources: 
             rows.append(f"    {{{n_in}, {o}, {name}_w{i}, {name}_b{i}, {layer['shift']}, {'true' if layer['hidden'] else 'false'}"
                         + (f", {name}_w{i}T" if transposed else "") + "},")
             out.append(f'static_assert({n_in} <= fusion::kMaxWidth && {o} <= fusion::kMaxWidth, "{name} layer {i} exceeds kMaxWidth");')
+            if i == 0 and check_inputs:
+                out.append(f'static_assert({n_in} == {inputs[name]}, "{name} input width differs from its feature family");')
         out += [f"inline constexpr fusion::Layer {name}_layers[] = {{", *rows, "};", ""]
+
+
+def shared_value_header(name: str, value_net: dict, value_family: str, sources: dict,
+                        generator: str = "training/export_mixed.py") -> str:
+    """One value network shared by every model of a set (fusion::models::<name>::kValue), written once: a wide V is
+    not copied into each model's header. Model headers alias it (header(shared_value=name))."""
+    required = buffer_width([widest({"value": value_net})])
+    out = [f"// Generated by {generator} on {time.strftime('%Y-%m-%d')}. Do not edit.",
+           f"// Shared value network {name}. Sources: " + ", ".join(f"{k}={v}" for k, v in sources.items()),
+           f"// Feature family: value {value_family} (fusion/families.py).",
+           f"// FUSION_MAX_WIDTH_REQUIRED={required}",
+           f"#ifndef FUSION_MODEL_{name.upper()}_HPP", f"#define FUSION_MODEL_{name.upper()}_HPP",
+           "#include <cstdint>", "", '#include "value.hpp"', *([f'#include "{VALUE_CPP[value_family][1]}"'] if VALUE_CPP[value_family][1] else []), "",
+           *([f'static_assert({FAMILY_VERSION[value_family]}, "model trained on feature family {value_family}");'] if value_family in FAMILY_VERSION else []),
+           "", f"namespace fusion::models::{name} {{", ""]
+    _emit_nets(out, {"value": value_net}, VALUE_CPP[value_family][2], True)
+    out += [f"inline constexpr {VALUE_CPP[value_family][0]} kValue{{{{value_layers, {len(value_net['layers'])}, {value_net['out_exp']}}}}};",
+            "", f"}}  // namespace fusion::models::{name}", f"#endif  // FUSION_MODEL_{name.upper()}_HPP", ""]
+    return "\n".join(out)
+
+
+def header(model: str, nets: dict[str, dict], alpha: dict[int, float], sources: dict, adapter: str = "joint-v2",
+           spec_version: int | None = None, generator: str = "training/export_weights.py",
+           policy_family: str = "p2", value_family: str = "v2", shared_value: tuple[str, dict] | None = None) -> str:
+    """One model's header. With shared_value=(name, value net) the value arrays live in weights_<name>.hpp
+    (shared_value_header) and this header aliases them; `nets` then holds the policy heads only."""
+    spec_version = feature_layout().schema["spec_version"] if spec_version is None else spec_version
+    legacy = (policy_family, value_family) == ("p2", "v2") and shared_value is None
+    wide = widest(nets if shared_value is None else nets | {"value": shared_value[1]})
+    required = buffer_width([wide])
+    extra = [f'#include "{h}"' for h in (POLICY_CPP[policy_family][1], VALUE_CPP[value_family][1]) if h]
+    if shared_value is not None:
+        extra.append(f'#include "weights_{shared_value[0]}.hpp"')
+    out = [f"// Generated by {generator} on {time.strftime('%Y-%m-%d')}. Do not edit.",
+           f"// Model {model}. Sources: " + ", ".join(f"{k}={v}" for k, v in sources.items()),
+           *([] if legacy else [f"// Feature families: policy {policy_family}, value {value_family} (fusion/families.py)."]),
+           f"// FUSION_MAX_WIDTH_REQUIRED={required}",
+           f"// Widest layer {wide}" + (f": build the bot with -DFUSION_MAX_WIDTH={wide} or more." if wide > quant.MAX_WIDTH else "."),
+           f"#ifndef FUSION_MODEL_{model.upper()}_HPP", f"#define FUSION_MODEL_{model.upper()}_HPP",
+           "#include <cstdint>", "", "// Needs inference/ on the include path (or the headers inlined before this one).",
+           '#include "adapter.hpp"', '#include "policy.hpp"', '#include "value.hpp"', *extra, "",
+           f"static_assert(fusion::kSpecVersion == {spec_version}, \"model trained on feature spec v{spec_version}\");",
+           *[f'static_assert({FAMILY_VERSION[f]}, "model trained on feature family {f}");' for f in (policy_family, value_family)
+             if f in FAMILY_VERSION], "",
+           f"namespace fusion::models::{model} {{", "",
+           f"inline constexpr int kRequiredMaxWidth = {required};", ""]
+    if not legacy:
+        out += [f"inline constexpr int kPolicyFamily = {policy_family[1:]};  // {policy_family}",
+                f"inline constexpr int kValueFamily = {value_family[1:]};  // {value_family}", ""]
+    inputs = POLICY_CPP[policy_family][2] | VALUE_CPP[value_family][2]
+    _emit_nets(out, nets, inputs, not legacy)
     net = lambda n: f"{{{n}_layers, {len(nets[n]['layers'])}, {nets[n]['out_exp']}}}"
-    out += [f"inline constexpr fusion::PolicyModel kPolicy{{{net('mover')}, {net('squad')}, {net('act')}, {net('target')}}};",
-            f"inline constexpr fusion::ValueModel kValue{{{net('value')}}};",
+    value_line = (f"inline constexpr {VALUE_CPP[value_family][0]} kValue{{{net('value')}}};" if shared_value is None else
+                  f"inline constexpr const {VALUE_CPP[value_family][0]}& kValue = fusion::models::{shared_value[0]}::kValue;  // shared")
+    out += [f"inline constexpr {POLICY_CPP[policy_family][0]} kPolicy{{{net('mover')}, {net('squad')}, {net('act')}, {net('target')}}};",
+            value_line,
             "// Mixture weight of q_theta against the legacy forecast by team count; 0 = legacy behavior.",
             "inline constexpr double kAlpha[16] = {" + ", ".join(repr(float(alpha.get(t, 0.0))) for t in range(16)) + "};",
             f"// The adapter kAlpha was fitted for (inference/adapter.hpp); sample with exactly this one.",
@@ -192,9 +265,21 @@ def macs(q: dict) -> int:
     return int(sum(layer["w"].size for layer in q["layers"]))
 
 
+def manifest_families(entry: dict) -> tuple[str, str]:
+    """(policy family, value family) of a manifest entry; entries from before families are (p2, v2)."""
+    feats = entry.get("features") or {}
+    return feats.get("policy", {}).get("family", "p2"), feats.get("value", {}).get("family", "v2")
+
+
 def registry(out: Path, manifest: dict, generator: str = "training/export_weights.py") -> Path:
-    """inference/models/registry.hpp: one dispatch table over every exported model (profiles decide)."""
+    """inference/models/registry.hpp: one dispatch table over every exported model (profiles decide).
+
+    All models of one registry share one policy and one value family: ModelSet points at their types."""
     exported = sorted(manifest)
+    fams = {manifest_families(manifest[m]) for m in exported}
+    if len(fams) > 1:
+        raise SystemExit(f"{out}: one registry holds one feature-family pair, found {sorted(fams)}; export them apart")
+    pfam, vfam = fams.pop() if fams else ("p2", "v2")
     required = buffer_width([int(manifest[m].get("required_buffer_width", manifest[m].get("widest_layer", quant.MAX_WIDTH)))
                              for m in exported] or [quant.MAX_WIDTH])
     rows = []
@@ -215,7 +300,8 @@ def registry(out: Path, manifest: dict, generator: str = "training/export_weight
         "#ifndef FUSION_MAX_WIDTH", f"#define FUSION_MAX_WIDTH {required}", "#endif",
         *[f'#include "{manifest[m]["header"]}"' for m in exported], "",
         "namespace fusion::models {", "", f"inline constexpr int kRegistryRequiredMaxWidth = {required};", "",
-        "struct ModelSet { const char* id; const PolicyModel* policy; const ValueModel* value; double alpha; int adapter; };", "",
+        f"struct ModelSet {{ const char* id; const {POLICY_CPP[pfam][0].removeprefix('fusion::')}* policy; "
+        f"const {VALUE_CPP[vfam][0].removeprefix('fusion::')}* value; double alpha; int adapter; }};", "",
         "inline const ModelSet* forTeams(int teams) {",
         "    static const ModelSet table[16] = {", *rows, "    };",
         "    return teams >= 2 && teams <= 15 && table[teams].policy ? &table[teams] : nullptr;", "}", "",
@@ -247,7 +333,8 @@ def main(argv=None):
         nets = quantize_model(policy, value, value_beta, layout, a.max_width)
     except ValueError as exc:
         raise SystemExit(f"cannot export: {exc}") from exc
-    identity = artifact_identity(a.model, a.policy, a.value, nets, layout, a.adapter)
+    features = model_features(policy, value, layout)
+    identity = artifact_identity(a.model, a.policy, a.value, nets, layout, a.adapter, features)
     alpha, gates, report = {}, {}, None
     if a.report:
         report = json.loads(Path(a.report).read_text(encoding="utf-8"))
@@ -258,14 +345,18 @@ def main(argv=None):
     sources = {"policy": Path(a.policy).name, "value": Path(a.value).name}
     stem = f"weights_{a.model}"
     hpp = out / f"{stem}.hpp"
-    hpp.write_text(header(a.model, nets, alpha, sources, a.adapter, layout.schema["spec_version"]), encoding="utf-8")
+    hpp.write_text(header(a.model, nets, alpha, sources, a.adapter, layout.schema["spec_version"],
+                          policy_family=policy.family, value_family=value.family), encoding="utf-8")
     np.savez(out / f"{stem}.npz", **flat_arrays(nets))
     manifest_path = out / "MANIFEST.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {}
+    clash = {m: manifest_families(e) for m, e in manifest.items() if m != a.model and manifest_families(e) != (policy.family, value.family)}
+    if clash:
+        raise SystemExit(f"{out} already holds models of other feature families {clash}: export into another --out")
     per_turn = 15 * macs(nets["mover"]) + macs(nets["squad"])
     manifest[a.model] = {
         "header": hpp.name, "header_sha256": sha256(hpp), "npz_sha256": sha256(out / f"{stem}.npz"),
-        "identity": identity, "spec_version": layout.schema["spec_version"], "adapter": a.adapter,
+        "identity": identity, "spec_version": layout.schema["spec_version"], "features": features, "adapter": a.adapter,
         "alpha": alpha, "gates": gates, "value_approved": False,
         "gate_report": None if report is None else {
             "path": str(a.report), "split": report.get("split"), "fit_split": report.get("fit_split"),

@@ -30,7 +30,7 @@ import time
 import numpy as np
 import torch
 
-from .models import JOINT, TARGET_COLS, PolicyNet, ValueNet
+from .models import JOINT, TARGET_COLS, PolicyNet, ValueNet, value_columns
 from .schema import Layout
 
 
@@ -174,12 +174,12 @@ class TorchAdam:
 class DeviceLayout:
     """Record slicing and scales of fusion.schema.Layout, on a device."""
 
-    def __init__(self, layout: Layout, dev):
+    def __init__(self, layout: Layout, dev, value_family: str = "v2"):
         self.layout = layout
         self.blocks = layout.blocks
         self.scales = {g: torch.tensor(layout.scale(g).astype(np.float32), device=dev)
-                       for g in ("global", "unit", "move", "cand_f")}
-        self.vscale = torch.tensor(layout.value_scale(), dtype=torch.float64, device=dev)
+                       for g in ("global", "unit", "move", "cand_f", "combat") if g in layout.specs}
+        self.vscale = torch.tensor(layout.value_scale(value_family), dtype=torch.float64, device=dev)
 
     def get(self, rec, name):
         offset, shape = self.blocks[name]
@@ -190,16 +190,21 @@ class DeviceLayout:
 class DevicePolicyBatch:
     """fusion.models.PolicyBatch built on the device from raw int16 records."""
 
-    def __init__(self, rec, dl: DeviceLayout):
+    def __init__(self, rec, dl: DeviceLayout, family: str = "p2"):
         f = torch.float32
         g = dl.get(rec, "g").to(f) / dl.scales["global"]
         u = dl.get(rec, "u").to(f) / dl.scales["unit"]
         m = dl.get(rec, "m").to(f) / dl.scales["move"]
         self.cand_f = dl.get(rec, "cand_f").to(f) / dl.scales["cand_f"]
         B = rec.shape[0]
-        self.mover_in = torch.cat([g[:, None, None, :].expand(B, 3, 5, g.shape[1]),
-                                   u[:, :, None, :].expand(B, 3, 5, u.shape[2]), m], dim=-1)
-        self.squad_in = torch.cat([g, u.reshape(B, -1), m.reshape(B, -1)], dim=-1)
+        mover = [g[:, None, None, :].expand(B, 3, 5, g.shape[1]), u[:, :, None, :].expand(B, 3, 5, u.shape[2]), m]
+        squad = [g, u.reshape(B, -1), m.reshape(B, -1)]
+        if family == "p3":  # fusion.models.policy_batch: the combat block of (k, move), and all 15 for squad
+            c = dl.get(rec, "pc").to(f) / dl.scales["combat"]
+            mover.append(c)
+            squad.append(c.reshape(B, -1))
+        self.mover_in = torch.cat(mover, dim=-1)
+        self.squad_in = torch.cat(squad, dim=-1)
         self.legal = dl.get(rec, "legal") != 0
         self.act_legal = dl.get(rec, "act_legal") != 0
         self.cand_valid = dl.get(rec, "cand") >= 0
@@ -277,6 +282,13 @@ class TorchValue:
     @property
     def params(self):
         return self.net.params
+
+    def rank_loss(self, xa, xb, y, w, cfg: dict):
+        """fusion.models.ValueNet.rank_loss: rank_weight x weighted pairwise logistic loss on the outcome logit."""
+        z = self.net.forward(torch.cat([xa, xb]))[:, 0]
+        B = xa.shape[0]
+        loss = _BCE.apply(z[:B] - z[B:], y, w) / w.sum().clamp(min=1e-12)
+        return cfg.get("rank_weight", 1.0) * loss, loss.detach()
 
     def loss(self, x, y, w, cfg: dict):
         wsum = w.sum().clamp(min=1e-12)
@@ -370,7 +382,7 @@ class PolicyTrainer:
         total = torch.zeros((), dtype=torch.float64, device=self.dev)
         wsum = torch.zeros((), dtype=torch.float64, device=self.dev)
         for b in self.train.minibatches(order, self.batch):
-            X = DevicePolicyBatch(b["rec"], self.dl)
+            X = DevicePolicyBatch(b["rec"], self.dl, self.model.family)
             w = b["weight"]
             self.opt.zero_grad()
             loss, out = self.net.loss(X, self._y(b), w, self.cfg)
@@ -389,7 +401,7 @@ class PolicyTrainer:
         t0 = time.time()
         total = torch.zeros((), dtype=torch.float64, device=self.dev)
         for b in self.val.minibatches(np.arange(self.val.n), size):
-            X = DevicePolicyBatch(b["rec"], self.dl)
+            X = DevicePolicyBatch(b["rec"], self.dl, self.model.family)
             w = b["weight"]
             _, out = self.net.loss(X, self._y(b), w, self.cfg)
             total += out["total"].double() * w.sum().double() / self.val_wsum
@@ -406,15 +418,23 @@ class PolicyTrainer:
 
 
 class ValueTrainer:
-    """Drives TorchValue for training.common.fit; the 54 value columns are kept as int16 (resident if they fit)."""
+    """Drives TorchValue for training.common.fit; only the value columns of the model's family are kept, as int16
+    (resident if they fit, else streamed). Rows may also come as a V-only cache (`v` already the family's columns,
+    training/value_cache.py)."""
 
-    def __init__(self, model: ValueNet, layout: Layout, train: dict, val: dict, cfg: dict, args, dev):
+    def __init__(self, model: ValueNet, layout: Layout, train: dict, val: dict, cfg: dict, args, dev, rank: dict | None = None):
         self.model, self.cfg, self.batch, self.dev = model, cfg, args.batch, dev
-        self.dl = DeviceLayout(layout, dev)
+        self.dl = DeviceLayout(layout, dev, model.family)
+        self.rank = None
+        if rank is not None:  # resolved pairs (training.train_value.load_rank), kept on the device
+            t = lambda a: torch.from_numpy(np.ascontiguousarray(a)).to(dev)  # noqa: E731
+            self.rank = {"v": t(rank["cand_v"]), "a": t(rank["a"]).long(), "b": t(rank["b"]).long(), "y": t(rank["y"]),
+                         "w": t(rank["w"]), "batch": args.rank_batch, "perm": None, "pos": 0}
         self.net = TorchValue(model, dev)
         self.opt = TorchAdam(self.net.params, lr=args.lr, weight_decay=args.weight_decay)
         budget = args.gpu_resident_gb * 2 ** 30
-        slim = lambda d: {"v": np.ascontiguousarray(layout.get(d["rec"], "v")), "v_y": d["v_y"], "weight": d["weight"]}  # noqa: E731
+        slim = lambda d: {"v": d["v"] if "v" in d else value_columns(d["rec"], layout, model.family),  # noqa: E731
+                          "v_y": d["v_y"], "weight": d["weight"]}
         self.train = RowSource(slim(train), dev, budget, args.gpu_window_rows)
         self.val = RowSource(slim(val), dev, budget, args.gpu_window_rows)
         self.val_wsum = float(val["weight"].sum())
@@ -432,6 +452,8 @@ class ValueTrainer:
             w = b["weight"]
             self.opt.zero_grad()
             loss, out = self.net.loss(self._x(b["v"]), b["v_y"], w, self.cfg)
+            if self.rank is not None:
+                loss = loss + self._rank_step(rng)
             loss.backward()
             self.opt.step()
             total += out["outcome"].double() * w.sum().double()
@@ -441,6 +463,17 @@ class ValueTrainer:
         self.timing["train_seconds"] += dt
         self.timing["rows_per_second"].append(round(self.train.n / dt))
         return value
+
+    def _rank_step(self, rng):
+        """The next minibatch of resolved pairs, in the order of a NumPy permutation (same stream as NumPy)."""
+        r = self.rank
+        n = len(r["y"])
+        if r["perm"] is None or r["pos"] >= n:
+            r["perm"], r["pos"] = torch.from_numpy(rng.permutation(n)).to(self.dev), 0
+        p = r["perm"][r["pos"]:r["pos"] + r["batch"]]
+        r["pos"] += r["batch"]
+        loss, _ = self.net.rank_loss(self._x(r["v"][r["a"][p]]), self._x(r["v"][r["b"][p]]), r["y"][p], r["w"][p], self.cfg)
+        return loss
 
     @torch.no_grad()
     def evaluate(self, size=8192):

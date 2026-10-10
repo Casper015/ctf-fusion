@@ -60,15 +60,15 @@ def schema() -> dict:
     return json.loads(subprocess.run([str(extractor()), "--schema"], capture_output=True, check=True).stdout.decode())
 
 
-def check_records(rec: np.ndarray, teams: int) -> None:
-    """Every record must start with (turn, team) in turn-major, team-minor order.
+def check_records(rec: np.ndarray, teams: int, first_turn: int = 1) -> None:
+    """Every record must start with (turn, team) in turn-major, team-minor order, from `first_turn` on.
 
     Catches a misaligned byte stream, e.g. a Windows tool writing in text mode
     (each 0x0A byte becomes 0x0D 0x0A, and turn 10 already contains one).
     """
     turns = len(rec) // teams if teams else 0
     if teams <= 0 or len(rec) != turns * teams or not (
-            np.array_equal(rec[:, 0], np.repeat(np.arange(1, turns + 1), teams)) and
+            np.array_equal(rec[:, 0], np.repeat(np.arange(first_turn, first_turn + turns), teams)) and
             np.array_equal(rec[:, 1], np.tile(np.arange(teams), turns))):
         raise RuntimeError("extractor records are misaligned (raw output must be binary)")
 
@@ -82,17 +82,31 @@ def extract(stream_text: str) -> np.ndarray:
     if len(r.stdout) % (2 * width):
         raise RuntimeError("extractor output is not a whole number of records (raw output must be binary)")
     rec = np.frombuffer(r.stdout, dtype="<i2").reshape(-1, width)
-    check_records(rec, int(stream_text.split(None, 2)[1]))
+    # A stream may start at any turn (a branch successor: INIT + root block + next block).
+    first = stream_text.split("\nTURN ", 1)
+    check_records(rec, int(stream_text.split(None, 2)[1]), int(first[1].split(None, 1)[0]) if len(first) > 1 else 1)
     return rec
 
 
 def model_tool(tool: str, model_header: Path, namespace: str) -> Path:
-    """Build a tool that takes one exported model header (infer_check, runtime_check)."""
+    """Build a tool that takes one exported model header (infer_check, runtime_check), for its feature families."""
     model_header = Path(model_header).resolve()
-    return build(REPO / "tools" / "cpp" / f"{tool}.cpp", f"{tool}_{namespace.split('::')[-1]}", deps=[model_header],
+    pfam, vfam = model_families(model_header)
+    return build(REPO / "tools" / "cpp" / f"{tool}.cpp", f"{tool}_{namespace.split('::')[-1]}_{pfam}{vfam}", deps=[model_header],
                  defines=[f'FUSION_MODEL_HEADER="{model_header.as_posix()}"', f"FUSION_MODEL_NS={namespace}",
-                          f"FUSION_MAX_WIDTH={model_buffer_width(model_header)}"],
+                          f"FUSION_MAX_WIDTH={model_buffer_width(model_header)}",
+                          f"FUSION_POLICY_FAMILY={pfam[1:]}", f"FUSION_VALUE_FAMILY={vfam[1:]}"],
                  includes=[REPO / "inference"])
+
+
+def model_families(header: Path) -> tuple[str, str]:
+    """(policy, value) feature families from an exported header's preamble; headers without the line are p2/v2."""
+    with Path(header).open(encoding="utf-8") as f:
+        for _, line in zip(range(64), f):
+            match = re.match(r"// Feature families: policy (p\d+), value (v\d+)", line)
+            if match:
+                return match.group(1), match.group(2)
+    return "p2", "v2"
 
 
 def model_buffer_width(header: Path) -> int:

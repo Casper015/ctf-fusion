@@ -28,7 +28,13 @@
 //   gzip -dc bots/p_only/tests/fixtures/orders_n04.txt.gz > orders.txt
 //   gzip -dc bots/p_only/tests/fixtures/stream_n04.txt.gz | ./a.out orders.txt
 #define PONLY_NO_MAIN 1
-#if defined(CARRIER_C08)
+// -DPONLY_FAMILIES: the family-aware carriers (make_families.py); select PONLY_POLICY_FAMILY,
+// PONLY_VALUE_FAMILY and pre-include a model set's registry (-include <set>/registry.hpp).
+#if defined(CARRIER_C08) && defined(PONLY_FAMILIES)
+#include "c08_ponly_f.hpp"
+#elif defined(CARRIER_V12) && defined(PONLY_FAMILIES)
+#include "v12_ponly_f.hpp"
+#elif defined(CARRIER_C08)
 #include "c08_ponly.hpp"
 #elif defined(CARRIER_V12)
 #include "v12_ponly.hpp"

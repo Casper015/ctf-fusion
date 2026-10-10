@@ -15,6 +15,11 @@ Rows are split by map (--split-by map, the default): train / val / test from
 a hash of the map seed, so neither a match nor a map ever feeds two splits
 (--split-by match hashes the match id instead).
 
+--rows designated keeps only the rows of each match's designated seat (the frozen carrier of a
+screen run with keep_matches, seat name "@candidate"): value data under that carrier's own
+continuation policy (bots/p_only/profiles/collect_v_data.json). Those rows are our own
+carrier's decisions, so training.train_policy refuses such shards.
+
 --holdout-family F reserves an `ood` split that never enters training:
   --holdout-mode fixture (default, the strict test): every match with a seat
       of family F goes to `ood` whole, every team's rows, so the held-out
@@ -45,12 +50,14 @@ from pathlib import Path
 
 import numpy as np
 
+from fusion import families as fam
 from fusion import matchlog, native
 from fusion.labels import STRATA, label_match
 from fusion.paths import REPO, git_commit
 from fusion.schema import Layout
 
 SPLITS = (("train", 0.8), ("val", 0.1), ("test", 0.1))
+LEGACY_FAMILIES = ("p2", "v2")
 DEFAULT_KEEP = {"flag": 1.0, "contact": 1.0, "respawn": 0.6, "quiet": 0.35}
 FIELDS = ("rec", "y_move", "y_joint", "y_act", "y_tgt", "blocked", "valid", "v_y", "stratum", "weight",
           "match", "teams", "family", "turn", "team")
@@ -74,9 +81,16 @@ def split_key(match: dict, split_by: str) -> str:
     return f"map-{match['map_seed']}" if split_by == "map" else match["match_id"]
 
 
+def designated_team(match: dict) -> int:
+    seats = [i for i, s in enumerate(match["seats"]) if s["name"] == "@candidate" or s.get("family") == "candidate"]
+    if len(seats) != 1:
+        raise ValueError(f"{match['match_id']}: --rows designated needs exactly one designated seat, found {seats}")
+    return seats[0]
+
+
 def process(job):
     """One match -> selected rows (dict of arrays) plus its metadata."""
-    path, stride, keep, holdout, split_by, holdout_mode = job
+    path, stride, keep, holdout, split_by, holdout_mode, rows_mode = job
     match = matchlog.load(path)
     layout = Layout(native.schema())
     rec = native.extract(matchlog.seat_stream(match, 0))
@@ -88,6 +102,8 @@ def process(job):
     offset = int(unit_hash("stride", match["match_id"]) * stride)
     rate = np.array([keep[s] for s in STRATA])[lab["stratum"]]
     take = ((turn - 1) % stride == offset) & (rng.random(len(rec)) < rate)
+    if rows_mode == "designated":
+        take &= team == designated_team(match)
     families = [s["family"] for s in match["seats"]]
     rows = {k: v[take] for k, v in lab.items()} | {
         "rec": rec[take], "weight": (stride / rate[take]).astype(np.float32), "turn": turn[take].astype(np.int16),
@@ -157,22 +173,20 @@ def load_index(shard_dir) -> dict:
     return json.loads((Path(shard_dir) / "index.json").read_text(encoding="utf-8"))
 
 
-def check_schema(shard_dir) -> None:
-    """Shards built by another feature schema cannot be mixed with this extractor's records or models."""
-    built = load_index(shard_dir)["schema"]
-    now = native.schema()
-    if built != now:
-        raise SystemExit(f"{shard_dir} was built with feature spec v{built.get('spec_version')} "
-                         f"(record width {built.get('record_width')}); the extractor is v{now['spec_version']} "
-                         f"(width {now['record_width']}): rebuild the dataset into a new --out")
+def check_schema(shard_dir, families=LEGACY_FAMILIES) -> None:
+    """Shards are usable for a model when they provide its feature families with the extractor's digests and at
+    the extractor's offsets (fusion/families.py); the record layout version may differ. Anything else must be
+    rebuilt: shards of another encoder cannot be mixed with this extractor's records or models."""
+    fam.check_shards(load_index(shard_dir)["schema"], families, str(shard_dir))
 
 
-def load(shard_dir, counts, split: str, fields=FIELDS) -> dict[str, np.ndarray]:
+def load(shard_dir, counts, split: str, fields=FIELDS, families=LEGACY_FAMILIES) -> dict[str, np.ndarray]:
     """Concatenate one split over team counts. Adds `qh` only when training.heuristic_baseline has run on every shard
-    (load_meta says how many have it and from which legacy planner)."""
+    (load_meta says how many have it and from which legacy planner). `families` are the feature families the
+    caller will read from `rec`; shards that do not provide them are refused."""
     if isinstance(counts, int):
         counts = [counts]
-    check_schema(shard_dir)
+    check_schema(shard_dir, families)
     parts, qh = [], []
     for t in counts:
         d = Path(shard_dir) / count_key(t) / split
@@ -231,6 +245,8 @@ def main(argv=None):
     ap.add_argument("--holdout-mode", choices=("fixture", "actor-row"), default="fixture",
                     help="fixture: whole matches with a held-out seat go to ood (strict); actor-row: only that team's rows")
     ap.add_argument("--split-by", choices=("map", "match"), default="map", help="unit that never straddles two splits")
+    ap.add_argument("--rows", choices=("all", "designated"), default="all",
+                    help="designated: only the designated seat's rows (frozen-carrier value data)")
     ap.add_argument("--shard-rows", type=int, default=200_000)
     ap.add_argument("--workers", type=int, default=1)
     ap.add_argument("--append", action="store_true", help="add matches missing from an existing index")
@@ -239,6 +255,8 @@ def main(argv=None):
     out_dir = Path(args.out)
     options = {"stride": args.stride, "keep": args.keep_map, "holdout_family": sorted(args.holdout_family),
                "holdout_mode": args.holdout_mode, "split_by": args.split_by}
+    if args.rows != "all":  # recorded only when set, so earlier indexes keep matching for --append
+        options["rows"] = args.rows
     index = {"schema": native.schema(), "options": options, "families": [], "matches": [], "counts": {}, "history": []}
     if (out_dir / "index.json").exists():
         if not args.append:
@@ -247,12 +265,13 @@ def main(argv=None):
         if index["options"] != options:
             raise SystemExit(f"--append needs the same sampling options as the index: {index['options']}")
         if index["schema"] != native.schema():
-            raise SystemExit("the feature schema changed since this dataset was built; rebuild it into a new --out")
+            raise SystemExit("the extractor's record layout or features changed since this dataset was built; "
+                             "appending would mix layouts: rebuild it into a new --out")
     known = {m["match_id"] for m in index["matches"]}
     files = [f for f in matchlog.iter_matches(args.raw, args.teams) if f.name.split(".")[0] not in known]
     print(f"[dataset] {len(files)} new matches ({len(known)} already indexed)", flush=True)
     native.extractor()  # compile before forking
-    jobs = [(f, args.stride, args.keep_map, set(args.holdout_family), args.split_by, args.holdout_mode) for f in files]
+    jobs = [(f, args.stride, args.keep_map, set(args.holdout_family), args.split_by, args.holdout_mode, args.rows) for f in files]
     buffers = defaultdict(list)
     families, matches = index["families"], index["matches"]
     pool = mp.Pool(args.workers) if args.workers > 1 else None

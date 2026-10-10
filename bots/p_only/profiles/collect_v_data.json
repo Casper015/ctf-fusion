@@ -1,0 +1,33 @@
+{
+ "_comment": "Frozen-carrier value data (docs/FEATURE_FAMILIES.md, profiles/v_pilot.json). One arm, the frozen carrier v12_ponly_xxl (policy XXL from inference/models_xxl, V off, fixed-time search), plays the frozen reference roster on fresh maps; keep_matches saves every match so training.dataset --rows designated can take the carrier's own rows. Data seed 20261201 is for training data only (never reuse 20261009, 20261020, 20261031, 20261101, 20261102, 20261107 or 20261108; screens of this work use 20261210 and 20261211; the confirmation seed stays unchosen until finalists are frozen). The report is a by-product, not a comparison.",
+ "seed": 20261201,
+ "teams": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "maps_per_count": 500,
+ "workers": 6,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "keep_matches": true,
+ "arms": [
+  "v12_ponly_xxl"
+ ],
+ "aa": [],
+ "comparisons": [],
+ "contrasts": {},
+ "work_dir": "data/p_only/v_data",
+ "report_dir": "bots/p_only/report/v_data"
+}
