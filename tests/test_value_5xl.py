@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import json
+import gzip
+import hashlib
 import tempfile
 import threading
 import unittest
@@ -54,6 +56,32 @@ class TestValue5XL(unittest.TestCase):
                 write()
                 with self.assertRaisesRegex(ValueError, "stale"):
                     summary.screen_summary("time", build)
+
+    def test_missing_counter_games_do_not_become_zero_rates(self):
+        from training import summarize_value_capacity as summary
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            build, data = root / "build", root / "data"
+            build.mkdir()
+            (data / "matches").mkdir(parents=True)
+            arm = "cap_5xl_time"
+            (build / "screen_time.json").write_text(json.dumps({"work_dir": "data"}))
+            (data / "identities.json").write_text(json.dumps({arm: {"digest": "frozen"}}))
+            (data / "schedule.json").write_text(json.dumps({"fixtures": [1, 2]}))
+            rows = [{"arm": arm, "fixture_id": i, "map_seed": i, "identity": "frozen", "utility": 0.5, "faults": 0} for i in (1, 2)]
+            (data / "results.jsonl").write_text("\n".join(json.dumps(row) for row in rows))
+            key = hashlib.sha256(arm.encode()).hexdigest()[:10]
+            for i in (1, 2):
+                match = {"blocks": [1, 2], "seats": [{"name": "@candidate"}],
+                         "bots": [{"first_ms": 20, "p50_ms": 10, "p99_ms": 12, "max_ms": 12,
+                                   "stderr_tail": ["VALUE refine_calls 4 beam_calls 0 seconds 0.002"] if i == 1 else []}]}
+                (data / "matches" / f"fixture{i}-{key}.json.gz").write_bytes(gzip.compress(json.dumps(match).encode()))
+            with mock.patch.object(summary, "REPO", root):
+                result = summary.screen_summary("time", build)["arms"][arm]
+            self.assertEqual(result["counter_games"], {"value": 1})
+            self.assertEqual(result["counter_turns"], {"value": 2})
+            self.assertEqual(result["counters"]["value.calls_per_turn"], 2)
+            self.assertEqual(result["counters"]["value.ms_per_turn"], 1)
 
     def test_complete_candidates_are_bounded_deterministic_and_cover_actions(self):
         from fusion.protocol import parse_reply

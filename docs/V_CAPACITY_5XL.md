@@ -110,6 +110,8 @@ python -m training.check_value_capacity --set build/v_capacity_5xl/sets/5XL --ru
 python bots/p_only/tools/build.py --stats --variants build/v_capacity_5xl/variants.json
 python tools/repo/task.py lock --task T0016 cpu -- python bots/p_only/tools/run_screen.py --config build/v_capacity_5xl/screen_time.json
 python tools/repo/task.py lock --task T0016 cpu -- python bots/p_only/tools/run_screen.py --config build/v_capacity_5xl/screen_work.json
+python tools/repo/task.py lock --task T0016 cpu -- python -m training.branch_collect --matches data/v_capacity_5xl/branch_roots --carrier cap_xl_time --out data/branches/v_capacity_5xl_complete_isolated --roots-per-match 1 --candidates 6 --candidate-mode complete --repeats 2 --workers 4
+python -m training.branch_dataset --branches data/branches/v_capacity_5xl_complete_isolated --out data/rank/v_capacity_5xl_complete_isolated
 python -m training.summarize_value_capacity --build build/v_capacity_5xl --out reports/models/v_capacity_5xl
 ```
 
@@ -120,6 +122,16 @@ stale or duplicate rows, and computes paired utility differences over the four
 independent maps with a small-sample t multiplier. It records game-level full
 reply percentiles, `VALUE`, `VBUDGET` and `SEARCH` counters, and observed deadline
 status. None of these small screens establishes game-strength superiority.
+
+For `branch_roots`, copy only the four base `cap_xl_time` match logs, preserving
+their `n02/n04/n08/n15` directories. The filename's arm key is the first ten
+hex characters of SHA-256(`cap_xl_time`). A/A copies are not additional maps.
+The retained complete-order collection runs with no concurrent checks; an
+earlier plumbing run is not retained as host evidence. Its continuation policy
+is the exact matched C08/p2-XXL/XL binary, eight calls and 20 ms, with the same
+opponent sources and exploratory seed. This is distinct from the mixed-policy
+training target. The summary audits outcomes, repetitions, faults, prefix
+mismatches, available order coverage and map splits without scoring test models.
 
 The student is experimental even if its teacher has lower validation loss.
 Distillation retains v3 and combines real outcomes with teacher targets.
