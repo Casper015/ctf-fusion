@@ -3,6 +3,7 @@
     python p_only/tools/run_screen.py                 # the configured screen, official limits
     python p_only/tools/run_screen.py --smoke         # 2 counts x 1 map, 1 s turns, 4 arms: checks the chain (not evidence)
     python p_only/tools/run_screen.py --analyze-only  # re-run the analysis on the results so far
+    python p_only/tools/run_screen.py --dry-run       # build, schedule, identities and job order; no games
 
 Steps (re-run the same command after an interruption; finished games are kept):
 
@@ -10,11 +11,15 @@ Steps (re-run the same command after an interruption; finished games are kept):
                build/p_only/manifest.json with bundle and binary SHA-256
   2. schedule  roster.strength schedule: maps_per_count x teams fixtures, frozen seed;
                opponents from the frozen reference roster
-  3. run       roster.strength run with every arm (and each aa copy, the identical
-               binary under another name) on every fixture; rows carry the binary
-               SHA-256, the engine hash and the schedule identity
-  4. analyze   p_only/tools/analyze.py: paired differences per team-count band with
-               95% intervals, re-run noise, timing and faults, completeness
+  3. run       p_only/tools/screen_runner.py: every arm (and each aa copy, the identical
+               binary under another name) on every fixture, interleaved fixture by
+               fixture with the arm order rotated; rows carry an identity digest of
+               bundle, binary, every inlined source and model, runner code, schedule
+               and limits (identities.json), plus the engine hash
+  4. analyze   p_only/tools/analyze.py: paired differences and contrasts per
+               team-count band with 95% intervals, re-run noise, timing and faults,
+               search and value counters, completeness; rows of another identity
+               are stale
 
 Results (small JSON and Markdown, meant to be committed) land in report_dir with
 RUN.json (config, commits, host, wall time per step); raw results and match logs
@@ -57,19 +62,22 @@ def main(argv=None):
     ap.add_argument("--smoke", action="store_true", help="tiny plumbing check with relaxed limits (not evidence)")
     ap.add_argument("--workers", type=int, help="override the configured workers")
     ap.add_argument("--analyze-only", action="store_true")
+    ap.add_argument("--dry-run", action="store_true", help="build, schedule, identities and job order; play nothing")
     a = ap.parse_args(argv)
     cfg = json.loads(Path(a.config).read_text(encoding="utf-8"))
     root = ai_test_root(a.ai_test)
     os.environ["AI_TEST_ROOT"] = str(root)
     work, report = REPO / cfg["work_dir"], REPO / cfg["report_dir"]
     teams, maps, turn_ms = cfg["teams"], cfg["maps_per_count"], cfg["turn_ms"]
-    arms, aa, comparisons = list(cfg["arms"]), list(cfg.get("aa", [])), [list(c) for c in cfg["comparisons"]]
+    arms, aa, comparisons = list(cfg["arms"]), list(cfg.get("aa", [])), [list(c) for c in cfg.get("comparisons", [])]
+    contrasts = dict(cfg.get("contrasts", {}))
     if a.smoke:
         work = work / "smoke"
         report = work / "report"
         teams, maps, turn_ms = [2, 5], 1, 1000
         arms, aa = ["c08_control", "c08_control_2ply", "c08_ponly_m", "v12_ponly_m"], ["c08_control"]
         comparisons = [["c08_ponly_m", "c08_control"], ["c08_ponly_m", "c08_control_2ply"]]
+        contrasts = {}
     work.mkdir(parents=True, exist_ok=True)
     report.mkdir(parents=True, exist_ok=True)
     timings, t_all = {}, time.time()
@@ -81,23 +89,33 @@ def main(argv=None):
         if not sched.exists():
             step("schedule", ["-m", "roster.strength", "schedule", "--maps-per-count", str(maps), "--teams", *map(str, teams),
                               "--seed", str(cfg["seed"]), "--out", str(sched)], timings)
-        bots = [f"{arm}={REPO / manifest[arm]['binary']}" for arm in arms]
-        bots += [f"{arm}{AA}={REPO / manifest[arm]['binary']}" for arm in aa]
-        run = ["-m", "roster.strength", "run", "--schedule", str(sched), "--results", str(results),
-               "--workers", str(a.workers or cfg["workers"]), "--first-ms", str(cfg["first_ms"]), "--turn-ms", str(turn_ms)]
-        for b in bots:
-            run += ["--bot", b]
+        missing = [x for x in arms + aa if x not in manifest]
+        if missing:
+            raise SystemExit(f"not built: {missing}")
+        run = [str(REPO / "p_only" / "tools" / "screen_runner.py"), "--schedule", str(sched), "--manifest", str(manifest_path),
+               "--arms", *arms, "--results", str(results), "--workers", str(a.workers or cfg["workers"]),
+               "--first-ms", str(cfg["first_ms"]), "--turn-ms", str(turn_ms), "--ai-test", str(root)]
+        if aa:
+            run += ["--aa", *aa]
         if cfg.get("keep_matches"):
             run += ["--keep-matches", str(work / "matches")]
+        if a.dry_run:
+            step("dry-run", run + ["--dry-run"], timings)
+            print(f"[p-only screen] dry run: {len(arms) + len(aa)} arms built and identified, schedule {sched}; no games played")
+            return
         step("run", run, timings)
+        shutil.copy(work / "identities.json", report / "identities.json")
         shutil.copy(sched, report / "schedule.json")
         shutil.copy(manifest_path, report / "manifest.json")
     analyze = [str(REPO / "p_only" / "tools" / "analyze.py"), "--results", str(results), "--schedule", str(sched),
-               "--manifest", str(manifest_path), "--arms", *arms, "--out", str(report)]
+               "--manifest", str(manifest_path), "--arms", *arms, "--out", str(report),
+               "--identities", str(work / "identities.json")]
     if aa:
         analyze += ["--aa", *aa]
     for c in comparisons:
         analyze += ["--compare", f"{c[0]}:{c[1]}"]
+    for name, terms in contrasts.items():
+        analyze += ["--contrast", f"{name}={terms}"]
     if cfg.get("keep_matches"):
         analyze += ["--matches", str(work / "matches")]
     status = step("analyze", analyze, timings, check=False)

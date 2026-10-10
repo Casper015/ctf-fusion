@@ -95,6 +95,10 @@ Keep the worker count fixed and record it.
 
 If C08 P-only loses to the 2-turn control while running fewer samples per call, the loss may be search time, not prediction quality. Say so; don't conclude P is worse.
 
+## Phase 2b: capacity, sampling and V at two plies
+
+The first screen (470f00a) found C08 P-only XXL ahead of its 4-ply control, but it did not separate P's contribution from the shallower search, test XL, or test V. Run the two staged screens in [EXPERIMENTS.md](EXPERIMENTS.md): first capacity and sampling (2-ply control, C08 XL and XXL at fixed time and at 256 fixed samples, v12 XL and XXL, A/A copies of the finalists), then V at fixed P (P-XL and P-XXL, each with the same V-M off and on). Report each comparison with its interval, the truncated share for fixed-sample arms, and V's call counts per path.
+
 ## Phase 3: near-large / far-small inside C08's second-turn views
 
 This is not about multi-team games in general. At the root, every opponent can already have the largest size that fits (see Phase 1). The idea matters only inside C08 P-only's sampled search: about 240 network views and 620 team encodes per turn, almost all for the second turn of each sample, limited to teams within 6 tiles of our units. v12 makes only about 20 per turn.
