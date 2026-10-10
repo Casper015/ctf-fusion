@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-10 23:26Z claude@caspers-macbook: created
+- 2026-10-10 23:36Z codex@desktop-g60ojud: note: Seed collision: 20261220 was reserved in T0016 before this task and has now been consumed by its paired exploratory 5XL time/work screens. It is not fresh for T0019. Choose and reserve a different unseen seed before host execution; do not alter the completed T0016 evidence. Current lock CLI requires --task T0019 before the positional cpu name (argparse REMAINDER).
