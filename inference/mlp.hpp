@@ -25,7 +25,15 @@ namespace fusion {
 // built with -DFUSION_MAX_WIDTH=<n> (tools/capacity_bench.py measures what a
 // size costs). Every exported header static_asserts its layers against it.
 #ifndef FUSION_MAX_WIDTH
+#if defined(FUSION_TIER_XXL)
+#define FUSION_MAX_WIDTH 2048
+#elif defined(FUSION_TIER_XL)
+#define FUSION_MAX_WIDTH 1024
+#elif defined(FUSION_TIER_L)
+#define FUSION_MAX_WIDTH 512
+#else
 #define FUSION_MAX_WIDTH 256
+#endif
 #endif
 
 inline constexpr int32_t kActOne = 128;

@@ -1,0 +1,209 @@
+{
+  "metadata": {
+    "teams": [
+      2,
+      5,
+      8,
+      15
+    ],
+    "maps_per_count": 25,
+    "seed": 20261020,
+    "candidates": [
+      "control",
+      "p_s",
+      "p_m"
+    ],
+    "elapsed_seconds": 187.77846717834473
+  },
+  "per_count": {
+    "2": {
+      "control": {
+        "n_maps": 25,
+        "mean_utility": 0.86,
+        "se_utility": 0.06782329983125268,
+        "p99_ms_mean": 0.25852,
+        "faults": 0
+      },
+      "p_s": {
+        "n_maps": 25,
+        "mean_utility": 0.72,
+        "se_utility": 0.08698658900466594,
+        "p99_ms_mean": 0.33652,
+        "faults": 0,
+        "paired": {
+          "diff_mean": -0.14,
+          "diff_se": 0.06782329983125267,
+          "ci95_lower": -0.2729336676692552,
+          "ci95_upper": -0.007066332330744801,
+          "wins": 0,
+          "ties": 21,
+          "losses": 4
+        }
+      },
+      "p_m": {
+        "n_maps": 25,
+        "mean_utility": 0.86,
+        "se_utility": 0.06782329983125267,
+        "p99_ms_mean": 0.32484,
+        "faults": 0,
+        "paired": {
+          "diff_mean": 0.0,
+          "diff_se": 0.06454972243679027,
+          "ci95_lower": -0.12651745597610894,
+          "ci95_upper": 0.12651745597610894,
+          "wins": 2,
+          "ties": 21,
+          "losses": 2
+        }
+      }
+    },
+    "5": {
+      "control": {
+        "n_maps": 25,
+        "mean_utility": 0.85,
+        "se_utility": 0.04018187817080397,
+        "p99_ms_mean": 23.496959999999994,
+        "faults": 0
+      },
+      "p_s": {
+        "n_maps": 25,
+        "mean_utility": 0.75,
+        "se_utility": 0.04841229182759271,
+        "p99_ms_mean": 24.394679999999997,
+        "faults": 0,
+        "paired": {
+          "diff_mean": -0.1,
+          "diff_se": 0.04448782605013047,
+          "ci95_lower": -0.18719613905825572,
+          "ci95_upper": -0.01280386094174428,
+          "wins": 6,
+          "ties": 9,
+          "losses": 10
+        }
+      },
+      "p_m": {
+        "n_maps": 25,
+        "mean_utility": 0.785,
+        "se_utility": 0.05027010377285225,
+        "p99_ms_mean": 24.426959999999998,
+        "faults": 0,
+        "paired": {
+          "diff_mean": -0.065,
+          "diff_se": 0.051599418601375735,
+          "ci95_lower": -0.16613486045869644,
+          "ci95_upper": 0.03613486045869643,
+          "wins": 8,
+          "ties": 7,
+          "losses": 10
+        }
+      }
+    },
+    "8": {
+      "control": {
+        "n_maps": 25,
+        "mean_utility": 0.7657142857142857,
+        "se_utility": 0.05432329526237585,
+        "p99_ms_mean": 24.185,
+        "faults": 0
+      },
+      "p_s": {
+        "n_maps": 25,
+        "mean_utility": 0.7314285714285715,
+        "se_utility": 0.05703561365050609,
+        "p99_ms_mean": 24.84596,
+        "faults": 0,
+        "paired": {
+          "diff_mean": -0.03428571428571428,
+          "diff_se": 0.030617233153673352,
+          "ci95_lower": -0.09429549126691406,
+          "ci95_upper": 0.025724062695485488,
+          "wins": 7,
+          "ties": 5,
+          "losses": 13
+        }
+      },
+      "p_m": {
+        "n_maps": 25,
+        "mean_utility": 0.7685714285714285,
+        "se_utility": 0.049535255087650845,
+        "p99_ms_mean": 24.845480000000002,
+        "faults": 0,
+        "paired": {
+          "diff_mean": 0.0028571428571428537,
+          "diff_se": 0.03582838915424129,
+          "ci95_lower": -0.06736649988517007,
+          "ci95_upper": 0.07308078559945577,
+          "wins": 11,
+          "ties": 6,
+          "losses": 8
+        }
+      }
+    },
+    "15": {
+      "control": {
+        "n_maps": 25,
+        "mean_utility": 0.6357142857142857,
+        "se_utility": 0.06620803124516349,
+        "p99_ms_mean": 29.837519999999994,
+        "faults": 0
+      },
+      "p_s": {
+        "n_maps": 25,
+        "mean_utility": 0.79,
+        "se_utility": 0.0364402408946838,
+        "p99_ms_mean": 30.357919999999993,
+        "faults": 0,
+        "paired": {
+          "diff_mean": 0.15428571428571428,
+          "diff_se": 0.04714285714285714,
+          "ci95_lower": 0.06188571428571428,
+          "ci95_upper": 0.24668571428571429,
+          "wins": 17,
+          "ties": 2,
+          "losses": 6
+        }
+      },
+      "p_m": {
+        "n_maps": 25,
+        "mean_utility": 0.6814285714285714,
+        "se_utility": 0.058463896644718724,
+        "p99_ms_mean": 30.33084,
+        "faults": 0,
+        "paired": {
+          "diff_mean": 0.045714285714285714,
+          "diff_se": 0.05343315488361441,
+          "ci95_lower": -0.05901469785759852,
+          "ci95_upper": 0.15044326928616994,
+          "wins": 15,
+          "ties": 2,
+          "losses": 8
+        }
+      }
+    }
+  },
+  "aggregate": {
+    "control": {
+      "equal_count_mean_utility": 0.7778571428571428
+    },
+    "p_s": {
+      "equal_count_mean_utility": 0.7478571428571429,
+      "paired": {
+        "equal_count_diff_mean": -0.030000000000000006,
+        "raw_diff_mean": -0.029999999999999995,
+        "raw_diff_se": 0.026813814024715894,
+        "ci95_lower": -0.08255507548844315,
+        "ci95_upper": 0.02255507548844316
+      }
+    },
+    "p_m": {
+      "equal_count_mean_utility": 0.7737499999999999,
+      "paired": {
+        "equal_count_diff_mean": -0.004107142857142858,
+        "raw_diff_mean": -0.004107142857142858,
+        "raw_diff_se": 0.026086786824273504,
+        "ci95_lower": -0.05523724503271892,
+        "ci95_upper": 0.047022959318433206
+      }
+    }
+  }
+}

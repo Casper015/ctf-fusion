@@ -32,7 +32,8 @@ from pathlib import Path
 MAX_STRIKES = 3
 MAX_LINE = 65536
 WINDOWS = os.name == "nt"
-CXX_FLAGS = ["-std=c++20", "-O2"] + (["-static"] if WINDOWS else [])
+REPO = Path(__file__).resolve().parents[1]
+CXX_FLAGS = ["-std=c++20", "-O2", f"-I{REPO / 'inference'}"] + (["-static"] if WINDOWS else [])
 EXE = ".exe" if WINDOWS else ""
 
 

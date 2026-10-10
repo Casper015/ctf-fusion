@@ -5,9 +5,11 @@ runs_*/
 reports/*
 !reports/*.md
 !reports/*.json
+!reports/*.jsonl
 reports_*/*
 !reports_*/*.md
 !reports_*/*.json
+!reports_*/*.jsonl
 __pycache__/
 *.pyc
 .DS_Store
