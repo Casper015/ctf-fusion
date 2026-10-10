@@ -1,13 +1,13 @@
 ---
 id: T0016
 title: "5XL V capacity: width contracts and reproducible experiment"
-status: open
-owner: ""
+status: active
+owner: codex@desktop-g60ojud
 needs: []
 writes: [fusion/, training/, inference/mlp.hpp, inference/value_v3.hpp, tests/, tools/cpp/, tools/host/value_cost.py, profiles/v_capacity_5xl.json, docs/V_CAPACITY_5XL.md, reports/models/v_capacity_5xl/]
 depends: []
 land: pr
-branch: ""
+branch: codex/t0016-5xl-v-capacity-width-contracts-and
 updated: 2026-10-10
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-10 22:37Z codex@desktop-g60ojud: created
+- 2026-10-10 22:37Z codex@desktop-g60ojud: claimed
