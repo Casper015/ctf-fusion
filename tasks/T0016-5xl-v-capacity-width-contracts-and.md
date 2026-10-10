@@ -28,3 +28,4 @@ Not started.
 - 2026-10-10 22:37Z codex@desktop-g60ojud: created
 - 2026-10-10 22:37Z codex@desktop-g60ojud: claimed
 - 2026-10-10 22:45Z codex@desktop-g60ojud: note: Confirmed host,cuda,ai-test via supplied Python 3.14 / torch 2.11.0+cu128 and AI_Test path. Actual 5XL shape and native integer/incremental/chunk contracts pass. Separate mixed-policy exploratory pilot uses cache ccf6f46945b83ad3 with fresh XL/4XL/5XL controls; production and T0012 untouched.
+- 2026-10-10 22:56Z codex@desktop-g60ojud: note: Implementation frozen at 130f766. Repository 155 tests passed (1 skip), final CUDA/AI_Test contracts 53 passed, P-only 20 passed. Reserve 20261220 for this bounded time/work paired exploratory screen, not confirmation. Starting CPU+GPU locked sweeps and fresh capacity controls; no rebuild or pull during evidence.
