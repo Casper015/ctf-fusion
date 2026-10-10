@@ -1,14 +1,14 @@
-"""Derive p_only/bots/c08_ponly.hpp from bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp.
+"""Derive bots/p_only/bots/c08_ponly.hpp from bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp.
 
 Record of how the P-only carrier was made (source snapshot 99ecbe1). Every replaced
 range is checked at both ends, so the script refuses a changed source instead of
-splicing at the wrong place. Run: python p_only/tools/derive/make_c08.py
+splicing at the wrong place. Run: python bots/p_only/tools/derive/make_c08.py
 """
 import os
 import sys
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[3]
+REPO = Path(__file__).resolve().parents[4]
 src = (REPO / "bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp").read_text(encoding="utf-8").split("\n")
 edits = {}          # original line -> replacement lines ([] deletes)
 
@@ -747,7 +747,7 @@ for item in POST:
         sys.exit(f"POST: expected {times} occurrence(s) of {old[:70]!r}, found {text.count(old)}")
     text = text.replace(old, new)
 
-dst = Path(os.environ.get("PONLY_DERIVE_DIR", REPO / "p_only/bots")) / "c08_ponly.hpp"   # tests derive into a scratch dir
+dst = Path(os.environ.get("PONLY_DERIVE_DIR", REPO / "bots/p_only/bots")) / "c08_ponly.hpp"   # tests derive into a scratch dir
 dst.parent.mkdir(parents=True, exist_ok=True)
 dst.write_text(text, encoding="utf-8")
 print(dst, text.count("\n") + 1, "lines")

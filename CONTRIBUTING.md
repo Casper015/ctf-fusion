@@ -26,7 +26,7 @@ The rules for working in `ctf-fusion`: where a file goes, what is committed, how
 | A script that turns results into a report or plot | `tools/reporting/` | |
 | A model matrix, search budget or opponent pool definition | `profiles/` | JSON only. |
 | A bot built on a carrier with the mixture integration | `bots/hybrid/` | |
-| Work on the P-only bots | `p_only/` | Self-contained: its own `tools/`, `tests/`, `report/`. |
+| Work on the P-only bots | `bots/p_only/` | Self-contained: its own `tools/`, `tests/`, `report/`. |
 | A unit or contract test | `tests/` | One `test_<area>.py` per area. |
 | Offline gate report of one model | `reports/models/<tier>/` | Written by `training.evaluate_offline`. |
 | A host measurement | `reports/host/` | Name ends in the host: `capacity_<HOST>.json`. |
@@ -64,7 +64,7 @@ Other rules:
 | `inference/models_p<tier>_v<tier>/` (mixed P/V sets: exact copies of committed arrays) | `python -m training.export_mixed --policy-tier <t> --value-tier <t>` (`tests/test_mixed_export.py` re-derives and compares) |
 | `training/specs/FEATURES.md` | `python tools/pipeline/gen_feature_spec.py` (a test fails when it drifts) |
 | `bots/hybrid/*_Fusion.hpp` variants | `tools/pipeline/build_carrier_variants.py` |
-| `p_only/bots/c08_ponly.hpp`, `v12_ponly.hpp`, `c08_control.hpp` | `p_only/tools/derive/make_*.py` (a test re-derives and compares) |
+| `bots/p_only/bots/c08_ponly.hpp`, `v12_ponly.hpp`, `c08_control.hpp` | `bots/p_only/tools/derive/make_*.py` (a test re-derives and compares) |
 | `reports/**`, `docs/benchmark/*TABLES.md`, `roster/report/**` | the script named in the file's header |
 | `roster/bots/src/**` | vendored sources, named by sha256: never edit |
 
@@ -97,14 +97,14 @@ Areas in use: `docs`, `train`, `training`, `models`, `eval`, `bench`, `roster`, 
 
 **Pull requests** target `main`, say what changed and how it was checked, and link the report or review that justifies a model or bot change. Merge with a merge commit, as the history already does. Don't force-push a branch someone else has pulled, and never force-push `main`.
 
-**Trained models and bots.** A change to `inference/models*/` ships with the offline gate report it was exported from (`reports/models/<tier>/`) in the same pull request. A bot variant that goes to the host ships with its screen result under `reports/eval/` or `p_only/report/`.
+**Trained models and bots.** A change to `inference/models*/` ships with the offline gate report it was exported from (`reports/models/<tier>/`) in the same pull request. A bot variant that goes to the host ships with its screen result under `reports/eval/` or `bots/p_only/report/`.
 
 ## Before you push
 
 ```bash
 export AI_TEST_ROOT=~/code/AI_Test                 # without it the end-to-end pipeline tests are skipped
 python -m unittest discover -s tests -t .          # ~10 s without AI_Test, ~25 s with it
-python -m unittest discover -s p_only/tests        # ~20 s, when you touched p_only/ or bots/hybrid/
+python -m unittest discover -s bots/p_only/tests        # ~20 s, when you touched bots/p_only/ or bots/hybrid/
 ```
 
 - A moved or renamed file: `git grep -n "<old path>"` returns nothing outside `docs/PATH_MAP.md`, frozen results and vendored sources.

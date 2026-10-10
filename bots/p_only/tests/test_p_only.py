@@ -1,6 +1,6 @@
 """Tests of the P-only package (no games; the compile and contract tests need a C++ compiler).
 
-    python -m unittest discover -s p_only/tests -v
+    python -m unittest discover -s bots/p_only/tests -v
 """
 from __future__ import annotations
 
@@ -14,9 +14,9 @@ import tempfile
 import unittest
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
-sys.path.insert(0, str(REPO / "p_only" / "tools"))
+sys.path.insert(0, str(REPO / "bots" / "p_only" / "tools"))
 
 import analyze  # noqa: E402
 import bundle  # noqa: E402
@@ -24,8 +24,8 @@ import screen_runner  # noqa: E402
 import size_rule  # noqa: E402
 from fusion.runner import find_compiler  # noqa: E402
 
-BOTS = REPO / "p_only" / "bots"
-HEADERS = [BOTS / "c08_ponly.hpp", BOTS / "v12_ponly.hpp", REPO / "p_only" / "include" / "ponly.hpp"]
+BOTS = REPO / "bots" / "p_only" / "bots"
+HEADERS = [BOTS / "c08_ponly.hpp", BOTS / "v12_ponly.hpp", REPO / "bots" / "p_only" / "include" / "ponly.hpp"]
 CXX = find_compiler()
 
 # Identifiers of the hand-written opponent model and of the legacy mixture: none
@@ -67,7 +67,7 @@ class HandWrittenPredictionRemoved(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             for script, name in [("make_c08.py", "c08_ponly.hpp"), ("make_v12.py", "v12_ponly.hpp"),
                                  ("make_c08_control.py", "c08_control.hpp")]:
-                subprocess.run([sys.executable, str(REPO / "p_only" / "tools" / "derive" / script)], check=True,
+                subprocess.run([sys.executable, str(REPO / "bots" / "p_only" / "tools" / "derive" / script)], check=True,
                                env={**os.environ, "PONLY_DERIVE_DIR": tmp}, capture_output=True)
                 with self.subTest(header=name):
                     self.assertEqual((Path(tmp) / name).read_text(encoding="utf-8"), (BOTS / name).read_text(encoding="utf-8"))
@@ -85,7 +85,7 @@ class Bundle(unittest.TestCase):
             bundle.evaluate("defined(__AVX2__)", m)
 
     def test_variants_bundle_into_one_file(self):
-        variants = json.loads((REPO / "p_only" / "profiles" / "variants.json").read_text(encoding="utf-8"))["variants"]
+        variants = json.loads((REPO / "bots" / "p_only" / "profiles" / "variants.json").read_text(encoding="utf-8"))["variants"]
         for v in variants:
             with self.subTest(variant=v["name"]):
                 text, files = bundle.bundle(REPO / v["source"])
@@ -166,15 +166,15 @@ class Replay(unittest.TestCase):
 
     def outputs(self, carrier: str, defines: list[str], stream: Path, tmp: str) -> tuple[list[list[str]], int]:
         exe = Path(tmp) / ("replay_" + carrier + "_" + "_".join(d.lstrip("-D").replace("=", "") for d in defines))
-        subprocess.run([CXX, "-std=c++20", "-O2", f"-I{REPO / 'inference'}", f"-I{REPO / 'p_only' / 'include'}", f"-I{BOTS}",
-                        f"-DCARRIER_{carrier}", "-DFUSION_TIER_PXL_VM", *defines, str(REPO / "p_only" / "tests" / "replay_test.cpp"),
+        subprocess.run([CXX, "-std=c++20", "-O2", f"-I{REPO / 'inference'}", f"-I{REPO / 'bots' / 'p_only' / 'include'}", f"-I{BOTS}",
+                        f"-DCARRIER_{carrier}", "-DFUSION_TIER_PXL_VM", *defines, str(REPO / "bots" / "p_only" / "tests" / "replay_test.cpp"),
                         "-o", str(exe)], check=True, capture_output=True)
         lines = subprocess.run([str(exe)], input=gzip.decompress(stream.read_bytes()), capture_output=True, timeout=900,
                                check=True).stdout.decode().splitlines()
         return [line.split(" ", 2) for line in lines[:-1]], int(lines[-1].split()[1])
 
     def run_replay(self, carrier: str, fixed: list[str], zero: list[str]):
-        stream = REPO / "p_only" / "tests" / "fixtures" / "stream_n04.txt.gz"
+        stream = REPO / "bots" / "p_only" / "tests" / "fixtures" / "stream_n04.txt.gz"
         with tempfile.TemporaryDirectory() as tmp:
             off, t_off = self.outputs(carrier, fixed, stream, tmp)
             nil, t_nil = self.outputs(carrier, fixed + ["-DMOD_FUSION_V=1", *zero], stream, tmp)
@@ -202,10 +202,10 @@ class Contract(unittest.TestCase):
     def run_contract(self, carrier: str):
         with tempfile.TemporaryDirectory() as tmp:
             exe = Path(tmp) / f"contract_{carrier}"
-            subprocess.run([CXX, "-std=c++20", "-O2", f"-I{REPO / 'inference'}", f"-I{REPO / 'p_only' / 'include'}",
-                            f"-I{BOTS}", "-DFUSION_TIER_M", f"-DCARRIER_{carrier}", str(REPO / "p_only" / "tests" / "contract_test.cpp"),
+            subprocess.run([CXX, "-std=c++20", "-O2", f"-I{REPO / 'inference'}", f"-I{REPO / 'bots' / 'p_only' / 'include'}",
+                            f"-I{BOTS}", "-DFUSION_TIER_M", f"-DCARRIER_{carrier}", str(REPO / "bots" / "p_only" / "tests" / "contract_test.cpp"),
                             "-o", str(exe)], check=True, capture_output=True)
-            for stream in sorted((REPO / "p_only" / "tests" / "fixtures").glob("stream_n*.txt.gz")):
+            for stream in sorted((REPO / "bots" / "p_only" / "tests" / "fixtures").glob("stream_n*.txt.gz")):
                 orders = Path(tmp) / stream.name.replace("stream_", "orders_").removesuffix(".gz")
                 orders.write_bytes(gzip.decompress((stream.parent / stream.name.replace("stream_", "orders_")).read_bytes()))
                 r = subprocess.run([str(exe), str(orders)], input=gzip.decompress(stream.read_bytes()), capture_output=True, timeout=600)

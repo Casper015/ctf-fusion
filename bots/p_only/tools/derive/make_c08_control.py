@@ -1,4 +1,4 @@
-"""Derive p_only/bots/c08_control.hpp: the unchanged C08 carrier plus a search statistics line.
+"""Derive bots/p_only/bots/c08_control.hpp: the unchanged C08 carrier plus a search statistics line.
 
 Record of how the control was made (source snapshot 0c388ff). The only change to
 bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp is code compiled under PONLY_STATS
@@ -6,13 +6,13 @@ bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp is code compiled under PONLY_STATS
 stderr at the last turn, as the P-only carrier does. Without PONLY_STATS the
 program is the original. The wrappers c08_control.cpp (4-ply scripted playouts,
 as frozen) and c08_control_2ply.cpp (MOD_PLAYOUT_SIZES 0: 2-ply playouts, nothing
-else changed) include it. Run: python p_only/tools/derive/make_c08_control.py
+else changed) include it. Run: python bots/p_only/tools/derive/make_c08_control.py
 """
 import os
 import sys
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[3]
+REPO = Path(__file__).resolve().parents[4]
 src = (REPO / "bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp").read_text(encoding="utf-8").split("\n")
 
 
@@ -43,7 +43,7 @@ for i, line in enumerate(src, 1):
                 "#else",
                 "    void searchReport(const Game&)const{}",
                 "#endif"]
-dst = Path(os.environ.get("PONLY_DERIVE_DIR", REPO / "p_only/bots")) / "c08_control.hpp"
+dst = Path(os.environ.get("PONLY_DERIVE_DIR", REPO / "bots/p_only/bots")) / "c08_control.hpp"
 dst.parent.mkdir(parents=True, exist_ok=True)
 dst.write_text("\n".join(out), encoding="utf-8")
 print(dst, len(out), "lines")

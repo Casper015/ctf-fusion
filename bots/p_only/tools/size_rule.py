@@ -1,8 +1,8 @@
 """Phase 1 size rule: which P sizes enter the paired screen, from the timing run.
 
-    python p_only/tools/run_screen.py --config p_only/profiles/timing.json   # host, screen load
-    python p_only/tools/size_rule.py                                        # report the decision
-    python p_only/tools/size_rule.py --apply                                # also rewrite p_only/profiles/screen.json
+    python bots/p_only/tools/run_screen.py --config bots/p_only/profiles/timing.json   # host, screen load
+    python bots/p_only/tools/size_rule.py                                        # report the decision
+    python bots/p_only/tools/size_rule.py --apply                                # also rewrite bots/p_only/profiles/screen.json
 
 Rule (fixed before the timing run):
   C08  the largest P-only size, from XXL down to M, whose worst per-game p99
@@ -20,9 +20,9 @@ import argparse
 import json
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[2]
-TIMING = REPO / "p_only" / "report" / "timing" / "screen.json"
-SCREEN = REPO / "p_only" / "profiles" / "screen.json"
+REPO = Path(__file__).resolve().parents[3]
+TIMING = REPO / "bots" / "p_only" / "report" / "timing" / "screen.json"
+SCREEN = REPO / "bots" / "p_only" / "profiles" / "screen.json"
 LIMIT_MS = 40.0
 
 
@@ -69,7 +69,7 @@ def screen_arms(c08: str, v12: list[str]) -> tuple[list[str], list[list[str]]]:
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--timing", default=str(TIMING))
-    ap.add_argument("--apply", action="store_true", help="rewrite the arms and comparisons of p_only/profiles/screen.json")
+    ap.add_argument("--apply", action="store_true", help="rewrite the arms and comparisons of bots/p_only/profiles/screen.json")
     a = ap.parse_args(argv)
     d = decide(json.loads(Path(a.timing).read_text(encoding="utf-8")))
     c08 = d["c08"] or "c08_ponly_m"

@@ -11,7 +11,7 @@ from urllib.parse import unquote
 
 REPO = Path(__file__).resolve().parents[1]
 
-ROOT_DIRS = {"bots", "docs", "fusion", "inference", "p_only", "profiles", "reports", "roster", "tests", "tools", "training"}
+ROOT_DIRS = {"bots", "docs", "fusion", "inference", "profiles", "reports", "roster", "tests", "tools", "training"}
 ROOT_FILES = {".gitattributes", ".gitignore", "CONTRIBUTING.md", "README.md", "compile_flags.txt", "requirements.txt"}
 TOOLS_DIRS = {"cpp", "host", "pipeline", "reporting", "screens"}
 TOOLS_FILES = {"random_bot.py", "noise_bot.py", "README.md"}   # the bots are named by path in committed pools: do not move

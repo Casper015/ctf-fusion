@@ -1,14 +1,14 @@
-"""Derive p_only/bots/v12_ponly.hpp from bots/hybrid/Player5_v12_Fusion.hpp.
+"""Derive bots/p_only/bots/v12_ponly.hpp from bots/hybrid/Player5_v12_Fusion.hpp.
 
 Record of how the P-only carrier was made (source snapshot 99ecbe1). Every replaced
 range is checked, so the script refuses a changed source instead of splicing at
-the wrong place. Run: python p_only/tools/derive/make_v12.py
+the wrong place. Run: python bots/p_only/tools/derive/make_v12.py
 """
 import os
 import sys
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[3]
+REPO = Path(__file__).resolve().parents[4]
 src = (REPO / "bots/hybrid/Player5_v12_Fusion.hpp").read_text(encoding="utf-8").split("\n")
 L = lambda a, b: src[a - 1:b]          # 1-based inclusive
 
@@ -347,7 +347,7 @@ for old, new in EDITS:
         sys.exit(f"expected one line {old[:60]!r}, found {len(hits)}")
     out[hits[0]] = new
 
-dst = Path(os.environ.get("PONLY_DERIVE_DIR", REPO / "p_only/bots")) / "v12_ponly.hpp"   # tests derive into a scratch dir
+dst = Path(os.environ.get("PONLY_DERIVE_DIR", REPO / "bots/p_only/bots")) / "v12_ponly.hpp"   # tests derive into a scratch dir
 dst.parent.mkdir(parents=True, exist_ok=True)
 dst.write_text("\n".join(out), encoding="utf-8")
 print(dst, len(out), "lines")

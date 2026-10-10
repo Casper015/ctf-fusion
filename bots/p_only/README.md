@@ -9,19 +9,19 @@ The host agent's instructions are in [TASK.md](TASK.md). Start there after the q
 The commands run from the repository root, with the AI_Test checkout in `AI_TEST_ROOT` (or pass `--ai-test`), Python 3.10+, NumPy and a C++20 compiler (w64devkit on Windows). They need no edits.
 
 ```sh
-python -m unittest discover -s p_only/tests -v          # ~20 s: no hand-written identifiers, bundles, contract + engine comparison
-python p_only/tools/build.py --stats                     # ~2 min: 17 bundled single-file bots + build/p_only/manifest.json
-python p_only/tools/run_screen.py --smoke                # ~1 min: 10 games, relaxed limits, checks the chain (not evidence)
-python p_only/tools/run_screen.py --config p_only/profiles/screen_capacity.json   # stage 1 (EXPERIMENTS.md), 2,520 games
-python p_only/tools/run_screen.py --config p_only/profiles/screen_value.json      # stage 2 (EXPERIMENTS.md), 2,240 games
-python p_only/tools/run_screen.py --config p_only/profiles/timing.json   # 105 games: timing under screen load
-python p_only/tools/size_rule.py --apply                 # admits the C08 and v12 sizes into screen.json
-python p_only/tools/run_screen.py                        # the paired screen (p_only/profiles/screen.json), official limits
+python -m unittest discover -s bots/p_only/tests -v          # ~20 s: no hand-written identifiers, bundles, contract + engine comparison
+python bots/p_only/tools/build.py --stats                     # ~2 min: 17 bundled single-file bots + build/p_only/manifest.json
+python bots/p_only/tools/run_screen.py --smoke                # ~1 min: 10 games, relaxed limits, checks the chain (not evidence)
+python bots/p_only/tools/run_screen.py --config bots/p_only/profiles/screen_capacity.json   # stage 1 (EXPERIMENTS.md), 2,520 games
+python bots/p_only/tools/run_screen.py --config bots/p_only/profiles/screen_value.json      # stage 2 (EXPERIMENTS.md), 2,240 games
+python bots/p_only/tools/run_screen.py --config bots/p_only/profiles/timing.json   # 105 games: timing under screen load
+python bots/p_only/tools/size_rule.py --apply                 # admits the C08 and v12 sizes into screen.json
+python bots/p_only/tools/run_screen.py                        # the paired screen (bots/p_only/profiles/screen.json), official limits
 ```
 
-The screen writes `p_only/report/screen/SCREEN.md`, `screen.json`, `RUN.json`, the schedule and the build manifest. Commit those; raw results and match logs stay in `data/p_only/screen/` (not committed). If the run is interrupted, re-run the same command: finished games are kept. The analysis exits with status 2 and marks the report INCOMPLETE while any arm misses a fixture. Do not delete `build/p_only` during a screen: result rows are matched to the binary hashes in its manifest.
+The screen writes `bots/p_only/report/screen/SCREEN.md`, `screen.json`, `RUN.json`, the schedule and the build manifest. Commit those; raw results and match logs stay in `data/p_only/screen/` (not committed). If the run is interrupted, re-run the same command: finished games are kept. The analysis exits with status 2 and marks the report INCOMPLETE while any arm misses a fixture. Do not delete `build/p_only` during a screen: result rows are matched to the binary hashes in its manifest.
 
-The offline structure scan is already generated at [report/STRUCTURE_SCAN.md](report/STRUCTURE_SCAN.md). Re-run it with `python p_only/tools/structure_scan.py`; it plays no games.
+The offline structure scan is already generated at [report/STRUCTURE_SCAN.md](report/STRUCTURE_SCAN.md). Re-run it with `python bots/p_only/tools/structure_scan.py`; it plays no games.
 
 ## What is in the folder
 
@@ -69,7 +69,7 @@ The offline structure scan is already generated at [report/STRUCTURE_SCAN.md](re
 ## Verified here (macOS laptop; no timing or strength claims)
 
 - **Compiles:** both P-only carriers compile with `-Wall -Wextra` at sizes S to XXL. C08 shows only the 4 warnings its original already has; v12 shows none. The C08 control without PONLY_STATS compiles to assembly identical to the original.
-- **Tests pass:** `python -m unittest discover -s p_only/tests` runs 10 tests and all pass (~20 s).
+- **Tests pass:** `python -m unittest discover -s bots/p_only/tests` runs 10 tests and all pass (~20 s).
 - **Contract test:** zero failures and zero inconsistent states over about 49,000–147,000 checks per recorded game. The 4-team stream exercised 854 C08 and 2,666 v12 simulated-branch views. No prediction fell back to uniform.
 - **Engine comparison:** both kernels reproduced the engine on all 706 comparable turns (351 in the duel, 355 in the 4-team game; 92 turns with a pending random flag return were skipped). v12's simulator left dead units at negative HP; that is fixed in the P-only build.
 - **Smoke screen:** 10 games (2 and 5 teams, 1 s limit) through the full pipeline, 0 faults, 0 inconsistent states.

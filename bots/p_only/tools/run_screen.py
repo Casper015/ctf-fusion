@@ -1,22 +1,22 @@
-"""Paired screen of the P-only bots, end to end, from p_only/profiles/screen.json (host only).
+"""Paired screen of the P-only bots, end to end, from bots/p_only/profiles/screen.json (host only).
 
-    python p_only/tools/run_screen.py                 # the configured screen, official limits
-    python p_only/tools/run_screen.py --smoke         # 2 counts x 1 map, 1 s turns, 4 arms: checks the chain (not evidence)
-    python p_only/tools/run_screen.py --analyze-only  # re-run the analysis on the results so far
-    python p_only/tools/run_screen.py --dry-run       # build, schedule, identities and job order; no games
+    python bots/p_only/tools/run_screen.py                 # the configured screen, official limits
+    python bots/p_only/tools/run_screen.py --smoke         # 2 counts x 1 map, 1 s turns, 4 arms: checks the chain (not evidence)
+    python bots/p_only/tools/run_screen.py --analyze-only  # re-run the analysis on the results so far
+    python bots/p_only/tools/run_screen.py --dry-run       # build, schedule, identities and job order; no games
 
 Steps (re-run the same command after an interruption; finished games are kept):
 
-  1. build     p_only/tools/build.py --stats for every arm: bundled single-file bots,
+  1. build     bots/p_only/tools/build.py --stats for every arm: bundled single-file bots,
                build/p_only/manifest.json with bundle and binary SHA-256
   2. schedule  roster.strength schedule: maps_per_count x teams fixtures, frozen seed;
                opponents from the frozen reference roster
-  3. run       p_only/tools/screen_runner.py: every arm (and each aa copy, the identical
+  3. run       bots/p_only/tools/screen_runner.py: every arm (and each aa copy, the identical
                binary under another name) on every fixture, interleaved fixture by
                fixture with the arm order rotated; rows carry an identity digest of
                bundle, binary, every inlined source and model, runner code, schedule
                and limits (identities.json), plus the engine hash
-  4. analyze   p_only/tools/analyze.py: paired differences and contrasts per
+  4. analyze   bots/p_only/tools/analyze.py: paired differences and contrasts per
                team-count band with 95% intervals, re-run noise, timing and faults,
                search and value counters, completeness; rows of another identity
                are stale
@@ -38,9 +38,9 @@ import sys
 import time
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
-sys.path.insert(0, str(REPO / "p_only" / "tools"))
+sys.path.insert(0, str(REPO / "bots" / "p_only" / "tools"))
 
 from fusion.paths import ai_test_root, git_commit  # noqa: E402
 
@@ -57,7 +57,7 @@ def step(name: str, args: list[str], timings: dict, check: bool = True) -> int:
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--config", default=str(REPO / "p_only" / "profiles" / "screen.json"))
+    ap.add_argument("--config", default=str(REPO / "bots" / "p_only" / "profiles" / "screen.json"))
     ap.add_argument("--ai-test", help="AI_Test checkout (or AI_TEST_ROOT)")
     ap.add_argument("--smoke", action="store_true", help="tiny plumbing check with relaxed limits (not evidence)")
     ap.add_argument("--workers", type=int, help="override the configured workers")
@@ -84,7 +84,7 @@ def main(argv=None):
     sched, results = work / "schedule.json", work / "results.jsonl"
     manifest_path = REPO / "build" / "p_only" / "manifest.json"
     if not a.analyze_only:
-        step("build", [str(REPO / "p_only" / "tools" / "build.py"), "--stats", *arms], timings)
+        step("build", [str(REPO / "bots" / "p_only" / "tools" / "build.py"), "--stats", *arms], timings)
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))["variants"]
         if not sched.exists():
             sched_cmd = ["-m", "roster.strength", "schedule", "--maps-per-count", str(maps), "--teams", *map(str, teams),
@@ -95,7 +95,7 @@ def main(argv=None):
         missing = [x for x in arms + aa if x not in manifest]
         if missing:
             raise SystemExit(f"not built: {missing}")
-        run = [str(REPO / "p_only" / "tools" / "screen_runner.py"), "--schedule", str(sched), "--manifest", str(manifest_path),
+        run = [str(REPO / "bots" / "p_only" / "tools" / "screen_runner.py"), "--schedule", str(sched), "--manifest", str(manifest_path),
                "--arms", *arms, "--results", str(results), "--workers", str(a.workers or cfg["workers"]),
                "--first-ms", str(cfg["first_ms"]), "--turn-ms", str(turn_ms), "--ai-test", str(root)]
         if aa:
@@ -110,7 +110,7 @@ def main(argv=None):
         shutil.copy(work / "identities.json", report / "identities.json")
         shutil.copy(sched, report / "schedule.json")
         shutil.copy(manifest_path, report / "manifest.json")
-    analyze = [str(REPO / "p_only" / "tools" / "analyze.py"), "--results", str(results), "--schedule", str(sched),
+    analyze = [str(REPO / "bots" / "p_only" / "tools" / "analyze.py"), "--results", str(results), "--schedule", str(sched),
                "--manifest", str(manifest_path), "--arms", *arms, "--out", str(report),
                "--identities", str(work / "identities.json")]
     if aa:

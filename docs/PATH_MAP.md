@@ -8,6 +8,7 @@ Result files and vendored sources keep the paths of the day they were made; use 
 | Before | Now |
 |---|---|
 | `candidate/` | `bots/hybrid/` |
+| `p_only/` (moved later the same day) | `bots/p_only/`; local `build/p_only/` and `data/p_only/` keep their names |
 | `handoffs/` | `docs/handoffs/` |
 | `benchmarks/games_5plus.csv.gz` | `docs/benchmark/games_5plus.csv.gz` |
 | `docs/BENCHMARK_*.md`, `docs/DUEL_*.md`, `docs/benchmark_5plus.json`, `docs/duel_review.json` | `docs/benchmark/` |
@@ -17,7 +18,7 @@ Result files and vendored sources keep the paths of the day they were made; use 
 | `reports/tournament_*`, `carrier_*`, `v_ablation_*` | `reports/eval/` |
 | `reports/*_REVIEW*.md`, `CARRIER_INTEGRATION_REPORT.md`, `MODEL_NATIVE_REVIEW_8595c36.json`; `reports_m/C08_VS_V12_*`, `TIER_M_REVIEW_*`, `review_bundle_20261009/` | `reports/reviews/` |
 
-Unchanged: `fusion/`, `training/`, `roster/`, `inference/` (including `models*/`), `profiles/`, `tests/`, `p_only/`, `tools/random_bot.py`, `tools/noise_bot.py`.
+Unchanged: `fusion/`, `training/`, `roster/`, `inference/` (including `models*/`), `profiles/`, `tests/`, `tools/random_bot.py`, `tools/noise_bot.py`.
 
 ## `tools/`
 
@@ -68,3 +69,13 @@ Unchanged: `fusion/`, `training/`, `roster/`, `inference/` (including `models*/`
 ## Not moved on purpose
 
 `inference/models`, `models_m`, `models_l`, `models_xl`, `models_xxl` stay where they are: bots include them as `models_m/registry.hpp`. `tools/random_bot.py` and `tools/noise_bot.py` stay: the committed pools and roster results name them by path.
+
+## The `p_only/` move and bot identities
+
+Moving `p_only/` to `bots/p_only/` left every bundled bot byte-identical (all 27 variants checked): `bundle.py` prints
+paths inside the bundle relative to `bots/`, so the bundle and binary SHA-256 values in committed screen manifests
+still describe the same programs. The text that the derive scripts write into the P-only headers was not changed.
+
+What did change is the screen runner's identity digest: it hashes the runner's own code and the input file paths.
+A screen interrupted before the move must be restarted, not resumed; its old rows are reported as stale.
+Committed screen reports are unaffected.

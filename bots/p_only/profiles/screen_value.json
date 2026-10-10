@@ -1,5 +1,5 @@
 {
- "_comment": "Stage 2, V ablation at fixed P (p_only/EXPERIMENTS.md). Fresh tuning seed 20261108. Every arm uses a mixed model set (training/export_mixed.py): policy XL or XXL with the same value M; each V-off/V-on pair shares identical P weights. Fixed-time deployment games. B-A and D-C: V's increment at P-XL and P-XXL; C-A and D-B: P capacity with V off and on; interaction D-C-B+A. V coefficients are the experimental defaults (C08 refine 50, beam 35; v12 rollout 40), not tuned values.",
+ "_comment": "Stage 2, V ablation at fixed P (bots/p_only/EXPERIMENTS.md). Fresh tuning seed 20261108. Every arm uses a mixed model set (training/export_mixed.py): policy XL or XXL with the same value M; each V-off/V-on pair shares identical P weights. Fixed-time deployment games. B-A and D-C: V's increment at P-XL and P-XXL; C-A and D-B: P capacity with V off and on; interaction D-C-B+A. V coefficients are the experimental defaults (C08 refine 50, beam 35; v12 rollout 40), not tuned values.",
  "seed": 20261108,
  "teams": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
  "maps_per_count": 20,
@@ -24,5 +24,5 @@
   "v12 interaction (P size x V)": "v12_ponly_pxxl_vm_v-v12_ponly_pxxl_vm-v12_ponly_pxl_vm_v+v12_ponly_pxl_vm"
  },
  "work_dir": "data/p_only/value",
- "report_dir": "p_only/report/value"
+ "report_dir": "bots/p_only/report/value"
 }

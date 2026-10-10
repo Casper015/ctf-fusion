@@ -1,10 +1,10 @@
 """Bundle a bot into one self-contained .cpp: every local #include "..." is inlined once.
 
-    python p_only/tools/bundle.py p_only/bots/variants/c08_ponly_m.cpp -o build/p_only/src/c08_ponly_m.cpp
+    python bots/p_only/tools/bundle.py bots/p_only/bots/variants/c08_ponly_m.cpp -o build/p_only/src/c08_ponly_m.cpp
 
 A judge compiles a single source file, and the bundle is exactly what is compiled
 and tested, so its SHA-256 is the bot's identity. Local includes are searched in
-the including file's directory, then p_only/include, p_only/bots and inference/.
+the including file's directory, then bots/p_only/include, bots/p_only/bots and inference/.
 System includes (<...>) stay as they are.
 
 Conditional includes (the model-size selection) are followed the way the compiler
@@ -22,8 +22,8 @@ import re
 import sys
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[2]
-SEARCH = [REPO / "p_only" / "include", REPO / "p_only" / "bots", REPO / "inference"]
+REPO = Path(__file__).resolve().parents[3]
+SEARCH = [REPO / "bots" / "p_only" / "include", REPO / "bots" / "p_only" / "bots", REPO / "inference"]
 
 INCLUDE = re.compile(r'^\s*#\s*include\s*"([^"]+)"')
 DIRECTIVE = re.compile(r"^\s*#\s*(if|ifdef|ifndef|elif|else|endif|define|undef)\b(.*)$")
@@ -68,6 +68,16 @@ def evaluate(expr: str, macros: dict[str, str]) -> bool:
         raise Unknown(f"cannot evaluate #if {expr.strip()!r}: {exc}") from exc
 
 
+def marker(path: Path) -> Path:
+    """The path written in a bundle's begin/end comments. Files of this project print relative to bots/ (p_only/...),
+    everything else relative to the repository (inference/...). p_only/ moved under bots/ on 2026-10-10; printing
+    the old relative path keeps every bundle, and so every bundle and binary SHA-256, byte-identical across the move."""
+    bots = REPO / "bots"
+    if path.is_relative_to(bots / "p_only"):
+        return path.relative_to(bots)
+    return path.relative_to(REPO) if path.is_relative_to(REPO) else path
+
+
 def find(name: str, here: Path) -> Path | None:
     for d in [here, *SEARCH]:
         p = d / name
@@ -106,7 +116,7 @@ def bundle(source: Path) -> tuple[str, list[Path]]:
                 if target in seen:
                     out.append(f"// [bundle] already inlined: {line.strip()}")
                     continue
-                rel = target.relative_to(REPO) if target.is_relative_to(REPO) else target
+                rel = marker(target)
                 out.append(f"// [bundle] begin {rel}")
                 emit(target)
                 out.append(f"// [bundle] end {rel}")

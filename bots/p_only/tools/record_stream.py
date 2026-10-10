@@ -1,7 +1,7 @@
-"""Record the exact input one seat receives during a game (fixtures for p_only/tests/contract_test.cpp).
+"""Record the exact input one seat receives during a game (fixtures for bots/p_only/tests/contract_test.cpp).
 
-    python p_only/tools/record_stream.py --teams 4 --seed 31 --bot build/p_only/bin/c08_control-<hash> \\
-        --out p_only/tests/fixtures/stream_n04.txt.gz
+    python bots/p_only/tools/record_stream.py --teams 4 --seed 31 --bot build/p_only/bin/c08_control-<hash> \\
+        --out bots/p_only/tests/fixtures/stream_n04.txt.gz
 
 Plays one game with the given bots in the seats (in rotation) under relaxed limits (5 s / 1 s; a
 fixture, not a timing or strength measurement) and writes, gzip-compressed, every
@@ -17,7 +17,7 @@ import gzip
 import sys
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
 
 from fusion import runner  # noqa: E402

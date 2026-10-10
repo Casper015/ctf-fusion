@@ -24,7 +24,7 @@ Nothing here is a strength result. The verification at the end lists only what w
   - **Coefficients:** they are build settings, treated as tuning parameters: `PONLY_V_REFINE` (50), `PONLY_V_BEAM` (35), `PONLY_V_ROLLOUT` (40).
   - **V-off baseline:** the V-off build is the unchanged heuristic evaluator.
   - **Counters:** per path, V calls, exact terminal utilities, decisions, decisions V changed against the same path without V, and seconds spent in V.
-- **Interleaved, identity-bound runner.** `p_only/tools/screen_runner.py` plays fixture by fixture, every arm on the same map, flag seed, opponents and seat. The arm order rotates by fixture, so every arm takes every position equally often.
+- **Interleaved, identity-bound runner.** `bots/p_only/tools/screen_runner.py` plays fixture by fixture, every arm on the same map, flag seed, opponents and seat. The arm order rotates by fixture, so every arm takes every position equally often.
   - Each row carries an identity digest covering:
     - bundle and binary SHA-256;
     - every inlined source with its SHA-256 (carrier, P-only model, inference headers and the model weights);
@@ -33,7 +33,7 @@ Nothing here is a strength result. The verification at the end lists only what w
   - Resuming skips only rows of the identical identity; the analysis treats any other row as stale and reports missing fixtures.
   - An A/A arm (`X~aa`) replays X's identical binary and identity.
 
-## Stage 1: capacity and sampling (`p_only/profiles/screen_capacity.json`)
+## Stage 1: capacity and sampling (`bots/p_only/profiles/screen_capacity.json`)
 
 Seed 20261107 (fresh), 20 maps for each count 2–15, 280 fixtures. V is off in every arm.
 
@@ -59,7 +59,7 @@ Seed 20261107 (fresh), 20 maps for each count 2–15, 280 fixtures. V is off in 
 
 Fixed-sample games are diagnostics, not deployment results: the opponents and the deadline are real, but our bot spends a different amount of time per turn.
 
-## Stage 2: V at fixed P (`p_only/profiles/screen_value.json`)
+## Stage 2: V at fixed P (`bots/p_only/profiles/screen_value.json`)
 
 Seed 20261108 (fresh), 20 maps for each count 2–15, 280 fixtures, fixed-time deployment games. Every arm uses a mixed set with the same V-M.
 
@@ -82,15 +82,15 @@ The V coefficients are the experimental defaults, not tuned values. A null or ne
 
 ```sh
 python -m unittest discover -s tests -t .
-python -m unittest discover -s p_only/tests -v
-python p_only/tools/run_screen.py --config p_only/profiles/screen_capacity.json --dry-run   # builds, identities, job order
-python p_only/tools/run_screen.py --config p_only/profiles/screen_capacity.json             # stage 1, 2,520 games
-python p_only/tools/run_screen.py --config p_only/profiles/screen_value.json                # stage 2, 2,240 games
+python -m unittest discover -s bots/p_only/tests -v
+python bots/p_only/tools/run_screen.py --config bots/p_only/profiles/screen_capacity.json --dry-run   # builds, identities, job order
+python bots/p_only/tools/run_screen.py --config bots/p_only/profiles/screen_capacity.json             # stage 1, 2,520 games
+python bots/p_only/tools/run_screen.py --config bots/p_only/profiles/screen_value.json                # stage 2, 2,240 games
 ```
 
 Keep the worker count (6) and the host's other load fixed for a whole stage, and record them. Rerunning a command resumes. Don't delete `build/p_only` between runs: a rebuilt binary is a new identity, and its earlier rows become stale.
 
-Each stage writes `p_only/report/capacity|value/` with:
+Each stage writes `bots/p_only/report/capacity|value/` with:
 - `SCREEN.md`;
 - `screen.json`;
 - `RUN.json`;

@@ -1,10 +1,10 @@
-"""Bundle and compile the bots of p_only/profiles/variants.json, with a manifest of exact identities.
+"""Bundle and compile the bots of bots/p_only/profiles/variants.json, with a manifest of exact identities.
 
-    python p_only/tools/build.py                       # every variant
-    python p_only/tools/build.py c08_ponly_m v12_ponly_m
-    python p_only/tools/build.py --stats ...           # -DPONLY_STATS=1: network call counters on stderr (screens)
+    python bots/p_only/tools/build.py                       # every variant
+    python bots/p_only/tools/build.py c08_ponly_m v12_ponly_m
+    python bots/p_only/tools/build.py --stats ...           # -DPONLY_STATS=1: network call counters on stderr (screens)
 
-For each variant: p_only/tools/bundle.py inlines its local includes into one
+For each variant: bots/p_only/tools/bundle.py inlines its local includes into one
 .cpp (build/p_only/src/<name>.cpp, the file a judge would compile), which is
 compiled with the repository's flags (fusion/runner.py: -std=c++20 -O2, -static
 on Windows) into build/p_only/bin/<name>-<bundle sha>.exe. An executable whose
@@ -24,14 +24,14 @@ import sys
 import time
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
-sys.path.insert(0, str(REPO / "p_only" / "tools"))
+sys.path.insert(0, str(REPO / "bots" / "p_only" / "tools"))
 
 from bundle import bundle, sha256_text  # noqa: E402
 from fusion.runner import EXE, WINDOWS, find_compiler  # noqa: E402
 
-VARIANTS = REPO / "p_only" / "profiles" / "variants.json"
+VARIANTS = REPO / "bots" / "p_only" / "profiles" / "variants.json"
 OUT = REPO / "build" / "p_only"
 FLAGS = ["-std=c++20", "-O2"] + (["-static"] if WINDOWS else [])
 

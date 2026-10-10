@@ -24,9 +24,9 @@
 //             events. Turns with a pending random flag return are skipped.
 // Prints one summary line; exit status 1 on any failure.
 //
-//   g++ -std=c++20 -O2 -Iinference -Ip_only/include -Ip_only/bots -DCARRIER_C08 p_only/tests/contract_test.cpp
-//   gzip -dc p_only/tests/fixtures/orders_n04.txt.gz > orders.txt
-//   gzip -dc p_only/tests/fixtures/stream_n04.txt.gz | ./a.out orders.txt
+//   g++ -std=c++20 -O2 -Iinference -Ibots/p_only/include -Ibots/p_only/bots -DCARRIER_C08 bots/p_only/tests/contract_test.cpp
+//   gzip -dc bots/p_only/tests/fixtures/orders_n04.txt.gz > orders.txt
+//   gzip -dc bots/p_only/tests/fixtures/stream_n04.txt.gz | ./a.out orders.txt
 #define PONLY_NO_MAIN 1
 #if defined(CARRIER_C08)
 #include "c08_ponly.hpp"

@@ -9,7 +9,7 @@ Written 2026-10-09 for the agent that runs ctf-fusion on DESKTOP-G60OJUD. Read [
 - **Runtime:** bots are CPU-only C++. The first reply is limited to 2 s and every later reply to 50 ms. That deadline is the only hard limit; source size and memory are free.
 - **English only:** every repository file is in English.
 - **Git:**
-  - Follow [CONTRIBUTING.md](../CONTRIBUTING.md): never commit to `main`; work on a `<area>/<short-topic>` branch and open a pull request. Don't commit unrelated files.
+  - Follow [CONTRIBUTING.md](../../CONTRIBUTING.md): never commit to `main`; work on a `<area>/<short-topic>` branch and open a pull request. Don't commit unrelated files.
   - Never use a bare `git stash`.
   - Commit reports, not raw data: `data/` and `build/` stay out of git.
 - **Report what the data shows:**
@@ -35,42 +35,42 @@ Question: of all the bots we have, which give the strongest complete bot once P 
    - Their maps overlap.
    - The tournament could not tell its pvL-versus-control gaps from zero; its 95% intervals were −12.7 to +69.8 BT for C08 and −18.4 to +59.0 for v12.
    - C08's own control reproduced its score in only 36 of 80 reruns, so its comparisons need A/A repeats.
-4. **Write `p_only/report/STRUCTURE_ANALYSIS.md`.** It should contain:
+4. **Write `bots/p_only/report/STRUCTURE_ANALYSIS.md`.** It should contain:
    - a ranked shortlist of 2–4 carriers for P-only integration, with reasons;
    - for each, the expected place where P and V add value;
    - the integration cost;
    - the risks.
 
    Say plainly when two candidates cannot be separated without games. If a carrier outside C08 and v12 ranks high, describe how to build its P-only version the same way: `include/ponly.hpp`, a derivation script, wrappers and a variants entry. Ask the user before building it.
-5. **Inventory the earlier tests.** Add a section listing every earlier test with its commit, seed, team counts, maps, bots, games, what it can support and what it cannot. Keep earlier results where they are; new results go under `p_only/report/`.
+5. **Inventory the earlier tests.** Add a section listing every earlier test with its commit, seed, team counts, maps, bots, games, what it can support and what it cannot. Keep earlier results where they are; new results go under `bots/p_only/report/`.
 
 ## Phase 1: verify, then measure timing and apply the size rule
 
 ```sh
-python -m unittest discover -s p_only/tests -v
-python p_only/tools/build.py --stats
-python p_only/tools/run_screen.py --smoke
-python p_only/tools/run_screen.py --config p_only/profiles/timing.json
-python p_only/tools/size_rule.py --apply
+python -m unittest discover -s bots/p_only/tests -v
+python bots/p_only/tools/build.py --stats
+python bots/p_only/tools/run_screen.py --smoke
+python bots/p_only/tools/run_screen.py --config bots/p_only/profiles/timing.json
+python bots/p_only/tools/size_rule.py --apply
 ```
 
 All tests must pass on Windows, including the contract test's engine comparison. If a test or a smoke game fails, stop and report it with the output.
 
 **The timing run** plays 105 games: team counts 8, 12 and 15, 5 maps each, at the screen's 6 workers so the CPU load matches the screen. It covers the C08 control and C08 P-only at M, L, XL and XXL, plus v12 P-only at XL and XXL.
 
-**The size rule** was fixed before the run (`p_only/tools/size_rule.py`):
+**The size rule** was fixed before the run (`bots/p_only/tools/size_rule.py`):
 - **C08:** the largest P-only size, from XXL down to M, whose worst per-game p99 reply is at most 40 ms (10 ms of headroom), with no fault and no late reply, enters the screen.
 - **v12:** XL and XXL enter by default; a size with a fault or a late reply drops out.
 - **Why one size per carrier:** tiering at the root saves almost nothing. At 15 teams, all 14 opponents cost 0.44 ms at L and 1.34 ms at XXL per turn, against a 50 ms budget.
 
-`--apply` writes the chosen arms and comparisons into `p_only/profiles/screen.json`. Commit `p_only/report/timing/` with SIZE_RULE.md.
+`--apply` writes the chosen arms and comparisons into `bots/p_only/profiles/screen.json`. Commit `bots/p_only/report/timing/` with SIZE_RULE.md.
 
 If no C08 size qualifies, don't screen C08. Reduce its second-turn work instead: share the view between samples whose turn-1 states are identical, or predict fewer teams. Report the change and rerun the timing.
 
 ## Phase 2: the paired screen
 
 ```sh
-python p_only/tools/run_screen.py
+python bots/p_only/tools/run_screen.py
 ```
 
 Run it only after Phase 1 has applied the size rule.
@@ -147,7 +147,7 @@ The trend from S to XXL is one seed, 8 epochs, with no per-epoch logs (89ee436).
 
 ## Report back
 
-Each phase's results go under `p_only/report/` and are committed. Give a short summary with each:
+Each phase's results go under `bots/p_only/report/` and are committed. Give a short summary with each:
 - what was measured;
 - the verdict per comparison;
 - the timing, including the size rule's decision;

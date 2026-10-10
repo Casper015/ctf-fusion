@@ -99,8 +99,8 @@ profiles/         n02.json ... n15.json, general.json (the model matrix), pool.j
 ── bots we build ───────────────────────────────────────────────────────────────────────
 bots/hybrid/      C08 and Player5 v12 carriers with the mixture integration (<carrier>_Fusion.hpp + one thin
                   wrapper .cpp per policy size, control and pvl variants)
-p_only/           the P-only bots: self-contained sub-project with its own include/, bots/, tools/, tests/,
-                  profiles/ and report/ (p_only/README.md, p_only/TASK.md)
+bots/p_only/           the P-only bots: self-contained sub-project with its own include/, bots/, tools/, tests/,
+                  profiles/ and report/ (bots/p_only/README.md, bots/p_only/TASK.md)
 
 ── tools ───────────────────────────────────────────────────────────────────────────────
 tools/cpp/        C++ contract checks and benchmark drivers, compiled by fusion/native.py (infer_check, sim_check,

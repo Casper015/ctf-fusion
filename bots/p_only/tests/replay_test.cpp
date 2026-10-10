@@ -10,10 +10,10 @@
 // (V on or off, coefficients): the network's predictions do not depend on V.
 // With PONLY_FIXED_SAMPLES and no truncation, a build with V compiled in but
 // all V coefficients 0 must reply exactly as the V-off build (V-off
-// equivalence). p_only/tests/test_p_only.py compares the outputs.
+// equivalence). bots/p_only/tests/test_p_only.py compares the outputs.
 //
-//   g++ -std=c++20 -O2 -Iinference -Ip_only/include -Ip_only/bots -DCARRIER_C08 -DFUSION_TIER_PXL_VM \
-//       -DPONLY_FIXED_SAMPLES=64 p_only/tests/replay_test.cpp
+//   g++ -std=c++20 -O2 -Iinference -Ibots/p_only/include -Ibots/p_only/bots -DCARRIER_C08 -DFUSION_TIER_PXL_VM \
+//       -DPONLY_FIXED_SAMPLES=64 bots/p_only/tests/replay_test.cpp
 #define PONLY_NO_MAIN 1
 #if defined(CARRIER_C08)
 #include "c08_ponly.hpp"

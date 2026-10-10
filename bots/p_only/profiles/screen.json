@@ -1,5 +1,5 @@
 {
- "_comment": "Paired P-only screen (p_only/tools/run_screen.py). Every arm plays the same fixtures (map, flag seed, seat, opponents from the frozen reference roster) under the official limits; only our bot changes. aa arms replay an arm's identical binary to measure re-run noise. The C08 P-only size and the arms and comparisons below are set by p_only/tools/size_rule.py --apply after the Phase 1 timing run (default until then: M). c08_control_2ply separates 'the network replaced the script' from 'the search got shallower'. Seed 20261031 is the tuning seed: never reuse 20261009 or 20261020, and keep the confirmation seed unseen until the finalists are frozen.",
+ "_comment": "Paired P-only screen (bots/p_only/tools/run_screen.py). Every arm plays the same fixtures (map, flag seed, seat, opponents from the frozen reference roster) under the official limits; only our bot changes. aa arms replay an arm's identical binary to measure re-run noise. The C08 P-only size and the arms and comparisons below are set by bots/p_only/tools/size_rule.py --apply after the Phase 1 timing run (default until then: M). c08_control_2ply separates 'the network replaced the script' from 'the search got shallower'. Seed 20261031 is the tuning seed: never reuse 20261009 or 20261020, and keep the confirmation seed unseen until the finalists are frozen.",
  "seed": 20261031,
  "teams": [
   2,
@@ -79,5 +79,5 @@
   ]
  ],
  "work_dir": "data/p_only/screen",
- "report_dir": "p_only/report/screen"
+ "report_dir": "bots/p_only/report/screen"
 }

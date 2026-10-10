@@ -1,6 +1,6 @@
 # Size Tier XXL Export Summary
 
-> **Training record (2026-10-10; replaces an incorrect note of 2026-10-09):** the `general` model's P and V were trained with `inv_teams` count weighting, as the message of commit 89ee436 says; the single-count models (`n02`…`n15`) record `none`, which is expected because each sees one team count. The earlier note claimed every manifest records `none`; that was wrong. All sizes S–XXL used seed 1 and 8 epochs; M used the NumPy trainer and L–XXL the PyTorch trainer, so compare sizes from L up (`p_only/TASK.md`, evidence backfill).
+> **Training record (2026-10-10; replaces an incorrect note of 2026-10-09):** the `general` model's P and V were trained with `inv_teams` count weighting, as the message of commit 89ee436 says; the single-count models (`n02`…`n15`) record `none`, which is expected because each sees one team count. The earlier note claimed every manifest records `none`; that was wrong. All sizes S–XXL used seed 1 and 8 epochs; M used the NumPy trainer and L–XXL the PyTorch trainer, so compare sizes from L up (`bots/p_only/TASK.md`, evidence backfill).
 
 - Models exported: 11 / 11
 - Backend: torch (cuda)

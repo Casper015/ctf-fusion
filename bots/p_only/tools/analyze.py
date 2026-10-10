@@ -1,8 +1,8 @@
 """Paired analysis of a P-only screen: what each arm gains over another on identical fixtures.
 
-    python p_only/tools/analyze.py --results data/p_only/screen/results.jsonl --schedule data/p_only/screen/schedule.json \\
+    python bots/p_only/tools/analyze.py --results data/p_only/screen/results.jsonl --schedule data/p_only/screen/schedule.json \\
         --manifest build/p_only/manifest.json --arms c08_control c08_ponly_m --aa c08_control \\
-        --compare c08_ponly_m:c08_control --out p_only/report/screen [--matches data/p_only/screen/matches]
+        --compare c08_ponly_m:c08_control --out bots/p_only/report/screen [--matches data/p_only/screen/matches]
 
 Rows count only when their binary SHA-256 is the manifest's for that arm (older
 builds are reported as stale) and their schedule is this schedule. Each fixture
@@ -19,7 +19,7 @@ measures re-run noise (and its rate of identical final scores).
 
 Timing per arm: faults (late replies count as faults in fusion/runner.py), dead
 games, late replies, the largest first reply, the median and the worst of the
-per-game p99 (the size rule of p_only/tools/size_rule.py uses the worst), and the
+per-game p99 (the size rule of bots/p_only/tools/size_rule.py uses the worst), and the
 largest single reply (max over games of the per-game max). With --matches (kept
 logs of a --stats build) the network call counters per turn are added, and for
 C08 arms the expectimax calls and joint samples per call.
@@ -37,7 +37,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
 
 from roster.strength import schedule_identity  # noqa: E402
@@ -190,7 +190,7 @@ def main(argv=None):
     ap.add_argument("--aa", nargs="*", default=[])
     ap.add_argument("--compare", action="append", default=[], help="A:B, the paired difference A - B")
     ap.add_argument("--contrast", action="append", default=[], help="name=D-C-B+A: a signed sum of arms per fixture (interactions)")
-    ap.add_argument("--identities", help="identities.json from p_only/tools/screen_runner.py: rows of another identity are stale")
+    ap.add_argument("--identities", help="identities.json from bots/p_only/tools/screen_runner.py: rows of another identity are stale")
     ap.add_argument("--matches", help="kept match logs (network call counters)")
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)

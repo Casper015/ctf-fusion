@@ -1,8 +1,8 @@
 """Play a paired P-only screen with interleaved arms and identity-bound, resumable results (host only).
 
-    python p_only/tools/screen_runner.py --schedule <schedule.json> --manifest build/p_only/manifest.json \\
+    python bots/p_only/tools/screen_runner.py --schedule <schedule.json> --manifest build/p_only/manifest.json \\
         --arms c08_control_2ply c08_ponly_xl --aa c08_ponly_xl --results <results.jsonl> --workers 6 [--keep-matches DIR]
-    python p_only/tools/screen_runner.py ... --dry-run      # identities and the job order, no games
+    python bots/p_only/tools/screen_runner.py ... --dry-run      # identities and the job order, no games
 
 Every arm plays every fixture of the schedule (map, flag seed, seat and opponents
 from the frozen reference roster); only our bot changes. Order is interleaved,
@@ -15,7 +15,7 @@ inlined source with its SHA-256 (carrier, P-only model, inference headers and
 model weights: the model and adapter identity), the runner code (this file,
 roster/strength.py, training/collect.py, fusion/runner.py), the schedule and the
 limits. Rows carry it; resuming skips only rows with the identical digest, and
-p_only/tools/analyze.py ignores rows of any other digest as stale. identities.json
+bots/p_only/tools/analyze.py ignores rows of any other digest as stale. identities.json
 (written next to the results) records the components.
 
 Rows are roster.strength rows (utility, faults, late, dead, first/p99/max reply,
@@ -32,7 +32,7 @@ import sys
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
 
 from fusion import runner  # noqa: E402
@@ -40,7 +40,7 @@ from fusion.paths import ai_test_root, bot_path, git_commit, load_engine, load_p
 from roster.strength import play_one, schedule_identity  # noqa: E402
 
 AA = "~aa"
-RUNNER_FILES = ["p_only/tools/screen_runner.py", "roster/strength.py", "training/collect.py", "fusion/runner.py"]
+RUNNER_FILES = ["bots/p_only/tools/screen_runner.py", "roster/strength.py", "training/collect.py", "fusion/runner.py"]
 
 
 def digest(obj) -> str:

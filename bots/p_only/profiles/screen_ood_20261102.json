@@ -1,5 +1,5 @@
 {
- "_comment": "Paired P-only screen (p_only/tools/run_screen.py) with fresh seed 20261102, including un-trained Player4 and Player2_v005 in reference opponent roster to evaluate out-of-distribution opponent generalization.",
+ "_comment": "Paired P-only screen (bots/p_only/tools/run_screen.py) with fresh seed 20261102, including un-trained Player4 and Player2_v005 in reference opponent roster to evaluate out-of-distribution opponent generalization.",
  "seed": 20261102,
  "teams": [
   2,
@@ -95,5 +95,5 @@
   ]
  ],
  "work_dir": "data/p_only/screen_ood_20261102",
- "report_dir": "p_only/report/screen_ood_20261102"
+ "report_dir": "bots/p_only/report/screen_ood_20261102"
 }
