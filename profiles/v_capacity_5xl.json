@@ -25,6 +25,6 @@
                   "fresh_data": "One chosen C08 binary, P arrays and opponent distribution, with V collection setting specified",
                   "training_seeds": [1, 2, 3], "independent_map_groups": 10000, "minimum_per_count": 500,
                   "test_maps": "Unscored by this pilot; fresh confirmation seeds remain unchosen",
-                  "unavailable_fresh_seeds": [20261031, 20261102, 20261107, 20261108],
+                  "unavailable_fresh_seeds": [20261031, 20261102, 20261107, 20261108, 20261220],
                   "reserved_other_tasks": [20261201, 20261210, 20261211]}
 }

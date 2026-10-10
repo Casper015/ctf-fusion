@@ -167,7 +167,10 @@ startup / 50 ms subsequent replies, p50/p99/max, faults, V time/calls, cuts,
 search samples and truncations. `value_cost` now feeds multi-copy processes
 concurrently; earlier sequential-feed multi-copy numbers need remeasurement.
 
-Seed `20261220` is reserved for a tiny exploratory screen in T0016. Previously
+Seed `20261220` was reserved and consumed by the tiny exploratory screen in T0016.
+T0019 was subsequently created with the same seed labelled fresh; the collision
+is recorded in its task log. It must choose and reserve another unseen seed
+before host execution. Previously
 used `20261031`, `20261102`, `20261107`, `20261108`, and other tasks' reserved
 `20261201`, `20261210`, `20261211` are not fresh confirmation seeds. Freeze
 settings on validation/exploration first, collect one specified C08 continuation
