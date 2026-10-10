@@ -26,3 +26,4 @@ Not started. Choose the confirmation seed only when the finalists are frozen, an
 ## Log
 
 - 2026-10-10 08:52Z claude@caspers-macbook: created from bots/p_only/TASK.md and EXPERIMENTS.md
+- 2026-10-10 19:25Z claude@caspers-macbook: note: Candidates for this confirmation may come from T0013 (P feature family p3, equal-time screen) and T0014 (V pilot at fixed XXL P: retrained v2/v3 M, direct 4XL with the Route A bound, distilled). Their finalists arrive frozen (carrier, sizes, coefficients, budgets), with three independently trained seeds where a trained V or P is involved; docs/FEATURE_FAMILIES.md section 8.
