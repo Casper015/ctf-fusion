@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-10 22:37Z codex@desktop-g60ojud: created
 - 2026-10-10 22:37Z codex@desktop-g60ojud: claimed
+- 2026-10-10 22:45Z codex@desktop-g60ojud: note: Confirmed host,cuda,ai-test via supplied Python 3.14 / torch 2.11.0+cu128 and AI_Test path. Actual 5XL shape and native integer/incremental/chunk contracts pass. Separate mixed-policy exploratory pilot uses cache ccf6f46945b83ad3 with fresh XL/4XL/5XL controls; production and T0012 untouched.
