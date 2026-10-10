@@ -524,6 +524,12 @@ namespace fusion_hook {
 #define FUSION_TIER_L 1
 #include "C08_Player5_Omega_LIT_Fusion.hpp"
 """,
+        "C08_Player5_Omega_LIT_pvl.cpp": """// C08 Carrier + Tier L Policy + Value (pvL)
+#define MOD_FUSION_P 1
+#define MOD_FUSION_V 1
+#define FUSION_TIER_L 1
+#include "C08_Player5_Omega_LIT_Fusion.hpp"
+""",
         "C08_Player5_Omega_LIT_p_xl.cpp": """// C08 Carrier + Tier XL Opponent Policy
 #define MOD_FUSION_P 1
 #define MOD_FUSION_V 0
@@ -805,6 +811,12 @@ namespace fusion_hook {
         "Player5_v12_p_l.cpp": """// Player5_v12 Carrier + Tier L Opponent Policy
 #define MOD_FUSION_P 1
 #define MOD_FUSION_V 0
+#define FUSION_TIER_L 1
+#include "Player5_v12_Fusion.hpp"
+""",
+        "Player5_v12_pvl.cpp": """// Player5_v12 Carrier + Tier L Policy + Value (pvL)
+#define MOD_FUSION_P 1
+#define MOD_FUSION_V 1
 #define FUSION_TIER_L 1
 #include "Player5_v12_Fusion.hpp"
 """,
