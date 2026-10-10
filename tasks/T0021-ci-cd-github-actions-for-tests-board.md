@@ -4,7 +4,7 @@ title: "CI/CD: GitHub Actions for tests, board check and bot bundle releases"
 status: active
 owner: claude-ci@caspers-macbook
 needs: []
-writes: [github/, tools/repo/release_bots.py, tests/test_release_bots.py, tests/test_repo_layout.py, tests/test_generate_roster_report.py, requirements-dev.txt, CONTRIBUTING.md, AGENTS.md, README.md, docs/TECHNICAL_OVERVIEW.md, tools/README.md]
+writes: [".github/", tools/repo/task.py, tools/repo/release_bots.py, tests/test_task_board.py, tests/test_release_bots.py, tests/test_repo_layout.py, tests/test_generate_roster_report.py, requirements-dev.txt, CONTRIBUTING.md, AGENTS.md, README.md, docs/TECHNICAL_OVERVIEW.md, tools/README.md, tasks/README.md]
 depends: []
 land: pr
 branch: claude-ci/t0021-ci-cd-github-actions-for-tests-board
@@ -29,3 +29,4 @@ Not started.
 
 - 2026-10-10 23:47Z claude@caspers-macbook: created
 - 2026-10-10 23:48Z claude-ci@caspers-macbook: claimed
+- 2026-10-10 23:48Z claude-ci@caspers-macbook: amended writes -> .github/, tools/repo/task.py, tools/repo/release_bots.py, tests/test_task_board.py, tests/test_release_bots.py, tests/test_repo_layout.py, tests/test_generate_roster_report.py, requirements-dev.txt, CONTRIBUTING.md, AGENTS.md, README.md, docs/TECHNICAL_OVERVIEW.md, tools/README.md, tasks/README.md
