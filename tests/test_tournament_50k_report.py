@@ -49,6 +49,16 @@ class TestTournament50kReport(unittest.TestCase):
             self.assertEqual(h["winners"], [n for n, s in zip(h["names"], h["scores"]) if s == top])
             self.assertEqual([b["name"] for b in h["bots"]], h["names"])
 
+    def test_viewer_titles_are_checked_against_the_scores(self):
+        self.assertEqual(gen.title_check("X beats Y 14-13", [14, 12, 9, 10]), "do not match the replay")
+        self.assertEqual(gen.title_check("X edges Y 29-28", [29, 28]), "match the replay")
+        self.assertEqual(gen.title_check("X claims 13 points", [6, 10, 10, 6]), "do not match the replay")
+        self.assertEqual(gen.title_check("X claims 10 points", [6, 10, 8]), "match the replay")
+        self.assertEqual(gen.title_check("a chaotic game", [1, 2]), "state no score, not checked")
+        for h in self.highlights:
+            self.assertRegex(h["game_id"], r"^sz\d{2}-m\d+$")
+            self.assertEqual(int(h["game_id"][2:4]), h["teams"])
+
     def test_late_reply_counts_leave_out_the_first_reply(self):
         bot = {"timeouts_50ms": 7, "first_ms": 223.96, "max_ms": 65.77}
         self.assertEqual(gen.later_late(bot), 6)

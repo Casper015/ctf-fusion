@@ -310,7 +310,7 @@ The P-only line fixed these. The three write-ups now open with a correction note
 **50,000-game tournament** ([tournament_50k_report.md](../reports/eval/tournament_50k_report.md), T0028). The run had 21 bots, team counts 2–15 and 16 workers.
 - **Ratings.** Plackett-Luce ratings as the run reported them. The fitter, the ordered results and a run manifest are not committed, so the ratings cannot be refitted and carry no intervals.
 - **Win rates** (approximate intervals, averaged over counts). C08 P-only beats its control by +3.2 points (XL) and +3.5 (XXL), v12 P-only by +2.7 (both). XL against XXL is not shown on either carrier; why sizes would differ is a hypothesis.
-- **Limits.** Late replies were played, not dropped, so the official 50 ms rule was not applied.
+- **Limits.** Late replies were played, not dropped, so the official 50 ms rule was not applied. The report is final for this run and descriptive: no per-game data was kept, so it is not confirmation evidence.
 
 **Phases 0 and 1.**
 - **Phase 0.** STRUCTURE_SCAN (generated, 258 bots) and STRUCTURE_ANALYSIS rank v12 first and C08 second as carriers.

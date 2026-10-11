@@ -1,13 +1,15 @@
 """The 50,000-game tournament report (task T0028), generated from its committed sources; no number is typed by hand.
 
-    python tools/reporting/tournament_50k_report.py --replays DIR   # DIR holds the published replay JSONs (below):
-                                                                    # writes reports/eval/tournament_50k_highlights.json
+    python tools/reporting/tournament_50k_report.py --replays DIR   # DIR holds the published replays and their viewer
+                                                                    # metadata (below): writes the highlights JSON
     python tools/reporting/tournament_50k_report.py                 # writes reports/eval/tournament_50k_report.md
     python tools/reporting/tournament_50k_report.py --check         # exit 1 when the committed report is stale
 
 Sources: reports/eval/tournament_50k_summary.json (the run's per-size aggregates and its Plackett-Luce ratings) and
 reports/eval/tournament_50k_highlights.json (participants, scores and timing read from the three published replays,
-each bound to its SHA-256). The replays are at https://casper015.github.io/ctf-replay-viewer/data/matches/<id>.json.
+each bound to its SHA-256). The replays are at https://casper015.github.io/ctf-replay-viewer/data/matches/<id>.json;
+their viewer metadata (game id, title) is content/matches/<id>.json in Casper015/ctf-replay-viewer, saved in DIR as
+<id>.meta.json.
 
 What this script cannot do: refit the ratings. The run's fitter, its ordered match results and its run manifest are
 not committed, so the ratings are reported as the run gave them. The comparisons below use the per-size win rates
@@ -19,6 +21,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 import sys
 from pathlib import Path
 
@@ -51,11 +54,13 @@ def build_highlights(replay_dir: Path) -> list[dict]:
     for mid in HIGHLIGHT_IDS:
         path = replay_dir / f"{mid}.json"
         data = json.loads(path.read_text(encoding="utf-8"))
+        meta = json.loads((replay_dir / f"{mid}.meta.json").read_text(encoding="utf-8"))
         res, head = data["result"], data["header"]
         names, scores = list(res["names"]), list(res["score"])
         top = max(scores)
         out.append({
-            "id": mid, "url": REPLAY_URL.format(mid), "sha256": sha256(path), "bytes": path.stat().st_size,
+            "id": mid, "game_id": meta["id"], "viewer_title": meta["title"]["en"], "viewer_desc": meta["desc"]["en"],
+            "url": REPLAY_URL.format(mid), "sha256": sha256(path), "bytes": path.stat().st_size,
             "teams": head["teams"], "map_size": head["size"], "seed": res["seed"], "flag_seed": res["flag_seed"],
             "turns": res["turns"], "names": names, "scores": scores,
             "winners": [n for n, s in zip(names, scores) if s == top],
@@ -63,6 +68,20 @@ def build_highlights(replay_dir: Path) -> list[dict]:
                                              "dropped_official", "hard_limit_hits")} for b in res["bots"]],
         })
     return out
+
+
+def title_check(title: str, scores: list[int]) -> str:
+    """Whether the score a viewer title (or description) states fits the replay: 'A-B' must be the top two scores, 'N points' the unique
+    top score. Anything else is not checked."""
+    top = sorted(scores, reverse=True)
+    m = re.search(r"(\d+)-(\d+)", title)
+    if m:
+        return "match the replay" if [int(m.group(1)), int(m.group(2))] == top[:2] else "do not match the replay"
+    m = re.search(r"(\d+) points", title)
+    if m:
+        unique_top = len(top) < 2 or top[0] > top[1]
+        return "match the replay" if int(m.group(1)) == top[0] and unique_top else "do not match the replay"
+    return "state no score, not checked"
 
 
 def overall(per_size: dict) -> dict[str, dict]:
@@ -196,16 +215,20 @@ def render(summary: dict, highlights: list[dict]) -> str:
         out.append("")
 
     out += ["## Replay highlights", "",
-            "Read from the published replay files; each is bound to its SHA-256. The replays carry map and flag seeds "
-            "but no tournament game id, so they cannot be matched to the summary's games. They are three games out of "
+            "Read from the published replay files; each is bound to its SHA-256. The game id is the one the replay "
+            "viewer's metadata gives; the summary has no per-game rows to check it against. The score each viewer title or "
+            "description states is checked against the replay. They are three games out of "
             "50,000: illustrations, not evidence.", ""]
     for h in highlights:
         score = ", ".join(f"`{n}` {s}" for n, s in zip(h["names"], h["scores"]))
         win = " and ".join(f"`{w}`" for w in h["winners"])
         out += [f"**[{h['id']}]({VIEWER_URL.format(h['id'])})**: {h['teams']} teams, {h['turns']} turns, map seed "
-                f"{h['seed']}, flag seed {h['flag_seed']}. [Replay file]({h['url']}), sha256 `{h['sha256'][:16]}`.", "",
+                f"{h['seed']}, flag seed {h['flag_seed']}, game id `{h['game_id']}`. [Replay file]({h['url']}), "
+                f"sha256 `{h['sha256'][:16]}`.", "",
                 f"- Final score: {score}.",
-                f"- {'Winners (tied)' if len(h['winners']) > 1 else 'Winner'}: {win}."]
+                f"- {'Winners (tied)' if len(h['winners']) > 1 else 'Winner'}: {win}.",
+                f"- The viewer's title and description (\"{h['viewer_title']}\" / \"{h['viewer_desc']}\") "
+                f"{title_check(h['viewer_title'] + ' ' + h['viewer_desc'], h['scores'])}."]
         late = [b for b in h["bots"] if later_late(b) > 0]
         out.append("- Later replies over 50 ms: " + (", ".join(
             f"`{b['name']}` {later_late(b)} of {b['calls'] - 1} (p99 {b['p99_ms']} ms, max {b['max_ms']} ms)"
@@ -230,7 +253,9 @@ def render(summary: dict, highlights: list[dict]) -> str:
             "games, and compliance with the 2 s / 50 ms limits cannot be inferred for the run. The run used "
             f"{summary['workers']} workers, a heavier CPU load than the 6 of the P-only screens.", "",
             "## What is missing", "",
-            "Needed from the host's run directory (task T0028) before these results can count as evidence:",
+            "This report is final for the run (T0028): it uses all the data that was kept. The following were never "
+            "committed, so the results above stay descriptive and are not confirmation evidence. A future tournament "
+            "should commit them with its summary:",
             "- the ratings fitter and its exact command: likelihood, tie handling, scale, anchor, count weights;",
             "- the ordered results of every game, with a digest, so the ratings can be refitted and given intervals "
             "clustered by game;",
@@ -238,7 +263,7 @@ def render(summary: dict, highlights: list[dict]) -> str:
             "independent and duplicate game counts;",
             "- per-game faults, dead bots, late replies and reply times (first reply, p50, p99, max), with how many "
             "games each field covers; faulted games stay in the denominators;",
-            "- tournament game ids for the replay highlights.", ""]
+            "- per-game rows, so that game ids such as the highlights' can be checked.", ""]
     return "\n".join(out)
 
 

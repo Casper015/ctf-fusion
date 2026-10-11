@@ -1,6 +1,9 @@
 [
  {
   "id": "g4_ponly_pxl_comeback",
+  "game_id": "sz04-m010271",
+  "viewer_title": "C08 P-XL rallies to beat Player5 14-13 in dramatic 4-way clash",
+  "viewer_desc": "Player5 led through turn 300 before C08 P-XL mounted a surgical late-game rally, stealing victory in the closing stretch.",
   "url": "https://casper015.github.io/ctf-replay-viewer/data/matches/g4_ponly_pxl_comeback.json",
   "sha256": "2da7741e85c83ddec9e0d01adda152134ec28189d249dec11e9ebf7d74479cfc",
   "bytes": 534622,
@@ -73,6 +76,9 @@
  },
  {
   "id": "g2_ponly_duel",
+  "game_id": "sz02-m000084",
+  "viewer_title": "v12 P-XXL edges Player5 29-28 in a 400-turn 57-capture duel",
+  "viewer_desc": "A relentless 57-capture shootout where the margin never exceeded one. P-XXL secured the decisive stop in the final moments.",
   "url": "https://casper015.github.io/ctf-replay-viewer/data/matches/g2_ponly_duel.json",
   "sha256": "7ae518d108d9af8fb407e43263aa8f9a35c60c56879190b1f9bea72befe3516e",
   "bytes": 314039,
@@ -119,6 +125,9 @@
  },
  {
   "id": "g8_ponly_pxxl_chaos",
+  "game_id": "sz08-m030001",
+  "viewer_title": "C08 P-XXL navigates 8-team gridlock to top Sol and Player5",
+  "viewer_desc": "In an intense 8-way melee where Player5 and Sol tied at 10, C08 P-XXL capitalized on superior opponent modeling to claim 13 points.",
   "url": "https://casper015.github.io/ctf-replay-viewer/data/matches/g8_ponly_pxxl_chaos.json",
   "sha256": "7b39675386698585336dfa083f999d89c3a5a1fff8d4bc985c72861de94422b9",
   "bytes": 1069850,

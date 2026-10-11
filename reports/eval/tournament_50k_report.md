@@ -140,24 +140,27 @@ Win-rate differences in percentage points, with an approximate 95% interval. The
 
 ## Replay highlights
 
-Read from the published replay files; each is bound to its SHA-256. The replays carry map and flag seeds but no tournament game id, so they cannot be matched to the summary's games. They are three games out of 50,000: illustrations, not evidence.
+Read from the published replay files; each is bound to its SHA-256. The game id is the one the replay viewer's metadata gives; the summary has no per-game rows to check it against. The score each viewer title or description states is checked against the replay. They are three games out of 50,000: illustrations, not evidence.
 
-**[g4_ponly_pxl_comeback](https://casper015.github.io/ctf-replay-viewer/match.html?m=g4_ponly_pxl_comeback)**: 4 teams, 400 turns, map seed 87909618, flag seed 24079443. [Replay file](https://casper015.github.io/ctf-replay-viewer/data/matches/g4_ponly_pxl_comeback.json), sha256 `2da7741e85c83dde`.
+**[g4_ponly_pxl_comeback](https://casper015.github.io/ctf-replay-viewer/match.html?m=g4_ponly_pxl_comeback)**: 4 teams, 400 turns, map seed 87909618, flag seed 24079443, game id `sz04-m010271`. [Replay file](https://casper015.github.io/ctf-replay-viewer/data/matches/g4_ponly_pxl_comeback.json), sha256 `2da7741e85c83dde`.
 
 - Final score: `Player5` 14, `baseline` 12, `c08_ponly_pxl` 9, `v12_control` 10.
 - Winner: `Player5`.
+- The viewer's title and description ("C08 P-XL rallies to beat Player5 14-13 in dramatic 4-way clash" / "Player5 led through turn 300 before C08 P-XL mounted a surgical late-game rally, stealing victory in the closing stretch.") do not match the replay.
 - Later replies over 50 ms: `c08_ponly_pxl` 6 of 399 (p99 53.78 ms, max 65.77 ms). Replies dropped by the referee: 0.
 
-**[g2_ponly_duel](https://casper015.github.io/ctf-replay-viewer/match.html?m=g2_ponly_duel)**: 2 teams, 400 turns, map seed 66220252, flag seed 95983758. [Replay file](https://casper015.github.io/ctf-replay-viewer/data/matches/g2_ponly_duel.json), sha256 `7ae518d108d9af8f`.
+**[g2_ponly_duel](https://casper015.github.io/ctf-replay-viewer/match.html?m=g2_ponly_duel)**: 2 teams, 400 turns, map seed 66220252, flag seed 95983758, game id `sz02-m000084`. [Replay file](https://casper015.github.io/ctf-replay-viewer/data/matches/g2_ponly_duel.json), sha256 `7ae518d108d9af8f`.
 
 - Final score: `v12_ponly_pxxl` 29, `Player5` 28.
 - Winner: `v12_ponly_pxxl`.
+- The viewer's title and description ("v12 P-XXL edges Player5 29-28 in a 400-turn 57-capture duel" / "A relentless 57-capture shootout where the margin never exceeded one. P-XXL secured the decisive stop in the final moments.") match the replay.
 - Later replies over 50 ms: none. Replies dropped by the referee: 0.
 
-**[g8_ponly_pxxl_chaos](https://casper015.github.io/ctf-replay-viewer/match.html?m=g8_ponly_pxxl_chaos)**: 8 teams, 400 turns, map seed 26806074, flag seed 65264424. [Replay file](https://casper015.github.io/ctf-replay-viewer/data/matches/g8_ponly_pxxl_chaos.json), sha256 `7b39675386698585`.
+**[g8_ponly_pxxl_chaos](https://casper015.github.io/ctf-replay-viewer/match.html?m=g8_ponly_pxxl_chaos)**: 8 teams, 400 turns, map seed 26806074, flag seed 65264424, game id `sz08-m030001`. [Replay file](https://casper015.github.io/ctf-replay-viewer/data/matches/g8_ponly_pxxl_chaos.json), sha256 `7b39675386698585`.
 
 - Final score: `v12_ponly_pxl` 6, `Player3` 3, `deepseek-v4.1` 6, `Player4` 8, `Player5` 6, `c08_control` 10, `c08_ponly_pxxl` 10, `gpt-6.1-sol` 6.
 - Winners (tied): `c08_control` and `c08_ponly_pxxl`.
+- The viewer's title and description ("C08 P-XXL navigates 8-team gridlock to top Sol and Player5" / "In an intense 8-way melee where Player5 and Sol tied at 10, C08 P-XXL capitalized on superior opponent modeling to claim 13 points.") do not match the replay.
 - Later replies over 50 ms: `c08_control` 19 of 399 (p99 64.12 ms, max 67.3 ms). Replies dropped by the referee: 0.
 
 ## Time limits
@@ -166,9 +169,9 @@ The summary records no faults, late replies or reply times; only the three repla
 
 ## What is missing
 
-Needed from the host's run directory (task T0028) before these results can count as evidence:
+This report is final for the run (T0028): it uses all the data that was kept. The following were never committed, so the results above stay descriptive and are not confirmation evidence. A future tournament should commit them with its summary:
 - the ratings fitter and its exact command: likelihood, tie handling, scale, anchor, count weights;
 - the ordered results of every game, with a digest, so the ratings can be refitted and given intervals clustered by game;
 - a run manifest: engine, runner, every bot binary and model header with hashes, seeds, schedule digest, independent and duplicate game counts;
 - per-game faults, dead bots, late replies and reply times (first reply, p50, p99, max), with how many games each field covers; faulted games stay in the denominators;
-- tournament game ids for the replay highlights.
+- per-game rows, so that game ids such as the highlights' can be checked.
