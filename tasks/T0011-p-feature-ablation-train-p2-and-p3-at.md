@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-10 19:24Z claude@caspers-macbook: created
 - 2026-10-11 03:58Z codex@desktop-g60ojud: claimed
+- 2026-10-11 04:07Z codex@desktop-g60ojud: note: User requested T0011 alongside T0022. Owned worktree prepared from current main. Verified the exact 21000 original raw matches (no missing/extra/duplicate IDs), 30049121 original rows and original sampling options. Preparing layout-3 shards per team count with all data retained, workers=8, CPU lock queued behind T0022 landing checks. p2/p3 XXL training will use identical original args (8 epochs, batch1024, lr0.001, cosine min_lr0.0001, patience2/plateau1, inv_teams, seed1, FP32), then offline comparison and exports; GPU is not yet training.
