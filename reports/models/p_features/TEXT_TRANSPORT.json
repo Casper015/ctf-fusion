@@ -3,11 +3,6 @@
  "historical_receipts": "Captured digests describe original measurement bytes. This map records equivalent LF delivery copies; run/config/model digests still refer to uncommitted original runs. Final manifests and verification are regenerated after transport.",
  "files": [
   {
-   "path": "reports/models/p_features/ARTIFACT_CHECKS.json",
-   "captured_sha256": "74d7de4f2f6625e5a8b874ef1f45bd94d06ee4f780c19c64fd361d6a6a8027a5",
-   "lf_sha256": "622cda670d69fa6b7444f11f279e74bb50708792c6d059677643f3128db1f148"
-  },
-  {
    "path": "reports/models/p_features/audit.json",
    "captured_sha256": "bfd7ff2eba342262ac5d8356216d3c000eda45294b1a6298efefef78a35e9642",
    "lf_sha256": "b71137ff1d6e558b8c3d081087fe01194f8821c51dcce7f359964b426ca4ad13"
@@ -16,11 +11,6 @@
    "path": "reports/models/p_features/audit.md",
    "captured_sha256": "1b6d335778668b68d05ffe5bcffd667367b7551c6de59e909397d21f101a492d",
    "lf_sha256": "453ef876c6a28a323d03eac40201d61cc2db87f1f156f7b5cf1541ce086f271b"
-  },
-  {
-   "path": "reports/models/p_features/BRANCH_STATUS.md",
-   "captured_sha256": "c7e34432ff5c3d7b32f00add01668d3878d2b1ac142547a067f6b19d74d44ca4",
-   "lf_sha256": "4cd771a4adee6e312a26a9bfb1971806fe958e6042a7476178f4f96ad40a3b7b"
   },
   {
    "path": "reports/models/p_features/CACHE_CONTRACT.json",
@@ -36,11 +26,6 @@
    "path": "reports/models/p_features/DATA_REBUILD.json",
    "captured_sha256": "82539b7d64e042ab198a03fa2a664e60c61ce523fbbbd3034b2bfcec058b0a12",
    "lf_sha256": "c941d4d0fb80e47bc8df27a95e7ce954dfc5bcae4170fd461bb1054ee8cf431e"
-  },
-  {
-   "path": "reports/models/p_features/EXPORT_VERIFICATION.json",
-   "captured_sha256": "f536eda33a9a3216290f34f23ab5315aed48f0504b946bf85a5a80e1d82658a3",
-   "lf_sha256": "1dc80f2fa4422c49250cffe7b39a6af79004d08a0e3d5374ee3b270cc27cd2f2"
   },
   {
    "path": "reports/models/p_features/FINALIST_DECISION.json",
@@ -103,11 +88,6 @@
    "lf_sha256": "851415a3da53baa2e1f5a20c500f1c4689980bc25316e9e38422e201da83665d"
   },
   {
-   "path": "reports/models/p_features/REPRODUCE.md",
-   "captured_sha256": "0cd982f42f26c7b1944534190e4da26927e1731cd9cad2e2e56733d0f5f246ad",
-   "lf_sha256": "42fea15a0caaba24c74a4e606ce721ed0eae1c4925ffe4a20db2913dd11db03c"
-  },
-  {
    "path": "reports/models/p_features/RESTART.json",
    "captured_sha256": "f564e9712d5b5ef701dec9be6ba5e6f9f5bff43b64469a49f452c1639295fb6e",
    "lf_sha256": "8136e4d44e9322d4de9ad3cef6fbfe01962a290237e5594ebd149e87825d726c"
@@ -118,19 +98,9 @@
    "lf_sha256": "a9f05204973e47af8170520a211b15800310314009130def39e3a8c3796dc981"
   },
   {
-   "path": "reports/models/p_features/RESULTS.md",
-   "captured_sha256": "dc64de213acfee1907276dd363a32bbe626f7a36e98fdfc12c45e2df032e37b5",
-   "lf_sha256": "7354bfbfee6ddc465e69def0ea7d38e07e3d2838bcba523b4812fd5e12b41ad4"
-  },
-  {
    "path": "reports/models/p_features/RESUME_AFTER_PAUSE.json",
    "captured_sha256": "a83f671efea87b9f529c93d9f9b3463c389dfde4a8eeb186ba292c575985925d",
    "lf_sha256": "97084dd08ccd250602d10cd1e47cb7c2f8dc2faaa641f022f4e077e6442df189"
-  },
-  {
-   "path": "reports/models/p_features/SUMMARY.json",
-   "captured_sha256": "46eb5883821002afa699e536d0d05755881834327f4b9e54f7f373cd460d3dd5",
-   "lf_sha256": "bb38f37336a6cf2d6e1d00af8239402e83d4d3e44f678493106c6c8a43ef0629"
   },
   {
    "path": "reports/models/p_features/test_s1.json",
@@ -251,36 +221,6 @@
    "path": "reports/models/p_features/runs/p3_s3/log.jsonl",
    "captured_sha256": "996e10e9378dd8926a99edd341080ce5a86ec95facb7dfebbfbfd02d0ea62a66",
    "lf_sha256": "106ce5afc0af836cba979ca01074cef33594fbfe0ff0ce651e1d7f59982daf93"
-  },
-  {
-   "path": "inference/models_pf_p2xxl_vm/MANIFEST.json",
-   "captured_sha256": "70a8d642f0aa0608fca86325f3510d51de0428718ce7a1bd0a12bc88895b3772",
-   "lf_sha256": "ec3c2aea858d2580466804ffdb9544d2c6b6b8029a78ea10b64b033d980113bf"
-  },
-  {
-   "path": "inference/models_pf_p2xxl_vm/registry.hpp",
-   "captured_sha256": "733c7dbc5addf52d5864a1090f03140bdf24a9980ff6b7f466f2f2341cc54af5",
-   "lf_sha256": "a60e3752ce5290b605a749bbefbec1f75433a30c66dee7c48119e45a2af175cd"
-  },
-  {
-   "path": "inference/models_pf_p2xxl_vm/weights_general.hpp",
-   "captured_sha256": "115b2356a8f3068e923ec2017cdb4d294a4875478bd8bb2479447da0e42eb058",
-   "lf_sha256": "640d19cd674e785abd89dbf21a9336f96e0074f25585653984de60f66a703c38"
-  },
-  {
-   "path": "inference/models_pf_p3xxl_vm/MANIFEST.json",
-   "captured_sha256": "284ae13183f9f37fb7bcd67354e3b2c9823223af9ba8cdc211a3c22ac7f3fa77",
-   "lf_sha256": "be273e36198923d96cd10d5c900eed754d10a1b8a68af8806e26462f57966ca0"
-  },
-  {
-   "path": "inference/models_pf_p3xxl_vm/registry.hpp",
-   "captured_sha256": "ce74cefe853f1a88fb4120597e5367d835173521ab5f23375c5e6f848867f36b",
-   "lf_sha256": "ea8be6686d9e0c92195c9f0dbd3803025c6af82c8f2d61fb0f7308802f5db06e"
-  },
-  {
-   "path": "inference/models_pf_p3xxl_vm/weights_general.hpp",
-   "captured_sha256": "10e27e65041efadb0c27f6b6da095b768e9efe97f1b4fe8d19b9688b4c57774b",
-   "lf_sha256": "a1c7024808a38a969c9ea5561437a9ff6269070d45fcb355d42439f0d12f6989"
   }
  ]
 }

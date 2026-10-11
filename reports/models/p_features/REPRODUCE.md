@@ -948,3 +948,201 @@ lines += ['', 'Both generated model sets contain the prespecified general seed1 
 (R/'RESULTS.md').write_text('\n'.join(lines)+'\n',encoding='utf-8')
 print('Generated SUMMARY.json and RESULTS.md from all completed stages.')
 ```
+
+## Canonical LF delivery
+
+Script used locally from the repository root. Canonical LF transport runs once before verification; historical hashes remain archived.
+
+```python
+"""Regenerate Windows exports with LF and preserve transport digests of receipts."""
+import hashlib
+import json
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path.cwd()))
+original_write=Path.write_text
+def write_lf(self,data,encoding=None,errors=None,newline=None):
+    return original_write(self,data,encoding=encoding,errors=errors,newline='\n')
+Path.write_text=write_lf
+from training.export_mixed import export_runs
+report=Path('reports/models/p_features')
+changed=[]
+for root in (report,Path('inference/models_pf_p2xxl_vm'),Path('inference/models_pf_p3xxl_vm')):
+    for p in root.rglob('*'):
+        if p.is_file() and p.suffix in ('.json','.jsonl','.md','.hpp'):
+            raw=p.read_bytes(); canonical=raw.replace(b'\r\n',b'\n')
+            if raw!=canonical:
+                if root==report and p.name not in ('REPRODUCE.md','EXPORT_VERIFICATION.json','SUMMARY.json','RESULTS.md','ARTIFACT_CHECKS.json','BRANCH_STATUS.md'):
+                    changed.append({'path':p.as_posix(),'captured_sha256':hashlib.sha256(raw).hexdigest(),
+                                    'lf_sha256':hashlib.sha256(canonical).hexdigest()})
+                p.write_bytes(canonical)
+for family in ('p2','p3'):
+    export_runs(Path(f'inference/models_pf_{family}xxl_vm'),
+                policy_run=Path(f'runs/pf_{family}_xxl_s1'),value_tier='m')
+receipt={'operation':'Lossless CRLF-to-LF text transport required by CONTRIBUTING.md; INT16 weights unchanged.',
+         'historical_receipts':'Captured digests describe original measurement bytes. This map records equivalent LF delivery copies; run/config/model digests still refer to uncommitted original runs. Final manifests and verification are regenerated after transport.',
+         'files':changed}
+(report/'TEXT_TRANSPORT.json').write_text(json.dumps(receipt,indent=1)+'\n',encoding='utf-8')
+with (report/'REPRODUCE.md').open('a',encoding='utf-8',newline='\n') as out:
+    out.write('\n## Canonical LF delivery\n\nRepository exports were regenerated with LF writes. Historical receipt text is transported losslessly to LF; TEXT_TRANSPORT.json maps original captured hashes to equivalent LF copies. Binary weights and measurement inputs are unchanged. Before final artifact verification, run:\n\n```python\n')
+    out.write(Path(__file__).read_text());out.write('```\n')
+print('Regenerated LF exports and recorded historical receipt transport hashes.')
+```
+
+## Final integrated delivery checks
+
+Script used locally from the repository root. Canonical LF transport runs once before verification; historical hashes remain archived.
+
+```python
+"""Run required T0011 delivery checks on the integrated branch under CPU lock."""
+import hashlib
+import json
+import subprocess
+import sys
+import time
+from pathlib import Path
+original_write=Path.write_text
+def write_lf(self,data,encoding=None,errors=None,newline=None):
+    return original_write(self,data,encoding=encoding,errors=errors,newline='\n')
+Path.write_text=write_lf
+
+report=Path('reports/models/p_features')
+build=Path('build/t0011/final_checks'); build.mkdir(parents=True,exist_ok=True)
+head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+source=json.loads((report/'FROZEN_PLAN.json').read_text())['source_commit']
+commands=[
+    ['-m','unittest','discover','-s','tests','-t','.'],
+    ['-m','unittest','discover','-s','bots/p_only/tests'],
+    ['tools/repo/release_bots.py','--out','dist','--check'],
+    ['tools/repo/task.py','check'],
+]
+rows=[]
+for i,cmd in enumerate(commands,1):
+    start=time.monotonic()
+    stdout=build/f'check{i}.stdout'; stderr=build/f'check{i}.stderr'
+    print('Starting: python '+' '.join(cmd),flush=True)
+    with stdout.open('wb') as out,stderr.open('wb') as err:
+        completed=subprocess.run([sys.executable,*cmd],stdout=out,stderr=err)
+    row={'command':'python '+' '.join(cmd),'exit_code':completed.returncode,
+         'wall_seconds':round(time.monotonic()-start,3),
+         'stdout_sha256':hashlib.sha256(stdout.read_bytes()).hexdigest(),
+         'stderr_sha256':hashlib.sha256(stderr.read_bytes()).hexdigest(),
+         'summary':[(x.replace(str(Path.cwd()),'${REPO}').replace(str(Path.home()).replace('\\','\\\\'),'${USER_HOME}').replace(str(Path.home()),'${USER_HOME}')) for x in (stdout.read_text(errors='replace')+'\n'+stderr.read_text(errors='replace')).strip().splitlines()[-8:]]}
+    rows.append(row)
+    receipt={'verified_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),
+             'delivery_check_commit':head,'measurement_source_commit':source,'checks':rows}
+    (report/'CHECKS.json').write_text(json.dumps(receipt,indent=1)+'\n')
+    print(f"Finished: exit={completed.returncode}, seconds={row['wall_seconds']}",flush=True)
+    if completed.returncode: raise SystemExit(completed.returncode)
+assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==head
+lines=['# T0011 delivery checks','',f'Checks ran on integrated branch source `{head}`. Frozen measurement and real-weight native verification use `{source}`. Report-only commits after this check do not change the tested code or models.','',
+       'Both exported seed1 policies passed exact regeneration, copied V2/M array equality, actual registry dispatch for every count2-15, integer-accumulator parity with Python, and native runtime contracts on n02/n04/n15 recorded fixtures. See EXPORT_VERIFICATION.json. The manifest served_team_counts field lists explicit legacy profile routes9/11/13/14; the general-only registry also provides the fallback for all counts2-15. Compiler paths use ${REPO} for portability.','',
+       'Two preliminary verification-only attempts failed on script import setup and an incorrect assumption about that profile metadata. They did not alter or invalidate training, checkpoints, comparisons or exports; their logs remain in build/t0011/artifact_attempt1 and artifact_attempt2. The corrected verifier is embedded in REPRODUCE.md.','',
+       '| Command | Exit | Seconds |','|---|---:|---:|']
+for row in rows: lines.append(f"| `{row['command']}` | {row['exit_code']} | {row['wall_seconds']} |")
+lines+=['','Exact check summaries and log digests are in CHECKS.json. Full local check logs remain in build/t0011/final_checks and are not committed. Tests supply correctness evidence; their runtimes are not host inference-cost measurements.','']
+(report/'CHECKS.md').write_text('\n'.join(lines))
+print('All required T0011 delivery checks passed.',flush=True)
+```
+
+## Real-weight T0013 carrier compilation
+
+Script used locally from the repository root. Canonical LF transport runs once before verification; historical hashes remain archived.
+
+```python
+"""Build the four T0013 carriers with the actual T0011 seed1 exports."""
+import hashlib
+import json
+import subprocess
+import sys
+import time
+from pathlib import Path
+R=Path('reports/models/p_features');B=Path('build/t0011/final_checks')
+names=['c08_pf_p2xxl','c08_pf_p3xxl','v12_pf_p2xxl','v12_pf_p3xxl']
+args=['bots/p_only/tools/build.py','--variants','bots/p_only/profiles/variants_families.json','--stats',*names]
+start=time.monotonic()
+with (B/'carriers.stdout').open('wb') as out,(B/'carriers.stderr').open('wb') as err:
+    result=subprocess.run([sys.executable,*args],stdout=out,stderr=err)
+assert result.returncode==0,(B/'carriers.stderr').read_text(errors='replace')
+m=json.loads(Path('build/p_only/manifest.json').read_text())['variants']
+checks=[]
+for name in names:
+    entry=m[name]
+    assert hashlib.sha256(Path(entry['binary']).read_bytes()).hexdigest()==entry['binary_sha256']
+    checks.append({'variant':name,'binary_sha256':entry['binary_sha256'],
+                   'bundle_sha256':entry['bundle_sha256'],'inputs':entry['inputs']})
+receipt={'source_commit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+         'command':['python',*args],'exit_code':result.returncode,
+         'wall_seconds':round(time.monotonic()-start,3),'variants':checks,
+         'scope':'Real-weight compilation only; no timing or strength measurement.'}
+(R/'CARRIER_BUILD.json').write_text(json.dumps(receipt,indent=1)+'\n',encoding='utf-8',newline='\n')
+with (R/'CHECKS.md').open('a',encoding='utf-8',newline='\n') as out:
+    out.write('\nThe four T0013 carriers c08/v12 x p2/p3 also compile with the actual exported seed1 models. Binary, bundle and inlined-input identities are in CARRIER_BUILD.json. This compilation uses the integrated source above and spends no match seed.\n')
+print('All four real-weight T0013 carriers compiled successfully.',flush=True)
+```
+
+## Staged delivery integrity
+
+Script used locally from the repository root. Canonical LF transport runs once before verification; historical hashes remain archived.
+
+```python
+"""Check Git's staged delivery bytes against final export and summary digests."""
+import hashlib
+import json
+import subprocess
+from pathlib import Path
+R=Path('reports/models/p_features')
+read=lambda p:json.loads(p.read_text())
+blob=lambda p:subprocess.check_output(['git','show',':'+str(p).replace('\\','/')])
+sha=lambda b:hashlib.sha256(b).hexdigest()
+for family in ('p2','p3'):
+    root=Path(f'inference/models_pf_{family}xxl_vm')
+    m=read(root/'MANIFEST.json')['general']
+    assert sha(blob(root/m['header']))==m['header_sha256']
+    assert sha(blob(root/'weights_general.npz'))==m['npz_sha256']
+    check=next(x for x in read(R/'EXPORT_VERIFICATION.json')['checks'] if x['family']==family)
+    assert check['header_sha256']==m['header_sha256'] and check['npz_sha256']==m['npz_sha256']
+for c in read(R/'SUMMARY.json')['comparisons']:
+    assert sha(blob(R/f"{c['split']}_s{c['seed']}.json"))==c['report_sha256']
+for x in read(R/'TEXT_TRANSPORT.json')['files']:
+    assert sha(blob(x['path']))==x['lf_sha256'],x['path']
+print('Staged Git bytes match both final manifests, native verification, six comparisons and historical LF transport receipts.')
+```
+
+## Portable check summaries
+
+Script used locally from the repository root. Canonical LF transport runs once before verification; historical hashes remain archived.
+
+```python
+"""Portable final check summaries and a checked map of immutable receipt transport."""
+import hashlib
+import json
+import os
+from pathlib import Path
+R=Path('reports/models/p_features')
+scripts=Path(__file__).resolve().parent
+read=lambda p:json.loads(p.read_text(encoding='utf-8-sig'))
+write=lambda p,d:p.write_text(json.dumps(d,indent=1)+'\n',encoding='utf-8',newline='\n')
+transport=read(R/'TEXT_TRANSPORT.json')
+excluded={'REPRODUCE.md','EXPORT_VERIFICATION.json','SUMMARY.json','RESULTS.md','ARTIFACT_CHECKS.json','BRANCH_STATUS.md'}
+transport['files']=[x for x in transport['files'] if x['path'].startswith(R.as_posix()+'/') and Path(x['path']).name not in excluded]
+for x in transport['files']:
+    assert hashlib.sha256(Path(x['path']).read_bytes()).hexdigest()==x['lf_sha256'],x['path']
+write(R/'TEXT_TRANSPORT.json',transport)
+checks=read(R/'CHECKS.json')
+assert len(checks['checks'])==4 and all(x['exit_code']==0 for x in checks['checks'])
+def portable(text):
+    for path,label in ((str(Path.cwd()),'${REPO}'),(str(Path.home()),'${USER_HOME}')):
+        for variant in (path.replace('\\','\\\\'),path,path.replace('\\','/')):
+            text=text.replace(variant,label)
+    return text
+for row in checks['checks']:
+    row['summary']=[portable(x) for x in row['summary']]
+write(R/'CHECKS.json',checks)
+reproduction=R/'REPRODUCE.md'
+text=reproduction.read_text(encoding='utf-8').split('\n## Canonical LF delivery\n')[0]
+for title,name in [('Canonical LF delivery','t0011_canonical_delivery.py'),('Final integrated delivery checks','t0011_final_checks.py'),('Real-weight T0013 carrier compilation','t0011_carrier_build.py'),('Staged delivery integrity','t0011_git_integrity.py'),('Portable check summaries','t0011_finalize_receipts.py')]:
+    text+=f'\n## {title}\n\nScript used locally from the repository root. Canonical LF transport runs once before verification; historical hashes remain archived.\n\n```python\n'+(scripts/name).read_text(encoding='utf-8')+'```\n'
+reproduction.write_text(text,encoding='utf-8',newline='\n')
+print('Preserved and verified historical receipt transport; finalized portable check records.')
+```

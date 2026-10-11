@@ -1,0 +1,68 @@
+{
+ "verified_utc": "2026-10-11T11:53:12Z",
+ "delivery_check_commit": "be8e96b408e5c20709c9090537ebd17c49d3c6b9",
+ "measurement_source_commit": "9a78345172010a207fe89c54af12704b8cc3fddf",
+ "checks": [
+  {
+   "command": "python -m unittest discover -s tests -t .",
+   "exit_code": 0,
+   "wall_seconds": 198.501,
+   "stdout_sha256": "111500eac0c0bf729c9b1eb0365db297f3e6c502da6623f71063bce1e549ac9d",
+   "stderr_sha256": "6525f19ac1ab0ce927efcd121a5acfa00bb0179719ec8c000f040336cb025543",
+   "summary": [
+    "${REPO}\\tests\\test_torch_backend.py:298: ResourceWarning: unclosed file <_io.TextIOWrapper name='${USER_HOME}\\\\AppData\\\\Local\\\\Temp\\\\tmpqaxb46pn\\\\sweep.json' mode='r' encoding='cp1252'>",
+    "  rep = json.load(open(out))",
+    "ResourceWarning: Enable tracemalloc to get the object allocation traceback",
+    ".....................",
+    "----------------------------------------------------------------------",
+    "Ran 189 tests in 195.174s",
+    "",
+    "OK (skipped=1)"
+   ]
+  },
+  {
+   "command": "python -m unittest discover -s bots/p_only/tests",
+   "exit_code": 0,
+   "wall_seconds": 769.165,
+   "stdout_sha256": "b404b3341fc13e91a3e9a7a26f6568e06fd1719b6b6db6c4a5fc08d4eca6efda",
+   "stderr_sha256": "86fa820dd761fd85ef5216ab4ac459b941b02494182f87ba6fbac1bdcd99f281",
+   "summary": [
+    "[replay] C08: V on changed 45 of 400 replies on the 4-team game",
+    ".",
+    "[replay] V12: V on changed 36 of 400 replies on the 4-team game",
+    "................",
+    "----------------------------------------------------------------------",
+    "Ran 43 tests in 768.632s",
+    "",
+    "OK"
+   ]
+  },
+  {
+   "command": "python tools/repo/release_bots.py --out dist --check",
+   "exit_code": 0,
+   "wall_seconds": 73.818,
+   "stdout_sha256": "d5da9a3ba0b4a9204c714fbe633d2e1119d5f330d8005ee1ecbfc2f060393ff3",
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "summary": [
+    "[check]  c08_ponly_pxxl_vm_v          ok",
+    "[check]  v12_ponly_pxl_vm             ok",
+    "[check]  v12_ponly_pxl_vm_v           ok",
+    "[check]  v12_ponly_pxxl_vm            ok",
+    "[check]  v12_ponly_pxxl_vm_v          ok",
+    "[check]  c08_ponly_pxxl_v3xl          ok",
+    "[check]  c08_ponly_pxxl_v3xl_v        ok",
+    "[release] 29 bundles, 149.4 MB at dist (commit be8e96b408)"
+   ]
+  },
+  {
+   "command": "python tools/repo/task.py check",
+   "exit_code": 0,
+   "wall_seconds": 0.101,
+   "stdout_sha256": "dfea358906d3d9c54cc022d6b2e0d8ad98c9773b4615beb13423cbef5a3dfd20",
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "summary": [
+    "[task] 30 tasks, 0 errors, 0 warnings"
+   ]
+  }
+ ]
+}

@@ -135,3 +135,16 @@ while overall target prediction slightly worsens. No playing-strength claim.
 Measurement source remains9a78345172010a207fe89c54af12704b8cc3fddf.
 Training is complete, so integration and required delivery checks can now
 proceed on this independent branch. No direct main or task-board update.
+
+2026-10-11 11:56 UTC: Integrated latest main on this branch only, source
+be8e96b408e5c20709c9090537ebd17c49d3c6b9. Core189 tests passed with1 platform
+skip, P-only43 tests passed, all29 default release bundles compiled, and
+task.py check passed. The four actual T0013 carriers (C08/V12 x P2/P3)
+also compiled against the seed1 exports; no games or match seeds were spent.
+CHECKS.json/md and CARRIER_BUILD.json retain verification identities.
+Git's staged LF bytes match both final model manifests/native verification,
+all six paired comparison digests and immutable historical receipt transport.
+Measurement source remains9a78345172010a207fe89c54af12704b8cc3fddf; this
+integration and subsequent report commits do not redefine the experiment.
+Ready to push this independent branch and open its PR. T0010 is prepared in
+its own worktree on codex/t0010-frozen-carrier-v-data at sourceebda2c4867fb6503f8e28f3bd0a8b434e6affb96.
