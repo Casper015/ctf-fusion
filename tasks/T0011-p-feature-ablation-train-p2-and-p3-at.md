@@ -21,7 +21,7 @@ PR merged with reports/models/p_features/ (audit, test comparison, run configs a
 
 ## Handoff
 
-*2026-10-11 04:47Z codex@desktop-g60ojud:*
+*2026-10-11 04:53Z codex@desktop-g60ojud:*
 
 # T0011 running after bounded-memory restart
 
@@ -40,6 +40,13 @@ Inspect build/t0011/pipeline_mmap_state.json and pipeline_mmap.log, runs/pf_p2_x
 Next after pipeline completion: inspect PIPELINE.json, FINALIST_DECISION.json and all stratified val/test reports; regenerate summary/learning curves and report receipts. Verify generated model arrays/header/registry identities and native integer parity, run required core/export checks, commit only declared lanes, push a PR and attach it to the Codex task, record PR in the board. Task is done only after the reports/models PR is merged and T0013 can build. No host playing-strength claim from offline prediction. If interrupted after a completed run, do not blindly restart: driver deliberately refuses an existing model.npz; verify its config/checkpoint receipt, then document a safe resume that skips verified complete stages.
 
 T0022 is already fully landed on GitHub main at 7a307af49adc896be21fc8b3832e73e1bbd35763. Remote commit existence and CI38110819439/Bots38110819414 SUCCESS were reverified after reboot. Do not replay its consumed seed20261240. Final reports are bots/p_only/report/v3xl_fresh/ and user-facing copies under outputs/T0022/.
+## Continuous monitoring requested by user
+
+User explicitly requested ongoing monitoring to prevent another memory interruption. Thread heartbeat automation id t0011 is ACTIVE, every5 minutes in the current Codex conversation. It monitors process/log progress and memory, continues validation/report/export/PR work on completion, and safely diagnoses/restarts only a failed stage after verifying receipts. Normal unchanged status stays quiet.
+
+Native Windows guard is also alive: ../../t0011_memory_guard.ps1, PID9872, polls every15 seconds while verified pipeline PID34248/creation identity survives. build/t0011/memory_guard_pid.json and memory_guard_state.json expose health; memory_guard.jsonl records every sample and API receipt. It applies a40 GiB resident working-set hard maximum (Windows SetProcessWorkingSetSizeEx, flags6) to verified direct Python child stages. Reverify all PID command lines/creation dates before operating; if pipeline PID changes, use the new verified PID when restarting guard. It neither kills/restarts training nor changes data, weights, CLI arguments or global OS/pagefile configuration. The source and resource-policy rationale are appended to REPRODUCE.md; MEMORY_GUARD.json records a snapshot. Working-set limits can slow IO; do not treat training times across the limit change as equal-resource evidence.
+
+Limit was applied at04:51Z during P2 seed1 epoch3 after epochs1/2. Physical availability improved from about2 GiB to14.7 GiB, child working set now40 GiB, private commit about17.16 GiB. Epoch3 completed normally, train2.27193145, val2.27599874, seconds201.603, optimizer_steps70764. CPU continues advancing, epoch4 underway. The GPU/CPU original training lock chain is still alive. Memory caps do not guarantee survival of a host reboot; monitor actual health and preserve failure provenance.
 
 ## Log
 
@@ -49,3 +56,4 @@ T0022 is already fully landed on GitHub main at 7a307af49adc896be21fc8b3832e73e1
 - 2026-10-11 04:25Z codex@desktop-g60ojud: handoff -> active
 - 2026-10-11 04:38Z codex@desktop-g60ojud: note: Host reboot after RAM exhaustion during seed1 P2 dataset loading; no epoch/checkpoint was produced. Original concatenate/subset path reached 84.55 GB private commit on a 64 GB host. All 21000-match rebuild, full feature audit and exact 30049121-row legacy parity receipts survived. Resume will use an explicitly recorded, bounded per-shard policy-only NPY mmap cache and launcher within report reproduction, preserving every eligible row/order/dtype and all frozen training arguments; no core source edits or reduced-data comparison.
 - 2026-10-11 04:47Z codex@desktop-g60ojud: handoff -> active
+- 2026-10-11 04:53Z codex@desktop-g60ojud: handoff -> active
