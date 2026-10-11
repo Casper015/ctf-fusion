@@ -1,4 +1,13 @@
 # Official Standard 1,000-Game Tournament: Bradley-Terry (BT) Benchmark Report
+
+> **Correction note (2026-10-11, T0024).** This report is kept as written. Its ranks are point estimates, and they do not separate the candidates:
+>
+> - **The intervals overlap.** Each P+V L bot's 95% BT interval overlaps its control's: C08 [-4.1, +80.1] against [-28.1, +47.5], and v12 [-26.0, +56.8] against [-52.0, +33.1].
+> - **The deltas have no paired interval.** The BT deltas over the controls are reported without one.
+> - **The seed is reused.** Its schedule uses seed 20261020, the seed of the carrier P pilot and the V ablation.
+> - **"Official" means our own run.** It covers the 8 benchmark team counts against the judge bots; it is not the competition's tournament.
+>
+> Current evidence: [docs/DIGEST.md](../../docs/DIGEST.md#hybrid-carriers-the-first-p-and-v-pilots).
 **Date**: 2026-10-10  
 **Objective**: Evaluate the exact playing strength and Bradley-Terry (BT) score increase of the two Tier L Policy + Value (`pvL`) models against all official benchmark bots and their unenhanced controls across 1,000 games on the 8 official benchmark team sizes (2, 3, 4, 5, 6, 8, 10, 15).
 

@@ -1,5 +1,14 @@
 # Carrier Integration Report: Opponent Policy P Empirical Screen (S / M / L)
 
+> **Correction note (2026-10-11, T0024).** This report is kept as written: it is the record of the e11c45b screen. Its conclusions are overstated, according to [C08_VS_V12_FOUNDATION_REVIEW_e11c45b.md](C08_VS_V12_FOUNDATION_REVIEW_e11c45b.md#corrections-to-the-new-integration-write-up) and the [review bundle](review_bundle_20261009/README.md):
+>
+> - **Not both significant.** v12 M's aggregate interval crosses zero, so "M and L both significantly beat control" does not hold.
+> - **W/T/L are not match results.** They count paired utility changes. v12 L's duels were 17 wins, 2 draws and 6 losses.
+> - **Timing and provenance can't be checked.** The records hold no late replies, reply times or build hashes, so the zero-timeout and provenance claims are unverified.
+> - **No best carrier is established.**
+>
+> Current evidence: [docs/DIGEST.md](../../docs/DIGEST.md#hybrid-carriers-the-first-p-and-v-pilots).
+
 **Date**: 2026-10-09  
 **Target Carriers**: 
 1. `C08_Player5_Omega_LIT` (Primary Carrier: Sampling search with opponent rollout)

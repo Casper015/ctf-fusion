@@ -1,6 +1,6 @@
 # Prompt for the next agent: finish the first roster evidence run and correct the report
 
-> **Archived brief, written before the task board (2026-10-10).** Don't follow its git or workflow rules; follow [AGENTS.md](../../AGENTS.md). Which of its steps are still open is tracked in task [T0008](../../tasks/T0008-triage-the-handoff-prompts-written.md).
+> **Archived brief, written before the task board (2026-10-10).** Don't follow its git or workflow rules; follow [AGENTS.md](../../AGENTS.md). **Triaged 2026-10-11** ([DIGEST.md](../../docs/DIGEST.md#triage-of-the-pre-board-prompts)): every step is done except B5, the strength screen of every eligible bot (only the 64-bot light screen ran). Whether to run it is a question for Casper in [T0027](../../tasks/T0027-decide-which-pre-board-evidence-steps.md).
 
 
 Copy everything below the line into the next agent's first message.
