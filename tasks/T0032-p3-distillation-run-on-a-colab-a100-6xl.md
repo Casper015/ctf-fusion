@@ -13,7 +13,16 @@ updated: 2026-10-11
 
 ## Goal
 
-@/private/tmp/claude-501/-Users-casper-code-ctf-fusion--claude-worktrees-pr22-colab-mcp-61c8cf/8273d059-efaf-4428-877e-d659a41051bd/scratchpad/goal32.md
+Run T0030's teacher/student plan (proposed follow-up B) for the P3 finalist of T0011, on a Colab A100 (Casper's request, 2026-10-11), with T0031's code (branch claude/t0031-p-distillation-on-the-gpu-torch-warmup, commit 39eb4e5, PR #24). Offline training and validation only: no test split, no export to inference/, no timing, no games.
+
+Data: T0011's data/pf_policy_cache (24,153,825 train and 2,981,919 val rows), copied from Casper's Drive and bound to reports/models/p_features/POLICY_CACHE.json (every array rehashed with `distill_policy verify-cache`).
+
+Frozen settings: T0011's arguments for every stage (8 epochs, batch 1024, cosine lr 1e-3 -> 1e-4, weight decay 1e-5, patience 2, plateau decay 1, smoothing 0.01, act/target weights 0.5, count weighting inv_teams, FP32, no TF32). Family p3.
+
+1. Teacher: 8XL p3 (mover 2048, squad 8192-2048, act 2048, target 256; 20.95M parameters, about 3x the 6XL compute; Casper asked for a larger teacher on the 40 GB A100) with the unchanged training/train_policy.py on the cache (launcher binds the cache to POLICY_CACHE.json instead of shards_l3), training seed 100, calibrated on val. Offline only, never deployed.
+2. Teacher targets on the train split at tau 1 (`distill_policy teacher-targets --device cuda`).
+3. Students XXL p3, training seeds 101, 102, 103, each two paired arms from scratch with `distill_policy train --backend torch --val-cache`: warmup (alpha 1, the supervised control through the same code path) and distill (alpha 0.5, tau 1). Then QAT mixed4_8 from each distill model (2 epochs, lr 1e-4 -> 1e-5).
+4. Report under reports/models/p_distill/: per seed and arm the supervised val loss (best, calibrated per head), paired distill-minus-warmup differences over seeds, QAT val loss on the deployed mixed4_8 arithmetic, the teacher's val loss, and T0011's P3 XXL seeds 1-3 as the reference. Three seeds give no interval worth claiming; report each seed and say so.
 
 ## Done when
 
@@ -28,3 +37,4 @@ Not started.
 - 2026-10-11 19:45Z claude@caspers-macbook: created
 - 2026-10-11 19:45Z claude@caspers-macbook: claimed
 - 2026-10-11 19:51Z claude@caspers-macbook: note: Started 19:50Z on Colab A100-SXM4-40GB, code 3858b0f (T0031 branch). Train cache copied from Drive and verified (identity 350264d6881ddf31, 24,153,825 rows; val 20de39893d174c1b). Driver reports/models/p_distill/scripts/t0032_run.sh (sha cefaccd9...), launcher t0032_train_cache.py (sha 46cc43db...). Stage 1: 6XL p3 teacher, seed 100. Finished stages are copied to Drive cft-fusion/t0032/.
+- 2026-10-11 19:58Z claude@caspers-macbook: amended goal
