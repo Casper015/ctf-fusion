@@ -47,7 +47,7 @@ from pathlib import Path
 import numpy as np
 
 from fusion import matchlog, runner
-from fusion.paths import REPO, TEAM_COUNTS, ai_test_root, bot_path, git_commit, load_engine, load_pool, sha256
+from fusion.paths import REPO, TEAM_COUNTS, ai_test_root, bot_path, engine_path, git_commit, load_engine, load_pool, sha256
 from roster import trajectory
 from roster.common import SCHEMA_STRENGTH, digest, load_json, save_json, sha256_file
 from roster.fingerprint import bots_from_inventory, check_sources, resolve
@@ -159,7 +159,7 @@ def run(a) -> None:
         for fx in sched["fixtures"]:
             if (c["id"], fx["fixture_id"]) not in done:
                 jobs.append((fx, c, commands | {"@candidate": cmd}, info | {"@candidate": cinfo,
-                             "__engine__": sha256(root / "ctf-arena/Player7/workspace/engine.py"),
+                             "__engine__": sha256(engine_path(root)),
                              "__commit__": git_commit(root)}, str(root), limits, a.keep_matches))
     load_engine(root)
     print(f"[strength] {len(cands)} candidates x {len(sched['fixtures'])} fixtures; {len(jobs)} games to play, "

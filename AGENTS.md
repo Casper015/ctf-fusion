@@ -14,12 +14,12 @@ export CTF_CAN=host,cuda,ai-test           # what this machine has (table below)
 | Machine | `CTF_CAN` | What runs there |
 |---|---|---|
 | `desktop-g60ojud` (Windows) | `host,cuda,ai-test` | The only machine for timing, matches, screens and roster runs; GPU training |
-| `caspers-macbook` | *(empty)* | Code, docs, offline analysis, unit tests (the AI_Test pipeline tests skip) |
+| `caspers-macbook` | *(empty)*, or `ai-test` once meow-ai-arena is cloned | Code, docs, offline analysis, unit tests; with the arena clone also the end-to-end tests (3 need the AI_Test working tree and skip) |
 | cloud sandboxes | *(empty)* | Code and docs only |
 
-- `host`: AI_Test plus the official limits. This is the only place where timing and strength numbers are evidence.
+- `host`: the AI_Test working tree (the legacy planner behind q_H, the Player5 reference bot, the archived opponents) plus the official limits. This is the only place where timing and strength numbers are evidence.
 - `cuda`: an NVIDIA GPU for training.
-- `ai-test`: an AI_Test checkout, enough for pipeline tests and smoke games.
+- `ai-test`: an arena checkout, enough for pipeline tests and smoke games: a clone of `https://github.com/chen-006/meow-ai-arena` (public; `export AI_TEST_ROOT=` its path) or the AI_Test working tree. The id keeps its name because tasks name it.
 
 When a machine changes, update this table.
 

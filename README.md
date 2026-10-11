@@ -4,7 +4,7 @@
 
 **Teaching our Capture the Flag bots to predict what their opponents will do next.**
 
-Our bots compete in a Capture the Flag game ([AI_Test](https://github.com/Casper015/AI_Test), `ctf-arena`). Between 2 and 15 teams share one map. Each team has three units that move, shoot, and carry flags home for points. A bot gets 2 seconds for its first move and 50 milliseconds for every move after that. It runs on an ordinary CPU, with no GPU and no internet.
+Our bots compete in a Capture the Flag game (the public [meow-ai-arena](https://github.com/chen-006/meow-ai-arena/tree/main/ctf), which has the official engine and the ten judge bots). Between 2 and 15 teams share one map. Each team has three units that move, shoot, and carry flags home for points. A bot gets 2 seconds for its first move and 50 milliseconds for every move after that. It runs on an ordinary CPU, with no GPU and no internet.
 
 To plan a good move, a bot has to guess what every other team is about to do. Our older bots make that guess with rules people wrote by hand. This repository replaces the hand-written guess with small neural networks that learned it from thousands of recorded games, and checks at every step that the replacement is really better.
 
@@ -53,7 +53,7 @@ People and several AI agents work in this repository at the same time, from diff
 
 ## Getting started
 
-You need Python 3.10+ with NumPy, a C++20 compiler (g++, clang, or w64devkit on Windows), and git. To run games you also need a checkout of AI_Test.
+You need Python 3.10+ with NumPy, a C++20 compiler (g++, clang, or w64devkit on Windows), and git. To run games you also need the public arena: `git clone https://github.com/chen-006/meow-ai-arena`.
 
 ```bash
 git clone https://github.com/Casper015/ctf-fusion.git && cd ctf-fusion
@@ -61,7 +61,7 @@ pip install -r requirements-dev.txt              # NumPy, plus matplotlib for th
 python -m unittest discover -s tests -t .        # about 20 seconds
 ```
 
-To run games, point to AI_Test first: `export AI_TEST_ROOT=~/code/AI_Test`. The tests then also play short test games. A full first run, step by step, is in [docs/FIRST_RUN.md](docs/FIRST_RUN.md).
+To run games, point to the arena first: `export AI_TEST_ROOT=~/code/meow-ai-arena` (the variable keeps its old name). The tests then also play short test games. Three tests stay skipped: they need the original AI_Test working tree on the host (the legacy forecast the networks are compared against, and the Player5 reference bot). A full first run, step by step, is in [docs/FIRST_RUN.md](docs/FIRST_RUN.md).
 
 **Two rules worth knowing:**
 - Speed and strength are measured only on the Windows test machine. Numbers from a laptop don't count.

@@ -209,7 +209,8 @@ def forecast_dump(ai_test: Path) -> Path:
     """Legacy multi-team forecast printer from the AI_Test nextgen tests (heuristic baseline q_H)."""
     src = ai_test / NEXTGEN_REL / "tests" / "forecast_dump.cpp"
     if not src.is_file():
-        raise SystemExit(f"{src} not found: the legacy forecast needs AI_Test nextgen")
+        raise SystemExit(f"{src} not found: the legacy forecast (q_H) needs the nextgen planner, which only the AI_Test working "
+                         "tree has, not the public meow-ai-arena repository")
     return build(src, "forecast_dump", deps=[p for p in forecast_sources(ai_test) if p != src])
 
 

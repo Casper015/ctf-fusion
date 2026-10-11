@@ -13,7 +13,7 @@ from pathlib import Path
 
 import numpy as np
 
-from fusion.paths import REPO, TEAM_COUNTS
+from fusion.paths import REPO, TEAM_COUNTS, bot_path, load_pool
 from roster import archive, assess, catalog, distance, inventory, newbots, pool, registry, sampling, shortlist, strength, tiers, trajectory
 from roster.common import TAGS, load_json
 
@@ -29,6 +29,19 @@ def write(root: Path, rel: str, text: str) -> Path:
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(text, encoding="utf-8")
     return p
+
+
+def reference_root(test: unittest.TestCase) -> str:
+    """The arena root, or skip: the frozen reference roster needs Player5 from the AI_Test working tree (the public
+    meow-ai-arena repository has the ten judge bots and the byte-identical Baseline, not Player5)."""
+    root = os.environ.get("AI_TEST_ROOT")
+    if not root:
+        test.skipTest("needs AI_TEST_ROOT for the reference bots")
+    pool = {e["name"]: e for e in load_pool()["bots"]}
+    missing = [n for n in strength.REFERENCE if n not in pool or not bot_path(pool[n], Path(root)).is_file()]
+    if missing:
+        test.skipTest(f"reference bots not in this checkout (AI_Test working tree only): {', '.join(missing)}")
+    return root
 
 
 class TestInventory(unittest.TestCase):
@@ -296,9 +309,7 @@ class TestStrength(unittest.TestCase):
         self.assertEqual((big["maps"], big["evidence"]), (10010, "confirmation"))
 
     def test_schedule_is_shared_and_deterministic(self):
-        root = os.environ.get("AI_TEST_ROOT")
-        if not root:
-            self.skipTest("needs AI_TEST_ROOT for the reference bots")
+        root = reference_root(self)
         a = strength.schedule(3, [2, 7, 15], strength.REFERENCE, 1, Path(root))
         b = strength.schedule(3, [2, 7, 15], strength.REFERENCE, 1, Path(root))
         self.assertEqual(a["fixtures"], b["fixtures"])
@@ -793,16 +804,14 @@ class TestReviewFixes(unittest.TestCase):
         self.assertEqual(out["B"]["evidence_status"], "fingerprinted")      # another source's result never joins
 
     def test_few_maps_spread_candidate_seats(self):
-        root = os.environ.get("AI_TEST_ROOT")
-        if not root:
-            self.skipTest("needs AI_TEST_ROOT for the reference bots")
+        root = reference_root(self)
         sched = strength.schedule(5, [15], strength.REFERENCE, 20261009, Path(root))
         seats = [fx["seat"] for fx in sched["fixtures"]]
         self.assertEqual(len(set(seats)), 5)
         self.assertNotEqual(sorted(seats), [0, 1, 2, 3, 4])
 
 
-@unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to the AI_Test checkout")
+@unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to an arena checkout (a clone of chen-006/meow-ai-arena, or AI_Test)")
 class TestReplayEndToEnd(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
