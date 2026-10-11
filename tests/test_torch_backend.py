@@ -460,6 +460,27 @@ class TestQuantizationAwareTraining(unittest.TestCase):
             ca.close()
             cb.close()
 
+    def test_device_teacher_targets_match_numpy(self):
+        from training import distill_policy as T  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            T.write_cache(out / "c", self.d, np.arange(48))
+            c = T.RowCache(out / "c")
+            for family in ("p2", "p3"):
+                teacher = PolicyNet(self.layout, np.random.default_rng(4), self.HIDDEN, family)
+                teacher.beta = {"joint": 0.8, "act": 1.3, "target": 0.6}
+                T.teacher_targets(teacher, self.layout, c, "train", out / f"n{family}", tau=2.0, batch=16)
+                T.teacher_targets(teacher, self.layout, c, "train", out / f"d{family}", tau=2.0, batch=16, device=DEVICE)
+                with self.D.TeacherShard(out / f"n{family}") as a, self.D.TeacherShard(out / f"d{family}") as b:
+                    for k in ("joint", "act", "target"):
+                        with self.subTest(family=family, head=k):
+                            np.testing.assert_allclose(b.arr[k], a.arr[k], rtol=0, atol=2e-6)
+                            np.testing.assert_array_equal(b.arr[k] == 0, a.arr[k] == 0)
+                    for k in ("row", "move", "joint_mask", "act_mask", "target_mask"):
+                        np.testing.assert_array_equal(b.arr[k], a.arr[k])
+                    self.assertEqual(b.identity["teacher_device"], DEVICE)
+            c.close()
+
     def test_scheduled_torch_stages_keep_the_best_state(self):
         """--val-cache on the device: the kept state is the best epoch's, for the float student and for QAT."""
         import argparse  # noqa: PLC0415

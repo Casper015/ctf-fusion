@@ -42,6 +42,7 @@ from fusion.schema import layout as feature_layout
 LABELS = ("y_move", "y_joint", "y_act", "y_tgt")
 CACHE_FIELDS = ("rec", *LABELS, "weight", "row")
 STUDENTS = {"xxl": D.STUDENT_XXL, "6xl": D.TEACHER_6XL,
+            "8xl": {"mover": [2048], "squad": [8192, 2048], "act": [2048], "target": [256]},   # T0032's teacher (offline only)
             "s": {"mover": [16], "squad": [64, 32], "act": [16], "target": [8]}}
 
 
@@ -144,21 +145,35 @@ def write_cache(path: Path, d: dict, rows: np.ndarray) -> None:
 
 
 def teacher_targets(teacher: PolicyNet, layout, cache: RowCache, split: str, out: Path, tau: float, batch: int,
-                    dataset: str = "") -> dict:
-    """Teacher distributions for every cache row, in cache order, `batch` rows at a time."""
+                    dataset: str = "", device: str | None = None) -> dict:
+    """Teacher distributions for every cache row, in cache order, `batch` rows at a time. With `device` the teacher
+    runs on Torch (fusion.torch_qat.teacher_probs, float tolerance of the NumPy teacher); masks stay NumPy's."""
     from fusion.precision_calib import check_split  # noqa: PLC0415  (a test split never feeds training targets)
 
     check_split(split)
     C = layout.blocks["cand"][1][-1]
     w = D.TeacherShardWriter(out, cache.rows, C, {"teacher": D.state_digest(teacher), "family": teacher.family,
                                                   "split": split, "tau": tau, "teacher_beta": dict(teacher.beta),
-                                                  "dataset": dataset or cache.identity()})
+                                                  "dataset": dataset or cache.identity(),
+                                                  "teacher_device": device or "numpy"})
+    if device:
+        import torch  # noqa: PLC0415
+
+        from fusion import torch_qat  # noqa: PLC0415
+        from fusion.torch_backend import DeviceLayout  # noqa: PLC0415
+        dev = torch.device(device)
+        fp, dl = torch_qat.FloatPolicy(teacher, dev), DeviceLayout(layout, dev)
     for a in range(0, cache.rows, batch):
         idx = np.arange(a, min(cache.rows, a + batch))
         d = cache.take(idx)
         X = policy_batch(d["rec"], layout, True, teacher.family)
         mv = d["y_move"].astype(np.int64)
-        w.write(d["row"], X, mv, D.teacher_probs(teacher, X, mv, tau))
+        if device:
+            T = torch_qat.device_batch(torch.from_numpy(np.ascontiguousarray(d["rec"])).to(dev), dl, teacher.family)
+            probs = torch_qat.teacher_probs(fp, teacher.beta, T, torch.from_numpy(mv).to(dev), tau)
+        else:
+            probs = D.teacher_probs(teacher, X, mv, tau)
+        w.write(d["row"], X, mv, probs)
     return w.close()
 
 
@@ -400,6 +415,7 @@ def main(argv=None) -> int:
     t.add_argument("--out", type=Path, required=True)
     t.add_argument("--tau", type=float, default=1.0)
     t.add_argument("--batch", type=int, default=8192)
+    t.add_argument("--device", help="run the teacher on Torch (cuda, cpu); default NumPy")
     r = sub.add_parser("train")
     r.add_argument("--stage", choices=("warmup", "distill", "qat"), required=True)
     r.add_argument("--cache", type=Path, required=True)
@@ -438,7 +454,7 @@ def main(argv=None) -> int:
     if a.cmd == "teacher-targets":
         from training.export_weights import load_policy  # noqa: PLC0415
         teacher = load_policy(a.teacher, layout)
-        print(json.dumps(teacher_targets(teacher, layout, RowCache(a.cache), a.split, a.out, a.tau, a.batch), indent=1))
+        print(json.dumps(teacher_targets(teacher, layout, RowCache(a.cache), a.split, a.out, a.tau, a.batch, device=a.device), indent=1))
         return 0
     if a.cmd == "verify-cache":
         c = RowCache(a.cache)

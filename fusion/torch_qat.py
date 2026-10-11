@@ -215,6 +215,23 @@ class FloatPolicy:
         self.t.from_ref()
 
 
+@torch.no_grad()
+def teacher_probs(policy: FloatPolicy, beta: dict, X: dict, move: torch.Tensor, tau: float) -> dict:
+    """fusion.policy_distill.teacher_probs on the device: softmax over the legal support of the calibrated logits
+    (beta per head) at temperature tau; masked entries, and rows whose mask is empty, are exactly 0. Float32
+    matmuls, so values agree with the NumPy teacher within float tolerance, not bit for bit."""
+    zj, za, zt = policy.logits(X, move)
+    b = torch.arange(move.shape[0], device=move.device)[:, None]
+    k = torch.arange(3, device=move.device)[None, :]
+    out = {}
+    for name, z, m in (("joint", zj, X["joint_mask"]), ("act", za, X["act_legal"][b, k, move]), ("target", zt, X["cand_valid"])):
+        z = z.to(F64) * float(beta[name]) / tau
+        z = torch.where(m, z, torch.tensor(float("-inf"), dtype=F64, device=z.device))
+        z = torch.where(m.any(-1, keepdim=True), z, torch.zeros_like(z))
+        out[name] = torch.where(m, torch.softmax(z, dim=-1), torch.zeros_like(z)).to(torch.float32).cpu().numpy()
+    return out
+
+
 def device_batch(rec: torch.Tensor, dl, family: str) -> dict:
     """Normalized features of raw int16 records already on the device (fusion.models.policy_batch(..., True))."""
     X = DevicePolicyBatch(rec, dl, family)
@@ -282,5 +299,5 @@ def qat_loss(policy: QATPolicy, X: dict, y: dict, w: torch.Tensor, teacher: dict
     return total, {k: v.detach() for k, v in parts.items()} | {"total": total.detach()}
 
 
-__all__ = ["quantize_layer", "exact_layer", "QATMLP", "QATPolicy", "FloatPolicy", "device_batch", "tensors", "qat_loss",
+__all__ = ["quantize_layer", "exact_layer", "QATMLP", "QATPolicy", "FloatPolicy", "device_batch", "teacher_probs", "tensors", "qat_loss",
            "kl_term"]
