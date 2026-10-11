@@ -121,3 +121,4 @@ Proposed follow-up tasks (not created; Casper decides):
 - 2026-10-11 16:40Z claude-ci@caspers-macbook: amended writes -> CONTRIBUTING.md, bots/p_only/bots/, bots/p_only/include/, bots/p_only/profiles/, bots/p_only/tests/, bots/p_only/tools/derive/, docs/P_MIXED_PRECISION.md, fusion/, inference/mlp.hpp, inference/policy.hpp, inference/policy_p3.hpp, inference/policy_precision/, inference/simd.hpp, profiles/p_precision_code.json, tests/, tools/cpp/, training/
 - 2026-10-11 16:41Z claude-ci@caspers-macbook: note: PR: https://github.com/Casper015/ctf-fusion/pull/22
 - 2026-10-11 16:42Z claude-ci@caspers-macbook: handoff -> review
+- 2026-10-11 17:49Z claude-ci@caspers-macbook: note: CI fix 3b84e39: the Windows job failed on 2 new tests (mapped .npy files kept open, so temp dirs could not be removed; colons from the namespace in the bench binary name). Both fixed; core and torch suites re-pass locally.
