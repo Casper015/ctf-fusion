@@ -34,7 +34,8 @@ The rules for working in `ctf-fusion`: where a file goes, what is committed, how
 | A written review or audit | `reports/reviews/` | One file per review; put the commit hash it pins in the name. |
 | A design note, plan, or decision | `docs/` | |
 | Work to do, who is doing it, what the next person needs to know | `tasks/` | Through `tools/repo/task.py`. No separate "prompt for the next agent" files: write the task's Handoff instead. |
-| Repository housekeeping (the task board) | `tools/repo/` | |
+| Repository housekeeping (the task board, bot bundling) | `tools/repo/` | |
+| A CI or release workflow | `.github/workflows/` | Pin actions by SHA; see [Automatic checks](#automatic-checks-ci). |
 | Analysis of the AI_Test heuristic benchmark | `docs/benchmark/` | |
 
 If nothing fits, the file probably doesn't belong in the repository. Ask before inventing a folder.
@@ -50,6 +51,7 @@ If nothing fits, the file probably doesn't belong in the repository. Ask before 
 | `build/` | compiled tool and bot binaries, named by source hash |
 | `data/` | raw match records, dataset shards, benchmark downloads, screen results |
 | `runs/`, `runs_*/` | training checkpoints |
+| `dist/` | bot bundles written by `tools/repo/release_bots.py` |
 | `__pycache__/`, `.DS_Store` | tooling noise |
 
 Other rules:
@@ -103,6 +105,30 @@ Areas in use: `docs`, `train`, `training`, `models`, `eval`, `bench`, `roster`, 
 
 **Trained models and bots.** A change to `inference/models*/` ships with the offline gate report it was exported from (`reports/models/<tier>/`) in the same pull request. A bot variant that goes to the host ships with its screen result under `reports/eval/` or `bots/p_only/report/`.
 
+## Automatic checks (CI)
+
+GitHub Actions runs these on every pull request and on every push to `main` (workflows in `.github/workflows/`). They are the commands under [Before you push](#before-you-push), so a red check reproduces locally.
+
+| Check | Runs | Reproduce locally |
+|---|---|---|
+| **Layout, board and links** (`ci.yml`) | folders, `tasks/*.md`, markdown links; seconds | `python -m unittest tests.test_repo_layout tests.test_task_board` and `python tools/repo/task.py check` |
+| **Tests** (`ci.yml`) | the core suite on Linux (Python 3.10 and 3.13), macOS arm64 (the NEON kernels) and Windows (informational) | `python -m unittest discover -s tests -t .` |
+| **P-only bots** (`ci.yml`) | contract, replay and derive tests; about 10 min | `python -m unittest discover -s bots/p_only/tests` |
+| **Torch parity** (`ci.yml`) | NumPy and PyTorch trainers agree (CPU) | `pip install torch`, then `python -m unittest tests.test_torch_backend` |
+| **End-to-end pipeline** (`ci.yml`) | the tests that need the AI_Test engine; informational, runs only when the `AI_TEST_TOKEN` secret exists | `export AI_TEST_ROOT=...`, then the core suite |
+| **Bundle and compile** (`bots.yml`) | every P-only variant is bundled into its single file and compiled with `-fsyntax-only`; runs when `bots/`, `inference/` or the packager change | `python tools/repo/release_bots.py --out dist --check` |
+| **Task board** (`board.yml`) | `tasks/*.md` after each board commit | `python tools/repo/task.py check` |
+
+A clean checkout needs only `pip install -r requirements-dev.txt` (NumPy, plus matplotlib for the report generators).
+
+**Releasing bots.** The `Bots` workflow is also the delivery path to the host. In GitHub: Actions, Bots, Run workflow, tick *publish* (from `main` only), and optionally list variant names. It attaches every bundle as `<variant>.cpp.gz`, with `MANIFEST.json` (commit and SHA-256 of each bundle) and `SHA256SUMS`, to a release named `bots-<date>-<commit>`. Without *publish*, the same files are kept for 14 days as the run's artifact. A release bundle is the deployed form: it has no `PONLY_STATS` define, so its hash differs from a screen manifest's `bundle_sha256` by exactly that line.
+
+**Workflow rules.**
+- Third-party actions are pinned to a commit SHA with the version in a comment. Dependabot proposes the updates monthly.
+- Workflows get a read-only token. Only the release job has `contents: write`.
+- `pull_request`, never `pull_request_target`: code from a fork never runs with secrets.
+- Add a job only if its command also works on a laptop and is written down in the table above.
+
 ## Before you push
 
 ```bash
@@ -110,6 +136,7 @@ export AI_TEST_ROOT=~/code/AI_Test                 # without it the end-to-end p
 python -m unittest discover -s tests -t .          # ~20 s without AI_Test, longer with it
 python -m unittest discover -s bots/p_only/tests   # ~80 s, when you touched bots/p_only/ or bots/hybrid/
 python tools/repo/task.py check                   # when you touched tasks/ by hand
+python tools/repo/release_bots.py --out dist --check   # when you touched bots/ or inference/ (a few minutes)
 ```
 
 - A moved or renamed file: `git grep -n "<old path>"` returns nothing outside `docs/PATH_MAP.md`, frozen results and vendored sources.

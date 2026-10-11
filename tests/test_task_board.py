@@ -39,6 +39,12 @@ class TestCommittedBoard(unittest.TestCase):
         self.assertEqual(meta["title"], "A: title, with commas")
         self.assertEqual(task.render(meta, body), text)
 
+    def test_dot_paths_keep_their_dot(self):
+        self.assertEqual(task.norm(".github/"), ".github/")
+        self.assertEqual(task.norm("./docs\\x.md"), "docs/x.md")
+        self.assertTrue(task.covers(".github/", ".github/workflows/ci.yml"))
+        self.assertFalse(task.covers("github/", ".github/workflows/ci.yml"))
+
     def test_lanes(self):
         self.assertTrue(task.covers("bots/p_only/", "bots/p_only/report/x.md"))
         self.assertTrue(task.covers("bots/p_only", "bots/p_only/report/x.md"))
@@ -122,6 +128,16 @@ class TestConcurrentAgents(unittest.TestCase):
         self.assertEqual(tid, "T0004")
         errors, _ = task.check(self.board(self.a).tasks(self.board(self.a).fetch()))
         self.assertEqual(errors, [])
+
+    def test_amend_widens_lanes_only_where_free(self):
+        task.op_claim(self.board(self.a), "T0003", "codex@host", set())          # docs/
+        task.op_claim(self.board(self.b), "T0002", "claude@mac", set())          # bots/p_only/
+        self.assertEqual(task.op_amend(self.board(self.a), "T0003", "codex@host", [".github/"]), [".github/", "docs/"])
+        with self.assertRaisesRegex(task.BoardError, "active task T0002"):
+            task.op_amend(self.board(self.a), "T0003", "codex@host", ["bots/p_only/report/"])
+        with self.assertRaisesRegex(task.BoardError, "only the owner"):
+            task.op_amend(self.board(self.b), "T0003", "claude@mac", ["docs/y.md"])
+        self.assertIn("amended writes", self.board(self.a).tasks(self.board(self.a).fetch())["T0003"][2])
 
     def test_land_refuses_files_outside_the_lane(self):
         task.op_claim(self.board(self.a), "T0003", "codex@host", set())

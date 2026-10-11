@@ -4,7 +4,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from tools.reporting.generate_roster_report import generate_report
+try:
+    from tools.reporting.generate_roster_report import generate_report
+except ModuleNotFoundError as e:                   # matplotlib is a report dependency: requirements-dev.txt
+    raise unittest.SkipTest(f"{e.name} is not installed (pip install -r requirements-dev.txt)")
 
 
 class TestGenerateRosterReport(unittest.TestCase):

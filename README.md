@@ -1,5 +1,7 @@
 # ctf-fusion
 
+[![CI](https://github.com/Casper15/ctf-fusion/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Casper15/ctf-fusion/actions/workflows/ci.yml)
+
 **Teaching our Capture the Flag bots to predict what their opponents will do next.**
 
 Our bots compete in a Capture the Flag game ([AI_Test](https://github.com/Casper015/AI_Test), `ctf-arena`). Between 2 and 15 teams share one map. Each team has three units that move, shoot, and carry flags home for points. A bot gets 2 seconds for its first move and 50 milliseconds for every move after that. It runs on an ordinary CPU, with no GPU and no internet.
@@ -55,7 +57,7 @@ You need Python 3.10+ with NumPy, a C++20 compiler (g++, clang, or w64devkit on 
 
 ```bash
 git clone https://github.com/Casper015/ctf-fusion.git && cd ctf-fusion
-pip install -r requirements.txt
+pip install -r requirements-dev.txt              # NumPy, plus matplotlib for the report generators
 python -m unittest discover -s tests -t .        # about 20 seconds
 ```
 
