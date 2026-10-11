@@ -53,8 +53,10 @@ inline double nodeValue(const ValueModelV3& model, const Board& b, const State& 
 }
 
 struct ValueAccumulatorV3 {
-    // Only refresh initializes the active first-layer rows. Every read is behind valid;
-    // avoid zeroing a 64 KiB buffer at each search node in a 5XL build.
+    // Not zeroed: refresh writes the active first-layer rows and update() refreshes while
+    // !valid, so call update() (or refresh()) before valueRaw()/valueLogit(). Saves zeroing
+    // 64 KiB per default-initialized accumulator in a 5XL build. The bots do not use this
+    // accumulator (tools/cpp only); a value-initialized one (acc{}, std::vector(n)) is still zeroed.
     std::array<int32_t, kMaxWidth> pre;
     ValueFeaturesV3 features{};
     bool valid = false;

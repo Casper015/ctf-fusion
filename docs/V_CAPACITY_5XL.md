@@ -167,12 +167,33 @@ startup / 50 ms subsequent replies, p50/p99/max, faults, V time/calls, cuts,
 search samples and truncations. `value_cost` now feeds multi-copy processes
 concurrently; earlier sequential-feed multi-copy numbers need remeasurement.
 
+**Bot version of the evidence.** Every host screen and continuation in
+`reports/models/v_capacity_5xl/` ran at commit `4cbf07b` with the family carrier
+`bots/p_only/bots/c08_ponly_f.hpp` at SHA-256 `0d5759fe…ff1ff6e262`. That is
+before PR #10 (T0018) and PR #13 (T0020) changed the carrier's search code
+(on main after PR #11 it is `6356e4fb…0b312efa18a`; portfolio and per-branch
+ply 2 are off by default, and fixed-work replies equal production). Running
+`training.prepare_value_capacity` on a later main therefore builds different
+binaries: rebuild and rerun every arm, and never pool new games with these.
+
+**How much V the equal-time screen exercised.** Under the 8-call / 20 ms bound,
+the V arms made 0.28–0.42 V calls per covered turn, with 2,867–3,214 skipped
+calls and 808–902 fallback decisions per arm over the three covered games (the
+two-team game prints no counters). Most decisions in those games were taken
+without V, so they say little about any V model's quality at equal time; the
+fixed-work screen (about 2.8 calls per turn) exercises V more.
+
+**Pair accuracy.** Ties in model predictions now count as half correct
+(`training.evaluate_value.rank_metrics`). Earlier reports, such as
+`reports/models/v_pilot/`, counted a tie as correct only when the label was 0, so
+their pair accuracies are not directly comparable with these.
+
 Seed `20261220` was reserved and consumed by the tiny exploratory screen in T0016.
-T0019 was subsequently created with the same seed labelled fresh; the collision
-is recorded in its task log. It must choose and reserve another unseen seed
-before host execution. Previously
+T0019, created later with the same seed, moved to `20261230`
+(`bots/p_only/profiles/screen_search.json`, PR #13), and T0022 reserves
+`20261240` (`profiles/screen_v3xl_fresh.json`). Previously
 used `20261031`, `20261102`, `20261107`, `20261108`, and other tasks' reserved
-`20261201`, `20261210`, `20261211` are not fresh confirmation seeds. Freeze
+`20261201`, `20261210`, `20261211`, `20261230`, `20261240` are not fresh confirmation seeds. Freeze
 settings on validation/exploration first, collect one specified C08 continuation
 policy if C08 is selected, repeat finalists with three independent training
 seeds, and run the repository's 10,000 independent map-group confirmation with
