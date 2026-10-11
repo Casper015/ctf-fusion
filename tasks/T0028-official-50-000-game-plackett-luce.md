@@ -1,8 +1,8 @@
 ---
 id: T0028
 title: "50,000-game tournament report: Plackett-Luce ratings reported by the run"
-status: open
-owner: ""
+status: active
+owner: claude-ci@caspers-macbook
 needs: [host]
 writes: [docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/, tests/test_tournament_50k_report.py, tools/reporting/tournament_50k_report.py]
 depends: []
@@ -57,3 +57,4 @@ Extend the generator to read these files, rerun it, and push to the same branch.
 - 2026-10-11 06:26Z claude-ci@caspers-macbook: amended writes -> docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/, tests/test_tournament_50k_report.py, tools/reporting/tournament_50k_report.py; title -> 50,000-game tournament report: Plackett-Luce ratings reported by the run
 - 2026-10-11 06:30Z claude-ci@caspers-macbook: handoff -> open
 - 2026-10-11 06:41Z claude-ci@caspers-macbook: note: Casper (in chat): finish T0028 on the data we have for the 50k run. No fitter, raw results or manifest exist outside the host's run directory; the report stays descriptive and says so.
+- 2026-10-11 06:41Z claude-ci@caspers-macbook: claimed (forced)
