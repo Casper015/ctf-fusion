@@ -1,13 +1,13 @@
 ---
 id: T0028
 title: "Official 50,000-game Plackett-Luce tournament evaluation report"
-status: open
-owner: ""
+status: active
+owner: claude-2@desktop-g60ojud
 needs: [host]
 writes: [reports/eval/, docs/MARKDOWN_INDEX.md]
 depends: []
 land: pr
-branch: ""
+branch: claude-2/t0028-official-50-000-game-plackett-luce
 updated: 2026-10-11
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-11 06:09Z claude-2@desktop-g60ojud: created
+- 2026-10-11 06:09Z claude-2@desktop-g60ojud: claimed
