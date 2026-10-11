@@ -6,6 +6,7 @@
     python tools/repo/task.py claim T0003                      # atomic: only one agent can win
     python tools/repo/task.py start T0003                      # own git worktree + branch for the task
     python tools/repo/task.py note T0003 "screen 40% done, no faults"
+    python tools/repo/task.py amend T0003 --writes docs/x.md   # widen your lanes (refused if another active task writes there)
     python tools/repo/task.py land T0003                       # rebase, lane check, tests, fast-forward main
     python tools/repo/task.py handoff T0003 --status open --text "what is done, what is next, exact commands"
     python tools/repo/task.py done T0003 --text "result: bots/p_only/report/capacity/SCREEN.md"
@@ -119,7 +120,11 @@ def slugify(title: str, limit: int = 40) -> str:
 
 
 def norm(path: str) -> str:
-    return path.replace("\\", "/").lstrip("./")
+    """Repository-relative form: forward slashes, no leading './' (dot-files such as .github/ keep their dot)."""
+    path = path.replace("\\", "/")
+    while path.startswith("./"):
+        path = path[2:]
+    return path.lstrip("/")
 
 
 def covers(lane: str, path: str) -> bool:
@@ -283,6 +288,26 @@ def op_update(board: Board, tid: str, agent: str, *, status: str | None = None, 
         line = f"- {now()} {agent}: {verb}" + (f" -> {status}" if status and status != verb else "") + (f": {note}" if note else "")
         return {name: render(meta, append_log(body, line))}, None
     board.cas(edit, f"tasks: {agent} {verb} {tid.upper()}" + (f" ({status})" if status and status != verb else "") + f"\n\nAgent: {agent}")
+
+
+def op_amend(board: Board, tid: str, agent: str, writes: list[str], replace: bool = False) -> list[str]:
+    """Change the lanes of a task you hold. Refused when another active task writes there. Logged."""
+    def edit(tasks):
+        name, meta, body = find(tasks, tid)
+        if meta["owner"] != agent:
+            raise BoardError(f"{tid} is held by {meta['owner'] or 'nobody'}; only the owner changes its lanes")
+        new = [norm(w) for w in writes] if replace else sorted(set(meta["writes"]) | {norm(w) for w in writes})
+        if not new:
+            raise BoardError("a task needs at least one write path")
+        clash = [f"{o} ({m['owner']})" for o, (_, m, _) in tasks.items()
+                 if o != meta["id"] and m["status"] == "active" and overlaps(m["writes"], new)]
+        if clash:
+            raise BoardError(f"{tid} cannot write there: active task {', '.join(clash)} writes overlapping paths")
+        if new == meta["writes"]:
+            return {}, new
+        meta = {**meta, "writes": new, "updated": now()[:10]}
+        return {name: render(meta, append_log(body, f"- {now()} {agent}: amended writes -> {', '.join(new)}"))}, new
+    return board.cas(edit, f"tasks: {agent} amends {tid.upper()}\n\nAgent: {agent}")[1]
 
 
 def op_new(board: Board, agent: str, title: str, needs: list[str], writes: list[str], depends: list[str],
@@ -513,6 +538,10 @@ def main(argv=None) -> int:
             p.add_argument("--file", help="read the text from a file ('-' = stdin)")
         if verb == "handoff":
             p.add_argument("--status", choices=("open", "blocked", "review", "active"), default="open")
+    p = sub.add_parser("amend", help="add to (or --replace) the paths your task may write")
+    p.add_argument("id")
+    p.add_argument("--writes", nargs="+", required=True)
+    p.add_argument("--replace", action="store_true", help="replace the list instead of adding to it")
     p = sub.add_parser("land", help="rebase, check lanes, run tests, fast-forward main")
     p.add_argument("id")
     p.add_argument("--test", help="test command (default: the core unit tests)")
@@ -587,6 +616,8 @@ def main(argv=None) -> int:
             text = text_arg(args)
             status = "done" if args.cmd == "done" else "dropped"
             op_update(board, args.id, agent, status=status, handoff=text or None, verb=status)
+        elif args.cmd == "amend":
+            print("writes:", ", ".join(op_amend(board, args.id, agent, args.writes, args.replace)))
         elif args.cmd == "land":
             test = None if args.no_test else (shlex.split(args.test) if args.test else DEFAULT_TEST)
             print(f"landed {op_land(board, args.id, agent, test)[:10]}")

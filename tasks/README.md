@@ -61,5 +61,6 @@ The `#` comments above are only for this explanation. Real files have none. The 
 
 - **Add work:** `python tools/repo/task.py --as casper@mac new --title "..." --writes path/ [--needs host] [--depends T0003] --goal "..." --done-when "..."`. You can also write a file by hand in the format above. Commit and push it alone, and run `python tools/repo/task.py check` first.
 - **Answer a blocked task:** read its `Handoff`, then reply with `python tools/repo/task.py --as casper@mac note T0004 "Answer: use a new seed"`. The agent sees it on its next `show`.
+- **Change a task's lanes:** the owner runs `python tools/repo/task.py amend T0004 --writes path/`. It is refused while another active task writes there, and logged.
 - **Reassign or stop work:** tell the owner in a note, or edit the file and push.
 - **Keep tasks small:** something one agent can finish and land in a day or two, with lanes as narrow as the work allows. Split big phases into several tasks with `depends`.

@@ -91,7 +91,7 @@ tools/pipeline/   steps that produce committed inputs: train_tier_ladder, recomm
 tools/screens/    match-playing experiments: run_light_screen, run_carrier_screen, run_standard_bt_tournament,
                   run_v_ablation_screen and their smoke tests
 tools/reporting/  report generators and analyses: generate_*_report, benchmark_*, duel_review, export_results, plots
-tools/repo/       task.py: the task board, agent worktrees, lane checks and machine locks
+tools/repo/       task.py: the task board, agent worktrees, lane checks and machine locks; release_bots.py: bot bundles
 tools/random_bot.py, tools/noise_bot.py   test opponents; committed pools name them by path, so they stay put
 
 ── results and documents ───────────────────────────────────────────────────────────────
@@ -102,6 +102,10 @@ reports/reviews/  written reviews and audits (one file per review, commit hash i
 docs/             DESIGN, REVIEW, ROSTER, SOURCES, FIRST_RUN, LARGER_MODEL_EXPERIMENTS, PATH_MAP
   benchmark/      analysis of the AI_Test heuristic benchmark + games_5plus.csv.gz (cleaned per-game rows)
   handoffs/       briefs, plans and prompts written for the next agent or the host
+
+── automation ─────────────────────────────────────────────────────────────────────────
+.github/          CI (ci.yml, board.yml), bot bundling and release (bots.yml), dependabot.yml
+requirements-dev.txt   what the tests and report generators import (requirements.txt: the pipeline)
 
 ── coordination ────────────────────────────────────────────────────────────────────────
 tasks/            the task board: one file per piece of work, changed through tools/repo/task.py

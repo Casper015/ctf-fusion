@@ -1,0 +1,9 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions        # the workflows pin actions by commit SHA; this keeps the pins current
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "chore"
+    labels: [dependencies]

@@ -7,7 +7,7 @@ The idea in one paragraph: **all work is a task on the board in [`tasks/`](tasks
 ## 1. Say who you are
 
 ```bash
-export CTF_AGENT=codex@desktop-g60ojud     # <tool>@<machine>, lowercase; one per running agent
+export CTF_AGENT=codex@desktop-g60ojud     # <tool>@<machine>, lowercase; UNIQUE per running agent (see below)
 export CTF_CAN=host,cuda,ai-test           # what this machine has (table below); empty on a laptop or in the cloud
 ```
 
@@ -23,6 +23,8 @@ export CTF_CAN=host,cuda,ai-test           # what this machine has (table below)
 
 When a machine changes, update this table.
 
+**Your identity must be unique among running agents.** The board treats two agents with the same `CTF_AGENT` as one agent: the second one's `claim` of the first one's task silently succeeds, and both then work on it. If two instances of the same tool run on one machine, give each a suffix after the tool name: `claude-ci@caspers-macbook`, `claude-2@caspers-macbook`. Always use the id that `task.py new` or `task.py list` printed, never a number you remember.
+
 ## 2. The loop
 
 ```bash
@@ -33,6 +35,7 @@ python $T claim T0002                  # refused if someone holds it, its lanes 
 python $T start T0002                  # -> ../ctf-fusion.worktrees/T0002 on branch <tool>/t0002-...; work only there
 #   ... work, commit small commits inside the task's writes ...
 python $T note T0002 "stage 1 running: 900 of 2,520 games, no faults"     # at milestones, so others see progress
+python $T amend T0002 --writes bots/p_only/tools/    # you need another path: refused while another active task writes there
 python $T land T0002                   # rebase on main, lane check, core tests, fast-forward main
 python $T done T0002 --text "result: bots/p_only/report/capacity/SCREEN.md; XXL helps at 11-15, not shown elsewhere"
 git worktree remove ../ctf-fusion.worktrees/T0002
@@ -67,6 +70,7 @@ Write the handoff as if the next agent knows nothing:
 - `land` is the only way onto `main`, except through a pull request.
 - A task marked `land: pr` (shared core code, models, bots going to the host) goes through a pull request: `git push -u origin HEAD && gh pr create --fill`. Link the PR in a `note`.
 - Never force-push `main` or rewrite pushed history. Never use a bare `git stash`. Never commit `data/`, `build/` or `runs/`.
+- **`main` stays green.** CI ([CONTRIBUTING.md](CONTRIBUTING.md#automatic-checks-ci)) runs on every push to `main`. If something you landed turns it red, fixing or reverting it comes before any other work. `gh run list --branch main --limit 3` shows the state; `land` runs the same core tests, but not the P-only, torch or Windows jobs.
 
 **Evidence**
 - Report what the data shows. An interval that includes zero means "not shown". Missing timing stays missing, never zero.
@@ -101,6 +105,7 @@ A task's `writes` field is the binding version of this table for that task.
 | `land`: tests fail | Fix them on your branch. Nothing was pushed. |
 | `lock` held | `python $T locks` shows who. Wait (`--wait 3600`). `unlock` only when that process is gone. |
 | The board push keeps failing | Someone is changing the board right now. Run the same command again. |
+| CI is red on your pull request | `gh run view --log-failed`. Reproduce it with the matching command in [CONTRIBUTING.md](CONTRIBUTING.md#automatic-checks-ci). The Windows leg is informational; every other job must be green to merge. |
 
 ## 6. Quick reference
 
