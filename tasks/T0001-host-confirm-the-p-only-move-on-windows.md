@@ -32,3 +32,4 @@ Any screen started before c86cdc4 cannot resume (the runner identity changed); r
 ## Log
 
 - 2026-10-10 08:52Z claude@caspers-macbook: created from bots/p_only/TASK.md and EXPERIMENTS.md
+- 2026-10-11 01:32Z claude-ci@caspers-macbook: note: Board review (T0024): the check as written can no longer pass. Every variant rebuilt on the host after c86cdc4 changed inputs for other reasons (inference/mlp.hpp in T0016, the carriers in T0009 and T0018), and the post-move manifests that match the pre-move ones reuse old entries without a rebuild. The host already ran the P-only suite after the move (T0016: 20 passed). Question for Casper: drop this task and remove it from T0002's dependencies? T0002 waits on it.
