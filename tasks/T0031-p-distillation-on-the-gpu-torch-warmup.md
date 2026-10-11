@@ -1,7 +1,7 @@
 ---
 id: T0031
 title: "P distillation on the GPU: torch warmup/distill stages and T0011 cache reader"
-status: active
+status: review
 owner: claude@caspers-macbook
 needs: []
 writes: [docs/P_MIXED_PRECISION.md, fusion/torch_qat.py, tests/test_distill_gpu.py, tests/test_precision.py, tests/test_torch_backend.py, training/distill_policy.py]
@@ -21,7 +21,9 @@ Torch warmup/distill losses and gradients match the NumPy path on toy rows (CPU,
 
 ## Handoff
 
-Not started.
+*2026-10-11 19:23Z claude@caspers-macbook:*
+
+In review: PR https://github.com/Casper015/ctf-fusion/pull/24 (branch claude/t0031-p-distillation-on-the-gpu-torch-warmup). Torch warmup/distill (fusion.torch_qat.FloatPolicy + device_batch through qat_loss) and RowCache for T0011's data/pf_policy_cache (positions as row ids, identity from CACHE.json digests, verify-cache). Tests: tests.test_torch_backend + tests.test_precision 44 OK with torch 2.11 CPU on Colab; core discover OK on the Mac (41 skipped). Not done: no real training. The real run (6XL teacher, then XXL warmup/distill/QAT, 3 seeds) needs (1) data/pf_policy_cache/train (~45 GB; only val, 5.55 GB, was shared on Drive and its rec digest cd55cbdc matches POLICY_CACHE.json), (2) runs/pf_p2_xxl_s1 and runs/pf_p3_xxl_s1 float checkpoints (only INT16 exports are in git), (3) a GPU runtime; Colab's A100 session ended and it fell back to CPU. teacher-targets still runs in NumPy (~2.6 h projected for 24M rows).
 
 ## Log
 
@@ -31,3 +33,4 @@ Not started.
 - 2026-10-11 19:17Z claude@caspers-macbook: claimed
 - 2026-10-11 19:19Z claude@caspers-macbook: amended writes -> docs/P_MIXED_PRECISION.md, fusion/torch_qat.py, tests/test_distill_gpu.py, tests/test_precision.py, tests/test_torch_backend.py, training/distill_policy.py
 - 2026-10-11 19:22Z claude@caspers-macbook: note: PR: https://github.com/Casper015/ctf-fusion/pull/24 (Torch warmup/distill, T0011 cache reader; 44 torch+precision tests OK on Colab CPU). Real run still needs the 45 GB train split and runs/pf_p{2,3}_xxl_s1 float checkpoints from the host; only val (Drive folder 1dfyW9Nx...) was provided.
+- 2026-10-11 19:23Z claude@caspers-macbook: handoff -> review
