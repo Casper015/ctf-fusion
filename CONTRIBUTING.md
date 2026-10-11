@@ -29,6 +29,7 @@ The rules for working in `ctf-fusion`: where a file goes, what is committed, how
 | Work on the P-only bots | `bots/p_only/` | Self-contained: its own `tools/`, `tests/`, `report/`. |
 | A unit or contract test | `tests/` | One `test_<area>.py` per area. |
 | Offline gate report of one model | `reports/models/<tier>/` | Written by `training.evaluate_offline`. |
+| A controlled comparison of models (a study) | `reports/models/<study>/` | Register the folder in `MODEL_STUDIES` (`tests/test_repo_layout.py`): `v_pilot`, `p_features` ([FEATURE_FAMILIES.md](docs/FEATURE_FAMILIES.md)), `v_capacity_5xl` ([V_CAPACITY_5XL.md](docs/V_CAPACITY_5XL.md)). |
 | A host measurement | `reports/host/` | Name ends in the host: `capacity_<HOST>.json`. |
 | A match-result summary | `reports/eval/` | |
 | A written review or audit | `reports/reviews/` | One file per review; put the commit hash it pins in the name. |
@@ -65,13 +66,16 @@ Other rules:
 | File(s) | Generator |
 |---|---|
 | `inference/models*/weights_*.hpp`, `.npz`, `registry.hpp`, `MANIFEST.json` | `python -m training.export_weights` |
-| `inference/models_p<tier>_v<tier>/` (mixed P/V sets: exact copies of committed arrays) | `python -m training.export_mixed --policy-tier <t> --value-tier <t>` (`tests/test_mixed_export.py` re-derives and compares) |
+| `inference/models_p<tier>_v<tier>/` and other mixed P/V sets (exact copies of committed arrays) | `python -m training.export_mixed --policy-tier <t> --value-tier <t>`, or from training runs: `--policy-run` (one model, `general` serving every count) and `--value-run` (quantized once, one V header shared by every model of the set). `tests/test_mixed_export.py` re-derives and compares |
 | `training/specs/FEATURES.md` | `python tools/pipeline/gen_feature_spec.py` (a test fails when it drifts) |
 | `bots/hybrid/*_Fusion.hpp` variants | `tools/pipeline/build_carrier_variants.py` |
 | `bots/p_only/bots/c08_ponly.hpp`, `v12_ponly.hpp`, `c08_control.hpp` | `bots/p_only/tools/derive/make_*.py` (a test re-derives and compares) |
+| `bots/p_only/include/ponly_p3.hpp`, `bots/p_only/bots/v12_ponly_f.hpp`, `c08_ponly_f.hpp` (the feature-family carriers, [FEATURE_FAMILIES.md](docs/FEATURE_FAMILIES.md)) | `python bots/p_only/tools/derive/make_families.py` (`bots/p_only/tests/test_families.py` re-derives and compares) |
 | `reports/**`, `docs/benchmark/*TABLES.md`, `roster/report/**` | the script named in the file's header |
 | `roster/bots/src/**` | vendored sources, named by sha256: never edit |
 | `tasks/T*.md` | `tools/repo/task.py`. Humans may edit by hand; run `task.py check` before pushing. |
+| `tasks/SUMMARY.md` | `tools/repo/task.py`, with every board change (`task.py summary --write` after a hand edit of a task) |
+| `docs/MARKDOWN_INDEX.md` | `python tools/repo/md_index.py --write` after adding, moving, removing or retitling a Markdown file. CI warns when it is stale. The summaries in [docs/DIGEST.md](docs/DIGEST.md) are written by hand; give a new topic a section with a `**Sources:**` line. |
 
 To change a generated file, change its generator, regenerate, and commit both together.
 
@@ -111,7 +115,7 @@ GitHub Actions runs these on every pull request and on every push to `main` (wor
 
 | Check | Runs | Reproduce locally |
 |---|---|---|
-| **Layout, board and links** (`ci.yml`) | folders, `tasks/*.md`, markdown links; seconds | `python -m unittest tests.test_repo_layout tests.test_task_board` and `python tools/repo/task.py check` |
+| **Layout, board and links** (`ci.yml`) | folders, `tasks/*.md`, markdown links, and a warning when `docs/MARKDOWN_INDEX.md` is stale; seconds | `python -m unittest tests.test_repo_layout tests.test_task_board`, `python tools/repo/task.py check` and `python tools/repo/md_index.py --check` |
 | **Tests** (`ci.yml`) | the core suite on Linux (Python 3.10 and 3.13), macOS arm64 (the NEON kernels) and Windows (informational) | `python -m unittest discover -s tests -t .` |
 | **P-only bots** (`ci.yml`) | contract, replay and derive tests; about 10 min | `python -m unittest discover -s bots/p_only/tests` |
 | **Torch parity** (`ci.yml`) | NumPy and PyTorch trainers agree (CPU) | `pip install torch`, then `python -m unittest tests.test_torch_backend` |
