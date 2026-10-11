@@ -1,6 +1,6 @@
 """What a value network (and the policy's encoding) costs on the host, with real exported weights (Route A evidence).
 
-    python tools/repo/task.py lock cpu --task T00xx -- python tools/host/value_cost.py \\
+    python tools/repo/task.py lock --task T00xx cpu -- python tools/host/value_cost.py \\
         --set inference/models_pxxl_vD --calls 7 --copies 1 6 15 --out reports/host/value_cost_DESKTOP-G60OJUD
     python tools/host/value_cost.py --set inference/models_pxxl_vD --verify     # development machines: correctness only
 
@@ -28,12 +28,15 @@ import platform
 import subprocess
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
 
 from fusion import hostinfo, native  # noqa: E402
+from fusion.paths import sha256  # noqa: E402
+from training.header_chunks import verify_chunks  # noqa: E402
 
 FIXTURES = REPO / "bots" / "p_only" / "tests" / "fixtures"
 
@@ -43,13 +46,16 @@ def run_copies(binary: Path, streams: list[bytes], calls: int, copies: int) -> l
     for i in range(copies):
         p = subprocess.Popen([str(binary), str(calls)], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         procs.append((p, streams[i % len(streams)]))
-    out = []
-    for p, data in procs:
+    def finish(pair):
+        p, data = pair
         stdout, stderr = p.communicate(data)
         if p.returncode != 0:
             raise RuntimeError(f"value_bench failed: {stderr.decode()[-2000:]}")
-        out.append(json.loads(stdout.decode()))
-    return out
+        return json.loads(stdout.decode())
+    # Feed every process concurrently; sequential communicate() leaves other
+    # copies waiting on stdin and would measure an isolated pass at every load.
+    with ThreadPoolExecutor(max_workers=copies) as executor:
+        return list(executor.map(finish, procs))
 
 
 def worst(rows: list[dict], key: str) -> dict:
@@ -71,6 +77,9 @@ def main(argv=None):
               "calls_per_turn": a.calls, "streams": [Path(s).name for s in a.streams], "sets": {}}
     for d in a.set:
         header = Path(d) / f"weights_{a.model}.hpp"
+        manifest = json.loads((Path(d) / "MANIFEST.json").read_text(encoding="utf-8"))
+        shared = manifest[a.model].get("shared_value", {})
+        verify_chunks(Path(d), shared.get("chunks", []))
         binary = native.model_tool("value_bench", header, f"fusion::models::{a.model}")
         if a.verify:
             for s in streams:
@@ -80,7 +89,10 @@ def main(argv=None):
                     raise SystemExit(f"{d}: incremental and full value passes differ")
             continue
         fams = native.model_families(header)
-        entry = {"families": fams, "header_bytes": header.stat().st_size, "copies": {}}
+        entry = {"families": fams, "header_bytes": header.stat().st_size, "copies": {},
+                 "manifest_sha256": sha256(Path(d) / "MANIFEST.json"), "binary_sha256": sha256(binary),
+                 "model_files": {p.relative_to(Path(d).resolve()).as_posix(): sha256(p)
+                                 for p in native.model_dependencies(header) if p.is_relative_to(Path(d).resolve())}}
         for n in a.copies:
             rows = run_copies(binary, streams, a.calls, n)
             entry["copies"][str(n)] = {k: worst(rows, k) for k in ("view_us", "encode_us", "full_us", "incremental_us", "first_layer_us",

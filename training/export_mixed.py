@@ -39,6 +39,7 @@ from fusion import families, quant
 from fusion.capacity import buffer_width
 from fusion.paths import REPO, served_counts, sha256
 from training.export_weights import header, macs, manifest_families, registry, widest
+from training.header_chunks import HeaderWriter, verify_chunks
 
 POLICY_HEADS = ("mover", "squad", "act", "target")
 TIER_DIR = {"s": "models", "m": "models_m", "l": "models_l", "xl": "models_xl", "xxl": "models_xxl"}
@@ -161,7 +162,7 @@ def quantize_run_value(run: Path, layout, max_width: int) -> tuple[dict, dict]:
 
 def export_runs(out: Path, policy_tier: str | None = None, policy_dir=None, policy_run=None, model_id: str = "general",
                 value_tier: str | None = None, value_dir=None, value_run=None, shared_name: str = "shared_value",
-                max_width: int = 8192) -> Path:
+                max_width: int = 16384) -> Path:
     """A model set from trained runs and/or committed sets: a frozen P (tier, set or run) with a V (tier, set or run).
 
     A value run is quantized once and written once (weights_<shared_name>.hpp); every model's header aliases it,
@@ -199,8 +200,10 @@ def export_runs(out: Path, policy_tier: str | None = None, policy_dir=None, poli
         value_src = {"run": str(value_run), "model_sha256": sha256(Path(value_run) / "model.npz"), "weights_digest": quant.digest(vflat),
                      "heads": ["value"], "shared": f"weights_{shared_name}.hpp"}
         shared = (shared_name, q)
-        (out / f"weights_{shared_name}.hpp").write_text(shared_value_header(shared_name, q, vfeats["family"], {"value": Path(value_run).name},
-                                                                            GENERATOR), encoding="utf-8")
+        writer = HeaderWriter(out / f"weights_{shared_name}.hpp")
+        chunks = writer.write(shared_value_header(shared_name, q, vfeats["family"], {"value": Path(value_run).name},
+                                                  GENERATOR, array_writer=writer.array))
+        verify_chunks(out, chunks)
         np.savez(out / f"weights_{shared_name}.npz", **vflat)
     else:
         vsrc = source_dir(value_tier, value_dir)
@@ -234,7 +237,8 @@ def export_runs(out: Path, policy_tier: str | None = None, policy_dir=None, poli
             "spec_version": L.schema["spec_version"], "adapter": p["adapter"], "features": {"policy": p["features"], "value": feats_v},
             "alpha": p["alpha"], "value_approved": False, "served_team_counts": served_counts(model),
             "sources": {"policy": p["source"], "value": vsource},
-            **({"shared_value": {"header": f"weights_{shared[0]}.hpp", "sha256": sha256(out / f"weights_{shared[0]}.hpp")}} if shared else {}),
+            **({"shared_value": {"header": f"weights_{shared[0]}.hpp", "sha256": sha256(out / f"weights_{shared[0]}.hpp"),
+                                 "npz_sha256": sha256(out / f"weights_{shared[0]}.npz"), "chunks": chunks}} if shared else {}),
             "params": {k: int(sum(l["w"].size + l["b"].size for l in q["layers"])) for k, q in all_nets.items()},
             "widest_layer": widest(all_nets), "required_buffer_width": buffer_width([widest(all_nets)]),
             "macs": {k: macs(q) for k, q in all_nets.items()} | {"joint_policy_per_team": 15 * macs(all_nets["mover"]) + macs(all_nets["squad"])},
@@ -257,7 +261,7 @@ def main(argv=None):
     ap.add_argument("--model-id", default="general", help="model id of --policy-run (general serves every team count)")
     ap.add_argument("--value-run", help="a value training run, quantized once and shared by every model of the set")
     ap.add_argument("--shared-name", default="shared_value")
-    ap.add_argument("--max-width", type=int, default=8192, help="buffer ceiling for quantizing runs")
+    ap.add_argument("--max-width", type=int, default=16384, help="buffer ceiling for quantizing runs (5XL needs 16384)")
     ap.add_argument("--out")
     a = ap.parse_args(argv)
     if a.policy_run or a.value_run:

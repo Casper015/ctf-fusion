@@ -34,6 +34,7 @@ import argparse
 import copy
 import gzip
 import hashlib
+import itertools
 import json
 import multiprocessing as mp
 import sys
@@ -91,7 +92,8 @@ def recorded_orders(game, match: dict, turn: int) -> dict:
     return orders
 
 
-def candidates(game, block_text: str, line: str | None, seat: int, turn: int, k: int, key: str) -> list[str]:
+def candidates(game, block_text: str, line: str | None, seat: int, turn: int, k: int, key: str,
+               mode: str = "single") -> list[str]:
     """The recorded reply first (on-policy), then distinct one-unit move deviations of it."""
     reqs = parse_reply(line, turn)
     if reqs is None:
@@ -112,6 +114,53 @@ def candidates(game, block_text: str, line: str | None, seat: int, turn: int, k:
                 alt[1 + 2 * u] = MOVES[m]
                 options.append(" ".join(alt))
     options.sort(key=lambda s: unit_hash(key, s))
+    if mode == "complete":
+        groups = {"single": options, "coordinated": [], "attack": [], "pickup_wait": [], "drop": []}
+        destinations = {}
+        for u in range(3):
+            uid, _, x, y, _, flag, _ = blk.units[3 * seat + u]
+            if x < 0:
+                continue
+            destinations[u] = [(m, (x + dx, y + dy)) for m, (dx, dy) in enumerate(DELTAS)
+                               if 0 <= x + dx < size and 0 <= y + dy < size and (x + dx, y + dy) not in walls]
+            for m, pos in destinations[u]:
+                actions = [("pickup_wait", "-")]
+                if flag >= 0:
+                    actions.append(("drop", "X"))
+                else:
+                    if any(f["status"] in ("home", "dropped") and tuple(f["pos"]) == pos for f in game.flags):
+                        actions.append(("pickup_wait", "P"))
+                    actions += [("attack", str(e[0])) for e in blk.units if e[1] != seat and e[2] >= 0
+                                and game.can_attack(pos, (e[2], e[3]))]
+                for group, action in actions:
+                    alt = list(tok)
+                    alt[1 + 2 * u:3 + 2 * u] = [MOVES[m], action]
+                    groups[group].append(" ".join(alt))
+        for u, v in itertools.combinations(destinations, 2):
+            for (mu, pu), (mv, pv) in itertools.product(destinations[u], destinations[v]):
+                if pu == pv or mu == reqs[u].move or mv == reqs[v].move:
+                    continue
+                alt = list(tok)
+                # Safe wait actions make coordinated movement a complete order alternative.
+                alt[1 + 2 * u:3 + 2 * u] = [MOVES[mu], "-"]
+                alt[1 + 2 * v:3 + 2 * v] = [MOVES[mv], "-"]
+                groups["coordinated"].append(" ".join(alt))
+            for enemy in blk.units:
+                if enemy[1] == seat or enemy[2] < 0 or blk.units[3 * seat + u][5] >= 0 or blk.units[3 * seat + v][5] >= 0:
+                    continue
+                pu = dict(destinations[u]).get(reqs[u].move)
+                pv = dict(destinations[v]).get(reqs[v].move)
+                target = (enemy[2], enemy[3])
+                if pu is not None and pv is not None and game.can_attack(pu, target) and game.can_attack(pv, target):
+                    alt = list(tok)
+                    alt[2 + 2 * u] = alt[2 + 2 * v] = str(enemy[0])
+                    groups["attack"].append(" ".join(alt))
+        # Deterministic round-robin across categories: a small bound still covers
+        # coordinated moves, attack allocations, pickup/wait and carrier drops.
+        ordered = [sorted(set(group), key=lambda s: unit_hash(key, name, s)) for name, group in groups.items()]
+        options = [s for row in itertools.zip_longest(*ordered) for s in row if s is not None]
+    elif mode != "single":
+        raise ValueError(f"unknown candidate mode: {mode}")
     for s in options:
         if len(out) >= k:
             break
@@ -173,7 +222,8 @@ def play_branch(engine, match: dict, seat: int, turn: int, line: str, commands: 
 
 
 def _root_job(job) -> dict | None:
-    path, turn, k, repeats, commands, limits, root = job
+    path, turn, k, repeats, commands, limits, root, *extra = job
+    mode = extra[0] if extra else "single"
     engine = load_engine(Path(root))
     match = matchlog.load(path)
     seat = designated_seat(match)
@@ -182,7 +232,7 @@ def _root_job(job) -> dict | None:
         return {"match_id": match["match_id"], "teams": match["teams"], "turn": turn, "dropped": "recorded blocks not reproduced"}
     snapshot = copy.deepcopy(game)  # the reproduced root; branches below never touch it
     line = match["replies"][turn - 1][seat]
-    cands = candidates(game, match["blocks"][turn - 1], line, seat, turn, k, f"{match['match_id']}/{turn}")
+    cands = candidates(game, match["blocks"][turn - 1], line, seat, turn, k, f"{match['match_id']}/{turn}", mode)
     if len(cands) < 2:
         return {"match_id": match["match_id"], "teams": match["teams"], "turn": turn, "dropped": "fewer than two legal candidates"}
     branches = []
@@ -195,6 +245,7 @@ def _root_job(job) -> dict | None:
     return {"schema": "ctf-fusion-branches-1", "match_id": match["match_id"], "teams": match["teams"],
             "map_seed": match["map_seed"], "seat": seat, "turn": turn, "init": match["init"],
             "carrier_sha256": match["seats"][seat]["sha256"], "candidates": cands, "branches": branches,
+            "candidate_mode": mode,
             "root_outcome": float(pairwise_outcome(match["result"]["score"])[seat])}
 
 
@@ -226,6 +277,7 @@ def main(argv=None):
     ap.add_argument("--teams", type=int, nargs="*", help="team counts (default: all found)")
     ap.add_argument("--roots-per-match", type=int, default=2)
     ap.add_argument("--candidates", type=int, default=4)
+    ap.add_argument("--candidate-mode", choices=("single", "complete"), default="single")
     ap.add_argument("--repeats", type=int, default=1, help="continuations per candidate (bots may be nondeterministic)")
     ap.add_argument("--max-matches", type=int, default=0)
     ap.add_argument("--workers", type=int, default=1)
@@ -248,7 +300,7 @@ def main(argv=None):
         for t in root_turns(match, a.roots_per_match):
             out = Path(a.out) / f"n{match['teams']:02d}" / f"{match['match_id']}-t{t:03d}.json.gz"
             if not out.exists():
-                jobs.append((str(f), t, a.candidates, a.repeats, commands, limits, str(root)))
+                jobs.append((str(f), t, a.candidates, a.repeats, commands, limits, str(root), a.candidate_mode))
     print(f"[branches] {len(jobs)} roots to play from {len(files)} matches, {a.candidates} candidates x {a.repeats} repeats",
           flush=True)
     t0 = time.time()

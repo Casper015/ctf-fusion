@@ -66,9 +66,15 @@ inline int32_t activate(const Layer& L, int32_t acc) {
 // Layers first..count-1 on `x` (the input of layer `first`, every value inside
 // int16, as features and activations are); acc receives the last layer's raw
 // accumulators. Fixed stack buffers only, no allocation.
-inline void forwardFrom(const Net& net, int first, const int32_t* x, int32_t* acc) {
-    alignas(64) int16_t bufA[kMaxWidth], bufB[kMaxWidth];
-    alignas(64) int32_t sum[kMaxWidth];
+template<int Width>
+#if FUSION_MAX_WIDTH > 8192
+// Keep the wide stack frame out of small P calls in a 5XL build, including
+// Windows stack probing. No large scratch array is cleared on either path.
+[[gnu::noinline]]
+#endif
+inline void forwardFromBuffers(const Net& net, int first, const int32_t* x, int32_t* acc) {
+    alignas(64) int16_t bufA[Width], bufB[Width];
+    alignas(64) int32_t sum[Width];
     const int inputs = net.layers[first].in;
     for (int i = 0; i < inputs; i++) bufA[i] = static_cast<int16_t>(x[i]);
     const int16_t* src = bufA;
@@ -84,6 +90,19 @@ inline void forwardFrom(const Net& net, int first, const int32_t* x, int32_t* ac
         for (int o = 0; o < L.out; o++) dst[o] = static_cast<int16_t>(activate(L, sum[o]));
         src = dst;
     }
+}
+
+inline void forwardFrom(const Net& net, int first, const int32_t* x, int32_t* acc) {
+#if FUSION_MAX_WIDTH > 8192
+    int required = 0;
+    for (int l = first; l < net.count; ++l)
+        required = std::max(required, std::max(net.layers[l].in, net.layers[l].out));
+    if (required <= 2048) {
+        forwardFromBuffers<2048>(net, first, x, acc);
+        return;
+    }
+#endif
+    forwardFromBuffers<kMaxWidth>(net, first, x, acc);
 }
 
 // x has net.in() entries; acc receives net.out() raw accumulators.

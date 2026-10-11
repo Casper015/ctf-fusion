@@ -53,7 +53,9 @@ inline double nodeValue(const ValueModelV3& model, const Board& b, const State& 
 }
 
 struct ValueAccumulatorV3 {
-    std::array<int32_t, kMaxWidth> pre{};
+    // Only refresh initializes the active first-layer rows. Every read is behind valid;
+    // avoid zeroing a 64 KiB buffer at each search node in a 5XL build.
+    std::array<int32_t, kMaxWidth> pre;
     ValueFeaturesV3 features{};
     bool valid = false;
 };

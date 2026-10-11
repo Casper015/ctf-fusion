@@ -93,15 +93,15 @@ def row_losses(p, y):
     return {"logloss": -(y * np.log(pc) + (1 - y) * np.log(1 - pc)), "brier": (p - y) ** 2}
 
 
-def rank_metrics(model, beta, rank: dict, layout) -> dict:
+def rank_metrics(model, beta, rank: dict, layout, size=2048) -> dict:
     """Pair accuracy and decision regret over roots, from a split of training.branch_dataset."""
     z = dict(np.load(rank["path"]))
     from fusion.models import value_columns  # noqa: PLC0415
     v = value_columns(z["cand_rec"], layout, model.family)
-    p = probs(model, beta, v, layout)
+    p = probs(model, beta, v, layout, size)
     keep = z["pair_y"] >= 0
     a, b, yy, ww = z["pair_a"][keep], z["pair_b"][keep], z["pair_y"][keep], z["pair_w"][keep]
-    correct = ((p[a] > p[b]) == (yy == 1)).astype(np.float64)
+    correct = np.where(p[a] == p[b], 0.5, ((p[a] > p[b]) == (yy == 1)).astype(np.float64))
     roots = z["cand_root"]
     regret, regret_on, regret_uniform, maps = [], [], [], []
     for r in np.unique(roots):
@@ -114,12 +114,29 @@ def rank_metrics(model, beta, rank: dict, layout) -> dict:
         regret_uniform.append(best - y.mean())
         maps.append(int(z["root_map"][r]))
     regret, maps = np.array(regret), np.array(maps)
+    regret_on = np.asarray(regret_on)
+    valid_on = np.isfinite(regret_on)
     pair_maps = z["root_map"][roots[a]]
+    majority = float((ww * yy).sum() / ww.sum()) if ww.sum() > 0 else None
+    accuracy = clustered_mean_ci(correct, ww, pair_maps) if keep.any() else None
+    versus_random = clustered_mean_ci(correct - 0.5, ww, pair_maps) if keep.any() else None
+    if accuracy is not None:
+        accuracy["verdict"] = versus_random["verdict"]
+        accuracy["reference"] = 0.5
+    versus_majority = (clustered_mean_ci(correct - (yy == int(majority >= 0.5)), ww, pair_maps)
+                       if majority is not None else None)
     return {"roots": int(len(regret)), "resolved_pairs": int(keep.sum()), "uncertain_pairs": int((~keep).sum()),
-            "pair_accuracy": clustered_mean_ci(correct, ww, pair_maps) if keep.any() else None,
+            "pair_accuracy": accuracy, "pair_vs_random": versus_random, "pair_vs_majority": versus_majority,
+            "pair_random_baseline": 0.5, "pair_majority_baseline": max(majority, 1 - majority) if majority is not None else None,
+            "pair_majority_note": "descriptive label-frequency baseline on this split; not a fitted policy",
             "regret": clustered_mean_ci(regret, np.ones_like(regret), maps),
-            "regret_on_policy": float(np.nanmean(regret_on)) if len(regret_on) else None,
+            "regret_vs_incumbent": clustered_mean_ci(regret[valid_on] - regret_on[valid_on],
+                                                      np.ones(valid_on.sum()), maps[valid_on]),
+            "incumbent_roots": int(valid_on.sum()),
+            "regret_on_policy": float(regret_on[valid_on].mean()) if valid_on.any() else None,
             "regret_uniform": float(np.mean(regret_uniform)) if len(regret_uniform) else None,
+            "continuation_repetitions": {"min": int(z["cand_n"].min()), "max": int(z["cand_n"].max())},
+            "label_note": "sampled continuation means, not exact action values",
             "_regret_rows": regret, "_regret_maps": maps}
 
 
@@ -132,6 +149,9 @@ def run_effort(run: Path) -> dict:
     return {"hidden": cfg.get("hidden"), "family": (cfg.get("features") or {}).get("family", "v2"), "params": cfg.get("params"),
             "seed": cfg.get("seed"), "rows": cfg.get("rows"), "epochs": len(epochs), "best_epoch": best and best["epoch"],
             "best_val": best and best["val"], "seconds": cfg.get("train_seconds", sum(r.get("seconds", 0) for r in epochs)),
+            "optimizer_steps": epochs[-1].get("optimizer_steps") if epochs else None,
+            "fit_seconds": cfg.get("fit_seconds"), "pipeline_seconds": cfg.get("pipeline_seconds"),
+            "calibration_seconds": cfg.get("calibration_seconds"), "backend_timing": backend.get("timing"),
             "curve": [{k: r[k] for k in ("epoch", "lr", "train", "val", "seconds") if k in r} for r in epochs],
             "device": backend.get("device", "numpy"), "gpu": backend.get("gpu"),
             "peak_allocated_gb": backend.get("peak_allocated_gb"), "peak_reserved_gb": backend.get("peak_reserved_gb"),
@@ -173,6 +193,14 @@ def markdown(report: dict) -> str:
                        f"[{f(rk['regret']['lo'])}, {f(rk['regret']['hi'])}] | {f(rk['regret_on_policy'])} | {f(rk['regret_uniform'])} |")
     out += ["", "## Learning curves", ""]
     for name, r in report["runs"].items():
+        rk = r.get("rank")
+        if rk:
+            s = rk["regret_vs_incumbent"]
+            out.append(f"- **{name} versus incumbent**, paired per root: {f(s['mean'])} "
+                       f"[{f(s['lo'])}, {f(s['hi'])}], {s['clusters']} map groups, {s.get('verdict', 'not shown')}. "
+                       f"Pair baselines: random {rk['pair_random_baseline']}, majority {f(rk['pair_majority_baseline'])}. "
+                       f"Continuations per candidate: {rk['continuation_repetitions']} (noisy estimates).")
+    for name, r in report["runs"].items():
         curve = ", ".join(f"{c['epoch']}: {c['val']:.4f}" for c in r["effort"]["curve"])
         out.append(f"- **{name}** (val outcome loss by epoch): {curve}")
     return "\n".join(out) + "\n"
@@ -187,7 +215,10 @@ def main(argv=None):
     ap.add_argument("--rank", help="ranking data from training.branch_dataset (the same split is used)")
     ap.add_argument("--compare", action="append", default=[], help="X:Y paired difference X - Y")
     ap.add_argument("--out", required=True, help="output path without extension (.md and .json)")
+    ap.add_argument("--batch", type=int, default=2048, help="bounded FP32 inference batch, shared by all capacities")
     a = ap.parse_args(argv)
+    if a.batch < 1:
+        raise SystemExit("--batch must be positive")
     L = feature_layout()
     caches = {"": a.cache} | dict(x.split("=", 1) for x in a.cache_for)
     rows, ref = {}, None
@@ -197,13 +228,13 @@ def main(argv=None):
         model, beta = load_value(Path(path), L)
         cache = caches.get(model.family) or caches[""]
         d = load_cache(cache, a.split, model.family)
-        key = (np.asarray(d["match"]), np.asarray(d["turn"]), np.asarray(d["teams"]))
+        key = tuple(np.asarray(d[k]) for k in ("match", "turn", "teams", "map", "v_y", "weight"))
         if ref is None:
             ref = key
             report |= {"rows": int(len(key[0])), "maps": int(len(np.unique(d["map"])))}
         elif not all(np.array_equal(x, y) for x, y in zip(ref, key)):
             raise SystemExit(f"run {name}: its cache's {a.split} rows differ from the first run's; score every run on the same rows")
-        p = probs(model, beta, d["v"], L)
+        p = probs(model, beta, d["v"], L, a.batch)
         y = np.asarray(d["v_y"])[:, 0].astype(np.float64)
         w = np.asarray(d["weight"]).astype(np.float64)
         turn, teams, tags = np.asarray(d["turn"]), np.asarray(d["teams"]), np.asarray(d["tags"])
@@ -214,7 +245,7 @@ def main(argv=None):
         if a.rank:
             rk = load_rank(a.rank, a.split, model.family, L)
             if rk is not None:
-                r["rank"] = rank_metrics(model, beta, {"path": Path(a.rank) / a.split / "rank.npz"}, L)
+                r["rank"] = rank_metrics(model, beta, {"path": Path(a.rank) / a.split / "rank.npz"}, L, a.batch)
         rows[name] = {"losses": row_losses(p, y), "w": w, "maps": np.asarray(d["map"])}
         report["runs"][name] = r
     for spec in a.compare:
@@ -223,6 +254,8 @@ def main(argv=None):
         metrics = {m: clustered_mean_ci(rx["losses"][m] - ry["losses"][m], rx["w"], rx["maps"]) for m in ("logloss", "brier")}
         kx, ky = report["runs"][x].get("rank"), report["runs"][y].get("rank")
         if kx and ky:
+            if not np.array_equal(kx["_regret_maps"], ky["_regret_maps"]):
+                raise SystemExit("paired regret requires identical roots and map membership")
             metrics["regret"] = clustered_mean_ci(kx["_regret_rows"] - ky["_regret_rows"], np.ones(len(kx["_regret_rows"])),
                                                   kx["_regret_maps"])
         report["compare"].append({"x": x, "y": y, "metrics": metrics})

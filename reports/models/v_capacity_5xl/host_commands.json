@@ -1,0 +1,80 @@
+{
+ "code_commit": "4cbf07bca223040a9be7dbdfd7cf8977c0e63459",
+ "default_machine_cpu_lock": true,
+ "python": "C:\\Users\\caspe\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+ "argv": [
+  [
+   "C:\\Users\\caspe\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+   "tools/host/value_cost.py",
+   "--set",
+   "build/v_capacity_5xl/sets/XL",
+   "--set",
+   "build/v_capacity_5xl/sets/4XL",
+   "--set",
+   "build/v_capacity_5xl/sets/5XL",
+   "--set",
+   "build/v_capacity_5xl/sets/Student",
+   "--calls",
+   "1",
+   "--copies",
+   "1",
+   "6",
+   "15",
+   "--out",
+   "reports/models/v_capacity_5xl/value_cost_DESKTOP-G60OJUD"
+  ],
+  [
+   "C:\\Users\\caspe\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+   "bots/p_only/tools/run_screen.py",
+   "--config",
+   "build/v_capacity_5xl/screen_time.json"
+  ],
+  [
+   "C:\\Users\\caspe\\AppData\\Local\\Python\\pythoncore-3.14-64\\python.exe",
+   "bots/p_only/tools/run_screen.py",
+   "--config",
+   "build/v_capacity_5xl/screen_work.json"
+  ]
+ ],
+ "binary_hashes_before": {
+  "build\\p_only\\bin\\cap_off_time-241de9bfa4a4.exe": "c995f2745a9354fa4f23be6eb89cb1d562712b2267191342521a88922451bea8",
+  "build\\p_only\\bin\\cap_xl_time-b0000fd59cff.exe": "bd39a25d2619d35e41d74fec200beb6068ce6ab909de14595eb153bedd50ec99",
+  "build\\p_only\\bin\\cap_4xl_time-68128bf08fe6.exe": "c56ecb95542bd7518a94e64c9bd0c0eb714bce0d390d893f7d3301ae071eadeb",
+  "build\\p_only\\bin\\cap_5xl_time-00256db3124a.exe": "0d520d30568aa6ef6676e7fc224ae4b88c713dc9eb959063fc16a403189958a9",
+  "build\\p_only\\bin\\cap_student_time-2f5a60446623.exe": "81486ac524f288c806f8ce6100783bc967e85d3e61d9c9388eb07f35c69897e2",
+  "build\\p_only\\bin\\cap_off_work-272b7a2152ee.exe": "4800595f37edc5afc7ac177cf44eba1efa8752f97f0cde0e11eae44ae8899569",
+  "build\\p_only\\bin\\cap_xl_work-4b6c18f71b20.exe": "f65cfba18ef94b00baa6d489b06fb52efc715ae83e53ccd6182c97bfa6891cce",
+  "build\\p_only\\bin\\cap_4xl_work-4977c9e2e5da.exe": "5d7cb506801647d67b317e08f98e69e943cbaee8208c7bea0d723a09c12f1157",
+  "build\\p_only\\bin\\cap_5xl_work-60938b933fbc.exe": "0b479c7b7a59834c47ece074ebd0e0d5d68109491d3de40a2de4170bb2292597",
+  "build\\p_only\\bin\\cap_student_work-68486f22749f.exe": "d895eb5876ecdc3d33f54414d90de4fb8dafe377e2202496078d7c05e82f02ac"
+ },
+ "steps": [
+  {
+   "step": 0,
+   "status": 0,
+   "wall_seconds": 7.267085313796997
+  },
+  {
+   "step": 1,
+   "status": 0,
+   "wall_seconds": 67.94911599159241
+  },
+  {
+   "step": 2,
+   "status": 0,
+   "wall_seconds": 31.7034592628479
+  }
+ ],
+ "binary_hashes_after": {
+  "build\\p_only\\bin\\cap_off_time-241de9bfa4a4.exe": "c995f2745a9354fa4f23be6eb89cb1d562712b2267191342521a88922451bea8",
+  "build\\p_only\\bin\\cap_xl_time-b0000fd59cff.exe": "bd39a25d2619d35e41d74fec200beb6068ce6ab909de14595eb153bedd50ec99",
+  "build\\p_only\\bin\\cap_4xl_time-68128bf08fe6.exe": "c56ecb95542bd7518a94e64c9bd0c0eb714bce0d390d893f7d3301ae071eadeb",
+  "build\\p_only\\bin\\cap_5xl_time-00256db3124a.exe": "0d520d30568aa6ef6676e7fc224ae4b88c713dc9eb959063fc16a403189958a9",
+  "build\\p_only\\bin\\cap_student_time-2f5a60446623.exe": "81486ac524f288c806f8ce6100783bc967e85d3e61d9c9388eb07f35c69897e2",
+  "build\\p_only\\bin\\cap_off_work-272b7a2152ee.exe": "4800595f37edc5afc7ac177cf44eba1efa8752f97f0cde0e11eae44ae8899569",
+  "build\\p_only\\bin\\cap_xl_work-4b6c18f71b20.exe": "f65cfba18ef94b00baa6d489b06fb52efc715ae83e53ccd6182c97bfa6891cce",
+  "build\\p_only\\bin\\cap_4xl_work-4977c9e2e5da.exe": "5d7cb506801647d67b317e08f98e69e943cbaee8208c7bea0d723a09c12f1157",
+  "build\\p_only\\bin\\cap_5xl_work-60938b933fbc.exe": "0b479c7b7a59834c47ece074ebd0e0d5d68109491d3de40a2de4170bb2292597",
+  "build\\p_only\\bin\\cap_student_work-68486f22749f.exe": "d895eb5876ecdc3d33f54414d90de4fb8dafe377e2202496078d7c05e82f02ac"
+ }
+}
