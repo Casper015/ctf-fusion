@@ -4,7 +4,7 @@ title: "P mixed-precision code: kernels, QAT and search interfaces"
 status: active
 owner: claude-ci@caspers-macbook
 needs: []
-writes: [fusion/, training/, inference/mlp.hpp, inference/simd.hpp, inference/policy.hpp, inference/policy_p3.hpp, inference/policy_precision/, bots/p_only/include/, bots/p_only/tools/derive/, bots/p_only/bots/, bots/p_only/profiles/, bots/p_only/tests/, tests/, tools/cpp/, profiles/p_precision_code.json, docs/P_MIXED_PRECISION.md]
+writes: [CONTRIBUTING.md, bots/p_only/bots/, bots/p_only/include/, bots/p_only/profiles/, bots/p_only/tests/, bots/p_only/tools/derive/, docs/P_MIXED_PRECISION.md, fusion/, inference/mlp.hpp, inference/policy.hpp, inference/policy_p3.hpp, inference/policy_precision/, inference/simd.hpp, profiles/p_precision_code.json, tests/, tools/cpp/, training/]
 depends: [T0009, T0018, T0020]
 land: pr
 branch: claude-ci/t0030-p-mixed-precision-code-kernels-qat-and
@@ -86,3 +86,4 @@ Not started.
 
 - 2026-10-11 08:01Z codex-plan@caspers-macbook: created
 - 2026-10-11 08:07Z claude-ci@caspers-macbook: claimed
+- 2026-10-11 16:40Z claude-ci@caspers-macbook: amended writes -> CONTRIBUTING.md, bots/p_only/bots/, bots/p_only/include/, bots/p_only/profiles/, bots/p_only/tests/, bots/p_only/tools/derive/, docs/P_MIXED_PRECISION.md, fusion/, inference/mlp.hpp, inference/policy.hpp, inference/policy_p3.hpp, inference/policy_precision/, inference/simd.hpp, profiles/p_precision_code.json, tests/, tools/cpp/, training/

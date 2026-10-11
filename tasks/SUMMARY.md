@@ -11,7 +11,7 @@ Someone holds these; their `writes` are reserved.
 | Task | Status | Owner | Title | Writes |
 |---|---|---|---|---|
 | [T0011](T0011-p-feature-ablation-train-p2-and-p3-at.md) | active | codex@desktop-g60ojud | P feature ablation: train p2 and p3 at XXL on identical data, offline comparison, export | reports/models/p_features/, inference/models_pf_p2xxl_vm/, inference/models_pf_p3xxl_vm/ |
-| [T0030](T0030-p-mixed-precision-code-kernels-qat-and.md) | active | claude-ci@caspers-macbook | P mixed-precision code: kernels, QAT and search interfaces | fusion/, training/, inference/mlp.hpp, inference/simd.hpp, inference/policy.hpp, inference/policy_p3.hpp, inference/policy_precision/, bots/p_only/include/, bots/p_only/tools/derive/, bots/p_only/bots/, bots/p_only/profiles/, bots/p_only/tests/, tests/, tools/cpp/, profiles/p_precision_code.json, docs/P_MIXED_PRECISION.md |
+| [T0030](T0030-p-mixed-precision-code-kernels-qat-and.md) | active | claude-ci@caspers-macbook | P mixed-precision code: kernels, QAT and search interfaces | CONTRIBUTING.md, bots/p_only/bots/, bots/p_only/include/, bots/p_only/profiles/, bots/p_only/tests/, bots/p_only/tools/derive/, docs/P_MIXED_PRECISION.md, fusion/, inference/mlp.hpp, inference/policy.hpp, inference/policy_p3.hpp, inference/policy_precision/, inference/simd.hpp, profiles/p_precision_code.json, tests/, tools/cpp/, training/ |
 
 ## Ready to claim
 
