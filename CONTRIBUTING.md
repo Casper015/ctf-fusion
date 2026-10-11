@@ -119,7 +119,7 @@ GitHub Actions runs these on every pull request and on every push to `main` (wor
 | **Bundle and compile** (`bots.yml`) | every P-only variant is bundled into its single file and compiled with `-fsyntax-only`; runs when `bots/`, `inference/` or the packager change | `python tools/repo/release_bots.py --out dist --check` |
 | **Task board** (`board.yml`) | `tasks/*.md` after each board commit | `python tools/repo/task.py check` |
 
-A clean checkout needs only `pip install -r requirements-dev.txt` (NumPy, plus matplotlib for the report generators).
+A clean checkout needs only `pip install -r requirements-dev.txt` (NumPy, plus matplotlib for the report generators), and a GNU `g++` or `clang++` with libstdc++: the tests' fixture bots include `<bits/stdc++.h>`, which Apple's compiler lacks. On macOS: `brew install gcc`; `fusion/runner.py` then finds `g++-N`, or set `CXX=g++-N`.
 
 **Releasing bots.** The `Bots` workflow is also the delivery path to the host. In GitHub: Actions, Bots, Run workflow, tick *publish* (from `main` only), and optionally list variant names. It attaches every bundle as `<variant>.cpp.gz`, with `MANIFEST.json` (commit and SHA-256 of each bundle) and `SHA256SUMS`, to a release named `bots-<date>-<commit>`. Without *publish*, the same files are kept for 14 days as the run's artifact. A release bundle is the deployed form: it has no `PONLY_STATS` define, so its hash differs from a screen manifest's `bundle_sha256` by exactly that line.
 
