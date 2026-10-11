@@ -5,7 +5,7 @@ status: open
 owner: ""
 needs: []
 writes: [training/distill_policy.py, fusion/torch_qat.py, tests/test_distill_gpu.py]
-depends: [T0030]
+depends: []
 land: pr
 branch: ""
 updated: 2026-10-11
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-11 19:17Z claude@caspers-macbook: created
+- 2026-10-11 19:17Z claude@caspers-macbook: amended depends -> none
