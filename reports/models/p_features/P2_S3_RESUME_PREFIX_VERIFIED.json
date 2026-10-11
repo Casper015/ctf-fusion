@@ -1,0 +1,104 @@
+{
+  "source_commit": "9a78345172010a207fe89c54af12704b8cc3fddf",
+  "memory_guard_sample": {
+    "utc": "2026-10-11T10:09:00.5907614Z",
+    "available_commit_gib": 25.849,
+    "pipeline_pid": 20668,
+    "cpu_stalled_seconds": 0,
+    "available_physical_gib": 10.965,
+    "event": "sample",
+    "children": [
+      {
+        "pid": 28592,
+        "private_commit_gib": 28.753,
+        "working_gib": 37.251,
+        "cpu_seconds": 2595.75
+      }
+    ]
+  },
+  "timing_comparability": "Resource/cache residency differs; timings are not an equal-resource comparison.",
+  "stage": "train_p2_s3_post_epoch_calibration",
+  "epoch_checks": [
+    {
+      "epoch": 1,
+      "val": 2.3278950424839713,
+      "optimizer_steps": 23588,
+      "train": 2.3816573171743354,
+      "elapsed_seconds": 434.824,
+      "lr": 0.001,
+      "same_as_interrupted_run": true,
+      "prior_elapsed_seconds": 200.187
+    },
+    {
+      "epoch": 2,
+      "val": 2.298402878450966,
+      "optimizer_steps": 47176,
+      "train": 2.3003303019789003,
+      "elapsed_seconds": 188.659,
+      "lr": 0.0009554359905560886,
+      "same_as_interrupted_run": true,
+      "prior_elapsed_seconds": 181.613
+    },
+    {
+      "epoch": 3,
+      "val": 2.276906720939062,
+      "optimizer_steps": 70764,
+      "train": 2.2722892960568983,
+      "elapsed_seconds": 183.318,
+      "lr": 0.0008305704108364302,
+      "same_as_interrupted_run": true,
+      "prior_elapsed_seconds": 177.971
+    },
+    {
+      "epoch": 4,
+      "val": 2.258361567243116,
+      "optimizer_steps": 94352,
+      "train": 2.2499347222719637,
+      "elapsed_seconds": 184.396,
+      "lr": 0.0006501344202803415,
+      "same_as_interrupted_run": true,
+      "prior_elapsed_seconds": 177.507
+    },
+    {
+      "epoch": 5,
+      "val": 2.2405569473186677,
+      "optimizer_steps": 117940,
+      "train": 2.230175713794081,
+      "elapsed_seconds": 182.21,
+      "lr": 0.00044986557971965854,
+      "same_as_interrupted_run": true,
+      "prior_elapsed_seconds": 178.111
+    },
+    {
+      "epoch": 6,
+      "val": 2.2271448528900235,
+      "optimizer_steps": 141528,
+      "train": 2.2134339835859067,
+      "elapsed_seconds": 183.429,
+      "lr": 0.00026942958916356994,
+      "same_as_interrupted_run": true,
+      "prior_elapsed_seconds": 177.817
+    },
+    {
+      "epoch": 7,
+      "val": 2.2186285606814358,
+      "optimizer_steps": 165116,
+      "train": 2.201237034605977,
+      "elapsed_seconds": 184.681,
+      "lr": 0.00014456400944391144,
+      "same_as_interrupted_run": true,
+      "prior_elapsed_seconds": 184.171
+    },
+    {
+      "epoch": 8,
+      "val": 2.2150872202656062,
+      "optimizer_steps": 188704,
+      "train": 2.195101241053178,
+      "elapsed_seconds": 188.535,
+      "lr": 0.0001,
+      "same_as_interrupted_run": true,
+      "prior_elapsed_seconds": 183.29
+    }
+  ],
+  "verified_utc": "2026-10-11T10:09:10.5670287Z"
+}

@@ -1,0 +1,203 @@
+{
+ "kind": "policy",
+ "model": "general",
+ "capacity": "XXL",
+ "hidden": {
+  "mover": [
+   256
+  ],
+  "squad": [
+   1024,
+   256
+  ],
+  "act": [
+   256
+  ],
+  "target": [
+   32
+  ]
+ },
+ "args": {
+  "shards": "data/shards_l3",
+  "model": "general",
+  "out": "runs\\pf_p2_xxl_s2",
+  "init": null,
+  "epochs": 8,
+  "patience": 2,
+  "plateau_decay": 1,
+  "lr_schedule": "cosine",
+  "lr": 0.001,
+  "min_lr": 0.0001,
+  "batch": 1024,
+  "val_batch": 8192,
+  "weight_decay": 1e-05,
+  "max_rows": 0,
+  "seed": 2,
+  "val_split": "val",
+  "capacity": "XXL",
+  "max_width": 1024,
+  "count_weighting": "inv_teams",
+  "backend": "torch",
+  "device": "cuda",
+  "tf32": false,
+  "gpu_resident_gb": 6.0,
+  "gpu_window_rows": 1000000,
+  "smoothing": 0.01,
+  "act_weight": 0.5,
+  "target_weight": 0.5,
+  "hidden_squad": null,
+  "hidden_mover": null,
+  "hidden_act": null,
+  "hidden_target": null,
+  "policy_family": "p2",
+  "keep_unlabeled": false
+ },
+ "seed": 2,
+ "init": null,
+ "data": {
+  "team_counts": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "digest": "e2472a8610a9776c",
+  "matches_by_count": {
+   "n02": 1500,
+   "n03": 1500,
+   "n04": 1500,
+   "n05": 1500,
+   "n06": 1500,
+   "n07": 1500,
+   "n08": 1500,
+   "n09": 1500,
+   "n10": 1500,
+   "n11": 1500,
+   "n12": 1500,
+   "n13": 1500,
+   "n14": 1500,
+   "n15": 1500
+  },
+  "rows": {
+   "n02/test": 52021,
+   "n02/train": 407948,
+   "n02/val": 57252,
+   "n03/test": 76163,
+   "n03/train": 572751,
+   "n03/val": 67570,
+   "n04/test": 87319,
+   "n04/train": 759411,
+   "n04/val": 98754,
+   "n05/test": 125309,
+   "n05/train": 1007475,
+   "n05/val": 147001,
+   "n06/test": 146762,
+   "n06/train": 1147498,
+   "n06/val": 143678,
+   "n07/test": 174158,
+   "n07/train": 1405507,
+   "n07/val": 151705,
+   "n08/test": 205034,
+   "n08/train": 1579572,
+   "n08/val": 209539,
+   "n09/test": 220668,
+   "n09/train": 1833367,
+   "n09/val": 247145,
+   "n10/test": 204716,
+   "n10/train": 2106566,
+   "n10/val": 249304,
+   "n11/test": 266771,
+   "n11/train": 2222340,
+   "n11/val": 271858,
+   "n12/test": 324133,
+   "n12/train": 2371799,
+   "n12/val": 322298,
+   "n13/test": 360820,
+   "n13/train": 2669696,
+   "n13/val": 287509,
+   "n14/test": 293937,
+   "n14/train": 2988795,
+   "n14/val": 303963,
+   "n15/test": 331044,
+   "n15/train": 3121065,
+   "n15/val": 428900
+  },
+  "registries": [
+   "85f96f37eeb7990645cacef17aee8b41a13b903db6e408a5da1d469388ec7383"
+  ],
+  "regimes": {
+   "mixed": 20586,
+   "augmented": 414
+  },
+  "ai_test_commits": [
+   "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+  ],
+  "options": {
+   "stride": 2,
+   "keep": {
+    "flag": 1.0,
+    "contact": 1.0,
+    "respawn": 0.6,
+    "quiet": 0.35
+   },
+   "holdout_family": [],
+   "holdout_mode": "fixture",
+   "split_by": "map"
+  }
+ },
+ "rows": {
+  "train": 24153825,
+  "val": 2981919
+ },
+ "features": {
+  "family": "p2",
+  "digest": "213481118d8a6263",
+  "layout_version": 3
+ },
+ "spec_version": 2,
+ "repo_commit": "9a78345172010a207fe89c54af12704b8cc3fddf",
+ "started": "2026-10-10T23:03:04",
+ "backend": {
+  "backend": "torch",
+  "torch": "2.11.0+cu128",
+  "device": "cuda",
+  "tf32": false,
+  "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+  "gpu_memory_gb": 11.99,
+  "cuda": "12.8",
+  "timing": {
+   "train_seconds": 1749.203438282013,
+   "val_seconds": 23.922497272491455,
+   "rows_per_second": [
+    55679,
+    107198,
+    120554,
+    134809,
+    136372,
+    135298,
+    137065,
+    135176
+   ]
+  },
+  "peak_allocated_bytes": 9303782912,
+  "peak_reserved_bytes": 9416212480,
+  "peak_allocated_gb": 8.665,
+  "peak_reserved_gb": 8.77
+ },
+ "best_val": 2.214720957477386,
+ "beta": {
+  "joint": 1.0245891235835503,
+  "act": 1.018843054749281,
+  "target": 1.0071178634354867
+ }
+}

@@ -1,0 +1,70 @@
+{
+ "general": {
+  "header": "weights_general.hpp",
+  "header_sha256": "a1c7024808a38a969c9ea5561437a9ff6269070d45fcb355d42439f0d12f6989",
+  "npz_sha256": "3708a8f3b3ae3cb7834c375d1c29e3930a82aaf7295e984e574c82218a33d681",
+  "generator": "training/export_mixed.py",
+  "spec_version": 2,
+  "adapter": "joint-v2",
+  "features": {
+   "policy": {
+    "family": "p3",
+    "digest": "326a4299784b00bd",
+    "layout_version": 3
+   },
+   "value": {
+    "family": "v2",
+    "digest": "ff0f693ef8e95ff0",
+    "layout_version": 2
+   }
+  },
+  "alpha": {},
+  "value_approved": false,
+  "served_team_counts": [
+   9,
+   11,
+   13,
+   14
+  ],
+  "sources": {
+   "policy": {
+    "run": "runs\\pf_p3_xxl_s1",
+    "model_sha256": "b3f863a0e1810a02bdaa87543d5adf1185b2269d99bce99eaa92c816becd9def",
+    "weights_digest": "b7d3012d5b405213f8f9ace5f5b6fdf1e4d1bacd11ec091c3b604c5c56d3f9c6",
+    "heads": [
+     "mover",
+     "squad",
+     "act",
+     "target"
+    ]
+   },
+   "value": {
+    "tier": "models_m",
+    "header_sha256": "ee4cb450a5f91dd62b86ef9ef096b6cb1c103faecdb2491142d35f561ca0aad6",
+    "npz_sha256": "d007b2ef4c234123a9cf2f3096a2057dd766c1de60b166dd14aac8da284f86c7",
+    "weights_digest": "bb964e7f18e0cb52ee7ae027da6327585ba6101abc778422b7434d4806dbd209",
+    "heads": [
+     "value"
+    ]
+   }
+  },
+  "params": {
+   "mover": 14593,
+   "squad": 753277,
+   "act": 15364,
+   "target": 289,
+   "value": 22337
+  },
+  "widest_layer": 1024,
+  "required_buffer_width": 1024,
+  "macs": {
+   "mover": 14336,
+   "squad": 751872,
+   "act": 15104,
+   "target": 256,
+   "value": 22048,
+   "joint_policy_per_team": 966912
+  },
+  "exported": "2026-10-11T04:34:49"
+ }
+}

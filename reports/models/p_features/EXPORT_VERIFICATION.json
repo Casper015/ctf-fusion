@@ -1,0 +1,168 @@
+{
+ "verified_utc": "2026-10-11T11:35:22Z",
+ "source_commit": "9a78345172010a207fe89c54af12704b8cc3fddf",
+ "compiler_version": "g++.exe (GCC) 15.2.0",
+ "compiler_flags": [
+  "-std=c++20",
+  "-O2",
+  "-I${REPO}\\inference",
+  "-static"
+ ],
+ "checks": [
+  {
+   "family": "p2",
+   "source_model_sha256": "5c99d94be5efe45b30a1b8c0f0b79e4414d0cb7b77bccabd46dfdeb127ddcbba",
+   "header_sha256": "640d19cd674e785abd89dbf21a9336f96e0074f25585653984de60f66a703c38",
+   "npz_sha256": "4335d337b1ed48e49e4567d19384979f398691f679f5d701c9b9327f24132257",
+   "policy_digest": "ac8b018ea0996bd554ec117656fb5c55c07413d4d0a97605b8be578453990ae9",
+   "regeneration_arrays_and_registry_exact": true,
+   "header_equal_except_date": true,
+   "committed_value_arrays_exact": true,
+   "profile_explicit_team_counts": [
+    9,
+    11,
+    13,
+    14
+   ],
+   "effective_registry_team_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "registry_lines": [
+    "2 general 0.000000 2",
+    "3 general 0.000000 2",
+    "4 general 0.000000 2",
+    "5 general 0.000000 2",
+    "6 general 0.000000 2",
+    "7 general 0.000000 2",
+    "8 general 0.000000 2",
+    "9 general 0.000000 2",
+    "10 general 0.000000 2",
+    "11 general 0.000000 2",
+    "12 general 0.000000 2",
+    "13 general 0.000000 2",
+    "14 general 0.000000 2",
+    "15 general 0.000000 2"
+   ],
+   "parity": [
+    {
+     "fixture": "n02",
+     "stream_sha256": "84c80c4e58266da07c1eb882a27072f2ab9e69464ea045f74d327c648884ad5b",
+     "rows": 800,
+     "all_integer_accumulators_equal": true,
+     "runtime_contract_exit_code": 0,
+     "runtime_output": "turns 400 allocating_turns 0 accumulator_checks 800 accumulator_mismatches 0 (0)"
+    },
+    {
+     "fixture": "n04",
+     "stream_sha256": "2a096608d9bac94aa1585f7fb43e28314a59b4239f607e9843dd60915618a9fe",
+     "rows": 1600,
+     "all_integer_accumulators_equal": true,
+     "runtime_contract_exit_code": 0,
+     "runtime_output": "turns 400 allocating_turns 0 accumulator_checks 1600 accumulator_mismatches 0 (0)"
+    },
+    {
+     "fixture": "n15",
+     "stream_sha256": "7dc2b5519ca738a3deeb093dabcac52e8349dbbc1e0ce0160466bc8ce3e2b85f",
+     "rows": 6000,
+     "all_integer_accumulators_equal": true,
+     "runtime_contract_exit_code": 0,
+     "runtime_output": "turns 400 allocating_turns 0 accumulator_checks 6000 accumulator_mismatches 0 (0)"
+    }
+   ],
+   "p2_legacy_policy_arrays_exact": true,
+   "infer_binary_sha256": "4a94ebabb3949d3019cfeada33ff65a1364286b7988dfd13f5bcc0ff2cd8f89c",
+   "runtime_binary_sha256": "536f01e1a86d23791e07e0df97fb1ceaa48da334696ac8747cc3d019e818fd6d"
+  },
+  {
+   "family": "p3",
+   "source_model_sha256": "b3f863a0e1810a02bdaa87543d5adf1185b2269d99bce99eaa92c816becd9def",
+   "header_sha256": "a1c7024808a38a969c9ea5561437a9ff6269070d45fcb355d42439f0d12f6989",
+   "npz_sha256": "3708a8f3b3ae3cb7834c375d1c29e3930a82aaf7295e984e574c82218a33d681",
+   "policy_digest": "b7d3012d5b405213f8f9ace5f5b6fdf1e4d1bacd11ec091c3b604c5c56d3f9c6",
+   "regeneration_arrays_and_registry_exact": true,
+   "header_equal_except_date": true,
+   "committed_value_arrays_exact": true,
+   "profile_explicit_team_counts": [
+    9,
+    11,
+    13,
+    14
+   ],
+   "effective_registry_team_counts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "registry_lines": [
+    "2 general 0.000000 2",
+    "3 general 0.000000 2",
+    "4 general 0.000000 2",
+    "5 general 0.000000 2",
+    "6 general 0.000000 2",
+    "7 general 0.000000 2",
+    "8 general 0.000000 2",
+    "9 general 0.000000 2",
+    "10 general 0.000000 2",
+    "11 general 0.000000 2",
+    "12 general 0.000000 2",
+    "13 general 0.000000 2",
+    "14 general 0.000000 2",
+    "15 general 0.000000 2"
+   ],
+   "parity": [
+    {
+     "fixture": "n02",
+     "stream_sha256": "84c80c4e58266da07c1eb882a27072f2ab9e69464ea045f74d327c648884ad5b",
+     "rows": 800,
+     "all_integer_accumulators_equal": true,
+     "runtime_contract_exit_code": 0,
+     "runtime_output": "turns 400 allocating_turns 0 accumulator_checks 800 accumulator_mismatches 0 (0)"
+    },
+    {
+     "fixture": "n04",
+     "stream_sha256": "2a096608d9bac94aa1585f7fb43e28314a59b4239f607e9843dd60915618a9fe",
+     "rows": 1600,
+     "all_integer_accumulators_equal": true,
+     "runtime_contract_exit_code": 0,
+     "runtime_output": "turns 400 allocating_turns 0 accumulator_checks 1600 accumulator_mismatches 0 (0)"
+    },
+    {
+     "fixture": "n15",
+     "stream_sha256": "7dc2b5519ca738a3deeb093dabcac52e8349dbbc1e0ce0160466bc8ce3e2b85f",
+     "rows": 6000,
+     "all_integer_accumulators_equal": true,
+     "runtime_contract_exit_code": 0,
+     "runtime_output": "turns 400 allocating_turns 0 accumulator_checks 6000 accumulator_mismatches 0 (0)"
+    }
+   ],
+   "p2_legacy_policy_arrays_exact": false,
+   "infer_binary_sha256": "5d27c126dc7d1f49d2fe6149f227b1b7834acea2ff2ae7e02647f7dfb1142b7c",
+   "runtime_binary_sha256": "baaa23e913561ec2bc4e07f52c653f3ed88cbd842f7ed3b9773a2e1e7417df54"
+  }
+ ],
+ "scope": "Real seed1 INT16 exports; recorded fixture parity/registry/runtime correctness. No timing or playing-strength claim."
+}

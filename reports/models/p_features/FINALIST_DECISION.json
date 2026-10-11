@@ -1,0 +1,13 @@
+{
+ "split": "val",
+ "rule": "Before test evaluation: p3 calibrated validation overall joint-NLL paired map-clustered 95% interval wholly below zero. If true, train both families at seeds2 and3 with identical arguments. Otherwise retain seed1 only and report inconclusive/harm as measured.",
+ "seed1_validation": {
+  "mean": -0.0883829669064031,
+  "lo": -0.08959272546639405,
+  "hi": -0.08717320834641215,
+  "clusters": 2112,
+  "verdict": "lower"
+ },
+ "p3_finalist": true,
+ "test_not_used": true
+}

@@ -1,0 +1,14 @@
+{
+  "utc": "2026-10-11T04:46:03.7365592Z",
+  "stage": "P2 seed1 resumed training",
+  "process_id": 44412,
+  "cpu_seconds": 264.84375,
+  "working_gib": 51.726,
+  "private_commit_gib": 15.174,
+  "available_physical_gib": 3.859,
+  "available_commit_gib": 42.304,
+  "gpu_utilization_and_memory_used_csv": "37 %, 10496 MiB",
+  "previous_unbounded_loader_private_commit_gib": 84.55,
+  "input_storage": "read-only file mappings, including reclaimable file-backed pages in working set",
+  "snapshot_not_peak": true
+}

@@ -1,0 +1,50 @@
+{
+ "source_commit": "9a78345172010a207fe89c54af12704b8cc3fddf",
+ "baseline_manifest_sha256": "b3917cafde436cc313db09490dcf8ff51fb8225e2b5d5f453e9b3df3c95586d1",
+ "baseline_policy_sha256": "5c99d94be5efe45b30a1b8c0f0b79e4414d0cb7b77bccabd46dfdeb127ddcbba",
+ "shards": "data/shards_l3",
+ "capacity": "XXL",
+ "policy_families": [
+  "p2",
+  "p3"
+ ],
+ "arguments": {
+  "epochs": 8,
+  "patience": 2,
+  "plateau_decay": 1,
+  "lr_schedule": "cosine",
+  "lr": 0.001,
+  "min_lr": 0.0001,
+  "batch": 1024,
+  "weight_decay": 1e-05,
+  "max_rows": 0,
+  "val_split": "val",
+  "max_width": 1024,
+  "count_weighting": "inv_teams",
+  "backend": "torch",
+  "device": "cuda",
+  "gpu_resident_gb": 6.0,
+  "gpu_window_rows": 1000000,
+  "smoothing": 0.01,
+  "act_weight": 0.5,
+  "target_weight": 0.5
+ },
+ "tf32": false,
+ "keep_unlabeled": false,
+ "seed1": 1,
+ "finalist_rule": "Before test evaluation: p3 calibrated validation overall joint-NLL paired map-clustered 95% interval wholly below zero. If true, train both families at seeds2 and3 with identical arguments. Otherwise retain seed1 only and report inconclusive/harm as measured.",
+ "export_rule": "Export the prespecified seed1 models, never select a seed or a checkpoint from test results.",
+ "host": "DESKTOP-G60OJUD",
+ "python": "3.14.3",
+ "environment": {
+  "OPENBLAS_NUM_THREADS": "8",
+  "OMP_NUM_THREADS": "8",
+  "MKL_NUM_THREADS": "8"
+ },
+ "data_parity_receipt_sha256": "c736ca7fa6c54ad1dbac920c84b0f6a60b5fab824631c19ef188f4ad86af1327",
+ "audit_sha256": "bfd7ff2eba342262ac5d8356216d3c000eda45294b1a6298efefef78a35e9642",
+ "input_loading": "verified policy-only NPY mmap cache; all original eligible rows and row order preserved",
+ "policy_cache_receipt_sha256": "5e55fe9141302dd82a97c9e8f80ab7aa79347f72c1ea6b981bbc991e31fe03de",
+ "cache_contract_receipt_sha256": "32cea6966543c93ab42ad29863b9125be1723980f5073e2f920accd63e29f4e6",
+ "mmap_launcher_sha256": "50bf87cf42bdb176eb9c0857efc30474d68e50cf0319bbc219867641abf6386c"
+}
