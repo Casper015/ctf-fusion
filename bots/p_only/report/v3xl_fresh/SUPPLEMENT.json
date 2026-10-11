@@ -1,0 +1,2369 @@
+{
+ "arms": {
+  "c08_ponly_pxxl_v3xl": {
+   "counter_coverage": {
+    "PLY2": {
+     "counts": {
+      "aborted_sweeps": 0.0,
+      "diag_aim_l1": 0.0,
+      "diag_compared": 0.0,
+      "diag_first_compared": 0.0,
+      "diag_first_swaps": 0.0,
+      "diag_first_top_changed": 0.0,
+      "diag_move_diff": 0.0,
+      "diag_pairs": 0.0,
+      "diag_searches": 0.0,
+      "diag_swaps": 0.0,
+      "diag_top_changed": 0.0,
+      "discarded_predictions": 0.0,
+      "memo_hits": 0.0,
+      "memo_misses": 1036466446.0,
+      "predictions": 99325241.0,
+      "seconds": 5349.933300000002,
+      "view_builds": 83375417.0,
+      "view_calls": 83375417.0,
+      "view_hits": 0.0
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "cache": 1.0,
+      "mode": 0.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    },
+    "SEARCH": {
+     "counts": {
+      "calls": 259347.0,
+      "plans": 6248275.0,
+      "refine_cuts": 3854.0,
+      "refines": 79857.0,
+      "requested": 132785664.0,
+      "rollouts": 1036466446.0,
+      "samples": 99325241.0,
+      "survivors": 513161.0,
+      "truncated": 166494.0
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "fixed": 0.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    }
+   },
+   "dead_games": 0,
+   "faults": 0,
+   "first_ms": {
+    "covered_games": 700,
+    "max": 46.1,
+    "median": 15.9,
+    "p99": 43.7
+   },
+   "game_max_ms": {
+    "covered_games": 700,
+    "max": 31.643,
+    "median": 30.285,
+    "p99": 31.398
+   },
+   "game_p50_ms": {
+    "covered_games": 700,
+    "max": 30.131,
+    "median": 27.7975,
+    "p99": 30.12
+   },
+   "game_p99_ms": {
+    "covered_games": 700,
+    "max": 31.286,
+    "median": 30.214,
+    "p99": 31.043
+   },
+   "games": 700,
+   "late": 0,
+   "rates_on_covered_turns": {
+    "search_samples": 382.0201576923077,
+    "value_beam_calls": null,
+    "value_ms": null,
+    "value_refine_calls": null
+   }
+  },
+  "c08_ponly_pxxl_v3xl_v": {
+   "counter_coverage": {
+    "PLY2": {
+     "counts": {
+      "aborted_sweeps": 0.0,
+      "diag_aim_l1": 0.0,
+      "diag_compared": 0.0,
+      "diag_first_compared": 0.0,
+      "diag_first_swaps": 0.0,
+      "diag_first_top_changed": 0.0,
+      "diag_move_diff": 0.0,
+      "diag_pairs": 0.0,
+      "diag_searches": 0.0,
+      "diag_swaps": 0.0,
+      "diag_top_changed": 0.0,
+      "discarded_predictions": 0.0,
+      "memo_hits": 0.0,
+      "memo_misses": 1042560052.0,
+      "predictions": 99540296.0,
+      "seconds": 5356.924379999999,
+      "view_builds": 83839816.0,
+      "view_calls": 83839816.0,
+      "view_hits": 0.0
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "cache": 1.0,
+      "mode": 0.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    },
+    "SEARCH": {
+     "counts": {
+      "calls": 259338.0,
+      "plans": 6274037.0,
+      "refine_cuts": 4918.0,
+      "refines": 81173.0,
+      "requested": 132781056.0,
+      "rollouts": 1042560052.0,
+      "samples": 99540296.0,
+      "survivors": 513465.0,
+      "truncated": 166523.0
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "fixed": 0.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    },
+    "VALUE": {
+     "counts": {
+      "beam_calls": 275368.0,
+      "beam_changed": 23201.0,
+      "beam_decisions": 172954.0,
+      "beam_exact": 1114.0,
+      "refine_calls": 397006.0,
+      "refine_changed": 12442.0,
+      "refine_decisions": 81173.0,
+      "refine_exact": 703.0,
+      "seconds": 16.980206999999996
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "coef_beam": 35.0,
+      "coef_refine": 50.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    },
+    "VBUDGET": {
+     "counts": {
+      "fallback_decisions": 0.0,
+      "skipped_calls": 0.0
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "deadline_ms": 1.0,
+      "max_calls": 1000000000.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    }
+   },
+   "dead_games": 0,
+   "faults": 0,
+   "first_ms": {
+    "covered_games": 700,
+    "max": 44.0,
+    "median": 15.75,
+    "p99": 42.3
+   },
+   "game_max_ms": {
+    "covered_games": 700,
+    "max": 31.504,
+    "median": 30.353,
+    "p99": 31.392
+   },
+   "game_p50_ms": {
+    "covered_games": 700,
+    "max": 30.204,
+    "median": 27.942500000000003,
+    "p99": 30.18
+   },
+   "game_p99_ms": {
+    "covered_games": 700,
+    "max": 31.197,
+    "median": 30.276,
+    "p99": 31.108
+   },
+   "games": 700,
+   "late": 0,
+   "rates_on_covered_turns": {
+    "search_samples": 382.8472923076923,
+    "value_beam_calls": 1.0591076923076923,
+    "value_ms": 0.06530848846153844,
+    "value_refine_calls": 1.526946153846154
+   }
+  },
+  "c08_ponly_pxxl_v3xl_v~aa": {
+   "counter_coverage": {
+    "PLY2": {
+     "counts": {
+      "aborted_sweeps": 0.0,
+      "diag_aim_l1": 0.0,
+      "diag_compared": 0.0,
+      "diag_first_compared": 0.0,
+      "diag_first_swaps": 0.0,
+      "diag_first_top_changed": 0.0,
+      "diag_move_diff": 0.0,
+      "diag_pairs": 0.0,
+      "diag_searches": 0.0,
+      "diag_swaps": 0.0,
+      "diag_top_changed": 0.0,
+      "discarded_predictions": 0.0,
+      "memo_hits": 0.0,
+      "memo_misses": 1039789544.0,
+      "predictions": 99733331.0,
+      "seconds": 5362.817940000003,
+      "view_builds": 84225875.0,
+      "view_calls": 84225875.0,
+      "view_hits": 0.0
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "cache": 1.0,
+      "mode": 0.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    },
+    "SEARCH": {
+     "counts": {
+      "calls": 259346.0,
+      "plans": 6264639.0,
+      "refine_cuts": 4746.0,
+      "refines": 81193.0,
+      "requested": 132785152.0,
+      "rollouts": 1039789544.0,
+      "samples": 99733331.0,
+      "survivors": 513169.0,
+      "truncated": 166312.0
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "fixed": 0.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    },
+    "VALUE": {
+     "counts": {
+      "beam_calls": 274668.0,
+      "beam_changed": 22919.0,
+      "beam_decisions": 172630.0,
+      "beam_exact": 1070.0,
+      "refine_calls": 398670.0,
+      "refine_changed": 12181.0,
+      "refine_decisions": 81193.0,
+      "refine_exact": 678.0,
+      "seconds": 16.963009999999986
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "coef_beam": 35.0,
+      "coef_refine": 50.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    },
+    "VBUDGET": {
+     "counts": {
+      "fallback_decisions": 0.0,
+      "skipped_calls": 0.0
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "deadline_ms": 1.0,
+      "max_calls": 1000000000.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    }
+   },
+   "dead_games": 0,
+   "faults": 0,
+   "first_ms": {
+    "covered_games": 700,
+    "max": 46.5,
+    "median": 15.7,
+    "p99": 42.9
+   },
+   "game_max_ms": {
+    "covered_games": 700,
+    "max": 31.639,
+    "median": 30.355,
+    "p99": 31.392
+   },
+   "game_p50_ms": {
+    "covered_games": 700,
+    "max": 30.204,
+    "median": 27.8675,
+    "p99": 30.177
+   },
+   "game_p99_ms": {
+    "covered_games": 700,
+    "max": 31.343,
+    "median": 30.277,
+    "p99": 31.077
+   },
+   "games": 700,
+   "late": 0,
+   "rates_on_covered_turns": {
+    "search_samples": 383.5897346153846,
+    "value_beam_calls": 1.0564153846153845,
+    "value_ms": 0.06524234615384611,
+    "value_refine_calls": 1.533346153846154
+   }
+  },
+  "c08_ponly_pxxl_vm": {
+   "counter_coverage": {
+    "SEARCH": {
+     "counts": {
+      "calls": 259347.0,
+      "plans": 6238799.0,
+      "refine_cuts": 3918.0,
+      "refines": 79511.0,
+      "requested": 132785664.0,
+      "rollouts": 1041219456.0,
+      "samples": 99643546.0,
+      "survivors": 513186.0,
+      "truncated": 165452.0
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "fixed": 0.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    }
+   },
+   "dead_games": 0,
+   "faults": 0,
+   "first_ms": {
+    "covered_games": 700,
+    "max": 48.7,
+    "median": 16.1,
+    "p99": 44.6
+   },
+   "game_max_ms": {
+    "covered_games": 700,
+    "max": 31.44,
+    "median": 30.2785,
+    "p99": 31.344
+   },
+   "game_p50_ms": {
+    "covered_games": 700,
+    "max": 30.134,
+    "median": 27.8445,
+    "p99": 30.121
+   },
+   "game_p99_ms": {
+    "covered_games": 700,
+    "max": 31.212,
+    "median": 30.208,
+    "p99": 31.054
+   },
+   "games": 700,
+   "late": 0,
+   "rates_on_covered_turns": {
+    "search_samples": 383.2444076923077,
+    "value_beam_calls": null,
+    "value_ms": null,
+    "value_refine_calls": null
+   }
+  },
+  "c08_ponly_pxxl_vm_v": {
+   "counter_coverage": {
+    "SEARCH": {
+     "counts": {
+      "calls": 259344.0,
+      "plans": 6272837.0,
+      "refine_cuts": 4291.0,
+      "refines": 80524.0,
+      "requested": 132784128.0,
+      "rollouts": 1047618521.0,
+      "samples": 99864148.0,
+      "survivors": 513739.0,
+      "truncated": 165628.0
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "fixed": 0.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    },
+    "VALUE": {
+     "counts": {
+      "beam_calls": 276680.0,
+      "beam_changed": 23986.0,
+      "beam_decisions": 173871.0,
+      "beam_exact": 1064.0,
+      "refine_calls": 396033.0,
+      "refine_changed": 12139.0,
+      "refine_decisions": 80524.0,
+      "refine_exact": 751.0,
+      "seconds": 7.705478999999998
+     },
+     "games": 650,
+     "games_by_count": {
+      "3": 50,
+      "4": 50,
+      "5": 50,
+      "6": 50,
+      "7": 50,
+      "8": 50,
+      "9": 50,
+      "10": 50,
+      "11": 50,
+      "12": 50,
+      "13": 50,
+      "14": 50,
+      "15": 50
+     },
+     "missing_games": 50,
+     "missing_turns": 20000,
+     "settings": {
+      "coef_beam": 35.0,
+      "coef_refine": 50.0
+     },
+     "total_game_turns": 280000,
+     "turns": 260000,
+     "turns_by_count": {
+      "3": 20000,
+      "4": 20000,
+      "5": 20000,
+      "6": 20000,
+      "7": 20000,
+      "8": 20000,
+      "9": 20000,
+      "10": 20000,
+      "11": 20000,
+      "12": 20000,
+      "13": 20000,
+      "14": 20000,
+      "15": 20000
+     }
+    }
+   },
+   "dead_games": 0,
+   "faults": 0,
+   "first_ms": {
+    "covered_games": 700,
+    "max": 43.9,
+    "median": 15.8,
+    "p99": 42.3
+   },
+   "game_max_ms": {
+    "covered_games": 700,
+    "max": 31.782,
+    "median": 30.318,
+    "p99": 31.37
+   },
+   "game_p50_ms": {
+    "covered_games": 700,
+    "max": 30.184,
+    "median": 27.814,
+    "p99": 30.163
+   },
+   "game_p99_ms": {
+    "covered_games": 700,
+    "max": 31.269,
+    "median": 30.2425,
+    "p99": 31.059
+   },
+   "games": 700,
+   "late": 0,
+   "rates_on_covered_turns": {
+    "search_samples": 384.0928769230769,
+    "value_beam_calls": 1.0641538461538462,
+    "value_ms": 0.02963645769230768,
+    "value_refine_calls": 1.5232038461538462
+   }
+  }
+ },
+ "complete_games": 3500,
+ "duplicate_or_stale_rows": 0,
+ "fixtures": 700,
+ "generator": "REPRODUCE.md embedded Python",
+ "observed_search_work_differences": {
+  "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+   "search_samples_per_covered_turn_delta": 0.8271346153846366
+  },
+  "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+   "search_samples_per_covered_turn_delta": 0.8484692307692399
+  }
+ },
+ "per_count": {
+  "10": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.14422,
+     0.01977
+    ],
+    "fixtures": 50,
+    "mean": -0.06222,
+    "se": 0.04183,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.0723,
+     0.06119
+    ],
+    "fixtures": 50,
+    "mean": -0.00556,
+    "se": 0.03405,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.11694,
+     0.00805
+    ],
+    "fixtures": 50,
+    "mean": -0.05444,
+    "se": 0.03188,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.06901,
+     0.06901
+    ],
+    "fixtures": 50,
+    "mean": 0.0,
+    "se": 0.03521,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.06573,
+     0.05018
+    ],
+    "fixtures": 50,
+    "mean": -0.00778,
+    "se": 0.02957,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     0.00392,
+     0.10942
+    ],
+    "fixtures": 50,
+    "mean": 0.05667,
+    "se": 0.02691,
+    "verdict": "helps"
+   }
+  },
+  "11": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.03376,
+     0.12376
+    ],
+    "fixtures": 50,
+    "mean": 0.045,
+    "se": 0.04018,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.00479,
+     0.09479
+    ],
+    "fixtures": 50,
+    "mean": 0.045,
+    "se": 0.0254,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.04663,
+     0.06663
+    ],
+    "fixtures": 50,
+    "mean": 0.01,
+    "se": 0.02889,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.04862,
+     0.03662
+    ],
+    "fixtures": 50,
+    "mean": -0.006,
+    "se": 0.02174,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.02415,
+     0.09415
+    ],
+    "fixtures": 50,
+    "mean": 0.035,
+    "se": 0.03018,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.05429,
+     0.05429
+    ],
+    "fixtures": 50,
+    "mean": -0.0,
+    "se": 0.0277,
+    "verdict": "not shown"
+   }
+  },
+  "12": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.12656,
+     0.05019
+    ],
+    "fixtures": 50,
+    "mean": -0.03818,
+    "se": 0.04509,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.05564,
+     0.07746
+    ],
+    "fixtures": 50,
+    "mean": 0.01091,
+    "se": 0.03395,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.04309,
+     0.094
+    ],
+    "fixtures": 50,
+    "mean": 0.02545,
+    "se": 0.03497,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.11854,
+     0.00763
+    ],
+    "fixtures": 50,
+    "mean": -0.05545,
+    "se": 0.03219,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.13395,
+     0.00668
+    ],
+    "fixtures": 50,
+    "mean": -0.06364,
+    "se": 0.03587,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.01438,
+     0.11257
+    ],
+    "fixtures": 50,
+    "mean": 0.04909,
+    "se": 0.03239,
+    "verdict": "not shown"
+   }
+  },
+  "13": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.08219,
+     0.06719
+    ],
+    "fixtures": 50,
+    "mean": -0.0075,
+    "se": 0.03811,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.04312,
+     0.06979
+    ],
+    "fixtures": 50,
+    "mean": 0.01333,
+    "se": 0.0288,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.10471,
+     0.01471
+    ],
+    "fixtures": 50,
+    "mean": -0.045,
+    "se": 0.03046,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.05123,
+     0.06123
+    ],
+    "fixtures": 50,
+    "mean": 0.005,
+    "se": 0.02869,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.02052,
+     0.09552
+    ],
+    "fixtures": 50,
+    "mean": 0.0375,
+    "se": 0.0296,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.03825,
+     0.07992
+    ],
+    "fixtures": 50,
+    "mean": 0.02083,
+    "se": 0.03015,
+    "verdict": "not shown"
+   }
+  },
+  "14": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.12331,
+     0.02178
+    ],
+    "fixtures": 50,
+    "mean": -0.05077,
+    "se": 0.03701,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.13415,
+     -0.01354
+    ],
+    "fixtures": 50,
+    "mean": -0.07385,
+    "se": 0.03077,
+    "verdict": "hurts"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.07029,
+     0.05645
+    ],
+    "fixtures": 50,
+    "mean": -0.00692,
+    "se": 0.03233,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     0.00899,
+     0.1187
+    ],
+    "fixtures": 50,
+    "mean": 0.06385,
+    "se": 0.02799,
+    "verdict": "helps"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.08219,
+     -0.0055
+    ],
+    "fixtures": 50,
+    "mean": -0.04385,
+    "se": 0.01957,
+    "verdict": "hurts"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.08776,
+     0.04161
+    ],
+    "fixtures": 50,
+    "mean": -0.02308,
+    "se": 0.033,
+    "verdict": "not shown"
+   }
+  },
+  "15": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.08923,
+     0.05495
+    ],
+    "fixtures": 50,
+    "mean": -0.01714,
+    "se": 0.03678,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.10493,
+     0.02636
+    ],
+    "fixtures": 50,
+    "mean": -0.03929,
+    "se": 0.03349,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.102,
+     0.01771
+    ],
+    "fixtures": 50,
+    "mean": -0.04214,
+    "se": 0.03054,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.01327,
+     0.08898
+    ],
+    "fixtures": 50,
+    "mean": 0.03786,
+    "se": 0.02608,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.01301,
+     0.06301
+    ],
+    "fixtures": 50,
+    "mean": 0.025,
+    "se": 0.01939,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.09145,
+     0.04716
+    ],
+    "fixtures": 50,
+    "mean": -0.02214,
+    "se": 0.03536,
+    "verdict": "not shown"
+   }
+  },
+  "2": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "fixtures": 50,
+    "mean": 0.0,
+    "se": 0.0,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "fixtures": 50,
+    "mean": 0.0,
+    "se": 0.0,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "fixtures": 50,
+    "mean": 0.0,
+    "se": 0.0,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "fixtures": 50,
+    "mean": 0.0,
+    "se": 0.0,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "fixtures": 50,
+    "mean": 0.0,
+    "se": 0.0,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "fixtures": 50,
+    "mean": 0.0,
+    "se": 0.0,
+    "verdict": "not shown"
+   }
+  },
+  "3": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.14604,
+     0.13604
+    ],
+    "fixtures": 50,
+    "mean": -0.005,
+    "se": 0.07196,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.02716,
+     0.17716
+    ],
+    "fixtures": 50,
+    "mean": 0.075,
+    "se": 0.05212,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.12248,
+     0.06248
+    ],
+    "fixtures": 50,
+    "mean": -0.03,
+    "se": 0.04719,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.06285,
+     0.07285
+    ],
+    "fixtures": 50,
+    "mean": 0.005,
+    "se": 0.03462,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.05812,
+     0.10812
+    ],
+    "fixtures": 50,
+    "mean": 0.025,
+    "se": 0.04241,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.02234,
+     0.18234
+    ],
+    "fixtures": 50,
+    "mean": 0.08,
+    "se": 0.05222,
+    "verdict": "not shown"
+   }
+  },
+  "4": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.18439,
+     0.03106
+    ],
+    "fixtures": 50,
+    "mean": -0.07667,
+    "se": 0.05496,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.13361,
+     0.03361
+    ],
+    "fixtures": 50,
+    "mean": -0.05,
+    "se": 0.04266,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.16293,
+     0.01627
+    ],
+    "fixtures": 50,
+    "mean": -0.07333,
+    "se": 0.04571,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.07503,
+     0.08169
+    ],
+    "fixtures": 50,
+    "mean": 0.00333,
+    "se": 0.03998,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.05894,
+     0.05227
+    ],
+    "fixtures": 50,
+    "mean": -0.00333,
+    "se": 0.02837,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.06822,
+     0.12156
+    ],
+    "fixtures": 50,
+    "mean": 0.02667,
+    "se": 0.04841,
+    "verdict": "not shown"
+   }
+  },
+  "5": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.16888,
+     0.09388
+    ],
+    "fixtures": 50,
+    "mean": -0.0375,
+    "se": 0.06703,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.06758,
+     0.08758
+    ],
+    "fixtures": 50,
+    "mean": 0.01,
+    "se": 0.03958,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.13356,
+     0.02856
+    ],
+    "fixtures": 50,
+    "mean": -0.0525,
+    "se": 0.04136,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.04664,
+     0.11164
+    ],
+    "fixtures": 50,
+    "mean": 0.0325,
+    "se": 0.04038,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.06377,
+     0.09377
+    ],
+    "fixtures": 50,
+    "mean": 0.015,
+    "se": 0.04019,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.03849,
+     0.13349
+    ],
+    "fixtures": 50,
+    "mean": 0.0475,
+    "se": 0.04387,
+    "verdict": "not shown"
+   }
+  },
+  "6": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.09796,
+     0.07396
+    ],
+    "fixtures": 50,
+    "mean": -0.012,
+    "se": 0.04386,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.06236,
+     0.06236
+    ],
+    "fixtures": 50,
+    "mean": 0.0,
+    "se": 0.03182,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.07376,
+     0.06176
+    ],
+    "fixtures": 50,
+    "mean": -0.006,
+    "se": 0.03457,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.06548,
+     0.06148
+    ],
+    "fixtures": 50,
+    "mean": -0.002,
+    "se": 0.03239,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.06668,
+     0.05468
+    ],
+    "fixtures": 50,
+    "mean": -0.006,
+    "se": 0.03096,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.049,
+     0.073
+    ],
+    "fixtures": 50,
+    "mean": 0.012,
+    "se": 0.03112,
+    "verdict": "not shown"
+   }
+  },
+  "7": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.10512,
+     0.08178
+    ],
+    "fixtures": 50,
+    "mean": -0.01167,
+    "se": 0.04768,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.05093,
+     0.0876
+    ],
+    "fixtures": 50,
+    "mean": 0.01833,
+    "se": 0.03534,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.10762,
+     0.03429
+    ],
+    "fixtures": 50,
+    "mean": -0.03667,
+    "se": 0.0362,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.06866,
+     0.06199
+    ],
+    "fixtures": 50,
+    "mean": -0.00333,
+    "se": 0.03333,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.04612,
+     0.09612
+    ],
+    "fixtures": 50,
+    "mean": 0.025,
+    "se": 0.03629,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.04331,
+     0.10331
+    ],
+    "fixtures": 50,
+    "mean": 0.03,
+    "se": 0.0374,
+    "verdict": "not shown"
+   }
+  },
+  "8": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.12642,
+     0.06642
+    ],
+    "fixtures": 50,
+    "mean": -0.03,
+    "se": 0.0492,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.07253,
+     0.04968
+    ],
+    "fixtures": 50,
+    "mean": -0.01143,
+    "se": 0.03118,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.08119,
+     0.03834
+    ],
+    "fixtures": 50,
+    "mean": -0.02143,
+    "se": 0.03049,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.05361,
+     0.04789
+    ],
+    "fixtures": 50,
+    "mean": -0.00286,
+    "se": 0.02589,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.07265,
+     0.05551
+    ],
+    "fixtures": 50,
+    "mean": -0.00857,
+    "se": 0.03269,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.0459,
+     0.08305
+    ],
+    "fixtures": 50,
+    "mean": 0.01857,
+    "se": 0.0329,
+    "verdict": "not shown"
+   }
+  },
+  "9": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "ci95": [
+     -0.02961,
+     0.13211
+    ],
+    "fixtures": 50,
+    "mean": 0.05125,
+    "se": 0.04125,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.01693,
+     0.10943
+    ],
+    "fixtures": 50,
+    "mean": 0.04625,
+    "se": 0.03223,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "ci95": [
+     -0.06224,
+     0.08724
+    ],
+    "fixtures": 50,
+    "mean": 0.0125,
+    "se": 0.03813,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "ci95": [
+     -0.03618,
+     0.10368
+    ],
+    "fixtures": 50,
+    "mean": 0.03375,
+    "se": 0.03568,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "ci95": [
+     -0.00674,
+     0.08424
+    ],
+    "fixtures": 50,
+    "mean": 0.03875,
+    "se": 0.02321,
+    "verdict": "not shown"
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "ci95": [
+     -0.0673,
+     0.0573
+    ],
+    "fixtures": 50,
+    "mean": -0.005,
+    "se": 0.03179,
+    "verdict": "not shown"
+   }
+  }
+ },
+ "subsets": {
+  "2": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "bands": {
+     "11-15": null,
+     "2": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "fixtures": 50,
+      "mean": 0.0,
+      "se": 0.0,
+      "verdict": "not shown"
+     },
+     "3-5": null,
+     "6-10": null
+    },
+    "degraded": 0,
+    "fixtures": 50,
+    "identical_scores": 0,
+    "improved": 0,
+    "overall": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "fixtures": 50,
+     "mean": 0.0,
+     "se": 0.0,
+     "verdict": "not shown"
+    },
+    "per_count": {
+     "2": 0.0
+    },
+    "unchanged": 50
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "bands": {
+     "11-15": null,
+     "2": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "fixtures": 50,
+      "mean": 0.0,
+      "se": 0.0,
+      "verdict": "not shown"
+     },
+     "3-5": null,
+     "6-10": null
+    },
+    "degraded": 0,
+    "fixtures": 50,
+    "identical_scores": 50,
+    "improved": 0,
+    "overall": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "fixtures": 50,
+     "mean": 0.0,
+     "se": 0.0,
+     "verdict": "not shown"
+    },
+    "per_count": {
+     "2": 0.0
+    },
+    "unchanged": 50
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "bands": {
+     "11-15": null,
+     "2": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "fixtures": 50,
+      "mean": 0.0,
+      "se": 0.0,
+      "verdict": "not shown"
+     },
+     "3-5": null,
+     "6-10": null
+    },
+    "degraded": 0,
+    "fixtures": 50,
+    "identical_scores": 50,
+    "improved": 0,
+    "overall": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "fixtures": 50,
+     "mean": 0.0,
+     "se": 0.0,
+     "verdict": "not shown"
+    },
+    "per_count": {
+     "2": 0.0
+    },
+    "unchanged": 50
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "bands": {
+     "11-15": null,
+     "2": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "fixtures": 50,
+      "mean": 0.0,
+      "se": 0.0,
+      "verdict": "not shown"
+     },
+     "3-5": null,
+     "6-10": null
+    },
+    "degraded": 0,
+    "fixtures": 50,
+    "identical_scores": 50,
+    "improved": 0,
+    "overall": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "fixtures": 50,
+     "mean": 0.0,
+     "se": 0.0,
+     "verdict": "not shown"
+    },
+    "per_count": {
+     "2": 0.0
+    },
+    "unchanged": 50
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "bands": {
+     "11-15": null,
+     "2": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "fixtures": 50,
+      "mean": 0.0,
+      "se": 0.0,
+      "verdict": "not shown"
+     },
+     "3-5": null,
+     "6-10": null
+    },
+    "degraded": 0,
+    "fixtures": 50,
+    "identical_scores": 50,
+    "improved": 0,
+    "overall": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "fixtures": 50,
+     "mean": 0.0,
+     "se": 0.0,
+     "verdict": "not shown"
+    },
+    "per_count": {
+     "2": 0.0
+    },
+    "unchanged": 50
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "bands": {
+     "11-15": null,
+     "2": {
+      "ci95": [
+       0.0,
+       0.0
+      ],
+      "fixtures": 50,
+      "mean": 0.0,
+      "se": 0.0,
+      "verdict": "not shown"
+     },
+     "3-5": null,
+     "6-10": null
+    },
+    "degraded": 0,
+    "fixtures": 50,
+    "identical_scores": 50,
+    "improved": 0,
+    "overall": {
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "fixtures": 50,
+     "mean": 0.0,
+     "se": 0.0,
+     "verdict": "not shown"
+    },
+    "per_count": {
+     "2": 0.0
+    },
+    "unchanged": 50
+   }
+  },
+  "3-15": {
+   "V3-XL gain minus V2-M gain (each against its own V off)": {
+    "bands": {
+     "11-15": {
+      "ci95": [
+       -0.04839,
+       0.02095
+      ],
+      "fixtures": 250,
+      "mean": -0.01372,
+      "se": 0.01769,
+      "verdict": "not shown"
+     },
+     "2": null,
+     "3-5": {
+      "ci95": [
+       -0.11333,
+       0.03388
+      ],
+      "fixtures": 150,
+      "mean": -0.03972,
+      "se": 0.03755,
+      "verdict": "not shown"
+     },
+     "6-10": {
+      "ci95": [
+       -0.05226,
+       0.02641
+      ],
+      "fixtures": 250,
+      "mean": -0.01293,
+      "se": 0.02007,
+      "verdict": "not shown"
+     }
+    },
+    "degraded": 261,
+    "fixtures": 650,
+    "identical_scores": 0,
+    "improved": 255,
+    "overall": {
+     "ci95": [
+      -0.04578,
+      0.00695
+     ],
+     "fixtures": 650,
+     "mean": -0.01942,
+     "se": 0.01345,
+     "verdict": "not shown"
+    },
+    "per_count": {
+     "10": -0.06222,
+     "11": 0.045,
+     "12": -0.03818,
+     "13": -0.0075,
+     "14": -0.05077,
+     "15": -0.01714,
+     "3": -0.005,
+     "4": -0.07667,
+     "5": -0.0375,
+     "6": -0.012,
+     "7": -0.01167,
+     "8": -0.03,
+     "9": 0.05125
+    },
+    "unchanged": 134
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_v3xl": {
+    "bands": {
+     "11-15": {
+      "ci95": [
+       -0.03564,
+       0.01809
+      ],
+      "fixtures": 250,
+      "mean": -0.00878,
+      "se": 0.01371,
+      "verdict": "not shown"
+     },
+     "2": null,
+     "3-5": {
+      "ci95": [
+       -0.03937,
+       0.06271
+      ],
+      "fixtures": 150,
+      "mean": 0.01167,
+      "se": 0.02604,
+      "verdict": "not shown"
+     },
+     "6-10": {
+      "ci95": [
+       -0.01937,
+       0.03841
+      ],
+      "fixtures": 250,
+      "mean": 0.00952,
+      "se": 0.01474,
+      "verdict": "not shown"
+     }
+    },
+    "degraded": 212,
+    "fixtures": 650,
+    "identical_scores": 0,
+    "improved": 242,
+    "overall": {
+     "ci95": [
+      -0.01623,
+      0.02219
+     ],
+     "fixtures": 650,
+     "mean": 0.00298,
+     "se": 0.0098,
+     "verdict": "not shown"
+    },
+    "per_count": {
+     "10": -0.00556,
+     "11": 0.045,
+     "12": 0.01091,
+     "13": 0.01333,
+     "14": -0.07385,
+     "15": -0.03929,
+     "3": 0.075,
+     "4": -0.05,
+     "5": 0.01,
+     "6": 0.0,
+     "7": 0.01833,
+     "8": -0.01143,
+     "9": 0.04625
+    },
+    "unchanged": 196
+   },
+   "c08_ponly_pxxl_v3xl_v - c08_ponly_pxxl_vm_v": {
+    "bands": {
+     "11-15": {
+      "ci95": [
+       -0.03934,
+       0.0159
+      ],
+      "fixtures": 250,
+      "mean": -0.01172,
+      "se": 0.01409,
+      "verdict": "not shown"
+     },
+     "2": null,
+     "3-5": {
+      "ci95": [
+       -0.10266,
+       -0.00123
+      ],
+      "fixtures": 150,
+      "mean": -0.05194,
+      "se": 0.02588,
+      "verdict": "hurts"
+     },
+     "6-10": {
+      "ci95": [
+       -0.05133,
+       0.00892
+      ],
+      "fixtures": 250,
+      "mean": -0.02121,
+      "se": 0.01537,
+      "verdict": "not shown"
+     }
+    },
+    "degraded": 231,
+    "fixtures": 650,
+    "identical_scores": 0,
+    "improved": 205,
+    "overall": {
+     "ci95": [
+      -0.04425,
+      -0.00505
+     ],
+     "fixtures": 650,
+     "mean": -0.02465,
+     "se": 0.01,
+     "verdict": "hurts"
+    },
+    "per_count": {
+     "10": -0.05444,
+     "11": 0.01,
+     "12": 0.02545,
+     "13": -0.045,
+     "14": -0.00692,
+     "15": -0.04214,
+     "3": -0.03,
+     "4": -0.07333,
+     "5": -0.0525,
+     "6": -0.006,
+     "7": -0.03667,
+     "8": -0.02143,
+     "9": 0.0125
+    },
+    "unchanged": 214
+   },
+   "c08_ponly_pxxl_v3xl_v~aa - c08_ponly_pxxl_v3xl_v": {
+    "bands": {
+     "11-15": {
+      "ci95": [
+       -0.0151,
+       0.0332
+      ],
+      "fixtures": 250,
+      "mean": 0.00905,
+      "se": 0.01232,
+      "verdict": "not shown"
+     },
+     "2": null,
+     "3-5": {
+      "ci95": [
+       -0.02986,
+       0.05708
+      ],
+      "fixtures": 150,
+      "mean": 0.01361,
+      "se": 0.02218,
+      "verdict": "not shown"
+     },
+     "6-10": {
+      "ci95": [
+       -0.02354,
+       0.03376
+      ],
+      "fixtures": 250,
+      "mean": 0.00511,
+      "se": 0.01462,
+      "verdict": "not shown"
+     }
+    },
+    "degraded": 204,
+    "fixtures": 650,
+    "identical_scores": 21,
+    "improved": 214,
+    "overall": {
+     "ci95": [
+      -0.00897,
+      0.02615
+     ],
+     "fixtures": 650,
+     "mean": 0.00859,
+     "se": 0.00896,
+     "verdict": "not shown"
+    },
+    "per_count": {
+     "10": 0.0,
+     "11": -0.006,
+     "12": -0.05545,
+     "13": 0.005,
+     "14": 0.06385,
+     "15": 0.03786,
+     "3": 0.005,
+     "4": 0.00333,
+     "5": 0.0325,
+     "6": -0.002,
+     "7": -0.00333,
+     "8": -0.00286,
+     "9": 0.03375
+    },
+    "unchanged": 232
+   },
+   "c08_ponly_pxxl_vm - c08_ponly_pxxl_v3xl": {
+    "bands": {
+     "11-15": {
+      "ci95": [
+       -0.02626,
+       0.02227
+      ],
+      "fixtures": 250,
+      "mean": -0.002,
+      "se": 0.01238,
+      "verdict": "not shown"
+     },
+     "2": null,
+     "3-5": {
+      "ci95": [
+       -0.03021,
+       0.05466
+      ],
+      "fixtures": 150,
+      "mean": 0.01222,
+      "se": 0.02165,
+      "verdict": "not shown"
+     },
+     "6-10": {
+      "ci95": [
+       -0.01876,
+       0.03532
+      ],
+      "fixtures": 250,
+      "mean": 0.00828,
+      "se": 0.01379,
+      "verdict": "not shown"
+     }
+    },
+    "degraded": 216,
+    "fixtures": 650,
+    "identical_scores": 14,
+    "improved": 216,
+    "overall": {
+     "ci95": [
+      -0.01183,
+      0.0223
+     ],
+     "fixtures": 650,
+     "mean": 0.00524,
+     "se": 0.00871,
+     "verdict": "not shown"
+    },
+    "per_count": {
+     "10": -0.00778,
+     "11": 0.035,
+     "12": -0.06364,
+     "13": 0.0375,
+     "14": -0.04385,
+     "15": 0.025,
+     "3": 0.025,
+     "4": -0.00333,
+     "5": 0.015,
+     "6": -0.006,
+     "7": 0.025,
+     "8": -0.00857,
+     "9": 0.03875
+    },
+    "unchanged": 218
+   },
+   "c08_ponly_pxxl_vm_v - c08_ponly_pxxl_vm": {
+    "bands": {
+     "11-15": {
+      "ci95": [
+       -0.02296,
+       0.03284
+      ],
+      "fixtures": 250,
+      "mean": 0.00494,
+      "se": 0.01423,
+      "verdict": "not shown"
+     },
+     "2": null,
+     "3-5": {
+      "ci95": [
+       -0.00325,
+       0.10603
+      ],
+      "fixtures": 150,
+      "mean": 0.05139,
+      "se": 0.02788,
+      "verdict": "not shown"
+     },
+     "6-10": {
+      "ci95": [
+       -0.00578,
+       0.05067
+      ],
+      "fixtures": 250,
+      "mean": 0.02245,
+      "se": 0.0144,
+      "verdict": "not shown"
+     }
+    },
+    "degraded": 203,
+    "fixtures": 650,
+    "identical_scores": 1,
+    "improved": 250,
+    "overall": {
+     "ci95": [
+      0.00259,
+      0.04219
+     ],
+     "fixtures": 650,
+     "mean": 0.02239,
+     "se": 0.0101,
+     "verdict": "helps"
+    },
+    "per_count": {
+     "10": 0.05667,
+     "11": -0.0,
+     "12": 0.04909,
+     "13": 0.02083,
+     "14": -0.02308,
+     "15": -0.02214,
+     "3": 0.08,
+     "4": 0.02667,
+     "5": 0.0475,
+     "6": 0.012,
+     "7": 0.03,
+     "8": 0.01857,
+     "9": -0.005
+    },
+    "unchanged": 197
+   }
+  }
+ }
+}

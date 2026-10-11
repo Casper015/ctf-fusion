@@ -1,0 +1,473 @@
+{
+ "variants": {
+  "c08_ponly_pxxl_vm": {
+   "name": "c08_ponly_pxxl_vm",
+   "carrier": "C08",
+   "role": "ponly",
+   "tier": "XXL",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "source": "bots/p_only/bots/variants/c08_ponly_pxxl_vm.cpp",
+   "models": "inference/models_pxxl_vm",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\c08_ponly_pxxl_vm.cpp",
+   "bundle_sha256": "d662cb5dae68142643d76adadc64c06cecce1aa46922982fe77f75424180a226",
+   "bundle_bytes": 32289584,
+   "binary": "build\\p_only\\bin\\c08_ponly_pxxl_vm-d662cb5dae68.exe",
+   "binary_sha256": "1c5ab25468bf8767dad112aee8143e45ca6a774d2b5f74b68af20198c452877d",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\p_only\\bots\\variants\\c08_ponly_pxxl_vm.cpp",
+     "sha256": "d5c89a532fb3525150f049482236d23aefa60bac9e37dd0117beacf7953827c5"
+    },
+    {
+     "path": "bots\\p_only\\bots\\c08_ponly.hpp",
+     "sha256": "88ba5d34e930645f921e7711135aedcd1c0e4896a8c42396b851c25eb24c161f"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\registry.hpp",
+     "sha256": "8ac015005b7eb4bba3f7e1635bfd39e7bc6a3d93bffc051d574f814ff6f20194"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_general.hpp",
+     "sha256": "4a3044c14f0983686a173a0a3ece1ac59b50252dbaeecda79406330fddd8d1d1"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n02.hpp",
+     "sha256": "39ba7d4c1b186eded47774dbf4ccd6cbc48def199fc859455ea6a2e5c51fdcb5"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n03.hpp",
+     "sha256": "ffc4e388cdcb49d02cd42c1e6d4d46c07c24bcfb47e26f65d427965c644434d2"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n04.hpp",
+     "sha256": "7f6c1bc30c46c71f8e2883b6f6c672867b1a2a405cfd032a24c4c2c7c8a729f3"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n05.hpp",
+     "sha256": "7824c1d5b945557fcd99d70bdd4049ef5eb26056ecece90b058147925a7709ff"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n06.hpp",
+     "sha256": "8ae640133aef2222d125f86ada348bb35c5f40fa5bb43855cc3f1348fec2b8e3"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n07.hpp",
+     "sha256": "1545a6ddf59857bd64d4b6b014009c629fd1e38037cf4c35fe9650c5ecb18c6c"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n08.hpp",
+     "sha256": "7fb7f88d43a1695a0481fc2b9341bbb38fb5ec3cadc30a282b2aa18a88f4b207"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n10.hpp",
+     "sha256": "02ab30b6dedf3b50fea278ee383d2a70a493a73b406c7df6b235da8793f4f935"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n12.hpp",
+     "sha256": "73e845b2259f9402c4f6f79ed0ebe3a4cbb438545cf0dc62ce53340e0b4a3451"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n15.hpp",
+     "sha256": "4d3d714aa88ab4a75528f899ebbdaafafbfe01dc6822d6566b9ad0485f52f6f2"
+    }
+   ]
+  },
+  "c08_ponly_pxxl_vm_v": {
+   "name": "c08_ponly_pxxl_vm_v",
+   "carrier": "C08",
+   "role": "ponly_v",
+   "tier": "XXL",
+   "value_tier": "M",
+   "fixed_samples": 0,
+   "source": "bots/p_only/bots/variants/c08_ponly_pxxl_vm_v.cpp",
+   "models": "inference/models_pxxl_vm",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\c08_ponly_pxxl_vm_v.cpp",
+   "bundle_sha256": "4d22eaba5228ec755ba4d7d93755800a1981d461649f89120879c1e5dd850469",
+   "bundle_bytes": 32289599,
+   "binary": "build\\p_only\\bin\\c08_ponly_pxxl_vm_v-4d22eaba5228.exe",
+   "binary_sha256": "27b31fbb7aafdf792498054337c894b656792331c156140d8f49d11bb3a13c1b",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\p_only\\bots\\variants\\c08_ponly_pxxl_vm_v.cpp",
+     "sha256": "2983f37c3cb76d97c5cd22d5064a999ed61ee0844dbd321ae9760e4c8282b6ce"
+    },
+    {
+     "path": "bots\\p_only\\bots\\c08_ponly.hpp",
+     "sha256": "88ba5d34e930645f921e7711135aedcd1c0e4896a8c42396b851c25eb24c161f"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\registry.hpp",
+     "sha256": "8ac015005b7eb4bba3f7e1635bfd39e7bc6a3d93bffc051d574f814ff6f20194"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_general.hpp",
+     "sha256": "4a3044c14f0983686a173a0a3ece1ac59b50252dbaeecda79406330fddd8d1d1"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n02.hpp",
+     "sha256": "39ba7d4c1b186eded47774dbf4ccd6cbc48def199fc859455ea6a2e5c51fdcb5"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n03.hpp",
+     "sha256": "ffc4e388cdcb49d02cd42c1e6d4d46c07c24bcfb47e26f65d427965c644434d2"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n04.hpp",
+     "sha256": "7f6c1bc30c46c71f8e2883b6f6c672867b1a2a405cfd032a24c4c2c7c8a729f3"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n05.hpp",
+     "sha256": "7824c1d5b945557fcd99d70bdd4049ef5eb26056ecece90b058147925a7709ff"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n06.hpp",
+     "sha256": "8ae640133aef2222d125f86ada348bb35c5f40fa5bb43855cc3f1348fec2b8e3"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n07.hpp",
+     "sha256": "1545a6ddf59857bd64d4b6b014009c629fd1e38037cf4c35fe9650c5ecb18c6c"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n08.hpp",
+     "sha256": "7fb7f88d43a1695a0481fc2b9341bbb38fb5ec3cadc30a282b2aa18a88f4b207"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n10.hpp",
+     "sha256": "02ab30b6dedf3b50fea278ee383d2a70a493a73b406c7df6b235da8793f4f935"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n12.hpp",
+     "sha256": "73e845b2259f9402c4f6f79ed0ebe3a4cbb438545cf0dc62ce53340e0b4a3451"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n15.hpp",
+     "sha256": "4d3d714aa88ab4a75528f899ebbdaafafbfe01dc6822d6566b9ad0485f52f6f2"
+    }
+   ]
+  },
+  "c08_ponly_pxxl_v3xl": {
+   "name": "c08_ponly_pxxl_v3xl",
+   "carrier": "C08",
+   "role": "ponly",
+   "tier": "XXL",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "source": "bots/p_only/bots/variants/c08_ponly_pxxl_v3xl.cpp",
+   "models": "inference/models_pxxl_v3xl",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\c08_ponly_pxxl_v3xl.cpp",
+   "bundle_sha256": "02e2353b1f1d5e9f187d5fbde1d0e2282d23d2eee8bc7ff6f42d79b3532b7ce5",
+   "bundle_bytes": 32055621,
+   "binary": "build\\p_only\\bin\\c08_ponly_pxxl_v3xl-02e2353b1f1d.exe",
+   "binary_sha256": "b7591ed3be7526b254c745e893b96a710230f0605f642805dba72ac8b9f9c256",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\p_only\\bots\\variants\\c08_ponly_pxxl_v3xl.cpp",
+     "sha256": "657eedf01c47e96fb8940d3ff86ef13fc2468956f4a58910509c5b20e90483e8"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\registry.hpp",
+     "sha256": "fd8f2e00d39dabe214e6e97a36acf0d6ea597ae6aa6afe6eeb3cc1f4778e4adc"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_general.hpp",
+     "sha256": "93306b21cac4263c3bee05a16cfd6b02bada7ad340771263066cd23312b86305"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\value_v3.hpp",
+     "sha256": "7e3836631efb68ce6bb1556dae93c536abbeadc007a24c2c41d0352effea26fb"
+    },
+    {
+     "path": "inference\\combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_shared_value.hpp",
+     "sha256": "459f7f26379ac5b4e08f2033225c3ae4b5c41125abe214bbd634dc3cc4f4b049"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n02.hpp",
+     "sha256": "baa637aa3d72f2e76c5ea7b354a8fa581f6a0e4dfa00d3b666091462f23ddbc1"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n03.hpp",
+     "sha256": "6a6af2967a94701bcf2768dd1ac6408a0a2d997592459019662a98714096d57f"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n04.hpp",
+     "sha256": "8311e4c7ad1bc38f7eee49d01260c9b5ab7ccfb284b973baa333c2ed6d4df95f"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n05.hpp",
+     "sha256": "46bbf33406a375dec4f4be4f83dcfaa2396a8ef5ef27be31cec3952d8e6fbe83"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n06.hpp",
+     "sha256": "31b09feda3fa85f28d72ac49b5eb3fce040ff1652740abf4a40f8df18697637f"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n07.hpp",
+     "sha256": "5c6d5e17c7724f520e219dc19e0fbd00f26e7d551bf4d0ab4b2ad2b1b1ca67a1"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n08.hpp",
+     "sha256": "3b274b9ba4aad9db1226be9a0780fdc0ae76028c639baf8730a9b863bfd9d689"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n10.hpp",
+     "sha256": "e3c795467a2ce7df6e97e3ed2f317f7c37f11f8c3942a31dfd33eefb97fff379"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n12.hpp",
+     "sha256": "bff2cace4c85d0811945fa1e0a8f5b76403d82fbce82c92967c2a154e6b5c289"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n15.hpp",
+     "sha256": "c99034c653070a2da8df96e2055fa5943cc6933afcc804cc111e602c882c0551"
+    },
+    {
+     "path": "bots\\p_only\\bots\\c08_ponly_f.hpp",
+     "sha256": "6356e4fb1f433a006b215b84e17bf2a07749540a1cd70ab680fea0b312efa18a"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    }
+   ]
+  },
+  "c08_ponly_pxxl_v3xl_v": {
+   "name": "c08_ponly_pxxl_v3xl_v",
+   "carrier": "C08",
+   "role": "ponly_v",
+   "tier": "XXL",
+   "value_tier": "XL",
+   "fixed_samples": 0,
+   "source": "bots/p_only/bots/variants/c08_ponly_pxxl_v3xl_v.cpp",
+   "models": "inference/models_pxxl_v3xl",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\c08_ponly_pxxl_v3xl_v.cpp",
+   "bundle_sha256": "f0532557a1b24e102e21a37a16772c03445232fe3498d127c09568de0d3f12f8",
+   "bundle_bytes": 32055620,
+   "binary": "build\\p_only\\bin\\c08_ponly_pxxl_v3xl_v-f0532557a1b2.exe",
+   "binary_sha256": "4f5dc1e90e9c887908078dfc286e2a660c17d77a775c499433ddd5fe6daccfbf",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\p_only\\bots\\variants\\c08_ponly_pxxl_v3xl_v.cpp",
+     "sha256": "034c84cc2c2bb6b1364d3d02b349cb98b5b0c6d853d6716732868ee136c07dda"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\registry.hpp",
+     "sha256": "fd8f2e00d39dabe214e6e97a36acf0d6ea597ae6aa6afe6eeb3cc1f4778e4adc"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_general.hpp",
+     "sha256": "93306b21cac4263c3bee05a16cfd6b02bada7ad340771263066cd23312b86305"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\value_v3.hpp",
+     "sha256": "7e3836631efb68ce6bb1556dae93c536abbeadc007a24c2c41d0352effea26fb"
+    },
+    {
+     "path": "inference\\combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_shared_value.hpp",
+     "sha256": "459f7f26379ac5b4e08f2033225c3ae4b5c41125abe214bbd634dc3cc4f4b049"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n02.hpp",
+     "sha256": "baa637aa3d72f2e76c5ea7b354a8fa581f6a0e4dfa00d3b666091462f23ddbc1"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n03.hpp",
+     "sha256": "6a6af2967a94701bcf2768dd1ac6408a0a2d997592459019662a98714096d57f"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n04.hpp",
+     "sha256": "8311e4c7ad1bc38f7eee49d01260c9b5ab7ccfb284b973baa333c2ed6d4df95f"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n05.hpp",
+     "sha256": "46bbf33406a375dec4f4be4f83dcfaa2396a8ef5ef27be31cec3952d8e6fbe83"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n06.hpp",
+     "sha256": "31b09feda3fa85f28d72ac49b5eb3fce040ff1652740abf4a40f8df18697637f"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n07.hpp",
+     "sha256": "5c6d5e17c7724f520e219dc19e0fbd00f26e7d551bf4d0ab4b2ad2b1b1ca67a1"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n08.hpp",
+     "sha256": "3b274b9ba4aad9db1226be9a0780fdc0ae76028c639baf8730a9b863bfd9d689"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n10.hpp",
+     "sha256": "e3c795467a2ce7df6e97e3ed2f317f7c37f11f8c3942a31dfd33eefb97fff379"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n12.hpp",
+     "sha256": "bff2cace4c85d0811945fa1e0a8f5b76403d82fbce82c92967c2a154e6b5c289"
+    },
+    {
+     "path": "inference\\models_pxxl_v3xl\\weights_n15.hpp",
+     "sha256": "c99034c653070a2da8df96e2055fa5943cc6933afcc804cc111e602c882c0551"
+    },
+    {
+     "path": "bots\\p_only\\bots\\c08_ponly_f.hpp",
+     "sha256": "6356e4fb1f433a006b215b84e17bf2a07749540a1cd70ab680fea0b312efa18a"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    }
+   ]
+  }
+ },
+ "compiler": "g++.EXE (GCC) 15.2.0",
+ "flags": [
+  "-std=c++20",
+  "-O2",
+  "-static"
+ ],
+ "host": "DESKTOP-G60OJUD",
+ "platform": "Windows-10-10.0.19045-SP0",
+ "updated": "2026-10-10T18:41:44"
+}

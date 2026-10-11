@@ -1,0 +1,706 @@
+{
+ "bundle_hash_note": "build.py hashes the UTF-8 source string before Windows write_text emits CRLF. Canonical LF source hashes match the frozen manifest/identities; raw on-disk byte hashes are recorded separately. Binaries are hashed as raw bytes.",
+ "checkpoint": {
+  "best": {
+   "config": {
+    "args": {
+     "aux_weight": 0.25,
+     "backend": "torch",
+     "batch": 2048,
+     "cache": "data/vcache/designated_v3",
+     "capacity": "XL",
+     "checkpoint": true,
+     "count_weighting": "none",
+     "device": "cuda",
+     "epochs": 30,
+     "gpu_resident_gb": 6.0,
+     "gpu_window_rows": 1000000,
+     "hidden": null,
+     "init": null,
+     "lr": 0.001,
+     "lr_schedule": "cosine",
+     "max_rows": 0,
+     "max_width": 1024,
+     "min_lr": 0.0001,
+     "model": "general",
+     "out": "runs/value_v3_xl_designated_s1",
+     "patience": 4,
+     "plateau_decay": 1,
+     "rank": null,
+     "rank_batch": 512,
+     "rank_weight": 0.0,
+     "seed": 1,
+     "shards": "data/shards",
+     "soft_targets": null,
+     "soft_weight": 0.0,
+     "tf32": false,
+     "val_split": "val",
+     "value_family": "v3",
+     "weight_decay": 1e-05
+    },
+    "capacity": "XL",
+    "data": {
+     "cache": "data/vcache/designated_v3",
+     "cache_meta": {
+      "data": {
+       "ai_test_commits": [
+        "166b27df0e64aeb3237606b4f9df1f5dcf7c9e87"
+       ],
+       "digest": "ccf6f46945b83ad3",
+       "matches_by_count": {
+        "n02": 200,
+        "n03": 200,
+        "n04": 200,
+        "n05": 200,
+        "n06": 200,
+        "n07": 200,
+        "n08": 200,
+        "n09": 200,
+        "n10": 200,
+        "n11": 200,
+        "n12": 200,
+        "n13": 200,
+        "n14": 200,
+        "n15": 200
+       },
+       "options": {
+        "holdout_family": [],
+        "holdout_mode": "fixture",
+        "keep": {
+         "contact": 1.0,
+         "flag": 1.0,
+         "quiet": 0.35,
+         "respawn": 0.6
+        },
+        "rows": "designated",
+        "split_by": "map",
+        "stride": 2
+       },
+       "regimes": {
+        "legacy": 2800
+       },
+       "registries": [],
+       "rows": {
+        "n02/train": 27945,
+        "n02/val": 7020,
+        "n03/train": 30718,
+        "n03/val": 1603,
+        "n04/test": 1621,
+        "n04/train": 24049,
+        "n04/val": 6286,
+        "n05/test": 5127,
+        "n05/train": 28268,
+        "n05/val": 1799,
+        "n06/train": 32390,
+        "n07/test": 4988,
+        "n07/train": 23402,
+        "n07/val": 4963,
+        "n08/test": 5075,
+        "n08/train": 23625,
+        "n08/val": 5056,
+        "n09/test": 1710,
+        "n09/train": 25785,
+        "n09/val": 7092,
+        "n10/train": 34753,
+        "n11/test": 1707,
+        "n11/train": 30571,
+        "n11/val": 1592,
+        "n12/train": 28992,
+        "n12/val": 5064,
+        "n13/test": 5309,
+        "n13/train": 27581,
+        "n13/val": 1699,
+        "n14/test": 5353,
+        "n14/train": 24231,
+        "n14/val": 5257,
+        "n15/test": 1813,
+        "n15/train": 27906,
+        "n15/val": 5297
+       },
+       "team_counts": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+       ]
+      },
+      "features": {
+       "digest": "b58aaa174f156003",
+       "family": "v3",
+       "layout_version": 3
+      },
+      "rows": {
+       "test": 32703,
+       "train": 390216,
+       "val": 52728
+      }
+     }
+    },
+    "features": {
+     "digest": "b58aaa174f156003",
+     "family": "v3",
+     "layout_version": 3
+    },
+    "hidden": [
+     1024,
+     64
+    ],
+    "init": null,
+    "kind": "value",
+    "model": "general",
+    "params": 177411,
+    "rank": null,
+    "repo_commit": "9e940c18f9872585df86e1e7f4786802ef37c01c",
+    "rows": {
+     "train": 390216,
+     "val": 52728
+    },
+    "seed": 1,
+    "started": "2026-10-10T14:21:03"
+   },
+   "epoch": 9,
+   "seconds": 5.7,
+   "val": 0.4674545313687742
+  },
+  "beta": 0.9788334237417557,
+  "beta_note": "Temperature multiplier folded into quantized output rows at export.",
+  "exported_checkpoint": "model.npz",
+  "model_sha256": "3155bfe6af523c959dfc9e2b5681c70cb1717e193b407a07d8a6eaa8db9a9bd6",
+  "run": "runs/value_v3_xl_designated_s1"
+ },
+ "commands": {
+  "core": "python -m unittest discover -s tests -t .",
+  "dry_run": "python tools/repo/task.py lock --task T0022 cpu -- python bots/p_only/tools/run_screen.py --config profiles/screen_v3xl_fresh.json --dry-run",
+  "p_only": "python -m unittest discover -s bots/p_only/tests",
+  "screen": "python tools/repo/task.py lock --task T0022 cpu -- python bots/p_only/tools/run_screen.py --config profiles/screen_v3xl_fresh.json"
+ },
+ "compiler": "g++.EXE (GCC) 15.2.0",
+ "export_header_hash_note": "The original Windows export manifest records CRLF shared-header bytes. The Git checkout stores LF. Reconstituting CRLF reproduces that export hash; the pre-run build manifest and post-run dependency audit agree on the actual LF header hash.",
+ "flags": [
+  "-std=c++20",
+  "-O2",
+  "-static"
+ ],
+ "frozen_defines": {
+  "bots/p_only/bots/c08_ponly.hpp": [
+   "#define MOD_CHECKED 1",
+   "#define MOD_FLAGSHOOT 1",
+   "#define MOD_CFL 0",
+   "#define MOD_DROP 1",
+   "#define MOD_HABITS 0",
+   "#define MOD_TERMINAL 1",
+   "#define MOD_CDP 0",
+   "#define MOD_FLAGS 0",
+   "#define MOD_ESCORT 0",
+   "#define MOD_HEALTHY 0",
+   "#define MOD_EXPECTIMAX 1",
+   "#define MOD_WEIGHTS_TUNED 1",
+   "#define MOD_HYBRID_MACRO 0",
+   "#define MOD_SH 1",
+   "#define MOD_ASYM 1",
+   "#define MOD_PLAYOUT 1",
+   "#define MOD_RISK 1",
+   "#define NG_TRACE 0",
+   "#define NG_UNCACHED_NEIGHBORS 0",
+   "#define CTF_RELAY 0",
+   "#define MOD_EXPECTIMAX_SIZES NG_SIZES_MULTI",
+   "#define MOD_FUSION_V 0",
+   "#define PONLY_FIXED_SAMPLES 0",
+   "#define PONLY_V_REFINE 50.0",
+   "#define PONLY_V_BEAM 35.0",
+   "#define NG_SIZES_ALL 0xFFFCu",
+   "#define NG_SIZES_MULTI 0xFFF8u",
+   "#define MOD_CFL_SIZES NG_SIZES_ALL",
+   "#define MOD_DROP_SIZES NG_SIZES_MULTI",
+   "#define MOD_HABITS_SIZES NG_SIZES_ALL",
+   "#define MOD_TERMINAL_SIZES NG_SIZES_ALL",
+   "#define MOD_CDP_SIZES NG_SIZES_MULTI",
+   "#define MOD_FLAGS_SIZES NG_SIZES_ALL",
+   "#define MOD_ESCORT_SIZES NG_SIZES_ALL",
+   "#define MOD_HEALTHY_SIZES NG_SIZES_ALL",
+   "#define MOD_EXPECTIMAX_SIZES NG_SIZES_ALL",
+   "#define MOD_HYBRID_MACRO_SIZES NG_SIZES_ALL",
+   "#define MOD_SH_SIZES NG_SIZES_MULTI",
+   "#define MOD_ASYM_SIZES NG_SIZES_MULTI",
+   "#define MOD_PLAYOUT_SIZES NG_SIZES_MULTI",
+   "#define MOD_RISK_SIZES NG_SIZES_MULTI",
+   "#define NG_SEARCH_EXPECTIMAX_HPP",
+   "#define NG_SEARCH_TYPES_HPP",
+   "#define NG_SEARCH_DYNAMICS_HPP",
+   "#define NG_SEARCH_EVALUATION_HPP",
+   "#define NG_SEARCH_ROLLOUT_HPP",
+   "#define NG_SEARCH_SAMPLING_HPP",
+   "#define CTF_LOOKAHEAD 1"
+  ],
+  "bots/p_only/bots/c08_ponly_f.hpp": [
+   "#define MOD_CHECKED 1",
+   "#define MOD_FLAGSHOOT 1",
+   "#define MOD_CFL 0",
+   "#define MOD_DROP 1",
+   "#define MOD_HABITS 0",
+   "#define MOD_TERMINAL 1",
+   "#define MOD_CDP 0",
+   "#define MOD_FLAGS 0",
+   "#define MOD_ESCORT 0",
+   "#define MOD_HEALTHY 0",
+   "#define MOD_EXPECTIMAX 1",
+   "#define MOD_WEIGHTS_TUNED 1",
+   "#define MOD_HYBRID_MACRO 0",
+   "#define MOD_SH 1",
+   "#define MOD_ASYM 1",
+   "#define MOD_PLAYOUT 1",
+   "#define MOD_RISK 1",
+   "#define NG_TRACE 0",
+   "#define NG_UNCACHED_NEIGHBORS 0",
+   "#define CTF_RELAY 0",
+   "#define MOD_EXPECTIMAX_SIZES NG_SIZES_MULTI",
+   "#define MOD_FUSION_V 0",
+   "#define PONLY_FIXED_SAMPLES 0",
+   "#define PONLY_V_REFINE 50.0",
+   "#define PONLY_V_BEAM 35.0",
+   "#define PONLY_POLICY_FAMILY 2",
+   "#define PONLY_VALUE_FAMILY 2",
+   "#define PONLY_V_MAX_CALLS 1000000000",
+   "#define PONLY_V_DEADLINE_MS 1e9",
+   "#define PONLY_PORTFOLIO_K 0  // 0: the current search; K >= 2: complete action assignments per shortlisted movement",
+   "#define PONLY_PORTFOLIO_MOVES 3  // shortlisted joint movements, the incumbent's first",
+   "#define PONLY_PLY2_MODE 0  // C08: 0 reference-plan ply-2 predictions, 1 per branch, 2 diagnostic (plays as 0)",
+   "#define PONLY_PLY2_CACHE 1",
+   "#define PONLY_PLY2_CACHE_SIZE 64",
+   "#define PONLY_TURN_MS 35",
+   "#define PONLY_REFINE_MS 24",
+   "#define PONLY_CUT_TEST(i) ((size_t)(i) >= (size_t)PONLY_TEST_CUT_AT)",
+   "#define PONLY_CUT_TEST(i) false",
+   "#define PONLY_RULES_TO(v) ((v).rules = rules)",
+   "#define PONLY_RULES_TO(v) ((void)0)",
+   "#define NG_SIZES_ALL 0xFFFCu",
+   "#define NG_SIZES_MULTI 0xFFF8u",
+   "#define MOD_CFL_SIZES NG_SIZES_ALL",
+   "#define MOD_DROP_SIZES NG_SIZES_MULTI",
+   "#define MOD_HABITS_SIZES NG_SIZES_ALL",
+   "#define MOD_TERMINAL_SIZES NG_SIZES_ALL",
+   "#define MOD_CDP_SIZES NG_SIZES_MULTI",
+   "#define MOD_FLAGS_SIZES NG_SIZES_ALL",
+   "#define MOD_ESCORT_SIZES NG_SIZES_ALL",
+   "#define MOD_HEALTHY_SIZES NG_SIZES_ALL",
+   "#define MOD_EXPECTIMAX_SIZES NG_SIZES_ALL",
+   "#define MOD_HYBRID_MACRO_SIZES NG_SIZES_ALL",
+   "#define MOD_SH_SIZES NG_SIZES_MULTI",
+   "#define MOD_ASYM_SIZES NG_SIZES_MULTI",
+   "#define MOD_PLAYOUT_SIZES NG_SIZES_MULTI",
+   "#define MOD_RISK_SIZES NG_SIZES_MULTI",
+   "#define NG_SEARCH_EXPECTIMAX_HPP",
+   "#define NG_SEARCH_TYPES_HPP",
+   "#define NG_SEARCH_DYNAMICS_HPP",
+   "#define NG_SEARCH_EVALUATION_HPP",
+   "#define NG_SEARCH_ROLLOUT_HPP",
+   "#define NG_SEARCH_SAMPLING_HPP",
+   "#define CTF_LOOKAHEAD 1"
+  ],
+  "bots/p_only/bots/variants/c08_ponly_pxxl_v3xl.cpp": [
+   "#define PONLY_POLICY_FAMILY 2",
+   "#define PONLY_VALUE_FAMILY 3",
+   "#define MOD_FUSION_V 0"
+  ],
+  "bots/p_only/bots/variants/c08_ponly_pxxl_v3xl_v.cpp": [
+   "#define PONLY_POLICY_FAMILY 2",
+   "#define PONLY_VALUE_FAMILY 3",
+   "#define MOD_FUSION_V 1"
+  ],
+  "bots/p_only/bots/variants/c08_ponly_pxxl_vm.cpp": [],
+  "bots/p_only/bots/variants/c08_ponly_pxxl_vm_v.cpp": [
+   "#define MOD_FUSION_V 1"
+  ]
+ },
+ "host_snapshot": {
+  "captured_utc": "2026-10-11T03:44:43.9480008Z",
+  "cpu": {
+   "LoadPercentage": 68,
+   "Name": "AMD Ryzen 9 7945HX with Radeon Graphics        ",
+   "NumberOfLogicalProcessors": 32
+  },
+  "lock": {
+   "agent": "codex@desktop-g60ojud",
+   "command": "python bots/p_only/tools/run_screen.py --config profiles/screen_v3xl_fresh.json",
+   "machine": "DESKTOP-G60OJUD",
+   "pid": 20804,
+   "since": "2026-10-11 01:41Z",
+   "task": "T0022"
+  }
+ },
+ "interpretation": "Single-checkpoint, single-seed host screening; no production approval. Model features, capacity and training data differ. Contrast is a difference of gains on respective carriers, not an isolation of model-only causality. Deadline-before-call checks do not interrupt in-flight inference.",
+ "load_note": "One mid-run CPU-load snapshot, not a run-wide load average. No competing benchmark or training was launched by this agent.",
+ "measured_commit": "79cf3d112806342743a1dfffe19ca3adcb4f6a2c",
+ "old_value_calibration": {
+  "general": 0.9935502414722608,
+  "n02": 1.0677668139215153,
+  "n03": 1.0084824800504446,
+  "n04": 0.9798073021885241,
+  "n05": 0.9805896539386931,
+  "n06": 0.9854109698641178,
+  "n07": 0.9725610108135694,
+  "n08": 0.9896537344607235,
+  "n10": 0.9916713711054779,
+  "n12": 1.002466373224185,
+  "n15": 1.0040702949523506
+ },
+ "policy_parity": {
+  "all_equal": true,
+  "files": [
+   "inference/models_pxxl_vm/weights_general.npz",
+   "inference/models_pxxl_vm/weights_n02.npz",
+   "inference/models_pxxl_vm/weights_n03.npz",
+   "inference/models_pxxl_vm/weights_n04.npz",
+   "inference/models_pxxl_vm/weights_n05.npz",
+   "inference/models_pxxl_vm/weights_n06.npz",
+   "inference/models_pxxl_vm/weights_n07.npz",
+   "inference/models_pxxl_vm/weights_n08.npz",
+   "inference/models_pxxl_vm/weights_n10.npz",
+   "inference/models_pxxl_vm/weights_n12.npz",
+   "inference/models_pxxl_vm/weights_n15.npz",
+   "inference/models_pxxl_v3xl/weights_general.npz",
+   "inference/models_pxxl_v3xl/weights_n02.npz",
+   "inference/models_pxxl_v3xl/weights_n03.npz",
+   "inference/models_pxxl_v3xl/weights_n04.npz",
+   "inference/models_pxxl_v3xl/weights_n05.npz",
+   "inference/models_pxxl_v3xl/weights_n06.npz",
+   "inference/models_pxxl_v3xl/weights_n07.npz",
+   "inference/models_pxxl_v3xl/weights_n08.npz",
+   "inference/models_pxxl_v3xl/weights_n10.npz",
+   "inference/models_pxxl_v3xl/weights_n12.npz",
+   "inference/models_pxxl_v3xl/weights_n15.npz"
+  ],
+  "unique_policy_arrays_compared": 880
+ },
+ "post_run_verified_files": {
+  "bots/p_only/bots/c08_ponly.hpp": "88ba5d34e930645f921e7711135aedcd1c0e4896a8c42396b851c25eb24c161f",
+  "bots/p_only/bots/c08_ponly_f.hpp": "6356e4fb1f433a006b215b84e17bf2a07749540a1cd70ab680fea0b312efa18a",
+  "bots/p_only/bots/variants/c08_ponly_pxxl_v3xl.cpp": "657eedf01c47e96fb8940d3ff86ef13fc2468956f4a58910509c5b20e90483e8",
+  "bots/p_only/bots/variants/c08_ponly_pxxl_v3xl_v.cpp": "034c84cc2c2bb6b1364d3d02b349cb98b5b0c6d853d6716732868ee136c07dda",
+  "bots/p_only/bots/variants/c08_ponly_pxxl_vm.cpp": "d5c89a532fb3525150f049482236d23aefa60bac9e37dd0117beacf7953827c5",
+  "bots/p_only/bots/variants/c08_ponly_pxxl_vm_v.cpp": "2983f37c3cb76d97c5cd22d5064a999ed61ee0844dbd321ae9760e4c8282b6ce",
+  "bots/p_only/include/ponly.hpp": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28",
+  "build/p_only/bin/c08_ponly_pxxl_v3xl-02e2353b1f1d.exe": "b7591ed3be7526b254c745e893b96a710230f0605f642805dba72ac8b9f9c256",
+  "build/p_only/bin/c08_ponly_pxxl_v3xl_v-f0532557a1b2.exe": "4f5dc1e90e9c887908078dfc286e2a660c17d77a775c499433ddd5fe6daccfbf",
+  "build/p_only/bin/c08_ponly_pxxl_vm-d662cb5dae68.exe": "1c5ab25468bf8767dad112aee8143e45ca6a774d2b5f74b68af20198c452877d",
+  "build/p_only/bin/c08_ponly_pxxl_vm_v-4d22eaba5228.exe": "27b31fbb7aafdf792498054337c894b656792331c156140d8f49d11bb3a13c1b",
+  "build/p_only/src/c08_ponly_pxxl_v3xl.cpp": "02e2353b1f1d5e9f187d5fbde1d0e2282d23d2eee8bc7ff6f42d79b3532b7ce5",
+  "build/p_only/src/c08_ponly_pxxl_v3xl.cpp:on_disk_bytes": "916f4a67bc500385401193ea5759fe3a98f3bd92e04ba45a1212e3c9fbf7f4c0",
+  "build/p_only/src/c08_ponly_pxxl_v3xl_v.cpp": "f0532557a1b24e102e21a37a16772c03445232fe3498d127c09568de0d3f12f8",
+  "build/p_only/src/c08_ponly_pxxl_v3xl_v.cpp:on_disk_bytes": "2cbdc6f7d8d058b31a4e306986c03070ff349bc8b524665cca85ba6fe5f4b7d3",
+  "build/p_only/src/c08_ponly_pxxl_vm.cpp": "d662cb5dae68142643d76adadc64c06cecce1aa46922982fe77f75424180a226",
+  "build/p_only/src/c08_ponly_pxxl_vm.cpp:on_disk_bytes": "874abf90d0e76c931152dedcb5676e4d849ff43a2b125e74d166dd9e556f5ad7",
+  "build/p_only/src/c08_ponly_pxxl_vm_v.cpp": "4d22eaba5228ec755ba4d7d93755800a1981d461649f89120879c1e5dd850469",
+  "build/p_only/src/c08_ponly_pxxl_vm_v.cpp:on_disk_bytes": "078e4c0c43731c5be8872f2d9a60f5983a1badbc4a757cea4f912a6067f308b0",
+  "inference/adapter.hpp": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1",
+  "inference/combat.hpp": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7",
+  "inference/features.hpp": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8",
+  "inference/mlp.hpp": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66",
+  "inference/models_pxxl_v3xl/registry.hpp": "fd8f2e00d39dabe214e6e97a36acf0d6ea597ae6aa6afe6eeb3cc1f4778e4adc",
+  "inference/models_pxxl_v3xl/weights_general.hpp": "93306b21cac4263c3bee05a16cfd6b02bada7ad340771263066cd23312b86305",
+  "inference/models_pxxl_v3xl/weights_n02.hpp": "baa637aa3d72f2e76c5ea7b354a8fa581f6a0e4dfa00d3b666091462f23ddbc1",
+  "inference/models_pxxl_v3xl/weights_n03.hpp": "6a6af2967a94701bcf2768dd1ac6408a0a2d997592459019662a98714096d57f",
+  "inference/models_pxxl_v3xl/weights_n04.hpp": "8311e4c7ad1bc38f7eee49d01260c9b5ab7ccfb284b973baa333c2ed6d4df95f",
+  "inference/models_pxxl_v3xl/weights_n05.hpp": "46bbf33406a375dec4f4be4f83dcfaa2396a8ef5ef27be31cec3952d8e6fbe83",
+  "inference/models_pxxl_v3xl/weights_n06.hpp": "31b09feda3fa85f28d72ac49b5eb3fce040ff1652740abf4a40f8df18697637f",
+  "inference/models_pxxl_v3xl/weights_n07.hpp": "5c6d5e17c7724f520e219dc19e0fbd00f26e7d551bf4d0ab4b2ad2b1b1ca67a1",
+  "inference/models_pxxl_v3xl/weights_n08.hpp": "3b274b9ba4aad9db1226be9a0780fdc0ae76028c639baf8730a9b863bfd9d689",
+  "inference/models_pxxl_v3xl/weights_n10.hpp": "e3c795467a2ce7df6e97e3ed2f317f7c37f11f8c3942a31dfd33eefb97fff379",
+  "inference/models_pxxl_v3xl/weights_n12.hpp": "bff2cace4c85d0811945fa1e0a8f5b76403d82fbce82c92967c2a154e6b5c289",
+  "inference/models_pxxl_v3xl/weights_n15.hpp": "c99034c653070a2da8df96e2055fa5943cc6933afcc804cc111e602c882c0551",
+  "inference/models_pxxl_v3xl/weights_shared_value.hpp": "459f7f26379ac5b4e08f2033225c3ae4b5c41125abe214bbd634dc3cc4f4b049",
+  "inference/models_pxxl_vm/registry.hpp": "8ac015005b7eb4bba3f7e1635bfd39e7bc6a3d93bffc051d574f814ff6f20194",
+  "inference/models_pxxl_vm/weights_general.hpp": "4a3044c14f0983686a173a0a3ece1ac59b50252dbaeecda79406330fddd8d1d1",
+  "inference/models_pxxl_vm/weights_n02.hpp": "39ba7d4c1b186eded47774dbf4ccd6cbc48def199fc859455ea6a2e5c51fdcb5",
+  "inference/models_pxxl_vm/weights_n03.hpp": "ffc4e388cdcb49d02cd42c1e6d4d46c07c24bcfb47e26f65d427965c644434d2",
+  "inference/models_pxxl_vm/weights_n04.hpp": "7f6c1bc30c46c71f8e2883b6f6c672867b1a2a405cfd032a24c4c2c7c8a729f3",
+  "inference/models_pxxl_vm/weights_n05.hpp": "7824c1d5b945557fcd99d70bdd4049ef5eb26056ecece90b058147925a7709ff",
+  "inference/models_pxxl_vm/weights_n06.hpp": "8ae640133aef2222d125f86ada348bb35c5f40fa5bb43855cc3f1348fec2b8e3",
+  "inference/models_pxxl_vm/weights_n07.hpp": "1545a6ddf59857bd64d4b6b014009c629fd1e38037cf4c35fe9650c5ecb18c6c",
+  "inference/models_pxxl_vm/weights_n08.hpp": "7fb7f88d43a1695a0481fc2b9341bbb38fb5ec3cadc30a282b2aa18a88f4b207",
+  "inference/models_pxxl_vm/weights_n10.hpp": "02ab30b6dedf3b50fea278ee383d2a70a493a73b406c7df6b235da8793f4f935",
+  "inference/models_pxxl_vm/weights_n12.hpp": "73e845b2259f9402c4f6f79ed0ebe3a4cbb438545cf0dc62ce53340e0b4a3451",
+  "inference/models_pxxl_vm/weights_n15.hpp": "4d3d714aa88ab4a75528f899ebbdaafafbfe01dc6822d6566b9ad0485f52f6f2",
+  "inference/policy.hpp": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613",
+  "inference/sim.hpp": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd",
+  "inference/simd.hpp": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453",
+  "inference/state.hpp": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206",
+  "inference/value.hpp": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf",
+  "inference/value_v3.hpp": "7e3836631efb68ce6bb1556dae93c536abbeadc007a24c2c41d0352effea26fb"
+ },
+ "preflight": {
+  "core": "passed (one skip); normal sandbox attempt could not access AI_Test, rerun with host access passed",
+  "dry_run": "700 fixtures / 3500 games, 4 workers, exact A/A identity",
+  "p_only": "43 passed"
+ },
+ "reference_binary_note": "References were prebuilt before play; schedule and match records pin source hashes. Post-run cached-binary hashes supplement those records; no independent pre-run binary-hash receipt was saved.",
+ "reference_compiler_flags": [
+  "-std=c++20",
+  "-O2",
+  "-I<repo>\\inference",
+  "-static"
+ ],
+ "reference_include_note": "<repo> resolves to the frozen checkout; the recorded include flag originally used that absolute directory. User-home paths are omitted from committed reports.",
+ "reference_opponents": {
+  "Astra": {
+   "binary": "build/roster/gpt-6-astra-7fba53a9551e47bf.exe",
+   "binary_sha256_post_run": "ae03baa80955c6e5bb1539346c6a130daed40b341d35b69641fcb5ea5a80aa32",
+   "mtime_epoch": 1791682908.5072496,
+   "source_sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+  },
+  "Baseline": {
+   "binary": "build/roster/baseline-a7556f56660e5b3a.exe",
+   "binary_sha256_post_run": "a3718da028e5f1906c1bf8a3a8f99ce0519de322ea1b549cef17d7898296f4a5",
+   "mtime_epoch": 1791682948.434963,
+   "source_sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+  },
+  "DeepSeek": {
+   "binary": "build/roster/deepseek-v4.1-flash-57879c17a6470efd.exe",
+   "binary_sha256_post_run": "ae43d2f0c5178877581330f548cf6cc47986cfdf4edf644455cf863dfedb1b97",
+   "mtime_epoch": 1791682928.1523309,
+   "source_sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+  },
+  "Fable": {
+   "binary": "build/roster/fable-5.1-8ce05a180b5613b3.exe",
+   "binary_sha256_post_run": "dcf4dd932816dfa98293e9256e0cd458bc5e9a940822babd8ea4142e22ca41c8",
+   "mtime_epoch": 1791682916.3913069,
+   "source_sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+  },
+  "GLM": {
+   "binary": "build/roster/glm-5.3-11ffa5b1ab995b36.exe",
+   "binary_sha256_post_run": "c444c7094a335eec996a036103a5de7c7163e62d333ed1ac512a6a0ee7cfe80f",
+   "mtime_epoch": 1791682942.571246,
+   "source_sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+  },
+  "Kimi": {
+   "binary": "build/roster/kimi-k3-c209c7d09199103b.exe",
+   "binary_sha256_post_run": "698e881a0dd16a467fbf726174047f86a89087a5f0d657a00cf68a4e29af607c",
+   "mtime_epoch": 1791682938.6136217,
+   "source_sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+  },
+  "MiMo": {
+   "binary": "build/roster/mimo-v2.6-pro-d6d4b78f64c88553.exe",
+   "binary_sha256_post_run": "19b45eb6233f65383ade3c01bac82409768659fdb91650351758b61dd5fc140d",
+   "mtime_epoch": 1791682934.9911911,
+   "source_sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+  },
+  "Opus": {
+   "binary": "build/roster/opus-5.5-81c44dda7d126bf6.exe",
+   "binary_sha256_post_run": "aa35fbd533cb435bc30eec79bb06d54f507416bd08dccfc6867910ddc4cb1ff9",
+   "mtime_epoch": 1791682924.4331489,
+   "source_sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+  },
+  "Player2_v005": {
+   "binary": "build/roster/B2_Player2_v005-1c6401bcb9a8d2b0.exe",
+   "binary_sha256_post_run": "31f257bab05c093e3d09eef84f4a746069199f1694262a26003c71e7ad012346",
+   "mtime_epoch": 1791682956.854279,
+   "source_sha256": "5e80d9a725c64fb09ecc024e80c8564e02bffbd72093629e513cc481d31adc8d"
+  },
+  "Player4": {
+   "binary": "build/roster/Player4-082c91789ce905ee.exe",
+   "binary_sha256_post_run": "fc927095ae3f62d9ac084de1b9ee71a75e82933513e6b5031e4cfdb4019c66e9",
+   "mtime_epoch": 1791682950.653369,
+   "source_sha256": "2058f78e5979a51f40dcb7dac4ee66e22f8ab816176822e3388caa6732f1453a"
+  },
+  "Player5": {
+   "binary": "build/roster/Player5-d7aa116c2da32888.exe",
+   "binary_sha256_post_run": "9cd12aa1c002442669487bbe84501dea2ce27e94ab6ae215c98999a0c25799ab",
+   "mtime_epoch": 1791682945.5792491,
+   "source_sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+  },
+  "Qwen": {
+   "binary": "build/roster/qwen-3.8-max-26c4af33ae4cc1f6.exe",
+   "binary_sha256_post_run": "997ec2627e9f432934451b074ad1708e407d0324e25808371735b81c2002e9dd",
+   "mtime_epoch": 1791682931.5479558,
+   "source_sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+  },
+  "Sol": {
+   "binary": "build/roster/gpt-6.1-sol-32483f9b5a21ddcc.exe",
+   "binary_sha256_post_run": "6999587eacff1594ef6ab7ac9818f83dad312de472eac2ea74fe57fa254608ad",
+   "mtime_epoch": 1791682912.4795504,
+   "source_sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+  },
+  "Sonnet": {
+   "binary": "build/roster/sonnet-5.5-1123cb026387548e.exe",
+   "binary_sha256_post_run": "74e8960c67503d9e18587a50b4a230bc411aaa5d750dccc908b8d7aee1e66f4c",
+   "mtime_epoch": 1791682920.503811,
+   "source_sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+  }
+ },
+ "run": {
+  "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+  "analysis_status": 0,
+  "config": {
+   "_comment": "T0022 fresh-map screen of the already trained designated-seat V3-XL (inference/models_pxxl_v3xl) in the complete C08 bot. Unseen seed 20261240 (20261230 went to T0019's screen_search.json; never reuse 20261009, 20261020, 20261031, 20261101, 20261102, 20261107, 20261108, 20261220, nor the reserved 20261201, 20261210, 20261211). All four arms use the identical frozen p2 XXL policy arrays. c08_ponly_pxxl_v3xl / _v3xl_v are the family carrier (c08_ponly_f.hpp, T0018 portfolio and per-branch ply 2 off by default); c08_ponly_pxxl_vm / _vm_v are the legacy production carrier (c08_ponly.hpp). Primary: V3-XL minus V off on the family carrier. V2-M minus V off on the legacy carrier and the difference of the two V gains compare the models without a carrier change; V3-XL minus V2-M is the deployed-bot comparison (model and carrier differ); legacy minus family carrier with V off measures the carrier difference. Screening only; confirmation needs T0006.",
+   "aa": [
+    "c08_ponly_pxxl_v3xl_v"
+   ],
+   "arms": [
+    "c08_ponly_pxxl_v3xl",
+    "c08_ponly_pxxl_v3xl_v",
+    "c08_ponly_pxxl_vm",
+    "c08_ponly_pxxl_vm_v"
+   ],
+   "comparisons": [
+    [
+     "c08_ponly_pxxl_v3xl_v",
+     "c08_ponly_pxxl_v3xl"
+    ],
+    [
+     "c08_ponly_pxxl_vm_v",
+     "c08_ponly_pxxl_vm"
+    ],
+    [
+     "c08_ponly_pxxl_v3xl_v",
+     "c08_ponly_pxxl_vm_v"
+    ],
+    [
+     "c08_ponly_pxxl_vm",
+     "c08_ponly_pxxl_v3xl"
+    ]
+   ],
+   "contrasts": {
+    "V3-XL gain minus V2-M gain (each against its own V off)": "c08_ponly_pxxl_v3xl_v-c08_ponly_pxxl_v3xl-c08_ponly_pxxl_vm_v+c08_ponly_pxxl_vm"
+   },
+   "first_ms": 2000,
+   "keep_matches": true,
+   "maps_per_count": 50,
+   "reference": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Player4",
+    "Player2_v005"
+   ],
+   "report_dir": "bots/p_only/report/v3xl_fresh",
+   "seed": 20261240,
+   "teams": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "turn_ms": 50,
+   "work_dir": "data/p_only/v3xl_fresh",
+   "workers": 4
+  },
+  "cpu_count": 32,
+  "created": "2026-10-10T21:03:59",
+  "ctf_fusion_commit": "79cf3d112806342743a1dfffe19ca3adcb4f6a2c",
+  "effective": {
+   "aa": [
+    "c08_ponly_pxxl_v3xl_v"
+   ],
+   "arms": [
+    "c08_ponly_pxxl_v3xl",
+    "c08_ponly_pxxl_v3xl_v",
+    "c08_ponly_pxxl_vm",
+    "c08_ponly_pxxl_vm_v"
+   ],
+   "maps_per_count": 50,
+   "teams": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+   ],
+   "turn_ms": 50,
+   "workers": 4
+  },
+  "host": "DESKTOP-G60OJUD",
+  "os": "Windows-10-10.0.19045-SP0",
+  "python": "3.14.3",
+  "smoke": false,
+  "wall_seconds": {
+   "analyze": 14.6,
+   "build": 1.0,
+   "run": 8520.3,
+   "total": 8536.0
+  }
+ },
+ "search_defaults": {
+  "analytic_weight": 0.3,
+  "compute_deadline_ms": 35,
+  "continuation_weight": 0.7,
+  "fixed_samples": 0,
+  "halving": false,
+  "max_plans": 24,
+  "max_samples": 512,
+  "ply2_mode": 0,
+  "portfolio_k": 0,
+  "refine_reserve_ms": 5,
+  "risk_tau": 0,
+  "sampled_weight": 0.7,
+  "turn_budget_ms": 30,
+  "value_beam_coefficient": 35,
+  "value_refine_coefficient": 50
+ },
+ "value_calibration": {
+  "models_pxxl_v3xl": {
+   "shared": {},
+   "weights_general": {},
+   "weights_n02": {},
+   "weights_n03": {},
+   "weights_n04": {},
+   "weights_n05": {},
+   "weights_n06": {},
+   "weights_n07": {},
+   "weights_n08": {},
+   "weights_n10": {},
+   "weights_n12": {},
+   "weights_n15": {}
+  },
+  "models_pxxl_vm": {
+   "weights_general": {},
+   "weights_n02": {},
+   "weights_n03": {},
+   "weights_n04": {},
+   "weights_n05": {},
+   "weights_n06": {},
+   "weights_n07": {},
+   "weights_n08": {},
+   "weights_n10": {},
+   "weights_n12": {},
+   "weights_n15": {}
+  }
+ }
+}
