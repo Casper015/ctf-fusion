@@ -433,11 +433,11 @@ def op_amend(board: Board, tid: str, agent: str, writes: list[str] | None = None
 def op_merge(board: Board, keep: str, dups: list[str], agent: str, why: str = "", force: bool = False) -> str:
     """Fold tasks that describe the same work into `keep`, in one commit.
 
-    Each duplicate is closed as dropped, its Handoff pointing to `keep`. An open `keep` gains the duplicates' lanes,
-    needs and dependencies (a closed one keeps its record); both get their Goal and Done-when as a 'Merged from'
-    paragraph (or a pointer when the text is the same),
-    and a log line. Tasks that depended on a duplicate now depend on `keep`. Refused for a duplicate someone else
-    holds (active, review or blocked), and for open work folded into a closed task unless forced."""
+    Each duplicate is closed as dropped, its Handoff pointing to `keep`. `keep`'s Goal gains a 'Merged from'
+    paragraph per duplicate with its goal and done-when (only a pointer when the goals match), and its log a line.
+    An open `keep` also gains the duplicates' lanes, needs and dependencies; a closed one keeps its record. Tasks
+    that depended on a duplicate now depend on `keep`. Refused for a duplicate someone else holds (active, review or
+    blocked), and for open work folded into a closed task unless forced."""
     keep = keep.upper()
     dups = [d.upper() for d in dups]
     if not dups or keep in dups or len(set(dups)) != len(dups):
