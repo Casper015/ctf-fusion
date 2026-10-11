@@ -445,7 +445,7 @@ class TestQuantizationAwareTraining(unittest.TestCase):
             teacher = PolicyNet(self.layout, np.random.default_rng(2), self.HIDDEN)
             T.teacher_targets(teacher, self.layout, ca, "train", out / "t", tau=2.0, batch=16)
             args = argparse.Namespace(alpha=0.5, tau=2.0, act_weight=0.5, target_weight=0.5, smoothing=0.01, seed=0, epochs=1,
-                                      batch=16, lr=1e-3, weight_decay=0.0, profile="mixed4_8", device=DEVICE,
+                                      batch=16, lr=1e-3, weight_decay=0.0, init=None, profile="mixed4_8", device=DEVICE,
                                       optimizer="adam", backend="torch")
             student = T.load_student(self.layout, "s", "p2", None, 0)
             with self.D.TeacherShard(out / "t") as sh:
