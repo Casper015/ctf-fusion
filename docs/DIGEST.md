@@ -447,4 +447,4 @@ These records are kept as they are. Fix them through their generator or owner ta
   - Build the fixed-point kernels?
 - **For Casper, in T0001's log:** drop T0001? Its move check can no longer pass, and T0002 waits on it.
 - **The official field.** Are the judge bots plus other submissions the real opponents? P is only as good as the overlap between the training pool and that field (REVIEW §6).
-- **Whether V helps at all.** No V configuration has shown a benefit. T0014, T0016's follow-ups and T0022 decide it before T0006 freezes anything.
+- **Whether V helps at all.** No V configuration has shown a benefit so far. T0022 (fresh-map V3-XL) and T0014 (the V pilot at fixed P) decide it, before T0006 freezes anything.
