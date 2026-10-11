@@ -1,0 +1,119 @@
+{
+ "variants": {
+  "v12_ponly_xxl": {
+   "name": "v12_ponly_xxl",
+   "carrier": "v12",
+   "role": "ponly",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/v12_ponly_xxl.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "stats": true,
+   "bundle": "build\\p_only\\src\\v12_ponly_xxl.cpp",
+   "bundle_sha256": "0153cde766f4afaf121e169759e86b04b662bd20ea3451c6f61508a319c7f47d",
+   "bundle_bytes": 48487718,
+   "binary": "build\\p_only\\bin\\v12_ponly_xxl-0153cde766f4.exe",
+   "binary_sha256": "6cbd5d34610f7946eebee56713992eae81c283f3bbb6a6fc8a342a1dc3db47c1",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\p_only\\bots\\variants\\v12_ponly_xxl.cpp",
+     "sha256": "bae25e4131a2b3afff46ac195648078f5c19ede9df34e8982dec3ed1255dfdb4"
+    },
+    {
+     "path": "bots\\p_only\\bots\\v12_ponly.hpp",
+     "sha256": "5c63bee55a6b59b327c489524c82250186bef36329896910512928211100d8b7"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "inference\\models_xxl\\registry.hpp",
+     "sha256": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_general.hpp",
+     "sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n02.hpp",
+     "sha256": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n03.hpp",
+     "sha256": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n04.hpp",
+     "sha256": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n05.hpp",
+     "sha256": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n06.hpp",
+     "sha256": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n07.hpp",
+     "sha256": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n08.hpp",
+     "sha256": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n10.hpp",
+     "sha256": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n12.hpp",
+     "sha256": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n15.hpp",
+     "sha256": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675"
+    }
+   ]
+  }
+ },
+ "compiler": "g++.exe (GCC) 15.2.0",
+ "flags": [
+  "-std=c++20",
+  "-O2",
+  "-static"
+ ],
+ "host": "DESKTOP-G60OJUD",
+ "platform": "Windows-10-10.0.19045-SP0",
+ "updated": "2026-10-11T05:02:10"
+}

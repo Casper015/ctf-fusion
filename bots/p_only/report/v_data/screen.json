@@ -1,0 +1,54 @@
+{
+ "schedule": "4584cc6bd2a061f3f63f9d4a21a667377a69363eeb8518df8ed039b7b61ad6fd",
+ "seed": 20261201,
+ "fixtures": 7000,
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "incomplete": {},
+ "stale_rows": {},
+ "arms": {
+  "v12_ponly_xxl": {
+   "games": 7000,
+   "binary_sha256": "6cbd5d34610f7946eebee56713992eae81c283f3bbb6a6fc8a342a1dc3db47c1",
+   "utility": 0.74672,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 60.2,
+   "p99_ms_median": 5.641,
+   "p99_ms_worst": 12.428,
+   "max_ms": 15.621
+  }
+ },
+ "comparisons": {},
+ "rerun_noise": {},
+ "network_calls": {
+  "v12_ponly_xxl": {
+   "turns": 2800000,
+   "views_per_turn": 7.66,
+   "team_encodes_per_turn": 57.12,
+   "act_heads_per_turn": 246.16,
+   "target_heads_per_turn": 84.29,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 0
+  }
+ },
+ "identities": {
+  "v12_ponly_xxl": "a80bcfd59cdf53f39295f3453de510f10b6c1b620f66304bd6015b5453b796cb"
+ }
+}

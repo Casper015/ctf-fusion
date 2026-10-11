@@ -1,0 +1,30 @@
+{
+ "scope": "Local review-fix verification only; no matches or training",
+ "python": "3.14.8 (main, Sep 30 2026, 17:55:09) [Clang 21.0.0 (clang-2100.3.34.2)]",
+ "checks": {
+  "review_regressions": {
+   "tests": 16,
+   "status": "passed",
+   "log_sha256": "e028944bb759543b7b25e89955daa799992888999eeb5a56ade00d3501199bcd",
+   "summary": "Ran 16 tests in 0.097s\n\nOK"
+  },
+  "repo_layout_and_task_board": {
+   "tests": 22,
+   "status": "passed",
+   "log_sha256": "641223beadc955468bbee5ef7b91577706c8253c7f5570c00e1c5f8bc4dc65ae",
+   "summary": "Ran 22 tests in 8.474s\n\nOK"
+  }
+ },
+ "python_fences_parsed": 9,
+ "embedded_script_sha256": {
+  "t0010_review_contracts.py": "57d4c88098688dd2b9c417acd1ee752437d2629f4baea0c567d6ab4825b54cf4",
+  "t0010_render_reports.py": "eb80c38f6b0781575b660d4a1e51723167ebf88a2cb72c8975abdf043c77ef02",
+  "test_t0010_review_contracts.py": "ef91c7c4970d79d5f58a70d99f29f5bc6e3e5163c7b0bdf759aaca29683b85ab",
+  "t0010_review_fix_checks.py": "af9e41d5243392763d9f495968c7faf3100ff473da5030facec681fe4840419c"
+ },
+ "report_rendering": "byte_identical",
+ "receipt_transport_hash_pairs_verified": 6,
+ "diff_check": "passed",
+ "strict_host_raw_reaudit_executed": false,
+ "reason": "Retained Windows match/branch/NPZ files and original manifest bytes were not available locally."
+}

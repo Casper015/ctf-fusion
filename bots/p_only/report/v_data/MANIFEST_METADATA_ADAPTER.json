@@ -1,0 +1,16 @@
+{
+ "verified_utc": "2026-10-11T12:39:41Z",
+ "captured_raw_manifest_sha256": "fd1197f0376d710d2cff995a22086eeff674d32b358c141a1c25bae43c9e00c8",
+ "collection_raw_manifest_sha256": "0e29c3d34efc913902887284ca82577f584514aa027e0d1d8ae888e3c189828c",
+ "stable_manifest_sha256": "53d06e0a97a8928ff397276a2e30881cc19fe1f230af365b396646c914cbaee0",
+ "ignored_metadata_fields": [
+  "updated",
+  "variants.*.compile_seconds"
+ ],
+ "all_other_frozen_fields_exact": false,
+ "runner_and_inlined_sources_verified": true,
+ "reason": "Original controller compared selected frozen identity receipts and current source hashes, then hashed the current normalized manifest. No captured normalized manifest comparison was performed. The immutable original raw digest remains preserved.",
+ "verification_scope": "selected_frozen_identities_only",
+ "full_baseline_comparison": "not_performed_by_original_controller",
+ "unverified_scope": "original manifest nonvolatile content"
+}

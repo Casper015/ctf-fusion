@@ -1,0 +1,60 @@
+{
+ "match_counts": {
+  "2": 500,
+  "3": 500,
+  "4": 500,
+  "5": 500,
+  "6": 500,
+  "7": 500,
+  "8": 500,
+  "9": 500,
+  "10": 500,
+  "11": 500,
+  "12": 500,
+  "13": 500,
+  "14": 500,
+  "15": 500
+ },
+ "match_faults": 0,
+ "exact_schedule_and_root_key_coverage": true,
+ "map_splits_disjoint": true,
+ "frozen_identity_verified": true,
+ "root_content_manifest_sha256": "25162d6d9e2ad83d69b2460bb148f00dee8f673ed7e6f424512b28d605ddf93d",
+ "rank_npz": {
+  "train": {
+   "sha256": "982d9277a7ca1d2b629a6a838a08e752e4795455c19755dfc9cca0c1c9bc0a86",
+   "roots": 10992,
+   "candidates": 43968,
+   "maps": 5612,
+   "resolved_roots": 6018,
+   "all_uncertain_roots": 4974,
+   "internal_consistency_verified": true,
+   "source_row_alignment_verified": false,
+   "source_alignment_status": "pending_host_reaudit"
+  },
+  "val": {
+   "sha256": "5ff63e9f786e2ad42d523436e4b285f5d76a2e70b9c1f0bc76345e625d80f2d5",
+   "roots": 1356,
+   "candidates": 5424,
+   "maps": 692,
+   "resolved_roots": 727,
+   "all_uncertain_roots": 629,
+   "internal_consistency_verified": true,
+   "source_row_alignment_verified": false,
+   "source_alignment_status": "pending_host_reaudit"
+  },
+  "test": {
+   "sha256": "15d2dc2a96fc89294ac160ffaec9147b0d64f9a048e266a14f81c60e9326da2b",
+   "roots": 1354,
+   "candidates": 5416,
+   "maps": 688,
+   "resolved_roots": 740,
+   "all_uncertain_roots": 614,
+   "internal_consistency_verified": true,
+   "source_row_alignment_verified": false,
+   "source_alignment_status": "pending_host_reaudit"
+  }
+ },
+ "source_alignment_status": "pending_host_reaudit",
+ "source_alignment_note": "Historical audit checked internal array consistency; the stricter raw-score/metadata/feature audit has not been executed on retained host artifacts by this revision."
+}
