@@ -1,14 +1,14 @@
 ---
 id: T0011
 title: "P feature ablation: train p2 and p3 at XXL on identical data, offline comparison, export"
-status: open
-owner: ""
+status: active
+owner: codex@desktop-g60ojud
 needs: [cuda]
 writes: [reports/models/p_features/, inference/models_pf_p2xxl_vm/, inference/models_pf_p3xxl_vm/]
 depends: [T0009]
 land: pr
-branch: ""
-updated: 2026-10-10
+branch: codex/t0011-p-feature-ablation-train-p2-and-p3-at
+updated: 2026-10-11
 ---
 
 ## Goal
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-10 19:24Z claude@caspers-macbook: created
+- 2026-10-11 03:58Z codex@desktop-g60ojud: claimed
