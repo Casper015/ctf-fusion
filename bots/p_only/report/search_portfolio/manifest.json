@@ -1,0 +1,715 @@
+{
+ "variants": {
+  "c08_search_a": {
+   "name": "c08_search_a",
+   "carrier": "C08",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/c08_search_a.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 0,
+   "portfolio_moves": 0,
+   "ply2_mode": 0,
+   "stats": true,
+   "bundle": "build\\p_only\\src\\c08_search_a.cpp",
+   "bundle_sha256": "94309e29f97715e317c6361650f46245c115b9cd06329c44e5431d4f390e9a35",
+   "bundle_bytes": 48639351,
+   "binary": "build\\p_only\\bin\\c08_search_a-94309e29f977.exe",
+   "binary_sha256": "c76299fb5477489e0ea2832e61cdf3ad80ba4f88e71368030da410837a6fb72a",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\p_only\\bots\\variants\\c08_search_a.cpp",
+     "sha256": "70d7b3a0c9b328c7d81690df451ce9cad0dee39a2a66ce98f157136f521785b8"
+    },
+    {
+     "path": "bots\\p_only\\bots\\c08_ponly_f.hpp",
+     "sha256": "6356e4fb1f433a006b215b84e17bf2a07749540a1cd70ab680fea0b312efa18a"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "inference\\models_xxl\\registry.hpp",
+     "sha256": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_general.hpp",
+     "sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n02.hpp",
+     "sha256": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n03.hpp",
+     "sha256": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n04.hpp",
+     "sha256": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n05.hpp",
+     "sha256": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n06.hpp",
+     "sha256": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n07.hpp",
+     "sha256": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n08.hpp",
+     "sha256": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n10.hpp",
+     "sha256": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n12.hpp",
+     "sha256": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n15.hpp",
+     "sha256": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675"
+    }
+   ]
+  },
+  "c08_search_b": {
+   "name": "c08_search_b",
+   "carrier": "C08",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/c08_search_b.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 3,
+   "portfolio_moves": 3,
+   "ply2_mode": 0,
+   "stats": true,
+   "bundle": "build\\p_only\\src\\c08_search_b.cpp",
+   "bundle_sha256": "2791aebc3bbd7d090a781db1a5fbfea2e25609a32536d345f7755d66fe3b1600",
+   "bundle_bytes": 48639368,
+   "binary": "build\\p_only\\bin\\c08_search_b-2791aebc3bbd.exe",
+   "binary_sha256": "7c59ba65bfd32c571bb5b4d94ad7265c46cce032a08f20500c0a584e6269f943",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\p_only\\bots\\variants\\c08_search_b.cpp",
+     "sha256": "c3d03a5aac9c07ec18b976c54b84667077c5a51ec7c088550fd671c0fd71dffe"
+    },
+    {
+     "path": "bots\\p_only\\bots\\c08_ponly_f.hpp",
+     "sha256": "6356e4fb1f433a006b215b84e17bf2a07749540a1cd70ab680fea0b312efa18a"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "inference\\models_xxl\\registry.hpp",
+     "sha256": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_general.hpp",
+     "sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n02.hpp",
+     "sha256": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n03.hpp",
+     "sha256": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n04.hpp",
+     "sha256": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n05.hpp",
+     "sha256": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n06.hpp",
+     "sha256": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n07.hpp",
+     "sha256": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n08.hpp",
+     "sha256": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n10.hpp",
+     "sha256": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n12.hpp",
+     "sha256": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n15.hpp",
+     "sha256": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675"
+    }
+   ]
+  },
+  "c08_search_c": {
+   "name": "c08_search_c",
+   "carrier": "C08",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/c08_search_c.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 0,
+   "portfolio_moves": 0,
+   "ply2_mode": 1,
+   "stats": true,
+   "bundle": "build\\p_only\\src\\c08_search_c.cpp",
+   "bundle_sha256": "a6a76141693b6a31d8759617d7a97b0242e7070acfd34e81a20fb20130906f05",
+   "bundle_bytes": 48639359,
+   "binary": "build\\p_only\\bin\\c08_search_c-a6a76141693b.exe",
+   "binary_sha256": "6ac482d789e8db94b36425afa92a8e978f99fd45ac6597c6f7668960b4c939d8",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\p_only\\bots\\variants\\c08_search_c.cpp",
+     "sha256": "0f5ce70af0dc070e8c5b74c5baa6f7dbeb538075fcd0dd3bac2c4e1afa222aa1"
+    },
+    {
+     "path": "bots\\p_only\\bots\\c08_ponly_f.hpp",
+     "sha256": "6356e4fb1f433a006b215b84e17bf2a07749540a1cd70ab680fea0b312efa18a"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "inference\\models_xxl\\registry.hpp",
+     "sha256": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_general.hpp",
+     "sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n02.hpp",
+     "sha256": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n03.hpp",
+     "sha256": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n04.hpp",
+     "sha256": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n05.hpp",
+     "sha256": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n06.hpp",
+     "sha256": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n07.hpp",
+     "sha256": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n08.hpp",
+     "sha256": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n10.hpp",
+     "sha256": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n12.hpp",
+     "sha256": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n15.hpp",
+     "sha256": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675"
+    }
+   ]
+  },
+  "c08_search_d": {
+   "name": "c08_search_d",
+   "carrier": "C08",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/c08_search_d.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 3,
+   "portfolio_moves": 3,
+   "ply2_mode": 1,
+   "stats": true,
+   "bundle": "build\\p_only\\src\\c08_search_d.cpp",
+   "bundle_sha256": "3a0e1a7422ed6778fb2d8f66db3f36ad2e284f0011bab4291bd0803fb06f754b",
+   "bundle_bytes": 48639403,
+   "binary": "build\\p_only\\bin\\c08_search_d-3a0e1a7422ed.exe",
+   "binary_sha256": "1c3d61e1fd5916ed92b8ecdeef24ada2d81313aa9559fb351a33393c3435529e",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\p_only\\bots\\variants\\c08_search_d.cpp",
+     "sha256": "e3ae6ede79571a97837f837d927610dd1f7674dfb1d0dd93cb35b339b77389b5"
+    },
+    {
+     "path": "bots\\p_only\\bots\\c08_ponly_f.hpp",
+     "sha256": "6356e4fb1f433a006b215b84e17bf2a07749540a1cd70ab680fea0b312efa18a"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "inference\\models_xxl\\registry.hpp",
+     "sha256": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_general.hpp",
+     "sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n02.hpp",
+     "sha256": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n03.hpp",
+     "sha256": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n04.hpp",
+     "sha256": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n05.hpp",
+     "sha256": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n06.hpp",
+     "sha256": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n07.hpp",
+     "sha256": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n08.hpp",
+     "sha256": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n10.hpp",
+     "sha256": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n12.hpp",
+     "sha256": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n15.hpp",
+     "sha256": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675"
+    }
+   ]
+  },
+  "v12_search_a": {
+   "name": "v12_search_a",
+   "carrier": "V12",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/v12_search_a.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 0,
+   "portfolio_moves": 0,
+   "ply2_mode": 0,
+   "stats": true,
+   "bundle": "build\\p_only\\src\\v12_search_a.cpp",
+   "bundle_sha256": "cc926f7b611f38bb3c8ec8718a812d0fad4e2012de97637971b666648998f614",
+   "bundle_bytes": 48533388,
+   "binary": "build\\p_only\\bin\\v12_search_a-cc926f7b611f.exe",
+   "binary_sha256": "9cca9c100cd214022abe444936a04390c7274ab64bc5a1608a6e1053a5b1fc59",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\p_only\\bots\\variants\\v12_search_a.cpp",
+     "sha256": "b5153f65d8d8b6b3a527800fc412f4c5f688f4ed7ba832333796efe273a86371"
+    },
+    {
+     "path": "bots\\p_only\\bots\\v12_ponly_f.hpp",
+     "sha256": "5e1dd2504397dee8a8338fd994b77e19692c8a11261d395a1aca6700adc5346e"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "inference\\models_xxl\\registry.hpp",
+     "sha256": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_general.hpp",
+     "sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n02.hpp",
+     "sha256": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n03.hpp",
+     "sha256": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n04.hpp",
+     "sha256": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n05.hpp",
+     "sha256": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n06.hpp",
+     "sha256": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n07.hpp",
+     "sha256": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n08.hpp",
+     "sha256": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n10.hpp",
+     "sha256": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n12.hpp",
+     "sha256": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n15.hpp",
+     "sha256": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675"
+    }
+   ]
+  },
+  "v12_search_b": {
+   "name": "v12_search_b",
+   "carrier": "V12",
+   "role": "search",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/v12_search_b.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "portfolio_k": 3,
+   "portfolio_moves": 3,
+   "ply2_mode": 0,
+   "stats": true,
+   "bundle": "build\\p_only\\src\\v12_search_b.cpp",
+   "bundle_sha256": "2bbd38ffcf5a0c2daf0d93d5b6d2329ae55b4344ce0743d5684029ae5f16aa24",
+   "bundle_bytes": 48533405,
+   "binary": "build\\p_only\\bin\\v12_search_b-2bbd38ffcf5a.exe",
+   "binary_sha256": "e68bfbcc2b6d7a905efefd70d4cd9259c031144008cfdf818dcd28e394672255",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\p_only\\bots\\variants\\v12_search_b.cpp",
+     "sha256": "f998072ea2b3b0b0709b68cc3ada7f50a16187c8ebebc36063f047522f0e7458"
+    },
+    {
+     "path": "bots\\p_only\\bots\\v12_ponly_f.hpp",
+     "sha256": "5e1dd2504397dee8a8338fd994b77e19692c8a11261d395a1aca6700adc5346e"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "inference\\models_xxl\\registry.hpp",
+     "sha256": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_general.hpp",
+     "sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n02.hpp",
+     "sha256": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n03.hpp",
+     "sha256": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n04.hpp",
+     "sha256": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n05.hpp",
+     "sha256": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n06.hpp",
+     "sha256": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n07.hpp",
+     "sha256": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n08.hpp",
+     "sha256": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n10.hpp",
+     "sha256": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n12.hpp",
+     "sha256": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609"
+    },
+    {
+     "path": "inference\\models_xxl\\weights_n15.hpp",
+     "sha256": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675"
+    }
+   ]
+  }
+ },
+ "compiler": "g++.exe (GCC) 15.2.0",
+ "flags": [
+  "-std=c++20",
+  "-O2",
+  "-static"
+ ],
+ "host": "DESKTOP-G60OJUD",
+ "platform": "Windows-10-10.0.19045-SP0",
+ "updated": "2026-10-11T11:51:39"
+}

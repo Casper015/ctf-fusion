@@ -1,0 +1,149 @@
+{
+ "arm": "v12_search_a",
+ "compare_arm": "v12_search_b",
+ "roots": 195,
+ "maps": 195,
+ "root_statuses": {
+  "identical": 192,
+  "different": 3
+ },
+ "excluded": {},
+ "differs_share": 0.015384615384615385,
+ "difference": {
+  "mean": 0.0009324009324009322,
+  "lo": -0.000895104895104895,
+  "hi": 0.0027599067599067594,
+  "clusters": 195,
+  "verdict": "not shown"
+ },
+ "difference_where_differs": {
+  "mean": 0.06060606060606059,
+  "lo": -0.05818181818181816,
+  "hi": 0.17939393939393933,
+  "clusters": 3,
+  "verdict": "not shown"
+ },
+ "regret_incumbent": {
+  "mean": 0.11385789424250961,
+  "lo": 0.08874110649678682,
+  "hi": 0.1389746819882324,
+  "clusters": 195,
+  "verdict": "higher"
+ },
+ "regret_compare": {
+  "mean": 0.11292549331010869,
+  "lo": 0.08779218393821492,
+  "hi": 0.13805880268200246,
+  "clusters": 195,
+  "verdict": "higher"
+ },
+ "regret_difference": {
+  "mean": -0.0009324009324009322,
+  "lo": -0.0027599067599067594,
+  "hi": 0.000895104895104895,
+  "clusters": 195,
+  "verdict": "not shown"
+ },
+ "rank_incumbent_mean": 2.6974358974358976,
+ "rank_compare_mean": 2.682051282051282,
+ "by_teams": {
+  "2": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 15,
+   "verdict": "not shown"
+  },
+  "3": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 14,
+   "verdict": "not shown"
+  },
+  "4": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 15,
+   "verdict": "not shown"
+  },
+  "5": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 13,
+   "verdict": "not shown"
+  },
+  "6": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 14,
+   "verdict": "not shown"
+  },
+  "7": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 11,
+   "verdict": "not shown"
+  },
+  "8": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 12,
+   "verdict": "not shown"
+  },
+  "9": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 13,
+   "verdict": "not shown"
+  },
+  "10": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 15,
+   "verdict": "not shown"
+  },
+  "11": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 15,
+   "verdict": "not shown"
+  },
+  "12": {
+   "mean": 0.012121212121212118,
+   "lo": -0.011636363636363634,
+   "hi": 0.03587878787878787,
+   "clusters": 15,
+   "verdict": "not shown"
+  },
+  "13": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 13,
+   "verdict": "not shown"
+  },
+  "14": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 15,
+   "verdict": "not shown"
+  },
+  "15": {
+   "mean": 0.0,
+   "lo": 0.0,
+   "hi": 0.0,
+   "clusters": 15,
+   "verdict": "not shown"
+  }
+ }
+}

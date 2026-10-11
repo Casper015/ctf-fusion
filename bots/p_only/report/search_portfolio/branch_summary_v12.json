@@ -1,0 +1,43 @@
+{
+ "matches": {
+  "seen": 2240,
+  "skipped_other_arms": 1400,
+  "skipped_unknown_arm": 560,
+  "selected": 280
+ },
+ "roots": 195,
+ "dropped": {
+  "fewer than two legal candidates": 5
+ },
+ "candidates_by_source": {
+  "recorded": 195,
+  "move1": 622,
+  "drop": 67,
+  "transport": 134,
+  "move2": 458,
+  "target": 15,
+  "pickup_wait": 7,
+  "arm:v12_search_b": 3
+ },
+ "branches": 3002,
+ "prefix_mismatch": {
+  "sum": 7525,
+  "max": 68,
+  "branches_with_any": 228
+ },
+ "prefix_faults": 0,
+ "live_faults": 0,
+ "pairs": {
+  "resolved": 1850,
+  "unresolved": 3250
+ },
+ "compare_differs": 3,
+ "compare_status": {
+  "identical": 192,
+  "different": 3
+ },
+ "arm": "v12_search_a",
+ "compare_arm": "v12_search_b",
+ "candidates": 8,
+ "repeats": 2
+}
