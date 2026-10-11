@@ -1,13 +1,13 @@
 ---
 id: T0024
 title: "Board and docs consolidation: merge duplicate tasks, task summary, markdown digest and index"
-status: open
-owner: ""
+status: active
+owner: claude-ci@caspers-macbook
 needs: []
 writes: [tools/repo/task.py, tools/repo/md_index.py, tests/test_task_board.py, tests/test_md_index.py, docs/DIGEST.md, docs/MARKDOWN_INDEX.md, README.md, CONTRIBUTING.md, AGENTS.md, tasks/README.md, tools/README.md, bots/p_only/EXPERIMENTS.md]
 depends: []
 land: pr
-branch: ""
+branch: claude-ci/t0024-board-and-docs-consolidation-merge
 updated: 2026-10-11
 ---
 
@@ -28,3 +28,4 @@ Not started.
 ## Log
 
 - 2026-10-11 01:27Z claude-ci@caspers-macbook: created
+- 2026-10-11 01:27Z claude-ci@caspers-macbook: claimed
