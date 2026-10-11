@@ -1,13 +1,13 @@
 ---
 id: T0023
 title: "Use the public meow-ai-arena repo as the engine and judge-bot source (CI without a secret)"
-status: open
-owner: ""
+status: active
+owner: claude-ci@caspers-macbook
 needs: []
 writes: [fusion/paths.py, fusion/native.py, roster/strength.py, bots/p_only/tools/screen_runner.py, tests/test_pipeline.py, tests/test_roster.py, tests/test_value_pipeline.py, tests/test_arena_layout.py, ".github/", README.md, CONTRIBUTING.md, AGENTS.md, docs/TECHNICAL_OVERVIEW.md, docs/FIRST_RUN.md, training/specs/ENVIRONMENT.md, tools/README.md, tasks/README.md]
 depends: []
 land: pr
-branch: ""
+branch: claude-ci/t0023-use-the-public-meow-ai-arena-repo-as-the
 updated: 2026-10-11
 ---
 
@@ -28,3 +28,4 @@ Not started.
 ## Log
 
 - 2026-10-11 00:33Z claude-ci@caspers-macbook: created
+- 2026-10-11 00:33Z claude-ci@caspers-macbook: claimed
