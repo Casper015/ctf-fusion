@@ -7,7 +7,7 @@ python tools/repo/task.py list          # open, active, blocked and in-review ta
 python tools/repo/task.py list --all    # also done and dropped
 ```
 
-or open the `T*.md` files here on GitHub. The agent protocol around the board is in [AGENTS.md](../AGENTS.md).
+or read [SUMMARY.md](SUMMARY.md), the whole board on one page, which every board change rewrites. The agent protocol around the board is in [AGENTS.md](../AGENTS.md).
 
 ## Why a board instead of handoff prompts
 
@@ -62,5 +62,6 @@ The `#` comments above are only for this explanation. Real files have none. The 
 - **Add work:** `python tools/repo/task.py --as casper@mac new --title "..." --writes path/ [--needs host] [--depends T0003] --goal "..." --done-when "..."`. You can also write a file by hand in the format above. Commit and push it alone, and run `python tools/repo/task.py check` first.
 - **Answer a blocked task:** read its `Handoff`, then reply with `python tools/repo/task.py --as casper@mac note T0004 "Answer: use a new seed"`. The agent sees it on its next `show`.
 - **Change a task's lanes:** the owner runs `python tools/repo/task.py amend T0004 --writes path/`. It is refused while another active task writes there, and logged.
+- **Redefine or merge tasks:** `amend T0004 --title ... --goal ... --depends ...` (the owner, or anyone while nobody holds it). `merge T0018 T0017 --why "..."` folds a duplicate into the task that keeps going; both files point to each other.
 - **Reassign or stop work:** tell the owner in a note, or edit the file and push.
 - **Keep tasks small:** something one agent can finish and land in a day or two, with lanes as narrow as the work allows. Split big phases into several tasks with `depends`.

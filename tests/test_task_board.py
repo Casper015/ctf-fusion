@@ -39,6 +39,14 @@ class TestCommittedBoard(unittest.TestCase):
         self.assertEqual(meta["title"], "A: title, with commas")
         self.assertEqual(task.render(meta, body), text)
 
+    def test_lock_options_before_or_after_the_name(self):
+        self.assertEqual(task.split_lock_args(["--task", "T0019", "--", "python", "x.py"]), ("T0019", 0.0, ["python", "x.py"]))
+        self.assertEqual(task.split_lock_args(["--", "python", "-m", "a", "--", "b"]), ("", 0.0, ["python", "-m", "a", "--", "b"]))
+        self.assertEqual(task.split_lock_args(["--wait", "60", "--task", "T1", "--", "c"]), ("T1", 60.0, ["c"]))
+        self.assertEqual(task.split_lock_args(["python", "x.py"]), ("", 0.0, ["python", "x.py"]))
+        with self.assertRaisesRegex(task.BoardError, "unknown options"):
+            task.split_lock_args(["--bogus", "--", "c"])
+
     def test_dot_paths_keep_their_dot(self):
         self.assertEqual(task.norm(".github/"), ".github/")
         self.assertEqual(task.norm("./docs\\x.md"), "docs/x.md")
@@ -138,6 +146,58 @@ class TestConcurrentAgents(unittest.TestCase):
         with self.assertRaisesRegex(task.BoardError, "only the owner"):
             task.op_amend(self.board(self.b), "T0003", "claude@mac", ["docs/y.md"])
         self.assertIn("amended writes", self.board(self.a).tasks(self.board(self.a).fetch())["T0003"][2])
+
+    def test_every_board_change_rewrites_the_summary(self):
+        board = self.board(self.a)
+        task.op_claim(board, "T0003", "codex@host", set())
+        rev = board.fetch()
+        summary = task.git("show", f"{rev}:tasks/SUMMARY.md", cwd=self.a)
+        self.assertEqual(summary.strip(), task.render_summary(board.tasks(rev)).strip())
+        self.assertIn("1 active", summary)
+        errors, warnings = task.check(board.tasks(rev), summary)
+        self.assertEqual((errors, warnings), ([], []))
+        _, stale = task.check(board.tasks(rev), "# old summary")
+        self.assertTrue(any("SUMMARY.md is behind" in w for w in stale))
+
+    def test_merge_folds_duplicates_and_repoints_dependents(self):
+        t4 = task.op_new(self.board(self.b), "claude@mac", "Depends on the duplicate", [], ["docs/y.md"], ["T0002"], "direct", "", "")
+        self.assertEqual(task.op_merge(self.board(self.a), "T0001", ["T0002"], "codex@host", "same screen"), "T0001")
+        tasks = self.board(self.b).tasks(self.board(self.b).fetch())
+        _, keep, kbody = tasks["T0001"]
+        _, dup, dbody = tasks["T0002"]
+        self.assertEqual(dup["status"], "dropped")
+        self.assertIn("Merged into T0001", dbody)
+        self.assertEqual(keep["writes"], ["bots/p_only/", "bots/p_only/report/"])           # lanes carried over
+        self.assertIn("Merged from T0002", kbody)
+        self.assertIn("merged T0002 into this task (same screen)", kbody)
+        self.assertEqual(tasks[t4][1]["depends"], ["T0001"])                                # dependents re-pointed
+        self.assertIn("1 of them merged", task.git("show", "refs/remotes/origin/main:tasks/SUMMARY.md", cwd=self.b))
+        self.assertEqual(task.check(tasks)[0], [])
+
+    def test_merge_refuses_held_duplicates_and_losing_open_work(self):
+        task.op_claim(self.board(self.a), "T0003", "codex@host", set())
+        with self.assertRaisesRegex(task.BoardError, "held by codex@host"):
+            task.op_merge(self.board(self.b), "T0001", ["T0003"], "claude@mac")
+        task.op_update(self.board(self.a), "T0003", "codex@host", status="done", verb="done")
+        with self.assertRaisesRegex(task.BoardError, "would disappear"):
+            task.op_merge(self.board(self.b), "T0003", ["T0002"], "claude@mac")             # open work into a done task
+        task.op_update(self.board(self.b), "T0002", "claude@mac", status="dropped", verb="dropped")
+        task.op_merge(self.board(self.b), "T0003", ["T0002"], "claude@mac")                 # closed into closed
+        _, keep, _ = self.board(self.a).tasks(self.board(self.a).fetch())["T0003"]
+        self.assertEqual(keep["writes"], ["docs/"])                                       # its record is unchanged
+        with self.assertRaisesRegex(task.BoardError, "at least one duplicate"):
+            task.op_merge(self.board(self.b), "T0001", ["T0001"], "claude@mac")
+
+    def test_amend_definition_while_nobody_holds_it(self):
+        lanes = task.op_amend(self.board(self.b), "T0002", "claude@mac", title="Tune, narrowed", depends=["T0003"],
+                              goal="Only the tuning part; the screen moved to T0001.")
+        self.assertEqual(lanes, ["bots/p_only/"])
+        _, meta, body = self.board(self.a).tasks(self.board(self.a).fetch())["T0002"]
+        self.assertEqual((meta["title"], meta["depends"]), ("Tune, narrowed", ["T0003"]))
+        self.assertIn("Only the tuning part", body)
+        self.assertIn("amended depends -> T0003; title -> Tune, narrowed; goal", body)
+        with self.assertRaisesRegex(task.BoardError, "cannot depend on itself"):
+            task.op_amend(self.board(self.b), "T0002", "claude@mac", depends=["T0002"])
 
     def test_land_refuses_files_outside_the_lane(self):
         task.op_claim(self.board(self.a), "T0003", "codex@host", set())
