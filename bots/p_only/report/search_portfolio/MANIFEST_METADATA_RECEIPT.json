@@ -1,0 +1,9 @@
+{
+ "original_raw_sha256": "cbb6d66bbc3903277dece7ef9f32685ee83d5082fa994535387b4c002f7ac1e5",
+ "after_screen_raw_sha256": "a1a2351ca66ca74f057037c0355f320d48b9d48ee1147f8c11899e2e2095d27e",
+ "stable_sha256": "fc76cd7396d3c3e084197e7b7a9921006aa2121fb9ea79b598c3341780f9688c",
+ "ignored_metadata_fields_only": [
+  "updated",
+  "variants.*.compile_seconds"
+ ]
+}

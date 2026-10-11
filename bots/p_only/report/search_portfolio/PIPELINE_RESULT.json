@@ -1,0 +1,171 @@
+{
+ "completed_utc": "2026-10-11T21:36:29Z",
+ "source_commit": "05f4aca0acd2f4d31b101b9b71b4afa95c888330",
+ "games": 2240,
+ "scheduled_fixture_arm_coverage": true,
+ "branch_root_coverage": {
+  "v12": {
+   "expected_root_keys": 200,
+   "root_files": 200,
+   "summary_sha256": "7c942218eb2879f958829b5d1d4e1e5dde678ba0bc1b8ace172027c1e1398187"
+  },
+  "c08": {
+   "expected_root_keys": 200,
+   "root_files": 200,
+   "summary_sha256": "d840b205a9898fae215b25545d27a9f75bd593b783bb93354a1e26600beccaef"
+  }
+ },
+ "steps": [
+  {
+   "stage": "diagnostics",
+   "command": [
+    "python",
+    "bots/p_only/tools/search_diag.py",
+    "--matches",
+    "data/p_only/value/matches",
+    "--arm",
+    "v12_ponly_pxxl_vm",
+    "--games",
+    "60",
+    "--fixed-samples",
+    "128",
+    "--out",
+    "bots/p_only/report/search_portfolio/diag_fixed_work"
+   ],
+   "exit_code": 0,
+   "finished_utc": "2026-10-11T18:48:20Z",
+   "wall_seconds": 2286.127
+  },
+  {
+   "stage": "prepare",
+   "command": [
+    "python",
+    "bots/p_only/tools/run_screen.py",
+    "--config",
+    "bots/p_only/profiles/screen_search.json",
+    "--dry-run"
+   ],
+   "exit_code": 0,
+   "finished_utc": "2026-10-11T18:51:36Z",
+   "wall_seconds": 194.681
+  },
+  {
+   "stage": "screen",
+   "command": [
+    "python",
+    "bots/p_only/tools/run_screen.py",
+    "--config",
+    "bots/p_only/profiles/screen_search.json"
+   ],
+   "exit_code": 0,
+   "finished_utc": "2026-10-11T19:38:53Z",
+   "wall_seconds": 2836.848
+  },
+  {
+   "stage": "branches_v12",
+   "command": [
+    "python",
+    "bots/p_only/tools/branch_portfolio.py",
+    "--matches",
+    "data/p_only/search/matches",
+    "--arm",
+    "v12_search_a",
+    "--other-arms",
+    "c08_search_a",
+    "c08_search_b",
+    "c08_search_c",
+    "c08_search_d",
+    "v12_search_b",
+    "--compare-arm",
+    "v12_search_b",
+    "--out",
+    "data/branches/search_v12",
+    "--roots-per-match",
+    "1",
+    "--candidates",
+    "8",
+    "--repeats",
+    "2",
+    "--max-matches",
+    "200",
+    "--workers",
+    "6"
+   ],
+   "exit_code": 0,
+   "finished_utc": "2026-10-11T20:03:59Z",
+   "wall_seconds": 1499.107
+  },
+  {
+   "stage": "regret_v12",
+   "command": [
+    "python",
+    "bots/p_only/tools/branch_regret.py",
+    "--branches",
+    "data/branches/search_v12",
+    "--arm",
+    "v12_search_a",
+    "--compare-arm",
+    "v12_search_b",
+    "--out",
+    "bots/p_only/report/search_portfolio/regret_v12"
+   ],
+   "exit_code": 0,
+   "finished_utc": "2026-10-11T20:04:01Z",
+   "wall_seconds": 0.315
+  },
+  {
+   "stage": "branches_c08",
+   "command": [
+    "python",
+    "bots/p_only/tools/branch_portfolio.py",
+    "--matches",
+    "data/p_only/search/matches",
+    "--arm",
+    "c08_search_a",
+    "--other-arms",
+    "c08_search_b",
+    "c08_search_c",
+    "c08_search_d",
+    "v12_search_a",
+    "v12_search_b",
+    "--compare-arm",
+    "c08_search_d",
+    "--out",
+    "data/branches/search_c08",
+    "--roots-per-match",
+    "1",
+    "--candidates",
+    "8",
+    "--repeats",
+    "2",
+    "--max-matches",
+    "200",
+    "--workers",
+    "6"
+   ],
+   "exit_code": 0,
+   "finished_utc": "2026-10-11T21:36:19Z",
+   "wall_seconds": 5536.275
+  },
+  {
+   "stage": "regret_c08",
+   "command": [
+    "python",
+    "bots/p_only/tools/branch_regret.py",
+    "--branches",
+    "data/branches/search_c08",
+    "--arm",
+    "c08_search_a",
+    "--compare-arm",
+    "c08_search_d",
+    "--out",
+    "bots/p_only/report/search_portfolio/regret_c08"
+   ],
+   "exit_code": 0,
+   "finished_utc": "2026-10-11T21:36:27Z",
+   "wall_seconds": 0.781
+  }
+ ],
+ "formal_resource_policy": "exclusive CPU lease, passive observer, no caps or paging changes",
+ "production_default_changed": false
+}

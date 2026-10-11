@@ -1,0 +1,46 @@
+{
+ "checks": [
+  {
+   "exit_code": 0,
+   "check": 0,
+   "wall_seconds": 288.847102,
+   "command": [
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-t",
+    "."
+   ]
+  },
+  {
+   "exit_code": 0,
+   "check": 1,
+   "wall_seconds": 1059.2088974,
+   "command": [
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "bots/p_only/tests"
+   ]
+  },
+  {
+   "exit_code": 0,
+   "check": 2,
+   "wall_seconds": 101.3533703,
+   "command": [
+    "tools/repo/release_bots.py",
+    "--out",
+    "build/t0019/check_bundles",
+    "--check"
+   ]
+  }
+ ],
+ "ignored_log_sha256": {
+  "check_0.log": "88b5ab57f3ddebc2ccfe3a3aa1756713a881e969989be4fff71497b48bf63c26",
+  "check_1.log": "8342d74fd079d193b4883c1ac5ef6f35040ba33b90131875e1b6dafe5b51e299",
+  "check_2.log": "4f4384d188f9dcfce0a03abb847d4055d195b62b3ec180b775ca74dd0e3f3140"
+ }
+}
