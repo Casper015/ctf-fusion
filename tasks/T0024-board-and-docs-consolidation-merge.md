@@ -4,7 +4,7 @@ title: "Board and docs consolidation: merge duplicate tasks, task summary, markd
 status: active
 owner: claude-ci@caspers-macbook
 needs: []
-writes: [AGENTS.md, CONTRIBUTING.md, README.md, bots/p_only/EXPERIMENTS.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md, docs/handoffs/, reports/reviews/review_bundle_20261009/, roster/report/NEXT_AGENT_PROMPT.md, tasks/README.md, tests/test_md_index.py, tests/test_task_board.py, tools/README.md, tools/repo/md_index.py, tools/repo/task.py]
+writes: [".github/workflows/ci.yml", AGENTS.md, CONTRIBUTING.md, README.md, bots/p_only/EXPERIMENTS.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md, docs/handoffs/, reports/eval/tournament_1000_bt_report.md, reports/eval/v_ablation_report.md, reports/reviews/CARRIER_INTEGRATION_REPORT.md, reports/reviews/review_bundle_20261009/, roster/report/NEXT_AGENT_PROMPT.md, tasks/README.md, tests/test_md_index.py, tests/test_task_board.py, tools/README.md, tools/repo/md_index.py, tools/repo/task.py]
 depends: [T0009]
 land: pr
 branch: claude-ci/t0024-board-and-docs-consolidation-merge
@@ -45,3 +45,4 @@ Not started.
 - 2026-10-11 01:27Z claude-ci@caspers-macbook: created
 - 2026-10-11 01:27Z claude-ci@caspers-macbook: claimed
 - 2026-10-11 01:32Z claude-ci@caspers-macbook: merged T0015, T0008 into this task (the same documentation work: T0015's three doc edits and T0008's triage of the pre-board prompts are part of reading and summarising every markdown file)
+- 2026-10-11 01:51Z claude-ci@caspers-macbook: amended writes -> .github/workflows/ci.yml, AGENTS.md, CONTRIBUTING.md, README.md, bots/p_only/EXPERIMENTS.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md, docs/handoffs/, reports/eval/tournament_1000_bt_report.md, reports/eval/v_ablation_report.md, reports/reviews/CARRIER_INTEGRATION_REPORT.md, reports/reviews/review_bundle_20261009/, roster/report/NEXT_AGENT_PROMPT.md, tasks/README.md, tests/test_md_index.py, tests/test_task_board.py, tools/README.md, tools/repo/md_index.py, tools/repo/task.py

@@ -11,7 +11,7 @@ Someone holds these; their `writes` are reserved.
 | Task | Status | Owner | Title | Writes |
 |---|---|---|---|---|
 | [T0022](T0022-fresh-map-v3-xl-host-screen-against-v.md) | active | codex@desktop-g60ojud | Fresh-map V3-XL host screen against V off and V2-M | profiles/screen_v3xl_fresh.json, bots/p_only/report/v3xl_fresh/ |
-| [T0024](T0024-board-and-docs-consolidation-merge.md) | active | claude-ci@caspers-macbook | Board and docs consolidation: merge duplicate tasks, task summary, markdown digest and index | AGENTS.md, CONTRIBUTING.md, README.md, bots/p_only/EXPERIMENTS.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md, docs/handoffs/, reports/reviews/review_bundle_20261009/, roster/report/NEXT_AGENT_PROMPT.md, tasks/README.md, tests/test_md_index.py, tests/test_task_board.py, tools/README.md, tools/repo/md_index.py, tools/repo/task.py |
+| [T0024](T0024-board-and-docs-consolidation-merge.md) | active | claude-ci@caspers-macbook | Board and docs consolidation: merge duplicate tasks, task summary, markdown digest and index | .github/workflows/ci.yml, AGENTS.md, CONTRIBUTING.md, README.md, bots/p_only/EXPERIMENTS.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md, docs/handoffs/, reports/eval/tournament_1000_bt_report.md, reports/eval/v_ablation_report.md, reports/reviews/CARRIER_INTEGRATION_REPORT.md, reports/reviews/review_bundle_20261009/, roster/report/NEXT_AGENT_PROMPT.md, tasks/README.md, tests/test_md_index.py, tests/test_task_board.py, tools/README.md, tools/repo/md_index.py, tools/repo/task.py |
 | [T0027](T0027-decide-which-pre-board-evidence-steps.md) | blocked | claude-ci@caspers-macbook | Decide which pre-board evidence steps are still wanted | docs/DIGEST.md |
 
 ## Ready to claim
