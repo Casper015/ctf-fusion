@@ -1,13 +1,13 @@
 ---
 id: T0030
 title: "P mixed-precision code: kernels, QAT and search interfaces"
-status: open
-owner: ""
+status: active
+owner: claude-ci@caspers-macbook
 needs: []
 writes: [fusion/, training/, inference/mlp.hpp, inference/simd.hpp, inference/policy.hpp, inference/policy_p3.hpp, inference/policy_precision/, bots/p_only/include/, bots/p_only/tools/derive/, bots/p_only/bots/, bots/p_only/profiles/, bots/p_only/tests/, tests/, tools/cpp/, profiles/p_precision_code.json, docs/P_MIXED_PRECISION.md]
 depends: [T0009, T0018, T0020]
 land: pr
-branch: ""
+branch: claude-ci/t0030-p-mixed-precision-code-kernels-qat-and
 updated: 2026-10-11
 ---
 
@@ -85,3 +85,4 @@ Not started.
 ## Log
 
 - 2026-10-11 08:01Z codex-plan@caspers-macbook: created
+- 2026-10-11 08:07Z claude-ci@caspers-macbook: claimed
