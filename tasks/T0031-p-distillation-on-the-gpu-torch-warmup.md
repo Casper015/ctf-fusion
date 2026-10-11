@@ -1,13 +1,13 @@
 ---
 id: T0031
 title: "P distillation on the GPU: torch warmup/distill stages and T0011 cache reader"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [training/distill_policy.py, fusion/torch_qat.py, tests/test_distill_gpu.py]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0031-p-distillation-on-the-gpu-torch-warmup
 updated: 2026-10-11
 ---
 
@@ -28,3 +28,4 @@ Not started.
 - 2026-10-11 19:17Z claude@caspers-macbook: created
 - 2026-10-11 19:17Z claude@caspers-macbook: amended depends -> none
 - 2026-10-11 19:17Z claude@caspers-macbook: note: Depends on T0030's code, which is on main (PR #22 merged 4368fd1); T0030 itself is still 'review' under its owner, so the board dependency was dropped instead of forcing it.
+- 2026-10-11 19:17Z claude@caspers-macbook: claimed
