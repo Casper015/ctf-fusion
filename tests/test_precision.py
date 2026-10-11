@@ -370,15 +370,15 @@ class Distillation(unittest.TestCase):
             w.close()
             with self.assertRaises(ValueError):
                 D.TeacherShard(Path(tmp), {"family": "p3"})
-            sh = D.TeacherShard(Path(tmp), {"family": "p2"})
-            X = policy_batch(d["rec"][:16], L, True, "p2")
-            sh.batch(0, ids[:16], X, mv[:16])
-            with self.assertRaises(ValueError):
-                sh.batch(0, ids[:16] + 1, X, mv[:16])
-            with self.assertRaises(ValueError):
-                sh.batch(0, ids[:16], X, (mv[:16] + 1) % 5)
-            with self.assertRaises(ValueError):
-                sh.batch(0, ids[:16], policy_batch(d["rec"][16:32], L, True, "p2"), mv[:16])
+            with D.TeacherShard(Path(tmp), {"family": "p2"}) as sh:
+                X = policy_batch(d["rec"][:16], L, True, "p2")
+                sh.batch(0, ids[:16], X, mv[:16])
+                with self.assertRaises(ValueError):
+                    sh.batch(0, ids[:16] + 1, X, mv[:16])
+                with self.assertRaises(ValueError):
+                    sh.batch(0, ids[:16], X, (mv[:16] + 1) % 5)
+                with self.assertRaises(ValueError):
+                    sh.batch(0, ids[:16], policy_batch(d["rec"][16:32], L, True, "p2"), mv[:16])
         with tempfile.TemporaryDirectory() as tmp:
             w = D.TeacherShardWriter(Path(tmp), 32, 8, {"family": "p2"})
             with self.assertRaises(ValueError):

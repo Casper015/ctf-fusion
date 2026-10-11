@@ -159,7 +159,10 @@ def bench_binary(header_path: Path, namespace: str) -> Path:
     h = hashlib.sha256(header_path.read_bytes() + tool.read_bytes() + " ".join(FLAGS).encode())
     for dep in sorted((REPO / "inference" / "policy_precision").glob("*.hpp")) + sorted((REPO / "inference").glob("*.hpp")):
         h.update(dep.read_bytes())
-    out = BUILD / f"precision_bench_{namespace}_{h.hexdigest()[:12]}"
+    from fusion.runner import EXE  # noqa: PLC0415
+
+    safe = "".join(c if c.isalnum() else "_" for c in namespace)   # "fusion::lpmodels::x": no colons in file names
+    out = BUILD / f"precision_bench_{safe}_{h.hexdigest()[:12]}{EXE}"
     if not out.is_file():
         cmd = [compiler(), *FLAGS, f"-DPBENCH_NS={namespace}", f"-I{REPO / 'inference'}", "-include", str(header_path),
                str(tool), "-o", str(out)]

@@ -116,15 +116,25 @@ class TeacherShardWriter:
         self.filled += n
 
     def close(self) -> dict:
+        """Flush, write IDENTITY.json and release the mapped files (Windows cannot delete a mapped file)."""
         if self.filled != self.identity["rows"]:
+            self.release()
             raise ValueError(f"shard incomplete: {self.filled} of {self.identity['rows']} rows")
         for v in self.arr.values():
             v.flush()
         ident = self.identity | {"row_digest": _digest(np.asarray(self.arr["row"])),
                                  "mask_digest": _digest(*(np.asarray(self.arr[k]) for k in ("joint_mask", "act_mask", "target_mask"))),
                                  "context_digest": _digest(np.asarray(self.arr["move"]))}
+        self.release()
         (self.out / "IDENTITY.json").write_text(json.dumps(ident, indent=1, sort_keys=True), encoding="utf-8")
         return ident
+
+    def release(self) -> None:
+        for v in self.arr.values():
+            mm = getattr(v, "_mmap", None)
+            if mm is not None:
+                mm.close()
+        self.arr = {}
 
 
 class TeacherShard:
@@ -139,6 +149,20 @@ class TeacherShard:
         self.arr = {k: np.load(self.path / f"{k}.npy", mmap_mode="r") for k in
                     ("row", "joint", "act", "target", "joint_mask", "act_mask", "target_mask", "move")}
 
+    def close(self) -> None:
+        """Release the mapped files (Windows cannot delete a file that is still mapped)."""
+        for v in self.arr.values():
+            mm = getattr(v, "_mmap", None)
+            if mm is not None:
+                mm.close()
+        self.arr = {}
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.close()
+
     def batch(self, start: int, row_ids: np.ndarray, X: PolicyBatch, move: np.ndarray) -> dict[str, np.ndarray]:
         sl = slice(start, start + len(row_ids))
         if not np.array_equal(self.arr["row"][sl], row_ids):
@@ -149,7 +173,7 @@ class TeacherShard:
         for k, m in (("joint_mask", jm), ("act_mask", am), ("target_mask", tm)):
             if not np.array_equal(self.arr[k][sl], m):
                 raise ValueError(f"{k} mismatch between the teacher shard and the student batch")
-        return {k: np.asarray(self.arr[k][sl]) for k in ("joint", "act", "target")}
+        return {k: np.array(self.arr[k][sl]) for k in ("joint", "act", "target")}   # copies: the mapping may close
 
 
 # ------------------------------------------------------------------------------------------------- losses

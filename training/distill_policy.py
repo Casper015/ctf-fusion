@@ -53,6 +53,14 @@ class RowCache:
             raise ValueError(f"{path}: fields of different lengths {n}")
         self.rows = n["rec"]
 
+    def close(self) -> None:
+        """Release the mapped files (Windows cannot delete a file that is still mapped)."""
+        for v in self.arr.values():
+            mm = getattr(v, "_mmap", None)
+            if mm is not None:
+                mm.close()
+        self.arr = {}
+
     def identity(self) -> str:
         h = hashlib.sha256(f"{self.rows}|{self.arr['rec'].shape}".encode())
         h.update(np.ascontiguousarray(self.arr["row"]).tobytes())
@@ -229,10 +237,14 @@ def toy(out: Path, with_torch: bool) -> dict:
                               device="cpu", optimizer="adam")
     res = {"teacher": shard_ident}
     student = load_student(layout, "s", "p2", None, 0)
-    res["warmup"] = train("warmup", student, layout, cache, args, None, out / "warmup")
-    res["distill"] = train("distill", student, layout, cache, args, shard, out / "distill")
-    if with_torch:
-        res["qat"] = train("qat", student, layout, cache, args, shard, out / "qat")
+    try:
+        res["warmup"] = train("warmup", student, layout, cache, args, None, out / "warmup")
+        res["distill"] = train("distill", student, layout, cache, args, shard, out / "distill")
+        if with_torch:
+            res["qat"] = train("qat", student, layout, cache, args, shard, out / "qat")
+    finally:
+        shard.close()
+        cache.close()
     return res
 
 
