@@ -1,0 +1,73 @@
+{
+ "_comment": "T0022 fresh-map screen of the already trained designated-seat V3-XL (inference/models_pxxl_v3xl) in the complete C08 bot. Unseen seed 20261240 (20261230 went to T0019's screen_search.json; never reuse 20261009, 20261020, 20261031, 20261101, 20261102, 20261107, 20261108, 20261220, nor the reserved 20261201, 20261210, 20261211). All four arms use the identical frozen p2 XXL policy arrays. c08_ponly_pxxl_v3xl / _v3xl_v are the family carrier (c08_ponly_f.hpp, T0018 portfolio and per-branch ply 2 off by default); c08_ponly_pxxl_vm / _vm_v are the legacy production carrier (c08_ponly.hpp). Primary: V3-XL minus V off on the family carrier. V2-M minus V off on the legacy carrier and the difference of the two V gains compare the models without a carrier change; V3-XL minus V2-M is the deployed-bot comparison (model and carrier differ); legacy minus family carrier with V off measures the carrier difference. Screening only; confirmation needs T0006.",
+ "seed": 20261240,
+ "teams": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "maps_per_count": 50,
+ "workers": 4,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "keep_matches": true,
+ "reference": [
+  "Astra",
+  "Sol",
+  "Fable",
+  "Sonnet",
+  "Opus",
+  "DeepSeek",
+  "Qwen",
+  "MiMo",
+  "Kimi",
+  "GLM",
+  "Player5",
+  "Baseline",
+  "Player4",
+  "Player2_v005"
+ ],
+ "arms": [
+  "c08_ponly_pxxl_v3xl",
+  "c08_ponly_pxxl_v3xl_v",
+  "c08_ponly_pxxl_vm",
+  "c08_ponly_pxxl_vm_v"
+ ],
+ "aa": [
+  "c08_ponly_pxxl_v3xl_v"
+ ],
+ "comparisons": [
+  [
+   "c08_ponly_pxxl_v3xl_v",
+   "c08_ponly_pxxl_v3xl"
+  ],
+  [
+   "c08_ponly_pxxl_vm_v",
+   "c08_ponly_pxxl_vm"
+  ],
+  [
+   "c08_ponly_pxxl_v3xl_v",
+   "c08_ponly_pxxl_vm_v"
+  ],
+  [
+   "c08_ponly_pxxl_vm",
+   "c08_ponly_pxxl_v3xl"
+  ]
+ ],
+ "contrasts": {
+  "V3-XL gain minus V2-M gain (each against its own V off)": "c08_ponly_pxxl_v3xl_v-c08_ponly_pxxl_v3xl-c08_ponly_pxxl_vm_v+c08_ponly_pxxl_vm"
+ },
+ "work_dir": "data/p_only/v3xl_fresh",
+ "report_dir": "bots/p_only/report/v3xl_fresh"
+}
