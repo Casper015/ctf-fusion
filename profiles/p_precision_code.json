@@ -1,0 +1,40 @@
+{
+  "_comment": "Experimental mixed-precision opponent policy P (task T0030, docs/P_MIXED_PRECISION.md). Profiles mirror fusion/precision.py PROFILES (tests/test_precision.py keeps them equal). Nothing here is a default of any bot: carriers select reference16 (the existing INT16 export) unless built with PONLY_PRECISION=1 and PONLY_PRECISION_ROUTE=1. No training, export, timing or game has been run with these settings.",
+  "format": "pprec-1",
+  "block": 32,
+  "profiles": {
+    "reference16": {"legacy": true, "default": 16, "rules": []},
+    "uniform8": {"legacy": false, "default": 8, "rules": []},
+    "mixed4_8": {"legacy": false, "default": 8, "rules": [{"head": "squad", "layers": "hidden", "bits": 4}]}
+  },
+  "calibration": {
+    "splits": ["train", "val"],
+    "refused_splits": ["test", "confirm", "confirmation", "holdout", "ood"],
+    "statistic": "per-input second moment E[x^2] of every layer input (raw integers for first layers, 0..128 activations for hidden layers)",
+    "sources": ["recorded rows", "recorded or synthetic successor states"],
+    "rare_contexts": ["carrier", "low_hp", "pickup", "drop", "delivery", "combat"]
+  },
+  "distillation": {
+    "student": "xxl",
+    "teacher": "6xl (teacher only, never exported)",
+    "alpha": 0.5,
+    "tau": 1.0,
+    "loss": "alpha * CE(recorded label) + (1 - alpha) * tau^2 * KL(teacher_tau || student / tau), per head (joint, act and target at the recorded moves)",
+    "stages": ["warmup", "distill", "qat"],
+    "status": "starting values to validate later; not tuned"
+  },
+  "routing": {
+    "enabled_by_default": false,
+    "high": "reference16",
+    "screen": "uniform8",
+    "quiet_deep": "mixed4_8",
+    "quiet_depth": 2,
+    "high_precision_cases": ["root", "carrier event", "death event", "delivery event", "drop event", "close comparison", "final verification"]
+  },
+  "future_ablation": [
+    "INT16 reference (current)",
+    "uniform8",
+    "fixed mixed4_8",
+    "adaptive precision (screen low, verify high)"
+  ]
+}

@@ -245,3 +245,23 @@ def registry_check(models_dir: Path) -> Path:
     width = max((model_buffer_width(p) for p in deps), default=256)
     return build(REPO / "tools" / "cpp" / "registry_check.cpp", "registry_check", deps=deps,
                  defines=[f"FUSION_MAX_WIDTH={width}"], includes=[models_dir, REPO / "inference"])
+
+
+def precision_check(case_header: str, defines=()) -> Path:
+    """The low-bit kernel parity driver (tools/cpp/precision_check.cpp) compiled against a generated case header
+    (task T0030). The case is written under build/precision_case/<hash>/; its text keys the build cache."""
+    key = hashlib.sha256(case_header.encode()).hexdigest()[:16]
+    case_dir = BUILD / "precision_case" / key
+    case_dir.mkdir(parents=True, exist_ok=True)
+    case = case_dir / "precision_case.hpp"
+    if not case.is_file() or case.read_text(encoding="utf-8") != case_header:
+        case.write_text(case_header, encoding="utf-8", newline="\n")
+    deps = [case, *sorted((REPO / "inference" / "policy_precision").glob("*.hpp"))]
+    return build(REPO / "tools" / "cpp" / "precision_check.cpp", f"precision_check_{key}", deps=deps,
+                 defines=list(defines), includes=[case_dir, REPO / "inference"])
+
+
+def precision_routing_check() -> Path:
+    """Contracts of precision routing, caches and verification on synthetic states (tools/cpp/precision_routing_check.cpp)."""
+    return build(REPO / "tools" / "cpp" / "precision_routing_check.cpp", "precision_routing_check",
+                 deps=sorted((REPO / "inference" / "policy_precision").glob("*.hpp")), includes=[REPO / "inference"])

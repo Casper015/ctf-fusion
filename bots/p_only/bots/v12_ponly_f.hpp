@@ -96,12 +96,28 @@ inline std::string ponlyActionText(int target, bool carrying) {
     if (target == -3) return carrying ? "X" : "-";
     return "-";
 }
+// PONLY_PRECISION 1: precision-aware views and routing (task T0030); 0: INT16 everywhere, as before.
+// PONLY_PRECISION_ROUTE 1 (with PONLY_PRECISION): the selector is enabled (default: Reference16 everywhere).
+#ifndef PONLY_PRECISION
+#define PONLY_PRECISION 0
+#endif
+#ifndef PONLY_PRECISION_ROUTE
+#define PONLY_PRECISION_ROUTE 0
+#endif
 #include "combat.hpp"
 #if PONLY_POLICY_FAMILY == 3
+#if PONLY_PRECISION
+#include "ponly_p3_precision.hpp"
+#else
 #include "ponly_p3.hpp"
+#endif
 #define PONLY_RULES_TO(v) ((v).rules = rules)
 #else
+#if PONLY_PRECISION
+#include "ponly_precision.hpp"
+#else
 #include "ponly.hpp"
+#endif
 #define PONLY_RULES_TO(v) ((void)0)
 #endif
 #if PONLY_VALUE_FAMILY == 3

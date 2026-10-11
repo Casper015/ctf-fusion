@@ -10,6 +10,7 @@ import os
 import tempfile
 import types
 import unittest
+from pathlib import Path
 
 import numpy as np
 
@@ -321,6 +322,97 @@ class TestTorchBackend(unittest.TestCase):
             self.assertEqual(run.config["backend"]["backend"], "torch")
             from training.train_policy import evaluate  # noqa: PLC0415
             self.assertAlmostEqual(evaluate(model, self.layout, d, CFG)[0], best, places=4)   # the numpy model holds the best weights
+
+
+@unittest.skipIf(torch is None, "PyTorch not installed (optional backend)")
+class TestQuantizationAwareTraining(unittest.TestCase):
+    """fusion/torch_qat.py (task T0030): fake quantization is the deployment's arithmetic, not an approximation."""
+
+    HIDDEN = {"mover": [16], "squad": [64, 40], "act": [16], "target": [8]}
+
+    @classmethod
+    def setUpClass(cls):
+        from fusion import policy_distill, precision, torch_qat  # noqa: PLC0415
+        from training.distill_policy import synthetic_rows  # noqa: PLC0415
+        cls.P, cls.Q, cls.D = precision, torch_qat, policy_distill
+        cls.layout = feature_layout()
+        cls.dev = torch.device(DEVICE)
+        cls.d = synthetic_rows(cls.layout, 48, seed=31)
+
+    def models(self, family):
+        return PolicyNet(self.layout, np.random.default_rng(3), self.HIDDEN, family)
+
+    def test_quantizer_matches_numpy(self):
+        for family in ("p2", "p3"):
+            pol = self.models(family)
+            for profile in ("uniform8", "mixed4_8"):
+                qp = self.P.quantize_policy(pol, self.layout, profile)
+                qat = self.Q.QATPolicy(pol, self.layout, profile, self.dev)
+                for h in self.P.HEADS:
+                    for t, n in zip(qat.heads[h].quantized(), qp["nets"][h]["layers"]):
+                        with self.subTest(family=family, profile=profile, head=h):
+                            np.testing.assert_array_equal(t["q"].cpu().numpy(), n["q"].astype(np.int64))
+                            np.testing.assert_array_equal(t["d"].cpu().numpy(), n["d"].astype(np.int64))
+                            np.testing.assert_array_equal(t["B"].cpu().numpy(), n["b"].astype(np.int64))
+                            if n["hidden"]:
+                                np.testing.assert_array_equal(t["mult"].cpu().numpy(), n["mult"].astype(np.int64))
+                                self.assertEqual(t["rshift"], n["rshift"])
+                            else:
+                                np.testing.assert_array_equal(t["out_scale"].cpu().numpy(), n["out_scale"])
+
+    def test_forward_is_the_deployed_arithmetic(self):
+        for family in ("p2", "p3"):
+            pol = self.models(family)
+            X = policy_batch(self.d["rec"], self.layout, normalize=False, family=family)
+            mv = self.d["y_move"].astype(np.int64)
+            for profile in ("uniform8", "mixed4_8"):
+                qp = self.P.quantize_policy(pol, self.layout, profile)
+                qat = self.Q.QATPolicy(pol, self.layout, profile, self.dev)
+                for h, x in (("mover", X.mover_in), ("squad", X.squad_in), ("act", X.act_in(mv)), ("target", X.target_in(mv))):
+                    exact = qat.heads[h].forward(torch.tensor(np.asarray(x, np.int64), device=self.dev), exact_only=True)
+                    with self.subTest(family=family, profile=profile, head=h):
+                        np.testing.assert_array_equal(exact.cpu().numpy(), self.P.head_forward(qp, h, x))
+                zj, _, _ = qat.logits(self.Q.tensors(X, self.dev), torch.tensor(mv, device=self.dev))
+                np.testing.assert_allclose(zj.detach().cpu().numpy(), self.P.joint_logits(qp, X).astype(np.float32), rtol=0, atol=1e-5)
+
+    def test_gradients_flow_through_the_surrogate(self):
+        pol = self.models("p2")
+        qat = self.Q.QATPolicy(pol, self.layout, "mixed4_8", self.dev)
+        X = self.Q.tensors(policy_batch(self.d["rec"], self.layout, normalize=False), self.dev)
+        y = {k: torch.tensor(self.d[k].astype(np.int64), device=self.dev) for k in LABELS}
+        cfg = self.D.DistillConfig(alpha=1.0)
+        loss, _ = self.Q.qat_loss(qat, X, y, torch.tensor(self.d["weight"], device=self.dev), None, cfg)
+        loss.backward()
+        for h in self.P.HEADS:
+            for w in qat.heads[h].t.W:
+                with self.subTest(head=h):
+                    self.assertTrue(torch.isfinite(w.grad).all())
+                    self.assertGreater(float(w.grad.abs().sum()), 0.0)
+
+    def test_teacher_kl_matches_numpy(self):
+        rng = np.random.default_rng(5)
+        z = rng.normal(0, 2, (16, 9))
+        mask = rng.random((16, 9)) < 0.7
+        mask[3] = False                                        # an empty mask contributes nothing
+        logits = np.where(mask, rng.normal(0, 1, (16, 9)), -np.inf)
+        p = np.exp(logits - logits.max(-1, keepdims=True))
+        p = np.where(mask, p, 0.0)
+        p = p / np.maximum(p.sum(-1, keepdims=True), 1e-300)
+        w = rng.uniform(0.5, 2.0, 16)
+        ref, grad = self.D.kl_term(z, p, mask, w, 2.0)
+        zt = torch.tensor(z, requires_grad=True)
+        val = self.Q.kl_term(zt, torch.tensor(p), torch.tensor(mask), torch.tensor(w), 2.0)
+        val.backward()
+        self.assertAlmostEqual(float(val), ref, places=9)
+        np.testing.assert_allclose(zt.grad.numpy(), grad, rtol=0, atol=1e-12)
+
+    def test_toy_pipeline_runs_every_stage(self):
+        from training import distill_policy  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as tmp:
+            res = distill_policy.toy(Path(tmp), with_torch=True)
+        self.assertEqual(res["qat"]["config"]["profile"], "mixed4_8")
+        self.assertGreater(res["qat"]["receipt"]["steps"], 0)
+        self.assertTrue(np.isfinite(res["qat"]["receipt"]["final"]["total"]))
 
 
 if __name__ == "__main__":
