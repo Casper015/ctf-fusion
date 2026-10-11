@@ -77,13 +77,22 @@ class SearchPortfolio(unittest.TestCase):
             self.assertIsNotNone(parse_reply(reply, int(turn)), f"turn {turn}: {reply!r} is not a valid order")
 
     # ------------------------------------------------------------------ defaults
+    def untruncated(self, name: str, carrier: str, defines: list[str], game: str, family: bool, attempts: int = 4):
+        """A fixed-work replay that no wall-clock deadline cut (C08's 35 ms hard deadline can bind under load,
+        for the production carrier too); None when every attempt was cut."""
+        for _ in range(attempts):
+            rows, truncated, _ = self.replay(name, carrier, defines, game, family=family)
+            if not truncated:
+                return rows
+        return None
+
     def test_defaults_reply_as_production(self):
         for carrier, fixed in (("V12", []), ("C08", ["-DPONLY_FIXED_SAMPLES=64"])):
             for game in ("n02", "n04"):
-                prod, t1, _ = self.replay(f"prod_{carrier}", carrier, fixed, game, family=False)
-                fam, t2, _ = self.replay(f"fam_{carrier}", carrier, fixed, game)
-                if t1 or t2:
-                    self.skipTest("a deadline truncated the fixed-work search: equivalence not testable here")
+                prod = self.untruncated(f"prod_{carrier}", carrier, fixed, game, family=False)
+                fam = self.untruncated(f"fam_{carrier}", carrier, fixed, game, family=True)
+                if prod is None or fam is None:
+                    self.skipTest("a deadline truncated every fixed-work attempt: equivalence not testable on this machine now")
                 with self.subTest(carrier=carrier, game=game):
                     self.assertEqual(prod, fam)
 
@@ -177,6 +186,47 @@ class SearchPortfolio(unittest.TestCase):
         self.assertGreater(pd["diag_pairs"], 0)
         self.assertGreater(pd["diag_move_diff"], 0, "branch successors never changed a ply-2 prediction")
 
+    def rank_cases(self, mode: int) -> dict:
+        exe = self.build("rank_deadline_test.cpp", f"rank_deadline_{mode}", ["-DPONLY_FAMILIES", f"-DPONLY_PLY2_MODE={mode}"])
+        out = {}
+        for line in subprocess.run([str(exe)], capture_output=True, text=True, check=True).stdout.splitlines():
+            tok = line.split()
+            out[tok[1]] = {tok[i]: int(tok[i + 1]) for i in range(2, len(tok) - 1, 2)}
+        return out
+
+    def test_rank_deadlines_per_branch_and_diagnostic(self):
+        """Injected clock, 1 ms per prediction (rank_deadline_test.cpp): no prediction starts past the deadline, an
+        interrupted sweep is discarded whole, nothing completed means no ranking (the caller keeps its incumbent),
+        completed samples still rank, on the uniform and the halving paths."""
+        for mode, plans in ((1, {"uniform": 3, "halving": 4}), (2, {"uniform": 3, "halving": 4})):
+            cases = self.rank_cases(mode)
+            for name, c in cases.items():
+                with self.subTest(mode=mode, case=name):
+                    self.assertEqual(c["late"], 0, "a prediction started at or after the deadline")
+                    self.assertEqual(c["finite"], 1)
+                    width = plans[name.split("_")[0]]
+                    if name == "halving_fixed":  # round 0 sweeps 4 plans 4 times, round 1 the 2 survivors 4 times
+                        self.assertEqual(c["rollouts"], 4 * 4 + 4 * 2)
+                    else:  # uniform, or interrupted in round 0: every plan has every committed sample
+                        self.assertEqual(c["rollouts"], c["samples"] * width, "unequal committed samples")
+            for path in ("uniform", "halving"):
+                first, partial, fixed = cases[f"{path}_first"], cases[f"{path}_partial"], cases[f"{path}_fixed"]
+                with self.subTest(mode=mode, path=path):
+                    self.assertEqual((first["calls"], first["samples"], first["returned"], first["aborted"]), (1, 0, 0, 1))
+                    self.assertEqual(first["truncated"], 1)
+                    self.assertGreater(partial["samples"], 0)
+                    self.assertEqual(partial["returned"], plans[path])
+                    self.assertEqual(partial["aborted"], 1)
+                    self.assertGreater(partial["discarded"], 0)
+                    self.assertEqual(partial["truncated"], 1)
+                    self.assertEqual((fixed["aborted"], fixed["discarded"], fixed["truncated"]), (0, 0, 0))
+                    self.assertEqual(fixed["samples"], 4 if path == "uniform" else 8)
+        # Mode 0 keeps the current checks: one shared prediction per sample, a deadline checked before each sample.
+        ref = self.rank_cases(0)
+        self.assertEqual(ref["uniform_fixed"]["samples"], 4)
+        self.assertEqual(ref["uniform_first"]["calls"], ref["uniform_first"]["samples"])
+        self.assertEqual(ref["uniform_first"]["aborted"], 0)
+
     def test_cache_keys_are_exact_states(self):
         exe = self.build("ply2_cache_test.cpp", "ply2_cache", ["-DPONLY_FAMILIES"])
         out = dict(((t[0], t[1]), int(t[2])) for t in (l.split() for l in subprocess.run([str(exe)], capture_output=True, text=True,
@@ -230,7 +280,8 @@ class SearchVariantsAndReports(unittest.TestCase):
         import json  # noqa: PLC0415
         screen = json.loads((REPO / "bots" / "p_only" / "profiles" / "screen_search.json").read_text(encoding="utf-8"))
         self.assertTrue(set(screen["arms"]) <= {v["name"] for v in variants})
-        self.assertNotIn(screen["seed"], (20261009, 20261020, 20261031, 20261101, 20261102, 20261107, 20261108, 20261201, 20261210, 20261211))
+        self.assertNotIn(screen["seed"], (20261009, 20261020, 20261031, 20261101, 20261102, 20261107, 20261108, 20261201, 20261210,
+                                          20261211, 20261220))  # 20261220: consumed by T0016's 5XL screens
 
     def test_analysis_reads_the_counters(self):
         import json  # noqa: PLC0415

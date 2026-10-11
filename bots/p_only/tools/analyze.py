@@ -166,6 +166,8 @@ def counters(matches: Path, arm_keys: dict) -> dict:
                            "prediction_ms_per_search": round(1000 * e.get("ply2.seconds", 0) / calls, 3),
                            "view_builds_per_search": round(e.get("ply2.view_builds", 0) / calls, 1),
                            "view_hit_share": round(e.get("ply2.view_hits", 0) / e["ply2.view_calls"], 4) if e.get("ply2.view_calls") else None,
+                           "aborted_sweeps": int(e.get("ply2.aborted_sweeps", 0)),
+                           "discarded_predictions": int(e.get("ply2.discarded_predictions", 0)),
                            "memo_hit_share": round(e.get("ply2.memo_hits", 0) / (e.get("ply2.memo_hits", 0) + e.get("ply2.memo_misses", 0)), 4)
                            if e.get("ply2.memo_hits", 0) + e.get("ply2.memo_misses", 0) else None}
             if e.get("ply2.diag_searches"):

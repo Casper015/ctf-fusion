@@ -591,7 +591,8 @@ struct Input {
 // truncated: a deadline stopped the call before its target.
 struct Stats { int samples = 0, plans = 0, requested = 0, survivors = 0; long long rollouts = 0; bool truncated = false;
     long long ply2Calls = 0, memoHits = 0, memoMisses = 0, diagPairs = 0, diagMoves = 0; double ply2Seconds = 0, diagAim = 0;
-    int diagTopChanged = 0, diagSwaps = 0, diagCompared = 0, diagTop0 = 0, diagSwaps0 = 0, diagCompared0 = 0; };
+    int diagTopChanged = 0, diagSwaps = 0, diagCompared = 0, diagTop0 = 0, diagSwaps0 = 0, diagCompared0 = 0;
+    long long abortedSweeps = 0, discardedPredictions = 0; };
 
 }  // namespace search
 #endif  // NG_SEARCH_TYPES_HPP
@@ -1107,6 +1108,10 @@ namespace search {
 // (cfg.halving). Returns the plans best-first, valued
 // analyticWeight*analytic + sampledWeight*sampled (mean or entropic risk), or
 // an empty vector if no sample completed or nothing was searched.
+// Time source of search::rank: steady_clock, or a test's clock (bots/p_only/tests/rank_deadline_test.cpp).
+inline std::chrono::steady_clock::time_point (*clockHook)() = nullptr;
+inline std::chrono::steady_clock::time_point clockNow() { return clockHook ? clockHook() : std::chrono::steady_clock::now(); }
+
 template <typename Eval = eval::DefaultEvaluator>
 inline std::vector<Plan> rank(const Input& in, const Config& cfg, std::chrono::steady_clock::time_point deadline,
         Stats* stats = nullptr, int fixedSamples = 0, const Eval& ev = Eval{}) {
@@ -1120,45 +1125,22 @@ inline std::vector<Plan> rank(const Input& in, const Config& cfg, std::chrono::s
     dynamics::World world; world.reset(3 + E, E, int(in.board.nb->size()), in.board.n);
     dynamics::prepare(in, world);
     const JointSampler sampler(in);
-    std::vector<int> pick(E); std::vector<double> tmp(C); Ply1Outcome p1;
-    PlanScores scores(C, cfg.riskTau);
+    std::vector<int> pick(E); std::vector<double> tmp(C), tmpDiag(C); Ply1Outcome p1;
+    PlanScores scores(C, cfg.riskTau), diagScores(C, cfg.riskTau);
     // PONLY_PLY2_MODE (search_experiment.py): 0 the reference plan's prediction per sample, shared by every
     // plan; 1 each plan's own; 2 plays as 0 and also scores every plan with its own prediction (diagnostic).
-    long long p2calls = 0, diagPairs = 0, diagMoves = 0; double p2sec = 0, diagAim = 0;
+    //
+    // A sample is one sweep over a plan set. Its values go to scratch (tmp, tmpDiag) and are committed only when
+    // the sweep ends, so every committed plan of a call has the same samples. In modes 1 and 2 every prediction
+    // is checked against the applicable deadline before it starts and after it ends; a sweep that reaches the
+    // deadline is discarded whole (counted: aborted sweeps, their predictions) and no further work starts. A
+    // prediction already running is not interrupted: these checks bound when work starts, they do not certify
+    // the reply time, which needs a measured reserve for one prediction. Mode 0 keeps the current checks.
+    long long p2calls = 0, p2discarded = 0, aborted = 0, diagPairs = 0, diagMoves = 0; double p2sec = 0, diagAim = 0;
+    long long sweepCalls = 0, sweepPairs = 0, sweepMoves = 0; double sweepAim = 0;
     auto predictFor = [&](const Plan& pl, int smp) {
-        const auto t = std::chrono::steady_clock::now(); predictPly2(in, pl, smp, world, p1);
-        p2sec += std::chrono::duration<double>(std::chrono::steady_clock::now() - t).count(); p2calls++;
-    };
-    PlanScores diagScores(C, cfg.riskTau);
-    auto value = [&](int ci, int smp) {
-#if PONLY_PLY2_MODE == 1
-        predictFor(plans[ci], smp);
-#endif
-        const double v = rollout(in, cfg, plans[ci], stay, pick, world, ev);
-#if PONLY_PLY2_MODE == 2
-        const Ply2 shared = world.p2;
-        predictFor(plans[ci], smp);
-        for (int e = 0; e < world.E; e++) { if (shared.move[e] < 0 && world.p2.move[e] < 0) continue; diagPairs++;
-            diagMoves += shared.move[e] != world.p2.move[e];
-            for (int k = 0; k < 3; k++) diagAim += std::abs(shared.aim[e][k] - world.p2.aim[e][k]); }
-        diagScores.add(ci, rollout(in, cfg, plans[ci], stay, pick, world, ev));
-        world.p2 = shared;
-#endif
-        (void)smp;
-        return v;
-    };
-    // Diagnostic ranking comparison over `set` (plans with the same samples): does the best plan change, and
-    // how many pairs swap order? `first`: every plan after the first round; else the final survivors.
-    auto diagCompare = [&](const std::vector<int>& set, bool first) {
-        if (!stats || PONLY_PLY2_MODE != 2 || set.size() < 2 || scores.count[set[0]] == 0 || diagScores.count[set[0]] == 0) return;
-        auto ref = [&](int ci) { return scores.blended(ci, plans[ci].value, cfg); };
-        auto own = [&](int ci) { return diagScores.count[ci] ? diagScores.blended(ci, plans[ci].value, cfg) : -1e300; };
-        int bestRef = set[0], bestOwn = set[0], swaps = 0;
-        for (int ci : set) { if (ref(ci) > ref(bestRef)) bestRef = ci; if (own(ci) > own(bestOwn)) bestOwn = ci; }
-        for (size_t i = 0; i < set.size(); i++) for (size_t j = i + 1; j < set.size(); j++)
-            swaps += (ref(set[i]) > ref(set[j])) != (own(set[i]) > own(set[j]));
-        if (first) { stats->diagTop0 = bestRef != bestOwn; stats->diagSwaps0 = swaps; stats->diagCompared0 = int(set.size()); }
-        else { stats->diagTopChanged = bestRef != bestOwn; stats->diagSwaps = swaps; stats->diagCompared = int(set.size()); }
+        const auto t = clockNow(); predictPly2(in, pl, smp, world, p1);
+        p2sec += std::chrono::duration<double>(clockNow() - t).count(); p2calls++; sweepCalls++;
     };
     auto draw = [&](int smp, const Plan& ref) {
         sampler.draw(in, smp, pick); dynamics::setRivalIntents(in, pick, world); world.sample = smp;
@@ -1168,21 +1150,73 @@ inline std::vector<Plan> rank(const Input& in, const Config& cfg, std::chrono::s
         (void)ref;
 #endif
     };
+    // One sample over `set` into scratch; false when `stop` passed before the sweep ended (nothing committed).
+    auto sweep = [&](int smp, const Plan& ref, const std::vector<int>& set, std::chrono::steady_clock::time_point stop) {
+        sweepCalls = sweepPairs = sweepMoves = 0; sweepAim = 0;
+        draw(smp, ref);
+#if PONLY_PLY2_MODE != 0
+        if (clockNow() >= stop) return false;
+#else
+        (void)stop;
+#endif
+        for (int ci : set) {
+#if PONLY_PLY2_MODE == 1
+            if (clockNow() >= stop) return false;
+            predictFor(plans[ci], smp);
+            if (clockNow() >= stop) return false;
+#endif
+            tmp[ci] = rollout(in, cfg, plans[ci], stay, pick, world, ev);
+#if PONLY_PLY2_MODE == 2
+            const Ply2 shared = world.p2;
+            if (clockNow() >= stop) return false;
+            predictFor(plans[ci], smp);
+            if (clockNow() >= stop) { world.p2 = shared; return false; }
+            for (int e = 0; e < world.E; e++) { if (shared.move[e] < 0 && world.p2.move[e] < 0) continue; sweepPairs++;
+                sweepMoves += shared.move[e] != world.p2.move[e];
+                for (int k = 0; k < 3; k++) sweepAim += std::abs(shared.aim[e][k] - world.p2.aim[e][k]); }
+            tmpDiag[ci] = rollout(in, cfg, plans[ci], stay, pick, world, ev);
+            world.p2 = shared;
+#endif
+        }
+        return true;
+    };
+    auto commit = [&](const std::vector<int>& set) {
+        for (int ci : set) scores.add(ci, tmp[ci]);
+#if PONLY_PLY2_MODE == 2
+        for (int ci : set) diagScores.add(ci, tmpDiag[ci]);
+        diagPairs += sweepPairs; diagMoves += sweepMoves; diagAim += sweepAim;
+#endif
+    };
+    auto discard = [&]() { aborted++; p2discarded += sweepCalls; };
+    // Diagnostic ranking comparison over `set` (plans with the same committed samples): does the best plan change,
+    // and how many pairs swap order? `first`: every plan after the first round; else the final survivors.
+    auto diagCompare = [&](const std::vector<int>& set, bool first) {
+        if (!stats || PONLY_PLY2_MODE != 2 || set.size() < 2 || scores.count[set[0]] == 0 || diagScores.count[set[0]] == 0) return;
+        auto ref = [&](int ci) { return scores.blended(ci, plans[ci].value, cfg); };
+        auto own = [&](int ci) { return diagScores.blended(ci, plans[ci].value, cfg); };
+        int bestRef = set[0], bestOwn = set[0], swaps = 0;
+        for (int ci : set) { if (ref(ci) > ref(bestRef)) bestRef = ci; if (own(ci) > own(bestOwn)) bestOwn = ci; }
+        for (size_t i = 0; i < set.size(); i++) for (size_t j = i + 1; j < set.size(); j++)
+            swaps += (ref(set[i]) > ref(set[j])) != (own(set[i]) > own(set[j]));
+        if (first) { stats->diagTop0 = bestRef != bestOwn; stats->diagSwaps0 = swaps; stats->diagCompared0 = int(set.size()); }
+        else { stats->diagTopChanged = bestRef != bestOwn; stats->diagSwaps = swaps; stats->diagCompared = int(set.size()); }
+    };
     auto finish = [&]() { if (stats) { stats->ply2Calls = p2calls; stats->ply2Seconds = p2sec; stats->memoHits = world.memoHit;
-        stats->memoMisses = world.memoMiss; stats->diagPairs = diagPairs; stats->diagMoves = diagMoves; stats->diagAim = diagAim; } };
+        stats->memoMisses = world.memoMiss; stats->diagPairs = diagPairs; stats->diagMoves = diagMoves; stats->diagAim = diagAim;
+        stats->abortedSweeps = aborted; stats->discardedPredictions = p2discarded; } };
     int done = 0;
     if (!cfg.halving) {
         const int limit = fixedSamples > 0 ? fixedSamples : cfg.maxSamples;
+        std::vector<int> every(C); for (int ci = 0; ci < C; ci++) every[ci] = ci;
         for (int smp = 0; smp < limit; smp++) {
-            if (std::chrono::steady_clock::now() >= deadline) break;  // binds in both modes
-            draw(smp, plans[0]);
-            for (int ci = 0; ci < C; ci++) tmp[ci] = value(ci, smp);
-            for (int ci = 0; ci < C; ci++) scores.add(ci, tmp[ci]);
+            if (clockNow() >= deadline) break;  // binds in both modes
+            if (!sweep(smp, plans[0], every, deadline)) { discard(); break; }
+            commit(every);
             done++;
         }
         if (stats) { stats->samples = done; stats->plans = C; stats->requested = limit; stats->survivors = C;
                      stats->rollouts = (long long)done * C; stats->truncated = done < limit; }
-        finish(); if (done) { std::vector<int> every(C); for (int ci = 0; ci < C; ci++) every[ci] = ci; diagCompare(every, true); diagCompare(every, false); }
+        finish(); if (done) { diagCompare(every, true); diagCompare(every, false); }
         if (!done) return {};
         for (int ci = 0; ci < C; ci++) plans[ci].value = scores.blended(ci, plans[ci].value, cfg);
         std::sort(plans.begin(), plans.end(), [](const Plan& a, const Plan& b) { return a.value > b.value; });
@@ -1193,27 +1227,32 @@ inline std::vector<Plan> rank(const Input& in, const Config& cfg, std::chrono::s
     // sweeps common samples over the surviving plans, then keeps the better half
     // by blended score. Every survivor has seen exactly the same samples, and no
     // plan is sampled more than maxSamples times.
-    const auto t0 = std::chrono::steady_clock::now();
+    const auto t0 = clockNow();
     const auto total = deadline - t0;
     int rounds = 1; while ((1 << rounds) < C) rounds++;
     std::vector<int> alive(C); for (int ci = 0; ci < C; ci++) alive[ci] = ci;
     std::vector<int> out;  // eliminated plans, best-first within each later round
-    bool cut = false; long long rolled = 0;
+    bool cut = false, expired = false; long long rolled = 0;
     auto blended = [&](int ci) { return scores.blended(ci, plans[ci].value, cfg); };
     for (int r = 0; r < rounds && !alive.empty(); r++) {
         const auto roundEnd = t0 + total * (r + 1) / rounds;
         const int quota = fixedSamples > 0 ? std::max(1, fixedSamples / rounds) : cfg.maxSamples - scores.count[alive[0]];
-        for (int got = 0; got < quota; got++) {
-            // Fixed samples: only the hard deadline stops a round (counted); time mode: the round's share.
-            if (std::chrono::steady_clock::now() >= (fixedSamples > 0 ? deadline : roundEnd)) { cut = cut || fixedSamples > 0; break; }
-            draw(done, plans[alive[0]]);
-            for (int ci : alive) scores.add(ci, value(ci, done));
+        // Fixed samples: only the hard deadline stops a round (counted); time mode: the round's share.
+        const auto stop = fixedSamples > 0 ? deadline : roundEnd;
+        for (int got = 0; got < quota && !expired; got++) {
+            if (clockNow() >= stop) { cut = cut || fixedSamples > 0; break; }
+            if (!sweep(done, plans[alive[0]], alive, stop)) {
+                discard(); cut = cut || fixedSamples > 0;
+                expired = clockNow() >= deadline;  // past the call's deadline: no further round starts work
+                break;
+            }
+            commit(alive);
             rolled += (long long)alive.size(); done++;
         }
         if (r == 0) diagCompare(alive, true);
         if (scores.count[alive[0]] == 0) break;
         std::stable_sort(alive.begin(), alive.end(), [&](int a, int b) { return blended(a) > blended(b); });
-        if (r + 1 == rounds || alive.size() <= 1) break;
+        if (r + 1 == rounds || alive.size() <= 1 || expired) break;
         const size_t keep = (alive.size() + 1) / 2;
         out.insert(out.begin(), alive.begin() + keep, alive.end());
         alive.resize(keep);
@@ -1935,6 +1974,7 @@ struct Planner {
         statPly2Calls+=lastSearch.ply2Calls;statPly2Seconds+=lastSearch.ply2Seconds;statMemoHits+=lastSearch.memoHits;statMemoMisses+=lastSearch.memoMisses;
         statViewCalls+=ply2Source.viewCalls;statViewHits+=ply2Source.viewHits;statViewBuilds+=ply2Source.viewBuilds;
         ply2Source.viewCalls=ply2Source.viewHits=ply2Source.viewBuilds=0;
+        statAbortedSweeps+=lastSearch.abortedSweeps;statDiscardedPredictions+=lastSearch.discardedPredictions;
         statDiagPairs+=lastSearch.diagPairs;statDiagMoves+=lastSearch.diagMoves;statDiagAim+=lastSearch.diagAim;
         if(lastSearch.diagCompared){statDiagSearches++;statDiagTopChanged+=lastSearch.diagTopChanged;statDiagSwaps+=lastSearch.diagSwaps;statDiagCompared+=lastSearch.diagCompared;}
         if(lastSearch.diagCompared0){statDiagTop0+=lastSearch.diagTop0;statDiagSwaps0+=lastSearch.diagSwaps0;statDiagCompared0+=lastSearch.diagCompared0;}
@@ -2103,7 +2143,7 @@ struct Planner {
     int portfolioFrom=-1;                             // first alternative in the sampled search's candidates
     long long statPly2Calls=0,statViewCalls=0,statViewHits=0,statViewBuilds=0,statMemoHits=0,statMemoMisses=0;
     long long statDiagPairs=0,statDiagMoves=0,statDiagSearches=0,statDiagTopChanged=0,statDiagSwaps=0,statDiagCompared=0;
-    long long statDiagTop0=0,statDiagSwaps0=0,statDiagCompared0=0;
+    long long statDiagTop0=0,statDiagSwaps0=0,statDiagCompared0=0,statAbortedSweeps=0,statDiscardedPredictions=0;
     double statPly2Seconds=0,statDiagAim=0;
     // Portfolio counters (PONLY_STATS: one stderr line at the last turn).
     void portfolioReport(const Game& g)const{
@@ -2160,7 +2200,8 @@ struct Planner {
                  <<" view_calls "<<statViewCalls<<" view_hits "<<statViewHits<<" view_builds "<<statViewBuilds<<" memo_hits "<<statMemoHits
                  <<" memo_misses "<<statMemoMisses<<" diag_searches "<<statDiagSearches<<" diag_pairs "<<statDiagPairs<<" diag_move_diff "<<statDiagMoves
                  <<" diag_aim_l1 "<<statDiagAim<<" diag_top_changed "<<statDiagTopChanged<<" diag_swaps "<<statDiagSwaps<<" diag_compared "<<statDiagCompared
-                 <<" diag_first_top_changed "<<statDiagTop0<<" diag_first_swaps "<<statDiagSwaps0<<" diag_first_compared "<<statDiagCompared0<<std::endl;
+                 <<" diag_first_top_changed "<<statDiagTop0<<" diag_first_swaps "<<statDiagSwaps0<<" diag_first_compared "<<statDiagCompared0
+                 <<" aborted_sweeps "<<statAbortedSweeps<<" discarded_predictions "<<statDiscardedPredictions<<std::endl;
 #if MOD_FUSION_V
         std::cerr<<"VALUE refine_calls "<<vCalls[0]<<" refine_exact "<<vExact[0]<<" refine_decisions "<<vDecisions[0]<<" refine_changed "<<vChanged[0]
                  <<" beam_calls "<<vCalls[1]<<" beam_exact "<<vExact[1]<<" beam_decisions "<<vDecisions[1]<<" beam_changed "<<vChanged[1]

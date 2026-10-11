@@ -4,7 +4,10 @@
         --compare-arm v12_search_k3 --out bots/p_only/report/search_portfolio/regret
 
 Input: bots/p_only/tools/branch_portfolio.py roots of the incumbent arm, with --compare-arm's reply at every root
-as a candidate (source arm:<name>). Per root, every candidate's mean continuation outcome gives:
+as a candidate (source arm:<name>). A root is valid when the reply is a legal order whose canonical form equals the
+incumbent's (identical) or is a played candidate of its own (different); malformed replies, timeouts and missing
+candidates or branches are excluded and counted, with the valid-root denominator. Per valid root, every
+candidate's mean continuation outcome gives:
   difference     outcome(compare arm's choice) - outcome(incumbent's recorded choice); 0 where both chose the
                  same complete order (then no separate candidate exists);
   regret         best candidate's outcome minus the choice's, for the incumbent and for the compare arm;
@@ -27,27 +30,34 @@ import numpy as np
 REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
 
+sys.path.insert(0, str(REPO / "bots" / "p_only" / "tools"))
+
+from branch_portfolio import classify_compare  # noqa: E402
 from training.evaluate_value import clustered_mean_ci  # noqa: E402
 
 
-def root_stats(row: dict, source: str) -> dict | None:
-    if row.get("compare_reply") is None:  # the compare arm gave no valid reply at this root
-        return None
+def root_stats(row: dict, compare_arm: str) -> tuple[str, dict | None]:
+    """(status, statistics) of one root. Only `identical` (the compare arm's canonical order is the incumbent's) and
+    `different` (its own candidate with branch outcomes) give statistics; every other status is an exclusion and is
+    counted, never a zero difference. The status is recomputed from the raw reply, the candidate orders and the
+    played branches (branch_portfolio.classify_compare), so a malformed or missing reply cannot pass as identical."""
+    if row.get("compare_arm") != compare_arm:
+        return "none", None
     means = {}
     for b in row["branches"]:
         means.setdefault(b["candidate"], []).append(b["outcome"])
+    status, _, index = classify_compare(row.get("compare_reply"), row["turn"], row["candidates"], played=set(means))
+    if status not in ("identical", "different"):
+        return status, None
     y = {c: float(np.mean(v)) for c, v in means.items()}
     if 0 not in y:
-        return None
-    alt = next((i for i, s in enumerate(row["sources"]) if s == source), None)
-    same = alt is None
+        return "missing_branch", None
     best = max(y.values())
     rank = lambda c: 1 + sum(v > y[c] for v in y.values())  # noqa: E731
-    yc = y[0] if same else y.get(alt)
-    if yc is None:
-        return None
-    return {"map": row["map_seed"], "teams": row["teams"], "same": same, "difference": yc - y[0], "regret_incumbent": best - y[0],
-            "regret_compare": best - yc, "rank_incumbent": rank(0), "rank_compare": rank(0 if same else alt), "candidates": len(y)}
+    yc = y[index]
+    return status, {"map": row["map_seed"], "teams": row["teams"], "same": status == "identical", "difference": yc - y[0],
+                    "regret_incumbent": best - y[0], "regret_compare": best - yc, "rank_incumbent": rank(0),
+                    "rank_compare": rank(index), "candidates": len(y)}
 
 
 def main(argv=None):
@@ -57,21 +67,24 @@ def main(argv=None):
     ap.add_argument("--compare-arm", required=True)
     ap.add_argument("--out", required=True, help="output path without extension (.json and .md)")
     a = ap.parse_args(argv)
-    rows = []
+    rows, statuses = [], {}
     for f in sorted(Path(a.branches).rglob("*.json.gz")):
         with gzip.open(f, "rt", encoding="utf-8") as fh:
             row = json.load(fh)
-        if row.get("arm") == a.arm and row.get("compare_arm") == a.compare_arm and "dropped" not in row:
-            s = root_stats(row, f"arm:{a.compare_arm}")
-            if s:
-                rows.append(s)
+        if row.get("arm") != a.arm or "dropped" in row:
+            continue
+        status, s = root_stats(row, a.compare_arm)
+        statuses[status] = statuses.get(status, 0) + 1
+        if s:
+            rows.append(s)
     if not rows:
-        raise SystemExit("no roots of this arm with a compare-arm candidate")
+        raise SystemExit(f"no valid roots (identical or different valid comparison replies); statuses {statuses}")
     maps = np.array([r["map"] for r in rows])
     one = np.ones(len(rows))
     col = lambda k: np.array([float(r[k]) for r in rows])  # noqa: E731
     differ = ~np.array([r["same"] for r in rows])
     report = {"arm": a.arm, "compare_arm": a.compare_arm, "roots": len(rows), "maps": int(len(np.unique(maps))),
+              "root_statuses": statuses, "excluded": {k: v for k, v in statuses.items() if k not in ("identical", "different")},
               "differs_share": float(differ.mean()),
               "difference": clustered_mean_ci(col("difference"), one, maps),
               "difference_where_differs": clustered_mean_ci(col("difference")[differ], one[differ], maps[differ]) if differ.any() else None,
@@ -86,11 +99,12 @@ def main(argv=None):
     out.with_suffix(".json").write_text(json.dumps(report, indent=1, default=float) + "\n", encoding="utf-8")
     f = lambda s: "-" if not s or s["mean"] is None else f"{s['mean']:+.4f} [{s['lo']:+.4f}, {s['hi']:+.4f}] {s['verdict']}"  # noqa: E731
     lines = [f"# Branch comparison: {a.compare_arm} against {a.arm}", "",
-             f"{report['roots']} roots on {report['maps']} maps; the compare arm chose another complete order at "
-             f"{report['differs_share']:.1%} of them. Outcomes are final pairwise utilities of real continuations; 95% intervals "
+             f"{report['roots']} valid roots on {report['maps']} maps (excluded: {report['excluded'] or 'none'}; a malformed, timed-out "
+             "or unplayed comparison reply is excluded, never counted as identical); the compare arm chose another complete "
+             f"order at {report['differs_share']:.1%} of the valid roots. Outcomes are final pairwise utilities of real continuations; 95% intervals "
              "clustered by map; not a strength result.", "",
              "| Quantity | Mean [95% interval] |", "|---|---|",
-             f"| outcome(compare) - outcome(incumbent), all roots | {f(report['difference'])} |",
+             f"| outcome(compare) - outcome(incumbent), all valid roots | {f(report['difference'])} |",
              f"| the same, where the choices differ | {f(report['difference_where_differs'])} |",
              f"| incumbent regret against the best candidate | {f(report['regret_incumbent'])} |",
              f"| compare-arm regret | {f(report['regret_compare'])} |",
