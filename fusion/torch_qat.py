@@ -46,15 +46,18 @@ def quantize_layer(W: torch.Tensor, b: torch.Tensor, bits: int, first: bool, las
     s_in = 1.0 if first else 1.0 / precision.ACT_ONE
     absw = W.abs()
     one = torch.ones((), dtype=F64, device=W.device)
+    # Divide by float64 tensors, never Python scalars: on CUDA, tensor / scalar is computed as tensor * (1 / scalar),
+    # which is not correctly rounded and puts the scales one ulp away from NumPy's (and the export's).
+    hi_t, dmax_t = torch.tensor(float(hi), dtype=F64, device=W.device), torch.tensor(float(precision.D_MAX), dtype=F64, device=W.device)
     if bits != 4:
         peak = absw.amax(dim=1)
-        S = torch.where(peak > 0, peak / hi, one)
+        S = torch.where(peak > 0, peak / hi_t, one)
         d = torch.ones((out, nb), dtype=torch.int64, device=W.device)
     else:
         peak_b = torch.stack([absw[:, i * block:(i + 1) * block].amax(dim=1) for i in range(nb)], dim=1)
-        r = peak_b / hi
+        r = peak_b / hi_t
         rmax = r.amax(dim=1)
-        S = torch.where(rmax > 0, rmax / precision.D_MAX, one)
+        S = torch.where(rmax > 0, rmax / dmax_t, one)
         d = torch.clamp(_round(r / S[:, None]), 1, precision.D_MAX).to(torch.int64)
     q = torch.clamp(_round(W / (S[:, None] * d[:, cols])), lo, hi).to(torch.int64)
     for _ in range(40):

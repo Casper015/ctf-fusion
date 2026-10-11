@@ -445,7 +445,7 @@ class Distillation(unittest.TestCase):
             self.assertTrue((p / "w" / "best.npz").is_file())
             self.assertEqual(res["config"]["count_weighting"], "inv_teams")
             # the validation loss is the inv_teams-weighted supervised loss of the kept (best) state
-            sup = D.DistillConfig(alpha=1.0, smoothing=0.01)
+            sup = D.DistillConfig(alpha=1.0, act_weight=0.5, target_weight=0.5, smoothing=0.01)
             student.calibrated = False
             v = distill_policy.val_loss(student, L, va, args, sup)
             vd = va.take(np.arange(16))

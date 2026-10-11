@@ -474,7 +474,7 @@ class TestQuantizationAwareTraining(unittest.TestCase):
                                       batch=8, lr=3e-2, min_lr=1e-3, lr_schedule="cosine", patience=1, plateau_decay=1,
                                       weight_decay=0.0, init=None, profile="mixed4_8", device=DEVICE, optimizer="adam",
                                       backend="torch", count_weighting="none")
-            sup = self.D.DistillConfig(alpha=1.0, smoothing=0.01)
+            sup = self.D.DistillConfig(alpha=1.0, act_weight=0.5, target_weight=0.5, smoothing=0.01)  # as train() validates
             for stage in ("warmup", "qat"):
                 student = T.load_student(self.layout, "s", "p2", None, 0)
                 if stage == "qat":
