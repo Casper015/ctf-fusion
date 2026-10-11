@@ -48,7 +48,7 @@ Every tracked Markdown file is summarised here once. Documents on the same topic
 
 **Now:**
 - T0022 is active: a fresh-map V3-XL screen on the host.
-- T0027 waits for Casper.
+- Casper deferred the four costly pre-board steps in T0027 (2026-10-11): none runs until a task needs it.
 - The critical path to a frozen submission:
   - T0010 → T0012 → T0014: the V pilot.
   - T0019 → T0005: four-turn lookahead.
@@ -86,7 +86,7 @@ Every tracked Markdown file is summarised here once. Documents on the same topic
 | P-only line | T0001 (Windows host check; drop it?) → T0002 (stage 1, capacity and sampling). T0003 (done: V at fixed P, not shown). T0003 → T0004 (near-large / far-small P) and T0005 (four-turn lookahead, also after T0019) → T0006 (freeze, confirm). |
 | Feature families and V | T0009 (done: p3/v3 families, 4XL infrastructure) → T0010 (V data) → T0012 (V pilot, GPU) → T0014 (V pilot on the host) → T0006. T0011 (train p2 and p3) → T0013 (p3 screen). T0016 (done: 5XL V). T0022 (active: fresh-map V3-XL screen). |
 | Search | T0018 (done: action portfolio, per-branch ply 2; T0017 merged into it) → T0019 (host evaluation) → T0005. T0020 (done: deadline and regret fixes). |
-| Evidence gaps | T0007 (more seeds or per-epoch logs for L to XXL). T0025 (P on the two reserved lineages). T0026 (calibrate pure P). T0027 (blocked: decisions for Casper). |
+| Evidence gaps | T0007 (more seeds or per-epoch logs for L to XXL). T0025 (P on the two reserved lineages). T0026 (calibrate pure P). T0027 (done: all four steps deferred). |
 | Infrastructure | T0021 (done: CI/CD). T0023 (done: the public arena as the engine source). T0024 (this consolidation; T0008 and T0015 merged into it). |
 
 ## Design and its review
@@ -233,7 +233,7 @@ The presets therefore stop at XXL. Wider nets can only be offline teachers. Capa
 - **Fingerprints.** 258 bots × 84 probes (6 maps × 14 counts) × 2 repeats = 43,344 runs. 253 bots are measured at every count; 5 performance forks crash. Complete linkage gives 180 behavior groups.
 - **Shortlist.** 78 families: 32 core, 19 distinct, 27 near.
 - **Light strength screen** (seed 20261009). 64 bots × 70 games split 30 above parity, 11 level and 23 below, with no faults. The top is Player5_v12_rollout_volley at 0.770 [0.723, 0.818].
-- **The full screen of every eligible bot was not run** (T0027).
+- **The full screen of every eligible bot was not run**; Casper deferred it (T0027).
 
 **Training selection (2026-10-09).**
 - **The pool.** An open, behavior-diverse pool of 58 programs: 56 P-label policies plus 2 augmentation programs. It holds the 11 judge bots plus 7 challengers, and it raises the judge bots' expected share of P-label rows from 34% to 56%.
@@ -369,7 +369,7 @@ The steps of its execution prompt are triaged below.
 
 **Sources:** [roster/report/NEXT_AGENT_PROMPT.md](../roster/report/NEXT_AGENT_PROMPT.md), [review_bundle_20261009/NEXT_AGENT_EXECUTION_PROMPT.md](../reports/reviews/review_bundle_20261009/NEXT_AGENT_EXECUTION_PROMPT.md), [diverse15 NEXT_AGENT_PROMPT.md](handoffs/diverse15_distance_tiered_policy/NEXT_AGENT_PROMPT.md)
 
-Each step of these prompts is done, covered by a task, or waiting for a decision (task T0027, for Casper). New work starts from the board, not from these files.
+Each step of these prompts is done, covered by a task, or deferred by Casper (T0027, 2026-10-11). New work starts from the board, not from these files.
 
 **Roster prompt** (finish the first roster evidence run):
 
@@ -377,7 +377,7 @@ Each step of these prompts is done, covered by a task, or waiting for a decision
 |---|---|
 | A. Setup and checks; C. commit the evidence | Done: `roster/report/results/` (RUN.md, env check, distances, assessments, admission). |
 | B1–B4. Probe suite of 84 probes; fingerprints with 2 repeats; distances | Done for 258 bots, not only 122 (ecc45a0). |
-| B5. Strength screen of every eligible bot | Not done: only the 64-bot light screen ran. Decision: T0027. |
+| B5. Strength screen of every eligible bot | Not done: only the 64-bot light screen ran. Deferred (T0027). |
 | B6–B7. Live profiles; assessments and admission template | Done; live profiles exist for the light screen's 64 bots. |
 | D. Report generated from the files; fix `matches_summary.csv` | Done: `tools/reporting/generate_roster_report.py` with its test. The CSV now has scores and winners. |
 
@@ -397,11 +397,11 @@ Each step of these prompts is done, covered by a task, or waiting for a decision
 | Step | Status |
 |---|---|
 | A1–A3, A5–A9. Inventory, aliases, assessments, probes, distances, admission, separate admission and scheduling | Done: `roster/`, [ROSTER.md](ROSTER.md), `training_selection_20261009`. |
-| A4. 10,000 map groups per evaluated bot | Not done. Decision: T0027. |
+| A4. 10,000 map groups per evaluated bot | Not done. Deferred (T0027). |
 | A8. Evaluation on the reserved OOD lineages | Lineages reserved, never evaluated: T0025. |
-| A10. Validate the selection at equal training budget | Not done. Decision: T0027. |
+| A10. Validate the selection at equal training budget | Not done. Deferred (T0027). |
 | B. Capacity tiers | S–XXL are trained and exported. Distance tiers at the root were dropped: all 14 opponents at XXL cost 1.34 ms per turn ([TASK.md](../bots/p_only/TASK.md)). Inside the search: T0004. |
-| C. CPU budget and memory | Whole-turn deadlines are in the P-only bots and `capacity_bench` is reused. The fixed-point kernels: T0027. |
+| C. CPU budget and memory | Whole-turn deadlines are in the P-only bots and `capacity_bench` is reused. The fixed-point kernels: deferred (T0027). |
 | D. CUDA training | Done: the torch backend, measured in the training bench. |
 | E. Confirm and deliver | T0006, with T0025 and T0026. |
 
@@ -440,11 +440,7 @@ These records are kept as they are. Fix them through their generator or owner ta
 
 ## Open questions
 
-- **For Casper, in T0027:**
-  - Run the full roster strength screen?
-  - Run 10,000-map confirmations per opponent bot?
-  - Validate the opponent selection at equal training budget?
-  - Build the fixed-point kernels?
+- **Deferred by Casper (T0027, 2026-10-11):** the full roster strength screen, 10,000-map confirmations per opponent bot, validating the opponent selection at equal training budget, and the fixed-point kernels. Reopen one with a new task when a result needs it.
 - **For Casper, in T0001's log:** drop T0001? Its move check can no longer pass, and T0002 waits on it.
 - **The official field.** Are the judge bots plus other submissions the real opponents? P is only as good as the overlap between the training pool and that field (REVIEW §6).
 - **Whether V helps at all.** No V configuration has shown a benefit so far. T0022 (fresh-map V3-XL) and T0014 (the V pilot at fixed P) decide it, before T0006 freezes anything.
