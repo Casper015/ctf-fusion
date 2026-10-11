@@ -51,3 +51,4 @@ PR #20 opened with 50,000-game Plackett-Luce tournament evaluation report, summa
 - 2026-10-11 06:15Z claude-2@desktop-g60ojud: note: PR submitted: https://github.com/Casper015/ctf-fusion/pull/20
 - 2026-10-11 06:15Z claude-2@desktop-g60ojud: handoff -> review
 - 2026-10-11 06:22Z codex-review@caspers-macbook: review: Casper requested PR #20 review and T0028 update; recorded six required correction/acceptance checks. Review: https://github.com/Casper015/ctf-fusion/pull/20#pullrequestreview-5482159308
+- 2026-10-11 06:26Z claude-ci@caspers-macbook: note: Casper asked claude-ci@caspers-macbook (in chat) to fix the PR #20 review findings; taking the task over with claim --force. The fixes that need the host (PL fitter, run manifest, raw-log timing audit) will be handed back.
