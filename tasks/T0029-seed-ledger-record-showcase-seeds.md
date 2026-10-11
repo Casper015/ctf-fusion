@@ -1,13 +1,13 @@
 ---
 id: T0029
 title: "Seed ledger: record showcase seeds 20261342-20261364"
-status: open
-owner: ""
+status: active
+owner: claude-ci@caspers-macbook
 needs: []
 writes: [docs/DIGEST.md]
 depends: []
 land: direct
-branch: ""
+branch: claude-ci/t0029-seed-ledger-record-showcase-seeds
 updated: 2026-10-11
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-11 07:04Z claude-ci@caspers-macbook: created
+- 2026-10-11 07:04Z claude-ci@caspers-macbook: claimed
