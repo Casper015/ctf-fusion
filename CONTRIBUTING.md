@@ -73,6 +73,8 @@ Other rules:
 | `bots/p_only/include/ponly_p3.hpp`, `bots/p_only/bots/v12_ponly_f.hpp`, `c08_ponly_f.hpp` (the feature-family carriers, [FEATURE_FAMILIES.md](docs/FEATURE_FAMILIES.md)) | `python bots/p_only/tools/derive/make_families.py` (`bots/p_only/tests/test_families.py` re-derives and compares) |
 | `reports/**`, `docs/benchmark/*TABLES.md`, `roster/report/**` | the script named in the file's header |
 | `roster/bots/src/**` | vendored sources, named by sha256: never edit |
+| `bots/p_only/include/ponly_precision.hpp`, `ponly_p3_precision.hpp` (precision-aware views, task T0030; [P_MIXED_PRECISION.md](docs/P_MIXED_PRECISION.md)) | `python bots/p_only/tools/derive/make_families.py` (`bots/p_only/tests/test_precision_carriers.py` re-derives and compares) |
+| `build/p_precision/**` (experimental low-bit P exports, never committed) | `python -m training.export_precision export ...` |
 | `tasks/T*.md` | `tools/repo/task.py`. Humans may edit by hand; run `task.py check` before pushing. |
 | `tasks/SUMMARY.md` | `tools/repo/task.py`, with every board change (`task.py summary --write` after a hand edit of a task) |
 | `docs/MARKDOWN_INDEX.md` | `python tools/repo/md_index.py --write` after adding, moving, removing or retitling a Markdown file. CI warns when it is stale. The summaries in [docs/DIGEST.md](docs/DIGEST.md) are written by hand; give a new topic a section with a `**Sources:**` line. |

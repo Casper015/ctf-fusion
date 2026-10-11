@@ -243,6 +243,12 @@ PLY2_CACHE = """        // PONLY_PLY2_MODE 1/2: P views of successor states, bui
         // state (turn, scores, units with HP, flags and respawn times, flags, last attacks); the parent is
         // always this turn's root and the model and perspective are fixed within a call.
         mutable std::vector<fusion::State> cacheKey;mutable std::vector<ponly::View> cacheView;mutable size_t cacheNext=0;
+#if PONLY_PRECISION
+        // Precision (task T0030): a successor view is reused only at the profile it was built with. The selector is
+        // disabled by default (Reference16 everywhere); successors are depth-1 screening nodes for its routing.
+        fusion::precision::Selector precisionSelector{PONLY_PRECISION_ROUTE!=0};mutable std::vector<fusion::precision::Profile> cacheProfile;
+        fusion::precision::Profile successorProfile()const{fusion::precision::NodeContext c;c.depth=1;c.screening=true;return precisionSelector.choose(c);}
+#endif
         mutable long long viewCalls=0,viewHits=0,viewBuilds=0;
         static bool sameState(const fusion::State& a,const fusion::State& b){
             if(a.turn!=b.turn||a.score!=b.score||a.units.size()!=b.units.size()||a.flags.size()!=b.flags.size()||a.attacks.size()!=b.attacks.size())return false;
@@ -257,14 +263,27 @@ PLY2_CACHE = """        // PONLY_PLY2_MODE 1/2: P views of successor states, bui
             viewCalls++;
 #if PONLY_PLY2_MODE != 0
 #if PONLY_PLY2_CACHE
+#if PONLY_PRECISION
+            const auto want=successorProfile();
+            for(size_t i=0;i<cacheKey.size();i++)if(sameState(cacheKey[i],st)&&cacheProfile[i]==want){viewHits++;return cacheView[i];}
+#else
             for(size_t i=0;i<cacheKey.size();i++)if(sameState(cacheKey[i],st)){viewHits++;return cacheView[i];}
+#endif
 #endif
             viewBuilds++;size_t slot;
             if(cacheKey.size()<PONLY_PLY2_CACHE_SIZE){slot=cacheKey.size();cacheKey.push_back(st);if(cacheView.size()<=slot)cacheView.emplace_back();}
             else{slot=cacheNext++%cacheKey.size();cacheKey[slot]=st;}
+#if PONLY_PRECISION
+            if(cacheProfile.size()<=slot)cacheProfile.resize(slot+1);
+            cacheProfile[slot]=successorProfile();cacheView[slot].profile=cacheProfile[slot];
+#endif
             fs->predictInto(st,root.me,cacheView[slot],&teams);return cacheView[slot];
 #else
-            viewBuilds++;fs->predictInto(st,root.me,scratch,&teams);return scratch;
+            viewBuilds++;
+#if PONLY_PRECISION
+            scratch.profile=successorProfile();
+#endif
+            fs->predictInto(st,root.me,scratch,&teams);return scratch;
 #endif
         }
 """
