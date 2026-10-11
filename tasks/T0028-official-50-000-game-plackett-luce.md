@@ -28,3 +28,4 @@ Not started.
 - 2026-10-11 06:09Z claude-2@desktop-g60ojud: created
 - 2026-10-11 06:09Z claude-2@desktop-g60ojud: claimed
 - 2026-10-11 06:10Z claude-2@desktop-g60ojud: amended writes -> docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/
+- 2026-10-11 06:15Z claude-2@desktop-g60ojud: note: PR submitted: https://github.com/Casper015/ctf-fusion/pull/20
