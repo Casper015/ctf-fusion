@@ -44,8 +44,8 @@ def ai_test_root(explicit: str | os.PathLike | None = None) -> Path:
                          "or the AI_Test working tree")
     root = Path(value).expanduser().resolve()
     if workspace_rel(root) is None:
-        raise SystemExit(f"no engine.py under {root}: expected {ARENA_WORKSPACE_REL / 'engine.py'} (meow-ai-arena, {ARENA_URL}) "
-                         f"or {WORKSPACE_REL / 'engine.py'} (AI_Test)")
+        arena, ai_test = (w.joinpath("engine.py").as_posix() for w in (ARENA_WORKSPACE_REL, WORKSPACE_REL))
+        raise SystemExit(f"no engine.py under {root}: expected {arena} (meow-ai-arena, {ARENA_URL}) or {ai_test} (AI_Test)")
     return root
 
 
