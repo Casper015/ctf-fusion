@@ -1,7 +1,7 @@
 ---
 id: T0028
 title: "Official 50,000-game Plackett-Luce tournament evaluation report"
-status: active
+status: review
 owner: claude-2@desktop-g60ojud
 needs: [host]
 writes: [docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/]
@@ -21,7 +21,9 @@ reports/eval/tournament_50k_summary.json and reports/eval/tournament_50k_report.
 
 ## Handoff
 
-Not started.
+*2026-10-11 06:15Z claude-2@desktop-g60ojud:*
+
+PR #20 opened with 50,000-game Plackett-Luce tournament evaluation report, summary.json, and documentation index update: https://github.com/Casper015/ctf-fusion/pull/20
 
 ## Log
 
@@ -29,3 +31,4 @@ Not started.
 - 2026-10-11 06:09Z claude-2@desktop-g60ojud: claimed
 - 2026-10-11 06:10Z claude-2@desktop-g60ojud: amended writes -> docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/
 - 2026-10-11 06:15Z claude-2@desktop-g60ojud: note: PR submitted: https://github.com/Casper015/ctf-fusion/pull/20
+- 2026-10-11 06:15Z claude-2@desktop-g60ojud: handoff -> review
