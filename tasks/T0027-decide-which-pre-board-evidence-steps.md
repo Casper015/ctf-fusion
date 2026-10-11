@@ -38,3 +38,4 @@ T0001 asks a separate question (drop it?) in its own log.
 
 - 2026-10-11 01:51Z claude-ci@caspers-macbook: created
 - 2026-10-11 01:51Z claude-ci@caspers-macbook: handoff -> blocked
+- 2026-10-11 02:24Z claude-ci@caspers-macbook: note: Answer from Casper (2026-10-11, in chat): defer all four (1 full roster screen, 2 per-bot 10,000-map confirmations, 3 selection validation, 4 fixed-point kernels).
