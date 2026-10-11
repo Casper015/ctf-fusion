@@ -14,6 +14,7 @@ Nothing here trains a real model or measures time.
 """
 from __future__ import annotations
 
+import json
 import subprocess
 import tempfile
 import unittest
@@ -383,6 +384,40 @@ class Distillation(unittest.TestCase):
             w = D.TeacherShardWriter(Path(tmp), 32, 8, {"family": "p2"})
             with self.assertRaises(ValueError):
                 w.close()                                            # incomplete shard
+
+    def test_t0011_cache_layout(self):
+        """data/pf_policy_cache/<split>: no row.npy, a CACHE.json receipt; row ids are positions."""
+        import hashlib  # noqa: PLC0415
+        d = rows(20, seed=22)
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp)
+            arrays = {k: d[k] for k in ("rec", "y_move", "y_joint", "y_act", "y_tgt", "weight")}
+            arrays["teams"] = np.full(20, 9, np.int8)
+            for k, a in arrays.items():
+                np.save(p / f"{k}.npy", a)
+            receipt = {"identity": {"fields": sorted(arrays)}, "complete": True, "rows": 20,
+                       "arrays": {k: {"shape": list(a.shape), "dtype": a.dtype.str, "bytes": int(a.nbytes),
+                                      "data_sha256": hashlib.sha256(np.ascontiguousarray(a).tobytes()).hexdigest()}
+                                  for k, a in arrays.items()}}
+            (p / "CACHE.json").write_text(json.dumps(receipt))
+            c = distill_policy.RowCache(p)
+            c.verify_receipt()
+            got = c.take(np.array([3, 7]))
+            np.testing.assert_array_equal(got["row"], [3, 7])
+            np.testing.assert_array_equal(got["rec"], d["rec"][[3, 7]])
+            ident = c.identity()
+            c.close()
+            receipt["arrays"]["weight"]["data_sha256"] = "0" * 64      # another cache, or a corrupted copy
+            (p / "CACHE.json").write_text(json.dumps(receipt))
+            c = distill_policy.RowCache(p)
+            self.assertNotEqual(c.identity(), ident)
+            with self.assertRaises(ValueError):
+                c.verify_receipt()
+            c.close()
+            receipt["rows"] = 21
+            (p / "CACHE.json").write_text(json.dumps(receipt))
+            with self.assertRaises(ValueError):
+                distill_policy.RowCache(p)
 
     def test_toy_pipeline_without_torch(self):
         with tempfile.TemporaryDirectory() as tmp:

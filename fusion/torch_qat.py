@@ -15,6 +15,10 @@ folded into the last layer at export (beta) is fitted after QAT on validation ro
 
 Loss (qat_loss): alpha * the trainer's cross-entropy + (1 - alpha) * tau^2 * KL(teacher || student / tau), per
 head, as fusion/policy_distill.py. Nothing here trains a real model: tests run toy batches on the CPU.
+
+FloatPolicy is the same loss on the float student (the warmup and distill stages): normalized features built on
+the device from raw int16 records (fusion.torch_backend.DevicePolicyBatch, as the GPU trainer does), with the
+NumPy model's arrays as starting weights and copied back by to_ref.
 """
 from __future__ import annotations
 
@@ -22,7 +26,7 @@ import numpy as np
 import torch
 
 from . import precision
-from .torch_backend import TorchMLP, _ClippedReLU, _SoftmaxXent, combine_joint
+from .torch_backend import DevicePolicyBatch, TorchMLP, TorchPolicy, _ClippedReLU, _SoftmaxXent, combine_joint
 
 F64 = torch.float64
 
@@ -175,6 +179,39 @@ class QATPolicy:
             q.t.to_ref()
 
 
+class FloatPolicy:
+    """The float student on a device (warmup and distill stages): logits(X, move) like QATPolicy, on batches from
+    `device_batch`, so qat_loss computes the same alpha * CE + (1 - alpha) * tau^2 * KL as
+    fusion.policy_distill.distill_loss."""
+
+    def __init__(self, model, dev):
+        self.t = TorchPolicy(model, dev)
+
+    @property
+    def params(self):
+        return self.t.params
+
+    def logits(self, X, move: torch.Tensor):
+        n = self.t.nets
+        s = n["mover"].forward(X["mover_in"])[..., 0]
+        r = n["squad"].forward(X["squad_in"])
+        b = torch.arange(move.shape[0], device=move.device)[:, None]
+        k = torch.arange(3, device=move.device)[None, :]
+        za = n["act"].forward(X["mover_in"][b, k, move])
+        zt = n["target"].forward(target_in(X, move))[..., 0]
+        return combine_joint(s, r), za, zt
+
+    def to_ref(self):
+        self.t.to_ref()
+
+
+def device_batch(rec: torch.Tensor, dl, family: str) -> dict:
+    """Normalized features of raw int16 records already on the device (fusion.models.policy_batch(..., True))."""
+    X = DevicePolicyBatch(rec, dl, family)
+    return {"mover_in": X.mover_in, "squad_in": X.squad_in, "cand_f": X.cand_f, "joint_mask": X.joint_mask,
+            "act_legal": X.act_legal, "cand_valid": X.cand_valid}
+
+
 def tensors(X, dev) -> dict:
     """A raw-integer fusion.models.PolicyBatch as device tensors."""
     return {"mover_in": torch.tensor(np.asarray(X.mover_in, np.int64), device=dev),
@@ -235,4 +272,5 @@ def qat_loss(policy: QATPolicy, X: dict, y: dict, w: torch.Tensor, teacher: dict
     return total, {k: v.detach() for k, v in parts.items()} | {"total": total.detach()}
 
 
-__all__ = ["quantize_layer", "exact_layer", "QATMLP", "QATPolicy", "tensors", "qat_loss", "kl_term"]
+__all__ = ["quantize_layer", "exact_layer", "QATMLP", "QATPolicy", "FloatPolicy", "device_batch", "tensors", "qat_loss",
+           "kl_term"]
