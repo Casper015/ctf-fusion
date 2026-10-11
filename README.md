@@ -1,6 +1,6 @@
 # ctf-fusion
 
-[![CI](https://github.com/Casper15/ctf-fusion/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Casper15/ctf-fusion/actions/workflows/ci.yml)
+[![CI](https://github.com/Casper015/ctf-fusion/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Casper015/ctf-fusion/actions/workflows/ci.yml)
 
 **Teaching our Capture the Flag bots to predict what their opponents will do next.**
 

@@ -100,7 +100,7 @@ jobs:
     timeout-minutes: 60
     env:
       AI_TEST_TOKEN: ${{ secrets.AI_TEST_TOKEN }}
-      AI_TEST_REPO: ${{ vars.AI_TEST_REPO || 'Casper15/AI_Test' }}
+      AI_TEST_REPO: ${{ vars.AI_TEST_REPO || 'Casper015/AI_Test' }}
     steps:
       - name: Is the AI_Test token configured?
         id: gate
