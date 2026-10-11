@@ -1,0 +1,27 @@
+{
+ "configuration": {
+  "maximum_working_gib": 40,
+  "poll_seconds": 15,
+  "targets": "verified direct Python children of the pipeline only",
+  "api": "SetProcessWorkingSetSizeEx",
+  "flags": 6
+ },
+ "first_sample": {
+  "pipeline_pid": 34248,
+  "available_physical_gib": 17.824,
+  "event": "sample",
+  "available_commit_gib": 43.724,
+  "cpu_stalled_seconds": 0,
+  "utc": "2026-10-11T04:52:37.0140476Z",
+  "children": [
+   {
+    "cpu_seconds": 828.8125,
+    "working_gib": 36.809,
+    "private_commit_gib": 13.532,
+    "pid": 44412
+   }
+  ]
+ },
+ "training_semantics_unchanged": true,
+ "effort_comparison_note": "Working-set policy changed during P2 seed1 after epoch2; do not compare timings as identical-resource evidence."
+}

@@ -1,0 +1,192 @@
+{
+ "all_equal": true,
+ "legacy_record_width": 644,
+ "rows": {
+  "n02/test": {
+   "rows": 52021,
+   "legacy_feature_and_label_digest": "ca571d62876ea871a1262aa459d1f0498c4bbbc841ccfeaa25cc9305ccba7a2c"
+  },
+  "n02/train": {
+   "rows": 407948,
+   "legacy_feature_and_label_digest": "78ae75717ab4e15cc79fdab39f8cd48479ae38bfa8b01b7480d63137f4119fb3"
+  },
+  "n02/val": {
+   "rows": 57252,
+   "legacy_feature_and_label_digest": "c8dca9773397a8eab1673c4993a33697b4cf1ed3c6bb215572c82fb35d777e10"
+  },
+  "n03/test": {
+   "rows": 76163,
+   "legacy_feature_and_label_digest": "6cf426b935577f67fad882de438e2757edd31fbaf1fac158b132c080863734c2"
+  },
+  "n03/train": {
+   "rows": 572751,
+   "legacy_feature_and_label_digest": "39319202fe2fbc1fcb8f3a59b20ea21eaf1c7360924d2ac826f4afbecb5df72b"
+  },
+  "n03/val": {
+   "rows": 67570,
+   "legacy_feature_and_label_digest": "3f1bb2cc485872f7591cbacf8038faf5d878c9a15b6599eae8099ad25d621758"
+  },
+  "n04/test": {
+   "rows": 87319,
+   "legacy_feature_and_label_digest": "663b11e7cb80f60f88142f11a267c01e70f0183df3956bf6577d6b03ed28c96e"
+  },
+  "n04/train": {
+   "rows": 759411,
+   "legacy_feature_and_label_digest": "419b0efaf9f0b097a3e5f245b7744ef6d77d796f89357a036f15dfd5fd2e143d"
+  },
+  "n04/val": {
+   "rows": 98754,
+   "legacy_feature_and_label_digest": "c29f567c4b7c5e9d315e2c84bcee7670dcc082133d4d1e313e44faba22fa0b5f"
+  },
+  "n05/test": {
+   "rows": 125309,
+   "legacy_feature_and_label_digest": "f687a05e89c03085a8d3a654de6bb8c0164929aeddb31bfa6ef1471f387e0865"
+  },
+  "n05/train": {
+   "rows": 1007475,
+   "legacy_feature_and_label_digest": "536973e5315196ef243955ad6cbc29ed5ca1e8425835ad6c31ef81d97f99ff43"
+  },
+  "n05/val": {
+   "rows": 147001,
+   "legacy_feature_and_label_digest": "6a2c1fc7edd4557b472cc5f9b34976426c18790f72f6c4836e252f2125ee0830"
+  },
+  "n06/test": {
+   "rows": 146762,
+   "legacy_feature_and_label_digest": "cededf1aae29a2f2fa20e4ae4494fbb59c2a5049e30bb2b1aaf72c3fc8a9f76a"
+  },
+  "n06/train": {
+   "rows": 1147498,
+   "legacy_feature_and_label_digest": "2b1557ca3a8440af54d357fbe473183cacb6529827bd35a977907de6c29991d6"
+  },
+  "n06/val": {
+   "rows": 143678,
+   "legacy_feature_and_label_digest": "7c574ca014e8fc3c41bb64aabeb21f49f5f98a843779ecda3482948da4754653"
+  },
+  "n07/test": {
+   "rows": 174158,
+   "legacy_feature_and_label_digest": "fa84f479b0a7fef1400e2191e016edd41ba56bde0a1a8adad5c0ecae015d5767"
+  },
+  "n07/train": {
+   "rows": 1405507,
+   "legacy_feature_and_label_digest": "2141d026602e17cdcb45c59b9a669e302bf5c69c4367cf0183089aa3cb5b9320"
+  },
+  "n07/val": {
+   "rows": 151705,
+   "legacy_feature_and_label_digest": "7307a801c80716b5b8a40b51164db83671cf81bd9d2f0bdb07ed24f63e55f44a"
+  },
+  "n08/test": {
+   "rows": 205034,
+   "legacy_feature_and_label_digest": "36d5940a70d1f9caf6c2fe829884b056960025a802ae5ce5b4644d1b9a2fbab3"
+  },
+  "n08/train": {
+   "rows": 1579572,
+   "legacy_feature_and_label_digest": "7adadf081877e9fbf3429f3b32ea0b6cacbcc55facf5f74ad334036f295af3c2"
+  },
+  "n08/val": {
+   "rows": 209539,
+   "legacy_feature_and_label_digest": "69c232b22db89f8aa7c33a565c7307fb6139ca1e526f9159cecdfd297e1bb2f8"
+  },
+  "n09/test": {
+   "rows": 220668,
+   "legacy_feature_and_label_digest": "bea9794e7530ef0dbfbb40f5f8f0d127af47abf19230bbe631b94e5643fa0581"
+  },
+  "n09/train": {
+   "rows": 1833367,
+   "legacy_feature_and_label_digest": "e1e7d25a60596c3120307b3658383524cb4301593f36753fe5e42de5338fc893"
+  },
+  "n09/val": {
+   "rows": 247145,
+   "legacy_feature_and_label_digest": "7691cc9008b5f60c3dd2675c9bdb67c9f77ef211650451e3d5ea34ea66b35633"
+  },
+  "n10/test": {
+   "rows": 204716,
+   "legacy_feature_and_label_digest": "ec21a07a2c5a543e94fa006c6f2961264ed74e45bd2fad0bd0546e17d0b54b56"
+  },
+  "n10/train": {
+   "rows": 2106566,
+   "legacy_feature_and_label_digest": "167211e4a4f8887b50f801f7aac1006fe8e5d751e3f63a58dc3193e985d73bbd"
+  },
+  "n10/val": {
+   "rows": 249304,
+   "legacy_feature_and_label_digest": "968ce3c731c2b73f71c0c409e310671cc431fcf86f771af294817ef227fb855a"
+  },
+  "n11/test": {
+   "rows": 266771,
+   "legacy_feature_and_label_digest": "fff3f3d9798fb7c16887560530b5c130d6c583eca017e96c1a9682746398c7ad"
+  },
+  "n11/train": {
+   "rows": 2222340,
+   "legacy_feature_and_label_digest": "b7d4489b615888c5dd61ee95bd4ac5b52354ea57da245c1b7e96ad1e0327f858"
+  },
+  "n11/val": {
+   "rows": 271858,
+   "legacy_feature_and_label_digest": "b5d869fd4befdfcb5b2b6c4d3e5e1beb4c8b9fb7a973cdbb23c950c5e5ff6833"
+  },
+  "n12/test": {
+   "rows": 324133,
+   "legacy_feature_and_label_digest": "38dbf6b79200dfa7e91e613eef1208ed34edf9a0b576f4d54a13d77bab8658f5"
+  },
+  "n12/train": {
+   "rows": 2371799,
+   "legacy_feature_and_label_digest": "190d04b1f17fbe67c2a1878b93ee5ca3429535c2a749ba679e1b9adcdbec4d44"
+  },
+  "n12/val": {
+   "rows": 322298,
+   "legacy_feature_and_label_digest": "d38fb5c232754315ac09c85392a0ad94139092b73a5a55969c91171571b49800"
+  },
+  "n13/test": {
+   "rows": 360820,
+   "legacy_feature_and_label_digest": "7fe1da803cca2c78f7262c2a8bfef7b861d1b705b7858343a98f8efd507f86c6"
+  },
+  "n13/train": {
+   "rows": 2669696,
+   "legacy_feature_and_label_digest": "9c5605d7aaa2d95e7405f483b046df1689aab312787bdbacd2140eeaa36e756e"
+  },
+  "n13/val": {
+   "rows": 287509,
+   "legacy_feature_and_label_digest": "e0d1aaf5b3981155efdd672afefef739b7d43bd072bcb22699178828c764eb34"
+  },
+  "n14/test": {
+   "rows": 293937,
+   "legacy_feature_and_label_digest": "9ba92cc851851ab999a466c0051f3b77c23ec18a5eb97471d22fc2622e5c03ee"
+  },
+  "n14/train": {
+   "rows": 2988795,
+   "legacy_feature_and_label_digest": "7f37afa08c8ad0f0132b4971715697c6b07c7ba7606cf1fcf58025ae84c3a0f6"
+  },
+  "n14/val": {
+   "rows": 303963,
+   "legacy_feature_and_label_digest": "9eb52e18f3d3d45bf411b1c0384fc0da40fc757197df15f91a94a84ec5d23e8e"
+  },
+  "n15/test": {
+   "rows": 331044,
+   "legacy_feature_and_label_digest": "298b02d59718f8e8d0c121d155b0a9036b2da9147dc2bb82229f9d98c9035af8"
+  },
+  "n15/train": {
+   "rows": 3121065,
+   "legacy_feature_and_label_digest": "497147907e6db38bc3bb7dfbb0da6b5b0a42bbc7d8508e84b72642b38440263f"
+  },
+  "n15/val": {
+   "rows": 428900,
+   "legacy_feature_and_label_digest": "e5e77d1799ea34dae6387fa7e9eaa78ff03d9e56426fc2c8ff267c3184133d0a"
+  }
+ },
+ "fields": [
+  "rec:first644",
+  "y_move",
+  "y_joint",
+  "y_act",
+  "y_tgt",
+  "blocked",
+  "valid",
+  "v_y",
+  "stratum",
+  "weight",
+  "match",
+  "teams",
+  "family",
+  "turn",
+  "team"
+ ],
+ "shards": 173
+}

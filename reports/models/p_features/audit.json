@@ -1,0 +1,134 @@
+{
+ "split": "train",
+ "coverage": {
+  "all": {
+   "unit_turns": 72461475,
+   "attacks": 15146322,
+   "target_in_slots": 15146322,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 7.1624266549914975e-06
+  },
+  "2": {
+   "unit_turns": 1217601,
+   "attacks": 221299,
+   "target_in_slots": 221299,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 0.0
+  },
+  "3": {
+   "unit_turns": 1711905,
+   "attacks": 274984,
+   "target_in_slots": 274984,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 0.0
+  },
+  "4": {
+   "unit_turns": 2271528,
+   "attacks": 411789,
+   "target_in_slots": 411789,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 1.6728827467678144e-05
+  },
+  "5": {
+   "unit_turns": 3013830,
+   "attacks": 662203,
+   "target_in_slots": 662203,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 2.8203316046359616e-05
+  },
+  "6": {
+   "unit_turns": 3434445,
+   "attacks": 601365,
+   "target_in_slots": 601365,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 5.532189334812466e-06
+  },
+  "7": {
+   "unit_turns": 4205550,
+   "attacks": 789466,
+   "target_in_slots": 789466,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 3.5667154117772944e-06
+  },
+  "8": {
+   "unit_turns": 4732626,
+   "attacks": 958724,
+   "target_in_slots": 958724,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 3.592086084976924e-06
+  },
+  "9": {
+   "unit_turns": 5491935,
+   "attacks": 1174565,
+   "target_in_slots": 1174565,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 6.190896287009952e-06
+  },
+  "10": {
+   "unit_turns": 6311787,
+   "attacks": 1408796,
+   "target_in_slots": 1408796,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 1.093192783596785e-05
+  },
+  "11": {
+   "unit_turns": 6655224,
+   "attacks": 1334528,
+   "target_in_slots": 1334528,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 2.704642247954389e-06
+  },
+  "12": {
+   "unit_turns": 7104771,
+   "attacks": 1480731,
+   "target_in_slots": 1480731,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 3.2372612713344316e-06
+  },
+  "13": {
+   "unit_turns": 8001255,
+   "attacks": 1709681,
+   "target_in_slots": 1709681,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 5.624117716533219e-06
+  },
+  "14": {
+   "unit_turns": 8956956,
+   "attacks": 1996399,
+   "target_in_slots": 1996399,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 9.043250854419739e-06
+  },
+  "15": {
+   "unit_turns": 9352062,
+   "attacks": 2121792,
+   "target_in_slots": 2121792,
+   "target_beyond_slots": 0,
+   "lost_share": 0.0,
+   "slots_full_share": 8.019621768974585e-06
+  }
+ },
+ "aliases": {
+  "rows": 24193790,
+  "cross_match_alias_groups": 28786,
+  "rows_in_alias_groups": 151717,
+  "alias_row_share": 0.006270906707878344,
+  "within_group_variance_share": 0.008459248609754132,
+  "groups_split_by_v3": 6296,
+  "v3_separable_share_of_within": 0.038867663844758114
+ }
+}

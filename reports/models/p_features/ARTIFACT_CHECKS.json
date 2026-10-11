@@ -1,0 +1,15 @@
+{
+ "source_commit": "9a78345172010a207fe89c54af12704b8cc3fddf",
+ "checks": [
+  {
+   "script": "t0011_verify_exports.py",
+   "exit_code": 0,
+   "seconds": 32.619
+  },
+  {
+   "script": "t0011_summarize.py",
+   "exit_code": 0,
+   "seconds": 0.108
+  }
+ ]
+}

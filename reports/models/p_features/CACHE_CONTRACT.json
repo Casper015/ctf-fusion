@@ -1,0 +1,37 @@
+{
+ "complete": true,
+ "original_loader_counts": [
+  2
+ ],
+ "checked": [
+  {
+   "split": "train",
+   "family": "p2",
+   "rows": 405867,
+   "all_fields_exact": true,
+   "rng_state_exact": true
+  },
+  {
+   "split": "train",
+   "family": "p3",
+   "rows": 405867,
+   "all_fields_exact": true,
+   "rng_state_exact": true
+  },
+  {
+   "split": "val",
+   "family": "p2",
+   "rows": 57159,
+   "all_fields_exact": true,
+   "rng_state_exact": true
+  },
+  {
+   "split": "val",
+   "family": "p3",
+   "rows": 57159,
+   "all_fields_exact": true,
+   "rng_state_exact": true
+  }
+ ],
+ "all_cache_rows_verified_separately": "POLICY_CACHE.json"
+}

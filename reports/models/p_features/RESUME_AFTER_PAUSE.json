@@ -1,0 +1,106 @@
+{
+ "requested_by_user": true,
+ "started_utc": "2026-10-11T09:37:25Z",
+ "source_commit": "9a78345172010a207fe89c54af12704b8cc3fddf",
+ "preserved_completed_runs": [
+  {
+   "family": "p2",
+   "seed": 1,
+   "model_sha256": "5c99d94be5efe45b30a1b8c0f0b79e4414d0cb7b77bccabd46dfdeb127ddcbba",
+   "config_sha256": "d127cf06af416e208910bc7d0c081c8ea62f06b7d0d4a2618de7d176da7f8511"
+  },
+  {
+   "family": "p3",
+   "seed": 1,
+   "model_sha256": "b3f863a0e1810a02bdaa87543d5adf1185b2269d99bce99eaa92c816becd9def",
+   "config_sha256": "4b5ed95177071e9ac97d840b4f3bdc61066a896da130acdf22550595933d46f2"
+  },
+  {
+   "family": "p2",
+   "seed": 2,
+   "model_sha256": "7026126306d765078e36b74fd2727297c58567a86da459f585b1a49406c38ac9",
+   "config_sha256": "a8e3b53f4b8f0540664733f4195932e21cf12e0aff45177dead7b4b4ec8666c8"
+  },
+  {
+   "family": "p3",
+   "seed": 2,
+   "model_sha256": "af1d28b5b11c508e9181c653654e05c1d3d57e2c996c979861e6237253a6f1db",
+   "config_sha256": "3ace27c20d075ce9f5b90f45d8b914a7b296caa4147155a5c0521c641fbfdca2"
+  }
+ ],
+ "preserved_validation": [
+  {
+   "seed": 1,
+   "sha256": "6cd4b2d789f4175082fb0aec6323c576f5a522095ea4e9a4e403b4f23acbc632"
+  },
+  {
+   "seed": 2,
+   "sha256": "0bdd4373aad1d171d54cc6662432293e2930a5e281c6ebdab51b88024020c2aa"
+  }
+ ],
+ "interrupted_stage": "P2 seed3 calibration after epoch8; no checkpoint saved",
+ "recovery": "Rerun P2 seed3 from the beginning, then P3 seed3 and remaining comparisons/exports.",
+ "data_arguments_and_selection_unchanged": true,
+ "max_working_gib": 40,
+ "previous_failed_step": {
+  "stage": "train_p2_s3",
+  "command": [
+   "python",
+   "t0011_train_mmap.py",
+   "--model",
+   "general",
+   "--shards",
+   "data/shards_l3",
+   "--capacity",
+   "XXL",
+   "--policy-family",
+   "p2",
+   "--seed",
+   "3",
+   "--out",
+   "runs\\pf_p2_xxl_s3",
+   "--epochs",
+   "8",
+   "--patience",
+   "2",
+   "--plateau-decay",
+   "1",
+   "--lr-schedule",
+   "cosine",
+   "--lr",
+   "0.001",
+   "--min-lr",
+   "0.0001",
+   "--batch",
+   "1024",
+   "--weight-decay",
+   "1e-05",
+   "--max-rows",
+   "0",
+   "--val-split",
+   "val",
+   "--max-width",
+   "1024",
+   "--count-weighting",
+   "inv_teams",
+   "--backend",
+   "torch",
+   "--device",
+   "cuda",
+   "--gpu-resident-gb",
+   "6.0",
+   "--gpu-window-rows",
+   "1000000",
+   "--smoothing",
+   "0.01",
+   "--act-weight",
+   "0.5",
+   "--target-weight",
+   "0.5"
+  ],
+  "started_utc": "2026-10-11T07:26:07Z",
+  "exit_code": 4294967295,
+  "wall_seconds": 1782.392
+ },
+ "resume_driver_sha256": "30aaed923e6e3eeae490f86ff41f2f29e2b1d5c45588d7fb7c2479df3b9ed493"
+}

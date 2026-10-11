@@ -1,0 +1,14 @@
+{
+ "reason": "User reported host RAM exhaustion and reboot during the original P2 seed1 preparation.",
+ "original_loader_observed_private_gb": 84.55,
+ "physical_ram_gb": 64,
+ "completed_epochs_before_restart": 0,
+ "checkpoint_before_restart": false,
+ "reused": [
+  "21000-match layout3 rebuild",
+  "full train feature audit",
+  "30049121-row exact legacy parity"
+ ],
+ "input_change": "Shard-at-a-time policy filtering into verified NPY mmaps; no row/order/dtype changes.",
+ "training_parameters_unchanged": true
+}
