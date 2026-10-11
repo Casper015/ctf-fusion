@@ -4,7 +4,7 @@ title: "P distillation on the GPU: torch warmup/distill stages and T0011 cache r
 status: active
 owner: claude@caspers-macbook
 needs: []
-writes: [training/distill_policy.py, fusion/torch_qat.py, tests/test_distill_gpu.py]
+writes: [docs/P_MIXED_PRECISION.md, fusion/torch_qat.py, tests/test_distill_gpu.py, tests/test_precision.py, tests/test_torch_backend.py, training/distill_policy.py]
 depends: []
 land: pr
 branch: claude/t0031-p-distillation-on-the-gpu-torch-warmup
@@ -29,3 +29,4 @@ Not started.
 - 2026-10-11 19:17Z claude@caspers-macbook: amended depends -> none
 - 2026-10-11 19:17Z claude@caspers-macbook: note: Depends on T0030's code, which is on main (PR #22 merged 4368fd1); T0030 itself is still 'review' under its owner, so the board dependency was dropped instead of forcing it.
 - 2026-10-11 19:17Z claude@caspers-macbook: claimed
+- 2026-10-11 19:19Z claude@caspers-macbook: amended writes -> docs/P_MIXED_PRECISION.md, fusion/torch_qat.py, tests/test_distill_gpu.py, tests/test_precision.py, tests/test_torch_backend.py, training/distill_policy.py
