@@ -299,13 +299,15 @@ The P-only line fixed these. The three write-ups now open with a correction note
 
 ## P-only bots
 
-**Sources:** [bots/p_only/](../bots/p_only/), [screen_v3xl_matched/SCREEN.md](../reports/eval/screen_v3xl_matched/SCREEN.md), [test_c08_v3xl/SCREEN.md](../reports/eval/test_c08_v3xl/SCREEN.md), [SEARCH_PORTFOLIO.md](SEARCH_PORTFOLIO.md), [handoffs/p_only_distance_tiers/NEXT_AGENT_PROMPT.md](handoffs/p_only_distance_tiers/NEXT_AGENT_PROMPT.md)
+**Sources:** [bots/p_only/](../bots/p_only/), [screen_v3xl_matched/SCREEN.md](../reports/eval/screen_v3xl_matched/SCREEN.md), [test_c08_v3xl/SCREEN.md](../reports/eval/test_c08_v3xl/SCREEN.md), [tournament_50k_report.md](../reports/eval/tournament_50k_report.md), [SEARCH_PORTFOLIO.md](SEARCH_PORTFOLIO.md), [handoffs/p_only_distance_tiers/NEXT_AGENT_PROMPT.md](handoffs/p_only_distance_tiers/NEXT_AGENT_PROMPT.md)
 
 **What changed.**
 - C08 and v12 take every opponent prediction from P. The hand-written forecasts, habits and scripted opponent moves are deleted, not switched off.
 - C08 searches two plies: `stepExact` settles turn 1.
 - V is off unless a variant turns it on.
 - A screen runner binds every row to an identity: bundle, binary, models, runner, schedule and limits. It interleaves the arms on the same fixtures, adds A/A arms, and counts improved, unchanged and degraded fixtures (these are not wins).
+
+**Official 50k Plackett-Luce tournament** ([reports/eval/tournament_50k_report.md](../reports/eval/tournament_50k_report.md)). 50,000 matches across 10 sizes (2–15 teams, 5,000 games each, 16 workers, 21 bots). Pure policy bots take the top spots: `c08_ponly_pxl` (+314.6 PL) and `c08_ponly_pxxl` (+313.4 PL) lead `c08_control` (+285.1) and `Player5` (+282.1). In duels (2–5 teams), P-XXL has slightly higher win rates; in crowded boards (6–15 teams), P-XL yields higher win rates due to lower per-node search cost within the 30 ms budget.
 
 **Phases 0 and 1.**
 - **Phase 0.** STRUCTURE_SCAN (generated, 258 bots) and STRUCTURE_ANALYSIS rank v12 first and C08 second as carriers.
