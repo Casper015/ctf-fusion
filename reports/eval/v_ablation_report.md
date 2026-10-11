@@ -1,4 +1,14 @@
 # Value Network (V) Empirical In-Engine Ablation Study
+
+> **Correction note (2026-10-11, T0024).** This report is kept as written: it is the record of the 0a0badc ablation. According to [CURRENT_STATUS_AND_V_ABLATION_REVIEW.md](../reviews/review_bundle_20261009/CURRENT_STATUS_AND_V_ABLATION_REVIEW.md), it does not settle the question:
+>
+> - **The V gains include zero.** The marginal V gains, +0.0011 (C08) and +0.0366 (v12), both have intervals that include zero. The significant results compare P+V with the control, not V with P alone.
+> - **The fixtures are reused.** All 80 fixtures repeat maps of the earlier P pilot.
+> - **W/T/L are not match results.** They count paired utility changes.
+> - **The timing claims can't be checked.** The records hold no reply times, so "under 0.2 ms" and "0 timeouts" are unverified.
+> - **The artifact links below are broken.** They use `file:///` paths. The files are `reports/eval/v_ablation_c08.json`, `v_ablation_c08.jsonl`, `v_ablation_v12.json` and `v_ablation_v12.jsonl`.
+>
+> Current evidence: [docs/DIGEST.md](../../docs/DIGEST.md#hybrid-carriers-the-first-p-and-v-pilots).
 **Date**: 2026-10-10  
 **Objective**: Directly evaluate the in-game impact of Value Network (V) by ablating V on the Tier M candidate ("卸掉 V") across paired tournament matches, rather than relying on misleading offline Brier/NLL cross-metric comparisons.
 

@@ -35,6 +35,9 @@ jobs:
         run: python -m unittest tests.test_repo_layout tests.test_task_board -v
       - name: Board files are valid
         run: python tools/repo/task.py check
+      - name: Markdown index is current (a warning, never a failure)
+        run: |
+          python tools/repo/md_index.py --check || echo "::warning file=docs/MARKDOWN_INDEX.md::Stale. Run python tools/repo/md_index.py --write and commit it."
 
   tests:
     name: Tests (${{ matrix.os }}, Python ${{ matrix.python }})

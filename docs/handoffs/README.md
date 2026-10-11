@@ -9,4 +9,4 @@ Before 2026-10-10, agents passed work on through long briefs and "prompt for the
 | [roster/report/NEXT_AGENT_PROMPT.md](../../roster/report/NEXT_AGENT_PROMPT.md) | Finishing the first roster evidence run |
 | [reports/reviews/review_bundle_20261009/](../../reports/reviews/review_bundle_20261009/README.md) | P/V integration review and its execution prompt |
 
-Task [T0008](../../tasks/T0008-triage-the-handoff-prompts-written.md) records which of their steps are done and turns the open ones into tasks.
+[DIGEST.md](../DIGEST.md#triage-of-the-pre-board-prompts) records, step by step, which parts are done, which are tasks on the board, and which Casper deferred ([T0027](../../tasks/T0027-decide-which-pre-board-evidence-steps.md)). The triage was task T0008, merged into T0024.

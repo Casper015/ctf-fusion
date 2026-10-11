@@ -77,6 +77,11 @@ Write the handoff as if the next agent knows nothing:
 - Development-machine timings are never evidence.
 - Never reuse a used seed (see the task's spec). Never edit a result file by hand: regenerate it.
 
+**Duplicates and redefinitions**
+- Two tasks that describe the same work: `python $T merge T0018 T0017 --why "same work"`. The duplicate is dropped with a pointer both ways; its lanes, needs and dependencies move to the kept task, and its dependents follow. Merging open work into a finished task is refused (`--force` if that is really meant).
+- `amend` also redefines a task you hold, or one nobody holds: `--title`, `--goal`, `--done-when`, `--depends`, `--needs`, `--land`. `--goal @file` and `--done-when @file` read the text from a file. Every change is logged.
+- Every board change rewrites [tasks/SUMMARY.md](tasks/SUMMARY.md), the whole board on one page.
+
 **Blocked**
 - If you need a human decision, hand off with `--status blocked` and a one-line question. Humans watch `task.py list` for blocked tasks.
 - If you find a task `active` whose owner is gone (no log line for a day and no lock held), ask in its log first. Take it with `claim --force` only after a human agrees, and record that in the log.
@@ -111,6 +116,7 @@ A task's `writes` field is the binding version of this table for that task.
 
 - Task file format and statuses: [tasks/README.md](tasks/README.md).
 - Every path that moved, and old handoff briefs: [docs/PATH_MAP.md](docs/PATH_MAP.md), [docs/handoffs/](docs/handoffs/README.md).
+- What every document says, compressed by topic, and the seeds already used: [docs/DIGEST.md](docs/DIGEST.md). Every Markdown file: [docs/MARKDOWN_INDEX.md](docs/MARKDOWN_INDEX.md).
 - Tests before landing (`land` runs the first one for you):
   - `python -m unittest discover -s tests -t .`
   - `python -m unittest discover -s bots/p_only/tests` when you touched `bots/`.

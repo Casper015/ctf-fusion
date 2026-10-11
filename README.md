@@ -84,8 +84,10 @@ To run games, point to the arena first: `export AI_TEST_ROOT=~/code/meow-ai-aren
 
 ## Read more
 
+- [docs/DIGEST.md](docs/DIGEST.md): all the documentation on one page, compressed and grouped by topic, with the current state, the seeds already used and the open questions. [docs/MARKDOWN_INDEX.md](docs/MARKDOWN_INDEX.md) lists every Markdown file.
 - [docs/TECHNICAL_OVERVIEW.md](docs/TECHNICAL_OVERVIEW.md): the pipeline in detail, the guarantees each test enforces, all commands.
 - [docs/DESIGN.md](docs/DESIGN.md) and [docs/REVIEW.md](docs/REVIEW.md): why it is built this way, and the decisions so far.
 - [docs/ROSTER.md](docs/ROSTER.md): how opponents are chosen.
+- [docs/FEATURE_FAMILIES.md](docs/FEATURE_FAMILIES.md): the versioned inputs of P and V (p2/p3, v2/v3), the V data and the 4XL V pilot.
 - [bots/p_only/README.md](bots/p_only/README.md): the P-only bots and their experiments.
 - [docs/PATH_MAP.md](docs/PATH_MAP.md): where files moved in the October 2026 reorganization.
