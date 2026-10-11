@@ -15,6 +15,10 @@ folded into the last layer at export (beta) is fitted after QAT on validation ro
 
 Loss (qat_loss): alpha * the trainer's cross-entropy + (1 - alpha) * tau^2 * KL(teacher || student / tau), per
 head, as fusion/policy_distill.py. Nothing here trains a real model: tests run toy batches on the CPU.
+
+FloatPolicy is the same loss on the float student (the warmup and distill stages): normalized features built on
+the device from raw int16 records (fusion.torch_backend.DevicePolicyBatch, as the GPU trainer does), with the
+NumPy model's arrays as starting weights and copied back by to_ref.
 """
 from __future__ import annotations
 
@@ -22,7 +26,7 @@ import numpy as np
 import torch
 
 from . import precision
-from .torch_backend import TorchMLP, _ClippedReLU, _SoftmaxXent, combine_joint
+from .torch_backend import DevicePolicyBatch, TorchMLP, TorchPolicy, _ClippedReLU, _SoftmaxXent, combine_joint
 
 F64 = torch.float64
 
@@ -42,15 +46,18 @@ def quantize_layer(W: torch.Tensor, b: torch.Tensor, bits: int, first: bool, las
     s_in = 1.0 if first else 1.0 / precision.ACT_ONE
     absw = W.abs()
     one = torch.ones((), dtype=F64, device=W.device)
+    # Divide by float64 tensors, never Python scalars: on CUDA, tensor / scalar is computed as tensor * (1 / scalar),
+    # which is not correctly rounded and puts the scales one ulp away from NumPy's (and the export's).
+    hi_t, dmax_t = torch.tensor(float(hi), dtype=F64, device=W.device), torch.tensor(float(precision.D_MAX), dtype=F64, device=W.device)
     if bits != 4:
         peak = absw.amax(dim=1)
-        S = torch.where(peak > 0, peak / hi, one)
+        S = torch.where(peak > 0, peak / hi_t, one)
         d = torch.ones((out, nb), dtype=torch.int64, device=W.device)
     else:
         peak_b = torch.stack([absw[:, i * block:(i + 1) * block].amax(dim=1) for i in range(nb)], dim=1)
-        r = peak_b / hi
+        r = peak_b / hi_t
         rmax = r.amax(dim=1)
-        S = torch.where(rmax > 0, rmax / precision.D_MAX, one)
+        S = torch.where(rmax > 0, rmax / dmax_t, one)
         d = torch.clamp(_round(r / S[:, None]), 1, precision.D_MAX).to(torch.int64)
     q = torch.clamp(_round(W / (S[:, None] * d[:, cols])), lo, hi).to(torch.int64)
     for _ in range(40):
@@ -174,6 +181,63 @@ class QATPolicy:
         for q in self.heads.values():
             q.t.to_ref()
 
+    def from_ref(self):
+        for q in self.heads.values():
+            q.t.from_ref()
+
+
+class FloatPolicy:
+    """The float student on a device (warmup and distill stages): logits(X, move) like QATPolicy, on batches from
+    `device_batch`, so qat_loss computes the same alpha * CE + (1 - alpha) * tau^2 * KL as
+    fusion.policy_distill.distill_loss."""
+
+    def __init__(self, model, dev):
+        self.t = TorchPolicy(model, dev)
+
+    @property
+    def params(self):
+        return self.t.params
+
+    def logits(self, X, move: torch.Tensor):
+        n = self.t.nets
+        s = n["mover"].forward(X["mover_in"])[..., 0]
+        r = n["squad"].forward(X["squad_in"])
+        b = torch.arange(move.shape[0], device=move.device)[:, None]
+        k = torch.arange(3, device=move.device)[None, :]
+        za = n["act"].forward(X["mover_in"][b, k, move])
+        zt = n["target"].forward(target_in(X, move))[..., 0]
+        return combine_joint(s, r), za, zt
+
+    def to_ref(self):
+        self.t.to_ref()
+
+    def from_ref(self):
+        self.t.from_ref()
+
+
+@torch.no_grad()
+def teacher_probs(policy: FloatPolicy, beta: dict, X: dict, move: torch.Tensor, tau: float) -> dict:
+    """fusion.policy_distill.teacher_probs on the device: softmax over the legal support of the calibrated logits
+    (beta per head) at temperature tau; masked entries, and rows whose mask is empty, are exactly 0. Float32
+    matmuls, so values agree with the NumPy teacher within float tolerance, not bit for bit."""
+    zj, za, zt = policy.logits(X, move)
+    b = torch.arange(move.shape[0], device=move.device)[:, None]
+    k = torch.arange(3, device=move.device)[None, :]
+    out = {}
+    for name, z, m in (("joint", zj, X["joint_mask"]), ("act", za, X["act_legal"][b, k, move]), ("target", zt, X["cand_valid"])):
+        z = z.to(F64) * float(beta[name]) / tau
+        z = torch.where(m, z, torch.tensor(float("-inf"), dtype=F64, device=z.device))
+        z = torch.where(m.any(-1, keepdim=True), z, torch.zeros_like(z))
+        out[name] = torch.where(m, torch.softmax(z, dim=-1), torch.zeros_like(z)).to(torch.float32).cpu().numpy()
+    return out
+
+
+def device_batch(rec: torch.Tensor, dl, family: str) -> dict:
+    """Normalized features of raw int16 records already on the device (fusion.models.policy_batch(..., True))."""
+    X = DevicePolicyBatch(rec, dl, family)
+    return {"mover_in": X.mover_in, "squad_in": X.squad_in, "cand_f": X.cand_f, "joint_mask": X.joint_mask,
+            "act_legal": X.act_legal, "cand_valid": X.cand_valid}
+
 
 def tensors(X, dev) -> dict:
     """A raw-integer fusion.models.PolicyBatch as device tensors."""
@@ -235,4 +299,5 @@ def qat_loss(policy: QATPolicy, X: dict, y: dict, w: torch.Tensor, teacher: dict
     return total, {k: v.detach() for k, v in parts.items()} | {"total": total.detach()}
 
 
-__all__ = ["quantize_layer", "exact_layer", "QATMLP", "QATPolicy", "tensors", "qat_loss", "kl_term"]
+__all__ = ["quantize_layer", "exact_layer", "QATMLP", "QATPolicy", "FloatPolicy", "device_batch", "teacher_probs", "tensors", "qat_loss",
+           "kl_term"]

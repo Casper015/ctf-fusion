@@ -6,6 +6,7 @@ tolerances (float summation order differs between BLAS and CUDA; exported intege
 """
 from __future__ import annotations
 
+import json
 import os
 import tempfile
 import types
@@ -405,6 +406,119 @@ class TestQuantizationAwareTraining(unittest.TestCase):
         val.backward()
         self.assertAlmostEqual(float(val), ref, places=9)
         np.testing.assert_allclose(zt.grad.numpy(), grad, rtol=0, atol=1e-12)
+
+    def test_float_distill_loss_and_gradients_match_numpy(self):
+        """--backend torch warmup/distill (FloatPolicy on device-built batches) == fusion.policy_distill.distill_loss."""
+        from fusion.torch_backend import DeviceLayout  # noqa: PLC0415
+        dl = DeviceLayout(self.layout, self.dev)
+        mv = self.d["y_move"].astype(np.int64)
+        y = {k: torch.tensor(self.d[k].astype(np.int64), device=self.dev) for k in LABELS}
+        w = torch.tensor(self.d["weight"], device=self.dev)
+        for family in ("p2", "p3"):
+            Xn = policy_batch(self.d["rec"], self.layout, True, family)
+            teacher = PolicyNet(self.layout, np.random.default_rng(9), self.HIDDEN, family)
+            tp = self.D.teacher_probs(teacher, Xn, mv, 2.0)
+            for alpha, tps in ((1.0, None), (0.5, tp), (0.0, tp)):
+                cfg = self.D.DistillConfig(alpha=alpha, tau=2.0, act_weight=0.5, target_weight=0.5, smoothing=0.01)
+                student = self.models(family)
+                student.zero_grad()
+                ref = self.D.distill_loss(student, Xn, self.d, self.d["weight"], tps, cfg, backward=True)
+                fp = self.Q.FloatPolicy(student, self.dev)
+                T = self.Q.device_batch(torch.tensor(self.d["rec"], device=self.dev), dl, family)
+                tt = None if tps is None else {k: torch.tensor(v, device=self.dev) for k, v in tps.items()}
+                loss, parts = self.Q.qat_loss(fp, T, y, w, tt, cfg)
+                loss.backward()
+                with self.subTest(family=family, alpha=alpha):
+                    for k in ("joint", "act", "target", "total"):
+                        self.assertAlmostEqual(float(parts[k]), float(ref[k]), delta=1e-5 * max(1.0, abs(float(ref[k]))))
+                    for g_t, g_n in zip((p.grad for p in fp.params), student.grads):
+                        np.testing.assert_allclose(g_t.cpu().numpy(), g_n, rtol=1e-4, atol=1e-6 * max(1.0, np.abs(g_n).max()))
+
+    def test_torch_stages_train_and_bind_the_teacher_shard_to_its_cache(self):
+        import argparse  # noqa: PLC0415
+
+        from training import distill_policy as T  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            T.write_cache(out / "a", self.d, np.arange(100, 148))
+            T.write_cache(out / "b", self.d, np.arange(200, 248))
+            ca, cb = T.RowCache(out / "a"), T.RowCache(out / "b")
+            teacher = PolicyNet(self.layout, np.random.default_rng(2), self.HIDDEN)
+            T.teacher_targets(teacher, self.layout, ca, "train", out / "t", tau=2.0, batch=16)
+            args = argparse.Namespace(alpha=0.5, tau=2.0, act_weight=0.5, target_weight=0.5, smoothing=0.01, seed=0, epochs=1,
+                                      batch=16, lr=1e-3, weight_decay=0.0, init=None, profile="mixed4_8", device=DEVICE,
+                                      optimizer="adam", backend="torch")
+            student = T.load_student(self.layout, "s", "p2", None, 0)
+            with self.D.TeacherShard(out / "t") as sh:
+                for stage in ("warmup", "distill"):
+                    res = T.train(stage, student, self.layout, ca, args, None if stage == "warmup" else sh, out / stage)
+                    self.assertEqual(res["config"]["backend"], "torch")
+                    self.assertEqual(res["receipt"]["steps"], 3)
+                    self.assertTrue(np.isfinite(res["receipt"]["final"]["total"]))
+                with self.assertRaises(SystemExit):              # a shard written for another cache
+                    T.train("distill", student, self.layout, cb, args, sh, out / "x")
+            ca.close()
+            cb.close()
+
+    def test_device_teacher_targets_match_numpy(self):
+        from training import distill_policy as T  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            T.write_cache(out / "c", self.d, np.arange(48))
+            c = T.RowCache(out / "c")
+            for family in ("p2", "p3"):
+                teacher = PolicyNet(self.layout, np.random.default_rng(4), self.HIDDEN, family)
+                teacher.beta = {"joint": 0.8, "act": 1.3, "target": 0.6}
+                T.teacher_targets(teacher, self.layout, c, "train", out / f"n{family}", tau=2.0, batch=16)
+                T.teacher_targets(teacher, self.layout, c, "train", out / f"d{family}", tau=2.0, batch=16, device=DEVICE)
+                with self.D.TeacherShard(out / f"n{family}") as a, self.D.TeacherShard(out / f"d{family}") as b:
+                    for k in ("joint", "act", "target"):
+                        with self.subTest(family=family, head=k):
+                            np.testing.assert_allclose(b.arr[k], a.arr[k], rtol=0, atol=2e-6)
+                            np.testing.assert_array_equal(b.arr[k] == 0, a.arr[k] == 0)
+                    for k in ("row", "move", "joint_mask", "act_mask", "target_mask"):
+                        np.testing.assert_array_equal(b.arr[k], a.arr[k])
+                    self.assertEqual(b.identity["teacher_device"], DEVICE)
+            c.close()
+
+    def test_scheduled_torch_stages_keep_the_best_state(self):
+        """--val-cache on the device: the kept state is the best epoch's, for the float student and for QAT."""
+        import argparse  # noqa: PLC0415
+
+        from training import distill_policy as T  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            T.write_cache(out / "tr", {k: v[:32] for k, v in self.d.items()}, np.arange(32))
+            T.write_cache(out / "va", {k: v[32:] for k, v in self.d.items()}, np.arange(32, 48))
+            tr, va = T.RowCache(out / "tr"), T.RowCache(out / "va")
+            args = argparse.Namespace(alpha=0.5, tau=1.0, act_weight=0.5, target_weight=0.5, smoothing=0.01, seed=0, epochs=3,
+                                      batch=8, lr=3e-2, min_lr=1e-3, lr_schedule="cosine", patience=1, plateau_decay=1,
+                                      weight_decay=0.0, init=None, profile="mixed4_8", device=DEVICE, optimizer="adam",
+                                      backend="torch", count_weighting="none")
+            sup = self.D.DistillConfig(alpha=1.0, act_weight=0.5, target_weight=0.5, smoothing=0.01)  # as train() validates
+            for stage in ("warmup", "qat"):
+                student = T.load_student(self.layout, "s", "p2", None, 0)
+                if stage == "qat":
+                    teacher = PolicyNet(self.layout, np.random.default_rng(2), self.HIDDEN)
+                    T.teacher_targets(teacher, self.layout, tr, "train", out / "t", tau=1.0, batch=16)
+                    with self.D.TeacherShard(out / "t") as sh:
+                        res = T.train(stage, student, self.layout, tr, args, sh, out / stage, va)
+                else:
+                    res = T.train(stage, student, self.layout, tr, args, None, out / stage, va)
+                log = [json.loads(x) for x in (out / stage / "log.jsonl").read_text().splitlines()]
+                with self.subTest(stage=stage):
+                    self.assertAlmostEqual(res["receipt"]["best_val"], min(r["val"] for r in log), places=6)
+                    self.assertEqual(res["receipt"]["calibrated"], stage != "qat")
+                    saved = dict(np.load(out / stage / "model.npz"))
+                    best = dict(np.load(out / stage / "best.npz"))
+                    for k in best:
+                        if not k.startswith("beta"):
+                            np.testing.assert_array_equal(saved[k], best[k], err_msg=k)
+                    if stage == "warmup":      # the kept float state reproduces the best validation loss
+                        student.calibrated = False
+                        self.assertAlmostEqual(T.val_loss(student, self.layout, va, args, sup), res["receipt"]["best_val"], places=4)
+            tr.close()
+            va.close()
 
     def test_toy_pipeline_runs_every_stage(self):
         from training import distill_policy  # noqa: PLC0415

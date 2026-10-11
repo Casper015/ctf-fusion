@@ -14,6 +14,7 @@ Nothing here trains a real model or measures time.
 """
 from __future__ import annotations
 
+import json
 import subprocess
 import tempfile
 import unittest
@@ -383,6 +384,81 @@ class Distillation(unittest.TestCase):
             w = D.TeacherShardWriter(Path(tmp), 32, 8, {"family": "p2"})
             with self.assertRaises(ValueError):
                 w.close()                                            # incomplete shard
+
+    def test_t0011_cache_layout(self):
+        """data/pf_policy_cache/<split>: no row.npy, a CACHE.json receipt; row ids are positions."""
+        import hashlib  # noqa: PLC0415
+        d = rows(20, seed=22)
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp)
+            arrays = {k: d[k] for k in ("rec", "y_move", "y_joint", "y_act", "y_tgt", "weight")}
+            arrays["teams"] = np.full(20, 9, np.int8)
+            for k, a in arrays.items():
+                np.save(p / f"{k}.npy", a)
+            receipt = {"identity": {"fields": sorted(arrays)}, "complete": True, "rows": 20,
+                       "arrays": {k: {"shape": list(a.shape), "dtype": a.dtype.str, "bytes": int(a.nbytes),
+                                      "data_sha256": hashlib.sha256(np.ascontiguousarray(a).tobytes()).hexdigest()}
+                                  for k, a in arrays.items()}}
+            (p / "CACHE.json").write_text(json.dumps(receipt))
+            c = distill_policy.RowCache(p)
+            c.verify_receipt()
+            got = c.take(np.array([3, 7]))
+            np.testing.assert_array_equal(got["row"], [3, 7])
+            np.testing.assert_array_equal(got["rec"], d["rec"][[3, 7]])
+            ident = c.identity()
+            c.close()
+            receipt["arrays"]["weight"]["data_sha256"] = "0" * 64      # another cache, or a corrupted copy
+            (p / "CACHE.json").write_text(json.dumps(receipt))
+            c = distill_policy.RowCache(p)
+            self.assertNotEqual(c.identity(), ident)
+            with self.assertRaises(ValueError):
+                c.verify_receipt()
+            c.close()
+            receipt["rows"] = 21
+            (p / "CACHE.json").write_text(json.dumps(receipt))
+            with self.assertRaises(ValueError):
+                distill_policy.RowCache(p)
+
+    def test_scheduled_stage_with_validation(self):
+        """--val-cache: T0011's epoch loop (cosine, validation, best state), inv_teams weights, calibration."""
+        import argparse  # noqa: PLC0415
+        L = feature_layout()
+        d = rows(64, seed=23)
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp)
+            for name, sl in (("train", slice(0, 48)), ("val", slice(48, 64))):
+                distill_policy.write_cache(p / name, {k: v[sl] for k, v in d.items()}, np.arange(64)[sl])
+                np.save(p / name / "teams.npy", np.arange(64, dtype=np.int8)[sl] % 13 + 2)
+            tr, va = distill_policy.RowCache(p / "train"), distill_policy.RowCache(p / "val")
+            args = argparse.Namespace(alpha=0.5, tau=1.0, act_weight=0.5, target_weight=0.5, smoothing=0.01, seed=0,
+                                      epochs=3, batch=16, lr=1e-3, min_lr=1e-4, lr_schedule="cosine", patience=2,
+                                      plateau_decay=1, weight_decay=0.0, init=None, profile="mixed4_8", device="cpu",
+                                      optimizer="adam", backend="numpy", count_weighting="inv_teams")
+            student = distill_policy.load_student(L, "s", "p2", None, 0)
+            res = distill_policy.train("warmup", student, L, tr, args, None, p / "w", va)
+            log = [json.loads(x) for x in (p / "w" / "log.jsonl").read_text().splitlines()]
+            self.assertEqual([r["epoch"] for r in log], [1, 2, 3])
+            self.assertAlmostEqual(log[0]["lr"], 1e-3)
+            self.assertAlmostEqual(log[2]["lr"], 1e-4)
+            self.assertAlmostEqual(res["receipt"]["best_val"], min(r["val"] for r in log))
+            self.assertTrue(res["receipt"]["calibrated"])
+            self.assertTrue((p / "w" / "best.npz").is_file())
+            self.assertEqual(res["config"]["count_weighting"], "inv_teams")
+            # the validation loss is the inv_teams-weighted supervised loss of the kept (best) state
+            sup = D.DistillConfig(alpha=1.0, act_weight=0.5, target_weight=0.5, smoothing=0.01)
+            student.calibrated = False
+            v = distill_policy.val_loss(student, L, va, args, sup)
+            vd = va.take(np.arange(16))
+            w = vd["weight"] / vd["teams"].astype(np.float32)
+            ref = D.distill_loss(student, policy_batch(vd["rec"], L, True, "p2"), vd, w.astype(np.float32), None, sup, False)
+            self.assertAlmostEqual(v, float(ref["total"]), places=5)
+            args.count_weighting = "inv_teams"
+            os_rm = (p / "train" / "teams.npy")
+            tr.close()
+            os_rm.unlink()
+            with self.assertRaises(SystemExit):
+                distill_policy.train("warmup", student, L, distill_policy.RowCache(p / "train"), args, None, p / "x", va)
+            va.close()
 
     def test_toy_pipeline_without_torch(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -10,13 +10,16 @@
     python -m training.distill_policy toy --out build/p_distill/toy          # every stage on synthetic rows (tests)
 
 Row caches (--cache) are directories of NumPy arrays opened memory-mapped: rec.npy (R, record width) int16, y_move,
-y_joint, y_act, y_tgt, weight, and row.npy (stable row ids). Training reads one minibatch of rows at a time, in a
+y_joint, y_act, y_tgt, weight, and row.npy (stable row ids). T0011's data/pf_policy_cache/<split> has no row.npy:
+its receipt CACHE.json (row count, shapes, dtypes, data SHA-256 per array) stands in, the row ids are the
+positions in that fixed order, and the cache identity is derived from the receipt's digests. Training reads one minibatch of rows at a time, in a
 seeded permutation, so memory is bounded by the batch (a later data task writes the cache, as T0011's
 data/pf_policy_cache: never a concatenated copy in RAM). Teacher shards (fusion/policy_distill.py) are written
 batch by batch and checked against every student batch: rows, masks and movement contexts must be identical.
 
 Stages: warmup = supervised CE (the trainer's loss, alpha = 1); distill = alpha CE + (1 - alpha) tau^2 KL;
-qat = the same loss through fusion/torch_qat.py, whose forward values are the deployed integer outputs of the
+--backend torch runs warmup and distill on the float student on a device (fusion.torch_qat.FloatPolicy, batches
+built on the device from the int16 records); qat always runs there. qat = the same loss through fusion/torch_qat.py, whose forward values are the deployed integer outputs of the
 chosen low-bit profile. Every stage writes config.json (identities of data, teacher shard, init, profile, loss)
 and a receipt (steps, rows, final losses) next to model.npz, as training/common.Run does.
 """
@@ -39,6 +42,7 @@ from fusion.schema import layout as feature_layout
 LABELS = ("y_move", "y_joint", "y_act", "y_tgt")
 CACHE_FIELDS = ("rec", *LABELS, "weight", "row")
 STUDENTS = {"xxl": D.STUDENT_XXL, "6xl": D.TEACHER_6XL,
+            "8xl": {"mover": [2048], "squad": [8192, 2048], "act": [2048], "target": [256]},   # T0032's teacher (offline only)
             "s": {"mover": [16], "squad": [64, 32], "act": [16], "target": [8]}}
 
 
@@ -47,11 +51,26 @@ class RowCache:
 
     def __init__(self, path: Path):
         self.path = Path(path)
-        self.arr = {k: np.load(self.path / f"{k}.npy", mmap_mode="r") for k in CACHE_FIELDS}
+        receipt = self.path / "CACHE.json"
+        self.receipt = None
+        if not (self.path / "row.npy").is_file() and receipt.is_file():
+            self.receipt = json.loads(receipt.read_text(encoding="utf-8"))   # T0011's layout: positions are row ids
+        fields = CACHE_FIELDS if self.receipt is None else tuple(k for k in CACHE_FIELDS if k != "row")
+        self.arr = {k: np.load(self.path / f"{k}.npy", mmap_mode="r") for k in fields}
+        if (self.path / "teams.npy").is_file():           # optional: team count per row (--count-weighting inv_teams)
+            self.arr["teams"] = np.load(self.path / "teams.npy", mmap_mode="r")
         n = {k: len(v) for k, v in self.arr.items()}
         if len(set(n.values())) != 1:
             raise ValueError(f"{path}: fields of different lengths {n}")
         self.rows = n["rec"]
+        if self.receipt is not None:
+            r = self.receipt
+            if not r.get("complete") or r.get("rows") != self.rows:
+                raise ValueError(f"{receipt}: incomplete, or {r.get('rows')} rows where the arrays hold {self.rows}")
+            for k, a in self.arr.items():
+                m = r["arrays"].get(k)
+                if m is None or list(a.shape) != m["shape"] or a.dtype.str != m["dtype"]:
+                    raise ValueError(f"{receipt}: {k} is {a.dtype.str}{list(a.shape)}, the receipt says {m}")
 
     def close(self) -> None:
         """Release the mapped files (Windows cannot delete a file that is still mapped)."""
@@ -63,11 +82,30 @@ class RowCache:
 
     def identity(self) -> str:
         h = hashlib.sha256(f"{self.rows}|{self.arr['rec'].shape}".encode())
-        h.update(np.ascontiguousarray(self.arr["row"]).tobytes())
+        if self.receipt is None:
+            h.update(np.ascontiguousarray(self.arr["row"]).tobytes())
+        else:                   # the receipt's digests (not rehashed here: verify_receipt does that, once)
+            h.update(json.dumps({"identity": self.receipt.get("identity"),
+                                 "arrays": {k: self.receipt["arrays"][k]["data_sha256"] for k in sorted(self.arr)}},
+                                sort_keys=True).encode())
         return h.hexdigest()[:16]
 
+    def verify_receipt(self, chunk_bytes: int = 64 << 20) -> None:
+        """Rehash every array against CACHE.json (sha256 of the C-order data, as T0011 wrote it), chunk by chunk."""
+        if self.receipt is None:
+            raise ValueError(f"{self.path}: no CACHE.json receipt to verify")
+        for k, a in self.arr.items():
+            h, step = hashlib.sha256(), max(1, chunk_bytes // max(1, a[:1].nbytes))
+            for i in range(0, len(a), step):
+                h.update(np.ascontiguousarray(a[i:i + step]).tobytes())
+            if h.hexdigest() != self.receipt["arrays"][k]["data_sha256"]:
+                raise ValueError(f"{self.path / (k + '.npy')}: data SHA-256 differs from CACHE.json")
+
     def take(self, idx: np.ndarray) -> dict:
-        return {k: np.asarray(self.arr[k][idx]) for k in CACHE_FIELDS}
+        d = {k: np.asarray(self.arr[k][idx]) for k in self.arr}
+        if self.receipt is not None:
+            d["row"] = np.asarray(idx, np.int64)
+        return d
 
 
 def synthetic_rows(layout, n: int, seed: int = 0) -> dict:
@@ -107,25 +145,72 @@ def write_cache(path: Path, d: dict, rows: np.ndarray) -> None:
 
 
 def teacher_targets(teacher: PolicyNet, layout, cache: RowCache, split: str, out: Path, tau: float, batch: int,
-                    dataset: str = "") -> dict:
-    """Teacher distributions for every cache row, in cache order, `batch` rows at a time."""
+                    dataset: str = "", device: str | None = None) -> dict:
+    """Teacher distributions for every cache row, in cache order, `batch` rows at a time. With `device` the teacher
+    runs on Torch (fusion.torch_qat.teacher_probs, float tolerance of the NumPy teacher); masks stay NumPy's."""
     from fusion.precision_calib import check_split  # noqa: PLC0415  (a test split never feeds training targets)
 
     check_split(split)
     C = layout.blocks["cand"][1][-1]
     w = D.TeacherShardWriter(out, cache.rows, C, {"teacher": D.state_digest(teacher), "family": teacher.family,
                                                   "split": split, "tau": tau, "teacher_beta": dict(teacher.beta),
-                                                  "dataset": dataset or cache.identity()})
+                                                  "dataset": dataset or cache.identity(),
+                                                  "teacher_device": device or "numpy"})
+    if device:
+        import torch  # noqa: PLC0415
+
+        from fusion import torch_qat  # noqa: PLC0415
+        from fusion.torch_backend import DeviceLayout  # noqa: PLC0415
+        dev = torch.device(device)
+        fp, dl = torch_qat.FloatPolicy(teacher, dev), DeviceLayout(layout, dev)
     for a in range(0, cache.rows, batch):
         idx = np.arange(a, min(cache.rows, a + batch))
         d = cache.take(idx)
         X = policy_batch(d["rec"], layout, True, teacher.family)
         mv = d["y_move"].astype(np.int64)
-        w.write(d["row"], X, mv, D.teacher_probs(teacher, X, mv, tau))
+        if device:
+            T = torch_qat.device_batch(torch.from_numpy(np.ascontiguousarray(d["rec"])).to(dev), dl, teacher.family)
+            probs = torch_qat.teacher_probs(fp, teacher.beta, T, torch.from_numpy(mv).to(dev), tau)
+        else:
+            probs = D.teacher_probs(teacher, X, mv, tau)
+        w.write(d["row"], X, mv, probs)
     return w.close()
 
 
-def train(stage: str, student: PolicyNet, layout, cache: RowCache, args, shard: D.TeacherShard | None, out: Path) -> dict:
+def row_weights(d: dict, args) -> np.ndarray:
+    """The rows' weights, divided by the team count under --count-weighting inv_teams (as training/train_policy.py)."""
+    w = d["weight"]
+    if getattr(args, "count_weighting", "none") == "inv_teams":
+        if "teams" not in d:
+            raise SystemExit("--count-weighting inv_teams needs teams.npy in the cache")
+        w = (w / d["teams"].astype(np.float32)).astype(np.float32)
+    return w
+
+
+class _Model:
+    """state()/load() for training.common.fit: the NumPy student, synchronized with its device copy."""
+
+    def __init__(self, student: PolicyNet, dev_policy=None):
+        self.student, self.dev_policy = student, dev_policy
+
+    def state(self):
+        if self.dev_policy is not None:
+            self.dev_policy.to_ref()
+        return self.student.state()
+
+    def load(self, st):
+        self.student.load(st)
+        if self.dev_policy is not None:
+            self.dev_policy.from_ref()
+
+
+def train(stage: str, student: PolicyNet, layout, cache: RowCache, args, shard: D.TeacherShard | None, out: Path,
+          val: RowCache | None = None) -> dict:
+    """One stage. Without `val`: args.epochs passes at a constant learning rate (contract tests). With `val`: the
+    epoch loop of training.common.fit as T0011 trained P (cosine schedule from --lr to --min-lr, the supervised
+    validation loss each epoch, best state kept, --patience / --plateau-decay), then, for warmup and distill,
+    temperature calibration on the validation rows (training/train_policy.calibrate). qat is not calibrated here:
+    the export fits its temperatures on the deployed outputs."""
     cfg = D.DistillConfig(alpha=1.0 if stage == "warmup" else args.alpha, tau=args.tau, act_weight=args.act_weight,
                           target_weight=args.target_weight, smoothing=args.smoothing)
     cfg.check()
@@ -133,27 +218,36 @@ def train(stage: str, student: PolicyNet, layout, cache: RowCache, args, shard: 
         raise SystemExit(f"stage {stage} needs --teacher-shard")
     if shard is not None and shard.identity["family"] != student.family:
         raise SystemExit(f"teacher shard is family {shard.identity['family']}, student {student.family}")
+    if shard is not None and (shard.identity.get("dataset") != cache.identity() or shard.identity.get("rows") != cache.rows):
+        raise SystemExit(f"teacher shard was written for cache {shard.identity.get('dataset')} "
+                         f"({shard.identity.get('rows')} rows), not this cache {cache.identity()} ({cache.rows} rows)")
+    backend = "torch" if stage == "qat" else getattr(args, "backend", "numpy")
     rng = np.random.default_rng(args.seed)
     steps, last = 0, {}
-    torch_state = None
-    if stage == "qat":
+    torch_state, qat = None, None
+    if backend == "torch":
         import torch  # noqa: PLC0415
 
         from fusion import torch_qat  # noqa: PLC0415
+        from fusion.torch_backend import DeviceLayout  # noqa: PLC0415
         dev = torch.device(args.device)
-        qat = torch_qat.QATPolicy(student, layout, args.profile, dev)
+        qat = torch_qat.QATPolicy(student, layout, args.profile, dev) if stage == "qat" else torch_qat.FloatPolicy(student, dev)
+        dl = None if stage == "qat" else DeviceLayout(layout, dev)
         opt = torch.optim.SGD(qat.params, lr=args.lr) if args.optimizer == "sgd" else None
         if opt is None:
             from fusion.torch_backend import TorchAdam  # noqa: PLC0415
             opt = TorchAdam(qat.params, lr=args.lr, weight_decay=args.weight_decay)
-        torch_state = (torch, torch_qat, qat, opt, dev)
+        torch_state = (torch, torch_qat, qat, opt, dev, dl)
     else:
         opt = Adam(student.params, lr=args.lr, weight_decay=args.weight_decay)
-    for _epoch in range(args.epochs):
-        order = rng.permutation(cache.rows)
+    def epoch(r) -> float:
+        nonlocal steps, last
+        order = r.permutation(cache.rows)
+        total, wsum = 0.0, 0.0
         for a in range(0, cache.rows, args.batch):
             idx = np.sort(order[a:a + args.batch])     # sorted: contiguous mmap reads, and shard slices by position
             d = cache.take(idx)
+            d["weight"] = row_weights(d, args)
             mv = d["y_move"].astype(np.int64)
             teacher = None
             if shard is not None:
@@ -165,9 +259,11 @@ def train(stage: str, student: PolicyNet, layout, cache: RowCache, args, shard: 
                 last = D.distill_loss(student, X, d, d["weight"], teacher, cfg, backward=True)
                 opt.step(student.grads)
             else:
-                torch, torch_qat, qat, topt, dev = torch_state
-                Xr = policy_batch(d["rec"], layout, False, student.family)
-                T = torch_qat.tensors(Xr, dev)
+                torch, torch_qat, qat, topt, dev, dl = torch_state
+                if dl is None:      # qat: raw integer inputs, as deployed
+                    T = torch_qat.tensors(policy_batch(d["rec"], layout, False, student.family), dev)
+                else:               # float student: normalized features built on the device
+                    T = torch_qat.device_batch(torch.from_numpy(np.ascontiguousarray(d["rec"])).to(dev), dl, student.family)
                 y = {k: torch.tensor(d[k].astype(np.int64), device=dev) for k in LABELS}
                 tt = None if teacher is None else {k: torch.tensor(v, device=dev) for k, v in teacher.items()}
                 topt.zero_grad()
@@ -176,21 +272,81 @@ def train(stage: str, student: PolicyNet, layout, cache: RowCache, args, shard: 
                 topt.step()
                 last = {k: float(v) for k, v in parts.items()}
             steps += 1
-    if torch_state is not None:
-        torch_state[2].to_ref()
+            total += float(last["total"]) * float(d["weight"].sum())
+            wsum += float(d["weight"].sum())
+        return total / max(wsum, 1e-12)
+
     out.mkdir(parents=True, exist_ok=True)
+    best_val, calibrated = None, False
+    if val is None:
+        for _ in range(args.epochs):
+            epoch(rng)
+        if torch_state is not None:
+            qat.to_ref()
+    else:
+        from training.common import Run, fit  # noqa: PLC0415
+        from training.train_policy import calibrate  # noqa: PLC0415
+        if not hasattr(opt, "t"):
+            raise SystemExit("the scheduled epoch loop (--val-cache) needs --optimizer adam")
+        sup = D.DistillConfig(alpha=1.0, tau=cfg.tau, act_weight=cfg.act_weight, target_weight=cfg.target_weight,
+                              smoothing=cfg.smoothing)
+        run = Run(out, {})
+        model = _Model(student, qat)
+        best_val = fit(model, epoch, lambda: val_loss(student, layout, val, args, sup, qat), args, run, rng, opt,
+                       on_best=lambda e, v, st: np.savez(out / "best.npz", **st))
+        if stage != "qat":
+            vd = {k: val.arr[k] for k in ("rec", *LABELS)} | {"weight": row_weights({k: np.asarray(val.arr[k]) for k in
+                                                                                  ("weight", "teams") if k in val.arr}, args)}
+            calibrate(student, layout, vd)
+            calibrated = True
     np.savez(out / "model.npz", **student.state())
     config = {"kind": "policy-distill", "stage": stage, "family": student.family, "hidden": student.hidden,
               "loss": {"alpha": cfg.alpha, "tau": cfg.tau, "act_weight": cfg.act_weight,
                        "target_weight": cfg.target_weight, "smoothing": cfg.smoothing},
               "cache": cache.identity(), "rows": cache.rows, "teacher_shard": None if shard is None else shard.identity,
+              "backend": backend, "device": str(args.device) if backend == "torch" else "cpu",
               "profile": args.profile if stage == "qat" else None,
               "profile_identity": precision.profile_identity(args.profile, precision.PROFILES[args.profile]) if stage == "qat" else None,
-              "init": args.init, "seed": args.seed, "epochs": args.epochs, "batch": args.batch}
-    receipt = {"steps": steps, "final": {k: float(v) for k, v in last.items()}, "model_digest": D.state_digest(student)}
+              "init": args.init, "seed": args.seed, "epochs": args.epochs, "batch": args.batch,
+              "count_weighting": getattr(args, "count_weighting", "none"),
+              "schedule": None if val is None else {k: getattr(args, k) for k in
+                                                    ("lr", "min_lr", "lr_schedule", "patience", "plateau_decay", "weight_decay")},
+              "val_cache": None if val is None else val.identity(), "val_rows": None if val is None else val.rows}
+    receipt = {"steps": steps, "final": {k: float(v) for k, v in last.items()}, "model_digest": D.state_digest(student),
+               "best_val": best_val, "calibrated": calibrated, "beta": {k: float(v) for k, v in student.beta.items()}}
     (out / "config.json").write_text(json.dumps(config, indent=1, sort_keys=True, default=str), encoding="utf-8")
     (out / "receipt.json").write_text(json.dumps(receipt, indent=1, sort_keys=True), encoding="utf-8")
     return {"config": config, "receipt": receipt}
+
+
+def val_loss(student: PolicyNet, layout, val: RowCache, args, sup: D.DistillConfig, dev_policy=None, size: int = 8192) -> float:
+    """The supervised loss (alpha = 1, the trainer's validation objective) over every validation row, weighted;
+    on the device policy (float or QAT forward) when there is one."""
+    total, wsum = 0.0, 0.0
+    for a in range(0, val.rows, size):
+        d = val.take(np.arange(a, min(val.rows, a + size)))
+        w = row_weights(d, args)
+        if dev_policy is None:
+            out = D.distill_loss(student, policy_batch(d["rec"], layout, True, student.family), d, w, None, sup, False)
+            v = float(out["total"])
+        else:
+            import torch  # noqa: PLC0415
+
+            from fusion import torch_qat  # noqa: PLC0415
+            dev = torch.device(args.device)
+            with torch.no_grad():
+                if isinstance(dev_policy, torch_qat.QATPolicy):
+                    T = torch_qat.tensors(policy_batch(d["rec"], layout, False, student.family), dev)
+                else:
+                    from fusion.torch_backend import DeviceLayout  # noqa: PLC0415
+                    T = torch_qat.device_batch(torch.from_numpy(np.ascontiguousarray(d["rec"])).to(dev),
+                                               DeviceLayout(layout, dev), student.family)
+                y = {k: torch.tensor(d[k].astype(np.int64), device=dev) for k in LABELS}
+                _, parts = torch_qat.qat_loss(dev_policy, T, y, torch.tensor(w, device=dev), None, sup)
+            v = float(parts["total"])
+        total += v * float(w.sum())
+        wsum += float(w.sum())
+    return total / max(wsum, 1e-12)
 
 
 def _shard_rows(shard: D.TeacherShard, idx: np.ndarray, rows: np.ndarray, X, mv) -> dict:
@@ -259,6 +415,7 @@ def main(argv=None) -> int:
     t.add_argument("--out", type=Path, required=True)
     t.add_argument("--tau", type=float, default=1.0)
     t.add_argument("--batch", type=int, default=8192)
+    t.add_argument("--device", help="run the teacher on Torch (cuda, cpu); default NumPy")
     r = sub.add_parser("train")
     r.add_argument("--stage", choices=("warmup", "distill", "qat"), required=True)
     r.add_argument("--cache", type=Path, required=True)
@@ -274,12 +431,20 @@ def main(argv=None) -> int:
     r.add_argument("--batch", type=int, default=1024)
     r.add_argument("--lr", type=float, default=1e-3)
     r.add_argument("--weight-decay", type=float, default=1e-5)
+    r.add_argument("--val-cache", type=Path, help="validation rows: enables the scheduled epoch loop and calibration")
+    r.add_argument("--lr-schedule", choices=("constant", "cosine"), default="cosine")
+    r.add_argument("--min-lr", type=float, default=1e-4)
+    r.add_argument("--patience", type=int, default=2)
+    r.add_argument("--plateau-decay", type=int, default=1)
+    r.add_argument("--count-weighting", choices=("none", "inv_teams"), default="none")
     r.add_argument("--seed", type=int, default=1)
     r.add_argument("--out", type=Path, required=True)
     add_loss_args(r)
     y = sub.add_parser("toy")
     y.add_argument("--out", type=Path)
     y.add_argument("--torch", action="store_true")
+    v = sub.add_parser("verify-cache", help="rehash a T0011-format cache against its CACHE.json")
+    v.add_argument("--cache", type=Path, required=True)
     a = ap.parse_args(argv)
     layout = feature_layout()
     if a.cmd == "teacher-profile":
@@ -289,7 +454,12 @@ def main(argv=None) -> int:
     if a.cmd == "teacher-targets":
         from training.export_weights import load_policy  # noqa: PLC0415
         teacher = load_policy(a.teacher, layout)
-        print(json.dumps(teacher_targets(teacher, layout, RowCache(a.cache), a.split, a.out, a.tau, a.batch), indent=1))
+        print(json.dumps(teacher_targets(teacher, layout, RowCache(a.cache), a.split, a.out, a.tau, a.batch, device=a.device), indent=1))
+        return 0
+    if a.cmd == "verify-cache":
+        c = RowCache(a.cache)
+        c.verify_receipt()
+        print(json.dumps({"cache": str(a.cache), "rows": c.rows, "identity": c.identity(), "verified": True}))
         return 0
     if a.cmd == "toy":
         if a.out:
@@ -302,7 +472,7 @@ def main(argv=None) -> int:
         raise SystemExit("--stage qat runs on the Torch backend (fusion/torch_qat.py): add --backend torch")
     student = load_student(layout, a.student, a.family, a.init, a.seed)
     shard = D.TeacherShard(a.teacher_shard, {"family": a.family}) if a.teacher_shard else None
-    res = train(a.stage, student, layout, RowCache(a.cache), a, shard, a.out)
+    res = train(a.stage, student, layout, RowCache(a.cache), a, shard, a.out, RowCache(a.val_cache) if a.val_cache else None)
     print(json.dumps(res["receipt"], indent=1))
     return 0
 

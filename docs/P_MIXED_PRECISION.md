@@ -169,7 +169,9 @@ alpha = 0.5 and tau = 1 are configurable starting values to validate later.
 - **Student temperature.** The student's raw logits are divided by tau inside the KL. Its own temperature is fitted after training, on validation rows.
 
 **Bounded memory.**
-- Row caches are directories of memory-mapped `.npy` arrays, read one minibatch at a time in a seeded permutation. T0011's `data/pf_policy_cache` already has this shape.
+- Row caches are directories of memory-mapped `.npy` arrays, read one minibatch at a time in a seeded permutation.
+- T0011's `data/pf_policy_cache/<split>` has no `row.npy`; its `CACHE.json` receipt (rows, shapes, dtypes, data SHA-256 per array) stands in. The row ids are the positions in that fixed order, and the cache identity is derived from the receipt's digests. `python -m training.distill_policy verify-cache --cache DIR` rehashes every array against the receipt (task T0031).
+- A teacher shard is refused on a cache other than the one it was written for (dataset identity and row count).
 - Teacher shards are preallocated memmaps written batch by batch. They hold the masks and movement contexts and an `IDENTITY.json`: teacher state digest, family, split, tau, teacher beta, dataset, and the row, mask and context digests.
 - A student batch whose row ids, move contexts or any mask differ from the shard's is refused. An incomplete shard cannot be closed.
 
@@ -177,6 +179,8 @@ alpha = 0.5 and tau = 1 are configurable starting values to validate later.
 1. warmup: supervised.
 2. distill.
 3. qat: the same loss through `fusion/torch_qat.py`.
+
+warmup and distill run in NumPy by default. With `--backend torch --device cuda` they run the float student on the device (`fusion.torch_qat.FloatPolicy`, features built on the device from the int16 records), with the same loss. qat always runs on Torch. Torch and NumPy losses and gradients agree within float tolerance (`tests.test_torch_backend`).
 
 Each stage writes `config.json`, `receipt.json` and `model.npz`.
 
