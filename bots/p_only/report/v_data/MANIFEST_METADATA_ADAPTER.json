@@ -7,7 +7,10 @@
   "updated",
   "variants.*.compile_seconds"
  ],
- "all_other_frozen_fields_exact": true,
+ "all_other_frozen_fields_exact": false,
  "runner_and_inlined_sources_verified": true,
- "reason": "Preparation and collection reuse the same binary; run_screen rebuild writes volatile metadata. Preserve the original receipt and skip both completed stages."
+ "reason": "Original controller compared selected frozen identity receipts and current source hashes, then hashed the current normalized manifest. No captured normalized manifest comparison was performed. The immutable original raw digest remains preserved.",
+ "verification_scope": "selected_frozen_identities_only",
+ "full_baseline_comparison": "not_performed_by_original_controller",
+ "unverified_scope": "original manifest nonvolatile content"
 }

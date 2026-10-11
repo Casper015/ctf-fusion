@@ -28,7 +28,9 @@
    "maps": 5612,
    "resolved_roots": 6018,
    "all_uncertain_roots": 4974,
-   "labels_weights_shapes_split_verified": true
+   "internal_consistency_verified": true,
+   "source_row_alignment_verified": false,
+   "source_alignment_status": "pending_host_reaudit"
   },
   "val": {
    "sha256": "5ff63e9f786e2ad42d523436e4b285f5d76a2e70b9c1f0bc76345e625d80f2d5",
@@ -37,7 +39,9 @@
    "maps": 692,
    "resolved_roots": 727,
    "all_uncertain_roots": 629,
-   "labels_weights_shapes_split_verified": true
+   "internal_consistency_verified": true,
+   "source_row_alignment_verified": false,
+   "source_alignment_status": "pending_host_reaudit"
   },
   "test": {
    "sha256": "15d2dc2a96fc89294ac160ffaec9147b0d64f9a048e266a14f81c60e9326da2b",
@@ -46,7 +50,11 @@
    "maps": 688,
    "resolved_roots": 740,
    "all_uncertain_roots": 614,
-   "labels_weights_shapes_split_verified": true
+   "internal_consistency_verified": true,
+   "source_row_alignment_verified": false,
+   "source_alignment_status": "pending_host_reaudit"
   }
- }
+ },
+ "source_alignment_status": "pending_host_reaudit",
+ "source_alignment_note": "Historical audit checked internal array consistency; the stricter raw-score/metadata/feature audit has not been executed on retained host artifacts by this revision."
 }
