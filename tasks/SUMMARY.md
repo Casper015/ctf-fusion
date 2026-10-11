@@ -11,7 +11,7 @@ Someone holds these; their `writes` are reserved.
 | Task | Status | Owner | Title | Writes |
 |---|---|---|---|---|
 | [T0011](T0011-p-feature-ablation-train-p2-and-p3-at.md) | active | codex@desktop-g60ojud | P feature ablation: train p2 and p3 at XXL on identical data, offline comparison, export | reports/models/p_features/, inference/models_pf_p2xxl_vm/, inference/models_pf_p3xxl_vm/ |
-| [T0029](T0029-seed-ledger-record-showcase-seeds.md) | active | claude-ci@caspers-macbook | Seed ledger: record showcase seeds 20261342-20261364 | docs/DIGEST.md |
+| [T0029](T0029-seed-ledger-record-showcase-seeds.md) | active | claude-ci@caspers-macbook | Seed ledger: record showcase seeds 20261342-20261364 | docs/DIGEST.md, docs/MARKDOWN_INDEX.md |
 
 ## Ready to claim
 
