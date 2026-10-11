@@ -64,6 +64,7 @@ A subset of shooters in which one shooter adds nothing to the target's utility i
 - **v12:** alternatives follow the base refinement candidates; duplicates of beam entries are dropped.
 - **Drops:** C08's existing gate (`appendOwnDrops`) applies to the extended set. v12 gets no drop alternatives: its evaluation has no possession-loss accounting.
 - **Deadlines:** C08's lookahead returns the best order compared so far. A v12 deadline inside the alternatives keeps the best compared so far, since every base candidate has been compared; earlier, it returns the analytic fallback as before.
+- **Deadlines in C08's sampled search, modes 1 and 2** (task T0020, section 8): every ply-2 prediction is checked against the deadline before it starts and after it ends. A sample that runs out of time is discarded whole.
 
 The portfolio runs only for the real turn's decision, never inside the lookahead's follow-up plans.
 
@@ -163,10 +164,68 @@ Per-branch mode makes about 9.5 times as many ply-2 predictions per search, with
 ## 7. Host evaluation (dependent task)
 
 1. **Fixed-work diagnostics.** [`search_diag.py`](../bots/p_only/tools/search_diag.py) on recorded games of the screen: replies changed against A, root digest mismatches (must be 0), prediction work, cache and memo hits, the diagnostic's prediction and ranking differences.
-2. **Equal full-turn-time games.** [`screen_search.json`](../bots/p_only/profiles/screen_search.json): C08 A/B/C/D and v12 A/B, A/A copies of both A arms, interleaved paired fixtures, the official 2 s / 50 ms limits, fresh tuning seed 20261220. It reports paired utility per team-count band with map-group intervals, the interaction D − C − B + A, faults, late replies, p99 and maximum replies, and the search counters (samples displaced, truncations, predictions, alternatives).
+2. **Equal full-turn-time games.** [`screen_search.json`](../bots/p_only/profiles/screen_search.json): C08 A/B/C/D and v12 A/B, A/A copies of both A arms, interleaved paired fixtures, the official 2 s / 50 ms limits, fresh tuning seed 20261230. 20261220, chosen first, was consumed by T0016's 5XL screens. It reports paired utility per team-count band with map-group intervals, the interaction D − C − B + A, faults, late replies, p99 and maximum replies, and the search counters (samples displaced, truncations, predictions, alternatives).
 3. **Branch regret against the incumbent.** `branch_portfolio.py` with the A arm as incumbent and B (or D) as the compare arm, then `branch_regret.py`.
 
 **Reading the results:**
 - An interval that includes zero is "not shown".
 - More candidates, changed decisions or higher internal search scores are not a strength result, and neither is one favourable run.
 - The production default stays as it is unless an arm shows a useful improvement within the same whole-turn budget. Confirmation then needs an unseen seed (T0006).
+
+## 8. Fixes after review (task T0020, reviewed at cf16c05)
+
+### Deadlines in C08's per-branch search
+
+**What went wrong.** `search::rank` checked the deadline once per sample, before the sweep over the plans. In modes 1 and 2 that sweep starts one ply-2 prediction per plan (mode 2 also predicts the reference plan's), with no further check. With three plans and a prediction that used up the budget, the next two predictions still started after the deadline. The halving path also committed each plan's value as soon as it was computed, so a check inside the sweep would have left plans with unequal sample counts.
+
+**The fix**, regenerated from `search_experiment.py`:
+- A sample's values (and the diagnostic's) go to scratch arrays and are committed only when the sweep over every plan of the set ends.
+- In modes 1 and 2, every prediction is checked against the applicable deadline before it starts and after it ends: the call's deadline, or, for time-mode halving, the round's share.
+- A sweep that reaches the deadline is discarded whole and counted (`aborted_sweeps`, `discarded_predictions` on the PLY2 line). After the call's deadline, no further work starts in any round.
+- The result is the ranking from the completed samples. With none completed, it is empty, and the planner keeps the analytic incumbent as before.
+- `samples`, `rollouts` and `truncated` count committed work only; `predictions` counts every prediction run, including discarded ones.
+
+**What did not change.** Mode 0 keeps its calls, their order and its checks, so the production-equivalent arm is unchanged.
+
+**What this is not.** A prediction that is already running cannot be interrupted, so these checks bound when work starts; they do not certify the full-reply time. Deployment still needs the measured headroom for one prediction: the 30 ms search budget inside the 35 ms compute target, which T0019 measures.
+
+**Test.** `rank_deadline_test.cpp` drives `search::rank` with an injected clock (`search::clockHook`) and a ply-2 source in which every prediction costs 1 ms. It checks modes 1 and 2 on both the uniform and halving paths:
+- no prediction starts at or after the deadline;
+- committed rollouts always equal samples × plans;
+- a first-prediction expiry returns no ranking;
+- expiry after completed samples still ranks every plan;
+- fixed work is unaffected.
+
+The diagnostic mode still plays exactly as mode 0 at fixed completed work. At fixed time it does more work, so its replies can differ.
+
+### Comparison replies in branch regret
+
+**What went wrong.** Candidate generation dropped a malformed comparison reply, but the root kept the non-null raw reply. `branch_regret.root_stats` then found no `arm:` candidate and treated the root as "same as the incumbent", with difference 0.
+
+**The fix:**
+- Replies are compared by their canonical complete order (`branch_portfolio.canonical`: notes, spacing and action spelling removed; engine no-ops are not merged).
+- `classify_compare` sorts every reply into one status:
+
+  | Status | Meaning |
+  |---|---|
+  | `identical` | equal to the incumbent's canonical order |
+  | `different` | a played candidate of its own |
+  | `malformed` | the engine would reject it |
+  | `timeout` | no reply |
+  | `missing_candidate` | a valid order that is not among the candidates |
+  | `missing_branch` | a candidate without outcomes |
+  | `none` | no comparison arm |
+
+- Root records store the status. `branch_regret` recomputes it from the raw reply, the candidates and the played branches.
+- Only `identical` and `different` roots enter the statistics. The report gives every status count and the valid-root denominator.
+- Official fault handling in complete-game screens is unchanged.
+
+**Test.** `test_branch_regret.py` covers:
+- an identical reply (zero difference);
+- a different reply (its own outcome);
+- a malformed reply (excluded, never identical);
+- a timeout;
+- a valid different reply without a candidate, and one without branches;
+- canonicalization;
+- the report's denominator.
+

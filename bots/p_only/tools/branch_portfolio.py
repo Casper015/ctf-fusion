@@ -88,6 +88,42 @@ def line_of(turn: int, reqs) -> str:
     return " ".join([str(turn)] + [f"{MOVES[r.move]} {act_text(r)}" for r in reqs])
 
 
+def canonical(line: str | None, turn: int) -> str | None:
+    """The canonical complete order of a reply (notes, spacing and action spelling removed), or None when the engine
+    would reject it. Two replies are the same order exactly when their canonical forms are equal; engine no-ops
+    (an attack on a unit out of range) are not merged, so such orders stay separate candidates."""
+    reqs = parse_reply(line, turn) if line is not None else None
+    return None if reqs is None else line_of(turn, reqs)
+
+
+# A comparison arm's reply at a root: the only statuses with a usable outcome are `identical` (the incumbent's
+# canonical order, so the incumbent's branches are its outcome) and `different` (a candidate of its own).
+COMPARE_STATUSES = ("identical", "different", "malformed", "timeout", "missing_candidate", "missing_branch", "none")
+
+
+def classify_compare(reply: str | None, turn: int, orders: list[str], played: set[int] | None = None,
+                     has_compare: bool = True) -> tuple[str, str | None, int | None]:
+    """(status, canonical order, candidate index) of a comparison reply against a root's canonical candidate
+    orders (orders[0] is the incumbent's). `played`: candidate indices with at least one branch outcome."""
+    if not has_compare:
+        return "none", None, None
+    if reply is None:
+        return "timeout", None, None
+    canon = canonical(reply, turn)
+    if canon is None:
+        return "malformed", None, None
+    if not orders or canonical(orders[0], turn) != canon:
+        index = next((i for i, o in enumerate(orders) if i > 0 and canonical(o, turn) == canon), None)
+        if index is None:
+            return "missing_candidate", canon, None
+        if played is not None and index not in played:
+            return "missing_branch", canon, index
+        return "different", canon, index
+    if played is not None and 0 not in played:
+        return "missing_branch", canon, 0
+    return "identical", canon, 0
+
+
 def alternatives(game, block_text: str, line: str, seat: int, turn: int) -> dict[str, list[str]]:
     """Complete legal orders per source, derived from the recorded order (see the module docstring)."""
     reqs = parse_reply(line, turn)
@@ -149,8 +185,8 @@ def candidates(game, block_text: str, line: str, seat: int, turn: int, budget: i
     out, seen = [], set()
 
     def add(order: str, source: str):
-        norm = " ".join(order.partition("#")[0].split())
-        if norm in seen or parse_reply(norm, turn) is None or len(out) >= budget:
+        norm = canonical(order, turn)
+        if norm is None or norm in seen or len(out) >= budget:
             return
         seen.add(norm)
         out.append((norm, source))
@@ -218,10 +254,14 @@ def _root_job(job) -> dict:
             branches.append({"candidate": c, "repeat": r, "on_policy": c == 0, "source": source} | row)
     if snapshot.encode(0) != game.encode(0):
         raise RuntimeError("the reproduced root changed while branches were played")
+    orders = [o for o, _ in cands]
+    status, compare_order, compare_index = classify_compare(reply, turn, orders, played={b["candidate"] for b in branches},
+                                                            has_compare=compare is not None)
     return base | {"schema": "ctf-fusion-branches-1", "map_seed": match["map_seed"], "seat": seat, "init": match["init"],
                    "carrier_sha256": match["seats"][seat]["sha256"], "candidates": [o for o, _ in cands],
                    "sources": [s for _, s in cands], "compare_arm": compare_arm, "compare_prefix_mismatch": compare_mismatch,
                    "compare_reply": None if reply is None else " ".join(reply.partition("#")[0].split()),
+                   "compare_status": status, "compare_order": compare_order, "compare_candidate": compare_index,
                    "branches": branches, "root_outcome": float(pairwise_outcome(match["result"]["score"])[seat])}
 
 
@@ -262,13 +302,14 @@ def seat_commands(match: dict, carrier_cmd: list[str], root: Path) -> list[list[
 def summarize(rows: list[dict], counts: Counter, tie_steps: float = 1.0) -> dict:
     out = {"matches": dict(counts), "roots": 0, "dropped": Counter(), "candidates_by_source": Counter(), "branches": 0,
            "prefix_mismatch": {"sum": 0, "max": 0, "branches_with_any": 0}, "prefix_faults": 0, "live_faults": 0,
-           "pairs": {"resolved": 0, "unresolved": 0}, "compare_differs": 0}
+           "pairs": {"resolved": 0, "unresolved": 0}, "compare_differs": 0, "compare_status": Counter()}
     for row in rows:
         if "dropped" in row:
             out["dropped"][row["dropped"]] += 1
             continue
         out["roots"] += 1
         out["compare_differs"] += any(s.startswith("arm:") for s in row["sources"])
+        out["compare_status"][row.get("compare_status", "unrecorded")] += 1
         for s in row["sources"]:
             out["candidates_by_source"][s] += 1
         means = {}
@@ -284,6 +325,7 @@ def summarize(rows: list[dict], counts: Counter, tie_steps: float = 1.0) -> dict
             for j in range(i + 1, len(ys)):
                 out["pairs"]["resolved" if abs(ys[i] - ys[j]) > margin else "unresolved"] += 1
     out["dropped"], out["candidates_by_source"] = dict(out["dropped"]), dict(out["candidates_by_source"])
+    out["compare_status"] = dict(out["compare_status"])
     return out
 
 
