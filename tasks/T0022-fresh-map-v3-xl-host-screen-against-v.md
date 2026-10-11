@@ -1,13 +1,13 @@
 ---
 id: T0022
 title: "Fresh-map V3-XL host screen against V off and V2-M"
-status: open
-owner: ""
+status: active
+owner: codex@desktop-g60ojud
 needs: [host, ai-test]
 writes: [profiles/screen_v3xl_fresh.json, bots/p_only/report/v3xl_fresh/]
 depends: [T0009]
 land: direct
-branch: ""
+branch: codex/t0022-fresh-map-v3-xl-host-screen-against-v
 updated: 2026-10-11
 ---
 
@@ -41,3 +41,4 @@ Not started.
 
 - 2026-10-11 00:01Z codex@desktop-g60ojud: created
 - 2026-10-11 01:09Z claude@caspers-macbook: amended on main at the owner's request: seed 20261230 -> 20261240 (20261230 is T0019's); added the legacy-carrier V-off arm c08_ponly_pxxl_vm so V2-M has a matched control and the carrier difference is measured (4 arms + A/A = 3,500 games); profiles/screen_v3xl_fresh.json committed and dry-run locally (no games); two-team reporting note. PR #11 (T0016) is merged (72a3740), so freeze on a main that includes it.
+- 2026-10-11 01:20Z codex@desktop-g60ojud: claimed
