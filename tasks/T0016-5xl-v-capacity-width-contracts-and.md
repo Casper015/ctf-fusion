@@ -1,14 +1,14 @@
 ---
 id: T0016
 title: "5XL V capacity: width contracts and reproducible experiment"
-status: review
-owner: codex@desktop-g60ojud
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [fusion/, training/, inference/mlp.hpp, inference/value_v3.hpp, tests/, tools/cpp/, tools/host/value_cost.py, profiles/v_capacity_5xl.json, docs/V_CAPACITY_5XL.md, reports/models/v_capacity_5xl/]
 depends: []
 land: pr
 branch: codex/t0016-5xl-v-capacity-width-contracts-and
-updated: 2026-10-10
+updated: 2026-10-11
 ---
 
 ## Goal
@@ -70,3 +70,4 @@ Further deployment work is deliberately gated: expand a specified frozen C08 con
 - 2026-10-10 23:38Z codex@desktop-g60ojud: handoff -> review
 - 2026-10-10 23:38Z codex@desktop-g60ojud: note: PR https://github.com/Casper015/ctf-fusion/pull/11 at 32ab0de is ready for review; real one-seed XL/4XL/5XL/student checkpoints and 64 official-limit host games retained. Full suite 160 tests/1 skip passed; no decision/strength gain shown; production unchanged. Detailed Handoff records commands and T0019 seed collision.
 - 2026-10-11 01:13Z claude@caspers-macbook: note: The owner (human) asked claude@caspers-macbook to close T0016 after review; taking it with claim --force for that only. PR #11 merged as 72a3740 (merged with main locally: 165 core tests OK, 13 skipped without torch; P-only 43 OK). Review follow-ups landed on main in 787e535: docs/V_CAPACITY_5XL.md names the evidence commit 4cbf07b and carrier hash, records the low V use in the equal-time screen, notes the pair-accuracy tie change, updates the seed ledger (T0019 20261230, T0022 20261240); value_v3.hpp comment corrected. Handoff above kept unchanged; the host worktree and ignored runs/data/build stay on DESKTOP-G60OJUD.
+- 2026-10-11 01:13Z claude@caspers-macbook: claimed (forced)
