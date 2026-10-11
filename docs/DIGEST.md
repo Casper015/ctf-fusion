@@ -299,13 +299,18 @@ The P-only line fixed these. The three write-ups now open with a correction note
 
 ## P-only bots
 
-**Sources:** [bots/p_only/](../bots/p_only/), [screen_v3xl_matched/SCREEN.md](../reports/eval/screen_v3xl_matched/SCREEN.md), [test_c08_v3xl/SCREEN.md](../reports/eval/test_c08_v3xl/SCREEN.md), [SEARCH_PORTFOLIO.md](SEARCH_PORTFOLIO.md), [handoffs/p_only_distance_tiers/NEXT_AGENT_PROMPT.md](handoffs/p_only_distance_tiers/NEXT_AGENT_PROMPT.md)
+**Sources:** [bots/p_only/](../bots/p_only/), [screen_v3xl_matched/SCREEN.md](../reports/eval/screen_v3xl_matched/SCREEN.md), [test_c08_v3xl/SCREEN.md](../reports/eval/test_c08_v3xl/SCREEN.md), [tournament_50k_report.md](../reports/eval/tournament_50k_report.md), [SEARCH_PORTFOLIO.md](SEARCH_PORTFOLIO.md), [handoffs/p_only_distance_tiers/NEXT_AGENT_PROMPT.md](handoffs/p_only_distance_tiers/NEXT_AGENT_PROMPT.md)
 
 **What changed.**
 - C08 and v12 take every opponent prediction from P. The hand-written forecasts, habits and scripted opponent moves are deleted, not switched off.
 - C08 searches two plies: `stepExact` settles turn 1.
 - V is off unless a variant turns it on.
 - A screen runner binds every row to an identity: bundle, binary, models, runner, schedule and limits. It interleaves the arms on the same fixtures, adds A/A arms, and counts improved, unchanged and degraded fixtures (these are not wins).
+
+**50,000-game tournament** ([tournament_50k_report.md](../reports/eval/tournament_50k_report.md), T0028). The run had 21 bots, team counts 2–15 and 16 workers.
+- **Ratings.** Plackett-Luce ratings as the run reported them. The fitter, the ordered results and a run manifest are not committed, so the ratings cannot be refitted and carry no intervals.
+- **Win rates** (approximate intervals, averaged over counts). C08 P-only beats its control by +3.2 points (XL) and +3.5 (XXL), v12 P-only by +2.7 (both). XL against XXL is not shown on either carrier; why sizes would differ is a hypothesis.
+- **Limits.** Late replies were played, not dropped, so the official 50 ms rule was not applied. The report is final for this run and descriptive: no per-game data was kept, so it is not confirmation evidence.
 
 **Phases 0 and 1.**
 - **Phase 0.** STRUCTURE_SCAN (generated, 258 bots) and STRUCTURE_ANALYSIS rank v12 first and C08 second as carriers.
@@ -426,6 +431,8 @@ Never reuse a seed for a new comparison. Pick one that is not in this table, and
 | 20261220 | T0016's 5XL screens |
 | 20261230 | Search experiment on the host (T0019) |
 | 20261240 | Fresh-map V3-XL screen (T0022) |
+| (not recorded) | 50,000-game tournament (T0028): its seeds are not committed |
+| 20261301–20261364 | 64 showcase games of the newest P-only bots on the Mac (2026-10-11), 2–15 teams; nine are in the replay viewer. Not evidence |
 | (unchosen) | Confirmation (T0006): chosen only after the finalists are frozen |
 
 ## Known defects in the records

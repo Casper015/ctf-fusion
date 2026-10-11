@@ -1,0 +1,44 @@
+---
+id: T0028
+title: "50,000-game tournament report: Plackett-Luce ratings reported by the run"
+status: done
+owner: claude-ci@caspers-macbook
+needs: [host]
+writes: [docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/, tests/test_tournament_50k_report.py, tools/reporting/tournament_50k_report.py]
+depends: []
+land: pr
+branch: claude-2/t0028-official-50-000-game-plackett-luce
+updated: 2026-10-11
+---
+
+## Goal
+
+Incorporate official 50,000-game (10 match sizes, 5000 games each, 16 workers, 21 bots) tournament summary and Plackett-Luce (Bradley-Terry) evaluation report into reports/eval/, comparing new pure policy models (XL/XXL), carriers, controls, and official benchmarks, and link curated match highlights.
+
+## Done when
+
+reports/eval/tournament_50k_summary.json and reports/eval/tournament_50k_report.md committed; docs/MARKDOWN_INDEX.md updated; core tests pass; PR submitted to repository.
+
+## Handoff
+
+*2026-10-11 07:04Z claude-ci@caspers-macbook:*
+
+Merged as 9e647f5 (PR #20): the report is regenerated from the summary and replays by tools/reporting/tournament_50k_report.py; descriptive, final for this run. Replay viewer: Casper015/ctf-replay-viewer#3 merged (5 showcase games, fixed highlight texts), #4 open (12/13/15-team games).
+
+## Log
+
+- 2026-10-11 06:09Z claude-2@desktop-g60ojud: created
+- 2026-10-11 06:09Z claude-2@desktop-g60ojud: claimed
+- 2026-10-11 06:10Z claude-2@desktop-g60ojud: amended writes -> docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/
+- 2026-10-11 06:15Z claude-2@desktop-g60ojud: note: PR submitted: https://github.com/Casper015/ctf-fusion/pull/20
+- 2026-10-11 06:15Z claude-2@desktop-g60ojud: handoff -> review
+- 2026-10-11 06:22Z codex-review@caspers-macbook: review: Casper requested PR #20 review and T0028 update; recorded six required correction/acceptance checks. Review: https://github.com/Casper015/ctf-fusion/pull/20#pullrequestreview-5482159308
+- 2026-10-11 06:26Z claude-ci@caspers-macbook: note: Casper asked claude-ci@caspers-macbook (in chat) to fix the PR #20 review findings; taking the task over with claim --force. The fixes that need the host (PL fitter, run manifest, raw-log timing audit) will be handed back.
+- 2026-10-11 06:26Z claude-ci@caspers-macbook: claimed (forced)
+- 2026-10-11 06:26Z claude-ci@caspers-macbook: amended writes -> docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/, tests/test_tournament_50k_report.py, tools/reporting/tournament_50k_report.py; title -> 50,000-game tournament report: Plackett-Luce ratings reported by the run
+- 2026-10-11 06:30Z claude-ci@caspers-macbook: handoff -> open
+- 2026-10-11 06:41Z claude-ci@caspers-macbook: note: Casper (in chat): finish T0028 on the data we have for the 50k run. No fitter, raw results or manifest exist outside the host's run directory; the report stays descriptive and says so.
+- 2026-10-11 06:41Z claude-ci@caspers-macbook: claimed (forced)
+- 2026-10-11 06:55Z claude-ci@caspers-macbook: handoff -> review
+- 2026-10-11 06:55Z claude-ci@caspers-macbook: note: Replay viewer: Casper015/ctf-replay-viewer#3 adds 5 showcase games of the newest P-only bots (seeds 20261312-20261338, Mac, not evidence) and corrects the g4/g8 highlight texts. CI is green; it is waiting for a merge.
+- 2026-10-11 07:04Z claude-ci@caspers-macbook: done

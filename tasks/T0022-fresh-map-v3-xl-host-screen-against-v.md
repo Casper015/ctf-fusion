@@ -1,7 +1,7 @@
 ---
 id: T0022
 title: "Fresh-map V3-XL host screen against V off and V2-M"
-status: active
+status: done
 owner: codex@desktop-g60ojud
 needs: [host, ai-test]
 writes: [profiles/screen_v3xl_fresh.json, bots/p_only/report/v3xl_fresh/]
@@ -35,7 +35,9 @@ The fresh-seed profile and complete generated report are committed and landed th
 
 ## Handoff
 
-Not started.
+*2026-10-11 04:12Z codex@desktop-g60ojud:*
+
+Completed and landed report commit 7a307af49a (measured source 79cf3d112806342743a1dfffe19ca3adcb4f6a2c). Seed20261240 consumed: all700 fixtures/3500 games, 50maps/count2-15, 4workers, first2000ms/turn50ms, CPU-locked host run8536.0s. Exact checkpoint runs/value_v3_xl_designated_s1 model.npz SHA3155bfe6af523c959dfc9e2b5681c70cb1717e193b407a07d8a6eaa8db9a9bd6, beta0.9788334237. All880 P arrays identical; all candidate binaries,54 bundle/dependency hash receipts and shared V checked after run (Windows/Git newline conventions documented). No missing/stale/duplicate rows, faults/dead/late all0. Results: newV-familyOff +0.00276 CI[-0.01507,0.02060] not shown; oldV-legacyOff +0.02079 CI[0.00241,0.03918] screening helps; newV-oldV -0.02289 CI[-0.04109,-0.00469] deployed-bot hurts; legacyOff-familyOff +0.00486 CI[-0.01098,0.02071] not shown; newVgain-oldVgain -0.01803 CI[-0.04251,0.00645] not shown; AA +0.00797 CI[-0.00833,0.02428]. All two-team comparisons identical; primary3-15 +0.00298 CI[-0.01623,0.02219] not shown. Core and43P-only preflight passed; land core checks passed. Reports bots/p_only/report/v3xl_fresh/SCREEN.md,SUPPLEMENT.md/JSON,PROVENANCE.json,REPRODUCE.md contain per-count/band CIs, per-game first/p50/p99/max, covered-game/turn counter denominators (650games/260000turns; two-team lines absent), binary/source/model identities, compiler/flags/opponents/load/lock/commands. No production change or tuning; single checkpoint/seed screening only. T0006 requires independent confirmation. Reproduce analysis from retained ignored data/p_only/v3xl_fresh and build/p_only; never replay seed as fresh evidence.
 
 ## Log
 
@@ -43,3 +45,6 @@ Not started.
 - 2026-10-11 01:09Z claude@caspers-macbook: amended on main at the owner's request: seed 20261230 -> 20261240 (20261230 is T0019's); added the legacy-carrier V-off arm c08_ponly_pxxl_vm so V2-M has a matched control and the carrier difference is measured (4 arms + A/A = 3,500 games); profiles/screen_v3xl_fresh.json committed and dry-run locally (no games); two-team reporting note. PR #11 (T0016) is merged (72a3740), so freeze on a main that includes it.
 - 2026-10-11 01:20Z codex@desktop-g60ojud: claimed
 - 2026-10-11 01:41Z codex@desktop-g60ojud: note: Preflight on T0022 worktree 79cf3d1: core suite 152 OK (1 skipped), P-only suite 43 OK; AI_Test read-only access required elevated run. Screen profile seed 20261240 dry-run: 4 arms + A/A, 700 fixtures, 3500 games, 4 workers, 2000/50 ms; A/A identical identity. Verified all 40 P arrays bit-identical across served n02-n15, family/legacy source contracts and PR #10 flags at defaults; model manifests and built binaries recorded locally. No match games yet.
+- 2026-10-11 04:12Z codex@desktop-g60ojud: landed: 7a307af49a on main, 12 file(s)
+- 2026-10-11 04:12Z codex@desktop-g60ojud: done
+- 2026-10-11 04:28Z codex@desktop-g60ojud: note: Landed report7a307af49a: GitHub CI38110819439 and Bots38110819414 both completed SUCCESS. Local landing core discovery has183 cases at rebased HEAD; earlier preflight log count should not be used as the final suite-size figure. Candidate-seat faults/dead/late all0 across3500 games.
