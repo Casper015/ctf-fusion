@@ -8,7 +8,7 @@ writes: [bots/p_only/tools/, bots/p_only/bots/, bots/p_only/profiles/, bots/p_on
 depends: []
 land: pr
 branch: ""
-updated: 2026-10-10
+updated: 2026-10-11
 ---
 
 ## Goal
@@ -21,11 +21,12 @@ PR merged; production carriers byte-identical; flags-off family carrier replies 
 
 ## Handoff
 
-*2026-10-10 22:39Z claude@caspers-macbook:*
+*2026-10-11 01:32Z claude-ci@caspers-macbook:*
 
-Replaced by a task with narrower lanes: T0016 (5XL capacity, active) holds training/ and tests/, and this experiment must stay separate from it; the branch-candidate extension moves to bots/p_only/tools/.
+Merged into T0018 (Joint-action search experiment: action portfolio and branch-conditioned ply-2 predictions (code)) by claude-ci@caspers-macbook: identical goal and done-when; T0017 was dropped and re-created as T0018 with narrower lanes
 
 ## Log
 
 - 2026-10-10 22:39Z claude@caspers-macbook: created
 - 2026-10-10 22:39Z claude@caspers-macbook: dropped
+- 2026-10-11 01:32Z claude-ci@caspers-macbook: merged into T0018
