@@ -34,7 +34,7 @@ Open, but a dependency is not done yet.
 | Task | Needs | Waits for | Title |
 |---|---|---|---|
 | [T0002](T0002-p-only-stage-1-capacity-and-sampling.md) | host | T0001 | P-only stage 1: capacity and sampling screen at two plies |
-| [T0006](T0006-p-only-phase-5-tune-v-freeze-finalists.md) | host | T0004, T0005 | P-only phase 5: tune V, freeze finalists, confirm |
+| [T0006](T0006-p-only-phase-5-tune-v-freeze-finalists.md) | host | T0004, T0005, T0014 | P-only phase 5: freeze the finalists and confirm them |
 | [T0012](T0012-v-pilot-four-arms-v2-v3-x-m-4xl-batch.md) | cuda | T0010 | V pilot: four arms (v2/v3 x M/4XL), batch sweeps, ranking and distillation, offline report |
 | [T0013](T0013-p-feature-screen-p2-vs-p3-at-equal-full.md) | host | T0011 | P feature screen: p2 vs p3 at equal full-turn time, V off, and extraction cost |
 | [T0014](T0014-v-pilot-on-the-host-real-v-cost-bounded.md) | host | T0012 | V pilot on the host: real V cost, bounded direct 4XL, distilled V, screen at fixed P |
@@ -74,4 +74,5 @@ A task on the left must be done before those on the right can start.
 - [T0010](T0010-v-data-frozen-carrier-games-and-branch.md) → [T0012](T0012-v-pilot-four-arms-v2-v3-x-m-4xl-batch.md)
 - [T0011](T0011-p-feature-ablation-train-p2-and-p3-at.md) → [T0013](T0013-p-feature-screen-p2-vs-p3-at-equal-full.md)
 - [T0012](T0012-v-pilot-four-arms-v2-v3-x-m-4xl-batch.md) → [T0014](T0014-v-pilot-on-the-host-real-v-cost-bounded.md)
+- [T0014](T0014-v-pilot-on-the-host-real-v-cost-bounded.md) → [T0006](T0006-p-only-phase-5-tune-v-freeze-finalists.md)
 - [T0018](T0018-joint-action-search-experiment-action.md) → [T0019](T0019-search-experiment-on-the-host-fixed-work.md)
