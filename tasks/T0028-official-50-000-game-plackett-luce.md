@@ -4,7 +4,7 @@ title: "Official 50,000-game Plackett-Luce tournament evaluation report"
 status: active
 owner: claude-2@desktop-g60ojud
 needs: [host]
-writes: [reports/eval/, docs/MARKDOWN_INDEX.md]
+writes: [docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/]
 depends: []
 land: pr
 branch: claude-2/t0028-official-50-000-game-plackett-luce
@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-11 06:09Z claude-2@desktop-g60ojud: created
 - 2026-10-11 06:09Z claude-2@desktop-g60ojud: claimed
+- 2026-10-11 06:10Z claude-2@desktop-g60ojud: amended writes -> docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/
