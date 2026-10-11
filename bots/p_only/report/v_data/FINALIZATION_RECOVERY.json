@@ -1,0 +1,6 @@
+{
+ "reason": "Original report finalizer indexed pairs in the all/dropped_roots metadata row.",
+ "original_traceback_retained": "build/t0010/post_collection.stderr.log",
+ "completed_stages_replayed": [],
+ "audit_wall_seconds": 12.121
+}

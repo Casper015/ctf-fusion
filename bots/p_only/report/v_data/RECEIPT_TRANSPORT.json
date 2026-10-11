@@ -1,0 +1,41 @@
+{
+  "scope": "Published report copies only. Immutable frozen receipts and measured data/build source bytes remain unchanged.",
+  "files": [
+    {
+      "path": "identities.json",
+      "original_sha256": "859c64b7061162de9bae346f2ed2d2a7e1a19fe7dca0e16b562aa70f4ea47a84",
+      "git_lf_sha256": "7e30a92d73efd0cbef53ddf33ae6ff8c99bdf1929923a96b0c264cdb7185d516",
+      "change": "CRLF to LF only"
+    },
+    {
+      "path": "manifest.json",
+      "original_sha256": "0e29c3d34efc913902887284ca82577f584514aa027e0d1d8ae888e3c189828c",
+      "git_lf_sha256": "20e623f4a24eed5b98259b4b6b72ee8886544fa42ebdad685a0c152bad3fe943",
+      "change": "CRLF to LF only"
+    },
+    {
+      "path": "RUN.json",
+      "original_sha256": "2b7cafe6e52c7d895cf45a57f1ac694cbec886a27590dcd0ddfbe70acb4c023e",
+      "git_lf_sha256": "ad1aa8f16c65525d36afb291b381492932b9a72ba9c17275d337765798a3e902",
+      "change": "CRLF to LF only"
+    },
+    {
+      "path": "schedule.json",
+      "original_sha256": "9b00e3c77b283eee2a66c07ddbf3e0d5bad3b2e21eadfe9de49da3bd12baceea",
+      "git_lf_sha256": "8bf03e432fc522b539f377c136323c65ce47a1ac71fa0272ab19fca12cb3e4ee",
+      "change": "CRLF to LF only"
+    },
+    {
+      "path": "screen.json",
+      "original_sha256": "4a388fe1474fa68804e4575b630e3c727725c1a9e8cee66487ebd2d15db458c7",
+      "git_lf_sha256": "69faf5ba32085d6b64b7df13fcfd68d9c460b0833d2af7e807a8190ef798be66",
+      "change": "CRLF to LF only"
+    },
+    {
+      "path": "SCREEN.md",
+      "original_sha256": "6a8534a2e8534c49928e4dfa6c9ce42de5fecf86be986c41c6396adb01806ecd",
+      "git_lf_sha256": "820b2999c1ff383f0cf37dda1ffd637aaf80f6bcec819b7ba0d2238ec236e99c",
+      "change": "CRLF to LF only"
+    }
+  ]
+}

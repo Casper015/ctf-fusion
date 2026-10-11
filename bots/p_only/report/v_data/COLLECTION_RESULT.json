@@ -1,0 +1,1210 @@
+{
+ "completed_utc": "2026-10-11T17:34:57Z",
+ "source_commit": "ebda2c4867fb6503f8e28f3bd0a8b434e6affb96",
+ "collection": {
+  "games": 7000,
+  "binary_sha256": "6cbd5d34610f7946eebee56713992eae81c283f3bbb6a6fc8a342a1dc3db47c1",
+  "utility": 0.74672,
+  "faults": 0,
+  "dead_games": 0,
+  "late_replies": 0,
+  "first_ms_max": 60.2,
+  "p99_ms_median": 5.641,
+  "p99_ms_worst": 12.428,
+  "max_ms": 15.621
+ },
+ "kept_matches": 7000,
+ "expected_roots": 14000,
+ "root_files": 14000,
+ "dropped_roots": {
+  "fewer than two legal candidates": 298
+ },
+ "continuations": 54808,
+ "terminal_candidates": 0,
+ "prefix_mismatch_distribution": {
+  "0": 54697,
+  "20": 9,
+  "13": 3,
+  "35": 2,
+  "29": 2,
+  "27": 1,
+  "26": 2,
+  "3": 7,
+  "9": 1,
+  "32": 5,
+  "1": 3,
+  "17": 4,
+  "33": 5,
+  "31": 2,
+  "36": 1,
+  "28": 6,
+  "4": 4,
+  "10": 3,
+  "30": 7,
+  "47": 1,
+  "39": 1,
+  "22": 6,
+  "6": 6,
+  "7": 1,
+  "21": 2,
+  "8": 5,
+  "16": 1,
+  "24": 5,
+  "23": 1,
+  "18": 6,
+  "25": 1,
+  "42": 2,
+  "5": 2,
+  "12": 1,
+  "49": 1,
+  "37": 2
+ },
+ "prefix_faults": 0,
+ "continuation_faults": 0,
+ "rank": {
+  "schema": {
+   "spec_version": 2,
+   "layout_version": 3,
+   "combat_version": 1,
+   "record_width": 923,
+   "moves": 5,
+   "cand": 8,
+   "acts": 4,
+   "layout": [
+    [
+     "turn",
+     0,
+     [
+      1
+     ]
+    ],
+    [
+     "team",
+     1,
+     [
+      1
+     ]
+    ],
+    [
+     "g",
+     2,
+     [
+      15
+     ]
+    ],
+    [
+     "u",
+     17,
+     [
+      3,
+      14
+     ]
+    ],
+    [
+     "m",
+     59,
+     [
+      3,
+      5,
+      11
+     ]
+    ],
+    [
+     "legal",
+     224,
+     [
+      3,
+      5
+     ]
+    ],
+    [
+     "act_legal",
+     239,
+     [
+      3,
+      5,
+      4
+     ]
+    ],
+    [
+     "origin",
+     299,
+     [
+      3
+     ]
+    ],
+    [
+     "cand",
+     302,
+     [
+      3,
+      8
+     ]
+    ],
+    [
+     "cand_f",
+     326,
+     [
+      3,
+      8,
+      11
+     ]
+    ],
+    [
+     "v",
+     590,
+     [
+      54
+     ]
+    ],
+    [
+     "pc",
+     644,
+     [
+      3,
+      5,
+      15
+     ]
+    ],
+    [
+     "vx",
+     869,
+     [
+      54
+     ]
+    ]
+   ],
+   "global": [
+    [
+     "teams",
+     2,
+     15,
+     15
+    ],
+    [
+     "turn",
+     0,
+     400,
+     400
+    ],
+    [
+     "remaining",
+     0,
+     400,
+     400
+    ],
+    [
+     "own_score",
+     0,
+     63,
+     10
+    ],
+    [
+     "best_enemy_score",
+     0,
+     63,
+     10
+    ],
+    [
+     "own_rank",
+     1,
+     15,
+     15
+    ],
+    [
+     "margin",
+     -20,
+     20,
+     10
+    ],
+    [
+     "flags_home",
+     0,
+     8,
+     8
+    ],
+    [
+     "flags_dropped",
+     0,
+     8,
+     8
+    ],
+    [
+     "flags_carried_own",
+     0,
+     3,
+     3
+    ],
+    [
+     "flags_carried_enemy",
+     0,
+     8,
+     8
+    ],
+    [
+     "flags_unavailable",
+     0,
+     8,
+     8
+    ],
+    [
+     "map_size",
+     23,
+     49,
+     49
+    ],
+    [
+     "own_active",
+     0,
+     3,
+     3
+    ],
+    [
+     "enemy_active",
+     0,
+     42,
+     42
+    ]
+   ],
+   "unit": [
+    [
+     "active",
+     0,
+     1,
+     1
+    ],
+    [
+     "immune",
+     0,
+     1,
+     1
+    ],
+    [
+     "dead_wait",
+     0,
+     10,
+     10
+    ],
+    [
+     "hp",
+     0,
+     100,
+     100
+    ],
+    [
+     "carrying",
+     0,
+     1,
+     1
+    ],
+    [
+     "home_dist",
+     0,
+     99,
+     50
+    ],
+    [
+     "flag_dist",
+     0,
+     99,
+     50
+    ],
+    [
+     "nearest_enemy",
+     0,
+     20,
+     20
+    ],
+    [
+     "enemies_r3",
+     0,
+     15,
+     5
+    ],
+    [
+     "allies_r3",
+     0,
+     2,
+     2
+    ],
+    [
+     "threatened_by",
+     0,
+     15,
+     5
+    ],
+    [
+     "last_dx",
+     -1,
+     1,
+     1
+    ],
+    [
+     "last_dy",
+     -1,
+     1,
+     1
+    ],
+    [
+     "hits_taken",
+     0,
+     15,
+     3
+    ]
+   ],
+   "move": [
+    [
+     "legal",
+     0,
+     1,
+     1
+    ],
+    [
+     "d_home",
+     -1,
+     1,
+     1
+    ],
+    [
+     "d_flag",
+     -1,
+     1,
+     1
+    ],
+    [
+     "shooters",
+     0,
+     15,
+     5
+    ],
+    [
+     "enemies_r2",
+     0,
+     15,
+     5
+    ],
+    [
+     "flag_cell",
+     0,
+     1,
+     1
+    ],
+    [
+     "own_base",
+     0,
+     1,
+     1
+    ],
+    [
+     "occupied",
+     0,
+     1,
+     1
+    ],
+    [
+     "continues",
+     0,
+     1,
+     1
+    ],
+    [
+     "carrier_targets",
+     0,
+     8,
+     2
+    ],
+    [
+     "targets",
+     0,
+     15,
+     5
+    ]
+   ],
+   "cand_f": [
+    [
+     "dist",
+     0,
+     4,
+     4
+    ],
+    [
+     "hp",
+     0,
+     100,
+     100
+    ],
+    [
+     "carrying",
+     0,
+     1,
+     1
+    ],
+    [
+     "support",
+     0,
+     2,
+     2
+    ],
+    [
+     "hit_S",
+     0,
+     1,
+     1
+    ],
+    [
+     "hit_U",
+     0,
+     1,
+     1
+    ],
+    [
+     "hit_D",
+     0,
+     1,
+     1
+    ],
+    [
+     "hit_L",
+     0,
+     1,
+     1
+    ],
+    [
+     "hit_R",
+     0,
+     1,
+     1
+    ],
+    [
+     "attacked_by_team",
+     0,
+     3,
+     3
+    ],
+    [
+     "target_home",
+     0,
+     99,
+     50
+    ]
+   ],
+   "value_unit": [
+    [
+     "active",
+     0,
+     1,
+     1
+    ],
+    [
+     "hp",
+     0,
+     100,
+     100
+    ],
+    [
+     "carrying",
+     0,
+     1,
+     1
+    ],
+    [
+     "dead_wait",
+     0,
+     10,
+     10
+    ],
+    [
+     "home_dist",
+     0,
+     99,
+     50
+    ],
+    [
+     "flag_dist",
+     0,
+     99,
+     50
+    ],
+    [
+     "nearest_enemy",
+     0,
+     20,
+     20
+    ],
+    [
+     "threatened_by",
+     0,
+     15,
+     5
+    ],
+    [
+     "enemies_r3",
+     0,
+     15,
+     5
+    ]
+   ],
+   "value_agg": [
+    [
+     "enemy_carriers",
+     0,
+     8,
+     8
+    ],
+    [
+     "enemy_carrier_home",
+     0,
+     99,
+     50
+    ],
+    [
+     "enemies_near_base",
+     0,
+     42,
+     10
+    ],
+    [
+     "escort_threat",
+     0,
+     30,
+     10
+    ],
+    [
+     "own_carrier_home",
+     0,
+     99,
+     50
+    ],
+    [
+     "dropped_near",
+     0,
+     8,
+     4
+    ],
+    [
+     "enemies_r6",
+     0,
+     42,
+     10
+    ],
+    [
+     "carrier_shots",
+     0,
+     3,
+     3
+    ],
+    [
+     "rivals_tied",
+     0,
+     14,
+     7
+    ],
+    [
+     "rivals_1_2_ahead",
+     0,
+     14,
+     7
+    ],
+    [
+     "rivals_1_2_behind",
+     0,
+     14,
+     7
+    ],
+    [
+     "pairwise_now",
+     0,
+     100,
+     100
+    ]
+   ],
+   "combat": [
+    [
+     "kill1_stay",
+     0,
+     15,
+     5
+    ],
+    [
+     "kill1_carrier_stay",
+     0,
+     8,
+     2
+    ],
+    [
+     "volley_stay",
+     0,
+     15,
+     5
+    ],
+    [
+     "volley_carrier_stay",
+     0,
+     8,
+     2
+    ],
+    [
+     "focus_present",
+     0,
+     1,
+     1
+    ],
+    [
+     "focus_hits",
+     0,
+     4,
+     4
+    ],
+    [
+     "focus_home",
+     0,
+     99,
+     50
+    ],
+    [
+     "focus_support",
+     0,
+     2,
+     2
+    ],
+    [
+     "chase_present",
+     0,
+     1,
+     1
+    ],
+    [
+     "chase_dist",
+     0,
+     6,
+     6
+    ],
+    [
+     "chase_hits",
+     0,
+     4,
+     4
+    ],
+    [
+     "chase_home",
+     0,
+     99,
+     50
+    ],
+    [
+     "exposure_reach",
+     0,
+     15,
+     5
+    ],
+    [
+     "lethal_stay",
+     0,
+     1,
+     1
+    ],
+    [
+     "lethal_reach",
+     0,
+     1,
+     1
+    ]
+   ],
+   "value_ext": [
+    [
+     "u0_hits",
+     0,
+     4,
+     4
+    ],
+    [
+     "u1_hits",
+     0,
+     4,
+     4
+    ],
+    [
+     "u2_hits",
+     0,
+     4,
+     4
+    ],
+    [
+     "u0_exposure",
+     0,
+     15,
+     5
+    ],
+    [
+     "u1_exposure",
+     0,
+     15,
+     5
+    ],
+    [
+     "u2_exposure",
+     0,
+     15,
+     5
+    ],
+    [
+     "u0_lethal",
+     0,
+     1,
+     1
+    ],
+    [
+     "u1_lethal",
+     0,
+     1,
+     1
+    ],
+    [
+     "u2_lethal",
+     0,
+     1,
+     1
+    ],
+    [
+     "ec0_present",
+     0,
+     1,
+     1
+    ],
+    [
+     "ec0_hits",
+     0,
+     4,
+     4
+    ],
+    [
+     "ec0_home",
+     0,
+     99,
+     50
+    ],
+    [
+     "ec0_shots_stay",
+     0,
+     3,
+     3
+    ],
+    [
+     "ec0_shots_reach",
+     0,
+     3,
+     3
+    ],
+    [
+     "ec0_killable",
+     0,
+     1,
+     1
+    ],
+    [
+     "ec0_escort",
+     0,
+     2,
+     2
+    ],
+    [
+     "ec0_gap",
+     -20,
+     20,
+     10
+    ],
+    [
+     "ec1_present",
+     0,
+     1,
+     1
+    ],
+    [
+     "ec1_hits",
+     0,
+     4,
+     4
+    ],
+    [
+     "ec1_home",
+     0,
+     99,
+     50
+    ],
+    [
+     "ec1_shots_stay",
+     0,
+     3,
+     3
+    ],
+    [
+     "ec1_shots_reach",
+     0,
+     3,
+     3
+    ],
+    [
+     "ec1_killable",
+     0,
+     1,
+     1
+    ],
+    [
+     "ec1_escort",
+     0,
+     2,
+     2
+    ],
+    [
+     "ec1_gap",
+     -20,
+     20,
+     10
+    ],
+    [
+     "own_carrier_escort",
+     0,
+     2,
+     2
+    ],
+    [
+     "dropped_return_min",
+     0,
+     16,
+     16
+    ],
+    [
+     "cooldown_ready_min",
+     0,
+     9,
+     9
+    ],
+    [
+     "flag_own_dist",
+     0,
+     99,
+     50
+    ],
+    [
+     "flag_enemy_dist",
+     0,
+     99,
+     50
+    ],
+    [
+     "flag_contest",
+     -20,
+     20,
+     10
+    ],
+    [
+     "dropped_own_closer",
+     0,
+     8,
+     4
+    ],
+    [
+     "dropped_enemy_closer",
+     0,
+     8,
+     4
+    ],
+    [
+     "r0_present",
+     0,
+     1,
+     1
+    ],
+    [
+     "r0_gap",
+     -20,
+     20,
+     10
+    ],
+    [
+     "r0_carriers",
+     0,
+     3,
+     3
+    ],
+    [
+     "r0_active",
+     0,
+     3,
+     3
+    ],
+    [
+     "r0_carrier_home",
+     0,
+     99,
+     50
+    ],
+    [
+     "r1_present",
+     0,
+     1,
+     1
+    ],
+    [
+     "r1_gap",
+     -20,
+     20,
+     10
+    ],
+    [
+     "r1_carriers",
+     0,
+     3,
+     3
+    ],
+    [
+     "r1_active",
+     0,
+     3,
+     3
+    ],
+    [
+     "r1_carrier_home",
+     0,
+     99,
+     50
+    ],
+    [
+     "r2_present",
+     0,
+     1,
+     1
+    ],
+    [
+     "r2_gap",
+     -20,
+     20,
+     10
+    ],
+    [
+     "r2_carriers",
+     0,
+     3,
+     3
+    ],
+    [
+     "r2_active",
+     0,
+     3,
+     3
+    ],
+    [
+     "r2_carrier_home",
+     0,
+     99,
+     50
+    ],
+    [
+     "own_respawning",
+     0,
+     3,
+     3
+    ],
+    [
+     "enemy_respawning",
+     0,
+     42,
+     10
+    ],
+    [
+     "rivals_ahead_carrying",
+     0,
+     14,
+     7
+    ],
+    [
+     "rivals_close_carrying",
+     0,
+     14,
+     7
+    ],
+    [
+     "enemy_carriers_killable",
+     0,
+     8,
+     4
+    ],
+    [
+     "own_carriers_lethal",
+     0,
+     3,
+     3
+    ]
+   ]
+  },
+  "source": "data/branches/v12_ponly_xxl",
+  "files": 14000,
+  "options": {
+   "tie_steps": 1.0,
+   "tie_z": 2.0
+  },
+  "stats": {
+   "test": {
+    "roots": 1354,
+    "pairs": 8124,
+    "resolved_pairs": 2956
+   },
+   "train": {
+    "roots": 10992,
+    "pairs": 65952,
+    "resolved_pairs": 23771
+   },
+   "val": {
+    "roots": 1356,
+    "pairs": 8136,
+    "resolved_pairs": 2902
+   },
+   "all": {
+    "dropped_roots": 298
+   }
+  }
+ },
+ "pair_counts": {
+  "train": {
+   "pairs": 65952,
+   "resolved_pairs": 23771,
+   "uncertain_pairs": 42181
+  },
+  "val": {
+   "pairs": 8136,
+   "resolved_pairs": 2902,
+   "uncertain_pairs": 5234
+  },
+  "test": {
+   "pairs": 8124,
+   "resolved_pairs": 2956,
+   "uncertain_pairs": 5168
+  }
+ },
+ "rank_index_sha256": "a1fbfb3db1d88f71eadf8491a9989ce927f113c69b56dd95f8518f2cd64067d0",
+ "steps": [
+  {
+   "stage": "prepare",
+   "command": [
+    "python",
+    "bots/p_only/tools/run_screen.py",
+    "--config",
+    "bots/p_only/profiles/collect_v_data.json",
+    "--dry-run"
+   ],
+   "exit_code": 0,
+   "finished_utc": "2026-10-11T12:02:10Z",
+   "wall_seconds": 22.092
+  },
+  {
+   "stage": "collect",
+   "command": [
+    "python",
+    "bots/p_only/tools/run_screen.py",
+    "--config",
+    "bots/p_only/profiles/collect_v_data.json"
+   ],
+   "exit_code": 0,
+   "finished_utc": "2026-10-11T12:39:39Z",
+   "wall_seconds": 2249.809
+  },
+  {
+   "stage": "branches",
+   "command": [
+    "python",
+    "-m",
+    "training.branch_collect",
+    "--matches",
+    "data/p_only/v_data/matches",
+    "--carrier",
+    "v12_ponly_xxl",
+    "--out",
+    "data/branches/v12_ponly_xxl",
+    "--roots-per-match",
+    "2",
+    "--candidates",
+    "4",
+    "--repeats",
+    "1",
+    "--workers",
+    "6"
+   ],
+   "exit_code": 0,
+   "finished_utc": "2026-10-11T17:21:00Z",
+   "wall_seconds": 16879.849
+  },
+  {
+   "stage": "rank",
+   "command": [
+    "python",
+    "-m",
+    "training.branch_dataset",
+    "--branches",
+    "data/branches/v12_ponly_xxl",
+    "--out",
+    "data/rank/v12_ponly_xxl"
+   ],
+   "exit_code": 0,
+   "finished_utc": "2026-10-11T17:25:16Z",
+   "wall_seconds": 255.311
+  }
+ ],
+ "audit": {
+  "match_counts": {
+   "2": 500,
+   "3": 500,
+   "4": 500,
+   "5": 500,
+   "6": 500,
+   "7": 500,
+   "8": 500,
+   "9": 500,
+   "10": 500,
+   "11": 500,
+   "12": 500,
+   "13": 500,
+   "14": 500,
+   "15": 500
+  },
+  "match_faults": 0,
+  "exact_schedule_and_root_key_coverage": true,
+  "map_splits_disjoint": true,
+  "frozen_identity_verified": true,
+  "root_content_manifest_sha256": "25162d6d9e2ad83d69b2460bb148f00dee8f673ed7e6f424512b28d605ddf93d",
+  "rank_npz": {
+   "train": {
+    "sha256": "982d9277a7ca1d2b629a6a838a08e752e4795455c19755dfc9cca0c1c9bc0a86",
+    "roots": 10992,
+    "candidates": 43968,
+    "maps": 5612,
+    "resolved_roots": 6018,
+    "all_uncertain_roots": 4974,
+    "labels_weights_shapes_split_verified": true
+   },
+   "val": {
+    "sha256": "5ff63e9f786e2ad42d523436e4b285f5d76a2e70b9c1f0bc76345e625d80f2d5",
+    "roots": 1356,
+    "candidates": 5424,
+    "maps": 692,
+    "resolved_roots": 727,
+    "all_uncertain_roots": 629,
+    "labels_weights_shapes_split_verified": true
+   },
+   "test": {
+    "sha256": "15d2dc2a96fc89294ac160ffaec9147b0d64f9a048e266a14f81c60e9326da2b",
+    "roots": 1354,
+    "candidates": 5416,
+    "maps": 688,
+    "resolved_roots": 740,
+    "all_uncertain_roots": 614,
+    "labels_weights_shapes_split_verified": true
+   }
+  }
+ },
+ "report_recovery": {
+  "reason": "Original report finalizer indexed pairs in the all/dropped_roots metadata row.",
+  "original_traceback_retained": "build/t0010/post_collection.stderr.log",
+  "completed_stages_replayed": [],
+  "audit_wall_seconds": 12.121
+ }
+}

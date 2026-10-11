@@ -1,0 +1,19 @@
+{
+ "v12_ponly_xxl": {
+  "digest": "a80bcfd59cdf53f39295f3453de510f10b6c1b620f66304bd6015b5453b796cb",
+  "components": {
+   "variant": "v12_ponly_xxl",
+   "bundle_sha256": "0153cde766f4afaf121e169759e86b04b662bd20ea3451c6f61508a319c7f47d",
+   "binary_sha256": "6cbd5d34610f7946eebee56713992eae81c283f3bbb6a6fc8a342a1dc3db47c1",
+   "inputs_sha256": "7ebac93b4eb781a42c50b1aa1c460f37721cd0be5ec15d0047c457dad3c414a7",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "7bc6ec20f4d905e405c8a3b9d7832ab2e64b00376df39efc3b3ed72b9939d64f",
+   "schedule": "4584cc6bd2a061f3f63f9d4a21a667377a69363eeb8518df8ed039b7b61ad6fd",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ }
+}

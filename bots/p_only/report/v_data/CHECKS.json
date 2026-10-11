@@ -1,0 +1,65 @@
+{
+ "source_commit": "ebda2c4867fb6503f8e28f3bd0a8b434e6affb96",
+ "python": "3.14.3",
+ "checks": [
+  {
+   "name": "core",
+   "command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-t",
+    "."
+   ],
+   "exit_code": 0,
+   "wall_seconds": 197.223,
+   "log": "build/t0010/check_core.log",
+   "summary": [
+    "Ran 189 tests in 192.647s",
+    "OK (skipped=1)"
+   ],
+   "full_log_sha256": "3cf3117dbc4916827a9a2be9a5e140bf35ff4d6929f81b4c5a10eb20492bb599"
+  },
+  {
+   "name": "p_only",
+   "command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "bots/p_only/tests"
+   ],
+   "exit_code": 0,
+   "wall_seconds": 771.742,
+   "log": "build/t0010/check_p_only.log",
+   "summary": [
+    "Ran 43 tests in 771.188s",
+    "OK"
+   ],
+   "full_log_sha256": "98ead2251643bf12c794cf091e6f3af6bd4f6dff1c8a39ae1e7c008a84efcaa4"
+  },
+  {
+   "name": "single_file_bundles",
+   "command": [
+    "python",
+    "tools/repo/release_bots.py",
+    "--out",
+    "dist",
+    "--check"
+   ],
+   "exit_code": 0,
+   "wall_seconds": 73.808,
+   "log": "build/t0010/check_single_file_bundles.log",
+   "summary": [
+    "29 single-file bundles compiled successfully.",
+    "[release] 29 bundles, 149.4 MB at dist (commit ebda2c4867)"
+   ],
+   "full_log_sha256": "911dd4e374c0fce599f7acdf2efa6bc5f1fe3d993af208cd967c626b8112b16d"
+  }
+ ],
+ "validation_timings_are_not_model_capacity_measurements": true
+}
