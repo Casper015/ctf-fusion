@@ -1,7 +1,7 @@
 ---
 id: T0030
 title: "P mixed-precision code: kernels, QAT and search interfaces"
-status: active
+status: review
 owner: claude-ci@caspers-macbook
 needs: []
 writes: [CONTRIBUTING.md, bots/p_only/bots/, bots/p_only/include/, bots/p_only/profiles/, bots/p_only/tests/, bots/p_only/tools/derive/, docs/P_MIXED_PRECISION.md, fusion/, inference/mlp.hpp, inference/policy.hpp, inference/policy_p3.hpp, inference/policy_precision/, inference/simd.hpp, profiles/p_precision_code.json, tests/, tools/cpp/, training/]
@@ -80,7 +80,39 @@ Dependencies and future work: this code task depends only on the already merged 
 
 ## Handoff
 
-Not started.
+*2026-10-11 16:42Z claude-ci@caspers-macbook:*
+
+In review: PR https://github.com/Casper015/ctf-fusion/pull/22 (branch claude-ci/t0030-p-mixed-precision-code-kernels-qat-and, commits 6055584 and 08f07f4 on main 9d5d8e2). Architecture: docs/P_MIXED_PRECISION.md.
+
+Implemented (code only; no real training, export, timing or games):
+- fusion/precision.py: profiles reference16 (the existing INT16 export, unchanged), uniform8 and mixed4_8 (squad hidden matrices int4 with 6-bit block scales). Format pprec-1, block 32, proven int32 bounds, requantization onto 0..128, deterministic profile and weight identities, exact emulation, storage measured from the arrays (XXL: uniform8 0.51-0.53 and mixed4_8 0.41-0.43 of the INT16 resident bytes).
+- inference/policy_precision/:
+  - lowbit.hpp: reference, scalar, SSE2, AVX2 and NEON kernels, block decode, no int16 copy;
+  - policy_lp.hpp: p2/p3 heads;
+  - bank.hpp: Reference16 is the INT16 path; missing or other-family models fall back, counted;
+  - routing.hpp: Selector (off by default), PredictionKey/PredictionCache, RootGuard, shortlist/verify.
+- fusion/precision_calib.py: E[x^2] importance on train/val only (test/confirm/holdout/OOD refused), weighted scale search, masked joint/act/target KL per rare context, layer sensitivity, coverage.
+- Distillation and QAT: fusion/policy_distill.py, fusion/torch_qat.py, training/distill_policy.py. Loss alpha*CE + (1-alpha)*tau^2*KL (alpha 0.5, tau 1, both unvalidated), mmap teacher shards keyed by rows/masks/contexts, QAT forward equal to the deployed integers, 6XL teacher 5,327,107 params (p2), estimates only.
+- training/export_precision.py: headers, npz and manifest under build/p_precision/; bench build and bench-plan; nothing timed.
+- Carriers: make_families.py generates ponly_precision.hpp and ponly_p3_precision.hpp; PONLY_PRECISION, PONLY_PRECISION_ROUTE and PONLY_PRECISION_REGISTER; C08's ply-2 cache keys on the profile. With the defaults the code is unchanged.
+
+Tests (2026-10-11, Mac arm64, g++-16):
+- core: python -m unittest discover -s tests -t . gave 218 OK (39 skipped: engine/AI_Test/torch).
+- torch (CPU venv): tests.test_torch_backend gave 17 OK (5 new QAT tests).
+- P-only: discover -s bots/p_only/tests gave 46 OK (3 skipped), plus a rerun of the 4 affected modules after the bundler-define fix: 34 OK.
+- Kernel parity: NEON/scalar/reference equal the emulation locally; SSE2 equal under Rosetta (384/384). AVX2 is first exercised in CI (Rosetta has no AVX2).
+
+Commands: see the doc's Commands section. Regenerate the carriers with python bots/p_only/tools/derive/make_families.py.
+
+Not done / limits:
+- No quality, CPU, traffic, strength or 50 ms evidence. Sizes come from random weights.
+- docs/MARKDOWN_INDEX.md and docs/DIGEST.md do not list the new doc yet: outside these lanes; CI only warns. Run python tools/repo/md_index.py --write in a docs task.
+
+Proposed follow-up tasks (not created; Casper decides):
+- A: offline uniform8/mixed4_8 export and calibration report for T0011's frozen XXL P (after T0011).
+- B: 6XL teacher, then warmup/distill/QAT of the XXL student with 3 seeds (GPU, after A).
+- C: host bench and full-reply timing (after A).
+- D: ablation INT16 -> uniform8 -> mixed4_8 -> adaptive+verify, with frozen features/P/V/depth: equal-work diagnostics, then equal-time games (after T0013, B and C; depth routing after T0005).
 
 ## Log
 
@@ -88,3 +120,4 @@ Not started.
 - 2026-10-11 08:07Z claude-ci@caspers-macbook: claimed
 - 2026-10-11 16:40Z claude-ci@caspers-macbook: amended writes -> CONTRIBUTING.md, bots/p_only/bots/, bots/p_only/include/, bots/p_only/profiles/, bots/p_only/tests/, bots/p_only/tools/derive/, docs/P_MIXED_PRECISION.md, fusion/, inference/mlp.hpp, inference/policy.hpp, inference/policy_p3.hpp, inference/policy_precision/, inference/simd.hpp, profiles/p_precision_code.json, tests/, tools/cpp/, training/
 - 2026-10-11 16:41Z claude-ci@caspers-macbook: note: PR: https://github.com/Casper015/ctf-fusion/pull/22
+- 2026-10-11 16:42Z claude-ci@caspers-macbook: handoff -> review
