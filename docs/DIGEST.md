@@ -307,7 +307,10 @@ The P-only line fixed these. The three write-ups now open with a correction note
 - V is off unless a variant turns it on.
 - A screen runner binds every row to an identity: bundle, binary, models, runner, schedule and limits. It interleaves the arms on the same fixtures, adds A/A arms, and counts improved, unchanged and degraded fixtures (these are not wins).
 
-**Official 50k Plackett-Luce tournament** ([reports/eval/tournament_50k_report.md](../reports/eval/tournament_50k_report.md)). 50,000 matches across 10 sizes (2–15 teams, 5,000 games each, 16 workers, 21 bots). Pure policy bots take the top spots: `c08_ponly_pxl` (+314.6 PL) and `c08_ponly_pxxl` (+313.4 PL) lead `c08_control` (+285.1) and `Player5` (+282.1). In duels (2–5 teams), P-XXL has slightly higher win rates; in crowded boards (6–15 teams), P-XL yields higher win rates due to lower per-node search cost within the 30 ms budget.
+**50,000-game tournament** ([tournament_50k_report.md](../reports/eval/tournament_50k_report.md), T0028). The run had 21 bots, team counts 2–15 and 16 workers.
+- **Ratings.** Plackett-Luce ratings as the run reported them. The fitter, the ordered results and a run manifest are not committed, so the ratings cannot be refitted and carry no intervals.
+- **Win rates** (approximate intervals, averaged over counts). C08 P-only beats its control by +3.2 points (XL) and +3.5 (XXL), v12 P-only by +2.7 (both). XL against XXL is not shown on either carrier; why sizes would differ is a hypothesis.
+- **Limits.** Late replies were played, not dropped, so the official 50 ms rule was not applied.
 
 **Phases 0 and 1.**
 - **Phase 0.** STRUCTURE_SCAN (generated, 258 bots) and STRUCTURE_ANALYSIS rank v12 first and C08 second as carriers.
@@ -428,6 +431,7 @@ Never reuse a seed for a new comparison. Pick one that is not in this table, and
 | 20261220 | T0016's 5XL screens |
 | 20261230 | Search experiment on the host (T0019) |
 | 20261240 | Fresh-map V3-XL screen (T0022) |
+| (not recorded) | 50,000-game tournament (T0028): its seeds are not committed |
 | (unchosen) | Confirmation (T0006): chosen only after the finalists are frozen |
 
 ## Known defects in the records

@@ -1,0 +1,245 @@
+[
+ {
+  "id": "g4_ponly_pxl_comeback",
+  "url": "https://casper015.github.io/ctf-replay-viewer/data/matches/g4_ponly_pxl_comeback.json",
+  "sha256": "2da7741e85c83ddec9e0d01adda152134ec28189d249dec11e9ebf7d74479cfc",
+  "bytes": 534622,
+  "teams": 4,
+  "map_size": 31,
+  "seed": 87909618,
+  "flag_seed": 24079443,
+  "turns": 400,
+  "names": [
+   "Player5",
+   "baseline",
+   "c08_ponly_pxl",
+   "v12_control"
+  ],
+  "scores": [
+   14,
+   12,
+   9,
+   10
+  ],
+  "winners": [
+   "Player5"
+  ],
+  "bots": [
+   {
+    "name": "Player5",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 186.32,
+    "p99_ms": 12.84,
+    "max_ms": 15.16,
+    "timeouts_50ms": 1,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   },
+   {
+    "name": "baseline",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 1.22,
+    "p99_ms": 4.25,
+    "max_ms": 7.89,
+    "timeouts_50ms": 0,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   },
+   {
+    "name": "c08_ponly_pxl",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 223.96,
+    "p99_ms": 53.78,
+    "max_ms": 65.77,
+    "timeouts_50ms": 7,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   },
+   {
+    "name": "v12_control",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 11.88,
+    "p99_ms": 4.88,
+    "max_ms": 12.87,
+    "timeouts_50ms": 0,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   }
+  ]
+ },
+ {
+  "id": "g2_ponly_duel",
+  "url": "https://casper015.github.io/ctf-replay-viewer/data/matches/g2_ponly_duel.json",
+  "sha256": "7ae518d108d9af8fb407e43263aa8f9a35c60c56879190b1f9bea72befe3516e",
+  "bytes": 314039,
+  "teams": 2,
+  "map_size": 23,
+  "seed": 66220252,
+  "flag_seed": 95983758,
+  "turns": 400,
+  "names": [
+   "v12_ponly_pxxl",
+   "Player5"
+  ],
+  "scores": [
+   29,
+   28
+  ],
+  "winners": [
+   "v12_ponly_pxxl"
+  ],
+  "bots": [
+   {
+    "name": "v12_ponly_pxxl",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 25.46,
+    "p99_ms": 4.69,
+    "max_ms": 5.94,
+    "timeouts_50ms": 0,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   },
+   {
+    "name": "Player5",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 97.71,
+    "p99_ms": 12.49,
+    "max_ms": 15.12,
+    "timeouts_50ms": 1,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   }
+  ]
+ },
+ {
+  "id": "g8_ponly_pxxl_chaos",
+  "url": "https://casper015.github.io/ctf-replay-viewer/data/matches/g8_ponly_pxxl_chaos.json",
+  "sha256": "7b39675386698585336dfa083f999d89c3a5a1fff8d4bc985c72861de94422b9",
+  "bytes": 1069850,
+  "teams": 8,
+  "map_size": 41,
+  "seed": 26806074,
+  "flag_seed": 65264424,
+  "turns": 400,
+  "names": [
+   "v12_ponly_pxl",
+   "Player3",
+   "deepseek-v4.1",
+   "Player4",
+   "Player5",
+   "c08_control",
+   "c08_ponly_pxxl",
+   "gpt-6.1-sol"
+  ],
+  "scores": [
+   6,
+   3,
+   6,
+   8,
+   6,
+   10,
+   10,
+   6
+  ],
+  "winners": [
+   "c08_control",
+   "c08_ponly_pxxl"
+  ],
+  "bots": [
+   {
+    "name": "v12_ponly_pxl",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 28.14,
+    "p99_ms": 6.85,
+    "max_ms": 8.67,
+    "timeouts_50ms": 0,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   },
+   {
+    "name": "Player3",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 677.29,
+    "p99_ms": 12.43,
+    "max_ms": 16.01,
+    "timeouts_50ms": 1,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   },
+   {
+    "name": "deepseek-v4.1",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 1.21,
+    "p99_ms": 4.2,
+    "max_ms": 10.16,
+    "timeouts_50ms": 0,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   },
+   {
+    "name": "Player4",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 1883.48,
+    "p99_ms": 13.61,
+    "max_ms": 16.8,
+    "timeouts_50ms": 1,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   },
+   {
+    "name": "Player5",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 29.01,
+    "p99_ms": 3.76,
+    "max_ms": 6.22,
+    "timeouts_50ms": 0,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   },
+   {
+    "name": "c08_control",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 737.44,
+    "p99_ms": 64.12,
+    "max_ms": 67.3,
+    "timeouts_50ms": 20,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   },
+   {
+    "name": "c08_ponly_pxxl",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 29.76,
+    "p99_ms": 41.06,
+    "max_ms": 46.35,
+    "timeouts_50ms": 0,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   },
+   {
+    "name": "gpt-6.1-sol",
+    "dead": null,
+    "calls": 400,
+    "first_ms": 721.14,
+    "p99_ms": 16.16,
+    "max_ms": 19.36,
+    "timeouts_50ms": 1,
+    "dropped_official": 0,
+    "hard_limit_hits": 0
+   }
+  ]
+ }
+]
