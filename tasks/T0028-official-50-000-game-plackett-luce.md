@@ -40,3 +40,4 @@ PR #20 (head b7006bb) is finished on the data the run kept, at Casper's request.
 - 2026-10-11 06:41Z claude-ci@caspers-macbook: note: Casper (in chat): finish T0028 on the data we have for the 50k run. No fitter, raw results or manifest exist outside the host's run directory; the report stays descriptive and says so.
 - 2026-10-11 06:41Z claude-ci@caspers-macbook: claimed (forced)
 - 2026-10-11 06:55Z claude-ci@caspers-macbook: handoff -> review
+- 2026-10-11 06:55Z claude-ci@caspers-macbook: note: Replay viewer: Casper015/ctf-replay-viewer#3 adds 5 showcase games of the newest P-only bots (seeds 20261312-20261338, Mac, not evidence) and corrects the g4/g8 highlight texts. CI is green; it is waiting for a merge.
