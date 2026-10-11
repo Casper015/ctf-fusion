@@ -1,7 +1,7 @@
 ---
 id: T0023
 title: "Use the public meow-ai-arena repo as the engine and judge-bot source (CI without a secret)"
-status: active
+status: review
 owner: claude-ci@caspers-macbook
 needs: []
 writes: [fusion/paths.py, fusion/native.py, roster/strength.py, bots/p_only/tools/screen_runner.py, tests/test_pipeline.py, tests/test_roster.py, tests/test_value_pipeline.py, tests/test_arena_layout.py, ".github/", README.md, CONTRIBUTING.md, AGENTS.md, docs/TECHNICAL_OVERVIEW.md, docs/FIRST_RUN.md, training/specs/ENVIRONMENT.md, tools/README.md, tasks/README.md]
@@ -23,9 +23,16 @@ chen-006/meow-ai-arena (public) ships the official engine (ctf/workspace/engine.
 
 ## Handoff
 
-Not started.
+*2026-10-11 01:08Z claude-ci@caspers-macbook:*
+
+PR https://github.com/Casper015/ctf-fusion/pull/18, all checks green (incl. the end-to-end job against chen-006/meow-ai-arena pinned to 54139d4, and Windows).
+
+After merge: (1) remove 'continue-on-error: true' from the pipeline job once it has been green on main; (2) delete the worktree ../ctf-fusion.worktrees/T0023; (3) the host keeps the AI_Test working tree for the legacy planner (q_H), Player5 and the archived opponents, so nothing changes there.
+
+Open question for Casper: should the roster/inventory scan 'ctf/bots' as well? Not done: ids would differ from the committed pools by path.
 
 ## Log
 
 - 2026-10-11 00:33Z claude-ci@caspers-macbook: created
 - 2026-10-11 00:33Z claude-ci@caspers-macbook: claimed
+- 2026-10-11 01:08Z claude-ci@caspers-macbook: handoff -> review
