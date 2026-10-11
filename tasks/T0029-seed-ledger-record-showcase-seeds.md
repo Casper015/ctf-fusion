@@ -1,7 +1,7 @@
 ---
 id: T0029
 title: "Seed ledger: record showcase seeds 20261342-20261364"
-status: active
+status: done
 owner: claude-ci@caspers-macbook
 needs: []
 writes: [docs/DIGEST.md, docs/MARKDOWN_INDEX.md]
@@ -21,7 +21,9 @@ docs/DIGEST.md seed ledger lists 20261301-20261364 for the showcase games.
 
 ## Handoff
 
-Not started.
+*2026-10-11 07:07Z claude-ci@caspers-macbook:*
+
+Landed as 6eb077f: the DIGEST seed ledger lists 20261301-20261364 for the showcase games; markdown index regenerated.
 
 ## Log
 
@@ -29,3 +31,4 @@ Not started.
 - 2026-10-11 07:04Z claude-ci@caspers-macbook: claimed
 - 2026-10-11 07:04Z claude-ci@caspers-macbook: amended writes -> docs/DIGEST.md, docs/MARKDOWN_INDEX.md
 - 2026-10-11 07:07Z claude-ci@caspers-macbook: landed: 6eb077f441 on main, 2 file(s)
+- 2026-10-11 07:07Z claude-ci@caspers-macbook: done
