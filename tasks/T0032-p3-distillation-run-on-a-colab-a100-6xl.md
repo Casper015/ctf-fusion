@@ -1,13 +1,13 @@
 ---
 id: T0032
 title: "P3 distillation run on a Colab A100: 6XL teacher, XXL warmup/distill/QAT, three seeds"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [reports/models/p_distill/]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0032-p3-distillation-run-on-a-colab-a100-6xl
 updated: 2026-10-11
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-11 19:45Z claude@caspers-macbook: created
+- 2026-10-11 19:45Z claude@caspers-macbook: claimed
