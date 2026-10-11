@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-10 19:24Z claude@caspers-macbook: created
+- 2026-10-11 01:32Z claude-ci@caspers-macbook: note: T0006 no longer repeats the V comparison and tuning of TASK.md Phase 5: that is steps 3 and 4 here. Hand the frozen finalists to T0006, which now only confirms them.
