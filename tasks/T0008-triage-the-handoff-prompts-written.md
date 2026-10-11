@@ -1,14 +1,14 @@
 ---
 id: T0008
 title: "Triage the handoff prompts written before the board"
-status: open
+status: dropped
 owner: ""
 needs: []
 writes: [docs/handoffs/, roster/report/NEXT_AGENT_PROMPT.md, reports/reviews/review_bundle_20261009/]
 depends: []
 land: direct
 branch: ""
-updated: 2026-10-10
+updated: 2026-10-11
 ---
 
 ## Goal
@@ -28,8 +28,11 @@ For each step in them, find whether it is done (cite the commit or report), stil
 
 ## Handoff
 
-Not started. Read `git log --stat` around each prompt's date. Don't run anything: this is reading and bookkeeping.
+*2026-10-11 01:32Z claude-ci@caspers-macbook:*
+
+Merged into T0024 (Board and docs consolidation: merge duplicate tasks, task summary, markdown digest and index) by claude-ci@caspers-macbook: the same documentation work: T0015's three doc edits and T0008's triage of the pre-board prompts are part of reading and summarising every markdown file
 
 ## Log
 
 - 2026-10-10 08:52Z claude@caspers-macbook: created from the pre-board handoff prompts
+- 2026-10-11 01:32Z claude-ci@caspers-macbook: merged into T0024

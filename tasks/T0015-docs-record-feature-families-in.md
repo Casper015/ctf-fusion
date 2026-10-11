@@ -1,14 +1,14 @@
 ---
 id: T0015
 title: "Docs: record feature families in CONTRIBUTING, README and the P-only experiment notes"
-status: open
+status: dropped
 owner: ""
 needs: []
 writes: [CONTRIBUTING.md, README.md, bots/p_only/EXPERIMENTS.md]
 depends: [T0009]
 land: direct
 branch: ""
-updated: 2026-10-10
+updated: 2026-10-11
 ---
 
 ## Goal
@@ -21,8 +21,11 @@ The three files point to docs/FEATURE_FAMILIES.md and the new generators; tests 
 
 ## Handoff
 
-Not started.
+*2026-10-11 01:32Z claude-ci@caspers-macbook:*
+
+Merged into T0024 (Board and docs consolidation: merge duplicate tasks, task summary, markdown digest and index) by claude-ci@caspers-macbook: the same documentation work: T0015's three doc edits and T0008's triage of the pre-board prompts are part of reading and summarising every markdown file
 
 ## Log
 
 - 2026-10-10 19:24Z claude@caspers-macbook: created
+- 2026-10-11 01:32Z claude-ci@caspers-macbook: merged into T0024
