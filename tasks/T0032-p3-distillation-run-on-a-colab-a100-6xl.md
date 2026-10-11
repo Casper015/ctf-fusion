@@ -38,3 +38,4 @@ Not started.
 - 2026-10-11 19:45Z claude@caspers-macbook: claimed
 - 2026-10-11 19:51Z claude@caspers-macbook: note: Started 19:50Z on Colab A100-SXM4-40GB, code 3858b0f (T0031 branch). Train cache copied from Drive and verified (identity 350264d6881ddf31, 24,153,825 rows; val 20de39893d174c1b). Driver reports/models/p_distill/scripts/t0032_run.sh (sha cefaccd9...), launcher t0032_train_cache.py (sha 46cc43db...). Stage 1: 6XL p3 teacher, seed 100. Finished stages are copied to Drive cft-fusion/t0032/.
 - 2026-10-11 19:58Z claude@caspers-macbook: amended goal
+- 2026-10-11 19:58Z claude@caspers-macbook: note: Teacher changed 6XL -> 8XL at Casper's request (use the A100's room). 6XL p3 was stopped after epoch 1 (317 s/epoch; train 2.22714, val 2.18051; log kept as stopped_teacher_6xl_p3.log, not a result). Restarted 19:57:39Z with code 39eb4e5 (GPU teacher targets) and driver sha 1cea884a.
