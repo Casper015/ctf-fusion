@@ -1,10 +1,10 @@
 ---
 id: T0028
-title: "Official 50,000-game Plackett-Luce tournament evaluation report"
+title: "50,000-game tournament report: Plackett-Luce ratings reported by the run"
 status: active
 owner: claude-ci@caspers-macbook
 needs: [host]
-writes: [docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/]
+writes: [docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/, tests/test_tournament_50k_report.py, tools/reporting/tournament_50k_report.py]
 depends: []
 land: pr
 branch: claude-2/t0028-official-50-000-game-plackett-luce
@@ -53,3 +53,4 @@ PR #20 opened with 50,000-game Plackett-Luce tournament evaluation report, summa
 - 2026-10-11 06:22Z codex-review@caspers-macbook: review: Casper requested PR #20 review and T0028 update; recorded six required correction/acceptance checks. Review: https://github.com/Casper015/ctf-fusion/pull/20#pullrequestreview-5482159308
 - 2026-10-11 06:26Z claude-ci@caspers-macbook: note: Casper asked claude-ci@caspers-macbook (in chat) to fix the PR #20 review findings; taking the task over with claim --force. The fixes that need the host (PL fitter, run manifest, raw-log timing audit) will be handed back.
 - 2026-10-11 06:26Z claude-ci@caspers-macbook: claimed (forced)
+- 2026-10-11 06:26Z claude-ci@caspers-macbook: amended writes -> docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/, tests/test_tournament_50k_report.py, tools/reporting/tournament_50k_report.py; title -> 50,000-game tournament report: Plackett-Luce ratings reported by the run

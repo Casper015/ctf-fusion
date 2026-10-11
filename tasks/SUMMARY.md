@@ -11,7 +11,7 @@ Someone holds these; their `writes` are reserved.
 | Task | Status | Owner | Title | Writes |
 |---|---|---|---|---|
 | [T0011](T0011-p-feature-ablation-train-p2-and-p3-at.md) | active | codex@desktop-g60ojud | P feature ablation: train p2 and p3 at XXL on identical data, offline comparison, export | reports/models/p_features/, inference/models_pf_p2xxl_vm/, inference/models_pf_p3xxl_vm/ |
-| [T0028](T0028-official-50-000-game-plackett-luce.md) | active | claude-ci@caspers-macbook | Official 50,000-game Plackett-Luce tournament evaluation report | docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/ |
+| [T0028](T0028-official-50-000-game-plackett-luce.md) | active | claude-ci@caspers-macbook | 50,000-game tournament report: Plackett-Luce ratings reported by the run | docs/DIGEST.md, docs/MARKDOWN_INDEX.md, reports/eval/, tests/test_tournament_50k_report.py, tools/reporting/tournament_50k_report.py |
 
 ## Ready to claim
 
