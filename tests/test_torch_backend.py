@@ -6,6 +6,7 @@ tolerances (float summation order differs between BLAS and CUDA; exported intege
 """
 from __future__ import annotations
 
+import json
 import os
 import tempfile
 import types
@@ -458,6 +459,45 @@ class TestQuantizationAwareTraining(unittest.TestCase):
                     T.train("distill", student, self.layout, cb, args, sh, out / "x")
             ca.close()
             cb.close()
+
+    def test_scheduled_torch_stages_keep_the_best_state(self):
+        """--val-cache on the device: the kept state is the best epoch's, for the float student and for QAT."""
+        import argparse  # noqa: PLC0415
+
+        from training import distill_policy as T  # noqa: PLC0415
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            T.write_cache(out / "tr", {k: v[:32] for k, v in self.d.items()}, np.arange(32))
+            T.write_cache(out / "va", {k: v[32:] for k, v in self.d.items()}, np.arange(32, 48))
+            tr, va = T.RowCache(out / "tr"), T.RowCache(out / "va")
+            args = argparse.Namespace(alpha=0.5, tau=1.0, act_weight=0.5, target_weight=0.5, smoothing=0.01, seed=0, epochs=3,
+                                      batch=8, lr=3e-2, min_lr=1e-3, lr_schedule="cosine", patience=1, plateau_decay=1,
+                                      weight_decay=0.0, init=None, profile="mixed4_8", device=DEVICE, optimizer="adam",
+                                      backend="torch", count_weighting="none")
+            sup = self.D.DistillConfig(alpha=1.0, smoothing=0.01)
+            for stage in ("warmup", "qat"):
+                student = T.load_student(self.layout, "s", "p2", None, 0)
+                if stage == "qat":
+                    teacher = PolicyNet(self.layout, np.random.default_rng(2), self.HIDDEN)
+                    T.teacher_targets(teacher, self.layout, tr, "train", out / "t", tau=1.0, batch=16)
+                    with self.D.TeacherShard(out / "t") as sh:
+                        res = T.train(stage, student, self.layout, tr, args, sh, out / stage, va)
+                else:
+                    res = T.train(stage, student, self.layout, tr, args, None, out / stage, va)
+                log = [json.loads(x) for x in (out / stage / "log.jsonl").read_text().splitlines()]
+                with self.subTest(stage=stage):
+                    self.assertAlmostEqual(res["receipt"]["best_val"], min(r["val"] for r in log), places=6)
+                    self.assertEqual(res["receipt"]["calibrated"], stage != "qat")
+                    saved = dict(np.load(out / stage / "model.npz"))
+                    best = dict(np.load(out / stage / "best.npz"))
+                    for k in best:
+                        if not k.startswith("beta"):
+                            np.testing.assert_array_equal(saved[k], best[k], err_msg=k)
+                    if stage == "warmup":      # the kept float state reproduces the best validation loss
+                        student.calibrated = False
+                        self.assertAlmostEqual(T.val_loss(student, self.layout, va, args, sup), res["receipt"]["best_val"], places=4)
+            tr.close()
+            va.close()
 
     def test_toy_pipeline_runs_every_stage(self):
         from training import distill_policy  # noqa: PLC0415

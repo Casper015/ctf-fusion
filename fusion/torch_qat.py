@@ -178,6 +178,10 @@ class QATPolicy:
         for q in self.heads.values():
             q.t.to_ref()
 
+    def from_ref(self):
+        for q in self.heads.values():
+            q.t.from_ref()
+
 
 class FloatPolicy:
     """The float student on a device (warmup and distill stages): logits(X, move) like QATPolicy, on batches from
@@ -203,6 +207,9 @@ class FloatPolicy:
 
     def to_ref(self):
         self.t.to_ref()
+
+    def from_ref(self):
+        self.t.from_ref()
 
 
 def device_batch(rec: torch.Tensor, dl, family: str) -> dict:
