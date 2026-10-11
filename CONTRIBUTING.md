@@ -115,13 +115,15 @@ GitHub Actions runs these on every pull request and on every push to `main` (wor
 | **Tests** (`ci.yml`) | the core suite on Linux (Python 3.10 and 3.13), macOS arm64 (the NEON kernels) and Windows (informational) | `python -m unittest discover -s tests -t .` |
 | **P-only bots** (`ci.yml`) | contract, replay and derive tests; about 10 min | `python -m unittest discover -s bots/p_only/tests` |
 | **Torch parity** (`ci.yml`) | NumPy and PyTorch trainers agree (CPU) | `pip install torch`, then `python -m unittest tests.test_torch_backend` |
-| **End-to-end pipeline** (`ci.yml`) | the tests that need the AI_Test engine; informational, runs only when the `AI_TEST_TOKEN` secret exists | `export AI_TEST_ROOT=...`, then the core suite |
+| **End-to-end pipeline** (`ci.yml`) | the tests that need the engine, against `chen-006/meow-ai-arena` pinned to a commit (no secret); informational until its first green run on `main`. The `P-only` job uses the same checkout. | `git clone https://github.com/chen-006/meow-ai-arena`, `export AI_TEST_ROOT=$PWD/meow-ai-arena`, then the core suite |
 | **Bundle and compile** (`bots.yml`) | every P-only variant is bundled into its single file and compiled with `-fsyntax-only`; runs when `bots/`, `inference/` or the packager change | `python tools/repo/release_bots.py --out dist --check` |
 | **Task board** (`board.yml`) | `tasks/*.md` after each board commit | `python tools/repo/task.py check` |
 
 A clean checkout needs only `pip install -r requirements-dev.txt` (NumPy, plus matplotlib for the report generators), and a GNU `g++` or `clang++` with libstdc++: the tests' fixture bots include `<bits/stdc++.h>`, which Apple's compiler lacks. On macOS: `brew install gcc`; `fusion/runner.py` then finds `g++-N`, or set `CXX=g++-N`.
 
 **Releasing bots.** The `Bots` workflow is also the delivery path to the host. In GitHub: Actions, Bots, Run workflow, tick *publish* (from `main` only), and optionally list variant names. It attaches every bundle as `<variant>.cpp.gz`, with `MANIFEST.json` (commit and SHA-256 of each bundle) and `SHA256SUMS`, to a release named `bots-<date>-<commit>`. Without *publish*, the same files are kept for 14 days as the run's artifact. A release bundle is the deployed form: it has no `PONLY_STATS` define, so its hash differs from a screen manifest's `bundle_sha256` by exactly that line.
+
+**The engine pin.** CI checks out `chen-006/meow-ai-arena` at the commit named in `ci.yml` (`ref:`), so a change in that repository cannot turn this one red or run new code in CI by itself. To update: change both `ref:` lines in a commit of their own, run the pipeline job, and read the judge-bot differences listed in [docs/TECHNICAL_OVERVIEW.md](docs/TECHNICAL_OVERVIEW.md#where-the-engine-and-the-bots-come-from).
 
 **Workflow rules.**
 - Third-party actions are pinned to a commit SHA with the version in a comment. Dependabot proposes the updates monthly.
@@ -132,8 +134,8 @@ A clean checkout needs only `pip install -r requirements-dev.txt` (NumPy, plus m
 ## Before you push
 
 ```bash
-export AI_TEST_ROOT=~/code/AI_Test                 # without it the end-to-end pipeline tests are skipped
-python -m unittest discover -s tests -t .          # ~20 s without AI_Test, longer with it
+export AI_TEST_ROOT=~/code/meow-ai-arena           # a clone of github.com/chen-006/meow-ai-arena; without it the end-to-end tests skip
+python -m unittest discover -s tests -t .          # ~20 s without the arena, ~2 min with it (3 tests need the AI_Test working tree and stay skipped)
 python -m unittest discover -s bots/p_only/tests   # ~80 s, when you touched bots/p_only/ or bots/hybrid/
 python tools/repo/task.py check                   # when you touched tasks/ by hand
 python tools/repo/release_bots.py --out dist --check   # when you touched bots/ or inference/ (a few minutes)

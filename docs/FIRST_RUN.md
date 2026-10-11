@@ -11,7 +11,7 @@ This runbook is for anyone, person or AI agent, who runs ctf-fusion on the host 
 | Machine | The Windows (or Linux) host with many cores that will collect data. Not a busy laptop: latency numbers only mean something on the host. |
 | Python | 3.10 or newer, with numpy (`pip install -r requirements.txt`). PyTorch is not needed for this run. |
 | C++ compiler | `g++` or `clang++` with C++20 on `PATH`. On Windows, [w64devkit](https://github.com/skeeto/w64devkit) unpacked at `C:/w64devkit` is found automatically, or set `CXX`. |
-| AI_Test | A checkout of [AI_Test](https://github.com/Casper015/AI_Test) (the archive came from commit `c9c115b`). Only the engine (`ctf-arena/Player7/workspace/engine.py`) and the 12 reference bots of the strength screen come from it; every candidate bot comes from `roster/bots/`. |
+| Arena | The host's AI_Test working tree (the archive came from commit `c9c115b`): the engine (`ctf-arena/Player7/workspace/engine.py`), the legacy planner behind q_H and the 12 reference bots of the strength screen come from it; every candidate bot comes from `roster/bots/`. A clone of the public [meow-ai-arena](https://github.com/chen-006/meow-ai-arena) has the engine and the ten judge bots, which is enough to practise steps 1 to 3 on another machine, but not the strength screen (it has Baseline but lacks Player5). |
 | Disk | About 1 GB under `data/` for fingerprints and match logs. |
 | Location | Both repositories **outside OneDrive** (OneDrive breaks git's file access). |
 

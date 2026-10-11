@@ -26,7 +26,7 @@ import numpy as np
 from fusion import matchlog, native
 from fusion.models import PolicyNet, QuantizedTier, policy_batch
 from fusion.nn import Adam
-from fusion.paths import ai_test_root, load_engine
+from fusion.paths import ai_test_root, has_legacy_planner, load_engine
 from fusion.protocol import DELTAS, parse_block, parse_reply
 from fusion.schema import layout
 from training import collect, dataset, evaluate_offline, export_weights, heuristic_baseline, train_policy, train_value
@@ -34,7 +34,7 @@ from training import collect, dataset, evaluate_offline, export_weights, heurist
 TEAMS = (2, 3, 5)
 
 
-@unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to the AI_Test checkout")
+@unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to an arena checkout (a clone of chen-006/meow-ai-arena, or AI_Test)")
 class TestPipeline(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -274,6 +274,8 @@ class TestPipeline(unittest.TestCase):
         self.assertTrue(all(line.split()[3] == "2" for line in out if line and line.split()[1] != "-"))  # joint-v2
 
     def test_heuristic_baseline(self):
+        if not has_legacy_planner(ai_test_root()):
+            self.skipTest("q_H needs the nextgen planner, which only the AI_Test working tree has (not meow-ai-arena)")
         heuristic_baseline.main(["--shards", str(self.shards), "--teams", "3", "5", "--split", "train"])
         meta = dataset.load_meta(self.shards, [3, 5], "train")
         self.assertEqual((meta["qh_shards"], len(meta["baselines"])), (meta["shards"], 1))

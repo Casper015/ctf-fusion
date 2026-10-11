@@ -36,7 +36,7 @@ REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
 
 from fusion import runner  # noqa: E402
-from fusion.paths import ai_test_root, bot_path, git_commit, load_engine, load_pool, sha256  # noqa: E402
+from fusion.paths import ai_test_root, bot_path, engine_path, git_commit, load_engine, load_pool, sha256  # noqa: E402
 from roster.strength import play_one, schedule_identity  # noqa: E402
 
 AA = "~aa"
@@ -139,7 +139,7 @@ def main(argv=None):
     root = ai_test_root(a.ai_test)
     os.environ["AI_TEST_ROOT"] = str(root)
     commands, info = reference_commands(sched, root)
-    info |= {"__engine__": sha256(root / "ctf-arena/Player7/workspace/engine.py"), "__commit__": git_commit(root)}
+    info |= {"__engine__": sha256(engine_path(root)), "__commit__": git_commit(root)}
     sid = schedule_identity(sched)
     jobs = []
     for i, fx, arm in todo:

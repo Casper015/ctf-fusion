@@ -12,7 +12,7 @@ The engineering view of ctf-fusion: how the pipeline fits together, the model ma
 ## How it fits together
 
 ```text
-AI_Test engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶ data/raw/nXX/*.json.gz   (protocol text + replies)
+arena engine + bots ──collect.py (fusion/runner.py, Windows-safe)──▶ data/raw/nXX/*.json.gz   (protocol text + replies)
                                           │ dataset.py: C++ extractor (inference/features.hpp) + labels, --append for phase 2
                                           ▼
                                    data/shards/nXX/<split>/*.npz  (+ index.json manifest)
@@ -121,13 +121,35 @@ Moved a path you remember? [docs/PATH_MAP.md](PATH_MAP.md) lists every old locat
 **Software:**
 - Python 3.10+ and numpy. PyTorch is optional: `--backend torch --device cuda` trains on the GPU with the same objective (parity-tested); see [ENVIRONMENT.md](../training/specs/ENVIRONMENT.md#training-backend).
 - A C++20 compiler: g++ 11+, clang 14+, or w64devkit on Windows. `CXX` overrides the choice.
-- A checkout of AI_Test `main`, which provides the engine, every opponent bot, and the legacy planner for q_H.
+- An arena checkout (next section): the public `chen-006/meow-ai-arena` is enough to run the end-to-end tests, smoke games and data collection against the judge bots; the original AI_Test working tree adds the legacy planner for q_H, the Player5 reference bot and the archived opponents.
 
 **Placement.** Keep this repository outside OneDrive.
 
 ```bash
-export AI_TEST_ROOT=~/code/AI_Test
+git clone https://github.com/chen-006/meow-ai-arena ~/code/meow-ai-arena
+export AI_TEST_ROOT=~/code/meow-ai-arena      # the variable keeps its name; `--ai-test` on the tools too
 ```
+
+### Where the engine and the bots come from
+
+`fusion/paths.py` accepts either checkout as the arena root and finds the engine in whichever layout it has.
+
+| Needed for | Public `chen-006/meow-ai-arena` (`ctf/`) | AI_Test working tree (host) |
+|---|---|---|
+| Rules engine (`engine.py`), local referee | `ctf/workspace/` | `ctf-arena/Player7/workspace/` |
+| The ten judge bots (Astra ... GLM) | `ctf/bots/*.cpp` | `ctf-arena/Player7/judge/ctf/bots/` |
+| Legacy planner behind q_H (`heuristic_baseline`, the gate) | not there | `.../experiments/round3/nextgen/` |
+| Reference bot `Baseline` of the strength screen | `ctf/workspace/baseline.cpp`, byte-identical (same SHA-256) | `ctf-stress-pack/bots/baseline.cpp` |
+| Reference bot `Player5` of the strength screen | not there | `ctf-stress-pack/bots/Player5.cpp` |
+| Stress-pack, benchmark v3, elite duels, S1 controls | not there | `ctf-stress-pack/`, `ctf-benchmark-v3/`, ... |
+| 130 archived opponents | not needed: `roster/bots/src/` in this repository | |
+
+**The judge bots are the originals, not the archived bytes.** The public files keep their (Chinese) comments; the copies archived here had non-ASCII text stripped. Compared with `roster.inventory.normalized_code`, 9 of the 11 are the same program; `kimi-k3.cpp` and `doubao-seed-2.1-turbo.cpp` differ only in string-literal labels (token counts equal). The file hashes differ for 10 of 11, so:
+
+- `bot_path` takes a judge bot from `ctf/bots/` only when its AI_Test path is missing, and prints that it did (`fusion.paths.SUBSTITUTED`).
+- Anything bound to a recorded hash refuses the public copy: `roster.strength` and `bots/p_only/tools/screen_runner.py` stop with "reference bot ... changed since the schedule was frozen". Evidence from the host stays comparable only with itself.
+- A schedule frozen against the public bots is a new schedule, with new hashes.
+- The public repository is a different packaging of the same game: its engine passes all end-to-end checks here (features and simulator against every engine turn, labels, training, export), at commit `54139d4`.
 
 ## Tests (about 25 s, light load)
 

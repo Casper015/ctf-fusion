@@ -47,7 +47,7 @@ def engine_origins(game, block, turn):
     return origin, immune
 
 
-@unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to the AI_Test checkout")
+@unittest.skipUnless(os.environ.get("AI_TEST_ROOT"), "set AI_TEST_ROOT to an arena checkout (a clone of chen-006/meow-ai-arena, or AI_Test)")
 class TestValuePipeline(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
