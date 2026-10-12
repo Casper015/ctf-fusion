@@ -1,0 +1,33 @@
+{
+ "_comment": "Expanded opponent registry for designated-carrier decision data (task T0035, training/decision_opponents.py). Code-only configuration: no game, seed or training run uses it yet. References are the twelve T0010 references (bots/p_only/report/v_data/schedule.json); additions are six fingerprint-screened representatives pinned by source id and SHA-256 from the training-selection CSV; neural entries come from profiles/decision_variants.json. Composition is the target share of opponent seats before without-replacement sampling; realized shares per count are simulated and reported, never assumed. The designated carrier is the frozen admitted incumbent: v12_ponly_xxl with the committed P2 XXL policy, V off, built with PONLY_STATS as in T0010; a later model needs its own deployment admission. Reserved lineages stay out of every seat for unseen-opponent evaluation. quarantine maps a member name to a reason; an entry there is disabled and changes the pool identity.",
+ "designated": {"variant": "v12_ponly_xxl", "policy": "p2 XXL (inference/models_xxl)", "value": "off", "stats": true, "status": "admitted"},
+ "designated_reference": {"manifest": "bots/p_only/report/v_data/manifest.json", "variant": "v12_ponly_xxl"},
+ "inventory": "roster/new_bots/inventory.json",
+ "references": {"schedule": "bots/p_only/report/v_data/schedule.json", "pool": "profiles/pool.json"},
+ "additions": {
+  "csv": "roster/report/training_selection_20261009/candidate_selection.csv",
+  "bots": [
+   {"name": "ctf-arena_Player5_v12_rollout_volley", "pool_name": "ctf-arena_Player5_v12_rollout_volley",
+    "source_id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp",
+    "source_sha256": "341750931064a2f2560cb8521b7c2050dba7a3d6e888401091a33f61d63395f3"},
+   {"name": "cand-012", "pool_name": "cand-012", "source_id": "New_AI_Test/Player2/workspace/experiments/cand-012.cpp",
+    "source_sha256": "45ac4cb215a6d3cf171750e25711e4748fdf8a88d8f554d488000e95942ce251"},
+   {"name": "C04_G_PLAYOUT_4ply", "pool_name": "C04_G_PLAYOUT_4ply", "source_id": "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp",
+    "source_sha256": "a7128273ba8039327299a2fa6d544ca9ef4d10f16062eb72e41b2ee0d980bc24"},
+   {"name": "bot_2", "pool_name": "bot_2", "source_id": "New_AI_Test/Player5/workspace/submission/bot.cpp",
+    "source_sha256": "43e4fdf89e89cc63b4758c4210dd2fb6e279152aa37512b361e424e55079f516"},
+   {"name": "ctf-arena_Player5_fortress", "pool_name": "ctf-arena_Player5_fortress",
+    "source_id": "@repo/roster/new_bots/forks/ctf-arena_Player5_fortress.cpp",
+    "source_sha256": "00c624632e2f3f5898fc9728f32fcf562352d79c5df6e6cdb470d80bcd06143e"},
+   {"name": "ctf-arena_Player5_sparring_raider", "pool_name": "ctf-arena_Player5_sparring_raider",
+    "source_id": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_raider.cpp",
+    "source_sha256": "ee6d0ad5c276d2c9a3c51e7cf78c64debcb6ca3af13b1c5fe1b426a67d5d6b34"}
+  ]
+ },
+ "reserved_sources": ["@repo/roster/new_bots/independent/AI_Arena_CTF_Player02_bot.cpp",
+                      "@repo/roster/new_bots/independent/ctf-arena_Player4_v2.cpp"],
+ "reserved_lineages": ["lineage:AI_Arena_CTF_Player02_bot", "lineage:ctf-arena_Player4_v2"],
+ "composition": {"reference": 0.6, "addition": 0.2, "neural": 0.2},
+ "lineage_cap": 0.25,
+ "quarantine": {}
+}

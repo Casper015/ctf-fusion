@@ -1,0 +1,9 @@
+{
+ "_comment": "Decision shortlist log carriers (task T0036): the family carriers with PONLY_DECISION 1, policy XXL p2, V off. They reply with the same orders as their production variants and append the shortlist the carrier scored after '#'. Role decision_log: collection carriers for the designated seat, never opponents and never deployment candidates. Build: python bots/p_only/tools/build.py --variants bots/p_only/profiles/variants_decision.json",
+ "variants": [
+  {"name": "v12_ponly_xxl_dlog", "carrier": "v12", "role": "decision_log", "tier": "XXL", "value_tier": null,
+   "source": "bots/p_only/bots/variants/v12_ponly_xxl_dlog.cpp"},
+  {"name": "c08_ponly_xxl_dlog", "carrier": "C08", "role": "decision_log", "tier": "XXL", "value_tier": null,
+   "source": "bots/p_only/bots/variants/c08_ponly_xxl_dlog.cpp"}
+ ]
+}
