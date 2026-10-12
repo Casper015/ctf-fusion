@@ -1,0 +1,8533 @@
+{
+ "task": "T0025",
+ "seed": 20261250,
+ "seed_status": "frozen plan; no games started or seed consumed",
+ "source_commit": "de5dece1b90206684e06d82617d772e82d6658a3",
+ "official_limits_ms": [
+  2000,
+  50
+ ],
+ "workers": 6,
+ "reference": "R3_EXPECTIMAX_sampled",
+ "reserved_lineages": [
+  "lineage:AI_Arena_CTF_Player02_bot",
+  "lineage:ctf-arena_Player4_v2"
+ ],
+ "independent_maps": 300,
+ "maps_per_lineage_per_count": 20,
+ "training_lineage_audit_sha256": "572bdf66f6126f08b28a750ccda5ec26a9cd7e9ec77e4cd80c4a05baa4d2f968",
+ "remote_seed_ledger_sha256": "e9424db64dca3079c708a33d258bef9dd1f62a4bbef02100edae2bf5505f5bd5",
+ "old_schedules": {
+  "T0010/data/p_only/v_data/schedule.json": {
+   "sha256": "9b00e3c77b283eee2a66c07ddbf3e0d5bad3b2e21eadfe9de49da3bd12baceea",
+   "maps": 7000
+  },
+  "T0016/data/v_capacity_5xl/screen_time/schedule.json": {
+   "sha256": "89a0766c6aa54f9c2a7479e03d6ef1a3f0b1feb33b54acb2b51e0e437990e700",
+   "maps": 4
+  },
+  "T0016/data/v_capacity_5xl/screen_work/schedule.json": {
+   "sha256": "89a0766c6aa54f9c2a7479e03d6ef1a3f0b1feb33b54acb2b51e0e437990e700",
+   "maps": 4
+  },
+  "T0016/build/v_capacity_5xl/screen_time_analysis/schedule.json": {
+   "sha256": "89a0766c6aa54f9c2a7479e03d6ef1a3f0b1feb33b54acb2b51e0e437990e700",
+   "maps": 4
+  },
+  "T0016/build/v_capacity_5xl/screen_work_analysis/schedule.json": {
+   "sha256": "89a0766c6aa54f9c2a7479e03d6ef1a3f0b1feb33b54acb2b51e0e437990e700",
+   "maps": 4
+  },
+  "T0019/data/p_only/search/schedule.json": {
+   "sha256": "28926c7907bc1f6d292391a8f9ff742dbdd4beafd83c7de05f1a2cba61a975f8",
+   "maps": 280
+  },
+  "T0019/data/p_only/value/schedule.json": {
+   "sha256": "dc6f170b97e1f98a2b2613e1cbf1d5df777901649742ca75c4514fd73c43589f",
+   "maps": 280
+  },
+  "T0022/data/p_only/v3xl_fresh/schedule.json": {
+   "sha256": "51f7f3abc2ab27f19a752ac114edc6e7c0c99220d107bd6eb18928a8ca65f7dd",
+   "maps": 700
+  }
+ },
+ "original_index_sha256": "6d5bdc531793d896d1a5cc156a2df65626b1928628d1da679537dbee5d0ebcb9",
+ "T0028_records_sha256": "34160c57d42d8c191b234e26be7bb3800534cdd996add5312e96cbf49856870f",
+ "T0028_games": 50000,
+ "T0028_unique_maps": 49986,
+ "old_map_intersections": 0,
+ "programs": {
+  "AI_Arena_CTF_Player01_bot": {
+   "name": "AI_Arena_CTF_Player01_bot",
+   "path": "@repo/roster/new_bots/independent/AI_Arena_CTF_Player01_bot.cpp",
+   "family": "lineage:AI_Arena_CTF_Player01_bot",
+   "source_sha256": "25c3fd7fb522a1beeff54c1f2ef0e5b096f9cd5eb74b6008f4f4ad487e1b08d2",
+   "policy_labels": true
+  },
+  "AI_Arena_CTF_Player02_bot": {
+   "name": "AI_Arena_CTF_Player02_bot",
+   "path": "@repo/roster/new_bots/independent/AI_Arena_CTF_Player02_bot.cpp",
+   "family": "lineage:AI_Arena_CTF_Player02_bot",
+   "source_sha256": "ef8719390bcdb0ff95c757bf56c73d1138064068b02b318eb1adf6623bf268ab",
+   "policy_labels": true
+  },
+  "Astra": {
+   "name": "Astra",
+   "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+   "family": "lineage:gpt-6-astra",
+   "source_sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740",
+   "policy_labels": true
+  },
+  "Baseline": {
+   "name": "Baseline",
+   "path": "ctf-stress-pack/bots/baseline.cpp",
+   "family": "lineage:baseline",
+   "source_sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42",
+   "policy_labels": true
+  },
+  "Control_external_CL": {
+   "name": "Control_external_CL",
+   "path": "ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_external_CL.cpp",
+   "family": "lineage:Player5",
+   "source_sha256": "96a4dec9c3543fe4d16b8b4b89714318444eb645beb85df59122e426529a55fb",
+   "policy_labels": true
+  },
+  "DeepSeek": {
+   "name": "DeepSeek",
+   "path": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+   "family": "lineage:deepseek-v4.1-flash",
+   "source_sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825",
+   "policy_labels": true
+  },
+  "Fable": {
+   "name": "Fable",
+   "path": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+   "family": "lineage:fable-5.1",
+   "source_sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04",
+   "policy_labels": true
+  },
+  "GLM": {
+   "name": "GLM",
+   "path": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+   "family": "lineage:glm-5.3",
+   "source_sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e",
+   "policy_labels": true
+  },
+  "Kimi": {
+   "name": "Kimi",
+   "path": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+   "family": "lineage:kimi-k3",
+   "source_sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b",
+   "policy_labels": true
+  },
+  "MiMo": {
+   "name": "MiMo",
+   "path": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "family": "lineage:mimo-v2.6-pro",
+   "source_sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85",
+   "policy_labels": true
+  },
+  "Opus": {
+   "name": "Opus",
+   "path": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+   "family": "lineage:opus-5.5",
+   "source_sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b",
+   "policy_labels": true
+  },
+  "Player1": {
+   "name": "Player1",
+   "path": "ctf-stress-pack/bots/Player1.cpp",
+   "family": "lineage:Player1",
+   "source_sha256": "fda911b516f84fb04c27e23476c9cb674dd043dbcbdfd0a24626b3ca78cd33a1",
+   "policy_labels": true
+  },
+  "Player2": {
+   "name": "Player2",
+   "path": "ctf-stress-pack/bots/Player2.cpp",
+   "family": "lineage:Player2",
+   "source_sha256": "c953fc91557399efb957e7f3627a5670413ea99ce5311807366e851a6436c18f",
+   "policy_labels": true
+  },
+  "Player3": {
+   "name": "Player3",
+   "path": "ctf-stress-pack/bots/Player3.cpp",
+   "family": "lineage:Player3",
+   "source_sha256": "a31cf6cdd04e6b2b83efded5ac60402fb7c26040b249629a4cd3759faf452f6e",
+   "policy_labels": true
+  },
+  "Player4": {
+   "name": "Player4",
+   "path": "ctf-stress-pack/bots/Player4.cpp",
+   "family": "lineage:Player4",
+   "source_sha256": "2058f78e5979a51f40dcb7dac4ee66e22f8ab816176822e3388caa6732f1453a",
+   "policy_labels": true
+  },
+  "Player5": {
+   "name": "Player5",
+   "path": "ctf-stress-pack/bots_v2/Player5.cpp",
+   "family": "lineage:Player5",
+   "source_sha256": "5e8ff70a7103e3cf6aff531271c1912e454097c4199b765aa201d95d88a8352f",
+   "policy_labels": true
+  },
+  "Player6": {
+   "name": "Player6",
+   "path": "ctf-stress-pack/bots/Player6.cpp",
+   "family": "lineage:Player6",
+   "source_sha256": "155e464bb0afaf4560eba8fc6f9ffd7299561bc89b9f7fd68e14e3ae3bcff969",
+   "policy_labels": true
+  },
+  "Qwen": {
+   "name": "Qwen",
+   "path": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+   "family": "lineage:qwen-3.8-max",
+   "source_sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410",
+   "policy_labels": true
+  },
+  "R3_EXPECTIMAX_sampled": {
+   "name": "R3_EXPECTIMAX_sampled",
+   "path": "ctf-arena/Player7/workspace/experiments/round3/export/R3_EXPECTIMAX_sampled.cpp",
+   "family": "lineage:Control_Hybrid",
+   "source_sha256": "e5d7b750bce2c3da006110eff2e6c371470ab6fb5d2c461430bf44b443ede0f7",
+   "policy_labels": true
+  },
+  "Sol": {
+   "name": "Sol",
+   "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+   "family": "lineage:gpt-6.1-sol",
+   "source_sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de",
+   "policy_labels": true
+  },
+  "Sonnet": {
+   "name": "Sonnet",
+   "path": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+   "family": "lineage:sonnet-5.5",
+   "source_sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6",
+   "policy_labels": true
+  },
+  "bot": {
+   "name": "bot",
+   "path": "New_AI_Test/Player5/workspace/submission/bot.cpp",
+   "family": "lineage:Player5",
+   "source_sha256": "43e4fdf89e89cc63b4758c4210dd2fb6e279152aa37512b361e424e55079f516",
+   "policy_labels": true
+  },
+  "bot_2": {
+   "name": "bot_2",
+   "path": "New_AI_Test/player7/workspace/submission/bot.cpp",
+   "family": "lineage:bot",
+   "source_sha256": "cddbf9f1a676d448f6d5fd1fd47c3e7ef244eb888a9e30d3e1db6be8f9a4b9a4",
+   "policy_labels": true
+  },
+  "cand-011": {
+   "name": "cand-011",
+   "path": "New_AI_Test/Player2/workspace/experiments/cand-011.cpp",
+   "family": "lineage:cand-011",
+   "source_sha256": "296bb1d35c7e0c68ab050b1de8f082e9290d86d73511acbbf44c33be8c86af61",
+   "policy_labels": true
+  },
+  "cand-012": {
+   "name": "cand-012",
+   "path": "New_AI_Test/Player2/workspace/experiments/cand-012.cpp",
+   "family": "lineage:cand-012",
+   "source_sha256": "45ac4cb215a6d3cf171750e25711e4748fdf8a88d8f554d488000e95942ce251",
+   "policy_labels": true
+  },
+  "candidate-v002-risk": {
+   "name": "candidate-v002-risk",
+   "path": "New_AI_Test/Player4/workspace/experiments/candidate-v002-risk.cpp",
+   "family": "lineage:candidate-v002-risk",
+   "source_sha256": "a7e092b7be84dfd00788d05cf164b17323c3dbd56b1a6c84c3fc02e5993ac6fa",
+   "policy_labels": true
+  },
+  "candidate-v005-15p-intercept": {
+   "name": "candidate-v005-15p-intercept",
+   "path": "New_AI_Test/Player4/workspace/experiments/candidate-v005-15p-intercept.cpp",
+   "family": "lineage:candidate-v002-risk",
+   "source_sha256": "bf6cc7acffe179b97ffc4c89a9e431dc60f3b80d263bb49aaf5d48380ccccf9f",
+   "policy_labels": true
+  },
+  "ctf-arena_Player1_t2_snapshot_01076b3d": {
+   "name": "ctf-arena_Player1_t2_snapshot_01076b3d",
+   "path": "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp",
+   "family": "lineage:ctf-arena_Player1_t2_snapshot_01076b3d",
+   "source_sha256": "c5359a5a8efdc80d635f4178db2a928dc04bf4875da5e63d46d53bd305fe0614",
+   "policy_labels": true
+  },
+  "ctf-arena_Player3_variants_bot_tune": {
+   "name": "ctf-arena_Player3_variants_bot_tune",
+   "path": "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_tune.cpp",
+   "family": "lineage:Player3",
+   "source_sha256": "b1f9b26600f21b4a09540d9791404533b3371cb222fa486dfcf7d1d924eef16b",
+   "policy_labels": true
+  },
+  "ctf-arena_Player4_v2": {
+   "name": "ctf-arena_Player4_v2",
+   "path": "@repo/roster/new_bots/independent/ctf-arena_Player4_v2.cpp",
+   "family": "lineage:ctf-arena_Player4_v2",
+   "source_sha256": "90038f9ab9b6120938e852cbb13b3a1bd9c074e568a5f648a55a0ec49681b779",
+   "policy_labels": true
+  },
+  "ctf-arena_Player4_v3": {
+   "name": "ctf-arena_Player4_v3",
+   "path": "@repo/roster/new_bots/forks/ctf-arena_Player4_v3.cpp",
+   "family": "lineage:ctf-arena_Player4_v3",
+   "source_sha256": "52699e6a48b639255098f61c965c14b30f33041403a65fb07786864b49bf327b",
+   "policy_labels": true
+  },
+  "ctf-arena_Player4_v5": {
+   "name": "ctf-arena_Player4_v5",
+   "path": "@repo/roster/new_bots/forks/ctf-arena_Player4_v5.cpp",
+   "family": "lineage:ctf-arena_Player4_v3",
+   "source_sha256": "66dd28e460f019a86754728c63067d9aa575b87789d4221b32cb3cae22a69484",
+   "policy_labels": true
+  },
+  "ctf-arena_Player4_v9_latest": {
+   "name": "ctf-arena_Player4_v9_latest",
+   "path": "@repo/roster/new_bots/forks/ctf-arena_Player4_v9_latest.cpp",
+   "family": "lineage:Player4",
+   "source_sha256": "6d4e7daa179edd48c076be61f6e7c874541f879b62eba64ad74cd5a354768607",
+   "policy_labels": true
+  },
+  "ctf-arena_Player5_fortress": {
+   "name": "ctf-arena_Player5_fortress",
+   "path": "@repo/roster/new_bots/forks/ctf-arena_Player5_fortress.cpp",
+   "family": "lineage:Player5",
+   "source_sha256": "00c624632e2f3f5898fc9728f32fcf562352d79c5df6e6cdb470d80bcd06143e",
+   "policy_labels": true
+  },
+  "ctf-arena_Player5_hunter": {
+   "name": "ctf-arena_Player5_hunter",
+   "path": "@repo/roster/new_bots/forks/ctf-arena_Player5_hunter.cpp",
+   "family": "lineage:Player5",
+   "source_sha256": "c0c8471402f9d47758dbbf7228995847b2d969d1cdb6ee0b6ff906cb13165d8e",
+   "policy_labels": true
+  },
+  "ctf-arena_Player5_macro_v2": {
+   "name": "ctf-arena_Player5_macro_v2",
+   "path": "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v2.cpp",
+   "family": "lineage:Player5",
+   "source_sha256": "3f38b4e7a241da258bad6f21324122e12a6e3c0d5258729fcab144effdc8142e",
+   "policy_labels": true
+  },
+  "ctf-arena_Player5_round3_macro_candidate": {
+   "name": "ctf-arena_Player5_round3_macro_candidate",
+   "path": "@repo/roster/new_bots/forks/ctf-arena_Player5_round3_macro_candidate.cpp",
+   "family": "lineage:Player5",
+   "source_sha256": "2b29f549c2cb2b2a2af484d011418c9a58a88101dbabd0ab41c60dd04bd74cff",
+   "policy_labels": true
+  },
+  "ctf-arena_Player5_runner_v8": {
+   "name": "ctf-arena_Player5_runner_v8",
+   "path": "@repo/roster/new_bots/forks/ctf-arena_Player5_runner_v8.cpp",
+   "family": "lineage:Player5",
+   "source_sha256": "b5b6521b0aae56696887ed23284d6bd1637fa58554072e6bd6c0a9cd4d49c481",
+   "policy_labels": true
+  },
+  "ctf-arena_Player5_sparring": {
+   "name": "ctf-arena_Player5_sparring",
+   "path": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring.cpp",
+   "family": "lineage:ctf-arena_Player5_sparring",
+   "source_sha256": "a1e3635d7d18702e2be33a642b1015ab3cd0bd9809d0b03caf65be29d00eb827",
+   "policy_labels": true
+  },
+  "ctf-arena_Player5_sparring_adaptive": {
+   "name": "ctf-arena_Player5_sparring_adaptive",
+   "path": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_adaptive.cpp",
+   "family": "lineage:ctf-arena_Player5_sparring",
+   "source_sha256": "a606f8814b7055fc0894fbf35f4e796896e158bfca3204ba787b5d399c079cfb",
+   "policy_labels": true
+  },
+  "ctf-arena_Player5_sparring_raider": {
+   "name": "ctf-arena_Player5_sparring_raider",
+   "path": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_raider.cpp",
+   "family": "lineage:ctf-arena_Player5_sparring",
+   "source_sha256": "ee6d0ad5c276d2c9a3c51e7cf78c64debcb6ca3af13b1c5fe1b426a67d5d6b34",
+   "policy_labels": true
+  },
+  "ctf-arena_Player5_sparring_runner": {
+   "name": "ctf-arena_Player5_sparring_runner",
+   "path": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_runner.cpp",
+   "family": "lineage:ctf-arena_Player5_sparring",
+   "source_sha256": "ac5ef1fd2e0b933f8c1efb5356caf22896f95e36214ec2b9bab8ff20f93c8a8b",
+   "policy_labels": true
+  },
+  "ctf-arena_Player5_v12_rollout_volley": {
+   "name": "ctf-arena_Player5_v12_rollout_volley",
+   "path": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp",
+   "family": "lineage:Player5",
+   "source_sha256": "341750931064a2f2560cb8521b7c2050dba7a3d6e888401091a33f61d63395f3",
+   "policy_labels": true
+  },
+  "ctf-arena_Player5_v12_volley_trio": {
+   "name": "ctf-arena_Player5_v12_volley_trio",
+   "path": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_volley_trio.cpp",
+   "family": "lineage:Player5",
+   "source_sha256": "e08585e53e1b66fbb729e09c4c9c02a95bd2bce1ebf3943af1e5da89a15c01e6",
+   "policy_labels": true
+  },
+  "doubao-seed-2.1-turbo": {
+   "name": "doubao-seed-2.1-turbo",
+   "path": "ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+   "family": "lineage:doubao-seed-2.1-turbo",
+   "source_sha256": "79a762bdabf318e8c91f94895593036bb16731f88239434dd0ef1cc7bcddfd39",
+   "policy_labels": true
+  },
+  "incumbent-v001": {
+   "name": "incumbent-v001",
+   "path": "New_AI_Test/Player2/workspace/experiments/incumbent-v001.cpp",
+   "family": "lineage:cand-002",
+   "source_sha256": "b6a3a8062cd8c5659615ea4a49350b3225e1654c3382f8289b22e37db8ca60d2",
+   "policy_labels": true
+  },
+  "incumbent-v001_2": {
+   "name": "incumbent-v001_2",
+   "path": "New_AI_Test/Player3/workspace/experiments/incumbent-v001.cpp",
+   "family": "lineage:candidate-v002",
+   "source_sha256": "843c72163ac36abca96b3305c0dbde45635ad16dc5613e06c462e46e6baae1d1",
+   "policy_labels": true
+  }
+ },
+ "fixtures": [
+  {
+   "match_id": "n02-s20261250-000000",
+   "teams": 2,
+   "map_seed": 715965529,
+   "flag_seed": 5376296066870545752,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000001",
+   "teams": 2,
+   "map_seed": 1483134677,
+   "flag_seed": 4109093686624689257,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000002",
+   "teams": 2,
+   "map_seed": 844818183,
+   "flag_seed": 1557772997906144865,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000003",
+   "teams": 2,
+   "map_seed": 96788896,
+   "flag_seed": 7492769551265845532,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000004",
+   "teams": 2,
+   "map_seed": 1890200014,
+   "flag_seed": 445166301546393981,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000005",
+   "teams": 2,
+   "map_seed": 1991456954,
+   "flag_seed": 1150550300225602741,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000006",
+   "teams": 2,
+   "map_seed": 1083215369,
+   "flag_seed": 6652320059361306416,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000007",
+   "teams": 2,
+   "map_seed": 465989193,
+   "flag_seed": 4727180782231337218,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000008",
+   "teams": 2,
+   "map_seed": 734817960,
+   "flag_seed": 5271959780572474738,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000009",
+   "teams": 2,
+   "map_seed": 1063376301,
+   "flag_seed": 2767940954362985188,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000010",
+   "teams": 2,
+   "map_seed": 852260746,
+   "flag_seed": 1650555624186683160,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000011",
+   "teams": 2,
+   "map_seed": 2065816081,
+   "flag_seed": 8448658257660362029,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000012",
+   "teams": 2,
+   "map_seed": 745140312,
+   "flag_seed": 7222997475835331588,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000013",
+   "teams": 2,
+   "map_seed": 375127485,
+   "flag_seed": 3804515107401184712,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000014",
+   "teams": 2,
+   "map_seed": 814729758,
+   "flag_seed": 8447044320842857313,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000015",
+   "teams": 2,
+   "map_seed": 518904816,
+   "flag_seed": 3402484749275042072,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000016",
+   "teams": 2,
+   "map_seed": 265061383,
+   "flag_seed": 1723567380173389824,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000017",
+   "teams": 2,
+   "map_seed": 809964994,
+   "flag_seed": 2654982923516473680,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000018",
+   "teams": 2,
+   "map_seed": 837034178,
+   "flag_seed": 2110790458249918942,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000019",
+   "teams": 2,
+   "map_seed": 1181354090,
+   "flag_seed": 8233118795920786109,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000020",
+   "teams": 2,
+   "map_seed": 580056637,
+   "flag_seed": 4882824217139451723,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000021",
+   "teams": 2,
+   "map_seed": 1476254467,
+   "flag_seed": 1321106381137186469,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000022",
+   "teams": 2,
+   "map_seed": 851805303,
+   "flag_seed": 6550031229322458404,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000023",
+   "teams": 2,
+   "map_seed": 1275986694,
+   "flag_seed": 6812881555610595161,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000024",
+   "teams": 2,
+   "map_seed": 116043483,
+   "flag_seed": 5952496974241048829,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000025",
+   "teams": 2,
+   "map_seed": 2019445604,
+   "flag_seed": 6010311430478588831,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000026",
+   "teams": 2,
+   "map_seed": 348899623,
+   "flag_seed": 3218322754687206647,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000027",
+   "teams": 2,
+   "map_seed": 1727135065,
+   "flag_seed": 732424870859293079,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000028",
+   "teams": 2,
+   "map_seed": 553865842,
+   "flag_seed": 6755702903606851469,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000029",
+   "teams": 2,
+   "map_seed": 1205930135,
+   "flag_seed": 2476400865492814026,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000030",
+   "teams": 2,
+   "map_seed": 1699276659,
+   "flag_seed": 2744527270509213982,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000031",
+   "teams": 2,
+   "map_seed": 146245129,
+   "flag_seed": 3137464578889943196,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000032",
+   "teams": 2,
+   "map_seed": 645514851,
+   "flag_seed": 731704459377210055,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000033",
+   "teams": 2,
+   "map_seed": 1497937053,
+   "flag_seed": 69320157410548284,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000034",
+   "teams": 2,
+   "map_seed": 764438695,
+   "flag_seed": 3441437785024103951,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000035",
+   "teams": 2,
+   "map_seed": 1495760020,
+   "flag_seed": 1236196454548768102,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000036",
+   "teams": 2,
+   "map_seed": 149228242,
+   "flag_seed": 5293956908701296160,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000037",
+   "teams": 2,
+   "map_seed": 291153507,
+   "flag_seed": 7845017272565142189,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000038",
+   "teams": 2,
+   "map_seed": 1473111830,
+   "flag_seed": 2525962140645300987,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n02-s20261250-000039",
+   "teams": 2,
+   "map_seed": 1480549403,
+   "flag_seed": 660061945668161398,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000000",
+   "teams": 3,
+   "map_seed": 1189562061,
+   "flag_seed": 2441196724358676489,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000001",
+   "teams": 3,
+   "map_seed": 591276542,
+   "flag_seed": 5775159617101872595,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000002",
+   "teams": 3,
+   "map_seed": 532047815,
+   "flag_seed": 5080859802412330425,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000003",
+   "teams": 3,
+   "map_seed": 1616310162,
+   "flag_seed": 7244417000109988547,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000004",
+   "teams": 3,
+   "map_seed": 255527417,
+   "flag_seed": 7805476110653439025,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000005",
+   "teams": 3,
+   "map_seed": 810979166,
+   "flag_seed": 5564591566411309480,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000006",
+   "teams": 3,
+   "map_seed": 1896599074,
+   "flag_seed": 2287706001776794434,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000007",
+   "teams": 3,
+   "map_seed": 761106788,
+   "flag_seed": 3259875422257769429,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000008",
+   "teams": 3,
+   "map_seed": 1190448315,
+   "flag_seed": 7076002911028860911,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000009",
+   "teams": 3,
+   "map_seed": 2110254884,
+   "flag_seed": 7179120872745943736,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000010",
+   "teams": 3,
+   "map_seed": 1736207339,
+   "flag_seed": 74971501596924804,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000011",
+   "teams": 3,
+   "map_seed": 2035589219,
+   "flag_seed": 2562725945925293939,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000012",
+   "teams": 3,
+   "map_seed": 491028106,
+   "flag_seed": 8593896516666733269,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000013",
+   "teams": 3,
+   "map_seed": 508064257,
+   "flag_seed": 8059361465028675907,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000014",
+   "teams": 3,
+   "map_seed": 1331131281,
+   "flag_seed": 5891081853295286766,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000015",
+   "teams": 3,
+   "map_seed": 1078399768,
+   "flag_seed": 7358145557014783452,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000016",
+   "teams": 3,
+   "map_seed": 365251967,
+   "flag_seed": 7714876177647269364,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000017",
+   "teams": 3,
+   "map_seed": 1839435762,
+   "flag_seed": 4566066443721458686,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000018",
+   "teams": 3,
+   "map_seed": 650507518,
+   "flag_seed": 2092398441356149638,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n03-s20261250-000019",
+   "teams": 3,
+   "map_seed": 1809557333,
+   "flag_seed": 7641266060570386281,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000000",
+   "teams": 4,
+   "map_seed": 10451436,
+   "flag_seed": 6557281203066315518,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Control_external_CL"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000001",
+   "teams": 4,
+   "map_seed": 1649918051,
+   "flag_seed": 5350746159183646909,
+   "seats": [
+    "Control_external_CL",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000002",
+   "teams": 4,
+   "map_seed": 1621587578,
+   "flag_seed": 8198404084369358638,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Fable",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000003",
+   "teams": 4,
+   "map_seed": 865269602,
+   "flag_seed": 2258611308302715608,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "Player4",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000004",
+   "teams": 4,
+   "map_seed": 2008776813,
+   "flag_seed": 7581093503696006141,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Player2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000005",
+   "teams": 4,
+   "map_seed": 229369009,
+   "flag_seed": 8113288949163666007,
+   "seats": [
+    "Sonnet",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000006",
+   "teams": 4,
+   "map_seed": 476349816,
+   "flag_seed": 6189235347539626076,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_macro_v2",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000007",
+   "teams": 4,
+   "map_seed": 132609083,
+   "flag_seed": 7788788576875621536,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "Fable",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000008",
+   "teams": 4,
+   "map_seed": 1783748303,
+   "flag_seed": 6450998519183647800,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring_adaptive",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000009",
+   "teams": 4,
+   "map_seed": 836286314,
+   "flag_seed": 831740758176021158,
+   "seats": [
+    "Kimi",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000010",
+   "teams": 4,
+   "map_seed": 1005818404,
+   "flag_seed": 2968912672781550388,
+   "seats": [
+    "Baseline",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000011",
+   "teams": 4,
+   "map_seed": 127939692,
+   "flag_seed": 6155583250470694223,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_round3_macro_candidate"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000012",
+   "teams": 4,
+   "map_seed": 1260837840,
+   "flag_seed": 5753548574968071842,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v3",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000013",
+   "teams": 4,
+   "map_seed": 797830973,
+   "flag_seed": 1573565639126006120,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring_raider"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000014",
+   "teams": 4,
+   "map_seed": 806924334,
+   "flag_seed": 5237307917754686017,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "bot",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000015",
+   "teams": 4,
+   "map_seed": 522781000,
+   "flag_seed": 6440863912015619182,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_fortress",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000016",
+   "teams": 4,
+   "map_seed": 878951170,
+   "flag_seed": 8988390544451413921,
+   "seats": [
+    "Player4",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000017",
+   "teams": 4,
+   "map_seed": 978108519,
+   "flag_seed": 2418116033165476344,
+   "seats": [
+    "incumbent-v001_2",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000018",
+   "teams": 4,
+   "map_seed": 704628932,
+   "flag_seed": 6779255337145666270,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "Player1",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n04-s20261250-000019",
+   "teams": 4,
+   "map_seed": 1291553670,
+   "flag_seed": 6189387724220853148,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v5",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000000",
+   "teams": 5,
+   "map_seed": 1751235362,
+   "flag_seed": 8893556913441596877,
+   "seats": [
+    "ctf-arena_Player5_v12_rollout_volley",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "Player1"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000001",
+   "teams": 5,
+   "map_seed": 35496310,
+   "flag_seed": 6847299631954154046,
+   "seats": [
+    "Player6",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000002",
+   "teams": 5,
+   "map_seed": 1244971796,
+   "flag_seed": 9092415348687485220,
+   "seats": [
+    "bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "Player4"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000003",
+   "teams": 5,
+   "map_seed": 704278390,
+   "flag_seed": 3266820570354270755,
+   "seats": [
+    "ctf-arena_Player5_round3_macro_candidate",
+    "ctf-arena_Player4_v2",
+    "Astra",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000004",
+   "teams": 5,
+   "map_seed": 515845359,
+   "flag_seed": 6644991750009379110,
+   "seats": [
+    "ctf-arena_Player5_macro_v2",
+    "Kimi",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000005",
+   "teams": 5,
+   "map_seed": 886872592,
+   "flag_seed": 6354658070085470086,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "Player4",
+    "MiMo"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000006",
+   "teams": 5,
+   "map_seed": 1132693976,
+   "flag_seed": 683778924543619947,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "incumbent-v001",
+    "ctf-arena_Player5_macro_v2",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000007",
+   "teams": 5,
+   "map_seed": 430001276,
+   "flag_seed": 8471383781644715290,
+   "seats": [
+    "ctf-arena_Player5_fortress",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v5",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000008",
+   "teams": 5,
+   "map_seed": 1685918077,
+   "flag_seed": 1821117373825478499,
+   "seats": [
+    "DeepSeek",
+    "Kimi",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000009",
+   "teams": 5,
+   "map_seed": 1434252922,
+   "flag_seed": 4788496888157881563,
+   "seats": [
+    "GLM",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000010",
+   "teams": 5,
+   "map_seed": 132137422,
+   "flag_seed": 1646127237692815641,
+   "seats": [
+    "ctf-arena_Player5_sparring_runner",
+    "Player3",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000011",
+   "teams": 5,
+   "map_seed": 599961460,
+   "flag_seed": 1015314471520038578,
+   "seats": [
+    "Astra",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "Sol"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000012",
+   "teams": 5,
+   "map_seed": 1166931327,
+   "flag_seed": 6546886974680710536,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "incumbent-v001",
+    "Player5",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000013",
+   "teams": 5,
+   "map_seed": 1988186680,
+   "flag_seed": 2969015686203978880,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "Player4",
+    "DeepSeek",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000014",
+   "teams": 5,
+   "map_seed": 1853544041,
+   "flag_seed": 8293747891198141408,
+   "seats": [
+    "AI_Arena_CTF_Player01_bot",
+    "Player2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000015",
+   "teams": 5,
+   "map_seed": 771585655,
+   "flag_seed": 6651066459498054783,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "candidate-v005-15p-intercept",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring_raider",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000016",
+   "teams": 5,
+   "map_seed": 1334756727,
+   "flag_seed": 8801741807033716895,
+   "seats": [
+    "Player3",
+    "ctf-arena_Player4_v2",
+    "DeepSeek",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000017",
+   "teams": 5,
+   "map_seed": 1080744447,
+   "flag_seed": 8940232435622489414,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "GLM",
+    "ctf-arena_Player5_runner_v8",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000018",
+   "teams": 5,
+   "map_seed": 1745046830,
+   "flag_seed": 4059145853608118839,
+   "seats": [
+    "Baseline",
+    "ctf-arena_Player4_v3",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n05-s20261250-000019",
+   "teams": 5,
+   "map_seed": 667392076,
+   "flag_seed": 2177845980645533630,
+   "seats": [
+    "Baseline",
+    "ctf-arena_Player5_sparring_raider",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000000",
+   "teams": 6,
+   "map_seed": 1369347014,
+   "flag_seed": 8913650201486365068,
+   "seats": [
+    "ctf-arena_Player5_v12_volley_trio",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "Astra",
+    "AI_Arena_CTF_Player02_bot",
+    "Opus"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000001",
+   "teams": 6,
+   "map_seed": 1719897191,
+   "flag_seed": 2223205823761956075,
+   "seats": [
+    "Player1",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_sparring_adaptive",
+    "R3_EXPECTIMAX_sampled",
+    "incumbent-v001",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000002",
+   "teams": 6,
+   "map_seed": 1427719380,
+   "flag_seed": 8941500010756154933,
+   "seats": [
+    "ctf-arena_Player5_v12_volley_trio",
+    "Player4",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Player2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000003",
+   "teams": 6,
+   "map_seed": 482375035,
+   "flag_seed": 4316481589504682327,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "MiMo",
+    "DeepSeek",
+    "Baseline",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000004",
+   "teams": 6,
+   "map_seed": 1415752808,
+   "flag_seed": 87574414672065246,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "Player6",
+    "ctf-arena_Player5_sparring",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000005",
+   "teams": 6,
+   "map_seed": 450887225,
+   "flag_seed": 2187415372313096446,
+   "seats": [
+    "Sol",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "GLM",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000006",
+   "teams": 6,
+   "map_seed": 524432158,
+   "flag_seed": 4788189595646007280,
+   "seats": [
+    "ctf-arena_Player3_variants_bot_tune",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring_adaptive",
+    "AI_Arena_CTF_Player02_bot",
+    "Control_external_CL",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000007",
+   "teams": 6,
+   "map_seed": 1686552850,
+   "flag_seed": 8092885725728325504,
+   "seats": [
+    "Qwen",
+    "Opus",
+    "ctf-arena_Player4_v9_latest",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000008",
+   "teams": 6,
+   "map_seed": 1796445946,
+   "flag_seed": 204210500064543159,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "bot_2",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player5_macro_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000009",
+   "teams": 6,
+   "map_seed": 256729987,
+   "flag_seed": 3914893970624811476,
+   "seats": [
+    "ctf-arena_Player5_fortress",
+    "R3_EXPECTIMAX_sampled",
+    "Sonnet",
+    "ctf-arena_Player4_v2",
+    "bot_2",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000010",
+   "teams": 6,
+   "map_seed": 2011358347,
+   "flag_seed": 8587615796720291096,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "Kimi",
+    "ctf-arena_Player4_v2",
+    "incumbent-v001_2",
+    "R3_EXPECTIMAX_sampled",
+    "Player1"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000011",
+   "teams": 6,
+   "map_seed": 1523083103,
+   "flag_seed": 2743943900940591094,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "Player3",
+    "incumbent-v001",
+    "MiMo",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000012",
+   "teams": 6,
+   "map_seed": 1456171242,
+   "flag_seed": 4998086110224596852,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "MiMo",
+    "bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "GLM"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000013",
+   "teams": 6,
+   "map_seed": 2096442024,
+   "flag_seed": 445143526379493381,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "Player2",
+    "ctf-arena_Player4_v9_latest",
+    "Player5"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000014",
+   "teams": 6,
+   "map_seed": 1990292406,
+   "flag_seed": 9217001632573251192,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "Player5",
+    "ctf-arena_Player3_variants_bot_tune",
+    "incumbent-v001_2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000015",
+   "teams": 6,
+   "map_seed": 834115130,
+   "flag_seed": 6553057828996475299,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Player6",
+    "ctf-arena_Player5_sparring_adaptive",
+    "Player5",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000016",
+   "teams": 6,
+   "map_seed": 339484747,
+   "flag_seed": 6620548898331639001,
+   "seats": [
+    "GLM",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player5_sparring_raider",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000017",
+   "teams": 6,
+   "map_seed": 672523205,
+   "flag_seed": 7173427249404014359,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "bot",
+    "ctf-arena_Player5_sparring",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player3_variants_bot_tune",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000018",
+   "teams": 6,
+   "map_seed": 505140629,
+   "flag_seed": 3131433318608885900,
+   "seats": [
+    "AI_Arena_CTF_Player01_bot",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v9_latest",
+    "ctf-arena_Player5_macro_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n06-s20261250-000019",
+   "teams": 6,
+   "map_seed": 1071181197,
+   "flag_seed": 3239962730502797268,
+   "seats": [
+    "cand-012",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_runner_v8",
+    "doubao-seed-2.1-turbo"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000000",
+   "teams": 7,
+   "map_seed": 560918062,
+   "flag_seed": 7366856333286497082,
+   "seats": [
+    "Baseline",
+    "ctf-arena_Player5_macro_v2",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v9_latest",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring_raider"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000001",
+   "teams": 7,
+   "map_seed": 2060726444,
+   "flag_seed": 8841609242755980464,
+   "seats": [
+    "DeepSeek",
+    "Player6",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "bot_2",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_fortress"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000002",
+   "teams": 7,
+   "map_seed": 1233982497,
+   "flag_seed": 6460635335027559245,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "DeepSeek",
+    "Player2",
+    "R3_EXPECTIMAX_sampled",
+    "Fable",
+    "Baseline",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000003",
+   "teams": 7,
+   "map_seed": 921656607,
+   "flag_seed": 8537535126228181488,
+   "seats": [
+    "ctf-arena_Player4_v9_latest",
+    "ctf-arena_Player5_sparring_raider",
+    "incumbent-v001_2",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "Player5"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000004",
+   "teams": 7,
+   "map_seed": 1267627026,
+   "flag_seed": 4095896665289365672,
+   "seats": [
+    "ctf-arena_Player5_fortress",
+    "DeepSeek",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "candidate-v005-15p-intercept",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000005",
+   "teams": 7,
+   "map_seed": 1698579811,
+   "flag_seed": 1355605150024531793,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "Baseline",
+    "bot",
+    "AI_Arena_CTF_Player02_bot",
+    "Sol",
+    "Opus"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000006",
+   "teams": 7,
+   "map_seed": 1564488783,
+   "flag_seed": 6800348890675098531,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_macro_v2",
+    "ctf-arena_Player4_v2",
+    "Qwen",
+    "AI_Arena_CTF_Player02_bot",
+    "AI_Arena_CTF_Player01_bot",
+    "Sol"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000007",
+   "teams": 7,
+   "map_seed": 1717200986,
+   "flag_seed": 3936672483028652289,
+   "seats": [
+    "bot_2",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player3_variants_bot_tune",
+    "AI_Arena_CTF_Player02_bot",
+    "bot",
+    "Sol",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000008",
+   "teams": 7,
+   "map_seed": 1414727748,
+   "flag_seed": 3929687686571431509,
+   "seats": [
+    "Opus",
+    "ctf-arena_Player5_hunter",
+    "AI_Arena_CTF_Player01_bot",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v3",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000009",
+   "teams": 7,
+   "map_seed": 1352868128,
+   "flag_seed": 640515632576161941,
+   "seats": [
+    "ctf-arena_Player5_v12_rollout_volley",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "AI_Arena_CTF_Player02_bot",
+    "Opus",
+    "Sonnet",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000010",
+   "teams": 7,
+   "map_seed": 852987553,
+   "flag_seed": 6951978255167275726,
+   "seats": [
+    "Player2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "AI_Arena_CTF_Player01_bot",
+    "Astra"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000011",
+   "teams": 7,
+   "map_seed": 373775544,
+   "flag_seed": 8574402095558832565,
+   "seats": [
+    "Sol",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "incumbent-v001_2",
+    "ctf-arena_Player4_v3",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000012",
+   "teams": 7,
+   "map_seed": 839778536,
+   "flag_seed": 9138875660182622220,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player4_v2",
+    "incumbent-v001",
+    "incumbent-v001_2",
+    "ctf-arena_Player4_v9_latest",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000013",
+   "teams": 7,
+   "map_seed": 1349519132,
+   "flag_seed": 7132742546553541158,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "Sonnet",
+    "ctf-arena_Player5_sparring_adaptive",
+    "ctf-arena_Player5_hunter",
+    "Opus"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000014",
+   "teams": 7,
+   "map_seed": 45827488,
+   "flag_seed": 2515003296196316735,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "Player5",
+    "incumbent-v001_2",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "doubao-seed-2.1-turbo"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000015",
+   "teams": 7,
+   "map_seed": 853703113,
+   "flag_seed": 913679795822250057,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Sonnet",
+    "cand-011",
+    "ctf-arena_Player5_sparring_raider",
+    "ctf-arena_Player4_v5"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000016",
+   "teams": 7,
+   "map_seed": 207833818,
+   "flag_seed": 4861473039772058338,
+   "seats": [
+    "Kimi",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_hunter",
+    "Player6",
+    "Player3",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000017",
+   "teams": 7,
+   "map_seed": 95626443,
+   "flag_seed": 374480615953007713,
+   "seats": [
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Player5",
+    "ctf-arena_Player4_v3",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "cand-012",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000018",
+   "teams": 7,
+   "map_seed": 2059360422,
+   "flag_seed": 931485166679905059,
+   "seats": [
+    "Player6",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v5",
+    "R3_EXPECTIMAX_sampled",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player4_v9_latest",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n07-s20261250-000019",
+   "teams": 7,
+   "map_seed": 867461482,
+   "flag_seed": 4853335134205840998,
+   "seats": [
+    "Qwen",
+    "R3_EXPECTIMAX_sampled",
+    "Opus",
+    "Astra",
+    "ctf-arena_Player5_sparring_raider",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000000",
+   "teams": 8,
+   "map_seed": 1081495380,
+   "flag_seed": 1630792206054725568,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "bot_2",
+    "Player4",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "Player3",
+    "Control_external_CL"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000001",
+   "teams": 8,
+   "map_seed": 75663340,
+   "flag_seed": 8168988838957433135,
+   "seats": [
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "GLM",
+    "Player3",
+    "incumbent-v001_2",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "incumbent-v001"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000002",
+   "teams": 8,
+   "map_seed": 1686381963,
+   "flag_seed": 6087747767643342220,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "candidate-v005-15p-intercept",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player5_sparring",
+    "AI_Arena_CTF_Player02_bot",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player4_v5"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000003",
+   "teams": 8,
+   "map_seed": 365917904,
+   "flag_seed": 1705384172622102375,
+   "seats": [
+    "Player6",
+    "AI_Arena_CTF_Player02_bot",
+    "incumbent-v001",
+    "Sol",
+    "DeepSeek",
+    "bot_2",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000004",
+   "teams": 8,
+   "map_seed": 1887419889,
+   "flag_seed": 3567571014174181823,
+   "seats": [
+    "Player2",
+    "ctf-arena_Player3_variants_bot_tune",
+    "AI_Arena_CTF_Player02_bot",
+    "Kimi",
+    "cand-011",
+    "Sonnet",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000005",
+   "teams": 8,
+   "map_seed": 1105233427,
+   "flag_seed": 1242414418310985841,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "Player2",
+    "AI_Arena_CTF_Player02_bot",
+    "Control_external_CL",
+    "ctf-arena_Player5_sparring_runner",
+    "ctf-arena_Player4_v3",
+    "R3_EXPECTIMAX_sampled",
+    "Astra"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000006",
+   "teams": 8,
+   "map_seed": 613424829,
+   "flag_seed": 1998163094128164715,
+   "seats": [
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "cand-012",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v5"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000007",
+   "teams": 8,
+   "map_seed": 1837625973,
+   "flag_seed": 6134658468020150190,
+   "seats": [
+    "ctf-arena_Player5_v12_rollout_volley",
+    "ctf-arena_Player5_sparring_adaptive",
+    "AI_Arena_CTF_Player02_bot",
+    "GLM",
+    "bot_2",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v3",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000008",
+   "teams": 8,
+   "map_seed": 703634582,
+   "flag_seed": 6519165297302040227,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "bot_2",
+    "ctf-arena_Player4_v2",
+    "bot",
+    "R3_EXPECTIMAX_sampled",
+    "Player6",
+    "Baseline",
+    "MiMo"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000009",
+   "teams": 8,
+   "map_seed": 512594218,
+   "flag_seed": 516043997952810453,
+   "seats": [
+    "incumbent-v001",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Player1",
+    "ctf-arena_Player4_v5",
+    "DeepSeek",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000010",
+   "teams": 8,
+   "map_seed": 2050020968,
+   "flag_seed": 1546063450486371655,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_sparring_adaptive",
+    "ctf-arena_Player5_macro_v2",
+    "R3_EXPECTIMAX_sampled",
+    "Qwen",
+    "Astra",
+    "doubao-seed-2.1-turbo"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000011",
+   "teams": 8,
+   "map_seed": 2066389890,
+   "flag_seed": 76209937057999199,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "doubao-seed-2.1-turbo",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v3",
+    "Player3",
+    "Baseline",
+    "Qwen"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000012",
+   "teams": 8,
+   "map_seed": 93657599,
+   "flag_seed": 3950753676235923295,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "Control_external_CL",
+    "cand-011",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player01_bot",
+    "ctf-arena_Player5_sparring_adaptive",
+    "R3_EXPECTIMAX_sampled",
+    "GLM"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000013",
+   "teams": 8,
+   "map_seed": 1392601125,
+   "flag_seed": 6145528221716262101,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring",
+    "ctf-arena_Player5_runner_v8",
+    "Sonnet",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Player6",
+    "ctf-arena_Player1_t2_snapshot_01076b3d"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000014",
+   "teams": 8,
+   "map_seed": 894896046,
+   "flag_seed": 6628313394289122475,
+   "seats": [
+    "Player1",
+    "ctf-arena_Player4_v2",
+    "Player3",
+    "Kimi",
+    "AI_Arena_CTF_Player02_bot",
+    "Opus",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000015",
+   "teams": 8,
+   "map_seed": 473694530,
+   "flag_seed": 2595023594348502715,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "doubao-seed-2.1-turbo",
+    "Fable",
+    "Baseline",
+    "AI_Arena_CTF_Player02_bot",
+    "Astra",
+    "cand-012"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000016",
+   "teams": 8,
+   "map_seed": 2046177584,
+   "flag_seed": 7093914683869712680,
+   "seats": [
+    "cand-011",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player5_runner_v8",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v5",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_sparring_adaptive"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000017",
+   "teams": 8,
+   "map_seed": 1076300964,
+   "flag_seed": 8066406951816375575,
+   "seats": [
+    "ctf-arena_Player5_sparring_raider",
+    "ctf-arena_Player5_v12_volley_trio",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "R3_EXPECTIMAX_sampled",
+    "Sol",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "incumbent-v001"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000018",
+   "teams": 8,
+   "map_seed": 832768799,
+   "flag_seed": 8761925198428035818,
+   "seats": [
+    "incumbent-v001",
+    "DeepSeek",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player5_fortress",
+    "Player2",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n08-s20261250-000019",
+   "teams": 8,
+   "map_seed": 1484655294,
+   "flag_seed": 1840551001796746925,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "Kimi",
+    "AI_Arena_CTF_Player02_bot",
+    "Fable",
+    "incumbent-v001_2",
+    "ctf-arena_Player5_sparring_adaptive",
+    "ctf-arena_Player4_v2",
+    "Sol"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000000",
+   "teams": 9,
+   "map_seed": 1618193386,
+   "flag_seed": 1192535511640319103,
+   "seats": [
+    "cand-011",
+    "AI_Arena_CTF_Player02_bot",
+    "incumbent-v001",
+    "AI_Arena_CTF_Player01_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring_runner",
+    "Baseline",
+    "ctf-arena_Player5_fortress"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000001",
+   "teams": 9,
+   "map_seed": 1777834297,
+   "flag_seed": 1069861148701871405,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "GLM",
+    "AI_Arena_CTF_Player02_bot",
+    "Fable",
+    "Kimi",
+    "candidate-v005-15p-intercept",
+    "MiMo",
+    "ctf-arena_Player4_v2",
+    "Control_external_CL"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000002",
+   "teams": 9,
+   "map_seed": 2056182392,
+   "flag_seed": 9121820418861493339,
+   "seats": [
+    "ctf-arena_Player5_sparring_raider",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "Kimi",
+    "ctf-arena_Player4_v5",
+    "incumbent-v001_2",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "ctf-arena_Player4_v2",
+    "GLM"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000003",
+   "teams": 9,
+   "map_seed": 1377956506,
+   "flag_seed": 3840363100534356361,
+   "seats": [
+    "ctf-arena_Player5_sparring_raider",
+    "AI_Arena_CTF_Player02_bot",
+    "Control_external_CL",
+    "ctf-arena_Player4_v2",
+    "cand-011",
+    "R3_EXPECTIMAX_sampled",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Kimi"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000004",
+   "teams": 9,
+   "map_seed": 1482839431,
+   "flag_seed": 7445018171982585489,
+   "seats": [
+    "ctf-arena_Player5_v12_volley_trio",
+    "ctf-arena_Player4_v2",
+    "Sonnet",
+    "Player6",
+    "ctf-arena_Player5_sparring_raider",
+    "Opus",
+    "R3_EXPECTIMAX_sampled",
+    "Baseline",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000005",
+   "teams": 9,
+   "map_seed": 2114139186,
+   "flag_seed": 6435252429873895746,
+   "seats": [
+    "ctf-arena_Player5_sparring_adaptive",
+    "ctf-arena_Player4_v3",
+    "AI_Arena_CTF_Player02_bot",
+    "Player1",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player4_v2",
+    "Opus",
+    "ctf-arena_Player5_macro_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000006",
+   "teams": 9,
+   "map_seed": 1354500849,
+   "flag_seed": 2823725822854450429,
+   "seats": [
+    "Baseline",
+    "candidate-v005-15p-intercept",
+    "cand-011",
+    "AI_Arena_CTF_Player02_bot",
+    "GLM",
+    "R3_EXPECTIMAX_sampled",
+    "cand-012",
+    "Fable",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000007",
+   "teams": 9,
+   "map_seed": 287078814,
+   "flag_seed": 670876486820740531,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "Qwen",
+    "ctf-arena_Player5_fortress",
+    "R3_EXPECTIMAX_sampled",
+    "Player2",
+    "AI_Arena_CTF_Player02_bot",
+    "bot_2",
+    "GLM",
+    "Player1"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000008",
+   "teams": 9,
+   "map_seed": 335175425,
+   "flag_seed": 578053007796403869,
+   "seats": [
+    "doubao-seed-2.1-turbo",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "Kimi",
+    "DeepSeek",
+    "incumbent-v001_2",
+    "Sol",
+    "Player5"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000009",
+   "teams": 9,
+   "map_seed": 1226678946,
+   "flag_seed": 9003536073963311494,
+   "seats": [
+    "doubao-seed-2.1-turbo",
+    "Player3",
+    "AI_Arena_CTF_Player01_bot",
+    "Sol",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v3",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "Opus"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000010",
+   "teams": 9,
+   "map_seed": 1503439204,
+   "flag_seed": 1975593827052843952,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "incumbent-v001",
+    "Sonnet",
+    "ctf-arena_Player5_runner_v8",
+    "Player2",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring_raider",
+    "incumbent-v001_2",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000011",
+   "teams": 9,
+   "map_seed": 1499196295,
+   "flag_seed": 1417912769951437668,
+   "seats": [
+    "ctf-arena_Player5_v12_rollout_volley",
+    "AI_Arena_CTF_Player02_bot",
+    "GLM",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring_adaptive",
+    "Qwen",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player3_variants_bot_tune"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000012",
+   "teams": 9,
+   "map_seed": 1168987948,
+   "flag_seed": 1770453014251695784,
+   "seats": [
+    "AI_Arena_CTF_Player01_bot",
+    "Player3",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_sparring",
+    "ctf-arena_Player5_v12_volley_trio",
+    "DeepSeek",
+    "Opus",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000013",
+   "teams": 9,
+   "map_seed": 378415731,
+   "flag_seed": 3528252108191148378,
+   "seats": [
+    "Player1",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_macro_v2",
+    "R3_EXPECTIMAX_sampled",
+    "incumbent-v001_2",
+    "GLM",
+    "candidate-v005-15p-intercept",
+    "Opus",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000014",
+   "teams": 9,
+   "map_seed": 70339678,
+   "flag_seed": 3613290883372115705,
+   "seats": [
+    "Sol",
+    "Player2",
+    "ctf-arena_Player5_sparring_raider",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player5_fortress",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000015",
+   "teams": 9,
+   "map_seed": 1778347703,
+   "flag_seed": 1372895664412056385,
+   "seats": [
+    "Fable",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "incumbent-v001_2",
+    "Baseline",
+    "bot",
+    "ctf-arena_Player5_sparring_runner",
+    "Sonnet"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000016",
+   "teams": 9,
+   "map_seed": 1219942746,
+   "flag_seed": 5808357794758231196,
+   "seats": [
+    "Qwen",
+    "incumbent-v001",
+    "Player5",
+    "bot_2",
+    "Baseline",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v5",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000017",
+   "teams": 9,
+   "map_seed": 546526168,
+   "flag_seed": 6162095857680203213,
+   "seats": [
+    "GLM",
+    "ctf-arena_Player4_v2",
+    "Astra",
+    "ctf-arena_Player5_sparring",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Player4",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "Kimi"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000018",
+   "teams": 9,
+   "map_seed": 2112083723,
+   "flag_seed": 1320663135506212571,
+   "seats": [
+    "Player1",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Player4",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "Player5",
+    "ctf-arena_Player4_v2",
+    "Astra",
+    "GLM"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n09-s20261250-000019",
+   "teams": 9,
+   "map_seed": 1402590099,
+   "flag_seed": 5099872971394807894,
+   "seats": [
+    "ctf-arena_Player5_v12_volley_trio",
+    "AI_Arena_CTF_Player02_bot",
+    "Sol",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player5_sparring_raider",
+    "ctf-arena_Player4_v9_latest",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "bot_2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000000",
+   "teams": 10,
+   "map_seed": 133356185,
+   "flag_seed": 5080198128429301373,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "incumbent-v001_2",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "Player4",
+    "ctf-arena_Player5_fortress",
+    "candidate-v005-15p-intercept",
+    "AI_Arena_CTF_Player01_bot",
+    "ctf-arena_Player5_sparring_adaptive",
+    "Player2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000001",
+   "teams": 10,
+   "map_seed": 548022960,
+   "flag_seed": 4653145487076592968,
+   "seats": [
+    "DeepSeek",
+    "Sol",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v3",
+    "Player1",
+    "Kimi",
+    "AI_Arena_CTF_Player02_bot",
+    "incumbent-v001_2",
+    "ctf-arena_Player4_v2",
+    "Opus"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000002",
+   "teams": 10,
+   "map_seed": 149966898,
+   "flag_seed": 3225003907514401838,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "Fable",
+    "DeepSeek",
+    "ctf-arena_Player4_v2",
+    "Sonnet",
+    "Baseline",
+    "bot",
+    "Player4",
+    "GLM"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000003",
+   "teams": 10,
+   "map_seed": 639124764,
+   "flag_seed": 453027867792092396,
+   "seats": [
+    "Sol",
+    "MiMo",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player3_variants_bot_tune",
+    "incumbent-v001",
+    "doubao-seed-2.1-turbo",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "bot_2",
+    "ctf-arena_Player5_hunter"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000004",
+   "teams": 10,
+   "map_seed": 1788213378,
+   "flag_seed": 6132264059422891128,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_runner_v8",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "Qwen",
+    "cand-012",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player3_variants_bot_tune",
+    "GLM",
+    "Opus"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000005",
+   "teams": 10,
+   "map_seed": 1314242382,
+   "flag_seed": 4487751302182550407,
+   "seats": [
+    "bot",
+    "incumbent-v001_2",
+    "Fable",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v3",
+    "ctf-arena_Player5_sparring_raider",
+    "Sonnet",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "cand-011"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000006",
+   "teams": 10,
+   "map_seed": 1289151953,
+   "flag_seed": 6734524685512186302,
+   "seats": [
+    "ctf-arena_Player5_runner_v8",
+    "Baseline",
+    "ctf-arena_Player4_v2",
+    "Player6",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player4_v3",
+    "AI_Arena_CTF_Player01_bot",
+    "R3_EXPECTIMAX_sampled",
+    "Astra",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000007",
+   "teams": 10,
+   "map_seed": 1999867544,
+   "flag_seed": 5808899975045080393,
+   "seats": [
+    "Player2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_fortress",
+    "cand-012",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player4_v5",
+    "Player4",
+    "incumbent-v001"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000008",
+   "teams": 10,
+   "map_seed": 1608001369,
+   "flag_seed": 7596707146263841043,
+   "seats": [
+    "Player4",
+    "ctf-arena_Player3_variants_bot_tune",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "Astra",
+    "ctf-arena_Player5_sparring_runner",
+    "bot_2",
+    "incumbent-v001_2",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_v12_volley_trio"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000009",
+   "teams": 10,
+   "map_seed": 1165320053,
+   "flag_seed": 8717846739926839587,
+   "seats": [
+    "bot_2",
+    "cand-012",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring_runner",
+    "ctf-arena_Player4_v2",
+    "Kimi",
+    "Opus",
+    "DeepSeek",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000010",
+   "teams": 10,
+   "map_seed": 286430795,
+   "flag_seed": 276980819951878433,
+   "seats": [
+    "Player2",
+    "AI_Arena_CTF_Player02_bot",
+    "Sol",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring_raider",
+    "cand-011",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player4_v5",
+    "bot",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000011",
+   "teams": 10,
+   "map_seed": 749050145,
+   "flag_seed": 7308969054338567871,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "cand-012",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v5",
+    "Player5",
+    "AI_Arena_CTF_Player01_bot",
+    "cand-011",
+    "Player1",
+    "AI_Arena_CTF_Player02_bot",
+    "bot_2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000012",
+   "teams": 10,
+   "map_seed": 281813225,
+   "flag_seed": 7204172354929854519,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Sol",
+    "Player2",
+    "Control_external_CL",
+    "GLM",
+    "R3_EXPECTIMAX_sampled",
+    "DeepSeek"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000013",
+   "teams": 10,
+   "map_seed": 1650378688,
+   "flag_seed": 7982136193445510426,
+   "seats": [
+    "bot",
+    "AI_Arena_CTF_Player02_bot",
+    "Baseline",
+    "bot_2",
+    "Player2",
+    "ctf-arena_Player4_v2",
+    "Sol",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player5_sparring_raider"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000014",
+   "teams": 10,
+   "map_seed": 2124202308,
+   "flag_seed": 7448724820803881515,
+   "seats": [
+    "Baseline",
+    "ctf-arena_Player3_variants_bot_tune",
+    "incumbent-v001_2",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_v12_volley_trio",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_sparring",
+    "Kimi",
+    "Player6"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000015",
+   "teams": 10,
+   "map_seed": 1507408436,
+   "flag_seed": 6619106628231595007,
+   "seats": [
+    "DeepSeek",
+    "Kimi",
+    "Player1",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v3",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_v12_volley_trio",
+    "incumbent-v001"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000016",
+   "teams": 10,
+   "map_seed": 62938365,
+   "flag_seed": 5957942972848806726,
+   "seats": [
+    "ctf-arena_Player5_sparring_raider",
+    "cand-011",
+    "MiMo",
+    "AI_Arena_CTF_Player01_bot",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_runner_v8",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "cand-012"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000017",
+   "teams": 10,
+   "map_seed": 1801166308,
+   "flag_seed": 195424619859561459,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "Player2",
+    "ctf-arena_Player4_v2",
+    "Fable",
+    "ctf-arena_Player5_sparring_adaptive",
+    "Opus",
+    "ctf-arena_Player5_v12_volley_trio",
+    "Kimi",
+    "ctf-arena_Player3_variants_bot_tune"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000018",
+   "teams": 10,
+   "map_seed": 293598641,
+   "flag_seed": 6909708976402783210,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_fortress",
+    "Sol",
+    "ctf-arena_Player4_v2",
+    "Opus",
+    "MiMo",
+    "Qwen",
+    "Player3",
+    "bot_2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n10-s20261250-000019",
+   "teams": 10,
+   "map_seed": 737647842,
+   "flag_seed": 5794309723510685338,
+   "seats": [
+    "Control_external_CL",
+    "AI_Arena_CTF_Player01_bot",
+    "R3_EXPECTIMAX_sampled",
+    "cand-011",
+    "Player3",
+    "DeepSeek",
+    "Player4",
+    "AI_Arena_CTF_Player02_bot",
+    "incumbent-v001",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000000",
+   "teams": 11,
+   "map_seed": 1962142361,
+   "flag_seed": 5555009125587240420,
+   "seats": [
+    "candidate-v005-15p-intercept",
+    "Player3",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player4_v9_latest",
+    "ctf-arena_Player5_v12_volley_trio",
+    "Fable",
+    "incumbent-v001_2",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "Sonnet"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000001",
+   "teams": 11,
+   "map_seed": 1166859551,
+   "flag_seed": 973945792790046880,
+   "seats": [
+    "Player2",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_runner_v8",
+    "DeepSeek",
+    "incumbent-v001",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "cand-011",
+    "candidate-v005-15p-intercept",
+    "MiMo",
+    "ctf-arena_Player4_v3"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000002",
+   "teams": 11,
+   "map_seed": 187630881,
+   "flag_seed": 5252699949002678560,
+   "seats": [
+    "DeepSeek",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "Opus",
+    "bot_2",
+    "ctf-arena_Player4_v3",
+    "Kimi",
+    "bot",
+    "ctf-arena_Player5_sparring_runner",
+    "ctf-arena_Player4_v2",
+    "GLM"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000003",
+   "teams": 11,
+   "map_seed": 1357324007,
+   "flag_seed": 741927997093829708,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "Player1",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "MiMo",
+    "Player3",
+    "incumbent-v001_2",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "Qwen",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Player4"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000004",
+   "teams": 11,
+   "map_seed": 1066877616,
+   "flag_seed": 3165935129509862684,
+   "seats": [
+    "Qwen",
+    "Opus",
+    "Player1",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring_runner",
+    "DeepSeek",
+    "Player3",
+    "Sonnet",
+    "Kimi",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000005",
+   "teams": 11,
+   "map_seed": 980790795,
+   "flag_seed": 5290665875084409995,
+   "seats": [
+    "Fable",
+    "Player3",
+    "ctf-arena_Player4_v2",
+    "doubao-seed-2.1-turbo",
+    "Player1",
+    "Baseline",
+    "R3_EXPECTIMAX_sampled",
+    "bot_2",
+    "AI_Arena_CTF_Player02_bot",
+    "Player5",
+    "ctf-arena_Player5_sparring_runner"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000006",
+   "teams": 11,
+   "map_seed": 184090034,
+   "flag_seed": 2999547776695233266,
+   "seats": [
+    "ctf-arena_Player5_sparring_adaptive",
+    "cand-012",
+    "R3_EXPECTIMAX_sampled",
+    "Player2",
+    "ctf-arena_Player4_v2",
+    "Player4",
+    "AI_Arena_CTF_Player02_bot",
+    "bot_2",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "AI_Arena_CTF_Player01_bot",
+    "ctf-arena_Player3_variants_bot_tune"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000007",
+   "teams": 11,
+   "map_seed": 2142848183,
+   "flag_seed": 7025298030228211189,
+   "seats": [
+    "Player3",
+    "DeepSeek",
+    "Sol",
+    "incumbent-v001",
+    "Sonnet",
+    "Opus",
+    "Baseline",
+    "AI_Arena_CTF_Player02_bot",
+    "Fable",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000008",
+   "teams": 11,
+   "map_seed": 730206788,
+   "flag_seed": 40380278263315117,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "Qwen",
+    "Player1",
+    "Kimi",
+    "Player3",
+    "Player5",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "cand-011",
+    "AI_Arena_CTF_Player01_bot",
+    "Astra"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000009",
+   "teams": 11,
+   "map_seed": 260291381,
+   "flag_seed": 3527038758746247230,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "AI_Arena_CTF_Player01_bot",
+    "incumbent-v001",
+    "Qwen",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Baseline",
+    "MiMo",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring",
+    "R3_EXPECTIMAX_sampled",
+    "cand-011"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000010",
+   "teams": 11,
+   "map_seed": 1856791014,
+   "flag_seed": 871859278714148724,
+   "seats": [
+    "Player4",
+    "Astra",
+    "cand-011",
+    "AI_Arena_CTF_Player02_bot",
+    "Player3",
+    "ctf-arena_Player4_v2",
+    "Qwen",
+    "ctf-arena_Player5_hunter",
+    "Player2",
+    "R3_EXPECTIMAX_sampled",
+    "doubao-seed-2.1-turbo"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000011",
+   "teams": 11,
+   "map_seed": 1230519155,
+   "flag_seed": 4290469467812793435,
+   "seats": [
+    "Opus",
+    "incumbent-v001_2",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "incumbent-v001",
+    "Player6",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player5_sparring_runner",
+    "ctf-arena_Player5_v12_volley_trio"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000012",
+   "teams": 11,
+   "map_seed": 279102061,
+   "flag_seed": 6439326603455802127,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "GLM",
+    "Player2",
+    "Control_external_CL",
+    "Fable",
+    "ctf-arena_Player4_v2",
+    "bot_2",
+    "Qwen",
+    "R3_EXPECTIMAX_sampled",
+    "Player1",
+    "ctf-arena_Player5_sparring_adaptive"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000013",
+   "teams": 11,
+   "map_seed": 1109215930,
+   "flag_seed": 2708330455992820388,
+   "seats": [
+    "AI_Arena_CTF_Player01_bot",
+    "Player5",
+    "Player1",
+    "Astra",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring",
+    "Player3",
+    "DeepSeek",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "Qwen"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000014",
+   "teams": 11,
+   "map_seed": 1821540479,
+   "flag_seed": 9110014050790960530,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "incumbent-v001",
+    "AI_Arena_CTF_Player02_bot",
+    "Fable",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring",
+    "MiMo",
+    "cand-011",
+    "Player6",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player5_fortress"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000015",
+   "teams": 11,
+   "map_seed": 1748632813,
+   "flag_seed": 8446627166241852586,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Sonnet",
+    "AI_Arena_CTF_Player02_bot",
+    "MiMo",
+    "incumbent-v001",
+    "Fable",
+    "Opus",
+    "ctf-arena_Player5_runner_v8",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000016",
+   "teams": 11,
+   "map_seed": 1391827110,
+   "flag_seed": 9200103721174522479,
+   "seats": [
+    "ctf-arena_Player5_sparring",
+    "ctf-arena_Player4_v2",
+    "Kimi",
+    "Astra",
+    "AI_Arena_CTF_Player02_bot",
+    "bot_2",
+    "DeepSeek",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_v12_volley_trio",
+    "Sol",
+    "Player2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000017",
+   "teams": 11,
+   "map_seed": 819483631,
+   "flag_seed": 8479576487487920976,
+   "seats": [
+    "bot_2",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_runner_v8",
+    "Fable",
+    "incumbent-v001_2",
+    "incumbent-v001",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring",
+    "doubao-seed-2.1-turbo",
+    "Sol",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000018",
+   "teams": 11,
+   "map_seed": 1584232218,
+   "flag_seed": 72904796156928807,
+   "seats": [
+    "AI_Arena_CTF_Player01_bot",
+    "AI_Arena_CTF_Player02_bot",
+    "bot",
+    "GLM",
+    "Player2",
+    "Opus",
+    "doubao-seed-2.1-turbo",
+    "incumbent-v001_2",
+    "ctf-arena_Player5_sparring",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n11-s20261250-000019",
+   "teams": 11,
+   "map_seed": 1645799231,
+   "flag_seed": 5806392195925531924,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v3",
+    "ctf-arena_Player5_sparring_runner",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "bot_2",
+    "incumbent-v001",
+    "Baseline",
+    "DeepSeek",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player5_v12_volley_trio"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000000",
+   "teams": 12,
+   "map_seed": 341711740,
+   "flag_seed": 7974425512511681274,
+   "seats": [
+    "Player1",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "AI_Arena_CTF_Player02_bot",
+    "Sol",
+    "MiMo",
+    "ctf-arena_Player4_v9_latest",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_hunter",
+    "R3_EXPECTIMAX_sampled",
+    "Baseline",
+    "ctf-arena_Player4_v5"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000001",
+   "teams": 12,
+   "map_seed": 1636564764,
+   "flag_seed": 2005939904418215843,
+   "seats": [
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Opus",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player3_variants_bot_tune",
+    "GLM",
+    "Player4",
+    "AI_Arena_CTF_Player02_bot",
+    "Control_external_CL",
+    "incumbent-v001",
+    "cand-011",
+    "ctf-arena_Player4_v2",
+    "Qwen"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000002",
+   "teams": 12,
+   "map_seed": 569730192,
+   "flag_seed": 1388406770910022801,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring_runner",
+    "DeepSeek",
+    "ctf-arena_Player4_v2",
+    "Player2",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "incumbent-v001_2",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Astra",
+    "AI_Arena_CTF_Player02_bot",
+    "Player5",
+    "cand-012"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000003",
+   "teams": 12,
+   "map_seed": 260586086,
+   "flag_seed": 6374231590175470383,
+   "seats": [
+    "ctf-arena_Player5_fortress",
+    "AI_Arena_CTF_Player02_bot",
+    "incumbent-v001",
+    "ctf-arena_Player4_v2",
+    "Astra",
+    "ctf-arena_Player3_variants_bot_tune",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player5_sparring_runner",
+    "Player4",
+    "R3_EXPECTIMAX_sampled",
+    "Kimi",
+    "Fable"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000004",
+   "teams": 12,
+   "map_seed": 1809298284,
+   "flag_seed": 7599191636832832121,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "Player6",
+    "Fable",
+    "Baseline",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player4_v9_latest",
+    "ctf-arena_Player5_hunter",
+    "R3_EXPECTIMAX_sampled",
+    "Sol",
+    "Kimi",
+    "ctf-arena_Player4_v2",
+    "DeepSeek"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000005",
+   "teams": 12,
+   "map_seed": 762087109,
+   "flag_seed": 7803157830490027986,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "candidate-v005-15p-intercept",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player5_hunter",
+    "Astra",
+    "incumbent-v001_2",
+    "Kimi",
+    "ctf-arena_Player5_sparring_raider",
+    "Fable",
+    "bot_2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000006",
+   "teams": 12,
+   "map_seed": 993549782,
+   "flag_seed": 4898213269394735041,
+   "seats": [
+    "bot",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Sol",
+    "Kimi",
+    "R3_EXPECTIMAX_sampled",
+    "Opus",
+    "Sonnet",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Player1",
+    "cand-012",
+    "incumbent-v001"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000007",
+   "teams": 12,
+   "map_seed": 1607113514,
+   "flag_seed": 8373572296811282007,
+   "seats": [
+    "ctf-arena_Player4_v9_latest",
+    "ctf-arena_Player4_v2",
+    "Player1",
+    "Sol",
+    "AI_Arena_CTF_Player02_bot",
+    "Astra",
+    "Player6",
+    "ctf-arena_Player5_sparring_adaptive",
+    "ctf-arena_Player5_runner_v8",
+    "incumbent-v001",
+    "Player3",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000008",
+   "teams": 12,
+   "map_seed": 737488983,
+   "flag_seed": 8764802465578183048,
+   "seats": [
+    "ctf-arena_Player5_runner_v8",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player5_sparring_runner",
+    "AI_Arena_CTF_Player01_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "Player1",
+    "candidate-v005-15p-intercept",
+    "Player2",
+    "AI_Arena_CTF_Player02_bot",
+    "Player6",
+    "doubao-seed-2.1-turbo"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000009",
+   "teams": 12,
+   "map_seed": 2015345306,
+   "flag_seed": 737473882995386074,
+   "seats": [
+    "ctf-arena_Player5_v12_rollout_volley",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v9_latest",
+    "incumbent-v001",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player4_v2",
+    "candidate-v005-15p-intercept",
+    "AI_Arena_CTF_Player02_bot",
+    "Qwen",
+    "Baseline",
+    "Kimi",
+    "ctf-arena_Player5_sparring"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000010",
+   "teams": 12,
+   "map_seed": 770056969,
+   "flag_seed": 3716545277699493138,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "Qwen",
+    "cand-012",
+    "bot_2",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "candidate-v005-15p-intercept",
+    "doubao-seed-2.1-turbo",
+    "Sonnet",
+    "incumbent-v001_2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000011",
+   "teams": 12,
+   "map_seed": 1627042090,
+   "flag_seed": 4517928007916082854,
+   "seats": [
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Astra",
+    "ctf-arena_Player4_v3",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring_raider",
+    "ctf-arena_Player4_v2",
+    "Player6",
+    "ctf-arena_Player5_hunter",
+    "Player1",
+    "AI_Arena_CTF_Player02_bot",
+    "GLM",
+    "incumbent-v001"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000012",
+   "teams": 12,
+   "map_seed": 727961796,
+   "flag_seed": 2460359415852144468,
+   "seats": [
+    "Player5",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "bot_2",
+    "Astra",
+    "incumbent-v001",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Player4",
+    "Player1",
+    "ctf-arena_Player4_v2",
+    "Sonnet",
+    "Baseline"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000013",
+   "teams": 12,
+   "map_seed": 642462117,
+   "flag_seed": 2580248773968261117,
+   "seats": [
+    "incumbent-v001",
+    "AI_Arena_CTF_Player02_bot",
+    "Player6",
+    "R3_EXPECTIMAX_sampled",
+    "Qwen",
+    "ctf-arena_Player4_v3",
+    "ctf-arena_Player4_v2",
+    "Player5",
+    "DeepSeek",
+    "Player4",
+    "GLM",
+    "Sonnet"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000014",
+   "teams": 12,
+   "map_seed": 133463536,
+   "flag_seed": 5069525697310382356,
+   "seats": [
+    "Player3",
+    "Fable",
+    "bot",
+    "cand-011",
+    "ctf-arena_Player5_sparring_adaptive",
+    "Player1",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "Qwen",
+    "Player6",
+    "Astra"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000015",
+   "teams": 12,
+   "map_seed": 2100371299,
+   "flag_seed": 1616934718067812543,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring_runner",
+    "incumbent-v001_2",
+    "GLM",
+    "ctf-arena_Player5_macro_v2",
+    "Kimi",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v9_latest",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v3",
+    "Player1",
+    "Sol"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000016",
+   "teams": 12,
+   "map_seed": 152102918,
+   "flag_seed": 7753597601568098417,
+   "seats": [
+    "Player3",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v3",
+    "Player5",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring_runner",
+    "AI_Arena_CTF_Player01_bot",
+    "doubao-seed-2.1-turbo",
+    "Kimi",
+    "Fable",
+    "incumbent-v001_2",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000017",
+   "teams": 12,
+   "map_seed": 1569922061,
+   "flag_seed": 4946326062495149346,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "cand-011",
+    "ctf-arena_Player4_v2",
+    "GLM",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "ctf-arena_Player5_sparring_adaptive",
+    "Player2",
+    "Player6",
+    "incumbent-v001_2",
+    "Player3"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000018",
+   "teams": 12,
+   "map_seed": 1205724076,
+   "flag_seed": 307391085008867060,
+   "seats": [
+    "Sonnet",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "incumbent-v001_2",
+    "ctf-arena_Player4_v9_latest",
+    "AI_Arena_CTF_Player01_bot",
+    "ctf-arena_Player5_v12_volley_trio",
+    "GLM",
+    "Player3",
+    "candidate-v005-15p-intercept",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n12-s20261250-000019",
+   "teams": 12,
+   "map_seed": 1262864935,
+   "flag_seed": 7373316469915962342,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v5",
+    "bot_2",
+    "incumbent-v001",
+    "ctf-arena_Player5_sparring_raider",
+    "Player5",
+    "Baseline",
+    "AI_Arena_CTF_Player02_bot",
+    "doubao-seed-2.1-turbo",
+    "MiMo",
+    "Sol"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000000",
+   "teams": 13,
+   "map_seed": 2024759341,
+   "flag_seed": 8575355644641075553,
+   "seats": [
+    "Qwen",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player5_macro_v2",
+    "Sonnet",
+    "Baseline",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "Player1",
+    "AI_Arena_CTF_Player02_bot",
+    "Player6",
+    "ctf-arena_Player4_v5",
+    "AI_Arena_CTF_Player01_bot",
+    "doubao-seed-2.1-turbo"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000001",
+   "teams": 13,
+   "map_seed": 337021549,
+   "flag_seed": 1848800029110460223,
+   "seats": [
+    "Fable",
+    "Qwen",
+    "MiMo",
+    "R3_EXPECTIMAX_sampled",
+    "doubao-seed-2.1-turbo",
+    "incumbent-v001_2",
+    "candidate-v005-15p-intercept",
+    "Player1",
+    "ctf-arena_Player4_v2",
+    "incumbent-v001",
+    "ctf-arena_Player5_macro_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_sparring_adaptive"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000002",
+   "teams": 13,
+   "map_seed": 120470626,
+   "flag_seed": 6056984102146818284,
+   "seats": [
+    "bot",
+    "R3_EXPECTIMAX_sampled",
+    "bot_2",
+    "incumbent-v001_2",
+    "Baseline",
+    "Player6",
+    "Sol",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Player1",
+    "ctf-arena_Player5_sparring_adaptive",
+    "DeepSeek",
+    "cand-012"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000003",
+   "teams": 13,
+   "map_seed": 1344476331,
+   "flag_seed": 8886316897589294778,
+   "seats": [
+    "ctf-arena_Player5_sparring_runner",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player4_v2",
+    "incumbent-v001_2",
+    "GLM",
+    "R3_EXPECTIMAX_sampled",
+    "DeepSeek",
+    "Sonnet",
+    "Player3",
+    "Baseline",
+    "Player1",
+    "Player5",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000004",
+   "teams": 13,
+   "map_seed": 468521636,
+   "flag_seed": 9137955755076527705,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "incumbent-v001",
+    "ctf-arena_Player5_sparring",
+    "Sol",
+    "DeepSeek",
+    "Qwen",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "incumbent-v001_2",
+    "Astra",
+    "Player5",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Sonnet"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000005",
+   "teams": 13,
+   "map_seed": 528278453,
+   "flag_seed": 7705551902718351442,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "Baseline",
+    "incumbent-v001_2",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player5_sparring_adaptive",
+    "Player3",
+    "bot_2",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v3",
+    "Player1"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000006",
+   "teams": 13,
+   "map_seed": 1209131528,
+   "flag_seed": 7114142889052025400,
+   "seats": [
+    "Player3",
+    "bot_2",
+    "ctf-arena_Player5_sparring",
+    "Astra",
+    "Qwen",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "Player5",
+    "ctf-arena_Player4_v3",
+    "cand-011",
+    "cand-012",
+    "R3_EXPECTIMAX_sampled",
+    "incumbent-v001"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000007",
+   "teams": 13,
+   "map_seed": 1134707233,
+   "flag_seed": 5382787467878071551,
+   "seats": [
+    "Player6",
+    "Player3",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring_adaptive",
+    "MiMo",
+    "cand-012",
+    "ctf-arena_Player5_fortress",
+    "bot_2",
+    "Baseline",
+    "Fable",
+    "AI_Arena_CTF_Player02_bot",
+    "R3_EXPECTIMAX_sampled",
+    "Astra"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000008",
+   "teams": 13,
+   "map_seed": 185956551,
+   "flag_seed": 2736259166112533504,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_sparring_adaptive",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "DeepSeek",
+    "ctf-arena_Player5_v12_volley_trio",
+    "Player1",
+    "Sol",
+    "bot_2",
+    "incumbent-v001_2",
+    "Player3",
+    "Qwen",
+    "Fable"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000009",
+   "teams": 13,
+   "map_seed": 1201411025,
+   "flag_seed": 1853588183629539255,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "incumbent-v001_2",
+    "bot_2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "Opus",
+    "Kimi",
+    "Player4",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Sonnet",
+    "ctf-arena_Player5_hunter",
+    "ctf-arena_Player5_sparring_runner",
+    "cand-011"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000010",
+   "teams": 13,
+   "map_seed": 1644341680,
+   "flag_seed": 941737627854390848,
+   "seats": [
+    "ctf-arena_Player4_v5",
+    "GLM",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "incumbent-v001",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "Player4",
+    "Player2",
+    "Control_external_CL",
+    "Qwen",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Astra"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000011",
+   "teams": 13,
+   "map_seed": 1488516125,
+   "flag_seed": 7237150319429624326,
+   "seats": [
+    "Control_external_CL",
+    "R3_EXPECTIMAX_sampled",
+    "Fable",
+    "incumbent-v001_2",
+    "Player2",
+    "ctf-arena_Player5_sparring_runner",
+    "cand-011",
+    "AI_Arena_CTF_Player02_bot",
+    "Player6",
+    "Player4",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player4_v2",
+    "DeepSeek"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000012",
+   "teams": 13,
+   "map_seed": 1072726173,
+   "flag_seed": 4663023504666643652,
+   "seats": [
+    "Opus",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "Sol",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player5_sparring_runner",
+    "Astra",
+    "Kimi",
+    "Player1",
+    "Player5",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v5",
+    "GLM"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000013",
+   "teams": 13,
+   "map_seed": 1960443818,
+   "flag_seed": 5981236572609638605,
+   "seats": [
+    "Opus",
+    "ctf-arena_Player4_v2",
+    "Sonnet",
+    "AI_Arena_CTF_Player02_bot",
+    "Player3",
+    "candidate-v005-15p-intercept",
+    "Player2",
+    "doubao-seed-2.1-turbo",
+    "Qwen",
+    "Fable",
+    "Kimi",
+    "R3_EXPECTIMAX_sampled",
+    "bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000014",
+   "teams": 13,
+   "map_seed": 426298638,
+   "flag_seed": 6622432710891520924,
+   "seats": [
+    "Player3",
+    "cand-012",
+    "AI_Arena_CTF_Player02_bot",
+    "DeepSeek",
+    "ctf-arena_Player5_macro_v2",
+    "Opus",
+    "GLM",
+    "ctf-arena_Player5_sparring_adaptive",
+    "Sol",
+    "Player4",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000015",
+   "teams": 13,
+   "map_seed": 1195374547,
+   "flag_seed": 8699580189163009814,
+   "seats": [
+    "GLM",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_v12_volley_trio",
+    "AI_Arena_CTF_Player02_bot",
+    "cand-012",
+    "Opus",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player4_v2",
+    "incumbent-v001_2",
+    "cand-011",
+    "Baseline",
+    "Player4",
+    "Sol"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000016",
+   "teams": 13,
+   "map_seed": 1915549330,
+   "flag_seed": 5673068737912679874,
+   "seats": [
+    "Fable",
+    "Player2",
+    "AI_Arena_CTF_Player02_bot",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Baseline",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring_raider",
+    "Astra",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player01_bot",
+    "Opus",
+    "ctf-arena_Player5_runner_v8"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000017",
+   "teams": 13,
+   "map_seed": 797624087,
+   "flag_seed": 8413651303338422382,
+   "seats": [
+    "AI_Arena_CTF_Player02_bot",
+    "doubao-seed-2.1-turbo",
+    "cand-011",
+    "incumbent-v001_2",
+    "R3_EXPECTIMAX_sampled",
+    "Baseline",
+    "Player6",
+    "ctf-arena_Player4_v5",
+    "Sonnet",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring_runner",
+    "ctf-arena_Player5_v12_volley_trio",
+    "Player2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000018",
+   "teams": 13,
+   "map_seed": 540389605,
+   "flag_seed": 4473423018878325932,
+   "seats": [
+    "Opus",
+    "incumbent-v001",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring_adaptive",
+    "candidate-v005-15p-intercept",
+    "AI_Arena_CTF_Player02_bot",
+    "MiMo",
+    "cand-011",
+    "Sol",
+    "R3_EXPECTIMAX_sampled",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player4_v5",
+    "DeepSeek"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n13-s20261250-000019",
+   "teams": 13,
+   "map_seed": 2072546400,
+   "flag_seed": 3443075229863529536,
+   "seats": [
+    "Player2",
+    "ctf-arena_Player3_variants_bot_tune",
+    "AI_Arena_CTF_Player02_bot",
+    "incumbent-v001_2",
+    "ctf-arena_Player5_runner_v8",
+    "ctf-arena_Player4_v2",
+    "Kimi",
+    "Fable",
+    "R3_EXPECTIMAX_sampled",
+    "Player4",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Opus",
+    "AI_Arena_CTF_Player01_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000000",
+   "teams": 14,
+   "map_seed": 535618463,
+   "flag_seed": 8890135419539687937,
+   "seats": [
+    "Fable",
+    "ctf-arena_Player5_v12_volley_trio",
+    "ctf-arena_Player4_v5",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player4_v2",
+    "Player2",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player3_variants_bot_tune",
+    "R3_EXPECTIMAX_sampled",
+    "Baseline",
+    "Astra",
+    "ctf-arena_Player5_sparring",
+    "cand-012",
+    "Sol"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000001",
+   "teams": 14,
+   "map_seed": 1960199381,
+   "flag_seed": 8964588569837188629,
+   "seats": [
+    "DeepSeek",
+    "GLM",
+    "ctf-arena_Player5_hunter",
+    "ctf-arena_Player5_sparring",
+    "Player6",
+    "Kimi",
+    "Qwen",
+    "ctf-arena_Player4_v2",
+    "Baseline",
+    "bot_2",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "AI_Arena_CTF_Player02_bot",
+    "doubao-seed-2.1-turbo"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000002",
+   "teams": 14,
+   "map_seed": 59024768,
+   "flag_seed": 6581477488742392206,
+   "seats": [
+    "bot",
+    "R3_EXPECTIMAX_sampled",
+    "MiMo",
+    "ctf-arena_Player4_v2",
+    "Player6",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player5_sparring_runner",
+    "Player1",
+    "AI_Arena_CTF_Player02_bot",
+    "cand-012",
+    "Qwen",
+    "ctf-arena_Player4_v3",
+    "DeepSeek",
+    "GLM"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000003",
+   "teams": 14,
+   "map_seed": 427131624,
+   "flag_seed": 5998973598351535386,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_v12_volley_trio",
+    "Astra",
+    "bot_2",
+    "incumbent-v001_2",
+    "DeepSeek",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Player4",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_sparring_adaptive",
+    "Sonnet",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player4_v3",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000004",
+   "teams": 14,
+   "map_seed": 732324550,
+   "flag_seed": 2286162976966625110,
+   "seats": [
+    "ctf-arena_Player5_sparring_runner",
+    "cand-012",
+    "ctf-arena_Player4_v2",
+    "GLM",
+    "Fable",
+    "Control_external_CL",
+    "candidate-v005-15p-intercept",
+    "AI_Arena_CTF_Player01_bot",
+    "AI_Arena_CTF_Player02_bot",
+    "Qwen",
+    "R3_EXPECTIMAX_sampled",
+    "Kimi",
+    "Sol",
+    "Player2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000005",
+   "teams": 14,
+   "map_seed": 710331253,
+   "flag_seed": 754470679629099125,
+   "seats": [
+    "Player6",
+    "bot_2",
+    "ctf-arena_Player4_v2",
+    "GLM",
+    "ctf-arena_Player5_hunter",
+    "Player1",
+    "ctf-arena_Player4_v5",
+    "MiMo",
+    "AI_Arena_CTF_Player01_bot",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_sparring_runner",
+    "Player4",
+    "doubao-seed-2.1-turbo"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000006",
+   "teams": 14,
+   "map_seed": 538903465,
+   "flag_seed": 7671450653635116262,
+   "seats": [
+    "candidate-v005-15p-intercept",
+    "bot",
+    "incumbent-v001",
+    "ctf-arena_Player4_v2",
+    "Player3",
+    "MiMo",
+    "R3_EXPECTIMAX_sampled",
+    "Player4",
+    "cand-012",
+    "doubao-seed-2.1-turbo",
+    "AI_Arena_CTF_Player02_bot",
+    "Kimi",
+    "ctf-arena_Player4_v3",
+    "cand-011"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000007",
+   "teams": 14,
+   "map_seed": 1112911785,
+   "flag_seed": 2070486525756447055,
+   "seats": [
+    "ctf-arena_Player3_variants_bot_tune",
+    "bot_2",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "Qwen",
+    "ctf-arena_Player5_sparring",
+    "incumbent-v001",
+    "ctf-arena_Player4_v2",
+    "doubao-seed-2.1-turbo",
+    "MiMo",
+    "Fable",
+    "ctf-arena_Player4_v3",
+    "R3_EXPECTIMAX_sampled",
+    "GLM",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000008",
+   "teams": 14,
+   "map_seed": 1699874703,
+   "flag_seed": 1347445623121937859,
+   "seats": [
+    "ctf-arena_Player5_macro_v2",
+    "Kimi",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "AI_Arena_CTF_Player01_bot",
+    "incumbent-v001",
+    "ctf-arena_Player4_v3",
+    "candidate-v005-15p-intercept",
+    "DeepSeek",
+    "GLM",
+    "Fable",
+    "ctf-arena_Player5_sparring_runner",
+    "ctf-arena_Player4_v2",
+    "Player1"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000009",
+   "teams": 14,
+   "map_seed": 211319626,
+   "flag_seed": 241049604312403287,
+   "seats": [
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player5_sparring",
+    "Baseline",
+    "incumbent-v001",
+    "Sonnet",
+    "R3_EXPECTIMAX_sampled",
+    "Player4",
+    "Player2",
+    "doubao-seed-2.1-turbo",
+    "Qwen",
+    "MiMo",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_hunter"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000010",
+   "teams": 14,
+   "map_seed": 61907048,
+   "flag_seed": 5053675230604278138,
+   "seats": [
+    "ctf-arena_Player5_v12_rollout_volley",
+    "Astra",
+    "Player6",
+    "DeepSeek",
+    "Qwen",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "Opus",
+    "Baseline",
+    "Player1",
+    "MiMo",
+    "Player2",
+    "candidate-v005-15p-intercept"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000011",
+   "teams": 14,
+   "map_seed": 319661303,
+   "flag_seed": 2368667829530017136,
+   "seats": [
+    "bot",
+    "ctf-arena_Player5_sparring_raider",
+    "candidate-v005-15p-intercept",
+    "Fable",
+    "Player6",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "Player1",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Kimi",
+    "Astra",
+    "cand-012",
+    "Qwen"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000012",
+   "teams": 14,
+   "map_seed": 1315287709,
+   "flag_seed": 1606810510063116037,
+   "seats": [
+    "Sonnet",
+    "Player4",
+    "AI_Arena_CTF_Player02_bot",
+    "MiMo",
+    "ctf-arena_Player4_v2",
+    "incumbent-v001",
+    "Kimi",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Player2",
+    "ctf-arena_Player4_v3",
+    "Baseline",
+    "ctf-arena_Player5_runner_v8"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000013",
+   "teams": 14,
+   "map_seed": 230214609,
+   "flag_seed": 2993094319742906161,
+   "seats": [
+    "ctf-arena_Player3_variants_bot_tune",
+    "Sol",
+    "Player4",
+    "Qwen",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_sparring_runner",
+    "MiMo",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "GLM",
+    "Opus",
+    "Kimi",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000014",
+   "teams": 14,
+   "map_seed": 967203863,
+   "flag_seed": 8011689848284400612,
+   "seats": [
+    "ctf-arena_Player5_sparring_adaptive",
+    "Astra",
+    "cand-012",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "MiMo",
+    "bot_2",
+    "Sol",
+    "cand-011",
+    "Sonnet",
+    "AI_Arena_CTF_Player01_bot",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player5_hunter"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000015",
+   "teams": 14,
+   "map_seed": 851761196,
+   "flag_seed": 4238304206826272495,
+   "seats": [
+    "Player3",
+    "Kimi",
+    "Astra",
+    "Opus",
+    "cand-012",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "DeepSeek",
+    "Player4",
+    "bot",
+    "ctf-arena_Player4_v2",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player4_v3",
+    "ctf-arena_Player1_t2_snapshot_01076b3d"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000016",
+   "teams": 14,
+   "map_seed": 1475009684,
+   "flag_seed": 1664577187490148396,
+   "seats": [
+    "Baseline",
+    "Fable",
+    "AI_Arena_CTF_Player02_bot",
+    "Qwen",
+    "Kimi",
+    "ctf-arena_Player5_v12_volley_trio",
+    "Sol",
+    "cand-012",
+    "ctf-arena_Player4_v2",
+    "Player6",
+    "Player2",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player5_sparring_adaptive"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000017",
+   "teams": 14,
+   "map_seed": 886374248,
+   "flag_seed": 6232518205931849059,
+   "seats": [
+    "ctf-arena_Player3_variants_bot_tune",
+    "MiMo",
+    "Player1",
+    "DeepSeek",
+    "Kimi",
+    "ctf-arena_Player5_macro_v2",
+    "Fable",
+    "Opus",
+    "AI_Arena_CTF_Player02_bot",
+    "Sonnet",
+    "ctf-arena_Player4_v3",
+    "Qwen",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000018",
+   "teams": 14,
+   "map_seed": 1897924568,
+   "flag_seed": 2691032113341903910,
+   "seats": [
+    "Player4",
+    "ctf-arena_Player5_hunter",
+    "Sol",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player01_bot",
+    "AI_Arena_CTF_Player02_bot",
+    "cand-011",
+    "GLM",
+    "candidate-v005-15p-intercept",
+    "Sonnet",
+    "ctf-arena_Player5_sparring_adaptive",
+    "Fable",
+    "Player1",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n14-s20261250-000019",
+   "teams": 14,
+   "map_seed": 1220696509,
+   "flag_seed": 2826821650323982789,
+   "seats": [
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Player3",
+    "incumbent-v001_2",
+    "doubao-seed-2.1-turbo",
+    "Control_external_CL",
+    "Player1",
+    "AI_Arena_CTF_Player01_bot",
+    "ctf-arena_Player5_sparring_runner",
+    "ctf-arena_Player4_v2",
+    "Sonnet",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "Astra",
+    "cand-011"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000000",
+   "teams": 15,
+   "map_seed": 656038415,
+   "flag_seed": 2273992374535337058,
+   "seats": [
+    "doubao-seed-2.1-turbo",
+    "R3_EXPECTIMAX_sampled",
+    "Opus",
+    "ctf-arena_Player4_v3",
+    "Sol",
+    "ctf-arena_Player4_v2",
+    "cand-012",
+    "ctf-arena_Player5_sparring",
+    "Qwen",
+    "candidate-v002-risk",
+    "AI_Arena_CTF_Player02_bot",
+    "Sonnet",
+    "Astra",
+    "Control_external_CL",
+    "Fable"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000001",
+   "teams": 15,
+   "map_seed": 1448586272,
+   "flag_seed": 1639572306759479104,
+   "seats": [
+    "doubao-seed-2.1-turbo",
+    "Player3",
+    "Fable",
+    "AI_Arena_CTF_Player01_bot",
+    "DeepSeek",
+    "ctf-arena_Player4_v5",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring",
+    "R3_EXPECTIMAX_sampled",
+    "Player2",
+    "ctf-arena_Player5_fortress",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "Sonnet",
+    "AI_Arena_CTF_Player02_bot",
+    "Astra"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000002",
+   "teams": 15,
+   "map_seed": 1714508138,
+   "flag_seed": 2325271804401225723,
+   "seats": [
+    "MiMo",
+    "cand-012",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v2",
+    "Baseline",
+    "ctf-arena_Player5_v12_volley_trio",
+    "Sonnet",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player5_sparring_adaptive",
+    "Astra",
+    "AI_Arena_CTF_Player01_bot",
+    "Opus",
+    "R3_EXPECTIMAX_sampled",
+    "Qwen",
+    "GLM"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000003",
+   "teams": 15,
+   "map_seed": 1953531990,
+   "flag_seed": 5054590862799359113,
+   "seats": [
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player5_macro_v2",
+    "AI_Arena_CTF_Player02_bot",
+    "candidate-v002-risk",
+    "ctf-arena_Player3_variants_bot_tune",
+    "DeepSeek",
+    "R3_EXPECTIMAX_sampled",
+    "incumbent-v001",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player4_v3",
+    "Player1",
+    "ctf-arena_Player4_v9_latest",
+    "Player6",
+    "Kimi"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000004",
+   "teams": 15,
+   "map_seed": 1512659923,
+   "flag_seed": 758949508049492042,
+   "seats": [
+    "Player4",
+    "bot",
+    "ctf-arena_Player4_v2",
+    "Player2",
+    "ctf-arena_Player5_sparring_raider",
+    "AI_Arena_CTF_Player02_bot",
+    "candidate-v005-15p-intercept",
+    "cand-012",
+    "ctf-arena_Player4_v5",
+    "GLM",
+    "Fable",
+    "Sonnet",
+    "R3_EXPECTIMAX_sampled",
+    "cand-011",
+    "AI_Arena_CTF_Player01_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000005",
+   "teams": 15,
+   "map_seed": 1702648598,
+   "flag_seed": 2575995301819300305,
+   "seats": [
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "R3_EXPECTIMAX_sampled",
+    "GLM",
+    "Astra",
+    "cand-012",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "Player1",
+    "AI_Arena_CTF_Player02_bot",
+    "bot_2",
+    "ctf-arena_Player4_v3",
+    "Player2",
+    "AI_Arena_CTF_Player01_bot",
+    "candidate-v002-risk",
+    "DeepSeek",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000006",
+   "teams": 15,
+   "map_seed": 166174866,
+   "flag_seed": 2660400314114187579,
+   "seats": [
+    "Fable",
+    "Qwen",
+    "Astra",
+    "MiMo",
+    "cand-012",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player4_v9_latest",
+    "bot_2",
+    "R3_EXPECTIMAX_sampled",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player4_v2",
+    "bot",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player5_sparring",
+    "ctf-arena_Player4_v5"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000007",
+   "teams": 15,
+   "map_seed": 563277506,
+   "flag_seed": 4248503344448284819,
+   "seats": [
+    "ctf-arena_Player4_v5",
+    "Qwen",
+    "Player1",
+    "Kimi",
+    "ctf-arena_Player5_sparring_raider",
+    "R3_EXPECTIMAX_sampled",
+    "bot_2",
+    "Control_external_CL",
+    "doubao-seed-2.1-turbo",
+    "AI_Arena_CTF_Player02_bot",
+    "incumbent-v001_2",
+    "candidate-v005-15p-intercept",
+    "ctf-arena_Player4_v2",
+    "cand-011",
+    "Baseline"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000008",
+   "teams": 15,
+   "map_seed": 1571412309,
+   "flag_seed": 1040439913550463905,
+   "seats": [
+    "ctf-arena_Player4_v3",
+    "ctf-arena_Player4_v9_latest",
+    "Fable",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player4_v2",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player01_bot",
+    "Qwen",
+    "Player1",
+    "Player6",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "candidate-v002-risk",
+    "incumbent-v001",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player5_sparring_adaptive"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000009",
+   "teams": 15,
+   "map_seed": 1130317938,
+   "flag_seed": 6481612243489731397,
+   "seats": [
+    "AI_Arena_CTF_Player01_bot",
+    "ctf-arena_Player5_sparring_runner",
+    "Fable",
+    "Kimi",
+    "Control_external_CL",
+    "Sonnet",
+    "ctf-arena_Player4_v2",
+    "incumbent-v001_2",
+    "MiMo",
+    "Astra",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Sol",
+    "Player2",
+    "AI_Arena_CTF_Player02_bot"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000010",
+   "teams": 15,
+   "map_seed": 293053944,
+   "flag_seed": 4355648039611726181,
+   "seats": [
+    "ctf-arena_Player5_sparring",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "candidate-v005-15p-intercept",
+    "Qwen",
+    "Fable",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "MiMo",
+    "incumbent-v001_2",
+    "cand-012",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "DeepSeek",
+    "bot_2",
+    "Player4"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000011",
+   "teams": 15,
+   "map_seed": 1622208060,
+   "flag_seed": 945869367566704559,
+   "seats": [
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player5_sparring_raider",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player1_t2_snapshot_01076b3d",
+    "ctf-arena_Player4_v2",
+    "Player3",
+    "MiMo",
+    "GLM",
+    "DeepSeek",
+    "Astra",
+    "Player6",
+    "ctf-arena_Player4_v9_latest",
+    "ctf-arena_Player5_hunter",
+    "Fable",
+    "ctf-arena_Player4_v5"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000012",
+   "teams": 15,
+   "map_seed": 1317562093,
+   "flag_seed": 6734286263852175385,
+   "seats": [
+    "ctf-arena_Player5_v12_volley_trio",
+    "ctf-arena_Player4_v2",
+    "AI_Arena_CTF_Player01_bot",
+    "ctf-arena_Player4_v3",
+    "Player4",
+    "candidate-v005-15p-intercept",
+    "bot_2",
+    "R3_EXPECTIMAX_sampled",
+    "Player2",
+    "incumbent-v001_2",
+    "AI_Arena_CTF_Player02_bot",
+    "ctf-arena_Player3_variants_bot_tune",
+    "ctf-arena_Player5_sparring_runner",
+    "Sol",
+    "Baseline"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000013",
+   "teams": 15,
+   "map_seed": 2070187710,
+   "flag_seed": 7646574325445389653,
+   "seats": [
+    "Opus",
+    "ctf-arena_Player4_v2",
+    "Qwen",
+    "Baseline",
+    "ctf-arena_Player5_v12_volley_trio",
+    "AI_Arena_CTF_Player02_bot",
+    "Player2",
+    "ctf-arena_Player3_variants_bot_tune",
+    "candidate-v002-risk",
+    "Sol",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v3",
+    "cand-012",
+    "cand-011",
+    "ctf-arena_Player5_sparring"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000014",
+   "teams": 15,
+   "map_seed": 1921048898,
+   "flag_seed": 8931896892362417311,
+   "seats": [
+    "ctf-arena_Player4_v3",
+    "AI_Arena_CTF_Player02_bot",
+    "candidate-v005-15p-intercept",
+    "DeepSeek",
+    "Baseline",
+    "Player2",
+    "incumbent-v001",
+    "Qwen",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_runner_v8",
+    "doubao-seed-2.1-turbo",
+    "ctf-arena_Player3_variants_bot_tune",
+    "Player4",
+    "Astra",
+    "R3_EXPECTIMAX_sampled"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000015",
+   "teams": 15,
+   "map_seed": 602811712,
+   "flag_seed": 3241874577241719024,
+   "seats": [
+    "ctf-arena_Player5_sparring_adaptive",
+    "Player4",
+    "candidate-v005-15p-intercept",
+    "Baseline",
+    "ctf-arena_Player4_v5",
+    "doubao-seed-2.1-turbo",
+    "Player5",
+    "R3_EXPECTIMAX_sampled",
+    "Astra",
+    "ctf-arena_Player4_v2",
+    "cand-011",
+    "AI_Arena_CTF_Player02_bot",
+    "DeepSeek",
+    "Sonnet",
+    "Player2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000016",
+   "teams": 15,
+   "map_seed": 628955941,
+   "flag_seed": 4726519546439204388,
+   "seats": [
+    "bot_2",
+    "Player2",
+    "AI_Arena_CTF_Player02_bot",
+    "Kimi",
+    "Player3",
+    "candidate-v002-risk",
+    "Player1",
+    "ctf-arena_Player4_v9_latest",
+    "ctf-arena_Player5_sparring_adaptive",
+    "ctf-arena_Player5_v12_rollout_volley",
+    "Baseline",
+    "incumbent-v001",
+    "R3_EXPECTIMAX_sampled",
+    "cand-012",
+    "ctf-arena_Player4_v2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000017",
+   "teams": 15,
+   "map_seed": 2104469868,
+   "flag_seed": 8272137454109652635,
+   "seats": [
+    "Astra",
+    "Sonnet",
+    "cand-012",
+    "Player2",
+    "ctf-arena_Player4_v5",
+    "Qwen",
+    "AI_Arena_CTF_Player02_bot",
+    "AI_Arena_CTF_Player01_bot",
+    "cand-011",
+    "Sol",
+    "ctf-arena_Player5_macro_v2",
+    "R3_EXPECTIMAX_sampled",
+    "Fable",
+    "ctf-arena_Player4_v2",
+    "ctf-arena_Player5_sparring_runner"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000018",
+   "teams": 15,
+   "map_seed": 188370509,
+   "flag_seed": 700965429736463446,
+   "seats": [
+    "GLM",
+    "Player1",
+    "Sonnet",
+    "candidate-v002-risk",
+    "AI_Arena_CTF_Player02_bot",
+    "Opus",
+    "bot_2",
+    "R3_EXPECTIMAX_sampled",
+    "ctf-arena_Player4_v2",
+    "cand-011",
+    "ctf-arena_Player4_v3",
+    "ctf-arena_Player5_sparring_raider",
+    "Player2",
+    "ctf-arena_Player5_macro_v2",
+    "Fable"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  },
+  {
+   "match_id": "n15-s20261250-000019",
+   "teams": 15,
+   "map_seed": 1998267121,
+   "flag_seed": 6589794432105369885,
+   "seats": [
+    "incumbent-v001_2",
+    "doubao-seed-2.1-turbo",
+    "cand-011",
+    "candidate-v002-risk",
+    "ctf-arena_Player4_v2",
+    "bot_2",
+    "Player3",
+    "Player5",
+    "ctf-arena_Player4_v5",
+    "R3_EXPECTIMAX_sampled",
+    "AI_Arena_CTF_Player02_bot",
+    "Fable",
+    "Sonnet",
+    "ctf-arena_Player4_v9_latest",
+    "Player2"
+   ],
+   "regime": "reserved-lineage-ood",
+   "components": [
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "reference",
+    "reserved-ood",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id",
+    "admitted-id"
+   ]
+  }
+ ],
+ "next_gate": "Freeze compiled programs, transitive includes, engine, compiler and collection wrapper before games. No scoring, qH fits or export performed."
+}

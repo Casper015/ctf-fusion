@@ -1,0 +1,12 @@
+{
+ "task": "T0025",
+ "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+ "score_receipts_sha256": "5bbf45a07e1ba56634b20722b49bd977ccfd139f1937709b79edf00fe552729b",
+ "result_sha256": "96e316a42b6801db651aaef1549e139ba81b9b6b67c2a530e47de70a50592642",
+ "auditor_sha256": "372910f03559fcc18afe3a1728924e3189d3bcf31475f0043924ea1959cacae7",
+ "cohorts_checked": 168,
+ "all_cached_array_hashes_verified": true,
+ "independent_NLL_top1_baseline_mean_cluster_SE_and_CI_recomputed": true,
+ "independent_ECE_points_recomputed": true,
+ "limitation": "ECE bootstrap endpoints use the declared aggregator and deterministic map draws; this independent audit recomputes ECE points, not percentile endpoints. No model predictions or games rerun."
+}

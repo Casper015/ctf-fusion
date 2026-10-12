@@ -1,0 +1,32 @@
+{
+ "core": {
+  "command": "unittest discover -s tests -t . (only reserved p_ood registration method deferred)",
+  "total_discovered": 224,
+  "tests_run": 223,
+  "skipped": 1,
+  "failures": 0,
+  "errors": 0,
+  "deferred": "tests.test_repo_layout.TestRepoLayout.test_reports_are_grouped",
+  "elapsed_seconds": 301.7900393009186,
+  "exit_code": 0
+ },
+ "final_registration": {
+  "command": "python -m unittest tests.test_repo_layout.TestRepoLayout.test_reports_are_grouped",
+  "tests_run": 1,
+  "failures": 0,
+  "errors": 0,
+  "exit_code": 0,
+  "log_sha256": "8d96f1a3ada34c3c58cd5bcd2e659c1c4f228ba3c8099c835986ef490643dcd3"
+ },
+ "combined": {
+  "tests_run": 224,
+  "passed": 223,
+  "skipped": 1,
+  "failures": 0,
+  "errors": 0
+ },
+ "measurement_repeated": false,
+ "native_parity_cases": 28,
+ "independent_metric_cohorts": 168,
+ "initial_delivery_command_failure": "A preparation command had a Python syntax error before edits; registration was consequently absent during the first layout check. Fixed preparation and final registration check passed; no measured stage rerun."
+}

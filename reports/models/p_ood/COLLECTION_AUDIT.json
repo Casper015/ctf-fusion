@@ -1,0 +1,8 @@
+{
+ "matches": 300,
+ "allseat_faults": 0,
+ "reserved_rows": 224000,
+ "valid_reserved_rows": 224000,
+ "invalid_reserved_rows": 0,
+ "checks": "All 300 raw hashes, source/engine, seed/seat/limits,400 blocks,canonical labels and frozen fixture identities verified."
+}

@@ -1,0 +1,455 @@
+{
+ "task": "T0025",
+ "seed": 20261250,
+ "source_commit": "de5dece1b90206684e06d82617d772e82d6658a3",
+ "collection_plan_sha256": "de7c9e2ee70a87e8f4b6fff9addbd88f003ba89ad90f72917a9656e5260a3156",
+ "limits_ms": [
+  2000,
+  50
+ ],
+ "workers": 6,
+ "engine_sha256": "07e43f6210c640d87a9161193a71c394fde157f816af004d37a68ecc1e36a14a",
+ "compiler_version": "g++.exe (GCC) 15.2.0",
+ "compiler_sha256": "0bd2b3aa85129c849aa617d0322a45732f026e0e7191819949c6c8fa03cb69cd",
+ "flags": [
+  "-std=c++20",
+  "-O2",
+  "-I${REPO}/inference",
+  "-static"
+ ],
+ "measurement_sources": {
+  "training/collect.py": "fe026ef688ef80a87734bf0739ab073020b4cf9781a054ea1acff9aae00fd546",
+  "fusion/runner.py": "0f072ddad1d3fd44566d5387f770b6139fa9998b2262cd7ce78a1c9f097041b5",
+  "fusion/matchlog.py": "cff5896cc99576aedc50a826e902795e59bbb2bd9cf0ce80a791d42429205525",
+  "fusion/paths.py": "0c3acbc927bc49ae1e169e9fb79d3826cbd311547ee4ab48b12efde259e17bc0",
+  "reports/models/p_ood/collect_ood.py": "88cf300d93254dce351016a7a4a93f2a4bbe676fc74648d10803dd390737e4b5"
+ },
+ "programs": {
+  "AI_Arena_CTF_Player01_bot": {
+   "source": "@repo/roster/new_bots/independent/AI_Arena_CTF_Player01_bot.cpp",
+   "source_sha256": "25c3fd7fb522a1beeff54c1f2ef0e5b096f9cd5eb74b6008f4f4ad487e1b08d2",
+   "dependencies": {
+    "@repo/roster/new_bots/independent/AI_Arena_CTF_Player01_bot.cpp": "25c3fd7fb522a1beeff54c1f2ef0e5b096f9cd5eb74b6008f4f4ad487e1b08d2"
+   },
+   "binary": "build/t0025/bots/AI_Arena_CTF_Player01_bot-28c79c2337cd7d39.exe",
+   "binary_sha256": "f8e57ca0f991ff2cbb2a060f31c36b6f6d38880b4132a51049d051d476e4c49b"
+  },
+  "AI_Arena_CTF_Player02_bot": {
+   "source": "@repo/roster/new_bots/independent/AI_Arena_CTF_Player02_bot.cpp",
+   "source_sha256": "ef8719390bcdb0ff95c757bf56c73d1138064068b02b318eb1adf6623bf268ab",
+   "dependencies": {
+    "@repo/roster/new_bots/independent/AI_Arena_CTF_Player02_bot.cpp": "ef8719390bcdb0ff95c757bf56c73d1138064068b02b318eb1adf6623bf268ab"
+   },
+   "binary": "build/t0025/bots/AI_Arena_CTF_Player02_bot-57de9a5e4380b29b.exe",
+   "binary_sha256": "15ec6a4ddda3120fcded704ed0eab2c54ddadbd467f06d23a3cd5b7e760d5023"
+  },
+  "Astra": {
+   "source": "@arena/ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+   "source_sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+   },
+   "binary": "build/t0025/bots/gpt-6-astra-9affa6dffed5a8ad.exe",
+   "binary_sha256": "ae03baa80955c6e5bb1539346c6a130daed40b341d35b69641fcb5ea5a80aa32"
+  },
+  "Baseline": {
+   "source": "@arena/ctf-stress-pack/bots/baseline.cpp",
+   "source_sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42",
+   "dependencies": {
+    "@arena/ctf-stress-pack/bots/baseline.cpp": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+   },
+   "binary": "build/t0025/bots/baseline-9bd4df82ab650cc7.exe",
+   "binary_sha256": "a3718da028e5f1906c1bf8a3a8f99ce0519de322ea1b549cef17d7898296f4a5"
+  },
+  "Control_external_CL": {
+   "source": "@arena/ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_external_CL.cpp",
+   "source_sha256": "96a4dec9c3543fe4d16b8b4b89714318444eb645beb85df59122e426529a55fb",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/workspace/experiments/round3/export/archive_r3_single_mode/Control_external_CL.cpp": "96a4dec9c3543fe4d16b8b4b89714318444eb645beb85df59122e426529a55fb"
+   },
+   "binary": "build/t0025/bots/Control_external_CL-798860348eae9e59.exe",
+   "binary_sha256": "a0349ccb16c26b4c8e20dd57cd6dd1c8f1be5b3abed2e6ac030cef1eb77d1440"
+  },
+  "DeepSeek": {
+   "source": "@arena/ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+   "source_sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+   },
+   "binary": "build/t0025/bots/deepseek-v4.1-flash-e9f4d0a345fcb760.exe",
+   "binary_sha256": "ae43d2f0c5178877581330f548cf6cc47986cfdf4edf644455cf863dfedb1b97"
+  },
+  "Fable": {
+   "source": "@arena/ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+   "source_sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+   },
+   "binary": "build/t0025/bots/fable-5.1-6ba72457efefedf9.exe",
+   "binary_sha256": "dcf4dd932816dfa98293e9256e0cd458bc5e9a940822babd8ea4142e22ca41c8"
+  },
+  "GLM": {
+   "source": "@arena/ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+   "source_sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+   },
+   "binary": "build/t0025/bots/glm-5.3-6656b01f69d8dd8f.exe",
+   "binary_sha256": "c444c7094a335eec996a036103a5de7c7163e62d333ed1ac512a6a0ee7cfe80f"
+  },
+  "Kimi": {
+   "source": "@arena/ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+   "source_sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+   },
+   "binary": "build/t0025/bots/kimi-k3-8eae07185399609e.exe",
+   "binary_sha256": "698e881a0dd16a467fbf726174047f86a89087a5f0d657a00cf68a4e29af607c"
+  },
+  "MiMo": {
+   "source": "@arena/ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "source_sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+   },
+   "binary": "build/t0025/bots/mimo-v2.6-pro-fcc5818dd2a78db5.exe",
+   "binary_sha256": "19b45eb6233f65383ade3c01bac82409768659fdb91650351758b61dd5fc140d"
+  },
+  "Opus": {
+   "source": "@arena/ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+   "source_sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+   },
+   "binary": "build/t0025/bots/opus-5.5-ad67c907dcf3e7ba.exe",
+   "binary_sha256": "aa35fbd533cb435bc30eec79bb06d54f507416bd08dccfc6867910ddc4cb1ff9"
+  },
+  "Player1": {
+   "source": "@arena/ctf-stress-pack/bots/Player1.cpp",
+   "source_sha256": "fda911b516f84fb04c27e23476c9cb674dd043dbcbdfd0a24626b3ca78cd33a1",
+   "dependencies": {
+    "@arena/ctf-stress-pack/bots/Player1.cpp": "fda911b516f84fb04c27e23476c9cb674dd043dbcbdfd0a24626b3ca78cd33a1"
+   },
+   "binary": "build/t0025/bots/Player1-9ee60d25f8acc700.exe",
+   "binary_sha256": "71c2c65f1df4ea1e79b639dce5e4735ce92a78eeffc2d671cb7ae6a3fb622fa2"
+  },
+  "Player2": {
+   "source": "@arena/ctf-stress-pack/bots/Player2.cpp",
+   "source_sha256": "c953fc91557399efb957e7f3627a5670413ea99ce5311807366e851a6436c18f",
+   "dependencies": {
+    "@arena/ctf-stress-pack/bots/Player2.cpp": "c953fc91557399efb957e7f3627a5670413ea99ce5311807366e851a6436c18f"
+   },
+   "binary": "build/t0025/bots/Player2-016bbb84b4a7084c.exe",
+   "binary_sha256": "100aed5a7f1e645ffeeb46f43891187f5b50fc394b196ac87792f55b2787ce24"
+  },
+  "Player3": {
+   "source": "@arena/ctf-stress-pack/bots/Player3.cpp",
+   "source_sha256": "a31cf6cdd04e6b2b83efded5ac60402fb7c26040b249629a4cd3759faf452f6e",
+   "dependencies": {
+    "@arena/ctf-stress-pack/bots/Player3.cpp": "a31cf6cdd04e6b2b83efded5ac60402fb7c26040b249629a4cd3759faf452f6e"
+   },
+   "binary": "build/t0025/bots/Player3-d9717e42bd46d189.exe",
+   "binary_sha256": "3d32133706be1e15833c5484b370c62fda552044bd851e083ad3728a1a5944ac"
+  },
+  "Player4": {
+   "source": "@arena/ctf-stress-pack/bots/Player4.cpp",
+   "source_sha256": "2058f78e5979a51f40dcb7dac4ee66e22f8ab816176822e3388caa6732f1453a",
+   "dependencies": {
+    "@arena/ctf-stress-pack/bots/Player4.cpp": "2058f78e5979a51f40dcb7dac4ee66e22f8ab816176822e3388caa6732f1453a"
+   },
+   "binary": "build/t0025/bots/Player4-dc865f24a75f7461.exe",
+   "binary_sha256": "fc927095ae3f62d9ac084de1b9ee71a75e82933513e6b5031e4cfdb4019c66e9"
+  },
+  "Player5": {
+   "source": "@arena/ctf-stress-pack/bots_v2/Player5.cpp",
+   "source_sha256": "5e8ff70a7103e3cf6aff531271c1912e454097c4199b765aa201d95d88a8352f",
+   "dependencies": {
+    "@arena/ctf-stress-pack/bots_v2/Player5.cpp": "5e8ff70a7103e3cf6aff531271c1912e454097c4199b765aa201d95d88a8352f"
+   },
+   "binary": "build/t0025/bots/Player5-68c2ffcd39c53d46.exe",
+   "binary_sha256": "62a1513cbe2ed68117843f1108ab992d121e27e229c43c42e56f9efcf0bb9dd9"
+  },
+  "Player6": {
+   "source": "@arena/ctf-stress-pack/bots/Player6.cpp",
+   "source_sha256": "155e464bb0afaf4560eba8fc6f9ffd7299561bc89b9f7fd68e14e3ae3bcff969",
+   "dependencies": {
+    "@arena/ctf-stress-pack/bots/Player6.cpp": "155e464bb0afaf4560eba8fc6f9ffd7299561bc89b9f7fd68e14e3ae3bcff969"
+   },
+   "binary": "build/t0025/bots/Player6-294a3c94755ae3e9.exe",
+   "binary_sha256": "ab0bd3a49874883866bbc4f653f1e6cb558956dff3fdeae79d324e65221e7a5d"
+  },
+  "Qwen": {
+   "source": "@arena/ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+   "source_sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+   },
+   "binary": "build/t0025/bots/qwen-3.8-max-ef761d2f69c0578d.exe",
+   "binary_sha256": "997ec2627e9f432934451b074ad1708e407d0324e25808371735b81c2002e9dd"
+  },
+  "R3_EXPECTIMAX_sampled": {
+   "source": "@arena/ctf-arena/Player7/workspace/experiments/round3/export/R3_EXPECTIMAX_sampled.cpp",
+   "source_sha256": "e5d7b750bce2c3da006110eff2e6c371470ab6fb5d2c461430bf44b443ede0f7",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/workspace/experiments/round3/export/R3_EXPECTIMAX_sampled.cpp": "e5d7b750bce2c3da006110eff2e6c371470ab6fb5d2c461430bf44b443ede0f7"
+   },
+   "binary": "build/t0025/bots/R3_EXPECTIMAX_sampled-95f13a86f57d392d.exe",
+   "binary_sha256": "4585ccd078c4e266d6c4f35eafc5bfd1e25bc774aea10d820933647400174818"
+  },
+  "Sol": {
+   "source": "@arena/ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+   "source_sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+   },
+   "binary": "build/t0025/bots/gpt-6.1-sol-ded0439f8f58baa4.exe",
+   "binary_sha256": "6999587eacff1594ef6ab7ac9818f83dad312de472eac2ea74fe57fa254608ad"
+  },
+  "Sonnet": {
+   "source": "@arena/ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+   "source_sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+   },
+   "binary": "build/t0025/bots/sonnet-5.5-49ae7d2837724c3c.exe",
+   "binary_sha256": "74e8960c67503d9e18587a50b4a230bc411aaa5d750dccc908b8d7aee1e66f4c"
+  },
+  "bot": {
+   "source": "@arena/New_AI_Test/Player5/workspace/submission/bot.cpp",
+   "source_sha256": "43e4fdf89e89cc63b4758c4210dd2fb6e279152aa37512b361e424e55079f516",
+   "dependencies": {
+    "@arena/New_AI_Test/Player5/workspace/submission/bot.cpp": "43e4fdf89e89cc63b4758c4210dd2fb6e279152aa37512b361e424e55079f516"
+   },
+   "binary": "build/t0025/bots/bot-5d72d9face51d8d5.exe",
+   "binary_sha256": "8a894fb2960cf46905df1dac01ede5ba3b99e62351b1c135f63236845ed1f2f8"
+  },
+  "bot_2": {
+   "source": "@arena/New_AI_Test/player7/workspace/submission/bot.cpp",
+   "source_sha256": "cddbf9f1a676d448f6d5fd1fd47c3e7ef244eb888a9e30d3e1db6be8f9a4b9a4",
+   "dependencies": {
+    "@arena/New_AI_Test/player7/workspace/submission/bot.cpp": "cddbf9f1a676d448f6d5fd1fd47c3e7ef244eb888a9e30d3e1db6be8f9a4b9a4"
+   },
+   "binary": "build/t0025/bots/bot-3ba76dc035dfb96e.exe",
+   "binary_sha256": "73783240568c90accc7693cebeb9440cd5d95f1986f2172eeb950f3ed132e88c"
+  },
+  "cand-011": {
+   "source": "@arena/New_AI_Test/Player2/workspace/experiments/cand-011.cpp",
+   "source_sha256": "296bb1d35c7e0c68ab050b1de8f082e9290d86d73511acbbf44c33be8c86af61",
+   "dependencies": {
+    "@arena/New_AI_Test/Player2/workspace/experiments/cand-011.cpp": "296bb1d35c7e0c68ab050b1de8f082e9290d86d73511acbbf44c33be8c86af61"
+   },
+   "binary": "build/t0025/bots/cand-011-5948e6e1c465a3bb.exe",
+   "binary_sha256": "6b67da4417d8dff334c4b626625caf572d47b0e1ccd6e10576edbed7c0dad4f5"
+  },
+  "cand-012": {
+   "source": "@arena/New_AI_Test/Player2/workspace/experiments/cand-012.cpp",
+   "source_sha256": "45ac4cb215a6d3cf171750e25711e4748fdf8a88d8f554d488000e95942ce251",
+   "dependencies": {
+    "@arena/New_AI_Test/Player2/workspace/experiments/cand-012.cpp": "45ac4cb215a6d3cf171750e25711e4748fdf8a88d8f554d488000e95942ce251"
+   },
+   "binary": "build/t0025/bots/cand-012-cddbd19dba2baa85.exe",
+   "binary_sha256": "cd38eaadcd265b9acf24fcb258ea4431dcde01258001f305dce59bf06a12e888"
+  },
+  "candidate-v002-risk": {
+   "source": "@arena/New_AI_Test/Player4/workspace/experiments/candidate-v002-risk.cpp",
+   "source_sha256": "a7e092b7be84dfd00788d05cf164b17323c3dbd56b1a6c84c3fc02e5993ac6fa",
+   "dependencies": {
+    "@arena/New_AI_Test/Player4/workspace/experiments/candidate-v002-risk.cpp": "a7e092b7be84dfd00788d05cf164b17323c3dbd56b1a6c84c3fc02e5993ac6fa"
+   },
+   "binary": "build/t0025/bots/candidate-v002-risk-4122a9b3d102655a.exe",
+   "binary_sha256": "e3c47b6b201ceb3c326dbfb13233f54f3e5b662fc68bf37b520f699f47099489"
+  },
+  "candidate-v005-15p-intercept": {
+   "source": "@arena/New_AI_Test/Player4/workspace/experiments/candidate-v005-15p-intercept.cpp",
+   "source_sha256": "bf6cc7acffe179b97ffc4c89a9e431dc60f3b80d263bb49aaf5d48380ccccf9f",
+   "dependencies": {
+    "@arena/New_AI_Test/Player4/workspace/experiments/candidate-v005-15p-intercept.cpp": "bf6cc7acffe179b97ffc4c89a9e431dc60f3b80d263bb49aaf5d48380ccccf9f"
+   },
+   "binary": "build/t0025/bots/candidate-v005-15p-intercept-840e245d580b6ed4.exe",
+   "binary_sha256": "78edc08f57467d814dc4109d189dc957ab9c6daf7c931ec16eb69a008b1d5855"
+  },
+  "ctf-arena_Player1_t2_snapshot_01076b3d": {
+   "source": "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp",
+   "source_sha256": "c5359a5a8efdc80d635f4178db2a928dc04bf4875da5e63d46d53bd305fe0614",
+   "dependencies": {
+    "@repo/roster/new_bots/independent/ctf-arena_Player1_t2_snapshot_01076b3d.cpp": "c5359a5a8efdc80d635f4178db2a928dc04bf4875da5e63d46d53bd305fe0614"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player1_t2_snapshot_01076b3d-5538ae3e3b8033fc.exe",
+   "binary_sha256": "bff3ff78c54eb1221c6d96660d1e3dbc4a36997b057120c9a3f61b3e2e2a37f5"
+  },
+  "ctf-arena_Player3_variants_bot_tune": {
+   "source": "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_tune.cpp",
+   "source_sha256": "b1f9b26600f21b4a09540d9791404533b3371cb222fa486dfcf7d1d924eef16b",
+   "dependencies": {
+    "@repo/roster/new_bots/forks/ctf-arena_Player3_variants_bot_tune.cpp": "b1f9b26600f21b4a09540d9791404533b3371cb222fa486dfcf7d1d924eef16b"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player3_variants_bot_tune-9ee211478fcc4a99.exe",
+   "binary_sha256": "2d8e45d8d1e2b5f635545cabf29e1cb30953f0953bdc2cc2646b57fd37262fac"
+  },
+  "ctf-arena_Player4_v2": {
+   "source": "@repo/roster/new_bots/independent/ctf-arena_Player4_v2.cpp",
+   "source_sha256": "90038f9ab9b6120938e852cbb13b3a1bd9c074e568a5f648a55a0ec49681b779",
+   "dependencies": {
+    "@repo/roster/new_bots/independent/ctf-arena_Player4_v2.cpp": "90038f9ab9b6120938e852cbb13b3a1bd9c074e568a5f648a55a0ec49681b779"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player4_v2-386d9fc56554b963.exe",
+   "binary_sha256": "793e86ef95ff056c8668e1eb05c87cba2ecf46770d08e0668824e1644baa98c8"
+  },
+  "ctf-arena_Player4_v3": {
+   "source": "@repo/roster/new_bots/forks/ctf-arena_Player4_v3.cpp",
+   "source_sha256": "52699e6a48b639255098f61c965c14b30f33041403a65fb07786864b49bf327b",
+   "dependencies": {
+    "@repo/roster/new_bots/forks/ctf-arena_Player4_v3.cpp": "52699e6a48b639255098f61c965c14b30f33041403a65fb07786864b49bf327b"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player4_v3-f119bf18c7bb14a3.exe",
+   "binary_sha256": "aa5da817b9767d59aa0b0127e458ff61215dcd0b25d45c687c19d26d075a17d0"
+  },
+  "ctf-arena_Player4_v5": {
+   "source": "@repo/roster/new_bots/forks/ctf-arena_Player4_v5.cpp",
+   "source_sha256": "66dd28e460f019a86754728c63067d9aa575b87789d4221b32cb3cae22a69484",
+   "dependencies": {
+    "@repo/roster/new_bots/forks/ctf-arena_Player4_v5.cpp": "66dd28e460f019a86754728c63067d9aa575b87789d4221b32cb3cae22a69484"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player4_v5-739b29b94fe43790.exe",
+   "binary_sha256": "41e21533c9718816fe882d873ea33fb8611a98ca06433c48778c4e7b010ae762"
+  },
+  "ctf-arena_Player4_v9_latest": {
+   "source": "@repo/roster/new_bots/forks/ctf-arena_Player4_v9_latest.cpp",
+   "source_sha256": "6d4e7daa179edd48c076be61f6e7c874541f879b62eba64ad74cd5a354768607",
+   "dependencies": {
+    "@repo/roster/new_bots/forks/ctf-arena_Player4_v9_latest.cpp": "6d4e7daa179edd48c076be61f6e7c874541f879b62eba64ad74cd5a354768607"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player4_v9_latest-4a272a2602266cfc.exe",
+   "binary_sha256": "f90a14f76180b80acd5e2373594ccfda5f964bd159fcdf8b5ed74e8ea4ac842c"
+  },
+  "ctf-arena_Player5_fortress": {
+   "source": "@repo/roster/new_bots/forks/ctf-arena_Player5_fortress.cpp",
+   "source_sha256": "00c624632e2f3f5898fc9728f32fcf562352d79c5df6e6cdb470d80bcd06143e",
+   "dependencies": {
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_fortress.cpp": "00c624632e2f3f5898fc9728f32fcf562352d79c5df6e6cdb470d80bcd06143e"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player5_fortress-16b5c0d0c50c9087.exe",
+   "binary_sha256": "8ae31b059082648070fc46ac2a038d711a9447bc1af3e3aa1f497ecec3f964af"
+  },
+  "ctf-arena_Player5_hunter": {
+   "source": "@repo/roster/new_bots/forks/ctf-arena_Player5_hunter.cpp",
+   "source_sha256": "c0c8471402f9d47758dbbf7228995847b2d969d1cdb6ee0b6ff906cb13165d8e",
+   "dependencies": {
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_hunter.cpp": "c0c8471402f9d47758dbbf7228995847b2d969d1cdb6ee0b6ff906cb13165d8e"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player5_hunter-9cda106bff7648e2.exe",
+   "binary_sha256": "ec47c44f1ee0de2280206201c223fdaa0374b2ba3cc05d8f1b47205a79f04bad"
+  },
+  "ctf-arena_Player5_macro_v2": {
+   "source": "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v2.cpp",
+   "source_sha256": "3f38b4e7a241da258bad6f21324122e12a6e3c0d5258729fcab144effdc8142e",
+   "dependencies": {
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_macro_v2.cpp": "3f38b4e7a241da258bad6f21324122e12a6e3c0d5258729fcab144effdc8142e"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player5_macro_v2-9a77cface17e50ad.exe",
+   "binary_sha256": "2db00347a4bd84fef55e94354c429ae68d9302492809f20f0a97b049acd9fcf6"
+  },
+  "ctf-arena_Player5_round3_macro_candidate": {
+   "source": "@repo/roster/new_bots/forks/ctf-arena_Player5_round3_macro_candidate.cpp",
+   "source_sha256": "2b29f549c2cb2b2a2af484d011418c9a58a88101dbabd0ab41c60dd04bd74cff",
+   "dependencies": {
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_round3_macro_candidate.cpp": "2b29f549c2cb2b2a2af484d011418c9a58a88101dbabd0ab41c60dd04bd74cff"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player5_round3_macro_candidate-7d9365da56d9ac54.exe",
+   "binary_sha256": "2c1240e4fc0ca7880bcd0fd6779b1bbc32f01f1092ce71901cfca6767657540b"
+  },
+  "ctf-arena_Player5_runner_v8": {
+   "source": "@repo/roster/new_bots/forks/ctf-arena_Player5_runner_v8.cpp",
+   "source_sha256": "b5b6521b0aae56696887ed23284d6bd1637fa58554072e6bd6c0a9cd4d49c481",
+   "dependencies": {
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_runner_v8.cpp": "b5b6521b0aae56696887ed23284d6bd1637fa58554072e6bd6c0a9cd4d49c481"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player5_runner_v8-ac7fb4204300e034.exe",
+   "binary_sha256": "255dc9cbef8f7249cf18d2295e41ddd480f6d566607601649ca616560d246d9d"
+  },
+  "ctf-arena_Player5_sparring": {
+   "source": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring.cpp",
+   "source_sha256": "a1e3635d7d18702e2be33a642b1015ab3cd0bd9809d0b03caf65be29d00eb827",
+   "dependencies": {
+    "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring.cpp": "a1e3635d7d18702e2be33a642b1015ab3cd0bd9809d0b03caf65be29d00eb827"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player5_sparring-9ef90b97ab779298.exe",
+   "binary_sha256": "32b5d5693e7b8fcb9372ebf7aa209b26a656852ccd745c9c0370678094fd8864"
+  },
+  "ctf-arena_Player5_sparring_adaptive": {
+   "source": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_adaptive.cpp",
+   "source_sha256": "a606f8814b7055fc0894fbf35f4e796896e158bfca3204ba787b5d399c079cfb",
+   "dependencies": {
+    "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_adaptive.cpp": "a606f8814b7055fc0894fbf35f4e796896e158bfca3204ba787b5d399c079cfb"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player5_sparring_adaptive-7cdcfa3f41303efd.exe",
+   "binary_sha256": "018623c81d7630c9b41430ac8cbd66ddbfb5ebe440172b4c56c6f5deb8d78ba1"
+  },
+  "ctf-arena_Player5_sparring_raider": {
+   "source": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_raider.cpp",
+   "source_sha256": "ee6d0ad5c276d2c9a3c51e7cf78c64debcb6ca3af13b1c5fe1b426a67d5d6b34",
+   "dependencies": {
+    "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_raider.cpp": "ee6d0ad5c276d2c9a3c51e7cf78c64debcb6ca3af13b1c5fe1b426a67d5d6b34"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player5_sparring_raider-54d47ebdc7d91f90.exe",
+   "binary_sha256": "1508a74c208119263920d1f80055a59da77e1e963a516a6a99a50dfe2bf26c0d"
+  },
+  "ctf-arena_Player5_sparring_runner": {
+   "source": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_runner.cpp",
+   "source_sha256": "ac5ef1fd2e0b933f8c1efb5356caf22896f95e36214ec2b9bab8ff20f93c8a8b",
+   "dependencies": {
+    "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_runner.cpp": "ac5ef1fd2e0b933f8c1efb5356caf22896f95e36214ec2b9bab8ff20f93c8a8b"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player5_sparring_runner-a378ff9797190127.exe",
+   "binary_sha256": "a11761db08990c7f1037696a698e0dbd3b740fdae329c6ac3d1c8de6589b6516"
+  },
+  "ctf-arena_Player5_v12_rollout_volley": {
+   "source": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp",
+   "source_sha256": "341750931064a2f2560cb8521b7c2050dba7a3d6e888401091a33f61d63395f3",
+   "dependencies": {
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp": "341750931064a2f2560cb8521b7c2050dba7a3d6e888401091a33f61d63395f3"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player5_v12_rollout_volley-55d1b5f642a28506.exe",
+   "binary_sha256": "ea34e544aa0b93d276e3c9c4a5d76639267adf0571e7ffe745a4639073f4f9c9"
+  },
+  "ctf-arena_Player5_v12_volley_trio": {
+   "source": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_volley_trio.cpp",
+   "source_sha256": "e08585e53e1b66fbb729e09c4c9c02a95bd2bce1ebf3943af1e5da89a15c01e6",
+   "dependencies": {
+    "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_volley_trio.cpp": "e08585e53e1b66fbb729e09c4c9c02a95bd2bce1ebf3943af1e5da89a15c01e6"
+   },
+   "binary": "build/t0025/bots/ctf-arena_Player5_v12_volley_trio-76dc023c725138ee.exe",
+   "binary_sha256": "9b69f04d0bcdfe958913b21a8c1ce598dd355d05ddafa9bfbdd6f6cb24661d36"
+  },
+  "doubao-seed-2.1-turbo": {
+   "source": "@arena/ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp",
+   "source_sha256": "79a762bdabf318e8c91f94895593036bb16731f88239434dd0ef1cc7bcddfd39",
+   "dependencies": {
+    "@arena/ctf-arena/Player7/judge/ctf/bots/doubao-seed-2.1-turbo.cpp": "79a762bdabf318e8c91f94895593036bb16731f88239434dd0ef1cc7bcddfd39"
+   },
+   "binary": "build/t0025/bots/doubao-seed-2.1-turbo-2a45158deb3e5828.exe",
+   "binary_sha256": "fd470e4cc1931053db64faeb317ce52447b06b4a031ee3da716e64f42be76752"
+  },
+  "incumbent-v001": {
+   "source": "@arena/New_AI_Test/Player2/workspace/experiments/incumbent-v001.cpp",
+   "source_sha256": "b6a3a8062cd8c5659615ea4a49350b3225e1654c3382f8289b22e37db8ca60d2",
+   "dependencies": {
+    "@arena/New_AI_Test/Player2/workspace/experiments/incumbent-v001.cpp": "b6a3a8062cd8c5659615ea4a49350b3225e1654c3382f8289b22e37db8ca60d2"
+   },
+   "binary": "build/t0025/bots/incumbent-v001-1564d6ae164f0410.exe",
+   "binary_sha256": "cee2e849e59264fece098beb704354e958a2f0d5cabe939f138e2cd9e96e8b15"
+  },
+  "incumbent-v001_2": {
+   "source": "@arena/New_AI_Test/Player3/workspace/experiments/incumbent-v001.cpp",
+   "source_sha256": "843c72163ac36abca96b3305c0dbde45635ad16dc5613e06c462e46e6baae1d1",
+   "dependencies": {
+    "@arena/New_AI_Test/Player3/workspace/experiments/incumbent-v001.cpp": "843c72163ac36abca96b3305c0dbde45635ad16dc5613e06c462e46e6baae1d1"
+   },
+   "binary": "build/t0025/bots/incumbent-v001-bdc4790a5a825c44.exe",
+   "binary_sha256": "f6e2945bd04bb09d01da51d171b1c003dee524fa53b94d857c18000ea47dc7d3"
+  }
+ },
+ "model_input_preparation_sha256": "4b5a882c8a1aac6556f9eec732a331ace28b6267b6735c00f84e9030a3669067",
+ "training_lineage_audit_sha256": "572bdf66f6126f08b28a750ccda5ec26a9cd7e9ec77e4cd80c4a05baa4d2f968",
+ "identity": "bcf256fc3f1b1c217060fdd0af31018555ed731731ae4452e96badbdc310c467"
+}
