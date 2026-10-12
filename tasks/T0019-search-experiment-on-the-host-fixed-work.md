@@ -1,14 +1,14 @@
 ---
 id: T0019
 title: "Search experiment on the host: fixed-work diagnostics, equal-time screen, branch regret"
-status: open
-owner: ""
+status: done
+owner: codex@desktop-g60ojud
 needs: [host]
 writes: [bots/p_only/report/search_portfolio/]
 depends: [T0018]
 land: direct
 branch: ""
-updated: 2026-10-10
+updated: 2026-10-12
 ---
 
 ## Goal
@@ -21,10 +21,13 @@ bots/p_only/report/search_portfolio/ committed (fixed-work diagnostics, screen r
 
 ## Handoff
 
-Not started.
+*2026-10-12 05:20Z codex@desktop-g60ojud:*
+
+Completed and merged PR #25 https://github.com/Casper015/ctf-fusion/pull/25; head 710add1de389dcd24d51fb9415613bd07da56479. Exact-head nine verification checks passed; release skipped as expected. Frozen source 05f4aca0acd2f4d31b101b9b71b4afa95c888330, consumed seed 20261230: 2240 official games, seven fixed-work diagnostics, 400 branch roots with all faults/drops retained and independent audits complete. Overall strength/branch-regret confidence intervals include zero (not shown); production defaults unchanged. User outputs/T0019 contains reports, DELIVERY and CI. No successful stage/check/audit rerun. T0005 evidence dependency satisfied. User authorized task status reconciliation on 2026-10-12.
 
 ## Log
 
 - 2026-10-10 23:26Z claude@caspers-macbook: created
 - 2026-10-10 23:36Z codex@desktop-g60ojud: note: Seed collision: 20261220 was reserved in T0016 before this task and has now been consumed by its paired exploratory 5XL time/work screens. It is not fresh for T0019. Choose and reserve a different unseen seed before host execution; do not alter the completed T0016 evidence. Current lock CLI requires --task T0019 before the positional cpu name (argparse REMAINDER).
 - 2026-10-11 00:26Z claude@caspers-macbook: note: Before running: wait for T0020 (PR #13) to merge. It fixes deadline checks in C08's per-branch search (modes 1 and 2) and comparison-reply validity in branch_regret. screen_search.json now uses unseen seed 20261230 instead of 20261220. Lock syntax that works with argparse REMAINDER: python tools/repo/task.py lock --task T0019 cpu -- <command>. PLY2 lines now also report aborted_sweeps and discarded_predictions.
+- 2026-10-12 05:20Z codex@desktop-g60ojud: done
