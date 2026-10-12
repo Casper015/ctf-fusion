@@ -1,14 +1,14 @@
 ---
 id: T0013
 title: "P feature screen: p2 vs p3 at equal full-turn time, V off, and extraction cost"
-status: open
-owner: ""
+status: review
+owner: codex@desktop-g60ojud
 needs: [host]
 writes: [bots/p_only/report/p_features/, reports/host/feature_cost_DESKTOP-G60OJUD.json, reports/host/feature_cost_DESKTOP-G60OJUD.md]
 depends: [T0011]
 land: direct
 branch: ""
-updated: 2026-10-10
+updated: 2026-10-12
 ---
 
 ## Goal
@@ -21,8 +21,11 @@ bots/p_only/report/p_features/ and reports/host/feature_cost_DESKTOP-G60OJUD.* c
 
 ## Handoff
 
-Not started.
+*2026-10-12 06:27Z codex@desktop-g60ojud:*
+
+PR29 https://github.com/Casper015/ctf-fusion/pull/29 open for review; head c3b6e59cd87b4b6d68b3f1e4a265dd135e9d4bea, branch codex/t0013-p-features-host-evidence. All1960 official games (seed20261210, Voff, 2000/50ms, sixworkers) and actual-weight cost probes complete. v12 P3-P2 +.01102 CI[-.01761,.03965], C08+.00209[-.02559,.02977]: both and every prespecified band/reference comparison/interaction not shown. AA all280scorevectors identical. Independent audit checks1960rawgames/784000turnblocks/6664000allseat replies; zeroallseatfault/missinginvalid/candidatelate. Core224=223pass1platformskip, layout6pass; report/source/hash audits retained. P3costhigher, C08samplesP2/P3 360.1/276.0; not enough strength evidence to change defaults. No replay/export/retraining/defaultchange. reports bots/p_only/report/p_features/RESULTS.md and reports/host/feature_cost_DESKTOP-G60OJUD.*; user outputs/T0013 contains21GitLF reports/DELIVERY/transport. CI pending on exacthead; keep review until accepted. Finishedstages neverrestart, consumedseedneverreuse. T0032 remains separate candidate/budget, offline teacher not deployed.
 
 ## Log
 
 - 2026-10-10 19:24Z claude@caspers-macbook: created
+- 2026-10-12 06:27Z codex@desktop-g60ojud: handoff -> review
