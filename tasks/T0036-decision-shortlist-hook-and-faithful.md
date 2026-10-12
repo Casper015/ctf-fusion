@@ -1,7 +1,7 @@
 ---
 id: T0036
 title: "Decision shortlist hook and faithful branch collector (code only)"
-status: active
+status: review
 owner: claude-ci@caspers-macbook
 needs: []
 writes: [bots/p_only/bots/c08_ponly.hpp, bots/p_only/bots/c08_ponly_f.hpp, bots/p_only/bots/v12_ponly.hpp, bots/p_only/bots/v12_ponly_f.hpp, bots/p_only/bots/variants/, bots/p_only/include/decision_hook.hpp, bots/p_only/profiles/variants_decision.json, bots/p_only/tests/test_decision_hook.py, bots/p_only/tools/derive/make_c08.py, bots/p_only/tools/derive/make_families.py, bots/p_only/tools/derive/make_v12.py, tests/test_decision_branch_collect.py, training/decision_branch_collect.py]
@@ -29,7 +29,21 @@ Reviewed code PR merged: actual complete shortlist/score logging, disabled/zero-
 
 ## Handoff
 
-Not started.
+*2026-10-12 09:38Z claude-ci@caspers-macbook:*
+
+PR https://github.com/Casper015/ctf-fusion/pull/33, stacked on PR #32 (T0035): its base is T0035's branch; retarget it to main after #32 merges. Claimed with --force while T0035 was in review (both held by claude-ci@caspers-macbook). Code only: no collection, training, deployment or host timing; no seed consumed.
+
+Done (d186034 on 070a517): decision_hook.hpp (PONLY_DECISION 0 off / 1 log-only / 2 refused), make_families.py edits and regenerated v12_ponly_f.hpp/c08_ponly_f.hpp (production v12_ponly.hpp/c08_ponly.hpp untouched), variants v12_ponly_xxl_dlog/c08_ponly_xxl_dlog with bots/p_only/profiles/variants_decision.json (role decision_log), training/decision_branch_collect.py, tests (P-only test_decision_hook 4, core test_decision_branch_collect 11; P-only suite 50 OK/3 skipped, core 291 OK/43 skipped). Locally on recorded inputs: Python root digest equals the hook's on 1600 turns; off and log-only orders identical.
+
+Needed before T0037 (one small config change once #32 merges, in T0035's files): profiles/decision_opponents.json designated.variant -> v12_ponly_xxl_dlog; profiles/decision_variants.json catalogs += bots/p_only/profiles/variants_decision.json and exclude_roles += decision_log (so the log carriers are never opponents). Data from this hooked family build is a new carrier version (Refresh rule); do not pool it with v12_ponly_xxl data.
+
+Host (not run here):
+  1. Budget: python bots/p_only/tools/build.py --variants bots/p_only/profiles/variants_decision.json --stats, then a paired equal-time timing screen (bots/p_only/tools/screen_runner.py) of v12_ponly_xxl vs v12_ponly_xxl_dlog with an A/A copy on a fresh unused seed: full-reply first/p50/p99/max, late replies and faults at 1/6/15 concurrent copies, all inside the official 50 ms; the log must add no lateness.
+  2. Collection: T0035's decision_collect list/schedule/prepare/collect with the hooked designated carrier, then
+     python tools/repo/task.py lock cpu --task T0037 -- python -m training.decision_branch_collect --frozen build/decision/run1/FROZEN.json --matches data/decision/run1/matches --out data/decision/run1/branches --repeats 4 --alternatives 3 --workers 6 --ai-test $AI_TEST_ROOT
+  3. Dataset: python -m training.decision_dataset --branches data/decision/run1/branches --matches data/decision/run1/matches --carrier-config <derived from the run's receipts> --out data/decision/run1/dataset (authoritative only with a strict audit receipt from source-digests).
+
+Specified, not implemented: C++/Python feature-parity test for a future scoring route (encode the root and each shortlisted order in C++ with the extractor's encoders and compare with fusion.decision_features.root_features/candidate_features on recorded roots, bit for bit after scaling). Not checked: no 15-team hook replay in tests (v12's refine deadline makes it machine-dependent); C08 'checked' turns where the lookahead replaced the search choice are reported, not scored (11 of 400 on the n04 fixture).
 
 ## Log
 
@@ -38,3 +52,4 @@ Not started.
 - 2026-10-12 09:18Z claude-ci@caspers-macbook: note: Claimed with --force while T0035 is in review (PR #32): both are held by claude-ci@caspers-macbook at the user's request to code T0035 and T0036; T0036's branch is stacked on T0035's and its PR will target it until #32 merges.
 - 2026-10-12 09:24Z claude-ci@caspers-macbook: amended writes -> bots/p_only/bots/c08_ponly.hpp, bots/p_only/bots/c08_ponly_f.hpp, bots/p_only/bots/v12_ponly.hpp, bots/p_only/bots/v12_ponly_f.hpp, bots/p_only/bots/variants/, bots/p_only/include/decision_hook.hpp, bots/p_only/profiles/variants_decision.json, bots/p_only/tests/test_decision_hook.py, bots/p_only/tools/derive/make_c08.py, bots/p_only/tools/derive/make_families.py, bots/p_only/tools/derive/make_v12.py, tests/test_decision_branch_collect.py, training/decision_branch_collect.py
 - 2026-10-12 09:38Z claude-ci@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/33 (stacked on #32)
+- 2026-10-12 09:38Z claude-ci@caspers-macbook: handoff -> review
