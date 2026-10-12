@@ -1,0 +1,340 @@
+{
+ "fixtures_scheduled": 306,
+ "games": 306,
+ "errors": 0,
+ "error_fixtures": [],
+ "per_count": {
+  "2": {
+   "games": 34,
+   "seat_faults": 0,
+   "seat_late": 0,
+   "dead": 0,
+   "designated_faults": 0,
+   "stages": {
+    "beam": 3665,
+    "refine": 9935
+   },
+   "k": {
+    "1": 273,
+    "4": 7,
+    "5": 1931,
+    "8": 11389
+   },
+   "turn_reasons": {
+    "fewer than two scored orders (K = 1)": 269,
+    "usable": 12957
+   },
+   "roots": 34,
+   "opportunity_turns": {
+    "contact": 2858,
+    "flag": 6715,
+    "quiet": 1277,
+    "respawn": 2750
+   },
+   "selected_root_strata": {
+    "contact": 8,
+    "flag": 18,
+    "quiet": 3,
+    "respawn": 5
+   },
+   "designated_utility_mean": 0.8088
+  },
+  "3": {
+   "games": 34,
+   "seat_faults": 0,
+   "seat_late": 0,
+   "dead": 0,
+   "designated_faults": 0,
+   "stages": {
+    "beam": 3990,
+    "refine": 9610
+   },
+   "k": {
+    "1": 130,
+    "4": 41,
+    "5": 1203,
+    "8": 12226
+   },
+   "turn_reasons": {
+    "fewer than two scored orders (K = 1)": 130,
+    "usable": 13096
+   },
+   "roots": 34,
+   "opportunity_turns": {
+    "contact": 2689,
+    "flag": 5166,
+    "quiet": 2556,
+    "respawn": 3189
+   },
+   "selected_root_strata": {
+    "contact": 7,
+    "flag": 11,
+    "quiet": 10,
+    "respawn": 6
+   },
+   "designated_utility_mean": 0.625
+  },
+  "4": {
+   "games": 34,
+   "seat_faults": 0,
+   "seat_late": 0,
+   "dead": 0,
+   "designated_faults": 0,
+   "stages": {
+    "beam": 3178,
+    "cut": 1,
+    "refine": 10421
+   },
+   "k": {
+    "1": 168,
+    "4": 36,
+    "5": 1444,
+    "8": 11952
+   },
+   "turn_reasons": {
+    "a deadline cut the refinement: the reply is the beam choice, the refined scores are partial": 1,
+    "fewer than two scored orders (K = 1)": 168,
+    "usable": 13057
+   },
+   "roots": 34,
+   "opportunity_turns": {
+    "contact": 3494,
+    "flag": 4443,
+    "quiet": 2218,
+    "respawn": 3445
+   },
+   "selected_root_strata": {
+    "contact": 10,
+    "flag": 8,
+    "quiet": 6,
+    "respawn": 10
+   },
+   "designated_utility_mean": 0.6176
+  },
+  "5": {
+   "games": 34,
+   "seat_faults": 0,
+   "seat_late": 0,
+   "dead": 0,
+   "designated_faults": 0,
+   "stages": {
+    "beam": 2291,
+    "refine": 11309
+   },
+   "k": {
+    "1": 378,
+    "4": 69,
+    "5": 2386,
+    "8": 10767
+   },
+   "turn_reasons": {
+    "fewer than two scored orders (K = 1)": 377,
+    "usable": 12849
+   },
+   "roots": 34,
+   "opportunity_turns": {
+    "contact": 3671,
+    "flag": 5452,
+    "quiet": 1028,
+    "respawn": 3449
+   },
+   "selected_root_strata": {
+    "contact": 9,
+    "flag": 14,
+    "quiet": 1,
+    "respawn": 10
+   },
+   "designated_utility_mean": 0.5846
+  },
+  "6": {
+   "games": 34,
+   "seat_faults": 0,
+   "seat_late": 0,
+   "dead": 0,
+   "designated_faults": 0,
+   "stages": {
+    "beam": 3760,
+    "cut": 7,
+    "refine": 9833
+   },
+   "k": {
+    "1": 131,
+    "3": 1,
+    "4": 99,
+    "5": 1045,
+    "8": 12324
+   },
+   "turn_reasons": {
+    "a deadline cut the refinement: the reply is the beam choice, the refined scores are partial": 7,
+    "fewer than two scored orders (K = 1)": 125,
+    "usable": 13094
+   },
+   "roots": 34,
+   "opportunity_turns": {
+    "contact": 3337,
+    "flag": 4721,
+    "quiet": 2250,
+    "respawn": 3292
+   },
+   "selected_root_strata": {
+    "contact": 4,
+    "flag": 14,
+    "quiet": 9,
+    "respawn": 7
+   },
+   "designated_utility_mean": 0.6676
+  },
+  "7": {
+   "games": 34,
+   "seat_faults": 0,
+   "seat_late": 0,
+   "dead": 0,
+   "designated_faults": 0,
+   "stages": {
+    "beam": 3210,
+    "cut": 27,
+    "refine": 10363
+   },
+   "k": {
+    "1": 182,
+    "4": 181,
+    "5": 1366,
+    "8": 11871
+   },
+   "turn_reasons": {
+    "a deadline cut the refinement: the reply is the beam choice, the refined scores are partial": 27,
+    "fewer than two scored orders (K = 1)": 176,
+    "usable": 13023
+   },
+   "roots": 34,
+   "opportunity_turns": {
+    "contact": 3302,
+    "flag": 5445,
+    "quiet": 1831,
+    "respawn": 3022
+   },
+   "selected_root_strata": {
+    "contact": 7,
+    "flag": 11,
+    "quiet": 6,
+    "respawn": 10
+   },
+   "designated_utility_mean": 0.6152
+  },
+  "8": {
+   "games": 34,
+   "seat_faults": 0,
+   "seat_late": 0,
+   "dead": 0,
+   "designated_faults": 0,
+   "stages": {
+    "beam": 2782,
+    "cut": 146,
+    "refine": 10672
+   },
+   "k": {
+    "1": 243,
+    "4": 205,
+    "5": 1714,
+    "8": 11438
+   },
+   "turn_reasons": {
+    "a deadline cut the refinement: the reply is the beam choice, the refined scores are partial": 141,
+    "fewer than two scored orders (K = 1)": 240,
+    "usable": 12845
+   },
+   "roots": 34,
+   "opportunity_turns": {
+    "contact": 3534,
+    "flag": 5129,
+    "quiet": 1530,
+    "respawn": 3407
+   },
+   "selected_root_strata": {
+    "contact": 11,
+    "flag": 13,
+    "quiet": 5,
+    "respawn": 5
+   },
+   "designated_utility_mean": 0.6555
+  },
+  "9": {
+   "games": 34,
+   "seat_faults": 2,
+   "seat_late": 0,
+   "dead": 0,
+   "designated_faults": 1,
+   "stages": {
+    "beam": 2412,
+    "cut": 200,
+    "no log": 1,
+    "refine": 10987
+   },
+   "k": {
+    "1": 330,
+    "3": 1,
+    "4": 293,
+    "5": 1806,
+    "8": 11169
+   },
+   "turn_reasons": {
+    "a deadline cut the refinement: the reply is the beam choice, the refined scores are partial": 198,
+    "fewer than two scored orders (K = 1)": 325,
+    "no log": 1,
+    "usable": 12702
+   },
+   "roots": 34,
+   "opportunity_turns": {
+    "contact": 3387,
+    "flag": 5783,
+    "quiet": 1227,
+    "respawn": 3203
+   },
+   "selected_root_strata": {
+    "contact": 8,
+    "flag": 15,
+    "quiet": 3,
+    "respawn": 8
+   },
+   "designated_utility_mean": 0.6618
+  },
+  "10": {
+   "games": 34,
+   "seat_faults": 0,
+   "seat_late": 0,
+   "dead": 0,
+   "designated_faults": 0,
+   "stages": {
+    "beam": 2140,
+    "cut": 352,
+    "refine": 11108
+   },
+   "k": {
+    "1": 341,
+    "4": 299,
+    "5": 2063,
+    "8": 10897
+   },
+   "turn_reasons": {
+    "a deadline cut the refinement: the reply is the beam choice, the refined scores are partial": 348,
+    "fewer than two scored orders (K = 1)": 341,
+    "usable": 12537
+   },
+   "roots": 34,
+   "opportunity_turns": {
+    "contact": 3631,
+    "flag": 5453,
+    "quiet": 1093,
+    "respawn": 3423
+   },
+   "selected_root_strata": {
+    "contact": 11,
+    "flag": 10,
+    "quiet": 2,
+    "respawn": 11
+   },
+   "designated_utility_mean": 0.6356
+  }
+ },
+ "frozen_identity": "06b5ccacdafe75abdbe5969538710c48352c3c5ec4a340a65aaa743c9e161de1"
+}

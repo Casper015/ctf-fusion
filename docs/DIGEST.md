@@ -433,6 +433,7 @@ Never reuse a seed for a new comparison. Pick one that is not in this table, and
 
 | Seed | Used by |
 |---|---|
+| 20261501 | T0037 Colab stage-1 decision collection: 306 maps, 2–10 teams; training-only, consumed; branches pending |
 | 20261009 | Roster light strength screen |
 | 20261019 | Recommended-pool pilot (400 matches) |
 | 20261020 | Carrier P pilot, V ablation, 1,000-game tournament |
@@ -468,3 +469,9 @@ These records are kept as they are. Fix them through their generator or owner ta
 - **For Casper, in T0001's log:** drop T0001? Its move check can no longer pass, and T0002 waits on it.
 - **The official field.** Are the judge bots plus other submissions the real opponents? P is only as good as the overlap between the training pool and that field (REVIEW §6).
 - **Whether V helps at all.** No V configuration has shown a benefit so far (T0003; T0022's fresh-map V3-XL was not shown). The V pilots T0012 and T0014 were retired unstarted on 2026-10-12; deployed V stays off, and decision learning (RL_PLAN) is the conditional route.
+
+## T0037 Colab stage-1 collection
+
+**Sources:** [stage-1 report](../bots/p_only/report/decision_collection/colab_20261012/RESULTS.md).
+
+306 whole matches (34 maps each at 2–10 teams), all with usable roots, are backed up and verified. Two retained faults occurred in one 9-team fixture. Counts 11–15 failed the bounded Colab load gate and remain uncollected. Colab results are not host timing or strength evidence. Branch continuations wait for T0040 / PR #36; candidate/repeat labels, noise and learnability remain unmeasured. This partial report does not close T0037 or unlock T0038. Seed 20261501 is consumed.

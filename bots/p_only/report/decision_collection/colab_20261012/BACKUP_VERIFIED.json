@@ -1,0 +1,27 @@
+{
+  "archive_sha256": "2d04629757e68d783df5dcb2a093a4a23fb356d8f2a0f41f63ebef07db73e970",
+  "bytes": 21894921,
+  "verified_files": 631,
+  "matches": 306,
+  "rows": 306,
+  "all_file_hashes_pass": true,
+  "fault_seats": [
+    {
+      "fixture_id": "s20261501-n09-m00032",
+      "seat": 3,
+      "name": "c08_ponly_xxl",
+      "faults": 1,
+      "late": 0,
+      "dead": null
+    },
+    {
+      "fixture_id": "s20261501-n09-m00032",
+      "seat": 6,
+      "name": "@candidate",
+      "faults": 1,
+      "late": 0,
+      "dead": null
+    }
+  ],
+  "stage": "whole-match collection only; branch continuations pending"
+}

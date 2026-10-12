@@ -1,0 +1,43 @@
+{
+ "@candidate": {
+  "identical_share": 1.0,
+  "turns": 400,
+  "p99_ms": [
+   3.708,
+   5.679
+  ],
+  "faults": [
+   0,
+   0
+  ]
+ },
+ "v12_ponly_xxl": {
+  "identical_share": 1.0,
+  "turns": 400,
+  "p99_ms": [
+   3.789,
+   3.673
+  ],
+  "faults": [
+   0,
+   0
+  ]
+ },
+ "c08_ponly_xxl": {
+  "identical_share": 0.98,
+  "turns": 400,
+  "p99_ms": [
+   30.753,
+   30.711
+  ],
+  "faults": [
+   0,
+   0
+  ]
+ },
+ "cross": {
+  "designated_vs_v12_ponly_xxl": 1.0,
+  "v12_vs_c08": 0.4225
+ },
+ "probe": "seat 0 of n04-s1-000000.json.gz, other seats Baseline; recorded state, replies not applied"
+}
