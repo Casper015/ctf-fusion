@@ -1,13 +1,13 @@
 ---
 id: T0034
 title: "Decision learning: action-gain scorer and reliable evaluation (code only)"
-status: open
-owner: ""
+status: active
+owner: claude-ci@caspers-macbook
 needs: []
 writes: [docs/RL_PLAN.md, fusion/decision_features.py, training/decision_dataset.py, training/decision_noise.py, training/train_decision_ranker.py, training/evaluate_decisions.py, training/export_weights.py, training/export_mixed.py, tests/test_decision_learning.py]
 depends: [T0011, T0030]
 land: pr
-branch: ""
+branch: claude-ci/t0034-decision-learning-action-gain-scorer-and
 updated: 2026-10-12
 ---
 
@@ -85,3 +85,4 @@ Not started.
 ## Log
 
 - 2026-10-12 05:58Z codex-rl-plan@caspers-macbook: created
+- 2026-10-12 06:02Z claude-ci@caspers-macbook: claimed
