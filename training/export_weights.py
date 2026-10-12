@@ -66,9 +66,21 @@ def input_specs(layout: Layout, policy_family: str = "p2", value_family: str = "
     return {"mover": mover, "squad": squad, "act": mover, "target": target, "value": (layout.value_scale(value_family), lo, hi)}
 
 
+# Run kinds that are never opponent P or board value V (fusion/decision_features.py: our own complete orders).
+NOT_P_OR_V = ("own_action_scorer",)
+
+
+def refuse_foreign_kind(cfg: dict, run) -> None:
+    """An own-action scorer must never be exported or loaded as opponent P or legacy V."""
+    if cfg.get("kind") in NOT_P_OR_V:
+        raise SystemExit(f"{run}: kind {cfg['kind']!r} is our own action scorer, not opponent P or V; it cannot be "
+                         "exported or loaded as either")
+
+
 def run_config(run: Path, layout: Layout, kind: str = "policy") -> dict:
-    """A run's config.json; refuses a run whose feature family the extractor does not reproduce."""
+    """A run's config.json; refuses an own-action scorer and a run whose feature family the extractor does not reproduce."""
     cfg = json.loads((Path(run) / "config.json").read_text(encoding="utf-8"))
+    refuse_foreign_kind(cfg, run)
     families.check(layout.schema, families.run_features(cfg, kind), str(run))
     return cfg
 
