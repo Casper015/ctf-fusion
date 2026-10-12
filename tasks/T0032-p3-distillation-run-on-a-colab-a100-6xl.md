@@ -1,6 +1,6 @@
 ---
 id: T0032
-title: "P3 distillation run on a Colab A100: 6XL teacher, XXL warmup/distill/QAT, three seeds"
+title: "P3 distillation run on Colab: 8XL teacher, XXL warmup/distill/QAT, three seeds"
 status: review
 owner: claude@caspers-macbook
 needs: []
@@ -59,3 +59,4 @@ Not done / next:
 - 2026-10-12 07:40Z claude@caspers-macbook: note: Runtime 4 (A100 80GB High-RAM) from 05:31Z: teacher and warmup_s101-103 restored from Drive, cache recopied and verified, targets remade, distill_s101-103 side by side from 05:51Z (618 s/epoch, GPU 97 %, no disk reads). Distill epoch-8 supervised val (best): 2.07186 / 2.07294 / 2.07286 vs warmup 2.08523 / 2.08424 / 2.08286, distill minus warmup -0.0134 / -0.0113 / -0.0100 (mean -0.0116; the teacher is 0.028 below the warmups). Gap per epoch narrowed from about -0.041 at epoch 1. Three seeds: per-seed results, no interval claimed. Calibration, then QAT, running.
 - 2026-10-12 09:44Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/34 opened (report commit 1017dd8). QAT done 08:54Z: mixed4_8 integer-forward val 2.10465 / 2.10861 / 2.10461. Calibrated per head, distill minus warmup: joint -0.01396 / -0.01188 / -0.01062, act +0.00029 / +0.00071 / +0.00074, target ~0. Colab runtime disconnected and deleted at Casper's request.
 - 2026-10-12 09:45Z claude@caspers-macbook: handoff -> review
+- 2026-10-12 09:45Z claude@caspers-macbook: amended title -> P3 distillation run on Colab: 8XL teacher, XXL warmup/distill/QAT, three seeds
