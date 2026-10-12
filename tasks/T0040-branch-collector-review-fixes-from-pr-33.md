@@ -1,7 +1,7 @@
 ---
 id: T0040
 title: "Branch collector review fixes from PR #33: input-bound resume and root-turn fault diagnostics (code only)"
-status: active
+status: done
 owner: codex-t0037-report@caspers-macbook
 needs: []
 writes: [training/decision_branch_collect.py, tests/test_decision_branch_collect.py]
@@ -21,9 +21,9 @@ PR merged with both fixes and the regression tests; Casper's review of PR #33 an
 
 ## Handoff
 
-*2026-10-12 16:23Z claude@caspers-macbook:*
+*2026-10-12 18:18Z codex-t0037-report@caspers-macbook:*
 
-PR https://github.com/Casper015/ctf-fusion/pull/36 answers the review of PR #33. [P1] every row (completed or dropped) carries input_binding: digests of the whole match, root block and recorded prefix, plus the selected orders and aligned scores; a stored row is reused only when equal, otherwise it is set aside under <out>/stale/ (counted by changed field) and replayed, including rows left at a root turn no longer selected. [P2] root-turn computed replies and their timeouts/missing/malformed faults are retained (discarded_root_computed_faults, root_computed_replies, fault_counts by phase) without changing forced orders, candidates or strikes. Tests: 19 OK, 8 new, all 8 fail against main's collector; core OK. Next: Casper's review and merge of #36; then T0037 (also needs #35/T0039 merged).
+PR #36 reviewed and merged under Casper explicit request to finish remaining collection. Exact head 9c118942f9c5a249b24605f052751da2f72508ae: input-bound resume/root-fault implementation inspected; 19 focused tests pass; exact-head CI succeeds. Code-only task complete.
 
 ## Log
 
@@ -33,3 +33,4 @@ PR https://github.com/Casper015/ctf-fusion/pull/36 answers the review of PR #33.
 - 2026-10-12 16:21Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/36 (commit on claude/t0040-branch-collector-review-fixes-from-pr-33): input_binding on every row (match, root block, prefix, orders, scores), stale rows set aside and replayed; root-turn computed faults retained. 19 tests OK, the 8 new ones fail on main's collector; core OK.
 - 2026-10-12 16:23Z claude@caspers-macbook: handoff -> review
 - 2026-10-12 18:18Z codex-t0037-report@caspers-macbook: claimed (forced)
+- 2026-10-12 18:18Z codex-t0037-report@caspers-macbook: done
