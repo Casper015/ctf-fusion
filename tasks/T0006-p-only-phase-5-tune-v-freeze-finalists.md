@@ -5,19 +5,21 @@ status: open
 owner: ""
 needs: [host]
 writes: [bots/p_only/report/confirm/]
-depends: [T0004, T0005, T0014]
+depends: [T0004, T0005, T0013]
 land: pr
 branch: ""
-updated: 2026-10-11
+updated: 2026-10-12
 ---
 
 ## Goal
 
-Confirm the frozen finalists: bots/p_only/TASK.md, Phase 5, 'Freeze, then confirm'.
+Confirm the frozen admitted P/search/decision finalists on an unseen confirmation seed, chosen only after freezing.
 
-Phase 5 also asks to compare V off, a simple score/time baseline and the `_m_v` hybrid at fixed P and to tune on tuning maps. That is the same work as T0014 steps 3 and 4 (screen at fixed P: V off, existing V, new small V, direct 4XL, distilled; PONLY_V_ROLLOUT tuned on its tuning seed; carrier, sizes, coefficients and budgets frozen), so it is done there, not here. Finalists may also come from T0013 (P family p3), T0019 (search portfolio) and T0022 (fresh-map V3-XL).
+Casper retired the unstarted V pilot T0012 and T0014 on 2026-10-11 (America/Los_Angeles). They are not dependencies and this task does not revive supervised-V training, distillation or leaf-coefficient tuning. Keep V off; retain completed V reports as historical evidence.
 
-Here: take the frozen finalists (carrier, sizes, depth, coefficients, budgets) and confirm each on an unseen confirmation seed, chosen only after freezing.
+Candidates may come from T0013 (original P2/P3 equal-time screen), T0005 (four-turn search) and, only after separate CPU export/runtime/equal-time admission, T0032's distilled/QAT P or T0034's own-action scorer. A completed training run or code PR alone is not admission evidence. Do not modify T0032 or start duplicate training. Freeze each candidate's carrier, feature/history schema, model/calibration identity, depth, coefficients and complete-turn budgets before confirmation.
+
+Retain the existing confirmation requirement: at least 10,000 independent map groups over counts 2-15, at least 500 per count, paired fixtures and three independently trained seeds for trained finalists. Keep all faults/timeouts, equal count weighting and the production incumbent. Select the fresh confirmation seed only after every included finalist is frozen; do not reuse consumed tuning or training seeds. Report benefit, harm and not-shown separately; no offline prediction result is a BT-strength claim.
 
 ## Done when
 
@@ -32,3 +34,5 @@ Not started. Choose the confirmation seed only when the finalists are frozen, an
 - 2026-10-10 08:52Z claude@caspers-macbook: created from bots/p_only/TASK.md and EXPERIMENTS.md
 - 2026-10-10 19:25Z claude@caspers-macbook: note: Candidates for this confirmation may come from T0013 (P feature family p3, equal-time screen) and T0014 (V pilot at fixed XXL P: retrained v2/v3 M, direct 4XL with the Route A bound, distilled). Their finalists arrive frozen (carrier, sizes, coefficients, budgets), with three independently trained seeds where a trained V or P is involved; docs/FEATURE_FAMILIES.md section 8.
 - 2026-10-11 01:32Z claude-ci@caspers-macbook: amended depends -> T0004, T0005, T0014; title -> P-only phase 5: freeze the finalists and confirm them; goal
+- 2026-10-12 05:58Z codex-rl-plan@caspers-macbook: amended depends -> T0004, T0005, T0013; goal
+- 2026-10-12 05:58Z codex-rl-plan@caspers-macbook: note: Casper authorized retiring T0012/T0014; removed the V-pilot dependency and added the P-feature deployment screen T0013. Future distilled-P or T0034 candidates need separate deployment admission before this confirmation.

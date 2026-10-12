@@ -1,14 +1,14 @@
 ---
 id: T0012
 title: "V pilot: four arms (v2/v3 x M/4XL), batch sweeps, ranking and distillation, offline report"
-status: open
+status: dropped
 owner: ""
 needs: [cuda]
 writes: [reports/models/v_pilot/, inference/models_pxxl_vpA/, inference/models_pxxl_vpB/, inference/models_pxxl_vpC/, inference/models_pxxl_vpD/, inference/models_pxxl_vpE/]
 depends: [T0010]
 land: pr
 branch: ""
-updated: 2026-10-10
+updated: 2026-10-12
 ---
 
 ## Goal
@@ -21,8 +21,11 @@ PR merged with reports/models/v_pilot/ (sweeps with peak VRAM and throughput, ru
 
 ## Handoff
 
-Not started.
+*2026-10-12 05:58Z codex-rl-plan@caspers-macbook:*
+
+Retired the planned v2/v3 x M/4XL supervised-V training, ranking/distillation sweep and exports. User-authorized retirement on 2026-10-11 (America/Los_Angeles). Existing V experiments, code and collected artifacts remain preserved. This task was not executed and is dropped, not marked successfully completed. Decision-learning preparation continues in T0034; new V work requires an explicit new decision/task.
 
 ## Log
 
 - 2026-10-10 19:24Z claude@caspers-macbook: created
+- 2026-10-12 05:58Z codex-rl-plan@caspers-macbook: dropped

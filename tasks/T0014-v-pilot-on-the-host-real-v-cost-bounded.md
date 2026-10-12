@@ -1,14 +1,14 @@
 ---
 id: T0014
 title: "V pilot on the host: real V cost, bounded direct 4XL, distilled V, screen at fixed P"
-status: open
+status: dropped
 owner: ""
 needs: [host]
 writes: [bots/p_only/report/v_pilot/, reports/host/value_cost_DESKTOP-G60OJUD.json, reports/host/value_cost_DESKTOP-G60OJUD.md]
 depends: [T0012]
 land: direct
 branch: ""
-updated: 2026-10-10
+updated: 2026-10-12
 ---
 
 ## Goal
@@ -21,9 +21,12 @@ reports/host/value_cost_DESKTOP-G60OJUD.* and bots/p_only/report/v_pilot/ commit
 
 ## Handoff
 
-Not started.
+*2026-10-12 05:58Z codex-rl-plan@caspers-macbook:*
+
+Retired the new-V cost/coefficient tuning and direct/distilled 4XL deployment screen after T0012 retirement. Keep production V off. User-authorized retirement on 2026-10-11 (America/Los_Angeles). Existing V experiments, code and collected artifacts remain preserved. This task was not executed and is dropped, not marked successfully completed. Decision-learning preparation continues in T0034; new V work requires an explicit new decision/task.
 
 ## Log
 
 - 2026-10-10 19:24Z claude@caspers-macbook: created
 - 2026-10-11 01:32Z claude-ci@caspers-macbook: note: T0006 no longer repeats the V comparison and tuning of TASK.md Phase 5: that is steps 3 and 4 here. Hand the frozen finalists to T0006, which now only confirms them.
+- 2026-10-12 05:58Z codex-rl-plan@caspers-macbook: dropped
