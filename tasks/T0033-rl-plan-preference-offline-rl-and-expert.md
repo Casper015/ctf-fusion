@@ -1,13 +1,13 @@
 ---
 id: T0033
 title: "RL plan: preference, offline RL and expert iteration on top of P (design doc)"
-status: open
-owner: ""
+status: active
+owner: claude-ci@caspers-macbook
 needs: []
 writes: [docs/RL_PLAN.md, docs/MARKDOWN_INDEX.md, docs/DIGEST.md]
 depends: []
 land: direct
-branch: ""
+branch: claude-ci/t0033-rl-plan-preference-offline-rl-and-expert
 updated: 2026-10-12
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-12 04:52Z claude-ci@caspers-macbook: created
+- 2026-10-12 04:52Z claude-ci@caspers-macbook: claimed
