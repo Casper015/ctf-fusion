@@ -1,0 +1,13 @@
+{
+ "task": "T0025",
+ "new_master_seed": 20261250,
+ "T0028_master_seed": 20261010,
+ "T0028_script": "@arena/ctf-stress-pack/run_official_50k_tournament.py",
+ "T0028_script_sha256": "c0b5df954d4df439a0b1d3b0c226dbbf28286c0893f91d538d9ed1a7b3d2dd68",
+ "T0028_actual_games": 50000,
+ "T0028_records_sha256": "34160c57d42d8c191b234e26be7bb3800534cdd996add5312e96cbf49856870f",
+ "fresh_schedule_sha256": "de7c9e2ee70a87e8f4b6fff9addbd88f003ba89ad90f72917a9656e5260a3156",
+ "old_map_intersections": 0,
+ "remote_ledger_sha256": "e9424db64dca3079c708a33d258bef9dd1f62a4bbef02100edae2bf5505f5bd5",
+ "scope": "Map identities checked before official collection. No claim of game strength or untouched final confirmation."
+}

@@ -1,0 +1,6305 @@
+{
+ "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+ "matches": {
+  "n02-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "52353c37372fc1d7749c2f8f2735de0218e71a5c6e251704b65521cb832d5589",
+   "npz_sha256": "60087b8767d098c4515d12006076f5747b450eef8b4668b289a4bbdd4a9bd4a8",
+   "map_seed": 715965529,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 722,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "a133577ca66cbcba65e187d4c49ac27a4f3bfe15b6a1309670309ca77c79ca06",
+   "npz_sha256": "684432e3e0adaa7830dc7851369e8336c72825ef42ec89278cef0a84a0b24b39",
+   "map_seed": 1483134677,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 876,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "11b355d635c200c1afc37aec526e962937228e52ba650355bde69ffd5c44d10d",
+   "npz_sha256": "9a64364fc9dc3aa6b17ba0f7fc84edb05db41a225b2d56bfc7804028e4cf1a39",
+   "map_seed": 844818183,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 777,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3a1f0372173f70842d65cfcde1a809fa65ca305383724ae366e39b0f5bd5cae4",
+   "npz_sha256": "a43719fe8179ace10205e822225705eaf4687a72e0041552e715ba151e2a6d44",
+   "map_seed": 96788896,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 878,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "cd261c59bb3612fd7be08a5483033c8850ab8e3c648c975c691bae6aa65844af",
+   "npz_sha256": "e00c7112af6a58014cb1b62597231c2e71afde7cc182bc51df9d65fdb78d4e82",
+   "map_seed": 1890200014,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 758,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "07f22c3d6bbaf3e5936b9c1cb3a452e0280f7c19d9ef35d38162acbfb55dd54b",
+   "npz_sha256": "815ec1eb4ccd95245f1941b8dfddf722b76d1576750354be38d58e97ab9e07df",
+   "map_seed": 1991456954,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 885,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "6a2606c74ab9f62a5fcffba02d2cd82ec25529000a50c05298dbc4dac3febcc6",
+   "npz_sha256": "dbec1e99cf198e1b275c114d17fe9edc52b8e458ec3594d040c3c9032d18fbe6",
+   "map_seed": 1083215369,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 669,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "de2dd7bbad6ed48c9e61b85916fc8e7549acfa240f18d2c01d07f53e6948821b",
+   "npz_sha256": "d03749792975454acd9b6f663f690701ac3ffe46a56281194c54db8576265510",
+   "map_seed": 465989193,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 920,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "a699efb4b3e86851a131e9be1873af107d7f293c880efb36288e146ddaf21caa",
+   "npz_sha256": "bf31a6dd1161002edf588f2fc723eb853f74e9e8af1acbe169dc130fc2d5bf94",
+   "map_seed": 734817960,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 858,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "4cdc222d91969d4b675811638095cf99f0df4506d0cb9a9b1a0590ebe53374fc",
+   "npz_sha256": "30e19da042ec77f3c5e7713aa363388c977b09d044bedd5255ebd7f58435f44e",
+   "map_seed": 1063376301,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 823,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d5492889b734d25218a2cf81f647a8b3af7423418acd76f03d43153c81ee4f48",
+   "npz_sha256": "26daae7097e7c1b83c54e7b1c80b5fce6b838f864b19f4ce568e58b0dbd4da14",
+   "map_seed": 852260746,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 748,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "5b80c54591c86bf9ff3e6a8c3d08a6ae3ee0830ddd28fb84818e8bd0e89f2960",
+   "npz_sha256": "e5a4abb56427f82142df7efefdb29d3224203e9ac4479bc42e33d3fb94a54aa8",
+   "map_seed": 2065816081,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 881,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "be6621f115008c307c2b7117b92b952707059f2131618321d3d30ababc7e7744",
+   "npz_sha256": "f91536e3801cbfb4245ce7ef6f095e86a0ced96bc766ffe61295d4573257736f",
+   "map_seed": 745140312,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 696,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "2afb45de79b01173d53a5724cc96e4a4e5e8c74792e4cea78f9aef9105db0f36",
+   "npz_sha256": "ceb49cc34c026f5fe22458d74bd028b308621efe50a7a8eae92bb4b31dc9efee",
+   "map_seed": 375127485,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 876,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "72c46d7ae342f6bdadf2f4300feb0ea2be18a7de6120b598aa3f1698fa2b1f55",
+   "npz_sha256": "e9225acd87f7476a50558d2cfd8c3417df267c0b7132b99773ed104592269a69",
+   "map_seed": 814729758,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 804,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "9d2313309b14cc76fdde872825b5ef55723c0f12b330d115fa48f19a617cd41c",
+   "npz_sha256": "42505276aa082f103aa84c26f9ef07c1a735520acab10c41c1d98eff0d08b3a5",
+   "map_seed": 518904816,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 938,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "e5d5f7892ce6c0a280e8dc9a29854ff7ed8a86b9aaa710135a10615b26863750",
+   "npz_sha256": "decb20e0edde5b8c43b8afc7e0e2a300c958c5138887e5b536d443069cc32ccb",
+   "map_seed": 265061383,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 710,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "a4c1fea39ab69ca5ec789a0169cd9b265b7a3dcb559e83ff5adb21c85799f37b",
+   "npz_sha256": "d477e5d62f1af8a0612ffe2d08afbf1fb7fa1c3b08bed19dcf9133b56e3f8ad0",
+   "map_seed": 809964994,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 988,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "8cf48693a2a68d7a86bc2ba2be0fb5c7a4678db87f6c566df171c8c46b204bee",
+   "npz_sha256": "b0cb6ae96238559f0ab892143b23fbda83f14fc15f18796bbbe9b559835caef3",
+   "map_seed": 837034178,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 703,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7cda319db55ae25b72f1e795e45d2b4e72210537da435674381600e467db4c0d",
+   "npz_sha256": "813530292c9c09bd41b333881c429805afaef805b879a482ebd70c95b804afd9",
+   "map_seed": 1181354090,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 866,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000020": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d4ffa8b6ad039a086fd90e7ca6e7b3ffe46d58b9f398abc719235b361a68332c",
+   "npz_sha256": "4c3c51ebaebd53dd3d5cdcece9c0e81a8c5b085de8b940bcfbbfbd366956a82a",
+   "map_seed": 580056637,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 719,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000021": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "52485fe6a4c4a2fff9617fffc17d7f08df7a0ba85005d503a4e2d9a1693677ff",
+   "npz_sha256": "99777698453c8243d1a9a28b65d77dcd40ceb9e42c5638d6c5fae0600a21b3e4",
+   "map_seed": 1476254467,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 895,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000022": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "65cad0431f802888d11b1e2e6c93dcd31e12111744934c54acb7281bba2afe15",
+   "npz_sha256": "680189f729e6733ed025dde95c477d33ffd26245b05d7e3592ba526150865a09",
+   "map_seed": 851805303,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 824,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000023": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "512c9f57666bc04ba46f624575390e3411247b01e6f774b3b7d3999284cc7446",
+   "npz_sha256": "53c9a35f11ab8fd8dd7baaf32977d129b396de32b6f4413eff17cb2702fd7fdf",
+   "map_seed": 1275986694,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 855,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000024": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "25d6f55530647d6ddffe1e8bd825364909e914c7957dadf2bb9bdaacff3dd137",
+   "npz_sha256": "ff8fb62da632eb8f9bff2f896dbd6caa0ef41686b9d90dac8e7ff27a33f8b38c",
+   "map_seed": 116043483,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 728,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000025": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "9486dc43028c4f5931f4553fc68d3c8af3ff1f6b8b490aeded4e757edd7177ad",
+   "npz_sha256": "80acb3e4e615cb773507ce9a3342eeecaa009fccd0a87c3c37940067cb5d02e3",
+   "map_seed": 2019445604,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 840,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000026": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "481ac04edc4b2401b6fd6d620ac129f3875fc381f063c7dd9ce61230495eb808",
+   "npz_sha256": "dc0c543e40caaa735688b6e402af5652a3b74415a4a964d7ccda9bef47962931",
+   "map_seed": 348899623,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 730,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000027": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b67cb14f0d63a39d07252880c2abab7b98db7126ebb2d151412b471e9e76dfa9",
+   "npz_sha256": "47c1869214e644fc01d49f1f5d6dcfa28c11484ee4d253408c616ad549c3cd10",
+   "map_seed": 1727135065,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 840,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000028": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "4d99ebe8098df87136bf229fbd9f1b1e51e89b84b0e8f529a23e59958e4d3d06",
+   "npz_sha256": "f3a90c4eef5fae1790d806cae3b059f9105e4c3e24c7f49f8a291e5dc77fa61b",
+   "map_seed": 553865842,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 741,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000029": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7fc7850e582cb0159b22e0cd6b6e310804a063b93f3790e78802c732cb88f290",
+   "npz_sha256": "5aef6b3e1dc07b830b94d08d5d837f46cabf564c9cc2d68b9d18320129aeff6a",
+   "map_seed": 1205930135,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 897,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000030": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b37f0b4af5a6d69f884dd139c81fd16701ccc8ff2bb1451bbce199d40f211a35",
+   "npz_sha256": "e8d75746e0a9e25bb189de87cb291c0e39ba22250590c301b2965efd08c2f6c6",
+   "map_seed": 1699276659,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 805,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000031": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "be9049bde33237134126c21ab7505e478177e197580d8a15c30e4fb5e58b107d",
+   "npz_sha256": "55b92ba1923f016af26a82cb1e6af1b2c9ac58323d0387aacfb8fafe7ee37667",
+   "map_seed": 146245129,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 876,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000032": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "59c766fb089ae9bf30779e5bd8768a98938c7e3e8c1f7ebbf887993b949cb498",
+   "npz_sha256": "6729150516aa13a2f69cb612d1304928916f99acc0c59f1332051a6dec56ea80",
+   "map_seed": 645514851,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 741,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000033": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3bb095ff6c6a90cbffddd03e051426fe9ec07612fe399b8bdff7ab2cb41d320e",
+   "npz_sha256": "d5aebc61339d89c1289ccaf14255d3a4cac32be954098224ec191245ad391f7f",
+   "map_seed": 1497937053,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 831,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000034": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "1d2ac94b0d8c195fb227b37d08789ec7286ef199cf59abfd2c2b506201cd54f5",
+   "npz_sha256": "91d4a6e20a43c43c2d3b49aaaed53bf8542ac635ca4b39f2f5418015e8614f42",
+   "map_seed": 764438695,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 738,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000035": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "dac3bda1ad5916e9960a400101ba05fb2fedabbca0e64991ce7542ea4d615409",
+   "npz_sha256": "3b8958fdb7c85f62cf80cb7e350322a843e404627341c5922f56b2c4a0f81a22",
+   "map_seed": 1495760020,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 929,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000036": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3296dd80fe4385d56a8ca6485b7a5b8931645e48ac522228ef783fa1bc0bfa24",
+   "npz_sha256": "ce3f39f57c85f84e605977d0fe0e12eaa22148094ecfcb9653c6158813714da7",
+   "map_seed": 149228242,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 721,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000037": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "690357e39a62614d5c1b0055fe98c393431ef53598ba0fd18e9756b2c4d356d7",
+   "npz_sha256": "48c22918c686e7dd0046ee2092d3d027c6adbd513384af69cabaddef16593803",
+   "map_seed": 291153507,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 872,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000038": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "e42f81dbd34fd60c51f38cb73550aa186cc91564a63502844ecda9864aab26ee",
+   "npz_sha256": "1ab59ed06f019abbf7cb8bf817aa9cf66845269c31f5d45df55be0984e0ac6f2",
+   "map_seed": 1473111830,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 723,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n02-s20261250-000039": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "a7588264e5bb2587892c584883c0f6c744f31a762ca77492dbea2d8e766054b9",
+   "npz_sha256": "1a780933370033a04e872229656ad532d6d10d08c653192ad758877b7a169185",
+   "map_seed": 1480549403,
+   "teams": 2,
+   "rows": 400,
+   "qh_coverage": {
+    "active_units": 858,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 400
+   },
+   "raw_audit": {
+    "reserved_rows": 400,
+    "valid_reserved_rows": 400,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b02031ccbbe56aa91f228d03a366d455db033bf4d7b3385d84f361ce1ae19339",
+   "npz_sha256": "226759ef4c3ae47227fd3948a3d946185b9586c7b9ae46e70aaec6725f0b1812",
+   "map_seed": 1189562061,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1931,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "30fd15bf9bc5e3d698d0a6497045c9b701f5c96cdc8df642c571c60f52753fbd",
+   "npz_sha256": "cc9e4d36f9cb3afcf6361415310867418812132f0237e1f54bb4456759c55c33",
+   "map_seed": 591276542,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1995,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b9bcd8d4a6c09e82ca452ebfe10019e35eb254f4847d22266648e49fd75c7e45",
+   "npz_sha256": "cb36e2d76357f037074cd6756197f09d5f64e71855b032f9cff33f063d352164",
+   "map_seed": 532047815,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1972,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d01791fb2bbaeca9afc38457a8c907aae28b440f78a2676ae1344e16650b3359",
+   "npz_sha256": "8511db4c5c4e65e5f577052b4eed3f0d93246dd6fefd58cdcdf934876515185b",
+   "map_seed": 1616310162,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1865,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "df894e2e3874a343bdfb3c9537a0cfdf0e8a03f9cdfe7f4b5875c39ab8266f7a",
+   "npz_sha256": "a5386a804e8dbe7b0550061db7f4d18aa740a176f1efd9de4f200b1220835baf",
+   "map_seed": 255527417,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1932,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "13b880d355438fe52cbf13b8a58d1b4c62a3c61f2f61a0cccbb5fce37e7fb0da",
+   "npz_sha256": "d3afa54d1f596030977a744e9c1149fcfccdba0ac75d7e4ba7defabbac43896f",
+   "map_seed": 810979166,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1994,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "64227a59612cea4b7f74ecf5ba21cd530d97bf5a24ced5c51b5e41d72cd4dd66",
+   "npz_sha256": "56462d6d8f363298333dc965ee7873da5216dcd1b33ec2a9cecce4fb0af46308",
+   "map_seed": 1896599074,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1951,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "76d878586157df4713e5ba9245a27e7be7ea3224c91dc1efd9dd107e6f84a1b0",
+   "npz_sha256": "c3883b14c551f754a66723a9bb93d56c2f580db3f748f91bf6637281b512a324",
+   "map_seed": 761106788,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1877,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "079560ffa345bd96d94e8b94f8b70aa7fd5b90717862518d93eb44d60e5a7b8c",
+   "npz_sha256": "8f870dc3de9754bf710801e55ccb55aba15c6ed7249f243db1c2695fa7f7c02d",
+   "map_seed": 1190448315,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1804,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "6aeff0b2f83c1c2b3397c024377cabaf99ba76921f20770f9dbae0cbf69c1568",
+   "npz_sha256": "87e5d5762384edd144d5db6bea90e29de376246c494c8cbd727b5f38c6c3133d",
+   "map_seed": 2110254884,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1869,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "61cbdced279a0f6fbda6f9453108f536cfb77b252b13bcbfed7bada965c6cb14",
+   "npz_sha256": "68f224bf53fd7bd3f9a659c22a20b4d368c9be43ab78a698cf1fa8cca9e9a6c7",
+   "map_seed": 1736207339,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1812,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "597be48d92dec94816420d028eda45e6aa10608e8593aa49030ed2b8824fcfd2",
+   "npz_sha256": "d51e7607e0fd1d8879223fca640893aa8eed56a3d5d666cf6b2afe57089e9acc",
+   "map_seed": 2035589219,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1987,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "c04cf60ff59763d5ed0c25152e56919e0d0a86f667b93e4ee3eee5e2695a11e7",
+   "npz_sha256": "2cad2447066dac85f429208df12b83a6add62b29a314424af25df3d5c2d0e9f5",
+   "map_seed": 491028106,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1913,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "177add07ec9db60308b64dd93954cfef90719dd7ebf7f0ea810bdfe1c6cd540b",
+   "npz_sha256": "39504d12ca39d310ab9e5421142f912029fd7364cefed1f1535514fdc1e224a7",
+   "map_seed": 508064257,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1906,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "1f1563a8492624bd12efbdf6495e4d15447e902816c235215167b850d8064d60",
+   "npz_sha256": "fae2e1a5e6f2d63b622e33cf1cf7dc8d1945692e4823c2def482faf7115b2bdf",
+   "map_seed": 1331131281,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 2048,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d6dbe7b129adb709042665f4d3a8626a18707942d88835e8e7e90cbcfc8eafb0",
+   "npz_sha256": "e67c66c8c56ccd19a35ec1045fb9d351e740aaef3f6b3d91e0f41a0b98e76b07",
+   "map_seed": 1078399768,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 2017,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b566a5b8fed8f9c1f2fb9f7cab570a144f0375c3ee3162a6fb402b601b2b3f1d",
+   "npz_sha256": "0bade7a82c45c82af17fc738f4176db00dadb173b7bb42ac674423d6b0269a41",
+   "map_seed": 365251967,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1967,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "6a880ae49e1bc58ec3a166bac1ae08c0e1da505f0581e61ee6ccf64329c77c48",
+   "npz_sha256": "939597ee5552e1da3cf526a1b387f1724468ed3a639dfd042007491f2f5c3a75",
+   "map_seed": 1839435762,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1905,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "5620a871e24efe476f956033e866acda25f8f3b94ac27ae32e35c6e144f1c3a0",
+   "npz_sha256": "e1d39b787e8a0eac925a50b8fffae4d2ac3bd9559a20dc22ee515d4d6d23f068",
+   "map_seed": 650507518,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1828,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n03-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "4822d82ee186e654de3190ecc2bd95f970094f577ceb5f310fa82fb580b730ef",
+   "npz_sha256": "58ddf120340ccf7624e67bf1413ef016e2a80964c5a6abe5b5b3dbf1a0d45986",
+   "map_seed": 1809557333,
+   "teams": 3,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1782,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "552b230db49951c706069ab3dab82344a96f6a75833703b952a5cd3e4c0896a8",
+   "npz_sha256": "f12814ed1d11924f3820b23c2919fca6309b1520ba49bdc45ef0f28a069ed707",
+   "map_seed": 10451436,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1964,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3dc278299ce9933e9d3a4ecf89302686ff66501d06058a923bf25204b22bac77",
+   "npz_sha256": "fbf292efda481c4bdf60f94982f6113045a59e20f70ba71998271a4bf7e11c33",
+   "map_seed": 1649918051,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1923,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d455190321f3a36031165e99d60e913cbba8668d1e642c273586a3fd7612f534",
+   "npz_sha256": "c56a47902d62f3bdf4e31b24fe59a91d48af428dba95106f4e789a88e5dadd6c",
+   "map_seed": 1621587578,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1853,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "a68e37d654976f27937306c5c8a0ee40b928b4289e0d3063183029e20b673d6d",
+   "npz_sha256": "accdc90f0d3c4b0b92d4768491ce9fef97d00b0904a4df211810d9fc548b382c",
+   "map_seed": 865269602,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1895,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "c04ad9476d6f95ba37add3ad5579e5709272df004646d3803bd974906639425a",
+   "npz_sha256": "d11183bd90b429ad0688bc542cb1a3db222848daf159d021e981aac6472bdb13",
+   "map_seed": 2008776813,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1917,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "374e6b3653711ad6a179555e44bca858f4a6d24b7444a08bc8112060970d67d6",
+   "npz_sha256": "24bf46bc233eb871b2d7fc4e6cd08c2d0b14d5fd562a6ca95d9956734bf6ec47",
+   "map_seed": 229369009,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1913,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3f000dbcd000ac9a1e4fe0e2500864772b388eb09269a7cfb6953e50d4ceedeb",
+   "npz_sha256": "f13cc1a63ca95759561ca8db5f51378f0d4dcea64c7af98d50114bf576c92a83",
+   "map_seed": 476349816,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1888,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "22a1e73abfe27e50f7225f9dec06d51cc19527dd27256e7951fddfb410711c18",
+   "npz_sha256": "ce9c4614fc0ed5f070b68a1b0c3193811fb414ab4e3fa02e79d393ba6909a307",
+   "map_seed": 132609083,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1875,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "2fde34b456d111f18ea3b1180e8505afde733ba7bcf50cd4ca89f39ed6467980",
+   "npz_sha256": "ebc261965669f49e5f21543ca6f0d1d73f0d81889daf98bca00c761b2000c5ee",
+   "map_seed": 1783748303,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1825,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "72782eb852d7bdc36346a0dbbed8645204c82062a9510337dc7a96edb5e0bd95",
+   "npz_sha256": "8dc1df88f249d299bbf63c3c0109ce6b0c2de2632cac3ba6a6d1e8e71a3cf95a",
+   "map_seed": 836286314,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1806,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "1199d2c485e4bfc713a1c749cd5c0efb907d2e8878b4fc92bf8c8f10a1a7e82c",
+   "npz_sha256": "22fe4c9032f2b55b46941d168ef2094dc9a000f121556bfc07e6b5c6cf350766",
+   "map_seed": 1005818404,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1764,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "c53982d6335239411bcf56f6c9d05de185100ba74fa4aa12823376fad316eaec",
+   "npz_sha256": "f2c8b26ccb0946ba07d8e9420d1d7726eb8a24aac483cd1b149947d0f9b2f6d4",
+   "map_seed": 127939692,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1926,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "188616e715b0332e551951d8f7e3024fdc0072776a89075081d8f041fc3430a6",
+   "npz_sha256": "da30bcf8ea92d974aa4a4ee998d2f3476ea3d541d10de847b5f9bbab332cdf78",
+   "map_seed": 1260837840,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 2040,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "279da58999c7b7779094dc0e31bc16e26f181b6b00e6308f74370384a6855716",
+   "npz_sha256": "8496ddb16f107401963c203334768be235da09b55e0806462a402e60422c0c4d",
+   "map_seed": 797830973,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1814,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "31ff63d987162075a579010347b69e30aac71d7df7ac750957f81b93069ae49b",
+   "npz_sha256": "fd5876c9a3025dff7771751dca5af08e44055f3b89ebca72df3c05774ba81b1f",
+   "map_seed": 806924334,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1761,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "989fcd98cde1918d5e1bef6ad4197c389c7c7375d7f1eceb7a4a5f11144fa37e",
+   "npz_sha256": "bf03506d7dc9eca3975353618fa02b223e1ddf93962a618725351fa11724d441",
+   "map_seed": 522781000,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1797,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "2f6bc0b7b91117ed802bf2acaada35173bb00b7b606d38466e0013087df1bb3d",
+   "npz_sha256": "c8d7514809dd13f44d6d6c7bb5ecdcb7ed1a0b94ede6de3ce49c820ffad42fd2",
+   "map_seed": 878951170,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1843,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d93cf8b1cef29ae1ace7362a85b7d901770ccb47a1fb6e40a8aa8765dc854238",
+   "npz_sha256": "7a920f7fd6510bbe96038cb02c2f83d2da3e1c2a0cddd198e0390633bf73a92e",
+   "map_seed": 978108519,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1872,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "356974eabce1cdc9d54c75b2b406e46572dbf1eb7beca57fa4c36fa4ecc414d8",
+   "npz_sha256": "aefc831f784a0ddddbb4acad6f097083377adfa1e0ad7301ba543f56011f4e49",
+   "map_seed": 704628932,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 2006,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n04-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b864b8046c28b14cff4075eb9f9d729f3adb22fddfe7ed1c2e715eac72b982eb",
+   "npz_sha256": "6e58133166e84456f4f79113b0d537c9daaab2817cddadb9513144186305dc73",
+   "map_seed": 1291553670,
+   "teams": 4,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1991,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d6d850c33601d608295864c645d01123686ea626476019c3c729ee8eb0a81258",
+   "npz_sha256": "667dee8e48cb00db34da0291d95df7993009213d26463e86b5abff07ea4c28ec",
+   "map_seed": 1751235362,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1737,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "abdb9bfcf855bfa3abaaa7b8bbd2bd0ac4fbc8f8d76e0ae6772447eb40b9e78e",
+   "npz_sha256": "d53caef0117d0129c213a5b30e580229ca7c46e71137169571bebc41e795e344",
+   "map_seed": 35496310,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1875,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "80c59e21abc00b945b0f4c6b3ac8da278d9a7b6a7c2f6fdf07e9569642e3db3c",
+   "npz_sha256": "ae54ed65b92cb954c41597bc4443f88657847c70611e54b1494d5d9e83db0d14",
+   "map_seed": 1244971796,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1690,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b4cd1261e463d44b80cad8f83c6db36f215c69355f940afb6cf7ea59ab3b23c1",
+   "npz_sha256": "4420f56c69d61ef0c0e3264fc23289f7fabdac6c83019775830fa222ca7e92d1",
+   "map_seed": 704278390,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1573,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "67b89d2e178e932d36035b84aa02ae6883bb6d2f3462c425f0d69aa5918c9ade",
+   "npz_sha256": "58b178648bd6b3c07cfd4b3151b0a248d26c446f267cd00e7fc881b8e8d15067",
+   "map_seed": 515845359,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1731,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "9d27b2547e20947aaa4279698e05ea00c985e7ace70be9ce9d14e6bda2aef7a1",
+   "npz_sha256": "ad601af467d6f1bc181865b5f1c3dead788322b74da76c13ca139f478ac701f0",
+   "map_seed": 886872592,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1870,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "bf529830e76a3f748eb213909f35e5f0a9ba59bc26f08e0bb9953b8cdb1ac1a8",
+   "npz_sha256": "65923406b20c2e15affb36c137807e9bde9b05acdc67abd8167c7cd313f8f615",
+   "map_seed": 1132693976,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1657,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7c77bf4bda0007083edbc5e5e330b4ef513a8157ea39bebd7e78db8230841bc0",
+   "npz_sha256": "705d2fbc15ec2e8bcc7147452917fa4f3e19f26a45ba66057f7b17dcb73d48bc",
+   "map_seed": 430001276,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1663,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "63228e39d2433bd6ec652b77ec041b153682d15f29179dd42bff67c6f4a6cdac",
+   "npz_sha256": "9def462da6c284c4c53f954c83c2cf18b30f6218102f8c66eb0b1dafc690bed3",
+   "map_seed": 1685918077,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1801,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "bed6f9a2eeb4f11bebfc36c403737afe5be6e852d2c33594f6aa85fbb3c04cc6",
+   "npz_sha256": "c980a6f1ecc7fa25b639bd0a63a181420114913d9c519797a21db7a830d45944",
+   "map_seed": 1434252922,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1766,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "eedaccbe2164b2633473b44273a36edb67a348d4b4f64509a417d3fe38e386ce",
+   "npz_sha256": "dd33f054161b5b800afea63807da7df83a41eecc99f5e811a04754be9b1bff9f",
+   "map_seed": 132137422,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1670,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "8f27ee826370536dc482873b067b88838b2d6bb335dd767d2403fd2b5274cb7d",
+   "npz_sha256": "24e4023543b7c6025c0d6bde13e4142f45e836eb5edb9a37663607177df7672a",
+   "map_seed": 599961460,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1782,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "61181c83decfec33d1dfe21c4756b07295f88a2842b0595244291d9ad4483dc1",
+   "npz_sha256": "ab53813a2ee80cf72ea5b3d4da0facfb736de75349c3e8e0844128c40e0fb652",
+   "map_seed": 1166931327,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1824,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "8027ed9679ac9d7b30a8197813e23505f5c93e806a62b0434d0c1bb004a9c259",
+   "npz_sha256": "bef30be3b76996b9b18a5c01001ee2914d81c4e4f875c39d57dcfbae1bf30258",
+   "map_seed": 1988186680,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1695,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7a37be9464d0d5740960105c467f110f69ec7df14680518fee840dc9105284ca",
+   "npz_sha256": "f2040eb5bb4cf96860ed274e57f1d8e927dc79458d167257e830faef1e69c79e",
+   "map_seed": 1853544041,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1724,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "73d35d614b1470c15727f3d52894f6c16f2ecc770866e666ac73d7cdc86d87c0",
+   "npz_sha256": "e6639d4cfb189aa1d17d8cf95af229e6c25d278e5ed142d264d4efdda4727147",
+   "map_seed": 771585655,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1756,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b8f0390984f9f1a731702d7b53aabfb51244db632b18b2c327dee4dcc0d5f709",
+   "npz_sha256": "3d4ac3abbea362605528554443bfe5944a93edc66b47c6b2c9e8b8331a93b29f",
+   "map_seed": 1334756727,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1715,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "900b492585c95a349a9fd6e6477ef1a10e9bc84b5a08da852601747aaeacf94c",
+   "npz_sha256": "4d25f93d95df6fee3c6fa3a138b56cb930442861f1575718e1a5175ace99aef8",
+   "map_seed": 1080744447,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1740,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "af62675ffd7a30135d2b201ce4c4ebf115fe7f4ce9d6a29d602068dae2de38d1",
+   "npz_sha256": "2d1db28d65a18f51f05f6cd365e21c4f00e65a53fa4bac1dc819e38d97fb9b1d",
+   "map_seed": 1745046830,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1799,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n05-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "22fc12f150708c8e04c6751e212c9df7b1cd7fcf24300717f27c9418be3af188",
+   "npz_sha256": "ada79a2ea07903b6f180607c63c9672970684d05220109abe883897a6f30190e",
+   "map_seed": 667392076,
+   "teams": 5,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1753,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "321a4bce417dac8b55fcd99507885713f10298cecb68d91a42b99dd0a19f90cf",
+   "npz_sha256": "05731c7761fe35355aa1a417e0a88e7b035c15d56054a1608839e31594582ff1",
+   "map_seed": 1369347014,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 2013,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "2f71254154cd67d70ae933fe348d1cb48045cd5acae45c02989d13188ad09a94",
+   "npz_sha256": "866c817f64ac9208672d845ebcf5909eba2a8032b702d8af949682c64dd5eefa",
+   "map_seed": 1719897191,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1960,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "9dc4fae4800d217eae9e929a30dec73227bea677901cd13d12e8ed4d8024cd66",
+   "npz_sha256": "6c912d730f5b23ef10fe2e81acf640db637f5f4da7ab0235b3a47496eb0d0b9d",
+   "map_seed": 1427719380,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1896,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "74cf10ea94eace774a05814089ff6b61740e4a742d3e65181e5919ba5b01699f",
+   "npz_sha256": "8e823a668a69399e736fbc2674a58020716bd53df8cc078d73a77f1c58a80e65",
+   "map_seed": 482375035,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1881,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "ea4771d9d3ae797f07e22b65a1daa011ed99d3694b166e9844e231d784a841a0",
+   "npz_sha256": "920e79216002a3cde4865b3b348e827bf438a25f6b54d36f6e53e89177dc729e",
+   "map_seed": 1415752808,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1993,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "8e96ede6fe6cb8e12c03ad6fda670ebbfe9c9749b358b8725f14021ce1ad11e4",
+   "npz_sha256": "26eaee88b5c15287cfad6a532782293536c9f396535555b693888312f7fa07b2",
+   "map_seed": 450887225,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 2027,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "06920fba236b2bb3d425d9dc82656f7d2181ec1d03fe919cf7bef13996ea5e9e",
+   "npz_sha256": "6cea7d4e1240180aece940c26a0b4d9f021786a2e440ff6c34fc7c5669d23657",
+   "map_seed": 524432158,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1882,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "993165ea0d61301fe5a7cee751593b1256fa4d905e5411a79bb6e1553d3640c2",
+   "npz_sha256": "4653788b750adc144003ead7ed851b5747842bc114f55fca62eb47aa0c186bd3",
+   "map_seed": 1686552850,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1994,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "281441ce4c089eeb8763499c3d41110a419e33d8a161e6da4c2a31bb3b9a69e9",
+   "npz_sha256": "408b46cbd0058f75661d748fd8f10823a137f816b18a7bf7fb6f35bb5a3ce403",
+   "map_seed": 1796445946,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1925,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "38bd682b29aebd16fb4953d0e525c4b6aad4c731a6b2b8c7820269c74b7e24e2",
+   "npz_sha256": "7affee0c4cd4d66303786d274a91132df9aaebbb795076516262c5dbcddc1150",
+   "map_seed": 256729987,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1932,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b85ae4f9716fedc0efdc1b60b9b6ba651bb80c58493f92fa4fb4bb6f9091b7f1",
+   "npz_sha256": "944b6a665089ce96cc65c1b0645631f8ade368708d7bc57cd8439879428a2fe6",
+   "map_seed": 2011358347,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 2139,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "dfd435d51bdc16038cdecf3413589516b1ac6922ec92dc110ecc60054fe1daee",
+   "npz_sha256": "f03ec295d1e126ead1108d79234e73abe5a63cce21815ca830fb036c59bb845b",
+   "map_seed": 1523083103,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1960,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "95af53c36898f4358ea0c55682464638f6b2a08db954508f664ed61efd2467d4",
+   "npz_sha256": "43ca02babfdfba1ef953a6d90e5266ff3b1430568bf99a74fe838683540f0365",
+   "map_seed": 1456171242,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 2022,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "6870d8a233d3498c3324ab16714194e1fb8cc5cdc2b0403d5e61f48e88649acb",
+   "npz_sha256": "f0adca262b23fc713ffe4a4cbc2738ffa08c281695b7dae595bd513ffef6824c",
+   "map_seed": 2096442024,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1995,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "c41eb76d6522f0ef6cf11207d85fc0d302a339979c7906132ceb6cca9cb2aec3",
+   "npz_sha256": "660c009b4ee5b75da4bd72b11c6c55a9a7432ac1fafd5d4e72f2c93dc7a4c6cf",
+   "map_seed": 1990292406,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1948,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "6423f62d854605f25e72396e4850b887e5ba071ccf2d897782050ea7f7d9381c",
+   "npz_sha256": "aa9b24fa6890314b90824ebc55f0b3735b8e85f191073daa3271c5cf2a88bc73",
+   "map_seed": 834115130,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1950,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "fe34c7a1421ad639adcd553bd724770e39e840fe595ac697f74a5589b68caf12",
+   "npz_sha256": "1a7b9e9cc842ab3560f575ec64c021e9890461ccad25dd8bfe3c1df9cfbcaa3f",
+   "map_seed": 339484747,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1965,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "92f9bc0e8b7f76a5ebc163b54b3c13a42d935b93be8575a7cd102f2c9fc5381c",
+   "npz_sha256": "544dd9b1bc8e674066e5298d54e99c8a4101accc6cfa29e6c8ee636b71a99fc6",
+   "map_seed": 672523205,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1864,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "e49b417ee1593b0871f2272127fab7d98633ef83c87c3bd094095485ffa6c73e",
+   "npz_sha256": "a22510647e1030d9138f8b7c61762a6d9c4c77946917229eb48844c729b07061",
+   "map_seed": 505140629,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1904,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n06-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "1ce7202fd09a2bd10324e4f856b8da3a9dc2dc387e899d037014713e5b698bfe",
+   "npz_sha256": "5bb1bbd0668471b99fc74b2fbefae29eb32edcddbeeec42977f3a2e770a9fabe",
+   "map_seed": 1071181197,
+   "teams": 6,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1962,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0561831d78b74f2bafc8955db79991cc2a484a398dda76b67f5bb0878930b9dd",
+   "npz_sha256": "1bb779bf5da82a8380f9a0600cf7421c1edaf45c9418f21f73f35a89d37a0794",
+   "map_seed": 560918062,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1806,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "12de4cdc975e9102cd8b9ee9099750ef3205679ce66282535296abdc7062017f",
+   "npz_sha256": "776f23a0d266b79f171db35ceddd403fbc81111fe7b16563b4b1c87e644d5467",
+   "map_seed": 2060726444,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1898,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "96c79b747833294e416c548d51a1d889c11e9f1fc4a43edc82894a195a023d84",
+   "npz_sha256": "7a32ad23d9d233e4a368fe6c88c2bff2b4e9472c52fd61c3cd589f7766592085",
+   "map_seed": 1233982497,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1913,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3bb090823ccf101300c500b5c487eb75e18ab69ae63962228397b2539816911d",
+   "npz_sha256": "802665cd8b1d09508b2bb2c6e12ea1f7a869589dbfe66144a1392265f3ec9583",
+   "map_seed": 921656607,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1856,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d4f839c9c8db90d5ad00827ccf24e6eadd1ed4f9d1038d037f3da9b697ddd92d",
+   "npz_sha256": "ff9994bb039492c3e22db9f15840ca588cef787edca25ccfaa3e202428652813",
+   "map_seed": 1267627026,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1972,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3953214bf2d3429e0d38d604177fa498699c61676484a123cee87f17668bb854",
+   "npz_sha256": "6b93ee5b4a70d57fb25ee07ca1fac2f3b283a12366d37fb977a0df930bf73901",
+   "map_seed": 1698579811,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1825,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "960b440f2a6d9673a4de7f84d568c0a3202908aa4295fc5d563d937e4f32527e",
+   "npz_sha256": "d50d1b7026f585268553e67f74aba503ab54ba383ef0d74df63b4869574c1b10",
+   "map_seed": 1564488783,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1955,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "a454b9d4809dbb2822e40a2639d2e12c152d309fbd2255030549156983193a83",
+   "npz_sha256": "3b808052c5fd49e58e5f0092381be27082c6b8a3647006e7188f7765c5d40bad",
+   "map_seed": 1717200986,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1952,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "87f77b026fcbe44979ae7bdbdd82d638be61e1712827b390198e71cddd1330ec",
+   "npz_sha256": "38fdf9a68124913a7e0ad50cb6023055932013424702de0600d31c447749c376",
+   "map_seed": 1414727748,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1959,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "f6c31be39afd1a1aea8b9f6bb84c7e1fc2b2e4b7466956a58e29d5cbce548f29",
+   "npz_sha256": "3186dd31743efff81f1cc0354751d5f9cf9446cf01c176ee8d5d4524c96ef424",
+   "map_seed": 1352868128,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1798,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "ffbdfd6c3b8157b41273da4d204e94830f702c84aba4e82e08225b3e448dd74c",
+   "npz_sha256": "460a4137b43c79f6b741b373c0b69ce425c087716b4b20384219c5a57234e8dd",
+   "map_seed": 852987553,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1932,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "20bde0854a6332ce19369ffdacbfb8604b1e5241d8b636e455b5ccd419576537",
+   "npz_sha256": "22e1e6fe0ec5098a1f577e16f491b0b8e29ba47339e4d6e304679211d4c10019",
+   "map_seed": 373775544,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1864,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3306c5c9008dbee8f9ff1ee69ae46b26edf45615d4ede3f80ec014b329085681",
+   "npz_sha256": "00386c8aeb13e29c0fb77073f434286a87a585865fe64cee348cf2b5feb97d28",
+   "map_seed": 839778536,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1965,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b95220ba45ee3693b0ae34d5b44a6d708521ca84e40dbbf26446a7727bd0ecb1",
+   "npz_sha256": "ca27053a8666608c631de0f52d6bc24d29c8b3b2e518b628587aa0def1610e09",
+   "map_seed": 1349519132,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1851,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "03249d60db2df75a344a01547d549ddeecd05da763c1271a275d977d81bca9b8",
+   "npz_sha256": "e94d61b553087accdeea44aeacc8cfa470833456abd22311a9b812882aae75ec",
+   "map_seed": 45827488,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1907,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "92e662d749ff5940275856451fb7fcd7f5e96a55b366f0cfc285adf58626f0d2",
+   "npz_sha256": "270cafd9aab0fcc8289d13933e76fdc6e131d49e3cfe0c21643e337b89ff87ea",
+   "map_seed": 853703113,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1842,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "ce12a20447020845b16844e333e3f58d0b7fe6f7410faf3935f189b115ecb5e7",
+   "npz_sha256": "796fcfd9d37f1f30802d3c89e580a4f08ccec469058c2ca7c7b5c9d967bb49e4",
+   "map_seed": 207833818,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1888,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "ba390efb7e8a857ef1210baec7499bc281225cc8e9756870f49b73f613983d39",
+   "npz_sha256": "bd6533a390bb6f26dba9a4c7220b109adf4a538a72e6f88a6755fb31e94d2528",
+   "map_seed": 95626443,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1857,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "6185da7ebeaa4a63916bc276e5fc791f0ca9d052bb198803eb4b38fd798b26d6",
+   "npz_sha256": "bbea556ca50bface53e5f5fc3c3771d774a9895fac79d9ffdf33c63810817d70",
+   "map_seed": 2059360422,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1959,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n07-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7c2a1b0da47de85098061d5d1e688b959567b83ce6f72eafc115db8a5173a020",
+   "npz_sha256": "e29585a9641ca7b66e699e42b3e9726ef4e5094a6508842128facc0189770fce",
+   "map_seed": 867461482,
+   "teams": 7,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1873,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7f9fd061b514eaabec5800c59fcffc8d22d5a35ff2f9752e63c2f8361d9c785f",
+   "npz_sha256": "a7418f2b9f59b5daff2f05731fb2fd7173678385c84b05222aeaf239a706078d",
+   "map_seed": 1081495380,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1818,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "4354095c6c04d75541ed8d26324ef0b31ca2443490e5acf91eabf35c615a53bc",
+   "npz_sha256": "04a777eb8f4ece06d3a540995ecf7f9ee29dd1c8c67a788f478568d089b3d08b",
+   "map_seed": 75663340,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1976,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "ef04ed4b7da6ba56ab7f1037f3b1cefaee259b985ad8e07279f2754fc8dd1343",
+   "npz_sha256": "b058acc43c9f2279cc8466bc3838b931422761e60de020e0f3991c79706cf26f",
+   "map_seed": 1686381963,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1840,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7bc201484de7865c6d5aa5a3785ed92b78003fba0795ef15e1ed0c22d0031e53",
+   "npz_sha256": "230fb55bf7b53e25eec46140b3711e66c0fc99b9f7a5d174dd14d4eeeed776b5",
+   "map_seed": 365917904,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1896,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "4442142c47e7d29b40449101c6ac4a24910bcc0d61fd45a1d6473f207de30f84",
+   "npz_sha256": "7701c58a31b8571e1f716ecadd383e5378735770a39fcf4b19c519b6684ff74e",
+   "map_seed": 1887419889,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1789,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "6c860c540ad1768f4e5baa51e289e4fef1214a125f21c1e2b45ad2448681b4d6",
+   "npz_sha256": "caf51b0b639bb2bad2b63948e2bbe5b596976e8db9078a678a451a9d80327e68",
+   "map_seed": 1105233427,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1838,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b51e569db1153396e963c48a61e653ce55ae8d367d4c2ccd5f25f4c343c65670",
+   "npz_sha256": "9a9b0766bdab6cb06ac50fb4ac6e25a199693cbc80feabcc4be6c32267a9c5ac",
+   "map_seed": 613424829,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1768,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "24df78a84adb01a77c92ccb9bb2e45532365fd8c57c8f0476322d886f138ef3a",
+   "npz_sha256": "52354b75a88d46f7e98b48c95e84f4181e36bdc1bc2c51203cb08fcc91bec8fa",
+   "map_seed": 1837625973,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1902,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "e95486b175759c0b9161cef5090060c7333f215acc24129e214d78b479a2b454",
+   "npz_sha256": "444f4c2666579fa26cfcca1e38432cbe5178da7bb913fcc6269e09ad8e39922e",
+   "map_seed": 703634582,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1896,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "9d0d11d6977c6b17c9ff873f5a6a98850c03dd4b27c6400532de133abf08d3f0",
+   "npz_sha256": "6fa5fd14c6f620fce501d14484d4297c1fb634cbe92be5f2f35fa16f0de7818a",
+   "map_seed": 512594218,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1929,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "86bfd5ca1cebe68c029481d5f5db48346ffec79ffb53d02d1d203bcff5772260",
+   "npz_sha256": "748e982abf921210f9881472a160652a653e85fc6c741638ad6b3234c97ab649",
+   "map_seed": 2050020968,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1851,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0a709371257d0139c4c4a0fbbf40623e4a5256539aa4e4e73d1335ca840d4060",
+   "npz_sha256": "72bb6bfb7b7d02229d4de923776a280a81e611b2141625c098365aeaf864095c",
+   "map_seed": 2066389890,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1944,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "cb93a32ca132d04d9e6f59b9de8933f597324f5ed0946165e6e61ebd5fba9c46",
+   "npz_sha256": "1dff4e528e926d3837a2e950df313ccac5d67a9c0e028099740a547a20b44caf",
+   "map_seed": 93657599,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1860,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "03246d49533cc9e3571b43f6224cbfc48d7a9e081319a64742fbd4562a63bd42",
+   "npz_sha256": "f95e1fb847a371c060fdba72f056a5faf2d23118c0320b58b009ca57d4acdbac",
+   "map_seed": 1392601125,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1865,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "007be3f967bb58a63404aa1535e39e24e53eadf5c0f369967fe08ed4a15ef332",
+   "npz_sha256": "979e43d5f6e516b6cd3f439b4fa6ad38e17a19907ea703f6d2f95e4e7af2c079",
+   "map_seed": 894896046,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1914,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0f22f40f8ae428ee9bb6e13b391b62ee02dd29dbb802b55b4741e25e638accd5",
+   "npz_sha256": "d4667225a3c1faefda173334d2e088b8953235c530a3f45a405064a8f8a66b00",
+   "map_seed": 473694530,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1865,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7b75ac79bab8d5b6ceab21ba9616cbc1c2afc9ef93e601cdae4789d5bfd2ea1e",
+   "npz_sha256": "643fc62c12ec6d38b3fcfb1c9583ae468cf88f088842a2f569904d69d5ba9f8f",
+   "map_seed": 2046177584,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1788,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "fb1708064a46e4759685acdf65fa66c9b844ff5ef887bd836d97efb0b7433194",
+   "npz_sha256": "1e136fe521aac61e64b2f360ff001b4cc940eda8cee8f83fa4a95ca354b85ee6",
+   "map_seed": 1076300964,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1863,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "8479dfb908f0d2a2a3eca404bd91eb85549cc74380425c647465ecece74483d3",
+   "npz_sha256": "40166b961b6aad49517d653052b3b1557240096ece50ac93cc1ed95897c0e8ca",
+   "map_seed": 832768799,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1842,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n08-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "42e166e2c5ac928ef20c118e2028982343d32c91269d656c62a8024e647747ec",
+   "npz_sha256": "1f0b43cad996971ecaeba2ec518cf822c1b9fe10d971e96bf347b00a2edd4045",
+   "map_seed": 1484655294,
+   "teams": 8,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1851,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "05461d565a7972ab0c660cd46be948062c0463fa249264a3a5bf957d84f4b3e8",
+   "npz_sha256": "5bddc8fbd2ac4d93a7b721a79d4571b03e9e598bac5f4448449e6974d1c60807",
+   "map_seed": 1618193386,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1754,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "78bdbb74b8b64748745551508ee9b386b2149c59622d151468cdc532bac4ccb6",
+   "npz_sha256": "c9c7336b20fb08967baeef893654b10f7ba041fbc0d0191c9156b1837028b80d",
+   "map_seed": 1777834297,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1878,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "4f1782fe055f94861a5af533a9049e60834fd8bd41f776e1a4b035765162d22a",
+   "npz_sha256": "50a3d7ad782b3aa2b462e942c8437895b8abd3aeb9589e4327110a9a90b1e603",
+   "map_seed": 2056182392,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1838,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "9bd43716c1398a27c4d55fe98809aec6efc905601e32eb29d5e95fc8f87cc1f4",
+   "npz_sha256": "9c12b0a0c38597f9023af06d76d39d55978975d4349bb93b1d126b419a14cba7",
+   "map_seed": 1377956506,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1688,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "e03018fca99faa9c008765695f86196955fb7e0e8191bb61bf7ebbe26289c685",
+   "npz_sha256": "97563bb5907258e250a7f29dff718a1ab0c00855ade1a157528ac0a699195abe",
+   "map_seed": 1482839431,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1671,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7554399d3b58cc69891dc414c24af7726d9e032c85d9a25d876d844f61a24bc2",
+   "npz_sha256": "a2d20ad3662c288d55c693c722a7f03b277119f4e0051c4d6585df13f1d947b4",
+   "map_seed": 2114139186,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1903,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "5c35af4249f05bb5665225e3b36205a36bc0709635766ded3c4417a57ca6589b",
+   "npz_sha256": "8c4ec512958842c33cfa153ffa46a970f54acb5fa21662de1ecc1695db751a5b",
+   "map_seed": 1354500849,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1865,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "68aff60d4bd505e9a7b4304efb529927c71dde1f09a911a64e06fd101d67dfb4",
+   "npz_sha256": "8239c34c77322c2502fc20116b2e8025eaba78e7433789f79276e28a87ea87c8",
+   "map_seed": 287078814,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1936,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "812ee95ddbda032d73c974c8dcf6db715c541ed9a0da4d9385df53b9b89f65be",
+   "npz_sha256": "f52767d530f5b409bbe33e278bd7d25017bac424432e855004eb2d6886b63c53",
+   "map_seed": 335175425,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1833,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "96da48811503c2fe236b40186360eff7754802d45ba858b6aa758a51a7468915",
+   "npz_sha256": "95a60528352b49d8c63673d43c4c49c30b08ea132b0cbe9263f4989147288ef6",
+   "map_seed": 1226678946,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1941,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0adacc4fd9a9538fc15c41c34db2683b56ea0a36ff8f82ba13ebc614f0e63aef",
+   "npz_sha256": "109f1fd0f463fddbdb742704b2f1100cbf510755f212ec86b254b20db842501c",
+   "map_seed": 1503439204,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1833,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7f8bb1a2efe858f7d24aec5498c332a35300fada53a75d8d750d5408254abcdc",
+   "npz_sha256": "d2b049631a536149c5adcb7adb4e71abf73c4e3e0a22871f44ef32e0d9f9d356",
+   "map_seed": 1499196295,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1761,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "456ddb9a61bfcf0f47484854f14aed40eec579657201170cebf558615c367942",
+   "npz_sha256": "1a56e347347b11949ee7619ff8ac1a2ac554c22f7685cba072a74ab8ca15b656",
+   "map_seed": 1168987948,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1692,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "fa34f5a72c3b115efafb4ad59db266abf55851c3d91a0c84fbe030f4479a5efe",
+   "npz_sha256": "bc558f12147b04f77332bc535c487ae6c69e2a045888e6e0bd387a52e6af0ab4",
+   "map_seed": 378415731,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1851,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3f794fa8c2685ff833e36ba6f29c30ea49e78648a26d09d893b80c9c72204f90",
+   "npz_sha256": "8b91c798d4463c08788ce08667a6370963c11d660a126209ddbad815d2a6430a",
+   "map_seed": 70339678,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1715,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d9a4f479357bb698944f881f6fc87b9af8d5e416bdbf5f5083e5d7600b8dc14d",
+   "npz_sha256": "384ac12c6b5e80a97ee49ae6d6a939b9cf8edd66b07547ac0c1d332dde3487ee",
+   "map_seed": 1778347703,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1824,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0186f311ef8ca5e5267de36e04081177fbaee759cd9990cbc03a4207343fa6ce",
+   "npz_sha256": "5748209a2fff8fecff870ad38ee11e07dabd8262deffd5b9d1c49f5a4b5f8658",
+   "map_seed": 1219942746,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1884,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3a6c0ace955e5e368997faae6389520d786dfc838f4a65e4ed24025e53d80fd6",
+   "npz_sha256": "81b1c25587bb13c005e0762230a1dde4efac99a438765eacce287c7f23563748",
+   "map_seed": 546526168,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1877,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0ae4ae90f10151e87ebd5d16caa32ab5eb6a93c3c10c17cd0068822a0acf3737",
+   "npz_sha256": "c6945445c644768bd42cdf5095468f461859438499940d855f8c51ada5b160f5",
+   "map_seed": 2112083723,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1801,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n09-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "69691510c5c53d556c36010a61e9ba4452203b00f4b548ec1892ca427fe15ad6",
+   "npz_sha256": "176938efdb72e095c1ad9fb74c50fd936db032480fe9634db76a6bf853032cda",
+   "map_seed": 1402590099,
+   "teams": 9,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1733,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "5b708ab250d499e36b9a5ab75d536ca5716787e42771d57001291f4c2f05080b",
+   "npz_sha256": "b4a9d321940bbe98e4f7ec7d3507bdddc5c1d339bb10ac009532fe24ca69fa0a",
+   "map_seed": 133356185,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1914,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "ee7f6454826c2978cf9699b4b2776ea8afc90db10ad419a107b94c7427fc956b",
+   "npz_sha256": "a470fa2fb1fce08bf3ef4bd93ad3b1232941dcfc5f7aed9b2ffee4f0e067db30",
+   "map_seed": 548022960,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1950,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "596cbbd7763c0a153ca9d321b4e684e99d825917bbc10a702179991ab8699915",
+   "npz_sha256": "98b5cfcb3263a7ba854279b6578d09b53a58990b75c3dfa9b461e3c6f8495e4f",
+   "map_seed": 149966898,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1743,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "81fe0b0783092eb2beff19269813d19bb6ad1aa25d7f155fe752a10cc040efaf",
+   "npz_sha256": "93e5fd080e76bbb8c458257f3195de2371cc61ed06fb39636e379580fd6f4235",
+   "map_seed": 639124764,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1819,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "53b425df52fe2a592827d39d96b58599f2ff9610b33ac8ed3b80180fa7c9dd2f",
+   "npz_sha256": "1cd2e1a0b8764f10329ed5a668a26f18709ca205237ba03f3d757964095e0bfd",
+   "map_seed": 1788213378,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1855,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "303a50ba3f3ef66e679f3ddbe7656e3c5b4702a68cbf7824f2d0f8c3a55cd1f9",
+   "npz_sha256": "c1581de9dbc84247503a5a79d001d1ed4f9ce5ae5681c89a036515ed46d12576",
+   "map_seed": 1314242382,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1812,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "6416e860e5a8a95eace1a78923f2f61fd865a0dc1842d2e06804d537d8a55d07",
+   "npz_sha256": "25c204b57a4c03d784990c22c7758825121a2e68a8a5372ce77f87c5d8d4d7f0",
+   "map_seed": 1289151953,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1880,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "6439659b252dd60900d70951665bb44b27e7b7ab5183a7c30058e3f664457737",
+   "npz_sha256": "5f958597ef266df0169e320d6b092a36a7e3cc7b7ee9b63b4704395224ec423e",
+   "map_seed": 1999867544,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1779,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "188859a5469c13eefd69d45f324addff3512e1900eccfd32f029da4f6637fa0a",
+   "npz_sha256": "eb6e02abb78f4fb9f00aa32be29bd706e1390fc2e25dbece7a1320477d424cf0",
+   "map_seed": 1608001369,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1748,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0d07e74ddc15c820f0d7442c4a12c513d4e8f51704bd7264c15988d8ac05c0d5",
+   "npz_sha256": "dfed15505d9a634e17a00ecf1bb657e6b71fdad61db91f0c015c361ac6899e39",
+   "map_seed": 1165320053,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1772,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "eaa9f760e761258d2e0de03c2803307a5504e1b69e18b3c669e78a2352e5cab6",
+   "npz_sha256": "641de85330c4c0e9c144241f34ef1d9f5dbba63c9401311eb20a01e34400682b",
+   "map_seed": 286430795,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1690,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "8fbc206d20d498c60077fb40aefc12a2ef6340bddcd007075c859fb9ce306649",
+   "npz_sha256": "07f5e5e7dd2dfeabc4994fc61c51174f1980e9feb6effa4b077a68f23d3edd43",
+   "map_seed": 749050145,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1866,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "da01412a1e50e4a6c6f02e78060fc5b953df6ed473fde37db1427240ec108e25",
+   "npz_sha256": "278d4ea070cf77c45c2e55d3cab6e37e3eedf1d2a2a723d504e6ecf033f778f9",
+   "map_seed": 281813225,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1892,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "8a76e7728664422230a30bfac0771b894ee648d10e77d85a4875f288349520c3",
+   "npz_sha256": "be85d12d7e5c8cfd9fd99bf5019f6608cc9b8158e2416a0f1e7d6499c13ae481",
+   "map_seed": 1650378688,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1685,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "8b8946970ac62a72dd0796434ca58bdf68b91ff1897cf285ad9120f81a8597f1",
+   "npz_sha256": "da3c5d31bb15ac0be00e20233815df83853faf5429132131313eb22edc59a474",
+   "map_seed": 2124202308,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1740,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "50afc610d41505320ae194f169775fe91589df45b7aadfe53112e4758b515803",
+   "npz_sha256": "22295ebd16be7357693da36d57399c73637b0967808388a3110c9643f9e01df0",
+   "map_seed": 1507408436,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1783,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "63e4f4151078d56cdb77d0820aa9da08c47061f94294737b42746883ca6428c0",
+   "npz_sha256": "d8d0531e0e9c8306b77999d7318dc462b1c0bf3454491cbd479954bdd7d7f6b0",
+   "map_seed": 62938365,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1857,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "c00407777346bb41597fa4901c5ac83275109bb0bce117b15b059cf4be8ee5bd",
+   "npz_sha256": "94a8386b3eee8af031e28eea9b37e14fcc0fc5f52d7d95aa371ee15e949846b9",
+   "map_seed": 1801166308,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1692,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "5419438cd97853fabac4a2a41f10b8f7d711a2f824c94b46792fc66e9c6845f2",
+   "npz_sha256": "d6aa27669456dc91a9efec3f352c651f655ebd70f438a87d0124115e2b88ef50",
+   "map_seed": 293598641,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1863,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n10-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "296938e26fd3e3d6e7ebca07cf39c38736063303b4c4bcbc1bee1ff3c4f60f1c",
+   "npz_sha256": "a0ff0595276f7545b8422aeecaf513090f1d906722550d5d19628519b3a3101c",
+   "map_seed": 737647842,
+   "teams": 10,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1751,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "c555f632c3e647ea2a25a7188c5da9213dc78e0f8c5bad84bd12fa190fbc7ceb",
+   "npz_sha256": "bb7959cc1f0a406f2d2a00e8cf454f427a7ceab6f80a312d9530bc4b01b07874",
+   "map_seed": 1962142361,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1948,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "2e97ec261c3f231a28a2627cbb14ce5a66f603646ce1d06e19c947e9a3f45018",
+   "npz_sha256": "1b23060ae414c399b4101096f4db13f1c4e52118d35e931630b64f101084d1bd",
+   "map_seed": 1166859551,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1824,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "aa3f687172bf4bc0875486173775bfbd8c982baafd4aede7f4e515d9fb9dd508",
+   "npz_sha256": "d84a487a1d4ed87c7ac07b9fd1511bbcdd60752450b6ebf5d38c9716e53816ca",
+   "map_seed": 187630881,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1951,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "80b008a297254b3fe4503167774e035a85ef838135a1276d1a44ecd07f73b6bd",
+   "npz_sha256": "750877f69412e15eff76cfe0631be919fe9fb399d9f21685c10012762345a0c4",
+   "map_seed": 1357324007,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1935,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "61586fac73f988f2f08aada4bada6b5fd57e134fe2cb44457c8fe1c5eaa80065",
+   "npz_sha256": "ab3b810cde975c872310741aa8302963c8c73cbfc2aa7fee433c697707bff767",
+   "map_seed": 1066877616,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1873,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "513b82791529b12c825a7285660d35098215b71a1ebf1dbe6a7bcdd2eae8f7c1",
+   "npz_sha256": "ed70561fd3fa97d5acdd2d92ac3dbbd11ed075e8b5b2f56393a0b10a03ff97c3",
+   "map_seed": 980790795,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1997,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "732e8e4d0f3384d6d8466f8a791864762efe863a7dba812af40232954cd6fe7c",
+   "npz_sha256": "e2c6e1d2933c264ee64871c0bc0d2fb65b0ab0f7b639adf4b571aea7e7a6027b",
+   "map_seed": 184090034,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1842,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "171729ec92e0cf393179f33353a81236a02732a77797a8473cbb8fa468efbd0e",
+   "npz_sha256": "eaa103e3cbe9aca169f3617d78c0b82f3ac6b7e98321c0f4abdac3af08ac74c0",
+   "map_seed": 2142848183,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1860,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "432306c2250a97b0c5e5000717d5bb923462d08b02cd3536c20442750a5863f5",
+   "npz_sha256": "27062a8b2f9bb6e2e3f0f4f2212566709a2b098279f7619e2bc9a792971f6f20",
+   "map_seed": 730206788,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1889,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0f90987de249bea87a42483da963aaa34e775f7b98d75b4760d0514d87693ef5",
+   "npz_sha256": "e44329718167c52cfef4e9562d5814448e4248fb074dc46cff3b6703fbbb577d",
+   "map_seed": 260291381,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1888,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "1aab94a80ca3c4318c0d19d374430bf8e451a11636d364d76ae1a2e59de438a2",
+   "npz_sha256": "e70824fb6714a3e33e60cb2352ed90edf2e2179c16ad0281826ef9a02f0cc26e",
+   "map_seed": 1856791014,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1874,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "4cf7bf37c69c6553216c564d733817ea13819c48e8d9c5b31bc6e564ebf512b8",
+   "npz_sha256": "951d77321aa7635c296dc73ef8838582ee841a75442cb49827b753b5e0df2a5d",
+   "map_seed": 1230519155,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1858,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "51f78f494bf64d6a41ca612eb4b3b515847164e2a26a2b795918179c8907f236",
+   "npz_sha256": "c362db421ffa1ee239e9d52b56309109db11ad26a6471d8c23600818fd2d5d86",
+   "map_seed": 279102061,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 2003,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0b422b6c29c990251af0724785817babe29099ae56c66358881ad6f5487c4bb6",
+   "npz_sha256": "6d6ad52fc4264522bdbd2fa1371dfb49aa0eda89b052f69bbef5a3db74e1e2cc",
+   "map_seed": 1109215930,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1799,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d4563f5dacb906c592d5dbc1b1b9eb0d4fa76137798043674c5f9279e3ab772e",
+   "npz_sha256": "289841a3ed50cc4f55deb821e8dc5654ac68dda2926cefa74897497cf8bcacef",
+   "map_seed": 1821540479,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1969,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "75f97525344f0c7b17fbd3564dc1ba1e460067b0fcbc5c33b6d598c7e9ac888b",
+   "npz_sha256": "6d5cc8c85fe03aa16931baafb38418e50faf6ba41a5ed83691b4b3af0b3ce2f1",
+   "map_seed": 1748632813,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1720,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "765be31f3dc7cc9a35e5594b1ff5e13545ff3af865cfc92ae84ec1aadd0eba2c",
+   "npz_sha256": "6d60c07b7f205b263b8c5654f90578804b199198ff8eb0b376e8accf4ad517e2",
+   "map_seed": 1391827110,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1775,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b4f14dcf6f6aff73db2b0846c408b662ad49020968d241367dfea3d8c76cd43b",
+   "npz_sha256": "2126185500e7ab4eaf1d3cc8b1475add2eb2e6514a4821353e620593ad9a5f47",
+   "map_seed": 819483631,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1886,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "fbe90e98ee8e12820eda0b1f99d20e976bc192d5c99c06a1f2d275ebd7d2b62a",
+   "npz_sha256": "65ac5a5207b0772892139b891d22d9915bfec95b3f495fa58d2672ecafcad129",
+   "map_seed": 1584232218,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1809,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n11-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "4c21bd15d9d36d587e686f436603ac82482da5a3ebe358344b22a8bc389d42f4",
+   "npz_sha256": "8c462481757e0f4b665babde3f98818777feb85981a9d633b0eedc3e7c4046b2",
+   "map_seed": 1645799231,
+   "teams": 11,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1932,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d3e655032ad5dbb4ba68402cee12f34faea0bc994991ce50eee707e06e4a8330",
+   "npz_sha256": "0f26f5b4be5bdc074189b34fe0577d5708414486d28b2d60e14bfab3783a724a",
+   "map_seed": 341711740,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1858,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "6002c439ff2032402a0cc51757bc58bd85c95353e7e8119aa2f12b944ba81beb",
+   "npz_sha256": "067c1f5e0a6b21cdcc8f90779383523b96730b25fc35bd0c1037e5edd7705aaf",
+   "map_seed": 1636564764,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1824,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "39c2e62d5232b63f14a519505a4993975ede55d2931cf272b05ae103790ef37d",
+   "npz_sha256": "a38ace242f55b010813bd8ddb6cfa9c2a418e58eeab548945d56c55fb2566dfe",
+   "map_seed": 569730192,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1871,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3c1bbe1ed382f1689e2599ef92493b3031ca1eb735e01a053958d6448105652a",
+   "npz_sha256": "6a674eb520747736b28e006a87313e758b7473f48f683dcdecaa6f0c455ff937",
+   "map_seed": 260586086,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1822,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "e90373093470ad35a898a75ba4a8fed340e6d30ce5f53570b783ae5f9c4fd8bf",
+   "npz_sha256": "859e70d03c005ce6004e54ddd806bc3b999e9b662c9956850b9935c8bf5e5792",
+   "map_seed": 1809298284,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1977,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "f862fed273753f138e6206faa2d8b07ebcee0b6b70b19d74fd4dd891b9eddd42",
+   "npz_sha256": "fa5956c21d9960e9cdba88261c046f983027f452ed011e6657f44fbfe1ac7f21",
+   "map_seed": 762087109,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1937,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "ebeb441e04cb494f0fc9df26d958366d6bdc5833f7e2ef21a483a8b3dea7f7aa",
+   "npz_sha256": "4e3c39a7e4b9fb501e8459443076a1e768cc0746020b610eaf75a32693513a9a",
+   "map_seed": 993549782,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1957,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "4dfe99940adccddf403b036fb0f786cfa735a4823b9c0243999447b946535dfb",
+   "npz_sha256": "1c68a2e0292d7bae3bb667a5956f09eb249aca579b27f794a08f9ed0f400a1df",
+   "map_seed": 1607113514,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1865,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "03c62d2a8412481618088cf5730e09e5060687a38d4d47a6ea38557b80aac6b6",
+   "npz_sha256": "d9a5f3e44194a3d27a548f1a62e4407caa5791395c3319c373ce9e6fd1523818",
+   "map_seed": 737488983,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1914,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "c02b6b3d7bc1c3ddcee10bfe5f6605847d142da10a05f269e6fcca66a59414ad",
+   "npz_sha256": "ab57424bbac3987854c2f453032d94b79d04aacc9580eeeabbfe7bbe779a292f",
+   "map_seed": 2015345306,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1905,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0534f1ea2c1ea66e84eecf6327544bb0ad7e1d998b5f5b58d2b5ab5016ce863f",
+   "npz_sha256": "691c0c2946f27e82a7749f4f8c26b5a6ae1f66ef251f55954def26df9deab82d",
+   "map_seed": 770056969,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1830,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "265eb78c22fc9e1240f618ca1528b35f2aa9df6e3fc1f1411431453893165397",
+   "npz_sha256": "c2dca3cf7b86774660541d4591c83e1ff27c117fdaf1f36363b5ac88373c0075",
+   "map_seed": 1627042090,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1880,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "32be99db2464757353593ab70bf660e1064ad4c06db57d94606edc9bff77802b",
+   "npz_sha256": "39541e3a73d26373e8186b5c011ebe3737551dbb88ea24f29c860e440537dd6f",
+   "map_seed": 727961796,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1842,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "fd7cc63f417070ecbbbab9100b1308641bdfb0d68c0edfdb4719193d6e07752f",
+   "npz_sha256": "962e35bed71cb4db028ec068bb5bf9780c1176c2eb2214e101c5ad921cb52efe",
+   "map_seed": 642462117,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1845,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d26d7a978e63f58c04fb8a51fcc38feb007a75ef6bad300ffe0fd0e8b93f7f7c",
+   "npz_sha256": "ba8d7f625073bd1fe49451ebc746a8117d12adb14e99432dbd75154ae5929c88",
+   "map_seed": 133463536,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1851,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "5e97a6c1d6d36514ae896bb58c2d0806065837b453391f25a47ff7454377b3b9",
+   "npz_sha256": "2b58360861eb085683f02343059e4d6852758deabef6e397189596670a797e92",
+   "map_seed": 2100371299,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1880,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "51f6de60af1c5cdfa356878bb493b18fb01aa319754650d6b08147d8926ef3de",
+   "npz_sha256": "d97680aba4cda3c453fa2213cb7e2842d5c6b16a21aa9d2b21b227e9e01791d1",
+   "map_seed": 152102918,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1749,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3c6084c5d2bf2f0a997b83228cf44cc3f210b15cfa50cf2689fe43bb21bf3bd0",
+   "npz_sha256": "9d3f563c1b755a820344701bad9efc63f2f6e01fbe1954d0f215d3b8a511ce65",
+   "map_seed": 1569922061,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1843,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "e9d1220afbb3a5c81a1bdbfc137c8e6857e151414365a7ea5c8b6b5590e0dca3",
+   "npz_sha256": "70ee88f3df56c2fda61db8e05ec7f9395b1fa562ef2c71dcd10077a324511b63",
+   "map_seed": 1205724076,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 2077,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n12-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b1fff32b2e5115bd18f98abe6a6605a3bf3e22784c8bebc8f55194fac803b05d",
+   "npz_sha256": "a7e5defc5947a0b5b5cb1a2b7c20ed166f108f85dbfdae4646e738a6e40d91d6",
+   "map_seed": 1262864935,
+   "teams": 12,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1824,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "f6168f51e77b5a9dd6446e7e645eed968ff7fede3431db0ffb799c69248f71b7",
+   "npz_sha256": "c6d5eade025b4a58383d8c852c5e4f0cf0d3066f888b68cfee2430a3fa1840bb",
+   "map_seed": 2024759341,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1791,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b72ffe14e88988039a88c9dd3dc64d743e3954565b20c4b29d98d2f8cb6af80b",
+   "npz_sha256": "b0a8172e2b8d6265abcc38c5431a9ee83af8d7314b93032582baa0ea5aa04447",
+   "map_seed": 337021549,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1869,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "fb1066c98c5c184d390ebe28f6ae71ab648f34ebf9327dd15fb7583a4035bf30",
+   "npz_sha256": "9050757452e83d3f307e1b102a46477275381bc490e5fda4360a66021dc7c43c",
+   "map_seed": 120470626,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1806,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "e2c00555b0a01fb858a658d29a1a9218a77bb85a53ea646011caa503bd5b1bf9",
+   "npz_sha256": "1a2f2fa3af17c54ec72fff0020bca90580597ee5e869b3694935bb9022fbdd38",
+   "map_seed": 1344476331,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1919,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "72bbcaca72c6623e57dbe4b92e6a8eafb0ea675a5e14fac617c805b5f75cbb5e",
+   "npz_sha256": "a2aa09be76de2e3e4c3a8b1f1e0391b783952639935c5bce9d474b99ff9f9dc1",
+   "map_seed": 468521636,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1834,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "19c6444c65cc54b59a047aba3a7620e975074fe94da2f8ce4d135b2fef589247",
+   "npz_sha256": "b6c309321e40fa3868038e54536bceadc3148bb91255fe897dc8f9fd51aa1d13",
+   "map_seed": 528278453,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1864,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3adff46ec960c0e2164310674609bd0aaba3b018040edc1a4948e8375619136e",
+   "npz_sha256": "7b42f2027afd8be2e22f1ba357d1c5486aa8e8b7460d2e3ad9c688393bd10b87",
+   "map_seed": 1209131528,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1793,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0c6f40364c4d587de672a7ba686bf3badafda7de239b2eac40d227753b4a9f6a",
+   "npz_sha256": "9677abbb81ceb284920fddf01d6179733b5f657e10b3b9403e7aca3f4b7a2b5e",
+   "map_seed": 1134707233,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1837,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "4ca57040811b6effe1680a00afc64e34dcfed0cd26965f7ed05753aadd60e43a",
+   "npz_sha256": "976bb5d265a57089356d2916e0b01689c865d74464b7502c885e098169267695",
+   "map_seed": 185956551,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1914,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d6297f682e2f35d32c74a5b26c50582344398fdc5f5cefb932b07532d2334269",
+   "npz_sha256": "d2a830d706b970a775f74bb3e1b21e22a69e901b7ede13e13a2eb4684940f60a",
+   "map_seed": 1201411025,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1782,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "a397e5434143441ab939b3d8643d789d38ddecf5e396dded84e00498b1f4aaf9",
+   "npz_sha256": "e74f31dd9d132dcca2b0286bd0dee72fc4cbb675554dbe5ce501449ee9afa4a7",
+   "map_seed": 1644341680,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1887,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "55c2e22ea399bb467dfd79eeceecdbbe7908d247d9e65c32aa637a419bf341a2",
+   "npz_sha256": "812f8a9bdab80b7f710ab64ffe99506ab3207b3eaa0e659b11f2ee3f309fee73",
+   "map_seed": 1488516125,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1735,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "9ad9db4132295f136a37cfb6f61f60c46155f59bd474f935674226b2998e9d15",
+   "npz_sha256": "bff26e6493b5cb97e6de0cfca4a312e68efaa414815c0f0f29a35b4d31f5c557",
+   "map_seed": 1072726173,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1811,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7a1cd189bf6112b843a6276646827aa93c054deb578027ef4168d90c540f12ba",
+   "npz_sha256": "88b6a8442a378101ebd98ffad5ca25e82f8f6615ba7881a16f09b9fcfdd13a5c",
+   "map_seed": 1960443818,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1761,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "272587371bc0e71f6e9108c6f434feeaf79c9c3e94fd11ef97709a5890ed0cc9",
+   "npz_sha256": "11e9119e6b8650f199021a60854ab93ae5508c6e6af8d8f1f7908cd95a7f4385",
+   "map_seed": 426298638,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1782,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "04808d0afa2d1e24139fa2bbad9ce3335fc0fa1ac303ecd9835528c1cd3e71d1",
+   "npz_sha256": "a5e60a9950791c2aa9f3f964057ea2446b3e838f761114ee0aa0d52331cff643",
+   "map_seed": 1195374547,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1833,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "8f0b0b8c424c76123d1ab7ea0c8ecf505300d8d7a706c9d521ce98ba81cda4ed",
+   "npz_sha256": "09004d0800f9ad2ccb8029bbb5732444b08286b6ebd63b2266ebfcda7047ecd9",
+   "map_seed": 1915549330,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1872,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "8d74518827b874f1d985e7b68f990406210f17ea086b00c487307129b60e70f6",
+   "npz_sha256": "fef78fb2ba123ee6fe427e490c2b479e681ae76c79274f81a99d874575138237",
+   "map_seed": 797624087,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1936,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "d5bd0d51740e94def48de65870f761b99b11647fff29b8cd7b41572764362cae",
+   "npz_sha256": "6d4a3ea73d679ca9284d0d0e89125481f4db765fa54dc0b8b4b472c74240a2e6",
+   "map_seed": 540389605,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1907,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n13-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "81791b2203b7f732822c1d469531a3e302e4c01fd4107b4b5fa065a511502231",
+   "npz_sha256": "71f5e2cede8fd0ac4e989850b7546dfa83df33fc4b68ac5847d652b3483dbc34",
+   "map_seed": 2072546400,
+   "teams": 13,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1894,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0988af4e8c1cd41b0935777a421567d00fa1b4f59e05861f27e821224e10915e",
+   "npz_sha256": "2f021a8dd2699e4f38d1ec27e234d0beb448ca6c623840c64b1f8ce50e7ec58b",
+   "map_seed": 535618463,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1938,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "f7a403e66da3637b999816afb3d945ceaaab5e8159ca4b67b310526fa36baa84",
+   "npz_sha256": "4a4a947974a723df1a718632f3ab2ef7865246de774597b47bae05a6e74bcde2",
+   "map_seed": 1960199381,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1878,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "e13743a8ccadc7e9ef63f61b8f393b7960a9d5a59d22ee13f6b142d00a4fd66d",
+   "npz_sha256": "526b4472751787d9989f09eb1543c430d154a399a6e0db924b73921df4c376dc",
+   "map_seed": 59024768,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1869,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "dee81296d13a9390d2b58ef307c2e4772de6869b0470b84e19be9765a4ba85a3",
+   "npz_sha256": "49db7e07d0f3732df874f6cfe9513963ee0a60936c6b2b9923b48f63c5a892a2",
+   "map_seed": 427131624,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1722,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "094a79edb02bdd0a21062e504c83c1644c0a706662f54fabce05bd75b33a12c4",
+   "npz_sha256": "6969941894158e904a10e03c4f75d9c66534bc74a2564acd788917da9575dcea",
+   "map_seed": 732324550,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1872,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "92e65f6da9f9c73dda82c600763fccbc2c9528ecd3ecf41b3004bc832ef63b69",
+   "npz_sha256": "6ae7e8ce3b304afb5d2d14d4da1563fa3a73ea44287eae724567bfb46480828b",
+   "map_seed": 710331253,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1815,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "17000a913f5fa08d5f52b09a11b7f6d155f97bf118146009d4b578b7bd9f007c",
+   "npz_sha256": "3ee05c4d444e4295aad4780d210f752501a079869cae1470163403c79b739486",
+   "map_seed": 538903465,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1961,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "b0e1ec83d2b1172f8e6c4f0ed248ab7edfa5b98953009b5ec8ac8f2f4bcda9ed",
+   "npz_sha256": "e28604120890728b41e5ef1ec6e3530623abba77f5dc5f4c5f629daa1421175c",
+   "map_seed": 1112911785,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1860,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "dbd0c0f7cadd813f4e93d581bcae6ead76a31cb7ac74ae663a3c0b403698ef52",
+   "npz_sha256": "77b6bb4a4e8e744675bb6e0327d2b2aaea82e4e63c8737ac5dc8c377835fe38e",
+   "map_seed": 1699874703,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1871,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "a773aa2cc7d92e56d7f5edf1881c4e5a0ed1ef207e1503f932b9d27a991eac35",
+   "npz_sha256": "ab77538a36065af2ba58cf9e6bac81c7e80ec95af3c3848877666eb288b26749",
+   "map_seed": 211319626,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1664,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "9b9df69a10d5904390066818dd5d75eafdcaa1ccac72def261264bd36d671ae1",
+   "npz_sha256": "7c58abc76227ce1cf835340b83601a410dbc13b3c2fc46cadea2b7c92c66653e",
+   "map_seed": 61907048,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1866,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "ed19a41a6a754e62e3612388c40c248498cf6d54cc766dbb6849f85bee332074",
+   "npz_sha256": "09633bbbb012047233c20df528260e6079ac8ea040d9adcc0c2b145c2aab8251",
+   "map_seed": 319661303,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1693,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "c410a30e813d201a442369f057fb482f0dfe72b80b1f15793ead0c133b8a7b76",
+   "npz_sha256": "449fdbb79e0cb14711c82f02eae7712ebf76ffde9d979729597533a28b102c03",
+   "map_seed": 1315287709,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1952,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "32490cdcbac05812bc89a1ad345e1d1514c148d7ef2ac7eb1e4a3d778c7b11ad",
+   "npz_sha256": "428e690cbcee3332b1772e4c99d950caa4bd0661d7973f5ba8e406d866138ac7",
+   "map_seed": 230214609,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1923,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "21479fd8b62a343877f72b7602082768bc6999944363927ffbbdbc0ae673c79a",
+   "npz_sha256": "c4856d86a0b761f780660aa632a0864ed0832ea65164298bbc0218431c97e4c9",
+   "map_seed": 967203863,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1794,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "fc63fcaad20a3c5ddef47de2902121f84fb8766bdc59222305991a6e4b7d91c0",
+   "npz_sha256": "c757f44b6195349dce467ee9a17ac82129717b6f01f2a1e81ffa4b06dce01d8c",
+   "map_seed": 851761196,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1890,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "135126ca216cc2b480996524a25868f5e9c4ab8e9b63ccebc675f7dbae941701",
+   "npz_sha256": "6a7e9f649d48eb9fb2a666f9343c3d3ebafdfdf30a70aa9454d48f8528a221b2",
+   "map_seed": 1475009684,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1754,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "04569f6c9c24cd921f565ad5251b6e24bb7dac3b3f145219664cf61857621bc7",
+   "npz_sha256": "75fa0c86a291565ff71bcd2451d032ca399beda680d975a13488d24c5cbeea32",
+   "map_seed": 886374248,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1681,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "2cdeb17943aaf3f7643e3d4fdb20206873cbe41680dd58e550d543a0faaed1cd",
+   "npz_sha256": "73248fd941724fd7f368b6ca5aa4eb0011a7006cbdd8458f29e46b449b77b621",
+   "map_seed": 1897924568,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1827,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n14-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "584d6b3a35ca2e94bb6d910961fe6e1b86bc11bf5b6c24c7e90dda1da68965e5",
+   "npz_sha256": "f9ca669bf9d536d661038e9072b73145aa43bbeb01c821ac91fc9ac5f2cb6f57",
+   "map_seed": 1220696509,
+   "teams": 14,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1752,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000000": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "5673b52f6fa54ab0ecdbd07f1af96bc94451f0b173ff7ad16121e6bfdc865558",
+   "npz_sha256": "764a3cf54e883b27b2696efaf5a9d86d5ad8188989b242f13a63486533cc1ad2",
+   "map_seed": 656038415,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1824,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000001": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "fc51dba208acbc25b1d9b72dfa2df2083012c6a633540439ae7437885cdab1fd",
+   "npz_sha256": "762cd08c0a751dd0c5dc7a79769abece048185fb1004d2d25418fee8653e53eb",
+   "map_seed": 1448586272,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1661,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000002": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "e72865942537c557ebd9547304aee1244aff90298d86f146f82ea0d42e28ae63",
+   "npz_sha256": "38270b58fec02d5aa46bf24183f70ca181c0c5003a47a35c03e9d47ec56c8248",
+   "map_seed": 1714508138,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1718,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000003": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "46b0d682b05205bef08ec9dd0217887985ad77df576299a514e970468ef66177",
+   "npz_sha256": "9b2d1efb8d3109e5f94dad471c43dd596ccd36ead5e7f5fc835794df6049a383",
+   "map_seed": 1953531990,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1794,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000004": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "a6fe76e27f74c5c36d78888368ccb23ad87de9616607b88698b312554b7d10a2",
+   "npz_sha256": "a4ff27047d9c619214d8538d3d3be54b22f79c89e6693e84f535e83c72a429ea",
+   "map_seed": 1512659923,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1681,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000005": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "7ea94124826ab9371e92c458b629aa4b83923321be1f297f0da9419a308b40c9",
+   "npz_sha256": "1199aeed7fa9f513e2768a3074f767baa6b5ba579f50fff2f3516b878c0b0089",
+   "map_seed": 1702648598,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1879,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000006": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "16205a819d5aa85e2f0c9624c2f8c735ac097a93c708d04129f5b81c7435ae3a",
+   "npz_sha256": "fad7f58277996c52657e6c1380f7f5f2bf57c1d348f0a4e65848d8a0faea6563",
+   "map_seed": 166174866,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1719,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000007": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "488f9141b915df529470925f03cd22efa1b695bda9036c79eb2a8c1338448f7e",
+   "npz_sha256": "ee5032a0227b0f5f5886ca1e212c337e038f2811ea1fc4019831d47fbfb34ee4",
+   "map_seed": 563277506,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1896,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000008": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "f8fea653d9c5b2f0fd17558d12591ce8c0360dc50dc5ac468200a75f8c833320",
+   "npz_sha256": "5d8e6aad3371f6164bd83f27c5f51c67f2b64fc08f79c6e64c1cb5fa4e5d7e6d",
+   "map_seed": 1571412309,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1733,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000009": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "13ae377bf77a04a806638604891f834dfe46db64daba3413561a5d645b5087b8",
+   "npz_sha256": "811e0cc1e36f969c08e08d40b72110436947981522cf9f71e15af0cb55e77c81",
+   "map_seed": 1130317938,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1860,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000010": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "e0ff25309bf36814a6007e4ceca22e4b434ff57a9fcd28aff47ef8e6d4e66c35",
+   "npz_sha256": "46458e7eabdff88541ab18fa31ed23280020205faf6dea38d23ebd42cdfe3ce6",
+   "map_seed": 293053944,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1799,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000011": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "2a82f53bc67d68a4a9c27ac55bbfcb5e339895b0925048366cb636fa67ddbf25",
+   "npz_sha256": "2b7e4650b2938c685d8604d8569477ee43924453083f0195131230c6c7ff1c1f",
+   "map_seed": 1622208060,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1783,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000012": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "c0faab6ffad5d744da9caecc8400acf173c13d56eb3e4ed587a66c125eb673ed",
+   "npz_sha256": "befcba0b14b75160f066585ae17577f106fb65efb9a4c8d393c183e18fcbb767",
+   "map_seed": 1317562093,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1724,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000013": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "a95866c15eab173a1d0a8ebc8c711781500bb5e9a1e310343ae3b21435894c96",
+   "npz_sha256": "5f2e356388471d10d98605a7daa198479841703261f54aad1092596f984dc7c3",
+   "map_seed": 2070187710,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1698,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000014": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "3fa2972e82307f1bbec2c753bd55b00fbaa03c7f37e621f5355790dbe1f82943",
+   "npz_sha256": "85f31e729f17322397fb334858d0ea38aeb86f8b1feac0435f30b85be8b8322a",
+   "map_seed": 1921048898,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1798,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000015": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "77266d3c1b93de9bb7d96eb2fa5b075a7160d00e0b49b187688021a96c6bbbda",
+   "npz_sha256": "18e09dc02222caca60ed90b6447cbeb5e8da2b4542460906d0cfd1055a94874e",
+   "map_seed": 602811712,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1737,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000016": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "108816e3fbe2db05135cc940294582797252be542ec2eb14971a2fc487a63ffa",
+   "npz_sha256": "b51e90944474b2b7620fee3bb0f0f9f9d17a48470c8ec31828d736bb4069ca47",
+   "map_seed": 628955941,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1805,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000017": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "45a81caaf6e28812753c21736d1c5fbb24101c01f1e82f1e0a8519a6084f96ec",
+   "npz_sha256": "36348975bcff4eb4521ebf8c6742b8857798863cf654794b9dd3a0ee435d65f0",
+   "map_seed": 2104469868,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1726,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000018": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "0c6d891c9f960b7ba6e0b55b70bcc9d544438e79cec470d0520e0640e1b30112",
+   "npz_sha256": "2eea80e7d20083a491252dbe4aba87825018bf6b1c1596e9d108c6681079b038",
+   "map_seed": 188370509,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1765,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  },
+  "n15-s20261250-000019": {
+   "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+   "raw_sha256": "301eaaaf1ebb78919e16bc9b78fb3bb6d0c37d18f44c0be8d7868a95f1af7151",
+   "npz_sha256": "8a0b93117df6d1e8424c9dff140f44160ad5b05f63dab517e0e58df2eecfdd2a",
+   "map_seed": 1998267121,
+   "teams": 15,
+   "rows": 800,
+   "qh_coverage": {
+    "active_units": 1823,
+    "missing_units": 0,
+    "off_grid_units": 0,
+    "complete_rows": 800
+   },
+   "raw_audit": {
+    "reserved_rows": 800,
+    "valid_reserved_rows": 800,
+    "invalid_reserved_rows": 0,
+    "allseat_faults": 0,
+    "fault_records": []
+   }
+  }
+ }
+}

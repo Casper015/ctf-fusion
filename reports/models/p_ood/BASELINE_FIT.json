@@ -1,0 +1,564 @@
+{
+ "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+ "original_index_sha256": "6d5bdc531793d896d1a5cc156a2df65626b1928628d1da679537dbee5d0ebcb9",
+ "fit_split": "original ID val only",
+ "counts": {
+  "2": {
+   "rows": 57159,
+   "inertia_rate": 0.46317505836486816,
+   "validation_shards": {
+    "n02/val/shard_0000.npz": "f2797b0bf3cd7b5bc123836e7831ab2cd62d16d80844805621646b1fbe3b5119"
+   }
+  },
+  "3": {
+   "rows": 67385,
+   "inertia_rate": 0.5786501169204712,
+   "validation_shards": {
+    "n03/val/shard_0000.npz": "e2588b5b912b83c19322590cf0b43dd6659b750a148976572e52651ba26a7c01"
+   }
+  },
+  "4": {
+   "rows": 98473,
+   "inertia_rate": 0.58524090051651,
+   "validation_shards": {
+    "n04/val/shard_0000.npz": "b285e1c5752ed35629b89e9bc9c26b2e6f35dee8389f16342e658b15c7386e60"
+   }
+  },
+  "5": {
+   "rows": 146691,
+   "inertia_rate": 0.49059346318244934,
+   "validation_shards": {
+    "n05/val/shard_0000.npz": "99018c79359cd3034e44e7b769ac4e2e7b6c9bf70442b708d620e9eb1183a26f"
+   }
+  },
+  "6": {
+   "rows": 143369,
+   "inertia_rate": 0.5894694924354553,
+   "validation_shards": {
+    "n06/val/shard_0000.npz": "0bf091210af3123d36bbc5cda54beef84b2a3f529da0d072c12d3afd02959ce8"
+   }
+  },
+  "7": {
+   "rows": 151625,
+   "inertia_rate": 0.5700929164886475,
+   "validation_shards": {
+    "n07/val/shard_0000.npz": "4fb5888b12a3ee9b71f89109f3f6f328d535b1552890f67d4a06106f466d9de7"
+   }
+  },
+  "8": {
+   "rows": 208862,
+   "inertia_rate": 0.5488837957382202,
+   "validation_shards": {
+    "n08/val/shard_0000.npz": "acd5ab39b35ea3155634c7a2eb4b6028a5d8a5e41ccc19a38efdf331431ed411",
+    "n08/val/shard_0001.npz": "ab9346a9a9b2dc2c0df06748817c62f4b9e6f82c0ac31eab0ce7bd7907217018"
+   }
+  },
+  "9": {
+   "rows": 246738,
+   "inertia_rate": 0.5277737379074097,
+   "validation_shards": {
+    "n09/val/shard_0000.npz": "ce01f2e8d597f089f5153a4c12e37b47111b920843263a57225b7ab288e13b20",
+    "n09/val/shard_0001.npz": "2bd68a893dda9265ee404c8d4b28b037bfd4eddd55b6201c5b60194a6532a1c6"
+   }
+  },
+  "10": {
+   "rows": 248775,
+   "inertia_rate": 0.5189835429191589,
+   "validation_shards": {
+    "n10/val/shard_0000.npz": "fed7079b8fe576ac06a4016e2e9a21fd831e2140b88098ca1ee91b0de8485b39",
+    "n10/val/shard_0001.npz": "840a9b242981dda853399850a0927d85e7d043b01bc2d5154241031fa8452990"
+   }
+  },
+  "11": {
+   "rows": 271546,
+   "inertia_rate": 0.5602140426635742,
+   "validation_shards": {
+    "n11/val/shard_0000.npz": "83d70695badbce14b428bf88304c85f21f15a5f037f42d006f0bf129f6f082ee",
+    "n11/val/shard_0001.npz": "8f720742afe52e3e28c9603aaec921ba98954fcd98e3ea7844ac6029ebb7fcd2"
+   }
+  },
+  "12": {
+   "rows": 321975,
+   "inertia_rate": 0.5500224828720093,
+   "validation_shards": {
+    "n12/val/shard_0000.npz": "aa09059b8db7c9cc8879ede396c86ef63b4ce1e82c548464f866f81948fafe06",
+    "n12/val/shard_0001.npz": "55f9ceee423e1ef4f88dbd469dfb6ded1b02c44ae38a53885e660cf0b9d39f27"
+   }
+  },
+  "13": {
+   "rows": 287323,
+   "inertia_rate": 0.5461933016777039,
+   "validation_shards": {
+    "n13/val/shard_0000.npz": "dce5401b71e0d779b7bb868a1488321c5a764b95ecdd9ad4a89454be2bc3c2e4",
+    "n13/val/shard_0001.npz": "602e36eba5ff9dda2332a82ec02e3fdaabcc9bb5f24401fb2d12530f152e2c77"
+   }
+  },
+  "14": {
+   "rows": 303687,
+   "inertia_rate": 0.5353397130966187,
+   "validation_shards": {
+    "n14/val/shard_0000.npz": "3d0a785a7bca66300022fc187fdf4abd230cf440409e0ea7fa1d8f8a696e1009",
+    "n14/val/shard_0001.npz": "18b880e48c9353181331259cbea3960aad98c00fc02bcc0f9bb2c7ca4cbb305e"
+   }
+  },
+  "15": {
+   "rows": 428311,
+   "inertia_rate": 0.5303114056587219,
+   "validation_shards": {
+    "n15/val/shard_0000.npz": "612015acc4d4f62d73eaa72fe4cc3f86d6c541eb6dccf20feb074a31f8a0448b",
+    "n15/val/shard_0001.npz": "d784bf2362496aa0168e02d9adf651b279bf23c08f13c447a65ec36e699797a9",
+    "n15/val/shard_0002.npz": "fedc6062c1508c7991ce41b0facbe853e660859edec62446d5df1141b78716f0"
+   }
+  }
+ },
+ "id_test_reports": {
+  "XL/2": {
+   "source": "reports/models/xl/n02.json",
+   "report_sha256": "ce6deb10207243c3519cc5cb46fd0e8ca96999178c0a5b0855711255e08f9057",
+   "reported_id_test": {
+    "teams": 2,
+    "rows": 51893,
+    "maps": 151,
+    "quantized": 1.7271550038019343,
+    "uniform": 3.7317081454356535,
+    "inertia": 3.3202330173305463,
+    "heuristic": 3.093374783268917,
+    "top1": 0.4940930647245549,
+    "ece": 0.009737136662555374
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/2": {
+   "source": "reports/models/xxl/n02.json",
+   "report_sha256": "921f0ef87a30a0b0ac8d5b58510c0ef74db19df171008d437d1402e5356efad4",
+   "reported_id_test": {
+    "teams": 2,
+    "rows": 51893,
+    "maps": 151,
+    "quantized": 1.680862586759163,
+    "uniform": 3.7317081454356535,
+    "inertia": 3.3202330173305463,
+    "heuristic": 3.093374783268917,
+    "top1": 0.5072948958761155,
+    "ece": 0.004566034785124787
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/3": {
+   "source": "reports/models/xl/n03.json",
+   "report_sha256": "f6dec9a992e4d72fcc5173bbbfb6a7fd48fe9495d207f5bfa10a6b65a9fdf716",
+   "reported_id_test": {
+    "teams": 3,
+    "rows": 75914,
+    "maps": 160,
+    "quantized": 1.7481573757532634,
+    "uniform": 3.9624375476840195,
+    "inertia": 3.115111491818523,
+    "heuristic": 3.3504901441855477,
+    "top1": 0.5040715119585236,
+    "ece": 0.004894731144536684
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/3": {
+   "source": "reports/models/xxl/n03.json",
+   "report_sha256": "22815d957c2b12ff442fec23c30be70af3c452deee4fbc5f78a320ae07a54015",
+   "reported_id_test": {
+    "teams": 3,
+    "rows": 75914,
+    "maps": 160,
+    "quantized": 1.7179789769479918,
+    "uniform": 3.9624375476840195,
+    "inertia": 3.115111491818523,
+    "heuristic": 3.3504901441855477,
+    "top1": 0.5114450148814527,
+    "ece": 0.006968699915462086
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/4": {
+   "source": "reports/models/xl/n04.json",
+   "report_sha256": "af7147e3559615d4ddb1483f3ec5e4a8437e42fde43667b61804ca576ef094ef",
+   "reported_id_test": {
+    "teams": 4,
+    "rows": 87319,
+    "maps": 138,
+    "quantized": 1.833943301925678,
+    "uniform": 3.8881346074195444,
+    "inertia": 3.032529576237213,
+    "heuristic": 3.4496292983623404,
+    "top1": 0.49399618953017327,
+    "ece": 0.0052464853417678835
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/4": {
+   "source": "reports/models/xxl/n04.json",
+   "report_sha256": "4e0854024c04d934e1091ab2e7d63faef72610485829f2057c6d0ed4f9b8b09f",
+   "reported_id_test": {
+    "teams": 4,
+    "rows": 87319,
+    "maps": 138,
+    "quantized": 1.7956206478060899,
+    "uniform": 3.8881346074195444,
+    "inertia": 3.032529576237213,
+    "heuristic": 3.4496292983623404,
+    "top1": 0.5013457737605609,
+    "ece": 0.006209396475757088
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/5": {
+   "source": "reports/models/xl/n05.json",
+   "report_sha256": "565aa39e500e49d64306b83b183c9995ec261cf668fead723bf42c6d42e0e0df",
+   "reported_id_test": {
+    "teams": 5,
+    "rows": 125217,
+    "maps": 147,
+    "quantized": 1.9713053519764991,
+    "uniform": 3.556400846785589,
+    "inertia": 3.088528384096586,
+    "heuristic": 3.0905528276202876,
+    "top1": 0.4377536110776735,
+    "ece": 0.003295324169246128
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/5": {
+   "source": "reports/models/xxl/n05.json",
+   "report_sha256": "7b0cf44a5bc06c791be6014fcf8063322372d97e23f7123cb1b899eeaafccd65",
+   "reported_id_test": {
+    "teams": 5,
+    "rows": 125217,
+    "maps": 147,
+    "quantized": 1.9447497523273591,
+    "uniform": 3.556400846785589,
+    "inertia": 3.088528384096586,
+    "heuristic": 3.0905528276202876,
+    "top1": 0.44320597469035666,
+    "ece": 0.003427079757073007
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/6": {
+   "source": "reports/models/xl/n06.json",
+   "report_sha256": "f35ab00dae0a20ec82691cc55a1bac39ee9fdec8d031545dcb54a6bee6a9d6bf",
+   "reported_id_test": {
+    "teams": 6,
+    "rows": 146554,
+    "maps": 153,
+    "quantized": 2.0156249645554176,
+    "uniform": 3.9208882692910003,
+    "inertia": 3.092981804616712,
+    "heuristic": 3.577265106457967,
+    "top1": 0.4506892246969894,
+    "ece": 0.004186896232394173
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/6": {
+   "source": "reports/models/xxl/n06.json",
+   "report_sha256": "aed809bc595974f29246e75f1644b358237c29dae5fbe93076f965782336861c",
+   "reported_id_test": {
+    "teams": 6,
+    "rows": 146554,
+    "maps": 153,
+    "quantized": 1.9874943001908925,
+    "uniform": 3.9208882692910003,
+    "inertia": 3.092981804616712,
+    "heuristic": 3.577265106457967,
+    "top1": 0.45595443771256505,
+    "ece": 0.0034263022399684357
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/7": {
+   "source": "reports/models/xl/n07.json",
+   "report_sha256": "ba7637c38524aad3712704823a689d253402d0996576884669bc6597e7fbfb30",
+   "reported_id_test": {
+    "teams": 7,
+    "rows": 173623,
+    "maps": 151,
+    "quantized": 2.0065880115238603,
+    "uniform": 3.8363546758797606,
+    "inertia": 3.0868558327270486,
+    "heuristic": 3.3568143232428613,
+    "top1": 0.44609264862003734,
+    "ece": 0.003939472025628543
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/7": {
+   "source": "reports/models/xxl/n07.json",
+   "report_sha256": "d2c467966fe5b12b12acbc5bafd22745f98cc38a1fbcf986637358ef168733af",
+   "reported_id_test": {
+    "teams": 7,
+    "rows": 173623,
+    "maps": 151,
+    "quantized": 1.9863653457092807,
+    "uniform": 3.8363546758797606,
+    "inertia": 3.0868558327270486,
+    "heuristic": 3.3568143232428613,
+    "top1": 0.4498897975699393,
+    "ece": 0.003405830422777351
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/8": {
+   "source": "reports/models/xl/n08.json",
+   "report_sha256": "e14d0d173cb1a67e236c8a8d5c09d16c29a4e65f2420d037427d096d3db14c37",
+   "reported_id_test": {
+    "teams": 8,
+    "rows": 204940,
+    "maps": 154,
+    "quantized": 2.0310792106849855,
+    "uniform": 3.723250774359634,
+    "inertia": 3.069655801204499,
+    "heuristic": 3.315699654721454,
+    "top1": 0.43683086431853724,
+    "ece": 0.0021327203831759717
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/8": {
+   "source": "reports/models/xxl/n08.json",
+   "report_sha256": "d69783619e24e6b142a830ffdbce2086d4c938efd37f90e29db7cddbf114a4ca",
+   "reported_id_test": {
+    "teams": 8,
+    "rows": 204940,
+    "maps": 154,
+    "quantized": 2.0008130955137338,
+    "uniform": 3.723250774359634,
+    "inertia": 3.069655801204499,
+    "heuristic": 3.315699654721454,
+    "top1": 0.44253962826171833,
+    "ece": 0.0024647749499673507
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/9": {
+   "source": "reports/models/xl/general.json",
+   "report_sha256": "deb38c009fc425103bf80eaea9ac3f661e7f0443a09d8448f62ff0782dbce871",
+   "reported_id_test": {
+    "teams": 9,
+    "rows": 220067,
+    "maps": 144,
+    "quantized": 2.0199166023129984,
+    "uniform": 3.628548623321001,
+    "inertia": 3.0658641406247273,
+    "heuristic": 3.1233510457887506,
+    "top1": 0.4339569835990252,
+    "ece": 0.006342833631958976
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/9": {
+   "source": "reports/models/xxl/general.json",
+   "report_sha256": "34cc0559c4a42915fa134e404c2ac9643b3e5c819918a729ddf6800bde202d86",
+   "reported_id_test": {
+    "teams": 9,
+    "rows": 220067,
+    "maps": 144,
+    "quantized": 1.9922831616912375,
+    "uniform": 3.628548623321001,
+    "inertia": 3.0658641406247273,
+    "heuristic": 3.1233510457887506,
+    "top1": 0.4391990443404479,
+    "ece": 0.007637975522351759
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/10": {
+   "source": "reports/models/xl/n10.json",
+   "report_sha256": "65a907a7d8d4a4996be1b1e75f21003b91a577ddfe7ab37cf59c34df7b677ec5",
+   "reported_id_test": {
+    "teams": 10,
+    "rows": 204326,
+    "maps": 120,
+    "quantized": 2.036559885908887,
+    "uniform": 3.5694315742994496,
+    "inertia": 3.0479274137130368,
+    "heuristic": 3.1054729285474076,
+    "top1": 0.42800708270044746,
+    "ece": 0.004504665016957648
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/10": {
+   "source": "reports/models/xxl/n10.json",
+   "report_sha256": "49cfdf92847ac2e38fe781b3cd4c7e5ca7d38d70a9b0d486a71ee0a106ce142a",
+   "reported_id_test": {
+    "teams": 10,
+    "rows": 204326,
+    "maps": 120,
+    "quantized": 2.0155326574910943,
+    "uniform": 3.5694315742994496,
+    "inertia": 3.0479274137130368,
+    "heuristic": 3.1054729285474076,
+    "top1": 0.43270335791901204,
+    "ece": 0.004785649453736583
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/11": {
+   "source": "reports/models/xl/general.json",
+   "report_sha256": "deb38c009fc425103bf80eaea9ac3f661e7f0443a09d8448f62ff0782dbce871",
+   "reported_id_test": {
+    "teams": 11,
+    "rows": 266532,
+    "maps": 145,
+    "quantized": 1.9772414036977206,
+    "uniform": 3.739611172587511,
+    "inertia": 3.050099294841902,
+    "heuristic": 3.1655533329487118,
+    "top1": 0.44628090333460413,
+    "ece": 0.0048237818241868785
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/11": {
+   "source": "reports/models/xxl/general.json",
+   "report_sha256": "34cc0559c4a42915fa134e404c2ac9643b3e5c819918a729ddf6800bde202d86",
+   "reported_id_test": {
+    "teams": 11,
+    "rows": 266532,
+    "maps": 145,
+    "quantized": 1.9483573745856817,
+    "uniform": 3.739611172587511,
+    "inertia": 3.050099294841902,
+    "heuristic": 3.1655533329487118,
+    "top1": 0.45247422475489163,
+    "ece": 0.004572039910667207
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/12": {
+   "source": "reports/models/xl/n12.json",
+   "report_sha256": "252277681396171ea1dd727192b038ded62d3d991765317f68977c7853ba2a14",
+   "reported_id_test": {
+    "teams": 12,
+    "rows": 323449,
+    "maps": 161,
+    "quantized": 1.9845596871283657,
+    "uniform": 3.6833672582097474,
+    "inertia": 3.0385106408269262,
+    "heuristic": 3.148048685062947,
+    "top1": 0.4423906626548466,
+    "ece": 0.003388525725777626
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/12": {
+   "source": "reports/models/xxl/n12.json",
+   "report_sha256": "d07c011b2c4a99ffb2c36d0ea0f573a48fff50d1c71af2405948d3f94621b8f5",
+   "reported_id_test": {
+    "teams": 12,
+    "rows": 323449,
+    "maps": 161,
+    "quantized": 1.966210163401165,
+    "uniform": 3.6833672582097474,
+    "inertia": 3.0385106408269262,
+    "heuristic": 3.148048685062947,
+    "top1": 0.44645999524082886,
+    "ece": 0.0035446111130645937
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/13": {
+   "source": "reports/models/xl/general.json",
+   "report_sha256": "deb38c009fc425103bf80eaea9ac3f661e7f0443a09d8448f62ff0782dbce871",
+   "reported_id_test": {
+    "teams": 13,
+    "rows": 360569,
+    "maps": 163,
+    "quantized": 2.0033846876305614,
+    "uniform": 3.660047962446421,
+    "inertia": 3.040551755745613,
+    "heuristic": 3.097301013300589,
+    "top1": 0.4388314342674328,
+    "ece": 0.005191223028439886
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/13": {
+   "source": "reports/models/xxl/general.json",
+   "report_sha256": "34cc0559c4a42915fa134e404c2ac9643b3e5c819918a729ddf6800bde202d86",
+   "reported_id_test": {
+    "teams": 13,
+    "rows": 360569,
+    "maps": 163,
+    "quantized": 1.974436794418618,
+    "uniform": 3.660047962446421,
+    "inertia": 3.040551755745613,
+    "heuristic": 3.097301013300589,
+    "top1": 0.44411798831161087,
+    "ece": 0.007032489764437132
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/14": {
+   "source": "reports/models/xl/general.json",
+   "report_sha256": "deb38c009fc425103bf80eaea9ac3f661e7f0443a09d8448f62ff0782dbce871",
+   "reported_id_test": {
+    "teams": 14,
+    "rows": 293635,
+    "maps": 123,
+    "quantized": 2.0063262355452474,
+    "uniform": 3.5865328984100078,
+    "inertia": 3.02166147121227,
+    "heuristic": 3.0536266284749787,
+    "top1": 0.4365086543925518,
+    "ece": 0.006097400180995287
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/14": {
+   "source": "reports/models/xxl/general.json",
+   "report_sha256": "34cc0559c4a42915fa134e404c2ac9643b3e5c819918a729ddf6800bde202d86",
+   "reported_id_test": {
+    "teams": 14,
+    "rows": 293635,
+    "maps": 123,
+    "quantized": 1.978943589848281,
+    "uniform": 3.5865328984100078,
+    "inertia": 3.02166147121227,
+    "heuristic": 3.0536266284749787,
+    "top1": 0.44269043471246927,
+    "ece": 0.008027688139184265
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XL/15": {
+   "source": "reports/models/xl/n15.json",
+   "report_sha256": "99adf7772f9df2fdb5a8d0333ca1cee7057d8bd12b474e73521cc813df30947b",
+   "reported_id_test": {
+    "teams": 15,
+    "rows": 330941,
+    "maps": 128,
+    "quantized": 1.98157714574151,
+    "uniform": 3.5557719004373114,
+    "inertia": 3.0023470040063995,
+    "heuristic": 2.982518720627443,
+    "top1": 0.4396002843978591,
+    "ece": 0.005067542095913158
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  },
+  "XXL/15": {
+   "source": "reports/models/xxl/n15.json",
+   "report_sha256": "e82f7e42f69c706161be8b18a47371fe059f75c0e0f26c0c8eca65897d6eb5a2",
+   "reported_id_test": {
+    "teams": 15,
+    "rows": 330941,
+    "maps": 128,
+    "quantized": 1.9630526254829144,
+    "uniform": 3.5557719004373114,
+    "inertia": 3.0023470040063995,
+    "heuristic": 2.982518720627443,
+    "top1": 0.44393911901886285,
+    "ece": 0.005850642378342136
+   },
+   "note": "Existing matched-artifact ID test report; not recomputed or interpreted as OOD/strength."
+  }
+ }
+}

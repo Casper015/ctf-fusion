@@ -1,0 +1,229 @@
+{
+ "identity": "da31b32897a4a39fbf00d9ae94862ab987055285ccca0f3e448402616b28327a",
+ "cases": [
+  {
+   "teams": 2,
+   "size": "XL",
+   "model": "n02",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 2,
+   "size": "XXL",
+   "model": "n02",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 3,
+   "size": "XL",
+   "model": "n03",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 3,
+   "size": "XXL",
+   "model": "n03",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 4,
+   "size": "XL",
+   "model": "n04",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 4,
+   "size": "XXL",
+   "model": "n04",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 5,
+   "size": "XL",
+   "model": "n05",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 5,
+   "size": "XXL",
+   "model": "n05",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 6,
+   "size": "XL",
+   "model": "n06",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 6,
+   "size": "XXL",
+   "model": "n06",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 7,
+   "size": "XL",
+   "model": "n07",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 7,
+   "size": "XXL",
+   "model": "n07",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 8,
+   "size": "XL",
+   "model": "n08",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 8,
+   "size": "XXL",
+   "model": "n08",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 9,
+   "size": "XL",
+   "model": "general",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 9,
+   "size": "XXL",
+   "model": "general",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 10,
+   "size": "XL",
+   "model": "n10",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 10,
+   "size": "XXL",
+   "model": "n10",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 11,
+   "size": "XL",
+   "model": "general",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 11,
+   "size": "XXL",
+   "model": "general",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 12,
+   "size": "XL",
+   "model": "n12",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 12,
+   "size": "XXL",
+   "model": "n12",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 13,
+   "size": "XL",
+   "model": "general",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 13,
+   "size": "XXL",
+   "model": "general",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 14,
+   "size": "XL",
+   "model": "general",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 14,
+   "size": "XXL",
+   "model": "general",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 15,
+   "size": "XL",
+   "model": "n15",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  },
+  {
+   "teams": 15,
+   "size": "XXL",
+   "model": "n15",
+   "rows": 16,
+   "raw320_exact": true,
+   "joint_nll_confidence_tolerance": 1e-12
+  }
+ ]
+}
