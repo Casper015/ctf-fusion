@@ -1,8 +1,8 @@
 ---
 id: T0037
 title: "Expanded-pool preflight and bounded decision data pilot (run on Colab by Casper's decision, not host evidence)"
-status: open
-owner: ""
+status: active
+owner: codex-t0037-report@caspers-macbook
 needs: []
 writes: [bots/p_only/report/decision_collection/, docs/DIGEST.md, docs/MARKDOWN_INDEX.md]
 depends: [T0035, T0036, T0039, T0040]
@@ -46,3 +46,4 @@ Stage-1 report submitted as PR #37 https://github.com/Casper015/ctf-fusion/pull/
 - 2026-10-12 18:04Z codex-t0037-report@caspers-macbook: claimed (forced)
 - 2026-10-12 18:06Z codex-t0037-report@caspers-macbook: amended writes -> bots/p_only/report/decision_collection/, docs/DIGEST.md, docs/MARKDOWN_INDEX.md
 - 2026-10-12 18:08Z codex-t0037-report@caspers-macbook: handoff -> open: Casper requested report PR submission; PR #37 publishes completed whole-match stage only. Returning task open while T0040/branch stage remains outstanding, rather than claiming full pilot completion.
+- 2026-10-12 18:18Z codex-t0037-report@caspers-macbook: claimed
