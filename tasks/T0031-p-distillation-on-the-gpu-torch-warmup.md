@@ -1,14 +1,14 @@
 ---
 id: T0031
 title: "P distillation on the GPU: torch warmup/distill stages and T0011 cache reader"
-status: review
-owner: claude@caspers-macbook
+status: active
+owner: codex-review@caspers-macbook
 needs: []
 writes: [docs/P_MIXED_PRECISION.md, fusion/torch_qat.py, tests/test_distill_gpu.py, tests/test_precision.py, tests/test_torch_backend.py, training/distill_policy.py]
 depends: []
 land: pr
 branch: claude/t0031-p-distillation-on-the-gpu-torch-warmup
-updated: 2026-10-11
+updated: 2026-10-12
 ---
 
 ## Goal
@@ -36,3 +36,4 @@ In review: PR https://github.com/Casper015/ctf-fusion/pull/24 (branch claude/t00
 - 2026-10-11 19:23Z claude@caspers-macbook: handoff -> review
 - 2026-10-11 19:28Z claude@caspers-macbook: note: Colab A100-SXM4-40GB (12 vCPU, 83 GB RAM): val split from Drive verified against CACHE.json (identity 20de39893d174c1b). Throughput only (real train() path, 51,200 val rows, random weights, nothing kept; not evidence): 6XL teacher warmup 0.19 h/epoch of 24.15M rows, XXL warmup 0.09, distill 0.14, QAT 0.31, NumPy teacher-targets 1.0 h. Still missing: train split and runs/pf_p{2,3}_xxl_s1.
 - 2026-10-12 16:09Z codex-review@caspers-macbook: note: Casper explicitly authorized acceptance/status reconciliation; reviewed merged deliverable before reviewer takeover.
+- 2026-10-12 16:09Z codex-review@caspers-macbook: claimed (forced)
