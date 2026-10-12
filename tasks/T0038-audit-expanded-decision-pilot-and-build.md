@@ -1,0 +1,36 @@
+---
+id: T0038
+title: "Audit expanded decision pilot and build source-bound training dataset"
+status: open
+owner: ""
+needs: [host]
+writes: [bots/p_only/report/decision_dataset/, reports/eval/decision_data_quality/]
+depends: [T0037]
+land: pr
+branch: ""
+updated: 2026-10-12
+---
+
+## Goal
+
+Read AGENTS.md and CONTRIBUTING.md, claim this task and use its isolated worktree. Respect active/review write lanes and machine locks. All repository prose is English. Do not spawn subagents. Preserve completed experiments and consumed seeds. Do not reopen T0012/T0014, change production defaults, or interfere with T0032. Independently audit and assemble the pilot corpus produced by T0037; never replay its successful games/continuations or retrain any model in this task.
+
+Verify every scheduled map/seat/match and all recorded root/candidate/repeat linkage, program/build/model/runner/engine/limits identities, actual incumbent and shortlist order-score alignment. Recompute utilities from raw per-repeat final score vectors. Re-extract causal root features from full recorded prefixes and check legal/canonical/target support, deduplication, drop reasons, faults and paired repeat coverage. Preserve uncertainty and scope limitations; an unavailable original manifest baseline does not become a current-byte substitute.
+
+Produce a passed audit only for the exact audited branch/match bytes. Add ctf-fusion-decision-source-1 digests and pinned collection/config/model receipts required by training/decision_dataset.py. Reject foreign receipts, mutated files, conflicting carrier settings and split contamination. Keep all branches of one map in the same split. Build the versioned own-action dataset with real cand_carrier_score, actual K, per-repeat outcomes and preserved unavailable entries, never future information in scorer inputs. Record selected-identity versus full-manifest scope explicitly.
+
+Run decision_noise coverage diagnostics: within-action variance, between-action signal, original-versus-replay memory differences, effective independent map counts, counts/strata/group coverage, feature collisions and scorer-unavailable targets. Use independent repeat subsets for headroom selection and evaluation; the max of noisy means is not measured improvement. Plan any expansion using train/val map-level variance without test-based tuning. Do not use arbitrary A/A or feature-collision percentages as automatic kill rules.
+
+Deliver an English data-quality report and machine-readable identity/coverage/noise receipts, exact reproducible commands, dataset paths/hashes, and a go/no-go/insufficient-precision recommendation for a later small linear/MLP own-action training task. Do not launch that training, run a strength screen, change production defaults or claim the pilot guarantees effective RL.
+
+## Done when
+
+Reviewed audit/report PR merged: independent source-linked audit and the versioned dataset with real shortlist scores/map splits built from exact pilot bytes, quality/noise/headroom/power diagnostics and reproducible handoff delivered. No repeated games, model training or deployment.
+
+## Handoff
+
+Not started.
+
+## Log
+
+- 2026-10-12 08:51Z codex-data-planning@caspers-macbook: created
