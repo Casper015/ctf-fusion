@@ -1,0 +1,17 @@
+{
+ "FROZEN_SCREEN.json": {
+  "original_sha256": "16fab99fdf57313cb14c6bdcf23f6c4f901047be20a7cca34660256a4adacaf2",
+  "public_sha256": "b1f8c5f549adf04a70023d5a68abcc85b8195809c352098979ead085b436b06d",
+  "transport": "Path placeholders only; immutable original kept in ignored build/data. Identity binds original metadata bytes/components."
+ },
+ "SEED_PROVENANCE.json": {
+  "original_sha256": "a3139e7a610a3f607babb5bb888a9212f09670535a279b30fd187b70dd910322",
+  "public_sha256": "4edd65fab527540d3f37cf9aac13679bebdc5e391daebce16b5a4c9f3d944c09",
+  "transport": "Path placeholders only; immutable original kept in ignored build/data. Identity binds original metadata bytes/components."
+ },
+ "MANIFEST.json": {
+  "original_sha256": "4924797314179f4618dde3537fa1e32e489103eb244f8e3be2e45d20325d563a",
+  "public_sha256": "349351f68c9227f5067b9dff93cdee92fbb230bedd423c207abf2abff36c1606",
+  "transport": "Path placeholders only; immutable original kept in ignored build/data. Identity binds original metadata bytes/components."
+ }
+}

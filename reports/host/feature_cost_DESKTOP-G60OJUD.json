@@ -1,0 +1,542 @@
+{
+ "host": "DESKTOP-G60OJUD",
+ "hardware": {
+  "cpu": "AMD Ryzen 9 7945HX with Radeon Graphics",
+  "logical_cpus": 32,
+  "os": "Windows-10-10.0.19045-SP0",
+  "machine": "AMD64"
+ },
+ "created": "2026-10-11T22:40:35",
+ "calls_per_turn": 3,
+ "streams": [
+  "stream_n02.txt.gz",
+  "stream_n04.txt.gz",
+  "stream_n15.txt.gz"
+ ],
+ "sets": {
+  "inference/models_pf_p2xxl_vm": {
+   "families": [
+    "p2",
+    "v2"
+   ],
+   "header_bytes": 2928436,
+   "copies": {
+    "1": {
+     "view_us": {
+      "mean": 0.728,
+      "p50": 0.0,
+      "p95": 2.0,
+      "p99": 3.0,
+      "max": 5.0
+     },
+     "encode_us": {
+      "mean": 0.13,
+      "p50": 0.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 1.0
+     },
+     "full_us": {
+      "mean": 1.37,
+      "p50": 1.0,
+      "p95": 2.0,
+      "p99": 2.0,
+      "max": 26.0
+     },
+     "incremental_us": {
+      "mean": 0.448,
+      "p50": 0.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 8.0
+     },
+     "first_layer_us": {
+      "mean": 0.889,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 2.0
+     },
+     "turn_full_ms": {
+      "mean": 0.007,
+      "p50": 0.006,
+      "p95": 0.01,
+      "p99": 0.012,
+      "max": 0.039
+     },
+     "turn_incremental_ms": {
+      "mean": 0.004,
+      "p50": 0.004,
+      "p95": 0.008,
+      "p99": 0.009,
+      "max": 0.019
+     },
+     "changed_inputs": {
+      "mean": 11.279,
+      "p50": 10.0,
+      "p95": 20.0,
+      "p99": 24.0,
+      "max": 27.0
+     },
+     "policy_view_us": {
+      "mean": 0.662,
+      "p50": 0.0,
+      "p95": 2.0,
+      "p99": 2.0,
+      "max": 7.0
+     },
+     "policy_encode_us": {
+      "mean": 0.744,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 2.0,
+      "max": 6.0
+     },
+     "policy_joint_us": {
+      "mean": 24.764,
+      "p50": 22.0,
+      "p95": 31.0,
+      "p99": 35.0,
+      "max": 595.0
+     },
+     "first_layer_share": 0.6488
+    },
+    "6": {
+     "view_us": {
+      "mean": 11.448,
+      "p50": 12.0,
+      "p95": 15.0,
+      "p99": 17.0,
+      "max": 49.0
+     },
+     "encode_us": {
+      "mean": 0.77,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 2.0,
+      "max": 4.0
+     },
+     "full_us": {
+      "mean": 1.453,
+      "p50": 1.0,
+      "p95": 2.0,
+      "p99": 2.0,
+      "max": 13.0
+     },
+     "incremental_us": {
+      "mean": 0.551,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 35.0
+     },
+     "first_layer_us": {
+      "mean": 0.991,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 11.0
+     },
+     "turn_full_ms": {
+      "mean": 0.041,
+      "p50": 0.043,
+      "p95": 0.048,
+      "p99": 0.056,
+      "max": 0.087
+     },
+     "turn_incremental_ms": {
+      "mean": 0.038,
+      "p50": 0.04,
+      "p95": 0.045,
+      "p99": 0.054,
+      "max": 0.084
+     },
+     "changed_inputs": {
+      "mean": 15.005,
+      "p50": 15.0,
+      "p95": 23.0,
+      "p99": 27.0,
+      "max": 30.0
+     },
+     "policy_view_us": {
+      "mean": 9.195,
+      "p50": 10.0,
+      "p95": 11.0,
+      "p99": 14.0,
+      "max": 49.0
+     },
+     "policy_encode_us": {
+      "mean": 1.941,
+      "p50": 2.0,
+      "p95": 3.0,
+      "p99": 4.0,
+      "max": 31.0
+     },
+     "policy_joint_us": {
+      "mean": 25.531,
+      "p50": 26.0,
+      "p95": 32.0,
+      "p99": 37.0,
+      "max": 302.0
+     },
+     "first_layer_share": 0.682
+    },
+    "15": {
+     "view_us": {
+      "mean": 12.997,
+      "p50": 14.0,
+      "p95": 22.0,
+      "p99": 24.0,
+      "max": 47.0
+     },
+     "encode_us": {
+      "mean": 0.88,
+      "p50": 1.0,
+      "p95": 2.0,
+      "p99": 2.0,
+      "max": 3.0
+     },
+     "full_us": {
+      "mean": 2.404,
+      "p50": 3.0,
+      "p95": 3.0,
+      "p99": 4.0,
+      "max": 246.0
+     },
+     "incremental_us": {
+      "mean": 0.79,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 2.0,
+      "max": 7.0
+     },
+     "first_layer_us": {
+      "mean": 1.702,
+      "p50": 2.0,
+      "p95": 2.0,
+      "p99": 2.0,
+      "max": 22.0
+     },
+     "turn_full_ms": {
+      "mean": 0.047,
+      "p50": 0.047,
+      "p95": 0.074,
+      "p99": 0.079,
+      "max": 0.254
+     },
+     "turn_incremental_ms": {
+      "mean": 0.043,
+      "p50": 0.044,
+      "p95": 0.069,
+      "p99": 0.074,
+      "max": 0.089
+     },
+     "changed_inputs": {
+      "mean": 15.005,
+      "p50": 15.0,
+      "p95": 23.0,
+      "p99": 27.0,
+      "max": 30.0
+     },
+     "policy_view_us": {
+      "mean": 10.431,
+      "p50": 11.0,
+      "p95": 17.0,
+      "p99": 19.0,
+      "max": 49.0
+     },
+     "policy_encode_us": {
+      "mean": 2.265,
+      "p50": 2.0,
+      "p95": 4.0,
+      "p99": 6.0,
+      "max": 75.0
+     },
+     "policy_joint_us": {
+      "mean": 40.717,
+      "p50": 41.0,
+      "p95": 54.0,
+      "p99": 57.0,
+      "max": 312.0
+     },
+     "first_layer_share": 0.708
+    }
+   },
+   "manifest_sha256": "df31b420ed38824366c0cb6329919d994addd3496ca34058056c44e66f3fd0e7",
+   "binary_sha256": "b3e2aea42aa9ebc17265f87eb563d558474103d2a957fd5f08efd38c4c709c83",
+   "model_files": {
+    "weights_general.hpp": "640d19cd674e785abd89dbf21a9336f96e0074f25585653984de60f66a703c38"
+   },
+   "value_in": 54,
+   "first_layer": [
+    54,
+    256
+   ],
+   "layers": 3,
+   "weight_bytes": 72900,
+   "max_width": 1024
+  },
+  "inference/models_pf_p3xxl_vm": {
+   "families": [
+    "p3",
+    "v2"
+   ],
+   "header_bytes": 3866783,
+   "copies": {
+    "1": {
+     "view_us": {
+      "mean": 0.841,
+      "p50": 1.0,
+      "p95": 3.0,
+      "p99": 3.0,
+      "max": 7.0
+     },
+     "encode_us": {
+      "mean": 0.152,
+      "p50": 0.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 1.0
+     },
+     "full_us": {
+      "mean": 1.363,
+      "p50": 1.0,
+      "p95": 2.0,
+      "p99": 2.0,
+      "max": 25.0
+     },
+     "incremental_us": {
+      "mean": 0.445,
+      "p50": 0.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 10.0
+     },
+     "first_layer_us": {
+      "mean": 0.902,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 2.0,
+      "max": 10.0
+     },
+     "turn_full_ms": {
+      "mean": 0.007,
+      "p50": 0.006,
+      "p95": 0.011,
+      "p99": 0.014,
+      "max": 0.039
+     },
+     "turn_incremental_ms": {
+      "mean": 0.004,
+      "p50": 0.004,
+      "p95": 0.009,
+      "p99": 0.01,
+      "max": 0.025
+     },
+     "changed_inputs": {
+      "mean": 11.279,
+      "p50": 10.0,
+      "p95": 20.0,
+      "p99": 24.0,
+      "max": 27.0
+     },
+     "policy_view_us": {
+      "mean": 1.471,
+      "p50": 1.0,
+      "p95": 3.0,
+      "p99": 4.0,
+      "max": 15.0
+     },
+     "policy_encode_us": {
+      "mean": 1.426,
+      "p50": 1.0,
+      "p95": 3.0,
+      "p99": 4.0,
+      "max": 10.0
+     },
+     "policy_joint_us": {
+      "mean": 37.073,
+      "p50": 33.0,
+      "p95": 48.0,
+      "p99": 64.0,
+      "max": 827.0
+     },
+     "first_layer_share": 0.6618
+    },
+    "6": {
+     "view_us": {
+      "mean": 12.063,
+      "p50": 13.0,
+      "p95": 16.0,
+      "p99": 19.0,
+      "max": 26.0
+     },
+     "encode_us": {
+      "mean": 0.786,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 2.0,
+      "max": 12.0
+     },
+     "full_us": {
+      "mean": 1.454,
+      "p50": 1.0,
+      "p95": 2.0,
+      "p99": 2.0,
+      "max": 13.0
+     },
+     "incremental_us": {
+      "mean": 0.531,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 5.0
+     },
+     "first_layer_us": {
+      "mean": 0.962,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 1.0,
+      "max": 4.0
+     },
+     "turn_full_ms": {
+      "mean": 0.043,
+      "p50": 0.045,
+      "p95": 0.05,
+      "p99": 0.058,
+      "max": 0.078
+     },
+     "turn_incremental_ms": {
+      "mean": 0.04,
+      "p50": 0.042,
+      "p95": 0.047,
+      "p99": 0.055,
+      "max": 0.074
+     },
+     "changed_inputs": {
+      "mean": 15.005,
+      "p50": 15.0,
+      "p95": 23.0,
+      "p99": 27.0,
+      "max": 30.0
+     },
+     "policy_view_us": {
+      "mean": 14.97,
+      "p50": 15.0,
+      "p95": 18.0,
+      "p99": 21.0,
+      "max": 51.0
+     },
+     "policy_encode_us": {
+      "mean": 3.945,
+      "p50": 4.0,
+      "p95": 7.0,
+      "p99": 7.0,
+      "max": 54.0
+     },
+     "policy_joint_us": {
+      "mean": 38.262,
+      "p50": 39.0,
+      "p95": 46.0,
+      "p99": 49.0,
+      "max": 403.0
+     },
+     "first_layer_share": 0.6705
+    },
+    "15": {
+     "view_us": {
+      "mean": 13.19,
+      "p50": 14.0,
+      "p95": 19.0,
+      "p99": 24.0,
+      "max": 58.0
+     },
+     "encode_us": {
+      "mean": 0.865,
+      "p50": 1.0,
+      "p95": 2.0,
+      "p99": 2.0,
+      "max": 17.0
+     },
+     "full_us": {
+      "mean": 2.31,
+      "p50": 2.0,
+      "p95": 3.0,
+      "p99": 4.0,
+      "max": 16.0
+     },
+     "incremental_us": {
+      "mean": 0.72,
+      "p50": 1.0,
+      "p95": 1.0,
+      "p99": 2.0,
+      "max": 13.0
+     },
+     "first_layer_us": {
+      "mean": 1.562,
+      "p50": 2.0,
+      "p95": 2.0,
+      "p99": 3.0,
+      "max": 38.0
+     },
+     "turn_full_ms": {
+      "mean": 0.047,
+      "p50": 0.048,
+      "p95": 0.064,
+      "p99": 0.086,
+      "max": 0.096
+     },
+     "turn_incremental_ms": {
+      "mean": 0.044,
+      "p50": 0.045,
+      "p95": 0.059,
+      "p99": 0.076,
+      "max": 0.093
+     },
+     "changed_inputs": {
+      "mean": 15.005,
+      "p50": 15.0,
+      "p95": 23.0,
+      "p99": 27.0,
+      "max": 30.0
+     },
+     "policy_view_us": {
+      "mean": 16.301,
+      "p50": 16.0,
+      "p95": 23.0,
+      "p99": 30.0,
+      "max": 88.0
+     },
+     "policy_encode_us": {
+      "mean": 4.372,
+      "p50": 4.0,
+      "p95": 7.0,
+      "p99": 11.0,
+      "max": 63.0
+     },
+     "policy_joint_us": {
+      "mean": 57.115,
+      "p50": 55.0,
+      "p95": 85.0,
+      "p99": 88.0,
+      "max": 557.0
+     },
+     "first_layer_share": 0.6894
+    }
+   },
+   "manifest_sha256": "9c633a407e27ab521db98bdbc1ad21bcfc73d1be0bf3678c27749039bc7efe8c",
+   "binary_sha256": "6e3a631dc962bed9b75406d527014b170b9a0eb34a8388f27dbb223def18fb45",
+   "model_files": {
+    "weights_general.hpp": "a1c7024808a38a969c9ea5561437a9ff6269070d45fcb355d42439f0d12f6989"
+   },
+   "value_in": 54,
+   "first_layer": [
+    54,
+    256
+   ],
+   "layers": 3,
+   "weight_bytes": 72900,
+   "max_width": 1024
+  }
+ }
+}

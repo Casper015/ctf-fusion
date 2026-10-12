@@ -1,0 +1,4706 @@
+{
+ "schema": "ctf-strength-screen-2-schedule",
+ "created": "2026-10-11T22:38:24",
+ "seed": 20261210,
+ "maps_per_count": 20,
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "reference": [
+  {
+   "name": "Astra",
+   "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+   "source_sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+  },
+  {
+   "name": "Sol",
+   "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+   "source_sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+  },
+  {
+   "name": "Fable",
+   "path": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+   "source_sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+  },
+  {
+   "name": "Sonnet",
+   "path": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+   "source_sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+  },
+  {
+   "name": "Opus",
+   "path": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+   "source_sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+  },
+  {
+   "name": "DeepSeek",
+   "path": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+   "source_sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+  },
+  {
+   "name": "Qwen",
+   "path": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+   "source_sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+  },
+  {
+   "name": "MiMo",
+   "path": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "source_sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+  },
+  {
+   "name": "Kimi",
+   "path": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+   "source_sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+  },
+  {
+   "name": "GLM",
+   "path": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+   "source_sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+  },
+  {
+   "name": "Player5",
+   "path": "ctf-stress-pack/bots/Player5.cpp",
+   "source_sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+  },
+  {
+   "name": "Baseline",
+   "path": "ctf-stress-pack/bots/baseline.cpp",
+   "source_sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+  }
+ ],
+ "fixtures": [
+  {
+   "fixture_id": "s20261210-n02-m00000",
+   "teams": 2,
+   "map_seed": 225380767,
+   "flag_seed": 4341577929722742830,
+   "seat": 0,
+   "opponents": [
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00001",
+   "teams": 2,
+   "map_seed": 1756227995,
+   "flag_seed": 3844934923913357713,
+   "seat": 1,
+   "opponents": [
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00002",
+   "teams": 2,
+   "map_seed": 151897329,
+   "flag_seed": 1114108825329962010,
+   "seat": 0,
+   "opponents": [
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00003",
+   "teams": 2,
+   "map_seed": 1693433085,
+   "flag_seed": 2449118570613462552,
+   "seat": 1,
+   "opponents": [
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00004",
+   "teams": 2,
+   "map_seed": 1208392114,
+   "flag_seed": 2911903438449209455,
+   "seat": 0,
+   "opponents": [
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00005",
+   "teams": 2,
+   "map_seed": 1492656260,
+   "flag_seed": 3761242143883134898,
+   "seat": 1,
+   "opponents": [
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00006",
+   "teams": 2,
+   "map_seed": 480517907,
+   "flag_seed": 1768185961177671511,
+   "seat": 0,
+   "opponents": [
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00007",
+   "teams": 2,
+   "map_seed": 1982041970,
+   "flag_seed": 8182201641224290313,
+   "seat": 1,
+   "opponents": [
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00008",
+   "teams": 2,
+   "map_seed": 333144979,
+   "flag_seed": 1023731505063583985,
+   "seat": 0,
+   "opponents": [
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00009",
+   "teams": 2,
+   "map_seed": 364227679,
+   "flag_seed": 5872435983612159206,
+   "seat": 1,
+   "opponents": [
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00010",
+   "teams": 2,
+   "map_seed": 4606847,
+   "flag_seed": 806222462442123848,
+   "seat": 0,
+   "opponents": [
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00011",
+   "teams": 2,
+   "map_seed": 1844632288,
+   "flag_seed": 1838040429275381018,
+   "seat": 1,
+   "opponents": [
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00012",
+   "teams": 2,
+   "map_seed": 478150829,
+   "flag_seed": 5453527889573942933,
+   "seat": 0,
+   "opponents": [
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00013",
+   "teams": 2,
+   "map_seed": 1410726274,
+   "flag_seed": 3786126627520263108,
+   "seat": 1,
+   "opponents": [
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00014",
+   "teams": 2,
+   "map_seed": 412294377,
+   "flag_seed": 8917641663357347315,
+   "seat": 0,
+   "opponents": [
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00015",
+   "teams": 2,
+   "map_seed": 149786504,
+   "flag_seed": 1020246969161961952,
+   "seat": 1,
+   "opponents": [
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00016",
+   "teams": 2,
+   "map_seed": 1966728482,
+   "flag_seed": 1104689470811980101,
+   "seat": 0,
+   "opponents": [
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00017",
+   "teams": 2,
+   "map_seed": 292378342,
+   "flag_seed": 7717486265267379102,
+   "seat": 1,
+   "opponents": [
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00018",
+   "teams": 2,
+   "map_seed": 1885023955,
+   "flag_seed": 6117575489427785475,
+   "seat": 0,
+   "opponents": [
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n02-m00019",
+   "teams": 2,
+   "map_seed": 203281430,
+   "flag_seed": 2764350272422601251,
+   "seat": 1,
+   "opponents": [
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00000",
+   "teams": 3,
+   "map_seed": 2146377614,
+   "flag_seed": 7734835299752428839,
+   "seat": 1,
+   "opponents": [
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00001",
+   "teams": 3,
+   "map_seed": 863214530,
+   "flag_seed": 8992530783051551300,
+   "seat": 2,
+   "opponents": [
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00002",
+   "teams": 3,
+   "map_seed": 1821093077,
+   "flag_seed": 6708594109361358169,
+   "seat": 0,
+   "opponents": [
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00003",
+   "teams": 3,
+   "map_seed": 1462444239,
+   "flag_seed": 2970726107226328056,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00004",
+   "teams": 3,
+   "map_seed": 453320849,
+   "flag_seed": 8928484062995989386,
+   "seat": 2,
+   "opponents": [
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00005",
+   "teams": 3,
+   "map_seed": 1154661866,
+   "flag_seed": 3829248251170780703,
+   "seat": 0,
+   "opponents": [
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00006",
+   "teams": 3,
+   "map_seed": 1655404409,
+   "flag_seed": 979549506064785979,
+   "seat": 1,
+   "opponents": [
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00007",
+   "teams": 3,
+   "map_seed": 654176313,
+   "flag_seed": 3089024973440361196,
+   "seat": 2,
+   "opponents": [
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00008",
+   "teams": 3,
+   "map_seed": 1635773297,
+   "flag_seed": 6415434273984027244,
+   "seat": 0,
+   "opponents": [
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00009",
+   "teams": 3,
+   "map_seed": 1468951228,
+   "flag_seed": 8528417258045701472,
+   "seat": 1,
+   "opponents": [
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00010",
+   "teams": 3,
+   "map_seed": 829897426,
+   "flag_seed": 1341365588882062756,
+   "seat": 2,
+   "opponents": [
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00011",
+   "teams": 3,
+   "map_seed": 1432146425,
+   "flag_seed": 2590433806655451392,
+   "seat": 0,
+   "opponents": [
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00012",
+   "teams": 3,
+   "map_seed": 1540546947,
+   "flag_seed": 3810583198389800463,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00013",
+   "teams": 3,
+   "map_seed": 1395582839,
+   "flag_seed": 8681871142720817871,
+   "seat": 2,
+   "opponents": [
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00014",
+   "teams": 3,
+   "map_seed": 1698544166,
+   "flag_seed": 3834495097935231213,
+   "seat": 0,
+   "opponents": [
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00015",
+   "teams": 3,
+   "map_seed": 1980799970,
+   "flag_seed": 3483427593670172950,
+   "seat": 1,
+   "opponents": [
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00016",
+   "teams": 3,
+   "map_seed": 1442866617,
+   "flag_seed": 5174849846794240004,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00017",
+   "teams": 3,
+   "map_seed": 1062825766,
+   "flag_seed": 8251276556985312559,
+   "seat": 0,
+   "opponents": [
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00018",
+   "teams": 3,
+   "map_seed": 799090461,
+   "flag_seed": 6890713083582621144,
+   "seat": 1,
+   "opponents": [
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n03-m00019",
+   "teams": 3,
+   "map_seed": 681447904,
+   "flag_seed": 3108618557917033987,
+   "seat": 2,
+   "opponents": [
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00000",
+   "teams": 4,
+   "map_seed": 1087646032,
+   "flag_seed": 1557874931688709836,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00001",
+   "teams": 4,
+   "map_seed": 1318273424,
+   "flag_seed": 8721781254075876033,
+   "seat": 1,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00002",
+   "teams": 4,
+   "map_seed": 1611380965,
+   "flag_seed": 6159260745200122750,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00003",
+   "teams": 4,
+   "map_seed": 1282721253,
+   "flag_seed": 8026665763853184049,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00004",
+   "teams": 4,
+   "map_seed": 2114496966,
+   "flag_seed": 2097172345388388466,
+   "seat": 2,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00005",
+   "teams": 4,
+   "map_seed": 1963693444,
+   "flag_seed": 4960865756809142954,
+   "seat": 1,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00006",
+   "teams": 4,
+   "map_seed": 1476465602,
+   "flag_seed": 711135243541586717,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00007",
+   "teams": 4,
+   "map_seed": 2142492401,
+   "flag_seed": 2460707916412936477,
+   "seat": 3,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00008",
+   "teams": 4,
+   "map_seed": 1661404919,
+   "flag_seed": 7425806179268785151,
+   "seat": 2,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00009",
+   "teams": 4,
+   "map_seed": 1162685457,
+   "flag_seed": 930209357138978018,
+   "seat": 1,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00010",
+   "teams": 4,
+   "map_seed": 457553817,
+   "flag_seed": 3632587444226098146,
+   "seat": 0,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00011",
+   "teams": 4,
+   "map_seed": 811864087,
+   "flag_seed": 2034748627857478247,
+   "seat": 3,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00012",
+   "teams": 4,
+   "map_seed": 422167967,
+   "flag_seed": 6477998667095159097,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00013",
+   "teams": 4,
+   "map_seed": 1721378102,
+   "flag_seed": 1422569194229220649,
+   "seat": 1,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00014",
+   "teams": 4,
+   "map_seed": 27802297,
+   "flag_seed": 6782918246527609579,
+   "seat": 0,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00015",
+   "teams": 4,
+   "map_seed": 656814081,
+   "flag_seed": 4326177836466642844,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00016",
+   "teams": 4,
+   "map_seed": 1897976349,
+   "flag_seed": 1100954335636958748,
+   "seat": 2,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00017",
+   "teams": 4,
+   "map_seed": 1427071596,
+   "flag_seed": 9005640506309769467,
+   "seat": 1,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00018",
+   "teams": 4,
+   "map_seed": 904244864,
+   "flag_seed": 6221743504623720530,
+   "seat": 0,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n04-m00019",
+   "teams": 4,
+   "map_seed": 985400692,
+   "flag_seed": 33480267977398152,
+   "seat": 3,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00000",
+   "teams": 5,
+   "map_seed": 695479252,
+   "flag_seed": 3893377447900519922,
+   "seat": 4,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00001",
+   "teams": 5,
+   "map_seed": 1237995051,
+   "flag_seed": 8548416339110578589,
+   "seat": 3,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00002",
+   "teams": 5,
+   "map_seed": 1257678144,
+   "flag_seed": 30234186353710438,
+   "seat": 0,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00003",
+   "teams": 5,
+   "map_seed": 564001227,
+   "flag_seed": 2950393323631192387,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00004",
+   "teams": 5,
+   "map_seed": 1912113176,
+   "flag_seed": 7668478806869646633,
+   "seat": 2,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00005",
+   "teams": 5,
+   "map_seed": 1259066976,
+   "flag_seed": 3350917536283060910,
+   "seat": 4,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00006",
+   "teams": 5,
+   "map_seed": 1693405933,
+   "flag_seed": 5685145507213767027,
+   "seat": 3,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00007",
+   "teams": 5,
+   "map_seed": 1676595562,
+   "flag_seed": 8770451666436153925,
+   "seat": 0,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00008",
+   "teams": 5,
+   "map_seed": 1495629684,
+   "flag_seed": 8593906169351418093,
+   "seat": 1,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00009",
+   "teams": 5,
+   "map_seed": 2112002485,
+   "flag_seed": 6148381971575284300,
+   "seat": 2,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00010",
+   "teams": 5,
+   "map_seed": 285499904,
+   "flag_seed": 4270023938560690897,
+   "seat": 4,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00011",
+   "teams": 5,
+   "map_seed": 190988538,
+   "flag_seed": 5057457082663769973,
+   "seat": 3,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00012",
+   "teams": 5,
+   "map_seed": 1659517106,
+   "flag_seed": 4157978416052137722,
+   "seat": 0,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00013",
+   "teams": 5,
+   "map_seed": 1851960551,
+   "flag_seed": 224629007372762264,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00014",
+   "teams": 5,
+   "map_seed": 1494220621,
+   "flag_seed": 7193279742653818323,
+   "seat": 2,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00015",
+   "teams": 5,
+   "map_seed": 1904832235,
+   "flag_seed": 1650978023691631881,
+   "seat": 4,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00016",
+   "teams": 5,
+   "map_seed": 34149685,
+   "flag_seed": 5436145923261516474,
+   "seat": 3,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00017",
+   "teams": 5,
+   "map_seed": 335171836,
+   "flag_seed": 1515642453358562997,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00018",
+   "teams": 5,
+   "map_seed": 491167013,
+   "flag_seed": 8899570353469023957,
+   "seat": 1,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n05-m00019",
+   "teams": 5,
+   "map_seed": 1898733096,
+   "flag_seed": 5181135767262581315,
+   "seat": 2,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00000",
+   "teams": 6,
+   "map_seed": 945700786,
+   "flag_seed": 6858740704983696521,
+   "seat": 2,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00001",
+   "teams": 6,
+   "map_seed": 284014976,
+   "flag_seed": 6083648524929988264,
+   "seat": 4,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00002",
+   "teams": 6,
+   "map_seed": 1984146471,
+   "flag_seed": 7262385040527354710,
+   "seat": 5,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00003",
+   "teams": 6,
+   "map_seed": 429796491,
+   "flag_seed": 5889162242626589674,
+   "seat": 3,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00004",
+   "teams": 6,
+   "map_seed": 2127810578,
+   "flag_seed": 2267781382273681458,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00005",
+   "teams": 6,
+   "map_seed": 585465044,
+   "flag_seed": 1556750023512464688,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00006",
+   "teams": 6,
+   "map_seed": 1778592448,
+   "flag_seed": 8358298696159456703,
+   "seat": 2,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00007",
+   "teams": 6,
+   "map_seed": 605902886,
+   "flag_seed": 7797881355567158511,
+   "seat": 4,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00008",
+   "teams": 6,
+   "map_seed": 1990789769,
+   "flag_seed": 7830423572318642595,
+   "seat": 5,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00009",
+   "teams": 6,
+   "map_seed": 318079009,
+   "flag_seed": 6055477143633335593,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00010",
+   "teams": 6,
+   "map_seed": 203072818,
+   "flag_seed": 1490387374790751782,
+   "seat": 1,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00011",
+   "teams": 6,
+   "map_seed": 1994134870,
+   "flag_seed": 2074090054694313461,
+   "seat": 0,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00012",
+   "teams": 6,
+   "map_seed": 1283967397,
+   "flag_seed": 260579269034869274,
+   "seat": 2,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00013",
+   "teams": 6,
+   "map_seed": 1907389991,
+   "flag_seed": 5231136723425207634,
+   "seat": 4,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00014",
+   "teams": 6,
+   "map_seed": 23958222,
+   "flag_seed": 8768502723371950261,
+   "seat": 5,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00015",
+   "teams": 6,
+   "map_seed": 905109041,
+   "flag_seed": 2579083458745761257,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00016",
+   "teams": 6,
+   "map_seed": 1415640513,
+   "flag_seed": 7318955090643127063,
+   "seat": 1,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00017",
+   "teams": 6,
+   "map_seed": 216521227,
+   "flag_seed": 4221094516124151364,
+   "seat": 0,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00018",
+   "teams": 6,
+   "map_seed": 1841527388,
+   "flag_seed": 5791817448780240214,
+   "seat": 2,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n06-m00019",
+   "teams": 6,
+   "map_seed": 396994146,
+   "flag_seed": 6512573196229632396,
+   "seat": 4,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00000",
+   "teams": 7,
+   "map_seed": 1161364487,
+   "flag_seed": 5848179496625873932,
+   "seat": 0,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00001",
+   "teams": 7,
+   "map_seed": 154090199,
+   "flag_seed": 8942447238167971672,
+   "seat": 5,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00002",
+   "teams": 7,
+   "map_seed": 1538885067,
+   "flag_seed": 4437874790888719039,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00003",
+   "teams": 7,
+   "map_seed": 1775389516,
+   "flag_seed": 3837718400779760050,
+   "seat": 2,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00004",
+   "teams": 7,
+   "map_seed": 35248183,
+   "flag_seed": 5808300390295922857,
+   "seat": 4,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00005",
+   "teams": 7,
+   "map_seed": 198444842,
+   "flag_seed": 3301429924372842702,
+   "seat": 3,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00006",
+   "teams": 7,
+   "map_seed": 1938783445,
+   "flag_seed": 2614254746468935584,
+   "seat": 6,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00007",
+   "teams": 7,
+   "map_seed": 1969595672,
+   "flag_seed": 577004805001578641,
+   "seat": 0,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00008",
+   "teams": 7,
+   "map_seed": 1723237143,
+   "flag_seed": 7993103296736625153,
+   "seat": 5,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00009",
+   "teams": 7,
+   "map_seed": 945247562,
+   "flag_seed": 6812148661537468704,
+   "seat": 1,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00010",
+   "teams": 7,
+   "map_seed": 1652650245,
+   "flag_seed": 4262109645991004278,
+   "seat": 2,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00011",
+   "teams": 7,
+   "map_seed": 777675344,
+   "flag_seed": 6833280470633001038,
+   "seat": 4,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00012",
+   "teams": 7,
+   "map_seed": 1883012931,
+   "flag_seed": 4012626076176766354,
+   "seat": 3,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00013",
+   "teams": 7,
+   "map_seed": 1282270363,
+   "flag_seed": 8724456440223834744,
+   "seat": 6,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00014",
+   "teams": 7,
+   "map_seed": 1927758681,
+   "flag_seed": 4465726178674599980,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00015",
+   "teams": 7,
+   "map_seed": 13744630,
+   "flag_seed": 4371438718088594569,
+   "seat": 5,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00016",
+   "teams": 7,
+   "map_seed": 162563607,
+   "flag_seed": 8697401928965155844,
+   "seat": 1,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00017",
+   "teams": 7,
+   "map_seed": 1137549955,
+   "flag_seed": 5368814200153255819,
+   "seat": 2,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00018",
+   "teams": 7,
+   "map_seed": 1231930614,
+   "flag_seed": 431595524477351292,
+   "seat": 4,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n07-m00019",
+   "teams": 7,
+   "map_seed": 1241349434,
+   "flag_seed": 578500814443903136,
+   "seat": 3,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00000",
+   "teams": 8,
+   "map_seed": 748800117,
+   "flag_seed": 5750077696776127648,
+   "seat": 3,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00001",
+   "teams": 8,
+   "map_seed": 977826597,
+   "flag_seed": 8018937962690770174,
+   "seat": 0,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00002",
+   "teams": 8,
+   "map_seed": 788929316,
+   "flag_seed": 452528402563978293,
+   "seat": 5,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00003",
+   "teams": 8,
+   "map_seed": 2076410141,
+   "flag_seed": 8131464700569539370,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00004",
+   "teams": 8,
+   "map_seed": 615398449,
+   "flag_seed": 6854563823334047495,
+   "seat": 2,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00005",
+   "teams": 8,
+   "map_seed": 234520745,
+   "flag_seed": 2897511207687399620,
+   "seat": 7,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00006",
+   "teams": 8,
+   "map_seed": 587253077,
+   "flag_seed": 5134826759540478897,
+   "seat": 6,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00007",
+   "teams": 8,
+   "map_seed": 2001962405,
+   "flag_seed": 2810119708780561161,
+   "seat": 4,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00008",
+   "teams": 8,
+   "map_seed": 1724498425,
+   "flag_seed": 8467451071022782627,
+   "seat": 3,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00009",
+   "teams": 8,
+   "map_seed": 2019701620,
+   "flag_seed": 6819589173360726590,
+   "seat": 0,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00010",
+   "teams": 8,
+   "map_seed": 425988538,
+   "flag_seed": 8216221616352326186,
+   "seat": 5,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00011",
+   "teams": 8,
+   "map_seed": 292355649,
+   "flag_seed": 1349563292130067617,
+   "seat": 1,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00012",
+   "teams": 8,
+   "map_seed": 763446300,
+   "flag_seed": 2937255518288241873,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00013",
+   "teams": 8,
+   "map_seed": 1289491457,
+   "flag_seed": 1006791460912902524,
+   "seat": 7,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00014",
+   "teams": 8,
+   "map_seed": 683039538,
+   "flag_seed": 6280701368336681865,
+   "seat": 6,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00015",
+   "teams": 8,
+   "map_seed": 696432348,
+   "flag_seed": 3367495520977667060,
+   "seat": 4,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00016",
+   "teams": 8,
+   "map_seed": 50769734,
+   "flag_seed": 8244545654150662632,
+   "seat": 3,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00017",
+   "teams": 8,
+   "map_seed": 2066985013,
+   "flag_seed": 3266036397669366406,
+   "seat": 0,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00018",
+   "teams": 8,
+   "map_seed": 1975510955,
+   "flag_seed": 4977108523428611335,
+   "seat": 5,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n08-m00019",
+   "teams": 8,
+   "map_seed": 1046197142,
+   "flag_seed": 1043373370251212166,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00000",
+   "teams": 9,
+   "map_seed": 189790161,
+   "flag_seed": 5917041696892262420,
+   "seat": 4,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00001",
+   "teams": 9,
+   "map_seed": 959486794,
+   "flag_seed": 175225997726415940,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00002",
+   "teams": 9,
+   "map_seed": 1147539520,
+   "flag_seed": 3052006367711221737,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00003",
+   "teams": 9,
+   "map_seed": 1924536615,
+   "flag_seed": 3048451124176942481,
+   "seat": 3,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00004",
+   "teams": 9,
+   "map_seed": 719937803,
+   "flag_seed": 776692059760830095,
+   "seat": 6,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00005",
+   "teams": 9,
+   "map_seed": 1649852791,
+   "flag_seed": 3181228046324058755,
+   "seat": 1,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00006",
+   "teams": 9,
+   "map_seed": 1557598657,
+   "flag_seed": 1758028920325283203,
+   "seat": 7,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00007",
+   "teams": 9,
+   "map_seed": 656454262,
+   "flag_seed": 1854559311201581782,
+   "seat": 8,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00008",
+   "teams": 9,
+   "map_seed": 1785121729,
+   "flag_seed": 8628991666131434647,
+   "seat": 5,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00009",
+   "teams": 9,
+   "map_seed": 1247947518,
+   "flag_seed": 7485027673050234193,
+   "seat": 4,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00010",
+   "teams": 9,
+   "map_seed": 447184000,
+   "flag_seed": 4714650334592063073,
+   "seat": 0,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00011",
+   "teams": 9,
+   "map_seed": 844428429,
+   "flag_seed": 7534483778083063443,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00012",
+   "teams": 9,
+   "map_seed": 1376347552,
+   "flag_seed": 6181534760453032346,
+   "seat": 3,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00013",
+   "teams": 9,
+   "map_seed": 506846528,
+   "flag_seed": 691580060788722975,
+   "seat": 6,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00014",
+   "teams": 9,
+   "map_seed": 1061652392,
+   "flag_seed": 214691075206138771,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00015",
+   "teams": 9,
+   "map_seed": 873213575,
+   "flag_seed": 6370727737942615071,
+   "seat": 7,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00016",
+   "teams": 9,
+   "map_seed": 1412205095,
+   "flag_seed": 182158958410005102,
+   "seat": 8,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00017",
+   "teams": 9,
+   "map_seed": 586398538,
+   "flag_seed": 8920996176579882479,
+   "seat": 5,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00018",
+   "teams": 9,
+   "map_seed": 1463146685,
+   "flag_seed": 4298226699824915954,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n09-m00019",
+   "teams": 9,
+   "map_seed": 1203565256,
+   "flag_seed": 6609446699557214251,
+   "seat": 0,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00000",
+   "teams": 10,
+   "map_seed": 207621818,
+   "flag_seed": 2981204418670980202,
+   "seat": 3,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00001",
+   "teams": 10,
+   "map_seed": 1028993003,
+   "flag_seed": 4630456784727717090,
+   "seat": 1,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00002",
+   "teams": 10,
+   "map_seed": 1408675580,
+   "flag_seed": 1477692574654049129,
+   "seat": 9,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00003",
+   "teams": 10,
+   "map_seed": 1532107331,
+   "flag_seed": 8102003531901505460,
+   "seat": 8,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00004",
+   "teams": 10,
+   "map_seed": 1750277389,
+   "flag_seed": 2928098702104424160,
+   "seat": 5,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00005",
+   "teams": 10,
+   "map_seed": 1739068549,
+   "flag_seed": 2775339514541467791,
+   "seat": 7,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00006",
+   "teams": 10,
+   "map_seed": 2144054282,
+   "flag_seed": 9068300309115881292,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00007",
+   "teams": 10,
+   "map_seed": 335613664,
+   "flag_seed": 6487921405187812399,
+   "seat": 4,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00008",
+   "teams": 10,
+   "map_seed": 164319455,
+   "flag_seed": 752944981504901528,
+   "seat": 6,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00009",
+   "teams": 10,
+   "map_seed": 12651825,
+   "flag_seed": 6357605955789362229,
+   "seat": 2,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00010",
+   "teams": 10,
+   "map_seed": 1458794405,
+   "flag_seed": 4937307229291179295,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00011",
+   "teams": 10,
+   "map_seed": 45647268,
+   "flag_seed": 8239262554090561005,
+   "seat": 1,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00012",
+   "teams": 10,
+   "map_seed": 422704736,
+   "flag_seed": 1492774739552890480,
+   "seat": 9,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00013",
+   "teams": 10,
+   "map_seed": 87792982,
+   "flag_seed": 2897587179161317560,
+   "seat": 8,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00014",
+   "teams": 10,
+   "map_seed": 1371166293,
+   "flag_seed": 2729438508981500361,
+   "seat": 5,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00015",
+   "teams": 10,
+   "map_seed": 2124544580,
+   "flag_seed": 4582138457526604146,
+   "seat": 7,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00016",
+   "teams": 10,
+   "map_seed": 2079457284,
+   "flag_seed": 8743000153677823764,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00017",
+   "teams": 10,
+   "map_seed": 549543369,
+   "flag_seed": 1642482579858238424,
+   "seat": 4,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00018",
+   "teams": 10,
+   "map_seed": 216537111,
+   "flag_seed": 9186135587183813299,
+   "seat": 6,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n10-m00019",
+   "teams": 10,
+   "map_seed": 887635304,
+   "flag_seed": 1901405733699410471,
+   "seat": 2,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00000",
+   "teams": 11,
+   "map_seed": 1322336181,
+   "flag_seed": 5355973568319026536,
+   "seat": 2,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00001",
+   "teams": 11,
+   "map_seed": 1944474738,
+   "flag_seed": 2776762186123702862,
+   "seat": 0,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00002",
+   "teams": 11,
+   "map_seed": 713502646,
+   "flag_seed": 8337168641822220348,
+   "seat": 8,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00003",
+   "teams": 11,
+   "map_seed": 484684283,
+   "flag_seed": 7072005571802060800,
+   "seat": 5,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00004",
+   "teams": 11,
+   "map_seed": 687824673,
+   "flag_seed": 6480646523273383350,
+   "seat": 9,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00005",
+   "teams": 11,
+   "map_seed": 1403544688,
+   "flag_seed": 5865482623747140822,
+   "seat": 7,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00006",
+   "teams": 11,
+   "map_seed": 197045713,
+   "flag_seed": 526050466441220662,
+   "seat": 6,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00007",
+   "teams": 11,
+   "map_seed": 913314271,
+   "flag_seed": 5724187055381741784,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00008",
+   "teams": 11,
+   "map_seed": 1716418549,
+   "flag_seed": 8994714844659888530,
+   "seat": 4,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00009",
+   "teams": 11,
+   "map_seed": 512921788,
+   "flag_seed": 711628261591528143,
+   "seat": 3,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00010",
+   "teams": 11,
+   "map_seed": 2036994449,
+   "flag_seed": 8538350908779932772,
+   "seat": 10,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00011",
+   "teams": 11,
+   "map_seed": 2023648923,
+   "flag_seed": 3485631238561956444,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00012",
+   "teams": 11,
+   "map_seed": 512133134,
+   "flag_seed": 7902215077779944613,
+   "seat": 0,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00013",
+   "teams": 11,
+   "map_seed": 760745947,
+   "flag_seed": 5954791498980443220,
+   "seat": 8,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00014",
+   "teams": 11,
+   "map_seed": 1117927629,
+   "flag_seed": 9220720206719729541,
+   "seat": 5,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00015",
+   "teams": 11,
+   "map_seed": 495664494,
+   "flag_seed": 5580466309678442688,
+   "seat": 9,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00016",
+   "teams": 11,
+   "map_seed": 812416218,
+   "flag_seed": 2493422234773282511,
+   "seat": 7,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00017",
+   "teams": 11,
+   "map_seed": 474201359,
+   "flag_seed": 5768165653629007496,
+   "seat": 6,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00018",
+   "teams": 11,
+   "map_seed": 117383989,
+   "flag_seed": 8743207178605703775,
+   "seat": 1,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n11-m00019",
+   "teams": 11,
+   "map_seed": 1783153308,
+   "flag_seed": 8180643805662078071,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00000",
+   "teams": 12,
+   "map_seed": 213888515,
+   "flag_seed": 4863733722009367918,
+   "seat": 9,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00001",
+   "teams": 12,
+   "map_seed": 274652875,
+   "flag_seed": 4242132304642402236,
+   "seat": 11,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00002",
+   "teams": 12,
+   "map_seed": 982837602,
+   "flag_seed": 982535580706660087,
+   "seat": 10,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00003",
+   "teams": 12,
+   "map_seed": 937883639,
+   "flag_seed": 6140837479719115678,
+   "seat": 2,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00004",
+   "teams": 12,
+   "map_seed": 801455876,
+   "flag_seed": 946712852612413338,
+   "seat": 7,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00005",
+   "teams": 12,
+   "map_seed": 1558432985,
+   "flag_seed": 8258942690649836889,
+   "seat": 1,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00006",
+   "teams": 12,
+   "map_seed": 347737797,
+   "flag_seed": 5105754497434255740,
+   "seat": 4,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00007",
+   "teams": 12,
+   "map_seed": 423315989,
+   "flag_seed": 2805507927367500882,
+   "seat": 0,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00008",
+   "teams": 12,
+   "map_seed": 969647988,
+   "flag_seed": 6084668830112504935,
+   "seat": 6,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00009",
+   "teams": 12,
+   "map_seed": 1309795166,
+   "flag_seed": 3083633396606120632,
+   "seat": 8,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00010",
+   "teams": 12,
+   "map_seed": 312418568,
+   "flag_seed": 3862314460385171369,
+   "seat": 5,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00011",
+   "teams": 12,
+   "map_seed": 1507209085,
+   "flag_seed": 1737155455158653802,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00012",
+   "teams": 12,
+   "map_seed": 1983867003,
+   "flag_seed": 7191043530231267065,
+   "seat": 9,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00013",
+   "teams": 12,
+   "map_seed": 490450014,
+   "flag_seed": 4685349584856238814,
+   "seat": 11,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00014",
+   "teams": 12,
+   "map_seed": 556272052,
+   "flag_seed": 7676465716343876346,
+   "seat": 10,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00015",
+   "teams": 12,
+   "map_seed": 1318934443,
+   "flag_seed": 1370141479552743119,
+   "seat": 2,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00016",
+   "teams": 12,
+   "map_seed": 160724163,
+   "flag_seed": 5792599668609787616,
+   "seat": 7,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00017",
+   "teams": 12,
+   "map_seed": 1648610486,
+   "flag_seed": 6843264115359694690,
+   "seat": 1,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00018",
+   "teams": 12,
+   "map_seed": 1111273029,
+   "flag_seed": 6908566054378946367,
+   "seat": 4,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n12-m00019",
+   "teams": 12,
+   "map_seed": 1686536769,
+   "flag_seed": 7788875836198476460,
+   "seat": 0,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00000",
+   "teams": 13,
+   "map_seed": 978039730,
+   "flag_seed": 3795926568974309597,
+   "seat": 9,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00001",
+   "teams": 13,
+   "map_seed": 925025580,
+   "flag_seed": 2530982520412406912,
+   "seat": 11,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00002",
+   "teams": 13,
+   "map_seed": 1395610847,
+   "flag_seed": 4953645374311272313,
+   "seat": 1,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00003",
+   "teams": 13,
+   "map_seed": 1747927484,
+   "flag_seed": 6796340302625974251,
+   "seat": 10,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00004",
+   "teams": 13,
+   "map_seed": 1317189816,
+   "flag_seed": 5273069340494467301,
+   "seat": 8,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00005",
+   "teams": 13,
+   "map_seed": 607930641,
+   "flag_seed": 173799341339158846,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00006",
+   "teams": 13,
+   "map_seed": 1946051531,
+   "flag_seed": 868634119037919270,
+   "seat": 4,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00007",
+   "teams": 13,
+   "map_seed": 1069845370,
+   "flag_seed": 4468074685417459115,
+   "seat": 5,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00008",
+   "teams": 13,
+   "map_seed": 1889245863,
+   "flag_seed": 5770072697527978003,
+   "seat": 12,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00009",
+   "teams": 13,
+   "map_seed": 75874389,
+   "flag_seed": 8836673480907998241,
+   "seat": 2,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00010",
+   "teams": 13,
+   "map_seed": 464173263,
+   "flag_seed": 7434346847351720312,
+   "seat": 6,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00011",
+   "teams": 13,
+   "map_seed": 1634885186,
+   "flag_seed": 5224067236076542147,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00012",
+   "teams": 13,
+   "map_seed": 1918355004,
+   "flag_seed": 5249279142173702958,
+   "seat": 7,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00013",
+   "teams": 13,
+   "map_seed": 2063965792,
+   "flag_seed": 7762552301127899430,
+   "seat": 9,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00014",
+   "teams": 13,
+   "map_seed": 1676629238,
+   "flag_seed": 7882538436032940265,
+   "seat": 11,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00015",
+   "teams": 13,
+   "map_seed": 1192824108,
+   "flag_seed": 3737367058844711678,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00016",
+   "teams": 13,
+   "map_seed": 1245812882,
+   "flag_seed": 376032577044704572,
+   "seat": 10,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00017",
+   "teams": 13,
+   "map_seed": 1343062447,
+   "flag_seed": 6533306848407915581,
+   "seat": 8,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00018",
+   "teams": 13,
+   "map_seed": 172853946,
+   "flag_seed": 5876009104213373880,
+   "seat": 3,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n13-m00019",
+   "teams": 13,
+   "map_seed": 1971964906,
+   "flag_seed": 7782418673852479673,
+   "seat": 4,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00000",
+   "teams": 14,
+   "map_seed": 414032051,
+   "flag_seed": 9099647555512276874,
+   "seat": 8,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00001",
+   "teams": 14,
+   "map_seed": 188343820,
+   "flag_seed": 4996858840612476209,
+   "seat": 12,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00002",
+   "teams": 14,
+   "map_seed": 2078282649,
+   "flag_seed": 3532722188038729252,
+   "seat": 11,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00003",
+   "teams": 14,
+   "map_seed": 1472479239,
+   "flag_seed": 4255620939589285427,
+   "seat": 9,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00004",
+   "teams": 14,
+   "map_seed": 1900066956,
+   "flag_seed": 1870378124038695030,
+   "seat": 5,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00005",
+   "teams": 14,
+   "map_seed": 398510913,
+   "flag_seed": 3374788513755938374,
+   "seat": 4,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00006",
+   "teams": 14,
+   "map_seed": 1179478367,
+   "flag_seed": 1564131910360569342,
+   "seat": 13,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00007",
+   "teams": 14,
+   "map_seed": 1279703469,
+   "flag_seed": 4810492684188960402,
+   "seat": 3,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00008",
+   "teams": 14,
+   "map_seed": 831736183,
+   "flag_seed": 8511755065071174521,
+   "seat": 2,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00009",
+   "teams": 14,
+   "map_seed": 1497611209,
+   "flag_seed": 5826557679139981646,
+   "seat": 7,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00010",
+   "teams": 14,
+   "map_seed": 238332441,
+   "flag_seed": 1603257594339042871,
+   "seat": 1,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00011",
+   "teams": 14,
+   "map_seed": 1418799787,
+   "flag_seed": 8145650896491492188,
+   "seat": 6,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00012",
+   "teams": 14,
+   "map_seed": 1786809834,
+   "flag_seed": 3926937893550385023,
+   "seat": 10,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00013",
+   "teams": 14,
+   "map_seed": 466993312,
+   "flag_seed": 8485973135250477730,
+   "seat": 0,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00014",
+   "teams": 14,
+   "map_seed": 809268246,
+   "flag_seed": 6936686248246384964,
+   "seat": 8,
+   "opponents": [
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00015",
+   "teams": 14,
+   "map_seed": 776995907,
+   "flag_seed": 2755009384129456059,
+   "seat": 12,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00016",
+   "teams": 14,
+   "map_seed": 1507962231,
+   "flag_seed": 5179794543635534280,
+   "seat": 11,
+   "opponents": [
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00017",
+   "teams": 14,
+   "map_seed": 1602556716,
+   "flag_seed": 4788702864787280272,
+   "seat": 9,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00018",
+   "teams": 14,
+   "map_seed": 167070471,
+   "flag_seed": 4450801007253137897,
+   "seat": 5,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n14-m00019",
+   "teams": 14,
+   "map_seed": 1313841822,
+   "flag_seed": 8581522066924979090,
+   "seat": 4,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00000",
+   "teams": 15,
+   "map_seed": 790277172,
+   "flag_seed": 2702407965933130774,
+   "seat": 10,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00001",
+   "teams": 15,
+   "map_seed": 2001160869,
+   "flag_seed": 7647688133822320373,
+   "seat": 4,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00002",
+   "teams": 15,
+   "map_seed": 1505533835,
+   "flag_seed": 6075910634548595538,
+   "seat": 12,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00003",
+   "teams": 15,
+   "map_seed": 457854637,
+   "flag_seed": 8268537328281772816,
+   "seat": 3,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00004",
+   "teams": 15,
+   "map_seed": 1645320550,
+   "flag_seed": 683503919958711179,
+   "seat": 14,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00005",
+   "teams": 15,
+   "map_seed": 1695662007,
+   "flag_seed": 861466495153021329,
+   "seat": 2,
+   "opponents": [
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00006",
+   "teams": 15,
+   "map_seed": 803541387,
+   "flag_seed": 2504272199053393054,
+   "seat": 11,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00007",
+   "teams": 15,
+   "map_seed": 30096919,
+   "flag_seed": 8322144563970910386,
+   "seat": 9,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00008",
+   "teams": 15,
+   "map_seed": 892074355,
+   "flag_seed": 2354557504887411202,
+   "seat": 5,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00009",
+   "teams": 15,
+   "map_seed": 1111254011,
+   "flag_seed": 607622607142938782,
+   "seat": 13,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00010",
+   "teams": 15,
+   "map_seed": 2038546673,
+   "flag_seed": 8373482308359640247,
+   "seat": 1,
+   "opponents": [
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00011",
+   "teams": 15,
+   "map_seed": 2126719128,
+   "flag_seed": 5865191147406689668,
+   "seat": 0,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00012",
+   "teams": 15,
+   "map_seed": 1041288804,
+   "flag_seed": 7831626404568677143,
+   "seat": 6,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00013",
+   "teams": 15,
+   "map_seed": 1214352568,
+   "flag_seed": 329739943828936521,
+   "seat": 7,
+   "opponents": [
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00014",
+   "teams": 15,
+   "map_seed": 1343392285,
+   "flag_seed": 6407374367667780705,
+   "seat": 8,
+   "opponents": [
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00015",
+   "teams": 15,
+   "map_seed": 1423216951,
+   "flag_seed": 243969156301417724,
+   "seat": 10,
+   "opponents": [
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00016",
+   "teams": 15,
+   "map_seed": 1958702857,
+   "flag_seed": 5204410754864461284,
+   "seat": 4,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00017",
+   "teams": 15,
+   "map_seed": 1791905041,
+   "flag_seed": 7691221659996848350,
+   "seat": 12,
+   "opponents": [
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00018",
+   "teams": 15,
+   "map_seed": 871197651,
+   "flag_seed": 1079142421617974786,
+   "seat": 3,
+   "opponents": [
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol"
+   ]
+  },
+  {
+   "fixture_id": "s20261210-n15-m00019",
+   "teams": 15,
+   "map_seed": 1509027377,
+   "flag_seed": 5704837772985003567,
+   "seat": 14,
+   "opponents": [
+    "Player5",
+    "Baseline",
+    "Astra",
+    "Sol",
+    "Fable",
+    "Sonnet",
+    "Opus",
+    "DeepSeek",
+    "Qwen",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player5",
+    "Baseline"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "command": "python -m unittest discover -s tests -t .",
+ "tests_run": 224,
+ "skipped": 1,
+ "failures": 0,
+ "errors": 0,
+ "exit_code": 0,
+ "elapsed_seconds": 215.04586849999032,
+ "core_log_sha256": "d87f82ba02053fcd93bc4d7b0ff45b46b7b0700d794c2e98b5de2a83e31dfe25",
+ "source_commit": "64576e0d6d428e5f45f9ad0a89216d6c4808bfb4",
+ "replays_or_predictions_repeated": false
+}

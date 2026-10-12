@@ -1,0 +1,34 @@
+[
+ {
+  "variant": "c08_pf_p2xxl",
+  "binary_identical_to_T0011": true,
+  "bundle_identical_to_T0011": false,
+  "changed_inputs": [
+   "bots/p_only/bots/c08_ponly_f.hpp"
+  ]
+ },
+ {
+  "variant": "c08_pf_p3xxl",
+  "binary_identical_to_T0011": true,
+  "bundle_identical_to_T0011": false,
+  "changed_inputs": [
+   "bots/p_only/bots/c08_ponly_f.hpp"
+  ]
+ },
+ {
+  "variant": "v12_pf_p2xxl",
+  "binary_identical_to_T0011": true,
+  "bundle_identical_to_T0011": false,
+  "changed_inputs": [
+   "bots/p_only/bots/v12_ponly_f.hpp"
+  ]
+ },
+ {
+  "variant": "v12_pf_p3xxl",
+  "binary_identical_to_T0011": true,
+  "bundle_identical_to_T0011": false,
+  "changed_inputs": [
+   "bots/p_only/bots/v12_ponly_f.hpp"
+  ]
+ }
+]

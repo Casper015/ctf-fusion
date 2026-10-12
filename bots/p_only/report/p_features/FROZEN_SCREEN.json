@@ -1,0 +1,302 @@
+{
+ "source_commit": "64576e0d6d428e5f45f9ad0a89216d6c4808bfb4",
+ "config_sha256": "bc48f2ff4ad8ddabe490c835f18e3fb4d0e6c1ee817a67b736c5dbf608dbf242",
+ "schedule_sha256": "fc008a38158f98d7aef4ba7cdf9966594a05078baf848ddc29e14a11c1abee96",
+ "manifest_sha256": "4924797314179f4618dde3537fa1e32e489103eb244f8e3be2e45d20325d563a",
+ "engine_sha256": "07e43f6210c640d87a9161193a71c394fde157f816af004d37a68ecc1e36a14a",
+ "candidate_inputs": {
+  "bots/p_only/bots/variants/v12_pf_p2xxl.cpp": "2258341c1a75662ca3de966ea2e240a3374dc68180d9b127de926ed7f1043818",
+  "inference/models_pf_p2xxl_vm/registry.hpp": "a60e3752ce5290b605a749bbefbec1f75433a30c66dee7c48119e45a2af175cd",
+  "inference/models_pf_p2xxl_vm/weights_general.hpp": "640d19cd674e785abd89dbf21a9336f96e0074f25585653984de60f66a703c38",
+  "inference/adapter.hpp": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1",
+  "inference/policy.hpp": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613",
+  "inference/features.hpp": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8",
+  "inference/state.hpp": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206",
+  "inference/mlp.hpp": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66",
+  "inference/simd.hpp": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453",
+  "inference/value.hpp": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf",
+  "bots/p_only/bots/v12_ponly_f.hpp": "e2b33e38048eccbc35730d19abfacd19dd8e7a45cd2938c320a3cc90eaf6e1ac",
+  "inference/combat.hpp": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7",
+  "inference/sim.hpp": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd",
+  "bots/p_only/include/ponly.hpp": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28",
+  "bots/p_only/bots/variants/v12_pf_p3xxl.cpp": "c5b8ea74a4abc4cc28eeb62cb24028e6f766a3d2b5dca6a775c96f62af9fa91f",
+  "inference/models_pf_p3xxl_vm/registry.hpp": "ea8be6686d9e0c92195c9f0dbd3803025c6af82c8f2d61fb0f7308802f5db06e",
+  "inference/models_pf_p3xxl_vm/weights_general.hpp": "a1c7024808a38a969c9ea5561437a9ff6269070d45fcb355d42439f0d12f6989",
+  "inference/policy_p3.hpp": "42ecd42277477578bde9e22f0480ce99fec42e324a8088796dd47df405bd3edf",
+  "bots/p_only/include/ponly_p3.hpp": "a34e99ef90bb9e6c1c9e404d8a7b545dce585883968b7570e316d61dad6c4739",
+  "bots/p_only/bots/variants/c08_pf_p2xxl.cpp": "894ceddf950eab888950bc0370a279ee063c77ac34d04e238c936564feeadc02",
+  "bots/p_only/bots/c08_ponly_f.hpp": "4e25782fda32e4871b5fee4a8f51a073568627c30c05b553e6426fbe0011e64c",
+  "bots/p_only/bots/variants/c08_pf_p3xxl.cpp": "2ecc2babd7d073b072246f5e22becf9ec320df499b3689fb12f710b4547d011b",
+  "bots/p_only/bots/variants/v12_ponly_xxl.cpp": "bae25e4131a2b3afff46ac195648078f5c19ede9df34e8982dec3ed1255dfdb4",
+  "bots/p_only/bots/v12_ponly.hpp": "5c63bee55a6b59b327c489524c82250186bef36329896910512928211100d8b7",
+  "inference/models_xxl/registry.hpp": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556",
+  "inference/models_xxl/weights_general.hpp": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844",
+  "inference/models_xxl/weights_n02.hpp": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b",
+  "inference/models_xxl/weights_n03.hpp": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8",
+  "inference/models_xxl/weights_n04.hpp": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11",
+  "inference/models_xxl/weights_n05.hpp": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071",
+  "inference/models_xxl/weights_n06.hpp": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb",
+  "inference/models_xxl/weights_n07.hpp": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455",
+  "inference/models_xxl/weights_n08.hpp": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141",
+  "inference/models_xxl/weights_n10.hpp": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525",
+  "inference/models_xxl/weights_n12.hpp": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609",
+  "inference/models_xxl/weights_n15.hpp": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675",
+  "bots/p_only/bots/variants/c08_ponly_xxl.cpp": "572ce372c281c178c020e8bed3e794f08ad45eb39f86b6e6b738b130641d30fe",
+  "bots/p_only/bots/c08_ponly.hpp": "88ba5d34e930645f921e7711135aedcd1c0e4896a8c42396b851c25eb24c161f"
+ },
+ "reference_binaries": {
+  "Astra": {
+   "source": "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+   "source_sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/gpt-6-astra-c88cc0d6b6c5cc8a.exe"
+   ],
+   "binary_sha256": "ae03baa80955c6e5bb1539346c6a130daed40b341d35b69641fcb5ea5a80aa32"
+  },
+  "Sol": {
+   "source": "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+   "source_sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/gpt-6.1-sol-702be8452920a119.exe"
+   ],
+   "binary_sha256": "6999587eacff1594ef6ab7ac9818f83dad312de472eac2ea74fe57fa254608ad"
+  },
+  "Fable": {
+   "source": "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+   "source_sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/fable-5.1-55aa3669776351a9.exe"
+   ],
+   "binary_sha256": "dcf4dd932816dfa98293e9256e0cd458bc5e9a940822babd8ea4142e22ca41c8"
+  },
+  "Sonnet": {
+   "source": "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+   "source_sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/sonnet-5.5-44de2f812993999d.exe"
+   ],
+   "binary_sha256": "74e8960c67503d9e18587a50b4a230bc411aaa5d750dccc908b8d7aee1e66f4c"
+  },
+  "Opus": {
+   "source": "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+   "source_sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/opus-5.5-3e0c91dda047dd0b.exe"
+   ],
+   "binary_sha256": "aa35fbd533cb435bc30eec79bb06d54f507416bd08dccfc6867910ddc4cb1ff9"
+  },
+  "DeepSeek": {
+   "source": "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+   "source_sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/deepseek-v4.1-flash-c31ae24ced7de84b.exe"
+   ],
+   "binary_sha256": "ae43d2f0c5178877581330f548cf6cc47986cfdf4edf644455cf863dfedb1b97"
+  },
+  "Qwen": {
+   "source": "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+   "source_sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/qwen-3.8-max-6022a6645eeee7e8.exe"
+   ],
+   "binary_sha256": "997ec2627e9f432934451b074ad1708e407d0324e25808371735b81c2002e9dd"
+  },
+  "MiMo": {
+   "source": "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "source_sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/mimo-v2.6-pro-bbf7fbe7e7675a47.exe"
+   ],
+   "binary_sha256": "19b45eb6233f65383ade3c01bac82409768659fdb91650351758b61dd5fc140d"
+  },
+  "Kimi": {
+   "source": "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+   "source_sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/kimi-k3-2e9a7489a62f09b1.exe"
+   ],
+   "binary_sha256": "698e881a0dd16a467fbf726174047f86a89087a5f0d657a00cf68a4e29af607c"
+  },
+  "GLM": {
+   "source": "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+   "source_sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/glm-5.3-0fe258b9343fb9dd.exe"
+   ],
+   "binary_sha256": "c444c7094a335eec996a036103a5de7c7163e62d333ed1ac512a6a0ee7cfe80f"
+  },
+  "Player5": {
+   "source": "${AI_TEST_ROOT}/ctf-stress-pack/bots/Player5.cpp",
+   "source_sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/Player5-e6a3326c54865425.exe"
+   ],
+   "binary_sha256": "9cd12aa1c002442669487bbe84501dea2ce27e94ab6ae215c98999a0c25799ab"
+  },
+  "Baseline": {
+   "source": "${AI_TEST_ROOT}/ctf-stress-pack/bots/baseline.cpp",
+   "source_sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42",
+   "command": [
+    "${WORK}/ctf-fusion.worktrees/T0013/build/roster/baseline-02f5de00fd3a04d3.exe"
+   ],
+   "binary_sha256": "a3718da028e5f1906c1bf8a3a8f99ce0519de322ea1b549cef17d7898296f4a5"
+  }
+ },
+ "reference_transitive_includes": {
+  "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740",
+  "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de",
+  "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04",
+  "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6",
+  "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b",
+  "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825",
+  "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410",
+  "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85",
+  "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b",
+  "${AI_TEST_ROOT}/ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e",
+  "${AI_TEST_ROOT}/ctf-stress-pack/bots/Player5.cpp": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9",
+  "${AI_TEST_ROOT}/ctf-stress-pack/bots/baseline.cpp": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+ },
+ "runner_sources": {
+  "bots/p_only/tools/screen_runner.py": "a2fa6b52666b755ef5e6f8b7945f2c3416e892da4bdb1837350e66372f487a0b",
+  "roster/strength.py": "d82665004d992d465e4127400e7c65448bbe8fa40592eafb63e8c85f4a9f1287",
+  "training/collect.py": "fe026ef688ef80a87734bf0739ab073020b4cf9781a054ea1acff9aae00fd546",
+  "fusion/runner.py": "0f072ddad1d3fd44566d5387f770b6139fa9998b2262cd7ce78a1c9f097041b5",
+  "bots/p_only/tools/build.py": "dbd54fa180fe1473348088efb012a38a1bf42bf467f94d5cb96b0b7a4248ce4b",
+  "bots/p_only/tools/analyze.py": "38dcd2deaa55306af9a68befb151a370cc3398acea783a66222dca927f60400e",
+  "tools/host/value_cost.py": "c8811351767c9c99475f56997e0e43359c0e3222c8c09508a3d2eb5af96f4517",
+  "profiles/pool.json": "489fe1bfa00505615802414a528bd592e21be0386a082dfc4f70fac2b8ef281a"
+ },
+ "auxiliary_helpers": {
+  "${WORK}/t0013_pipeline.py": "42c197785b20c93d2793100d32cf871a4e7b231bb48a451940937b0162a99c29",
+  "${WORK}/t0013_run.ps1": "8da5662c4f82b912be1ca38a3c09520e8edcc38e378519221893ed645ba25618",
+  "${WORK}/t0013_resource_monitor.ps1": "de91501d0db8d99c6cf19d600ded33e01d7b1501a7d18483252a4f66525dc93e"
+ },
+ "arm_identities": {
+  "v12_pf_p2xxl": {
+   "digest": "3f32e19fcebf02a65cb7f324e55e82fe50f5b66dd95a9a3c0895088a7b7de9b7",
+   "components": {
+    "variant": "v12_pf_p2xxl",
+    "bundle_sha256": "7d28fc41d9620dc3ce6a25844eea28436da15730e71ded274f758d1bfab7e12c",
+    "binary_sha256": "9b9bc62affeb4b9a7ca699541493cf34acc3377651c811d0c18ffbeb82db054d",
+    "inputs_sha256": "4ac677942baf08b19a478b07e01177e05bba5744704c82b062b46be0d415081d",
+    "models": [],
+    "stats": true,
+    "runner_sha256": "7bc6ec20f4d905e405c8a3b9d7832ab2e64b00376df39efc3b3ed72b9939d64f",
+    "schedule": "9bbaa4b456a46d0dbd564408cfb67db09c9d61add06e2e069cb3181291c4f0c8",
+    "limits_ms": [
+     2000,
+     50
+    ]
+   }
+  },
+  "v12_pf_p3xxl": {
+   "digest": "c15ae536ee1532e7953d332b745e14f097754efb42e66a3ec86fe9e0534b69c4",
+   "components": {
+    "variant": "v12_pf_p3xxl",
+    "bundle_sha256": "9841b858ebcddc87f86de39963d81d66370746dfdd03e66781c1d56bc3af3dd9",
+    "binary_sha256": "305ce08c13c106f94b12727297d6fc7e3327d04c8d59ff180556d18e9b6b95db",
+    "inputs_sha256": "967e4d8d25cc255ca56023fc03639dc3f3193025512e349962518bbc85d6c390",
+    "models": [],
+    "stats": true,
+    "runner_sha256": "7bc6ec20f4d905e405c8a3b9d7832ab2e64b00376df39efc3b3ed72b9939d64f",
+    "schedule": "9bbaa4b456a46d0dbd564408cfb67db09c9d61add06e2e069cb3181291c4f0c8",
+    "limits_ms": [
+     2000,
+     50
+    ]
+   }
+  },
+  "c08_pf_p2xxl": {
+   "digest": "a79ee2867f594bc86d2188d3426e78c201dbeb9693c4991435ab9aadf5a04d0d",
+   "components": {
+    "variant": "c08_pf_p2xxl",
+    "bundle_sha256": "4a73a4e41b599d76b964c4c5a3f242bf08765cca65f2682d13dee3c41d1c5908",
+    "binary_sha256": "0c106fc24ec56baa3cd280ac2b2c82a286abcd2e39cc19ac4979088837fe5e94",
+    "inputs_sha256": "ece788a005f34cf32c287c410c7f93848457399ddfddb5f71bd5155dc89213e1",
+    "models": [],
+    "stats": true,
+    "runner_sha256": "7bc6ec20f4d905e405c8a3b9d7832ab2e64b00376df39efc3b3ed72b9939d64f",
+    "schedule": "9bbaa4b456a46d0dbd564408cfb67db09c9d61add06e2e069cb3181291c4f0c8",
+    "limits_ms": [
+     2000,
+     50
+    ]
+   }
+  },
+  "c08_pf_p3xxl": {
+   "digest": "bedb6dc79bc3a18ffdae625a62daa2945d9fbdec3ae15333d41b34cfd7f5a08f",
+   "components": {
+    "variant": "c08_pf_p3xxl",
+    "bundle_sha256": "9171103ec3087859db6ad9c26e3272d54184ffb5359392bce2ebbd1f9f44f6f3",
+    "binary_sha256": "af622098d72541530bb33daecbd5647e5dfa572c5d17b30fd0aa84107484c81e",
+    "inputs_sha256": "38094759b421abc6b00855c4e15bf9ec57504ccbda419a9c393902ec018964be",
+    "models": [],
+    "stats": true,
+    "runner_sha256": "7bc6ec20f4d905e405c8a3b9d7832ab2e64b00376df39efc3b3ed72b9939d64f",
+    "schedule": "9bbaa4b456a46d0dbd564408cfb67db09c9d61add06e2e069cb3181291c4f0c8",
+    "limits_ms": [
+     2000,
+     50
+    ]
+   }
+  },
+  "v12_ponly_xxl": {
+   "digest": "d69b7b1039af07a1644b9b87bfa8cc7c86c7125579335b5acd7bcb292c349785",
+   "components": {
+    "variant": "v12_ponly_xxl",
+    "bundle_sha256": "0153cde766f4afaf121e169759e86b04b662bd20ea3451c6f61508a319c7f47d",
+    "binary_sha256": "6cbd5d34610f7946eebee56713992eae81c283f3bbb6a6fc8a342a1dc3db47c1",
+    "inputs_sha256": "7ebac93b4eb781a42c50b1aa1c460f37721cd0be5ec15d0047c457dad3c414a7",
+    "models": [],
+    "stats": true,
+    "runner_sha256": "7bc6ec20f4d905e405c8a3b9d7832ab2e64b00376df39efc3b3ed72b9939d64f",
+    "schedule": "9bbaa4b456a46d0dbd564408cfb67db09c9d61add06e2e069cb3181291c4f0c8",
+    "limits_ms": [
+     2000,
+     50
+    ]
+   }
+  },
+  "c08_ponly_xxl": {
+   "digest": "e084fb4060dbedae4e371c7f040cb4c61a128a99c6a72fba77a11037f84f34af",
+   "components": {
+    "variant": "c08_ponly_xxl",
+    "bundle_sha256": "574e2874842cbce99fa3e9eab42511bb44e588c5992f86e88546d79a887656f4",
+    "binary_sha256": "e5bf9510f3af85017b1a1412a8156eff39ac27bd72a7dac806aa5d321bc41c1d",
+    "inputs_sha256": "cb19f40fa79bc8711bea010c13c92d7a16e6f633e845b6c75347f83dc23d9460",
+    "models": [],
+    "stats": true,
+    "runner_sha256": "7bc6ec20f4d905e405c8a3b9d7832ab2e64b00376df39efc3b3ed72b9939d64f",
+    "schedule": "9bbaa4b456a46d0dbd564408cfb67db09c9d61add06e2e069cb3181291c4f0c8",
+    "limits_ms": [
+     2000,
+     50
+    ]
+   }
+  },
+  "v12_pf_p3xxl~aa": {
+   "digest": "c15ae536ee1532e7953d332b745e14f097754efb42e66a3ec86fe9e0534b69c4",
+   "components": {
+    "variant": "v12_pf_p3xxl",
+    "bundle_sha256": "9841b858ebcddc87f86de39963d81d66370746dfdd03e66781c1d56bc3af3dd9",
+    "binary_sha256": "305ce08c13c106f94b12727297d6fc7e3327d04c8d59ff180556d18e9b6b95db",
+    "inputs_sha256": "967e4d8d25cc255ca56023fc03639dc3f3193025512e349962518bbc85d6c390",
+    "models": [],
+    "stats": true,
+    "runner_sha256": "7bc6ec20f4d905e405c8a3b9d7832ab2e64b00376df39efc3b3ed72b9939d64f",
+    "schedule": "9bbaa4b456a46d0dbd564408cfb67db09c9d61add06e2e069cb3181291c4f0c8",
+    "limits_ms": [
+     2000,
+     50
+    ]
+   }
+  }
+ },
+ "official_limits_ms": [
+  2000,
+  50
+ ],
+ "workers": 6,
+ "games": 1960,
+ "identity": "a20191e4434703e3324335592ea2bc0a2a0b01dda1c3cf5c9446854ec295ddf4"
+}

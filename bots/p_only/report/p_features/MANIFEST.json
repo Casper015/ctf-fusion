@@ -1,0 +1,549 @@
+{
+ "variants": {
+  "c08_ponly_xxl": {
+   "name": "c08_ponly_xxl",
+   "carrier": "C08",
+   "role": "ponly",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/c08_ponly_xxl.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "stats": true,
+   "bundle": "build/p_only/src/c08_ponly_xxl.cpp",
+   "bundle_sha256": "574e2874842cbce99fa3e9eab42511bb44e588c5992f86e88546d79a887656f4",
+   "bundle_bytes": 48582553,
+   "binary": "build/p_only/bin/c08_ponly_xxl-574e2874842c.exe",
+   "binary_sha256": "e5bf9510f3af85017b1a1412a8156eff39ac27bd72a7dac806aa5d321bc41c1d",
+   "compile_seconds": 24.7,
+   "inputs": [
+    {
+     "path": "bots/p_only/bots/variants/c08_ponly_xxl.cpp",
+     "sha256": "572ce372c281c178c020e8bed3e794f08ad45eb39f86b6e6b738b130641d30fe"
+    },
+    {
+     "path": "bots/p_only/bots/c08_ponly.hpp",
+     "sha256": "88ba5d34e930645f921e7711135aedcd1c0e4896a8c42396b851c25eb24c161f"
+    },
+    {
+     "path": "inference/features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference/state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference/policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference/mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference/simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference/adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference/value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "bots/p_only/include/ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "inference/models_xxl/registry.hpp",
+     "sha256": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556"
+    },
+    {
+     "path": "inference/models_xxl/weights_general.hpp",
+     "sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844"
+    },
+    {
+     "path": "inference/models_xxl/weights_n02.hpp",
+     "sha256": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b"
+    },
+    {
+     "path": "inference/models_xxl/weights_n03.hpp",
+     "sha256": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8"
+    },
+    {
+     "path": "inference/models_xxl/weights_n04.hpp",
+     "sha256": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11"
+    },
+    {
+     "path": "inference/models_xxl/weights_n05.hpp",
+     "sha256": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071"
+    },
+    {
+     "path": "inference/models_xxl/weights_n06.hpp",
+     "sha256": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb"
+    },
+    {
+     "path": "inference/models_xxl/weights_n07.hpp",
+     "sha256": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455"
+    },
+    {
+     "path": "inference/models_xxl/weights_n08.hpp",
+     "sha256": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141"
+    },
+    {
+     "path": "inference/models_xxl/weights_n10.hpp",
+     "sha256": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525"
+    },
+    {
+     "path": "inference/models_xxl/weights_n12.hpp",
+     "sha256": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609"
+    },
+    {
+     "path": "inference/models_xxl/weights_n15.hpp",
+     "sha256": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675"
+    }
+   ]
+  },
+  "v12_ponly_xxl": {
+   "name": "v12_ponly_xxl",
+   "carrier": "v12",
+   "role": "ponly",
+   "tier": "XXL",
+   "source": "bots/p_only/bots/variants/v12_ponly_xxl.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "stats": true,
+   "bundle": "build/p_only/src/v12_ponly_xxl.cpp",
+   "bundle_sha256": "0153cde766f4afaf121e169759e86b04b662bd20ea3451c6f61508a319c7f47d",
+   "bundle_bytes": 48487718,
+   "binary": "build/p_only/bin/v12_ponly_xxl-0153cde766f4.exe",
+   "binary_sha256": "6cbd5d34610f7946eebee56713992eae81c283f3bbb6a6fc8a342a1dc3db47c1",
+   "compile_seconds": 21.1,
+   "inputs": [
+    {
+     "path": "bots/p_only/bots/variants/v12_ponly_xxl.cpp",
+     "sha256": "bae25e4131a2b3afff46ac195648078f5c19ede9df34e8982dec3ed1255dfdb4"
+    },
+    {
+     "path": "bots/p_only/bots/v12_ponly.hpp",
+     "sha256": "5c63bee55a6b59b327c489524c82250186bef36329896910512928211100d8b7"
+    },
+    {
+     "path": "inference/features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference/state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference/policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference/mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference/simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference/adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference/value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "bots/p_only/include/ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "inference/models_xxl/registry.hpp",
+     "sha256": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556"
+    },
+    {
+     "path": "inference/models_xxl/weights_general.hpp",
+     "sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844"
+    },
+    {
+     "path": "inference/models_xxl/weights_n02.hpp",
+     "sha256": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b"
+    },
+    {
+     "path": "inference/models_xxl/weights_n03.hpp",
+     "sha256": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8"
+    },
+    {
+     "path": "inference/models_xxl/weights_n04.hpp",
+     "sha256": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11"
+    },
+    {
+     "path": "inference/models_xxl/weights_n05.hpp",
+     "sha256": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071"
+    },
+    {
+     "path": "inference/models_xxl/weights_n06.hpp",
+     "sha256": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb"
+    },
+    {
+     "path": "inference/models_xxl/weights_n07.hpp",
+     "sha256": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455"
+    },
+    {
+     "path": "inference/models_xxl/weights_n08.hpp",
+     "sha256": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141"
+    },
+    {
+     "path": "inference/models_xxl/weights_n10.hpp",
+     "sha256": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525"
+    },
+    {
+     "path": "inference/models_xxl/weights_n12.hpp",
+     "sha256": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609"
+    },
+    {
+     "path": "inference/models_xxl/weights_n15.hpp",
+     "sha256": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675"
+    }
+   ]
+  },
+  "v12_pf_p2xxl": {
+   "name": "v12_pf_p2xxl",
+   "carrier": "V12",
+   "role": "family",
+   "tier": null,
+   "source": "bots/p_only/bots/variants/v12_pf_p2xxl.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "policy_family": "p2",
+   "value_family": "v2",
+   "value_on": false,
+   "models": "inference/models_pf_p2xxl_vm",
+   "export": "python -m training.export_mixed --policy-run runs/pf_p2_xxl_s1 --value-tier m --out inference/models_pf_p2xxl_vm",
+   "stats": true,
+   "bundle": "build/p_only/src/v12_pf_p2xxl.cpp",
+   "bundle_sha256": "7d28fc41d9620dc3ce6a25844eea28436da15730e71ded274f758d1bfab7e12c",
+   "bundle_bytes": 3089877,
+   "binary": "build/p_only/bin/v12_pf_p2xxl-7d28fc41d962.exe",
+   "binary_sha256": "9b9bc62affeb4b9a7ca699541493cf34acc3377651c811d0c18ffbeb82db054d",
+   "compile_seconds": 7.4,
+   "inputs": [
+    {
+     "path": "bots/p_only/bots/variants/v12_pf_p2xxl.cpp",
+     "sha256": "2258341c1a75662ca3de966ea2e240a3374dc68180d9b127de926ed7f1043818"
+    },
+    {
+     "path": "inference/models_pf_p2xxl_vm/registry.hpp",
+     "sha256": "a60e3752ce5290b605a749bbefbec1f75433a30c66dee7c48119e45a2af175cd"
+    },
+    {
+     "path": "inference/models_pf_p2xxl_vm/weights_general.hpp",
+     "sha256": "640d19cd674e785abd89dbf21a9336f96e0074f25585653984de60f66a703c38"
+    },
+    {
+     "path": "inference/adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference/policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference/features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference/state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference/mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference/simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference/value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "bots/p_only/bots/v12_ponly_f.hpp",
+     "sha256": "e2b33e38048eccbc35730d19abfacd19dd8e7a45cd2938c320a3cc90eaf6e1ac"
+    },
+    {
+     "path": "inference/combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference/sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "bots/p_only/include/ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    }
+   ]
+  },
+  "c08_pf_p2xxl": {
+   "name": "c08_pf_p2xxl",
+   "carrier": "C08",
+   "role": "family",
+   "tier": null,
+   "source": "bots/p_only/bots/variants/c08_pf_p2xxl.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "policy_family": "p2",
+   "value_family": "v2",
+   "value_on": false,
+   "models": "inference/models_pf_p2xxl_vm",
+   "export": "python -m training.export_mixed --policy-run runs/pf_p2_xxl_s1 --value-tier m --out inference/models_pf_p2xxl_vm",
+   "stats": true,
+   "bundle": "build/p_only/src/c08_pf_p2xxl.cpp",
+   "bundle_sha256": "4a73a4e41b599d76b964c4c5a3f242bf08765cca65f2682d13dee3c41d1c5908",
+   "bundle_bytes": 3196890,
+   "binary": "build/p_only/bin/c08_pf_p2xxl-4a73a4e41b59.exe",
+   "binary_sha256": "0c106fc24ec56baa3cd280ac2b2c82a286abcd2e39cc19ac4979088837fe5e94",
+   "compile_seconds": 11.2,
+   "inputs": [
+    {
+     "path": "bots/p_only/bots/variants/c08_pf_p2xxl.cpp",
+     "sha256": "894ceddf950eab888950bc0370a279ee063c77ac34d04e238c936564feeadc02"
+    },
+    {
+     "path": "inference/models_pf_p2xxl_vm/registry.hpp",
+     "sha256": "a60e3752ce5290b605a749bbefbec1f75433a30c66dee7c48119e45a2af175cd"
+    },
+    {
+     "path": "inference/models_pf_p2xxl_vm/weights_general.hpp",
+     "sha256": "640d19cd674e785abd89dbf21a9336f96e0074f25585653984de60f66a703c38"
+    },
+    {
+     "path": "inference/adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference/policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference/features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference/state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference/mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference/simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference/value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "bots/p_only/bots/c08_ponly_f.hpp",
+     "sha256": "4e25782fda32e4871b5fee4a8f51a073568627c30c05b553e6426fbe0011e64c"
+    },
+    {
+     "path": "inference/combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference/sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "bots/p_only/include/ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    }
+   ]
+  },
+  "v12_pf_p3xxl": {
+   "name": "v12_pf_p3xxl",
+   "carrier": "V12",
+   "role": "family",
+   "tier": null,
+   "source": "bots/p_only/bots/variants/v12_pf_p3xxl.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "policy_family": "p3",
+   "value_family": "v2",
+   "value_on": false,
+   "models": "inference/models_pf_p3xxl_vm",
+   "export": "python -m training.export_mixed --policy-run runs/pf_p3_xxl_s1 --value-tier m --out inference/models_pf_p3xxl_vm",
+   "stats": true,
+   "bundle": "build/p_only/src/v12_pf_p3xxl.cpp",
+   "bundle_sha256": "9841b858ebcddc87f86de39963d81d66370746dfdd03e66781c1d56bc3af3dd9",
+   "bundle_bytes": 4033591,
+   "binary": "build/p_only/bin/v12_pf_p3xxl-9841b858ebcd.exe",
+   "binary_sha256": "305ce08c13c106f94b12727297d6fc7e3327d04c8d59ff180556d18e9b6b95db",
+   "compile_seconds": 7.9,
+   "inputs": [
+    {
+     "path": "bots/p_only/bots/variants/v12_pf_p3xxl.cpp",
+     "sha256": "c5b8ea74a4abc4cc28eeb62cb24028e6f766a3d2b5dca6a775c96f62af9fa91f"
+    },
+    {
+     "path": "inference/models_pf_p3xxl_vm/registry.hpp",
+     "sha256": "ea8be6686d9e0c92195c9f0dbd3803025c6af82c8f2d61fb0f7308802f5db06e"
+    },
+    {
+     "path": "inference/models_pf_p3xxl_vm/weights_general.hpp",
+     "sha256": "a1c7024808a38a969c9ea5561437a9ff6269070d45fcb355d42439f0d12f6989"
+    },
+    {
+     "path": "inference/adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference/policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference/features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference/state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference/mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference/simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference/value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference/policy_p3.hpp",
+     "sha256": "42ecd42277477578bde9e22f0480ce99fec42e324a8088796dd47df405bd3edf"
+    },
+    {
+     "path": "inference/combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference/sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "bots/p_only/bots/v12_ponly_f.hpp",
+     "sha256": "e2b33e38048eccbc35730d19abfacd19dd8e7a45cd2938c320a3cc90eaf6e1ac"
+    },
+    {
+     "path": "bots/p_only/include/ponly_p3.hpp",
+     "sha256": "a34e99ef90bb9e6c1c9e404d8a7b545dce585883968b7570e316d61dad6c4739"
+    }
+   ]
+  },
+  "c08_pf_p3xxl": {
+   "name": "c08_pf_p3xxl",
+   "carrier": "C08",
+   "role": "family",
+   "tier": null,
+   "source": "bots/p_only/bots/variants/c08_pf_p3xxl.cpp",
+   "value_tier": null,
+   "fixed_samples": 0,
+   "policy_family": "p3",
+   "value_family": "v2",
+   "value_on": false,
+   "models": "inference/models_pf_p3xxl_vm",
+   "export": "python -m training.export_mixed --policy-run runs/pf_p3_xxl_s1 --value-tier m --out inference/models_pf_p3xxl_vm",
+   "stats": true,
+   "bundle": "build/p_only/src/c08_pf_p3xxl.cpp",
+   "bundle_sha256": "9171103ec3087859db6ad9c26e3272d54184ffb5359392bce2ebbd1f9f44f6f3",
+   "bundle_bytes": 4140604,
+   "binary": "build/p_only/bin/c08_pf_p3xxl-9171103ec308.exe",
+   "binary_sha256": "af622098d72541530bb33daecbd5647e5dfa572c5d17b30fd0aa84107484c81e",
+   "compile_seconds": 11.5,
+   "inputs": [
+    {
+     "path": "bots/p_only/bots/variants/c08_pf_p3xxl.cpp",
+     "sha256": "2ecc2babd7d073b072246f5e22becf9ec320df499b3689fb12f710b4547d011b"
+    },
+    {
+     "path": "inference/models_pf_p3xxl_vm/registry.hpp",
+     "sha256": "ea8be6686d9e0c92195c9f0dbd3803025c6af82c8f2d61fb0f7308802f5db06e"
+    },
+    {
+     "path": "inference/models_pf_p3xxl_vm/weights_general.hpp",
+     "sha256": "a1c7024808a38a969c9ea5561437a9ff6269070d45fcb355d42439f0d12f6989"
+    },
+    {
+     "path": "inference/adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference/policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference/features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference/state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference/mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference/simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference/value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference/policy_p3.hpp",
+     "sha256": "42ecd42277477578bde9e22f0480ce99fec42e324a8088796dd47df405bd3edf"
+    },
+    {
+     "path": "inference/combat.hpp",
+     "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+     "path": "inference/sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "bots/p_only/bots/c08_ponly_f.hpp",
+     "sha256": "4e25782fda32e4871b5fee4a8f51a073568627c30c05b553e6426fbe0011e64c"
+    },
+    {
+     "path": "bots/p_only/include/ponly_p3.hpp",
+     "sha256": "a34e99ef90bb9e6c1c9e404d8a7b545dce585883968b7570e316d61dad6c4739"
+    }
+   ]
+  }
+ },
+ "compiler": "g++.exe (GCC) 15.2.0",
+ "flags": [
+  "-std=c++20",
+  "-O2",
+  "-static"
+ ],
+ "host": "DESKTOP-G60OJUD",
+ "platform": "Windows-10-10.0.19045-SP0",
+ "updated": "2026-10-11T22:39:50"
+}
