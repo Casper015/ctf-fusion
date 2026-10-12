@@ -34,15 +34,24 @@ repeat noise is real continuation noise, never zero by construction.
 
 Per branch: the raw final score vector and its derived utility, the root and successor blocks, faults, and the
 prefix replay's mismatches against the recorded replies, both by order (comments stripped) and raw, with the first
-examples. Rows follow ctf-fusion-branches-1 (training.decision_dataset ingests them) and add carrier_scores
+examples. Faults are kept by phase (fault_counts): the prefix, the continuation, and the root turn. At the root turn
+every bot is still queried under the official limit but its reply is replaced by the recorded or forced order; the
+computed replies (root_computed_replies) and their timeouts, missing replies and malformed text
+(discarded_root_computed_faults) are retained without changing the forced orders, the candidates or the strikes.
+Rows follow ctf-fusion-branches-1 (training.decision_dataset ingests them) and add carrier_scores
 (ctf-fusion-shortlist-scores-1, aligned to the played candidates), the parsed shortlist, sources, repeat keys, the
-continuation policy tag and both identities. Resume skips only a complete row with the same collector identity;
-the T0035 frozen identities must still verify; a row of another identity stops the run.
+continuation policy tag, both identities and input_binding: digests of the whole input match, the root block and
+the recorded prefix (blocks and every seat's replies), plus the selected complete orders and their aligned scores.
+Resume reuses a stored row (complete or dropped) only with the same collector identity and an equal input_binding;
+a row whose input changed, or one left at a root turn the input no longer selects, is set aside under
+<out>/stale/ (counted in summary.json by reason) and replayed; a row of another identity stops the run. The T0035
+frozen identities must still verify.
 """
 from __future__ import annotations
 
 import argparse
 import gzip
+import hashlib
 import json
 import math
 import os
@@ -219,8 +228,8 @@ def play_branch(engine, match: dict, seat: int, turn: int, line: str, commands: 
     names = [s["name"] for s in match["seats"]]
     bots = [runner.Bot(cmd, name, (limits[0], PREFIX_LIMIT)) for cmd, name in zip(commands, names)]
     by_order = raw = prefix_faults = 0
-    examples, faults = [], []
-    root_block = next_block = None
+    examples, faults, root_faults = [], [], []
+    root_block = next_block = root_computed = None
     try:
         while not game.done:
             t = game.turn + 1
@@ -245,6 +254,21 @@ def play_branch(engine, match: dict, seat: int, turn: int, line: str, commands: 
                 orders = recorded_orders(game, match, t)
             else:
                 if t == turn:
+                    # Every bot still answers the root turn under the official limit, but the engine plays the
+                    # recorded orders and our forced candidate. Keep what the bots computed, and every fault of
+                    # those discarded replies (timeouts, missing replies, malformed text), apart from the prefix and
+                    # continuation faults; nothing here changes the forced orders, the candidates or the strikes.
+                    root_computed = list(lines)
+                    for i, (b, got) in enumerate(zip(bots, lines)):
+                        reasons = [r for tt, r in b.faults if tt == t]
+                        if got is None and not reasons:
+                            reasons.append(f"no reply ({b.dead})" if b.dead else "no reply")
+                        if got is not None:
+                            try:
+                                game.decode(i, got)
+                            except ValueError as exc:
+                                reasons.append(f"malformed output: {exc}")
+                        root_faults += [[t, i, r] for r in reasons]
                     lines = list(match["replies"][t - 1])
                     lines[seat] = line
                 orders = {}
@@ -267,6 +291,8 @@ def play_branch(engine, match: dict, seat: int, turn: int, line: str, commands: 
             b.close()
     return {"line": line, "score": score, "outcome": float(pairwise_outcome(score)[seat]), "prefix_mismatch": by_order,
             "prefix_mismatch_raw": raw, "prefix_examples": examples, "prefix_faults": prefix_faults, "faults": faults,
+            "discarded_root_computed_faults": root_faults, "root_computed_replies": root_computed,
+            "fault_counts": {"prefix": prefix_faults, "root_discarded": len(root_faults), "continuation": len(faults)},
             "root_block": root_block, "next_block": next_block}
 
 
@@ -303,6 +329,38 @@ def write_gz(path: Path, obj) -> None:
     with gzip.open(tmp, "wt", encoding="utf-8") as fh:
         json.dump(obj, fh)
     os.replace(tmp, path)
+
+
+def _sha(obj) -> str:
+    return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":"), default=str).encode()).hexdigest()
+
+
+def input_binding(match: dict, seat: int, turn: int, chosen: dict, cands: list[dict]) -> dict:
+    """What a row was played from: the whole input match, the root block, the recorded prefix (blocks and every
+    seat's replies before the root), and the selected complete orders with their aligned carrier scores. A stored
+    row (completed or dropped) is reused only when every field is equal."""
+    return {"match_sha256": _sha(match), "root_block_sha256": _sha(match["blocks"][turn - 1]),
+            "prefix_sha256": _sha({"init": match.get("init"), "blocks": match["blocks"][:turn - 1],
+                                   "replies": match["replies"][:turn - 1]}),
+            "seat": seat, "turn": turn, "root_digest": chosen["log"]["root"], "stage": chosen["scored"]["stage"],
+            "scale": chosen["scored"]["scale"], "candidates": [e["line"] for e in cands],
+            "scores": [e["score"] for e in cands]}
+
+
+def binding_differences(row: dict, binding: dict) -> list[str]:
+    """The binding fields a stored row does not share with the current input (all of them for an unbound row)."""
+    old = row.get("input_binding")
+    if not isinstance(old, dict):
+        return ["unbound"]
+    return sorted(k for k in set(old) | set(binding) if old.get(k) != binding.get(k))
+
+
+def set_aside(path: Path, out: Path, kind: str) -> Path:
+    """Move a stored row out of the dataset's glob (``<out>/<kind>/<name>.<time>``): never deleted, never ingested."""
+    dest = out / kind / f"{path.name}.{time.time_ns()}"
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.move(str(path), dest)
+    return dest
 
 
 def is_complete(row: dict, repeats: int) -> bool:
@@ -353,7 +411,19 @@ def collect(frozen_path: Path, matches: Path, out: Path, root: Path | None, repe
     out = Path(out)
     summary = {"collector_identity": ident, "frozen_identity": frozen["identity"], "repeats": repeats,
                "alternatives": alternatives, "continuation_policy": continuation, "matches": 0, "roots": 0,
-               "no_root": {}, "turn_reasons": {}, "complete_before": 0, "played": 0, "dropped": {}}
+               "no_root": {}, "turn_reasons": {}, "complete_before": 0, "played": 0, "dropped": {}, "stale": {}}
+
+    def stored(path: Path) -> dict:
+        with gzip.open(path, "rt", encoding="utf-8") as fh:
+            row = json.load(fh)
+        if row.get("collector_identity") != ident:
+            raise SystemExit(f"{path}: a row of another collector identity; collect into a new --out")
+        return row
+
+    def stale(path: Path, why: str) -> None:
+        set_aside(path, out, "stale")
+        summary["stale"][why] = summary["stale"].get(why, 0) + 1
+
     jobs, meta = [], []
     for mp in sorted(Path(matches).rglob("*.json.gz")):
         match = matchlog.load(mp)
@@ -363,38 +433,45 @@ def collect(frozen_path: Path, matches: Path, out: Path, root: Path | None, repe
         chosen, reasons = pick_root(match, seat)
         for k, v in reasons.items():
             summary["turn_reasons"][k] = summary["turn_reasons"].get(k, 0) + v
+        rp = row_path(out, match, chosen["turn"]) if chosen else None
+        # A stored row of this match at another root turn was played from an input that no longer selects it.
+        for other in sorted(row_path(out, match, 0).parent.glob(f"{match['match_id']}-t*.json.gz")):
+            if other != rp:
+                stored(other)
+                stale(other, "root turn changed")
         if chosen is None:
             why = "no usable shortlist in any turn"
             summary["no_root"][why] = summary["no_root"].get(why, 0) + 1
             continue
         summary["roots"] += 1
         t = chosen["turn"]
-        rp = row_path(out, match, t)
+        cands = select_candidates(chosen["scored"], alternatives)
+        binding = input_binding(match, seat, t, chosen, cands)
         if rp.exists():
-            with gzip.open(rp, "rt", encoding="utf-8") as fh:
-                old = json.load(fh)
-            if old.get("collector_identity") != ident:
-                raise SystemExit(f"{rp}: a row of another collector identity; collect into a new --out")
-            if is_complete(old, repeats):
+            old = stored(rp)
+            diff = binding_differences(old, binding)
+            if diff:
+                stale(rp, "input changed: " + ",".join(diff))
+            elif is_complete(old, repeats):
                 summary["complete_before"] += 1
                 continue
-            dest = out / "partial" / f"{rp.name}.{int(time.time())}"
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.move(str(rp), dest)
-        cands = select_candidates(chosen["scored"], alternatives)
+            else:
+                set_aside(rp, out, "partial")
         lines = [e["line"] for e in cands]
         sources = ["recorded"] + [f"shortlist:{e['source']}" for e in cands[1:]]
         commands = [commands_by_name["@candidate" if i == seat else s["name"]] for i, s in enumerate(match["seats"])]
         jobs.append((str(mp), t, lines, sources, repeats, commands, str(root) if root else None, play_fn, reproduce_fn))
-        meta.append((match, seat, t, chosen, cands, rp))
+        meta.append((match, seat, t, chosen, cands, rp, binding))
     print(f"[branches] {summary['matches']} matches, {summary['roots']} roots, {summary['complete_before']} complete, "
+          f"{sum(summary['stale'].values())} stale set aside, "
           f"{len(jobs)} to play ({len(jobs) * repeats * (1 + alternatives)} continuations at most)", flush=True)
     if not dry_run and jobs:
         pool = ProcessPoolExecutor(workers) if workers > 1 and play_fn is None else None
         results = pool.map(root_job, jobs, chunksize=1) if pool else map(root_job, jobs)
-        for (match, seat, t, chosen, cands, rp), res in zip(meta, results):
+        for (match, seat, t, chosen, cands, rp, binding), res in zip(meta, results):
             base = {"schema": SCHEMA, "match_id": match["match_id"], "teams": match["teams"], "map_seed": match["map_seed"],
-                    "seat": seat, "turn": t, "collector_identity": ident, "frozen_identity": frozen["identity"]}
+                    "seat": seat, "turn": t, "collector_identity": ident, "frozen_identity": frozen["identity"],
+                    "input_binding": binding}
             if "dropped" in res:
                 write_gz(rp, base | {"dropped": res["dropped"]})
                 summary["dropped"][res["dropped"]] = summary["dropped"].get(res["dropped"], 0) + 1
