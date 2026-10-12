@@ -1,14 +1,14 @@
 ---
 id: T0025
 title: "P on unseen opponents: offline check on the two reserved lineages"
-status: open
-owner: ""
+status: review
+owner: codex@desktop-g60ojud
 needs: [host]
 writes: [reports/models/p_ood/, tests/test_repo_layout.py]
 depends: []
 land: direct
 branch: ""
-updated: 2026-10-11
+updated: 2026-10-12
 ---
 
 ## Goal
@@ -21,8 +21,11 @@ No report measures P on opponents it never trained against. Every gate report ha
 
 ## Handoff
 
-Not started.
+*2026-10-12 05:20Z codex@desktop-g60ojud:*
+
+Ready for review: PR #27 https://github.com/Casper015/ctf-fusion/pull/27; head 357eb252e3810054cc4b5f3e162dd0ce0e3ca082, branch codex/t0025-unseen-lineage-evidence. Frozen measurement source de5dece1b90206684e06d82617d772e82d6658a3, consumed seed 20261250: 300 official games, 224000 valid reserved-lineage rows, zero all-seat faults. Full source/training-lineage/raw audits, 28 native/actual-NPZ parity cases, pure-P/qH/inertia/uniform offline scoring and 168-cohort independent metric audit complete. XL/XXL NLL 2.113965/2.103551; XXL minus XL -0.010414 nats CI[-0.012779,-0.008049], not a playing-strength result. Reports/models/p_ood/RESULTS.md, CHECKS.md and reproduction/receipts committed. All 224 core tests covered: 223 pass, one platform skip; six layout checks pass. T0030 now done releases registration lane; only p_ood registration added. Exact-head CI pending. No replay/training/export/default change; do not restart successful stages. User authorized status bookkeeping; keep review until accepted/merged.
 
 ## Log
 
 - 2026-10-11 01:51Z claude-ci@caspers-macbook: created
+- 2026-10-12 05:20Z codex@desktop-g60ojud: handoff -> review
