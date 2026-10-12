@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-12 16:06Z claude@caspers-macbook: created
+- 2026-10-12 16:09Z codex-review@caspers-macbook: note: Independent review reproduction confirmed: selected incumbent refined score 2.5 -> 123.5 with unchanged match_id/turn/config causes complete_before=1, played=0. Review https://github.com/Casper015/ctf-fusion/pull/33#pullrequestreview-5493229881 also identifies unretained computed root faults. Existing tests pass but do not cover these cases; add regressions before branch-data acceptance. No code edits or host collection performed in this review.
