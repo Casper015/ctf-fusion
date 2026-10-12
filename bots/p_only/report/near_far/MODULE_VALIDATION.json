@@ -1,0 +1,161 @@
+{
+ "passed": true,
+ "cases": [
+  {
+   "teams": 3,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 3,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 4,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 4,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 5,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 5,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 6,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 6,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 7,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 7,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 8,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 8,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 9,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 9,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 10,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 10,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 11,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 11,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 12,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 12,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 13,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 13,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 14,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 14,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 15,
+   "size": "S",
+   "rows": 16,
+   "exact_raw_values": 5120
+  },
+  {
+   "teams": 15,
+   "size": "L",
+   "rows": 16,
+   "exact_raw_values": 5120
+  }
+ ]
+}

@@ -1,0 +1,1883 @@
+{
+ "source_commit": "8a4eab4bef5bf65e971ec6712eebb89821738130",
+ "selection": [
+  {
+   "name": "s20261108-n03-m00000-07db0ea4d1.json.gz",
+   "sha256": "e46b36a81491c1b9f3e12ef29d2be346ecbe787bcc7f739d0a7f2c66f722406e",
+   "bytes": 18829,
+   "match_id": "s20261108-n03-m00000-07db0ea4d1",
+   "teams": 3,
+   "map_seed": 347403594,
+   "flag_seed": 4328343787288279744,
+   "reference_seat": 0,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 1,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 2,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n03-m00001-07db0ea4d1.json.gz",
+   "sha256": "f47798fbebc7f1f449f0610f28e359679d004757c09048782ec97561a3b02f4c",
+   "bytes": 19508,
+   "match_id": "s20261108-n03-m00001-07db0ea4d1",
+   "teams": 3,
+   "map_seed": 1109117150,
+   "flag_seed": 4643059934584530526,
+   "reference_seat": 1,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 2,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n04-m00000-07db0ea4d1.json.gz",
+   "sha256": "08ef0065c22faa716188376eb579bef4d7315d0f5dc1ef7b0969b892c1f82cad",
+   "bytes": 26013,
+   "match_id": "s20261108-n04-m00000-07db0ea4d1",
+   "teams": 4,
+   "map_seed": 1093353630,
+   "flag_seed": 5006649798061316954,
+   "reference_seat": 1,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 2,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 3,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n04-m00001-07db0ea4d1.json.gz",
+   "sha256": "1ee26b22a6ddbd228c52bf57bb7e3457ac9d764e8a1e7e6cf48590423b7a2308",
+   "bytes": 21958,
+   "match_id": "s20261108-n04-m00001-07db0ea4d1",
+   "teams": 4,
+   "map_seed": 753322976,
+   "flag_seed": 725102416036860100,
+   "reference_seat": 0,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 1,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 2,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 3,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n05-m00000-07db0ea4d1.json.gz",
+   "sha256": "d5fa54beaa64dd48cc75f06b03b081edd34198a26b97e738e307de390557d063",
+   "bytes": 31324,
+   "match_id": "s20261108-n05-m00000-07db0ea4d1",
+   "teams": 5,
+   "map_seed": 314163061,
+   "flag_seed": 8039975113263205023,
+   "reference_seat": 4,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 1,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 2,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 3,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n05-m00001-07db0ea4d1.json.gz",
+   "sha256": "1ea9afc5643affb354dfd974c1c0b13cf1d715f9861a7e104f4cf9799073d2fe",
+   "bytes": 31503,
+   "match_id": "s20261108-n05-m00001-07db0ea4d1",
+   "teams": 5,
+   "map_seed": 1525873426,
+   "flag_seed": 6337044651190792573,
+   "reference_seat": 1,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 2,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 3,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 4,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n06-m00000-07db0ea4d1.json.gz",
+   "sha256": "f2f6478fe41e0d529a1fdb21f0174efdd14712f3d608be0d65c08b0b5b6b6609",
+   "bytes": 38823,
+   "match_id": "s20261108-n06-m00000-07db0ea4d1",
+   "teams": 6,
+   "map_seed": 1196600328,
+   "flag_seed": 2269401529618074808,
+   "reference_seat": 5,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 1,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 2,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 3,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 4,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n06-m00001-07db0ea4d1.json.gz",
+   "sha256": "f669d767ce9afd1d16f41bfea7064c5b2f833ed47cb1592b9074da53988219f6",
+   "bytes": 37075,
+   "match_id": "s20261108-n06-m00001-07db0ea4d1",
+   "teams": 6,
+   "map_seed": 1869891876,
+   "flag_seed": 1061776822033273415,
+   "reference_seat": 0,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 1,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 2,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    },
+    {
+     "seat": 3,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 4,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 5,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n07-m00000-07db0ea4d1.json.gz",
+   "sha256": "61b6cacf7912c04ca5ff1678ffcdfa07687b7aa7bf902ffe39d732f630b84e3c",
+   "bytes": 44266,
+   "match_id": "s20261108-n07-m00000-07db0ea4d1",
+   "teams": 7,
+   "map_seed": 612460896,
+   "flag_seed": 7509300717302988887,
+   "reference_seat": 6,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 1,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 2,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 3,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 4,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 5,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n07-m00001-07db0ea4d1.json.gz",
+   "sha256": "021a8ea6e27abaa180d76c4c7ebc07cedca8ad3b18b8f0ef6d81eff76beb0d85",
+   "bytes": 45872,
+   "match_id": "s20261108-n07-m00001-07db0ea4d1",
+   "teams": 7,
+   "map_seed": 1758280778,
+   "flag_seed": 931416344912295142,
+   "reference_seat": 1,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 2,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 3,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 4,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 5,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 6,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n08-m00000-07db0ea4d1.json.gz",
+   "sha256": "78264c32b287c17c0097ea697d3df01cbc8bea1f6c453868ef96ea96b4eb123e",
+   "bytes": 50924,
+   "match_id": "s20261108-n08-m00000-07db0ea4d1",
+   "teams": 8,
+   "map_seed": 971064549,
+   "flag_seed": 7423344152647658318,
+   "reference_seat": 0,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 1,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 2,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 3,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 4,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 5,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 6,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 7,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n08-m00001-07db0ea4d1.json.gz",
+   "sha256": "6da26edc443185d44e8df3f8bf19b8e9f5ccec528f990831905a3c13de725d50",
+   "bytes": 51183,
+   "match_id": "s20261108-n08-m00001-07db0ea4d1",
+   "teams": 8,
+   "map_seed": 304328412,
+   "flag_seed": 7014024235456106988,
+   "reference_seat": 6,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 1,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 2,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 3,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 4,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 5,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 7,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n09-m00000-07db0ea4d1.json.gz",
+   "sha256": "fdf30f1b48456eca49e5b9249b083234fc1689161cb56d8855dbc3993245543f",
+   "bytes": 59484,
+   "match_id": "s20261108-n09-m00000-07db0ea4d1",
+   "teams": 9,
+   "map_seed": 692338663,
+   "flag_seed": 1737644220214993928,
+   "reference_seat": 2,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 1,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 3,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 4,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 5,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 6,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 7,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 8,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n09-m00001-07db0ea4d1.json.gz",
+   "sha256": "bc23d735e076a39d18d137927dc025680f903119b06e7dce87c1c56832a60397",
+   "bytes": 60318,
+   "match_id": "s20261108-n09-m00001-07db0ea4d1",
+   "teams": 9,
+   "map_seed": 714394865,
+   "flag_seed": 935721859019308507,
+   "reference_seat": 1,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 2,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 3,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 4,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 5,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 6,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 7,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 8,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n10-m00000-07db0ea4d1.json.gz",
+   "sha256": "795f7eb69358ff3e54e99a9a3f5ac350a6f7dc80a3e432cbc03c74bdc087e2a6",
+   "bytes": 65362,
+   "match_id": "s20261108-n10-m00000-07db0ea4d1",
+   "teams": 10,
+   "map_seed": 700446944,
+   "flag_seed": 7108479416828658121,
+   "reference_seat": 0,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 1,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 2,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 3,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    },
+    {
+     "seat": 4,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 5,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 6,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 7,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 8,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 9,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n10-m00001-07db0ea4d1.json.gz",
+   "sha256": "0453eb7d8c51594a21492906e9af6b4c3366c1c1cf32cc7ba96c366c065facf8",
+   "bytes": 66606,
+   "match_id": "s20261108-n10-m00001-07db0ea4d1",
+   "teams": 10,
+   "map_seed": 1897585010,
+   "flag_seed": 6114859102706748186,
+   "reference_seat": 8,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    },
+    {
+     "seat": 1,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 2,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 3,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 4,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 5,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 6,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 7,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 9,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n11-m00000-07db0ea4d1.json.gz",
+   "sha256": "90e13a65fa36a514819858a641f3a4f39adf7fbffe3be7afb4fdafc0797c866d",
+   "bytes": 72869,
+   "match_id": "s20261108-n11-m00000-07db0ea4d1",
+   "teams": 11,
+   "map_seed": 2039377780,
+   "flag_seed": 5326661302202295823,
+   "reference_seat": 7,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    },
+    {
+     "seat": 1,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 2,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 3,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 4,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 5,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 6,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 8,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 9,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 10,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n11-m00001-07db0ea4d1.json.gz",
+   "sha256": "5ace10dea5b1101156869f80eec5a3f5c939ccb0ecce2431d1f6c264e2121f35",
+   "bytes": 70752,
+   "match_id": "s20261108-n11-m00001-07db0ea4d1",
+   "teams": 11,
+   "map_seed": 1613359575,
+   "flag_seed": 4237662834915777562,
+   "reference_seat": 1,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 2,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 3,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 4,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 5,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 6,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 7,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 8,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 9,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 10,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n12-m00000-07db0ea4d1.json.gz",
+   "sha256": "73986eeaecb262526a6f70d3a919bc22d1229d0dfebba7b3f8c18ada784ef4a5",
+   "bytes": 76393,
+   "match_id": "s20261108-n12-m00000-07db0ea4d1",
+   "teams": 12,
+   "map_seed": 710019914,
+   "flag_seed": 4811401607099236943,
+   "reference_seat": 6,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 1,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 2,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 3,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 4,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 5,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 7,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 8,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 9,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 10,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 11,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n12-m00001-07db0ea4d1.json.gz",
+   "sha256": "3a93bf32f37ae5902736d7a449b65cf80d05ad7d1caa54e54e6de08f255aadd2",
+   "bytes": 77960,
+   "match_id": "s20261108-n12-m00001-07db0ea4d1",
+   "teams": 12,
+   "map_seed": 1736234361,
+   "flag_seed": 8365653767453085706,
+   "reference_seat": 1,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 2,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 3,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 4,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 5,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 6,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 7,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 8,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 9,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    },
+    {
+     "seat": 10,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 11,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n13-m00000-07db0ea4d1.json.gz",
+   "sha256": "1eefbca3e93f3b571c9f4ccd9365647a468540f2e4dfc090795c3b539f5a334b",
+   "bytes": 85096,
+   "match_id": "s20261108-n13-m00000-07db0ea4d1",
+   "teams": 13,
+   "map_seed": 553579801,
+   "flag_seed": 7241071226384041664,
+   "reference_seat": 4,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 1,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 2,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 3,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 5,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 6,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 7,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 8,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    },
+    {
+     "seat": 9,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 10,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 11,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 12,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n13-m00001-07db0ea4d1.json.gz",
+   "sha256": "d99b05d294d7e6edebd4dc9a548e71940ab299c14aecbbc56ded40045606883b",
+   "bytes": 84461,
+   "match_id": "s20261108-n13-m00001-07db0ea4d1",
+   "teams": 13,
+   "map_seed": 712597273,
+   "flag_seed": 5271328324338244283,
+   "reference_seat": 1,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 2,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 3,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 4,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 5,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 6,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    },
+    {
+     "seat": 7,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 8,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 9,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 10,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 11,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 12,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n14-m00000-07db0ea4d1.json.gz",
+   "sha256": "ff5b5a32996bba416a5006f07a52a2df858a226da1ee0857927a9263e1dd0d61",
+   "bytes": 92111,
+   "match_id": "s20261108-n14-m00000-07db0ea4d1",
+   "teams": 14,
+   "map_seed": 843164820,
+   "flag_seed": 8049976909098855582,
+   "reference_seat": 4,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 1,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 2,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 3,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 5,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 6,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 7,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 8,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 9,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 10,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 11,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 12,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    },
+    {
+     "seat": 13,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n14-m00001-07db0ea4d1.json.gz",
+   "sha256": "c112855e79630e21bcd7b6937e7d5f1991c2ba81f967c3e46387155469f16455",
+   "bytes": 89701,
+   "match_id": "s20261108-n14-m00001-07db0ea4d1",
+   "teams": 14,
+   "map_seed": 55849268,
+   "flag_seed": 5169640909642290763,
+   "reference_seat": 0,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 1,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 2,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 3,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 4,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    },
+    {
+     "seat": 5,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 6,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 7,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 8,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 9,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 10,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 11,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 12,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 13,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n15-m00000-07db0ea4d1.json.gz",
+   "sha256": "343f0aaee475e76fa24c69b1e2dde4d670752e654c724580463a661795fc4f8c",
+   "bytes": 99020,
+   "match_id": "s20261108-n15-m00000-07db0ea4d1",
+   "teams": 15,
+   "map_seed": 1728352734,
+   "flag_seed": 3116178447243416244,
+   "reference_seat": 5,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 1,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 2,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 3,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 4,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 6,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 7,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    },
+    {
+     "seat": 8,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 9,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 10,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 11,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 12,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 13,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 14,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    }
+   ]
+  },
+  {
+   "name": "s20261108-n15-m00001-07db0ea4d1.json.gz",
+   "sha256": "f5edb08490d1d4b451e73fc23d33bdc496676e0010a24665420665991865a6fb",
+   "bytes": 97598,
+   "match_id": "s20261108-n15-m00001-07db0ea4d1",
+   "teams": 15,
+   "map_seed": 2021143159,
+   "flag_seed": 8402400910440935950,
+   "reference_seat": 7,
+   "reference_binary_sha256": "ac6446023e1aa03dbf9e1be74304dfa5b0c87253a17c2cb361d4ee437e8633d7",
+   "opponent_seats": [
+    {
+     "seat": 0,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 1,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+     "seat": 2,
+     "name": "Opus",
+     "family": "opus",
+     "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+     "seat": 3,
+     "name": "DeepSeek",
+     "family": "deepseek",
+     "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+     "seat": 4,
+     "name": "Qwen",
+     "family": "qwen",
+     "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+     "seat": 5,
+     "name": "MiMo",
+     "family": "mimo",
+     "sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "seat": 6,
+     "name": "Kimi",
+     "family": "kimi",
+     "sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "seat": 8,
+     "name": "GLM",
+     "family": "glm",
+     "sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "seat": 9,
+     "name": "Player5",
+     "family": "player5",
+     "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+     "seat": 10,
+     "name": "Baseline",
+     "family": "baseline",
+     "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    },
+    {
+     "seat": 11,
+     "name": "Astra",
+     "family": "astra",
+     "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+     "seat": 12,
+     "name": "Sol",
+     "family": "sol",
+     "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+     "seat": 13,
+     "name": "Fable",
+     "family": "fable",
+     "sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "seat": 14,
+     "name": "Sonnet",
+     "family": "sonnet",
+     "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    }
+   ]
+  }
+ ],
+ "samples": 128,
+ "workers": 4,
+ "root_registry": "inference/models_pxxl_vm",
+ "root_registry_sha256": "8ac015005b7eb4bba3f7e1635bfd39e7bc6a3d93bffc051d574f814ff6f20194",
+ "modes": {
+  "original": "unmodified routing",
+  "disabled": 0,
+  "branch_s": 1,
+  "far_l": 2,
+  "near_l": 3,
+  "all_l": 4
+ },
+ "root_inputs": {
+  "inference/adapter.hpp": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1",
+  "inference/features.hpp": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8",
+  "inference/mlp.hpp": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66",
+  "inference/models_pxxl_vm/registry.hpp": "8ac015005b7eb4bba3f7e1635bfd39e7bc6a3d93bffc051d574f814ff6f20194",
+  "inference/models_pxxl_vm/weights_general.hpp": "4a3044c14f0983686a173a0a3ece1ac59b50252dbaeecda79406330fddd8d1d1",
+  "inference/models_pxxl_vm/weights_n02.hpp": "39ba7d4c1b186eded47774dbf4ccd6cbc48def199fc859455ea6a2e5c51fdcb5",
+  "inference/models_pxxl_vm/weights_n03.hpp": "ffc4e388cdcb49d02cd42c1e6d4d46c07c24bcfb47e26f65d427965c644434d2",
+  "inference/models_pxxl_vm/weights_n04.hpp": "7f6c1bc30c46c71f8e2883b6f6c672867b1a2a405cfd032a24c4c2c7c8a729f3",
+  "inference/models_pxxl_vm/weights_n05.hpp": "7824c1d5b945557fcd99d70bdd4049ef5eb26056ecece90b058147925a7709ff",
+  "inference/models_pxxl_vm/weights_n06.hpp": "8ae640133aef2222d125f86ada348bb35c5f40fa5bb43855cc3f1348fec2b8e3",
+  "inference/models_pxxl_vm/weights_n07.hpp": "1545a6ddf59857bd64d4b6b014009c629fd1e38037cf4c35fe9650c5ecb18c6c",
+  "inference/models_pxxl_vm/weights_n08.hpp": "7fb7f88d43a1695a0481fc2b9341bbb38fb5ec3cadc30a282b2aa18a88f4b207",
+  "inference/models_pxxl_vm/weights_n10.hpp": "02ab30b6dedf3b50fea278ee383d2a70a493a73b406c7df6b235da8793f4f935",
+  "inference/models_pxxl_vm/weights_n12.hpp": "73e845b2259f9402c4f6f79ed0ebe3a4cbb438545cf0dc62ce53340e0b4a3451",
+  "inference/models_pxxl_vm/weights_n15.hpp": "4d3d714aa88ab4a75528f899ebbdaafafbfe01dc6822d6566b9ad0485f52f6f2",
+  "inference/policy.hpp": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613",
+  "inference/simd.hpp": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453",
+  "inference/state.hpp": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206",
+  "inference/value.hpp": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+ },
+ "shared_source_identity": "5aeac87b02a2ec9bbdef63cafbef156d710e1702fc456562abe3ccca35e81e0a",
+ "model_modules": {
+  "S": {
+   "directory": "inference/models",
+   "manifest_sha256": "f110d0f56db44a790f902002020ce56cf5455d8e5b8746f7d8e1dc4214d9130d",
+   "registry_sha256": "3626929f9bf1803b7d8e9d6c3dc181d0ba33c47201da46ef6fac34fc02d01073",
+   "entries": {
+    "general": {
+     "committed_header_sha256": "a7b926cc492534cf421addecf2541c046e36db688edcbe704690a365ba1ddcf6",
+     "declared_export_header_sha256": "ed2a549f886722763307684de400713669b52e90499fd2729ab2458c100aef64",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "a93f14006cb890457609e3e09cd32132a0ab7e40aba7251663f72ad3644c4e12",
+     "policy_sha256": "0bee80a3d4688aaeccd541fb83878aceff3f271ef721be3bf151378f5af69333",
+     "weights_digest": "2ea2d1c5426328bc968617ffd033e64d1e7819f6da970e32c11e53eb961f6f9c",
+     "joint_policy_macs": 30096
+    },
+    "n02": {
+     "committed_header_sha256": "9fd8c88fcf97be36f562160fc600db8fbda928b4681d4b130a9b982237fed8f0",
+     "declared_export_header_sha256": "666e522833fe0730c74f14d07366b5f00c1ad5f5c022e77a549470bf4eacdef7",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "c909c006f04f8b1e5e2906f42c5784e068f2c1b04dbcf1b497e141c85d95e157",
+     "policy_sha256": "b27d5bf0c876904efd5c0d7924fef116bca286479a32ee60d9b5910908bc3848",
+     "weights_digest": "2f8ffea92f9f10920614147c46fb9f2540cceb402b1d9f1910500f585b0b7e41",
+     "joint_policy_macs": 30096
+    },
+    "n03": {
+     "committed_header_sha256": "4e192f6e1a6ec21b15f0e1e7abad857beb825746b431f293baef6a977d14fc38",
+     "declared_export_header_sha256": "276236163f4e3fc8011136e8ad16daa9820331ea23949f65247d1f3529411e79",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "e2e6e2fbb2f80ac0e8cf90b3b77e86422d16a19ad05513aa08347aa283a9e79d",
+     "policy_sha256": "9ad0c2066a5f3cbf45afab3a967aace7a56299ccdca697625b20bbdab1e3c8f8",
+     "weights_digest": "37abd9dba41430082363b4b3ad837e8ecb33de80826b15026344a8469987d716",
+     "joint_policy_macs": 30096
+    },
+    "n04": {
+     "committed_header_sha256": "411e52e21ae4530fe57ab1561d4beed6eb142811bb6c80ca73f187e79a07acc4",
+     "declared_export_header_sha256": "5197300dff20be1f261921e30bb61793108b8b020f08d00e9725b2b70f4894c4",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "396970c81f1693a9a31c9959328b092d52974e24a4d456e18511f21af5164b2e",
+     "policy_sha256": "81d239ea8758ec35da1d86337d45680e9801500a4ff08f8ee151846d1a86e5bb",
+     "weights_digest": "24c52fb28519da1204983b8fc0d35b2875a2a62946bd235592684de8d70372b8",
+     "joint_policy_macs": 30096
+    },
+    "n05": {
+     "committed_header_sha256": "21f20feedb4a5b8d310f3ba17bde35f348b2a7b3ef43efbfd5f586d5e8f6ace0",
+     "declared_export_header_sha256": "22c2e95a2101f2dd78452f4bea33629fb381eaac752898705196725a283ed7a4",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "4d63f5fc78730ac42ce9090131362a8fea9a502beeecdc5deb993824ec7fcace",
+     "policy_sha256": "154b1e452cd2fc9a320e6d108556b319c9696294be6752ff4f7b5e305249d278",
+     "weights_digest": "445e7428ab592f7a9ed20d266dd4b94258e55a7aceff39df4ef4269b99c003ec",
+     "joint_policy_macs": 30096
+    },
+    "n06": {
+     "committed_header_sha256": "67056e4f0837d115ad9f259787b7c173a374b42f554096698011a95ae0f9ebbe",
+     "declared_export_header_sha256": "51944d2bce111045bf1ac891d8a08df445265b806498707ea3e76e8ba84a521b",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "d89d9304248d83f463e88828104a07916c7c25afdf2cebecb26d82973d1bec9d",
+     "policy_sha256": "1be28044af3ebd58f85ae90832ae1a36811c20d1b65093efceb6c47982080d75",
+     "weights_digest": "13867c30b6b64b8cfa9ba5b24fe4aba5496c0104c30d7d5a6e7fb74278c391a2",
+     "joint_policy_macs": 30096
+    },
+    "n07": {
+     "committed_header_sha256": "61e7b42515c92f51284294bb47ba8aefb90eb78984d1aba64c99a35a05b13246",
+     "declared_export_header_sha256": "9593a07687470087ed7b6afe4eb28a319b3e9890f1d5095aa279a1ad0d5156aa",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "2053fd8cffd306c9b486c9507b26f4181d3b015ee07a36c6cd97ad1b1886ae45",
+     "policy_sha256": "c91327b09cb9c2e26d5241f9c3b7d715902a2b960fedd6bdee4104e18948c1ae",
+     "weights_digest": "468c89cd652bd36dc4a7d36e963684db8f0ec3acfb81cd0d55fd21a18c353759",
+     "joint_policy_macs": 30096
+    },
+    "n08": {
+     "committed_header_sha256": "64c08f25fa8a5c25c90c6052221b72606875fc219d2e8ad0f3bcbc861ade9637",
+     "declared_export_header_sha256": "c20d20ff834cc4a034bd4929038499b55468e4d4585d276e80bb10176510b952",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "a7ed791aba6920d10961efd9236ba33b6bb707544907a3d0fe28434ae75976d6",
+     "policy_sha256": "dea92185fcc0a21194ad8e9cb1a5ba79acbc07a7d433b72024650316e5e2a250",
+     "weights_digest": "e3636e1c3f5503e6d6030b90819effa1e5bf996fc49140d926701d87ae77b7fe",
+     "joint_policy_macs": 30096
+    },
+    "n10": {
+     "committed_header_sha256": "fb48a0e61cac0ed872eef1eb0955928cd21b8b3914b0dfdd9618da05b687e534",
+     "declared_export_header_sha256": "e4f043903e8a5b30f9c1641f2070ed89a841163bca547a6f332b6611527c5ec3",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "e97b760d43760d72206a46bf02cb15aeb004a7c8392c1301065b9907bea9be1e",
+     "policy_sha256": "a4584707dcb778e335a8f8bde55e334fa79c0ba68b36185a959991508806d93f",
+     "weights_digest": "76b17900472f0c2181e682a38007ad5060a38a17fae85985657408d59c39bead",
+     "joint_policy_macs": 30096
+    },
+    "n12": {
+     "committed_header_sha256": "4243183468039c6af75c2597798ad4b0e48d8414962b3a7f315217da81d00ea1",
+     "declared_export_header_sha256": "dc73130518bc452d0c51d0ab8ad812130b0ee0f24868348c6327030cbd93d0e6",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "0b5f88ab5e16df19717ce51151ce890a325ef0126bfd35e71b136c341854b36b",
+     "policy_sha256": "5206a8d1072475f3d70b5636807f4f722e74bdaabfa2e1be90957d649a12f57d",
+     "weights_digest": "1e73f452d2922a444ebe86aed4466d30ce4873f8d28bdde8952d24f62af71652",
+     "joint_policy_macs": 30096
+    },
+    "n15": {
+     "committed_header_sha256": "5c07fb6c62949bc71bd1ad3577279266510e7f1a637cba3c78b1d5fbce7dd7ae",
+     "declared_export_header_sha256": "5006546fdac9de67f1e4868a6aa71fb47a883e30411faf9e62b7a5b08f1fd9b8",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "fa0b4cd8ee84f210ef11d61e563349e2a1830b662f9ff2fa056caa707bc70a49",
+     "policy_sha256": "1276df4742900062f762af28f66b714254b4f7deb0c0ac94ec991fbbad759e8a",
+     "weights_digest": "d03256e027ccf6fdf7b70e86b5e2d1665b80b1ae51f52b10eb2b510d000493c5",
+     "joint_policy_macs": 30096
+    }
+   }
+  },
+  "L": {
+   "directory": "inference/models_l",
+   "manifest_sha256": "019e77cbb7719b7d21f5fe82933485618dc83780edabbdfe5cf40547ee02bdf3",
+   "registry_sha256": "f42f6311e0fa330f2fadc8faa865a909b09b55a2e78c9c556219cb869f06cdee",
+   "entries": {
+    "general": {
+     "committed_header_sha256": "2ad7a707ca98c28cb8cd45c62651e3d744bf9ae65420aa23328cba2aaae54045",
+     "declared_export_header_sha256": "fe36ddb90c64be3962dfbbf115d25d6457513ba74ce77b608cca7975df1df89e",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "7b09ec005cc5d90f1ad5688eb41c31ea105142369442497c468e336f5088e351",
+     "policy_sha256": "bd56d1c7814a38d0bdc3b11318d5e5f3d6cd3e765885f756532e2a59b218fdfd",
+     "weights_digest": "86f8a632a35e222379f13a9293eea59e556cb4e2cbbaf3ce8fe81fe73626bc04",
+     "joint_policy_macs": 120576
+    },
+    "n02": {
+     "committed_header_sha256": "2b043ed5e94e606169221cfbccf6050ed0bb240263565637355abbffe5a6d3aa",
+     "declared_export_header_sha256": "61b5aa36a6d1f979e62745fb47900858457f03caf106249c2a09caaa5e4ccfed",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "a3f9a028f21b50e848411d828dc65f11d3f19ef53f89c8996f66e7e1e6f5b084",
+     "policy_sha256": "4508dab50666a32d93b80a5c1ad5a1d5cfc44fb5017c041ea27c0955073a9e8c",
+     "weights_digest": "6953bafac5e5f6fd5047972c0a82c3ea982cb55ea277ff0bbe93574a686d73ee",
+     "joint_policy_macs": 120576
+    },
+    "n03": {
+     "committed_header_sha256": "b04b3e6c111d1e0cb57191c2b29f482bf556ffcbed5d604ce806d261ffe04450",
+     "declared_export_header_sha256": "1497c44c6a543c4f3195ee14bee491b68c6325514f6f7a2ff70c5e526d3ac5a9",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "d35650a116fb4987f7336653f24d360be9ee5a373eeb6cfa376098e670448044",
+     "policy_sha256": "976813f951b34b2a82bf0983cc80a3778abe19c57a435bcb91b635396eab8100",
+     "weights_digest": "c193a07a8a963bdc10f446eccda7a43cfbc14e1b31d0d7b1c10a2166940d794f",
+     "joint_policy_macs": 120576
+    },
+    "n04": {
+     "committed_header_sha256": "8722007b0928c5fb1d0d39c37ed310b43359e655abfad0ede4cb7cab26aeecad",
+     "declared_export_header_sha256": "d5d5466ac06718661b54861112db73833dd47a7b6b457dd46d75eb2150c71665",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "fa71ad7d049c586cc4cf4859689bf90222cedf83cf2493486bb7745601a76859",
+     "policy_sha256": "deca72ffe1e3b7e5535aceb5ddfeaff8d9fcc2cd62e5ea9b3c1edc88a5ceb992",
+     "weights_digest": "f6a596c170461961c1b0ab7a608c8c4adb1aecd642c27f49292a224ba7dc9436",
+     "joint_policy_macs": 120576
+    },
+    "n05": {
+     "committed_header_sha256": "db85c27be0c743f9f440ee96dfdf42f3c4e35c3bffee77ddcefbf66d92ef41d2",
+     "declared_export_header_sha256": "4fbeb94414a6f404cac34cc6093bdf70ed9446f12446ebf954cf58c455d0d692",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "35e5e3fa642ce4092504c3c3488f6d27f025e3ade4a471a40b2ddb54816ed294",
+     "policy_sha256": "860039988448055cf91eeb8a2463f375d5203813295e1a629cb826baa487d9cb",
+     "weights_digest": "40dcab057bd6f2b0f1721e11b2176f0e45b9f5b28948e8feaf0360d5c45c18dd",
+     "joint_policy_macs": 120576
+    },
+    "n06": {
+     "committed_header_sha256": "604a8dc3e1bb7f32187e7efd7c89a20fcb601aa09eb9768e6a83478e5bb9486b",
+     "declared_export_header_sha256": "bc3116c61d35fddd6b5f6f11f9eb9cf08f8b70a3a157e61fee50a43aa9b8353f",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "ebe944c8c11ff528d7bf857459d6e59bd5538a4aeb91af5aadaad60f6a93db69",
+     "policy_sha256": "5395255eef1b22c26f5dd7e1ffa2e100616b194b5e0bba0544c0ba669509c6e5",
+     "weights_digest": "4b61df02f9d1a388d7009619a57af1e52dfb9f103abaf2520891208ca7c7389b",
+     "joint_policy_macs": 120576
+    },
+    "n07": {
+     "committed_header_sha256": "e00aa7896572e0216e726ec87b62840551ee02585ac487c4dae32ff751f9b801",
+     "declared_export_header_sha256": "da6193dceef36a66b1f9758011230ce65f45107a0ecbb3f9ead75d9e2a0f36b1",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "fdf3a3e1ce681043106c2b478946043ef6ea720fd209a870a2716ea3c44bc846",
+     "policy_sha256": "d54d1e1aa7676d1b8d4aefeed76d1dcbed947d1eb780ee517d0526cc2d8258c6",
+     "weights_digest": "bbd9adcee3a47586dcb4f70f7abfe7879ff6a2935ccb2e281368590379f957f5",
+     "joint_policy_macs": 120576
+    },
+    "n08": {
+     "committed_header_sha256": "fc4aff850a05a3946cfbe430c287413f5507632a30e9101c557efb7b879d4862",
+     "declared_export_header_sha256": "e8c144a8d630554bfef1fabc2a22b8e46c232ae1b74d9609f87956177c28c8d4",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "9ca4a9f0a4a22947af4e86d240da0b0acff383dfe35027124a9a7d4f26aed8e3",
+     "policy_sha256": "9b95950360dbeedef078dd0ca95856a6b7236e9b9417dd76a1ad25755ac93cbe",
+     "weights_digest": "c4d1f790debf253ae583fdad7459f830f6f683a914a7d9f8103770fec54dcf4f",
+     "joint_policy_macs": 120576
+    },
+    "n10": {
+     "committed_header_sha256": "8d6bd9a3e53b96ec10a321ff169f507e1076fe1876585beb84ad36a67d660900",
+     "declared_export_header_sha256": "5e7d0137cd3ffe605a919861953b17901c92b38be0e0c6bf27ee75b3102df652",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "85323919c4770b0bbc296917881c981df2a9318e1d3d1631ce880afaaf7283ab",
+     "policy_sha256": "c3ce248f29a82c68d1f41d3f62cccccf636de66b6827b79308664ab153681bc5",
+     "weights_digest": "3e83e1b32c9b23f55f8ec0ceae50ca4744d6b2d067f3bc3024611dfc12047e31",
+     "joint_policy_macs": 120576
+    },
+    "n12": {
+     "committed_header_sha256": "b5f599c9dfb4cc737a229b2b4e41b1b3c1615eeceb825a108661eef7cdf43353",
+     "declared_export_header_sha256": "82bc9c5d4d4dd838ef52308cd6a30e74c38d4a022c96aa3c011851368a313716",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "03f76a432946a69b2b585942950b47a796eb478929d4058ffd633a57ec084d0c",
+     "policy_sha256": "ea77bd4b2b172c1d1fce50b32da66f885cb5fe4a839a8c744f7e9189077c22c8",
+     "weights_digest": "53b32593f51028c28adfca40615208c9fab877a826dbca5de0647084b675bcf3",
+     "joint_policy_macs": 120576
+    },
+    "n15": {
+     "committed_header_sha256": "755bb44084b57596cfda8458f38dbadca921a85ee321f293580809591599e9ae",
+     "declared_export_header_sha256": "adda843977c91f055fcbfb4667e14e0059caa62b14bcc5eb62dd626ae2ce84a4",
+     "header_transport": "original CRLF export to committed LF, exactly reconstructed",
+     "npz_sha256": "ff1b6c0e58a7462b0733244d58cbcf9455ab2fab5bdb919b0e8cb7827d2cb831",
+     "policy_sha256": "69bff795a28b746932a7e4ac898599bdd21d128859165ed6f5e407f87d1e8d35",
+     "weights_digest": "9c31c5deedd0097f5458e18a717187d9e0570331959205444bcabc5e3af14f60",
+     "joint_policy_macs": 120576
+    }
+   }
+  }
+ },
+ "generated": {
+  "c08_original.hpp": "5138b43073e727e32496c491bf3eb58da0bfe6f74de4060a2d996b2d2842e7dd",
+  "c08_swap.hpp": "762bfee9fb586bee9fbdc068142f4c33af7433725209c6fe11590747497378a6",
+  "check_L.cpp": "0ed582910253cb2608e8ac02937c560e50bb251fc2d374ba0c03f8c4d5b5f64e",
+  "check_S.cpp": "2b7ac706bb816dc31b933f26b056baa67c001d2933f21dead91bb8e0c4177b5f",
+  "module_L.cpp": "9e1615b1ca3a9aa11a631638461f5158a608ecde37126f25feb259e2c3923379",
+  "module_S.cpp": "533f1f12f64c148a65b44580a71fa03e4f66282bd3aeb806a7ee4a14fef60843",
+  "ponly_swap.hpp": "ff33c37d66e69e0fbbdf1f88769d9c95c87ec0b459dbdd85a21be5b3ffff35a8",
+  "replay_original.cpp": "2d6adbadc572471409f633d21e5b62aba91a3223f77ab5ed47bfd3bb177202f9",
+  "replay_swap.cpp": "85838a9bfbd4d3fe3e2746c9458d0a7ec6d65431b917d4acf7e47a6519ac34c7"
+ },
+ "recipe": {
+  "swap_decisions.py": "8d8a8daab700ab78b9a6157c7599cd2f3195041325755ab7d29a9133b9227c61",
+  "swap_hook.hpp": "2a0adc00b560c4170199748e5b42ceabf1015d3e8b348d3dc724e4544158ce37"
+ },
+ "binaries": {
+  "S": {
+   "name": "model_S.dll",
+   "sha256": "f25fab9a574c285ab58d47b4a88db52bd1dabca73969aa6dac6dec12e53f2d6f"
+  },
+  "check_S": {
+   "name": "t0004_module_check_S-901e6eac19faa819.exe",
+   "sha256": "aeac2cc04aebdb1a72a39c1fd5e1e43cf2815ec9c18f1b11bcddd9a7919d5fb6"
+  },
+  "L": {
+   "name": "model_L.dll",
+   "sha256": "8deaef32cd7b6997486382a1f1f4c7f291d851c54979c2074b922a228b0e3d3f"
+  },
+  "check_L": {
+   "name": "t0004_module_check_L-4b81e37ed4702328.exe",
+   "sha256": "6b76a12c710107d085075812fc67980a8e3f10554d71bec4954033987addbce9"
+  },
+  "original": {
+   "name": "t0004_original-86de721d0afc261a.exe",
+   "sha256": "20af04b5409da01ac03719c02ef772c8d77a598623c35b740bd6aead19362ca9"
+  },
+  "swap": {
+   "name": "t0004_swap-1dee3c5d10d07821.exe",
+   "sha256": "fb012009fd48aed388b1c421e80a93a0f334c175e652d9968b82f8291cfd30b7"
+  }
+ },
+ "compiler": "g++.exe (GCC) 15.2.0",
+ "constraints": "Same original C08 depth/scoring/random keys/history/wanted-team mask; deadline-off128 samples; separate replay processes per mode. Each fresh View pins one immutable served model per team for joint/mover/action/target; caches belong to that View and mode only. No cross-size memo reuse.",
+ "identity": "fae9d3e0f9d136f37d080da7c9cf124ddb4af979603c204d47ae869ff6c02006"
+}

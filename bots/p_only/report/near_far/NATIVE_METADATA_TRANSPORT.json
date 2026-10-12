@@ -1,0 +1,9 @@
+{
+ "original_receipt_sha256": "82e7dd8aea2b65af41ab6cc6a00aabb72794dba2736c8e802a09257745f9c6af",
+ "published_receipt_sha256": "76d65499fd32ca316621eb1bdb4145d2cab5a8d5a63ac38eb4845b6a1ca5887e",
+ "measurement_identity": "5aeac87b02a2ec9bbdef63cafbef156d710e1702fc456562abe3ccca35e81e0a",
+ "fields": {
+  "flags[2]": "Host include path replaced by the portable REPO placeholder; compiler semantics unchanged."
+ },
+ "scope": "Report metadata transport only. Original receipt retained in ignored build; no score, source, model or binary change."
+}
