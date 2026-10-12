@@ -1,0 +1,13 @@
+{
+ "_comment": "Neural opponents for the expanded decision registry (task T0035). Every entry of the P-only catalogs is registered; the catalogs include each other and are merged by name (a name defined twice must be defined identically). Controls (unchanged carriers, no network) and hybrids (network mixed with the hand-written forecast) are not P-only or P+V entries and are listed as not registered. Entries whose model registry is missing (the V-pilot A-E wrappers) resolve as disabled with zero sampling mass; they are never compiled raw. Existing V-on opponents are allowed. A neural group takes the inventory lineage of its carrier's origin source. Future T0032 student or QAT exports need a separate admission entry here; the T0032 teacher is offline only.",
+ "catalogs": ["bots/p_only/profiles/variants.json", "bots/p_only/profiles/variants_families.json",
+              "bots/p_only/profiles/variants_search.json"],
+ "exclude_roles": ["control", "hybrid"],
+ "origins": {
+  "C08": {"source_id": "ctf-benchmark-v3/track2_2k_c_series/bots/C08_Player5_Omega_LIT.cpp",
+          "basis": "bots/p_only/bots/c08_ponly.hpp: 'C08 Player5_Omega_LIT carrier', derived from bots/hybrid/C08_Player5_Omega_LIT_Fusion.hpp"},
+  "v12": {"source_id": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp",
+          "basis": "bots/p_only/bots/v12_ponly.hpp: 'Player5 v12 (rollout_volley) carrier', derived from bots/hybrid/Player5_v12_Fusion.hpp"}
+ },
+ "quarantine": {}
+}
