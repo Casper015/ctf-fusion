@@ -52,3 +52,4 @@ Not checked: no compile of the 34 neural bundles or 18 sources (prepare is host 
 - 2026-10-12 09:05Z claude-ci@caspers-macbook: claimed
 - 2026-10-12 09:17Z claude-ci@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/32
 - 2026-10-12 09:17Z claude-ci@caspers-macbook: handoff -> review
+- 2026-10-12 09:38Z claude-ci@caspers-macbook: note: Fix pushed to PR #32 (070a517): the designated carrier now builds into its own directory, so a same-named opponent build (without PONLY_STATS) cannot overwrite its bundle source; regression test added (21 tests). Found while stacking T0036.
