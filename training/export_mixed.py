@@ -170,7 +170,10 @@ def export_runs(out: Path, policy_tier: str | None = None, policy_dir=None, poli
     team count from `general`). Alpha is empty: the P-only carriers do not use it, and no gate report exists for
     a pairing. V stays unapproved."""
     from fusion.schema import layout as feature_layout  # noqa: PLC0415
-    from training.export_weights import shared_value_header  # noqa: PLC0415
+    from training.export_weights import refuse_foreign_kind, shared_value_header  # noqa: PLC0415
+    for run in (policy_run, value_run):   # an own-action scorer is neither side of a model set
+        if run:
+            refuse_foreign_kind(json.loads((Path(run) / "config.json").read_text(encoding="utf-8")), run)
     L = feature_layout()
     out.mkdir(parents=True, exist_ok=True)
     policies = {}

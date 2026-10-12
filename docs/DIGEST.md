@@ -211,12 +211,14 @@ The presets therefore stop at XXL. Wider nets can only be offline teachers. Capa
 - **Storage** of the XXL P relative to INT16: uniform8 about 0.52, mixed4_8 about 0.42.
 - **Not done:** nothing is trained, exported for a carrier, timed or played.
 
-**RL plan** (RL_PLAN, T0033; a plan, nothing run). It replaces or augments supervised V in three stages, each with a numeric kill rule.
-- **Stage 1: preference optimization** on T0010's 13,702 branch roots. Two arms: V-rank (`--rank-weight`, a critic ranking) and DPO on an own-seat P3 policy.
-- **Noise and power checks come first.** A/A resolution rate against 0.360; minimum detectable effect about 0.006.
-- **Gate.** Δ = y(choice) − y(on-policy) on the test split, read once, equal count weights, clustered by map.
-- **Stages 2 and 3.** Offline RL over the carrier's shortlist, then expert iteration with V as critic: about 4 h (v12) or 14 h (C08) of host time per iteration.
-- **Contradictions it flags.** T0010's data is p2 (re-collection is required before any screen), its rank data is pending a host re-audit, and the Refresh rule must also cover changes to P or an actor.
+**Decision learning** (RL_PLAN; T0033 plan, revised by T0034, code only: nothing trained, measured, played or exported).
+- **Retired, unstarted (2026-10-12):** the V pilot T0012 and its screen T0014. Deployed V stays disabled.
+- **The component.** P predicts the opponents and stays frozen. A separate own-action scorer (kind `own_action_scorer`, never exportable as P or V) ranks our own complete orders by their gain over the incumbent.
+- **The data.** A versioned root/candidate dataset is built from the recorded prefix. Its builder checks linkage, support, duplicates and map splits. Authority binds an audit receipt's source digests to the exact bytes read, a carrier config to its collection receipts, and logged carrier scores to their orders. T0010 stays exploratory: its re-audit is pending, it has no source digests and no logged carrier scores.
+- **The diagnostics.** Noise (within- against between-action), coverage and power are reported without automatic kill rules.
+- **The rule.** The deployed rule (z-scored logged carrier score + λ·gain; incumbent override only as a labeled fallback) is frozen on validation and evaluated once on test. Verdicts: benefit, harm, negligible or insufficient precision.
+- **The carrier.** The pilot freezes the currently admitted carrier, P2 after T0013, or a later admitted model.
+- **Still specified only:** the carrier hook, a 300–500-map host pilot, and the macro, expert-iteration and offline-RL conditions.
 
 ## The host: environment, speed, capacity
 
@@ -465,4 +467,4 @@ These records are kept as they are. Fix them through their generator or owner ta
 - **Deferred by Casper (T0027, 2026-10-11):** the full roster strength screen, 10,000-map confirmations per opponent bot, validating the opponent selection at equal training budget, and the fixed-point kernels. Reopen one with a new task when a result needs it.
 - **For Casper, in T0001's log:** drop T0001? Its move check can no longer pass, and T0002 waits on it.
 - **The official field.** Are the judge bots plus other submissions the real opponents? P is only as good as the overlap between the training pool and that field (REVIEW §6).
-- **Whether V helps at all.** No V configuration has shown a benefit so far. T0022 (fresh-map V3-XL) and T0014 (the V pilot at fixed P) decide it, before T0006 freezes anything.
+- **Whether V helps at all.** No V configuration has shown a benefit so far (T0003; T0022's fresh-map V3-XL was not shown). The V pilots T0012 and T0014 were retired unstarted on 2026-10-12; deployed V stays off, and decision learning (RL_PLAN) is the conditional route.
