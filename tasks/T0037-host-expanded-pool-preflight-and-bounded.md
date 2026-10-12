@@ -1,8 +1,8 @@
 ---
 id: T0037
 title: "Expanded-pool preflight and bounded decision data pilot (run on Colab by Casper's decision, not host evidence)"
-status: active
-owner: codex-t0037-report@caspers-macbook
+status: open
+owner: ""
 needs: []
 writes: [bots/p_only/report/decision_collection/, docs/DIGEST.md, docs/MARKDOWN_INDEX.md]
 depends: [T0035, T0036, T0039, T0040]
@@ -29,7 +29,9 @@ Reviewed report PR merged: requested-program availability, runtime/A-A preflight
 
 ## Handoff
 
-Not started.
+*2026-10-12 18:08Z codex-t0037-report@caspers-macbook:*
+
+Stage-1 report submitted as PR #37 https://github.com/Casper015/ctf-fusion/pull/37, head 1df0afbd1c7287f071a1fc96aa0e081f0b9b3d33. Source receipts pin 41022c0, engine 54139d4; seed 20261501 consumed; frozen pilot 06b5ccacdafe75ab. 306 complete whole matches, all roots available, two faults retained in s20261501-n09-m00032. Local backup is Player5/workspace/backups/T0037_colab_seed20261501_20261012; archive SHA-256 2d04629757e68d783df5dcb2a093a4a23fb356d8f2a0f41f63ebef07db73e970; 631 file hashes verified. Original Colab /content/t0037 remains intact, binaries still there. Core suite 291 tests OK (43 skipped); task check and diff check pass. This is partial progress, not a completion handoff. Next: review/merge #36 before any branch collection; retain frozen matches/binaries, freeze separate branch collector provenance, collect actual K and four repeats per candidate, report prefix/root/continuation faults and noise. No model training or host strength claim; T0038 remains gated.
 
 ## Log
 
@@ -43,3 +45,4 @@ Not started.
 - 2026-10-12 18:04Z codex-t0037-report@caspers-macbook: note: Casper explicitly asked Codex to continue checking, back up Colab data, and organize/submit a report PR. Taking over report preparation only; branch collection remains gated on T0040. Local archive hash 2d04629757e68d783df5dcb2a093a4a23fb356d8f2a0f41f63ebef07db73e970 verified against Colab; all 631 file hashes pass, 306 matches and 306 rows retained.
 - 2026-10-12 18:04Z codex-t0037-report@caspers-macbook: claimed (forced)
 - 2026-10-12 18:06Z codex-t0037-report@caspers-macbook: amended writes -> bots/p_only/report/decision_collection/, docs/DIGEST.md, docs/MARKDOWN_INDEX.md
+- 2026-10-12 18:08Z codex-t0037-report@caspers-macbook: handoff -> open: Casper requested report PR submission; PR #37 publishes completed whole-match stage only. Returning task open while T0040/branch stage remains outstanding, rather than claiming full pilot completion.
