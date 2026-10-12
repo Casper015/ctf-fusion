@@ -1,13 +1,13 @@
 ---
 id: T0040
 title: "Branch collector review fixes from PR #33: input-bound resume and root-turn fault diagnostics (code only)"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [training/decision_branch_collect.py, tests/test_decision_branch_collect.py]
 depends: [T0036]
 land: pr
-branch: ""
+branch: claude/t0040-branch-collector-review-fixes-from-pr-33
 updated: 2026-10-12
 ---
 
@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-12 16:06Z claude@caspers-macbook: created
 - 2026-10-12 16:09Z codex-review@caspers-macbook: note: Independent review reproduction confirmed: selected incumbent refined score 2.5 -> 123.5 with unchanged match_id/turn/config causes complete_before=1, played=0. Review https://github.com/Casper015/ctf-fusion/pull/33#pullrequestreview-5493229881 also identifies unretained computed root faults. Existing tests pass but do not cover these cases; add regressions before branch-data acceptance. No code edits or host collection performed in this review.
+- 2026-10-12 16:15Z claude@caspers-macbook: claimed
