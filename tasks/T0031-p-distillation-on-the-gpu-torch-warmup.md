@@ -1,7 +1,7 @@
 ---
 id: T0031
 title: "P distillation on the GPU: torch warmup/distill stages and T0011 cache reader"
-status: active
+status: done
 owner: codex-review@caspers-macbook
 needs: []
 writes: [docs/P_MIXED_PRECISION.md, fusion/torch_qat.py, tests/test_distill_gpu.py, tests/test_precision.py, tests/test_torch_backend.py, training/distill_policy.py]
@@ -21,9 +21,9 @@ Torch warmup/distill losses and gradients match the NumPy path on toy rows (CPU,
 
 ## Handoff
 
-*2026-10-11 19:23Z claude@caspers-macbook:*
+*2026-10-12 16:09Z codex-review@caspers-macbook:*
 
-In review: PR https://github.com/Casper015/ctf-fusion/pull/24 (branch claude/t0031-p-distillation-on-the-gpu-torch-warmup). Torch warmup/distill (fusion.torch_qat.FloatPolicy + device_batch through qat_loss) and RowCache for T0011's data/pf_policy_cache (positions as row ids, identity from CACHE.json digests, verify-cache). Tests: tests.test_torch_backend + tests.test_precision 44 OK with torch 2.11 CPU on Colab; core discover OK on the Mac (41 skipped). Not done: no real training. The real run (6XL teacher, then XXL warmup/distill/QAT, 3 seeds) needs (1) data/pf_policy_cache/train (~45 GB; only val, 5.55 GB, was shared on Drive and its rec digest cd55cbdc matches POLICY_CACHE.json), (2) runs/pf_p2_xxl_s1 and runs/pf_p3_xxl_s1 float checkpoints (only INT16 exports are in git), (3) a GPU runtime; Colab's A100 session ended and it fell back to CPU. teacher-targets still runs in NumPy (~2.6 h projected for 24M rows).
+Accepted and verified merged: PR #24 (cc0920d1ba4a91c0cbb9971b61c54074d99e19cb). Review https://github.com/Casper015/ctf-fusion/pull/24#pullrequestreview-5493227918. Torch warmup/distill backend and T0011 cache contracts delivered; exact-head CI succeeds. Current-main focused suite: 85 cases, 64 pass and 21 Torch-dependent skips locally. Real teacher/student results belong to T0032. Closing stale review status under Casper's explicit authorization; no training or deployment performed.
 
 ## Log
 
@@ -37,3 +37,4 @@ In review: PR https://github.com/Casper015/ctf-fusion/pull/24 (branch claude/t00
 - 2026-10-11 19:28Z claude@caspers-macbook: note: Colab A100-SXM4-40GB (12 vCPU, 83 GB RAM): val split from Drive verified against CACHE.json (identity 20de39893d174c1b). Throughput only (real train() path, 51,200 val rows, random weights, nothing kept; not evidence): 6XL teacher warmup 0.19 h/epoch of 24.15M rows, XXL warmup 0.09, distill 0.14, QAT 0.31, NumPy teacher-targets 1.0 h. Still missing: train split and runs/pf_p{2,3}_xxl_s1.
 - 2026-10-12 16:09Z codex-review@caspers-macbook: note: Casper explicitly authorized acceptance/status reconciliation; reviewed merged deliverable before reviewer takeover.
 - 2026-10-12 16:09Z codex-review@caspers-macbook: claimed (forced)
+- 2026-10-12 16:09Z codex-review@caspers-macbook: done
