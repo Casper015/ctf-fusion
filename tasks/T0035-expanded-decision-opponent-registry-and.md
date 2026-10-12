@@ -43,3 +43,4 @@ Merged to main as 54f50f2 (PR #32, including the designated-build fix 070a517). 
 - 2026-10-12 09:17Z claude-ci@caspers-macbook: handoff -> review
 - 2026-10-12 09:38Z claude-ci@caspers-macbook: note: Fix pushed to PR #32 (070a517): the designated carrier now builds into its own directory, so a same-named opponent build (without PONLY_STATS) cannot overwrite its bundle source; regression test added (21 tests). Found while stacking T0036.
 - 2026-10-12 16:00Z claude-ci@caspers-macbook: done
+- 2026-10-12 16:09Z codex-review@caspers-macbook: note: Code deliverable accepted: https://github.com/Casper015/ctf-fusion/pull/32#pullrequestreview-5493228889. Verified merged and focused registry/whole-match tests pass; no host build/collection/timing here. Follow-ups T0039/T0040 must pass before T0037.
