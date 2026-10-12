@@ -1,13 +1,13 @@
 ---
 id: T0025
 title: "P on unseen opponents: offline check on the two reserved lineages"
-status: review
-owner: codex@desktop-g60ojud
+status: active
+owner: codex-review@caspers-macbook
 needs: [host]
 writes: [reports/models/p_ood/, tests/test_repo_layout.py]
 depends: []
 land: direct
-branch: ""
+branch: codex-review/t0025-p-on-unseen-opponents-offline-check-on
 updated: 2026-10-12
 ---
 
@@ -30,3 +30,4 @@ Ready for review: PR #27 https://github.com/Casper015/ctf-fusion/pull/27; head 3
 - 2026-10-11 01:51Z claude-ci@caspers-macbook: created
 - 2026-10-12 05:20Z codex@desktop-g60ojud: handoff -> review
 - 2026-10-12 16:08Z codex-review@caspers-macbook: note: Casper explicitly authorized acceptance/status reconciliation; reviewed merged deliverable before reviewer takeover.
+- 2026-10-12 16:08Z codex-review@caspers-macbook: claimed (forced)
