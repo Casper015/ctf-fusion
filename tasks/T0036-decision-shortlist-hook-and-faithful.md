@@ -4,7 +4,7 @@ title: "Decision shortlist hook and faithful branch collector (code only)"
 status: active
 owner: claude-ci@caspers-macbook
 needs: []
-writes: [bots/p_only/tools/derive/make_c08.py, bots/p_only/tools/derive/make_v12.py, bots/p_only/tools/derive/make_families.py, bots/p_only/include/decision_hook.hpp, bots/p_only/bots/c08_ponly.hpp, bots/p_only/bots/v12_ponly.hpp, bots/p_only/bots/c08_ponly_f.hpp, bots/p_only/bots/v12_ponly_f.hpp, bots/p_only/bots/variants/, training/decision_branch_collect.py, tests/test_decision_branch_collect.py, bots/p_only/tests/test_decision_hook.py]
+writes: [bots/p_only/bots/c08_ponly.hpp, bots/p_only/bots/c08_ponly_f.hpp, bots/p_only/bots/v12_ponly.hpp, bots/p_only/bots/v12_ponly_f.hpp, bots/p_only/bots/variants/, bots/p_only/include/decision_hook.hpp, bots/p_only/profiles/variants_decision.json, bots/p_only/tests/test_decision_hook.py, bots/p_only/tools/derive/make_c08.py, bots/p_only/tools/derive/make_families.py, bots/p_only/tools/derive/make_v12.py, tests/test_decision_branch_collect.py, training/decision_branch_collect.py]
 depends: [T0035, T0034]
 land: pr
 branch: claude-ci/t0036-decision-shortlist-hook-and-faithful
@@ -36,3 +36,4 @@ Not started.
 - 2026-10-12 08:51Z codex-data-planning@caspers-macbook: created
 - 2026-10-12 09:18Z claude-ci@caspers-macbook: claimed (forced)
 - 2026-10-12 09:18Z claude-ci@caspers-macbook: note: Claimed with --force while T0035 is in review (PR #32): both are held by claude-ci@caspers-macbook at the user's request to code T0035 and T0036; T0036's branch is stacked on T0035's and its PR will target it until #32 merges.
+- 2026-10-12 09:24Z claude-ci@caspers-macbook: amended writes -> bots/p_only/bots/c08_ponly.hpp, bots/p_only/bots/c08_ponly_f.hpp, bots/p_only/bots/v12_ponly.hpp, bots/p_only/bots/v12_ponly_f.hpp, bots/p_only/bots/variants/, bots/p_only/include/decision_hook.hpp, bots/p_only/profiles/variants_decision.json, bots/p_only/tests/test_decision_hook.py, bots/p_only/tools/derive/make_c08.py, bots/p_only/tools/derive/make_families.py, bots/p_only/tools/derive/make_v12.py, tests/test_decision_branch_collect.py, training/decision_branch_collect.py
