@@ -1,13 +1,13 @@
 ---
 id: T0035
 title: "Expanded decision opponent registry and collector (code only)"
-status: open
-owner: ""
+status: active
+owner: claude-ci@caspers-macbook
 needs: []
 writes: [profiles/decision_opponents.json, profiles/decision_variants.json, training/decision_opponents.py, training/decision_collect.py, tests/test_decision_opponents.py]
 depends: []
 land: pr
-branch: ""
+branch: claude-ci/t0035-expanded-decision-opponent-registry-and
 updated: 2026-10-12
 ---
 
@@ -36,3 +36,4 @@ Not started.
 ## Log
 
 - 2026-10-12 08:51Z codex-data-planning@caspers-macbook: created
+- 2026-10-12 09:05Z claude-ci@caspers-macbook: claimed
