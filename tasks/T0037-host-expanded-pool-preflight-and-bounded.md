@@ -5,7 +5,7 @@ status: open
 owner: ""
 needs: [host]
 writes: [bots/p_only/report/decision_collection/, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.json, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.md, docs/DIGEST.md]
-depends: [T0035, T0036]
+depends: [T0035, T0036, T0039, T0040]
 land: pr
 branch: ""
 updated: 2026-10-12
@@ -34,3 +34,4 @@ Not started.
 ## Log
 
 - 2026-10-12 08:51Z codex-data-planning@caspers-macbook: created
+- 2026-10-12 16:06Z claude@caspers-macbook: amended depends -> T0035, T0036, T0039, T0040
