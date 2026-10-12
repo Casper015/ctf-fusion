@@ -47,3 +47,4 @@ Stage-1 report submitted as PR #37 https://github.com/Casper015/ctf-fusion/pull/
 - 2026-10-12 18:06Z codex-t0037-report@caspers-macbook: amended writes -> bots/p_only/report/decision_collection/, docs/DIGEST.md, docs/MARKDOWN_INDEX.md
 - 2026-10-12 18:08Z codex-t0037-report@caspers-macbook: handoff -> open: Casper requested report PR submission; PR #37 publishes completed whole-match stage only. Returning task open while T0040/branch stage remains outstanding, rather than claiming full pilot completion.
 - 2026-10-12 18:18Z codex-t0037-report@caspers-macbook: claimed
+- 2026-10-12 18:18Z codex-t0037-report@caspers-macbook: note: Casper explicitly requested finishing the remaining Colab work. PR #36 merged after focused regression verification; next run is 306 roots x 4 candidates x 4 repeats, one worker, original Colab binaries/matches retained; separate branch collector provenance frozen.
