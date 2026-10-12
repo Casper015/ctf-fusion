@@ -7,15 +7,20 @@
     python -m training.evaluate_decisions test --data data/decision/t0010_p2 \\
         --selection reports/models/decision/SELECTION.json --out reports/models/decision/test
 
-The rule. At a root, among the choosable candidates (the incumbent, which is always choosable, and every other
-candidate in the scorer's support), choose argmax S_norm(c) + lambda * g(c), where g(c) = Q(s, c) - Q(s, a0) is the
-scorer's gain over the incumbent a0 (g(a0) = 0) and S_norm is the carrier's own score normalized per root:
-  incumbent_prior  S = 1 for the incumbent and 0 otherwise (the carrier's scores were not logged): switch only
-                   when lambda * g(c) > 1;
-  zscore           the logged carrier scores, z-scored over the root's choosable candidates (needs every score).
-Ties go to the incumbent, then to the smallest canonical key, so the rule is deterministic. lambda = 0 is the
-incumbent. lambda and the normalization are chosen on validation and frozen with the model identities before
-the test split is opened; test evaluates that same rule, never argmax Q.
+The rule. At a root, among the rule's candidates, choose argmax S_norm(c) + lambda * g(c), where g(c) = Q(s, c) - Q(s, a0)
+is the scorer's gain over the incumbent a0 (g(a0) = 0) and S_norm is the carrier's own score normalized per root:
+  zscore              (the proposed deployment rule, the default) the carrier's logged shortlist scores
+                      (cand_carrier_score), z-scored over the root's candidates that have one. Candidates without a
+                      logged score cannot be chosen; a root whose incumbent has none keeps the incumbent. Datasets
+                      without any logged score (T0010) are refused in this mode.
+  incumbent_override  an explicit exploratory fallback for data without logged scores: S = 1 for the incumbent and
+                      0 otherwise, so a switch needs lambda * g(c) > 1. It overrides the incumbent; it is not the
+                      proposed rule, and every report says so.
+The rule's candidates are the incumbent (always) and supported candidates with an outcome and a finite gain. Ties go
+to the incumbent, then to the smallest canonical key, so the rule is deterministic. lambda and the normalization are
+chosen on validation and frozen with the model identities before the test split is opened; test evaluates that
+same rule (the same function, apply_rule), never argmax Q. With zscore, lambda = 0 is the carrier's top-scored
+candidate; select reports how often that differs from the incumbent.
 
 The primary quantity. For every root whose incumbent has an outcome: Delta = mean outcome of the chosen candidate
 minus that of the incumbent (0 where the rule keeps the incumbent). Unchanged and uncertain roots stay in the
@@ -48,7 +53,10 @@ import numpy as np
 from training import decision_dataset as D
 
 SELECTION_SCHEMA = "ctf-fusion-decision-selection-1"
-NORMS = ("incumbent_prior", "zscore")
+NORMS = ("zscore", "incumbent_override")
+RULES = {"zscore": "proposed rule: z-scored logged carrier scores + lambda * gain",
+         "incumbent_override": "EXPLORATORY FALLBACK (no logged carrier scores): incumbent + 1, others 0, + lambda * gain; "
+                               "not the proposed deployment rule"}
 DEFAULT_LAMBDAS = (0.0, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0, 200.0, 500.0)
 BANDS = ((2, 2), (3, 5), (6, 10), (11, 15))
 TIE = 1e-12
@@ -116,38 +124,52 @@ def choosable(d: dict) -> np.ndarray:
     return ok
 
 
+def rule_candidates(d: dict, gain: np.ndarray, norm: str) -> np.ndarray:
+    """Candidates the rule may pick: choosable ones with a finite gain, the incumbent always; with zscore only
+    candidates with a logged carrier score, and only at roots whose incumbent has one."""
+    if norm not in NORMS:
+        raise SystemExit(f"unknown normalization {norm} (one of {NORMS})")
+    ok = choosable(d) & np.isfinite(gain)
+    if norm == "zscore":
+        scored = np.isfinite(d["cand_carrier_score"])
+        ok &= scored & scored[d["root_incumbent"]][d["cand_root"]]
+    ok[d["root_incumbent"]] = True
+    return ok
+
+
 def normalized_carrier_scores(d: dict, norm: str, ok: np.ndarray) -> np.ndarray:
     s = np.zeros(len(d["cand_root"]))
-    if norm == "incumbent_prior":
+    if norm == "incumbent_override":
         s[d["root_incumbent"]] = 1.0
         return s
-    if norm != "zscore":
-        raise SystemExit(f"unknown normalization {norm}")
     raw = d["cand_carrier_score"]
     for r, idx in roots_of(d):
         c = idx[ok[idx]]
-        if not np.isfinite(raw[c]).all():
-            raise SystemExit("zscore normalization needs the carrier's score of every choosable candidate (not logged here)")
+        if len(c) < 2 or not np.isfinite(raw[c]).all():
+            continue                      # nothing to normalize: the incumbent alone
         sd = raw[c].std()
         s[c] = (raw[c] - raw[c].mean()) / sd if sd > 0 else 0.0
     return s
 
 
-def apply_rule(d: dict, gain: np.ndarray, lam: float, norm: str = "incumbent_prior") -> np.ndarray:
+def apply_rule(d: dict, gain: np.ndarray, lam: float, norm: str = "zscore") -> np.ndarray:
     """Global candidate index chosen at each root (deterministic ties: incumbent, then smallest canonical key)."""
-    ok = choosable(d)
     gain = mask_gains(d, gain)
+    ok = rule_candidates(d, gain, norm)
     g = np.where(np.isfinite(gain), gain, 0.0)
-    g[d["root_incumbent"]] = 0.0
     score = normalized_carrier_scores(d, norm, ok) + lam * g
     out = np.empty(len(d["root_first"]), np.int64)
     for r, idx in roots_of(d):
         inc = int(d["root_incumbent"][r])
-        c = idx[(ok[idx] & np.isfinite(gain[idx])) | (idx == inc)]
+        c = idx[ok[idx]]
         best = score[c].max()
         top = c[score[c] >= best - TIE]
         out[r] = inc if inc in top else top[np.argsort(d["cand_key"][top], kind="stable")[0]]
     return out
+
+
+def scored_roots(d: dict) -> int:
+    return int(np.isfinite(d["cand_carrier_score"][d["root_incumbent"]]).sum())
 
 
 def deltas(d: dict, choice: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -237,7 +259,7 @@ def oracle_value(d: dict, data: Path, split: str, run: Path, margin: float, z: f
         inc = d["root_incumbent"][r]
         if np.isfinite(v[inc]):
             gain[idx] = v[idx] - v[inc]
-    choice = apply_rule(d, gain, 1e6)
+    choice = apply_rule(d, gain, 1e6, "incumbent_override")   # lambda this large makes the oracle's ranking decide
     s = summarize(d, choice, margin, z)
     return {"status": "DIAGNOSTIC ORACLE: chooses on realized successors (actual opponent replies); unavailable at "
                       "deployment and not evidence for any deployable predictor", "run": str(run),
@@ -298,6 +320,9 @@ def select(a) -> dict:
     runs = dict(x.split("=", 1) for x in a.run)
     if a.primary not in runs:
         raise SystemExit(f"--primary {a.primary} is not one of --run {sorted(runs)}")
+    if a.norm == "zscore" and scored_roots(d) == 0:
+        raise SystemExit("zscore needs logged carrier scores and this dataset has none (e.g. T0010); use "
+                         "--norm incumbent_override, the explicitly exploratory fallback")
     models = {}
     for name, run in sorted(runs.items()):
         g = model_gains(d, Path(run))
@@ -306,9 +331,12 @@ def select(a) -> dict:
             s = summarize(d, apply_rule(d, g, lam, a.norm), a.negligible)
             grid.append({"lambda": lam, "mean": s["primary"]["mean"], "changed_share": s["changed_share"]})
         best = max(grid, key=lambda r: (r["mean"] if r["mean"] is not None else -np.inf, -r["lambda"]))
-        models[name] = model_identity(Path(run)) | {"lambda": best["lambda"], "norm": a.norm, "val_grid": grid}
+        zero = apply_rule(d, g, 0.0, a.norm)
+        models[name] = model_identity(Path(run)) | {"lambda": best["lambda"], "norm": a.norm, "val_grid": grid,
+                                                    "lambda0_differs_from_incumbent": int((zero != d["root_incumbent"]).sum())}
     sel = {"schema": SELECTION_SCHEMA, "created": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-           "dataset": dataset_identity(data), "norm": a.norm, "negligible_margin": a.negligible, "z": 1.96,
+           "dataset": dataset_identity(data), "norm": a.norm, "rule": RULES[a.norm],
+           "carrier_scored_val_roots": scored_roots(d), "negligible_margin": a.negligible, "z": 1.96,
            "primary": f"{a.primary} - incumbent",
            "secondary": [f"{n} - incumbent" for n in sorted(models) if n != a.primary] +
                         [f"{a.primary} - {n}" for n in sorted(models) if n != a.primary],
@@ -337,7 +365,8 @@ def evaluate(a) -> dict:
         x, y = (s.strip() for s in label.split(" - "))
         comps[label] = paired(d, res[x], res[y], margin, z if label == sel["primary"] else zs) | \
             {"role": "primary" if label == sel["primary"] else "secondary"}
-    report = {"split": "test", "selection_sha256": sel["selection_sha256"], "dataset": sel["dataset"],
+    report = {"split": "test", "selection_sha256": sel["selection_sha256"], "dataset": sel["dataset"], "rule": sel["rule"],
+              "carrier_scored_roots": scored_roots(d),
               "authoritative": sel["dataset"]["authoritative"], "comparisons": comps,
               "rules": {n: strip(s) for n, s in res.items()}, "headroom": headroom(d, margin, z)}
     if a.oracle_value:
@@ -353,6 +382,7 @@ def write_report(out: Path, report: dict) -> None:
     lines = [f"# Own-action decision rule: {report['split']} split", ""]
     if not report["authoritative"]:
         lines += ["**Exploratory data:** " + "; ".join(report["dataset"]["exploratory_reasons"]) + ".", ""]
+    lines += [f"Rule: {report['rule']}.", ""]
     lines += ["Delta = chosen minus incumbent mean continuation outcome, all evaluable roots, equal weight per team count, "
               "95% intervals clustered by map. No game was played to make this report; it is not a strength result.", "",
               "| Comparison | Role | Mean | Interval | Maps | Verdict |", "|---|---|---:|---|---:|---|"]
@@ -379,7 +409,8 @@ def main(argv=None):
     s.add_argument("--data", required=True)
     s.add_argument("--run", action="append", required=True, help="NAME=RUN_DIR of an own-action scorer")
     s.add_argument("--primary", required=True, help="the predeclared primary model")
-    s.add_argument("--norm", choices=NORMS, default="incumbent_prior")
+    s.add_argument("--norm", choices=NORMS, default="zscore",
+                   help="zscore: the proposed rule on logged carrier scores; incumbent_override: exploratory fallback")
     s.add_argument("--lambdas", type=float, nargs="*", default=list(DEFAULT_LAMBDAS))
     s.add_argument("--negligible", type=float, required=True, help="predeclared practically negligible |Delta|")
     s.add_argument("--out", required=True)

@@ -85,15 +85,49 @@ The builder stops with the root's file name on any of these failures:
 - a stored outcome differs from the pairwise utility of its stored score vector;
 - one dataset mixes carrier binaries.
 
-### Authority
+### Authority: receipts bound to the exact sources
 
-`--authoritative` refuses unless the audit receipt records a passed strict source alignment.
+The builder hashes every branch and match file from the exact bytes it parses. `--authoritative` refuses, before writing anything, unless all of these hold:
+- **The audit receipt is internally consistent and passed.** Its status says `passed`, and every per-split alignment flag agrees. A status that contradicts the flags is refused either way.
+- **The receipt certifies these bytes.** It carries `decision_source` digests (`ctf-fusion-decision-source-1`, from `python -m training.decision_dataset source-digests`): one over the branch files, one over the match files their retained roots link to. Both must equal what this build read. A T0010-style `root_content_manifest_sha256`, where present, must also match. A passed receipt for another corpus, or for files whose bytes changed since the audit, is refused.
+- **The manifest receipt's scope is a full baseline.** A selected-identity scope needs `--accept-selected-scope`, which is recorded. A freeze-time manifest baseline is never reconstructed from current bytes.
+- **A carrier configuration validates** (below).
 
-A manifest receipt that verified only selected frozen identities is accepted only with `--accept-selected-scope`, and that acceptance is recorded. A freeze-time manifest baseline is never reconstructed from current bytes.
+Without `--authoritative`, the dataset is **exploratory**, and its reasons are recorded. The trainer then requires `--exploratory`, and every report repeats the reasons.
 
-Without `--authoritative`, the dataset is **exploratory**. The trainer then requires `--exploratory`, and every report repeats the reasons.
+**T0010's data stays exploratory.** `DATA_AUDIT.json` is `pending_host_reaudit`, has no `decision_source` digests, and its manifest receipt scope is `selected_frozen_identities_only`. A new strict host audit could add the digests, but this task does not need it.
 
-T0010's data is exploratory today. `DATA_AUDIT.json` has `source_row_alignment_verified: false` (`pending_host_reaudit`), and its manifest receipt scope is `selected_frozen_identities_only`.
+### Carrier configuration
+
+`--carrier-config` takes a `ctf-fusion-carrier-config-1` file. It is validated whenever it is given, authoritative or not. Missing or conflicting fields refuse the build; they are never just hashed.
+
+**Fields:**
+- `status`: `admitted` (the frozen deployment carrier) or `experimental` (a deliberately experimental carrier, such as an unadmitted P3);
+- the variant, its binary and bundle hashes;
+- opponent P: family, model directory, every model file's hash, and calibration (temperatures folded into those exported headers);
+- V on or off;
+- search: the variant source, the digest of all build inputs, fixed samples;
+- the reply limits;
+- the collection receipts (build manifest and `identities.json`), pinned by their own hashes.
+
+**Checks:**
+- The binary must be the one that played the roots.
+- Every field must equal the collection receipts.
+- The opponent-P files must be exactly the manifest's model inputs: none changed, none omitted.
+- Where a committed header with the receipt's hash exists, the declared P family is read back from it.
+
+`python -m training.decision_dataset carrier-config` writes the configuration from the receipts, so its fields are copied, not typed.
+
+### Carrier scores
+
+A shortlist hook writes `carrier_scores` into each branch root: `{"version": "ctf-fusion-shortlist-scores-1", "k", "orders", "scores"}`, the carrier's own score of each shortlisted complete order.
+
+**Checks:**
+- Every order is a candidate of the root, appears once, and includes the incumbent.
+- Every score is finite.
+- `k` equals the number of orders.
+
+The scores land in `cand_carrier_score`, aligned by order. A candidate the carrier did not score (an added deviation, say) gets NaN, and K lands in `root_shortlist_k`. T0010 has no scores (K = −1).
 
 ### Noise and coverage (`training.decision_noise`)
 
@@ -121,6 +155,7 @@ The scorer predicts g(a) = Q_θ(s, a) − Q_θ(s, a0). So g(a0) = 0 exactly, and
 - The root's own units and v3 value features.
 - Per unit of the candidate: move, action, the move's features, the p3 combat block, and the chosen target slot's features.
 - Never an outcome, a later block, an opponent's turn-t reply or a realized successor.
+- These are the extractor's layout-3 groups, an input encoding. They do not depend on which opponent P the carrier runs, so richer scorer features do not require changing opponent P.
 
 The opponent P is neither read nor trained.
 
@@ -137,10 +172,10 @@ The opponent P is neither read nor trained.
 DPO stays a separately gated follow-up. PPO, CQL and IQL are not implemented.
 
 **The decision rule.** Choose argmax S_norm(c) + λ · g(c) among the incumbent and the supported candidates.
-- With no logged carrier scores, S_norm is `incumbent_prior`: S = 1 for the incumbent and 0 otherwise. A switch then happens only when λ · g(c) > 1.
-- With logged scores, S_norm is `zscore`.
+- **`zscore`, the proposed rule and the default.** S_norm is the carrier's logged shortlist score, z-scored over the root's scored candidates. A candidate without a logged score cannot be chosen, and a root whose incumbent has none keeps the incumbent. With λ = 0, the rule picks the carrier's top-scored candidate; `select` reports how often that differs from the incumbent. Data without any logged score is refused in this mode.
+- **`incumbent_override`, an explicitly exploratory fallback** for data without logged scores, such as T0010. S = 1 for the incumbent and 0 otherwise, so a switch needs λ · g(c) > 1. This is an incumbent override, not the proposed rule, and every selection and report labels it so.
 - Ties go to the incumbent, then to the smallest canonical key.
-- λ = 0 is the incumbent.
+- `select` and `test` call the same rule function with the frozen λ and normalization. A test checks that the frozen rule reproduces its validation number.
 
 **Evaluation** (`training.evaluate_decisions`):
 1. **`select`** chooses λ per model, and the normalization, on **validation** only. It then writes a selection file. The file holds its own digest, the dataset identity (index and per-split hashes, features, carrier, authority), each model's run, `model.npz` and `config.json` hashes, the predeclared primary comparison, the secondary comparisons, and the negligible margin.
@@ -179,12 +214,19 @@ The hook is a later code task in the family-carrier generator (`bots/p_only/tool
 | Counters | Decision coverage on stderr: roots offered, K, switches, deadline fallbacks. |
 | Time | Feature encoding, scoring, the remaining search, protocol parsing and output must all fit inside the **full 50 ms** reply limit, with the carrier's existing internal budgets. A nominal extra 3 ms is not free. The real cost is measured on the host under representative concurrency before any screen. On a deadline, the carrier's own choice stands. |
 | Caches | Reuse immutable P features and views, candidate buffers and scorer caches only where the complete history, the state and the model identity permit. No cached result crosses branches, roots or model versions. |
-| Identity | The hook binds the scorer's feature identity and run hashes, and the carrier configuration of its training data: carrier, P family, P models and identity (the original P3, or a distilled P3 admitted from T0032), temperatures, search settings and budget. A mismatch refuses to build. |
+| Identity | The hook binds the scorer's feature identity and run hashes, and the validated carrier configuration of its training data (section 3): the frozen admitted carrier (currently the P2 production carrier), or a model admitted later, such as a distilled one from T0032. An experimental carrier, such as the original P3, is labeled `experimental`. A mismatch refuses to build. |
+| Scores | The hook logs the carrier's own score of every shortlisted order in `carrier_scores` (section 3). That is the input the `zscore` rule needs. |
 
 ## 6. Bounded host pilot (proposed, not run)
 
+**Purpose.** Coverage, noise and learnability checks. This pilot does not show that the data is sufficient for training, and it says nothing about game strength.
+
 **Preconditions.**
-- The deployment carrier is frozen: P3 or an admitted distilled P3, with its search settings and budget.
+- **The carrier is frozen at the currently admitted one.**
+  - That is the P2 production carrier today. T0013 (PR #29) did not show an equal-time benefit for the original P3 (v12 +0.011 [−0.018, +0.040], C08 +0.002 [−0.026, +0.030]), and the defaults stayed unchanged.
+  - A model admitted later, such as a distilled P3 from T0032 that passes its own deployment evaluation, would take its place. T0032's offline teacher is not deployment approval.
+  - A deliberately experimental P3 carrier may be piloted only labeled `experimental`.
+- **Formal collection uses that carrier's own data:** its actual hook shortlist, its logged scores and repeated continuations, never data borrowed from another carrier version.
 - The hook exists and has passed its byte-identity and timing checks.
 - The T0010 strict re-audit has run, if T0010's data is to be cited at all. Without it, T0010 stays exploratory pretraining data.
 
@@ -251,12 +293,14 @@ A failed DPO arm does not rule out stronger-expert distillation.
 
 ## 10. Proposed host commands (not run)
 
-On T0010's data (exploratory). These commands only check the plumbing at scale. T0010 holds p2 continuations, so this is not a P3 decision-policy gate.
+On T0010's data (exploratory). These commands only check the plumbing at scale. T0010 has hashed one-unit deviations, one repeat and no logged carrier scores, so this is no decision-policy gate. Its selection must use the labeled `incumbent_override` fallback.
 
 ```bash
 T=tools/repo/task.py
-# The carrier configuration of T0010 (write it from bots/p_only/report/v_data/manifest.json and the profile; do not invent fields)
-#   build/decision/t0010_carrier.json: {"carrier": "v12_ponly_xxl", "binary_sha256": "6cbd5d34...", "p": {"family": "p2", "models": "inference/models_xxl"}, "v": "off", ...}
+# carrier configuration copied from T0010's collection receipts (validated again by the build)
+python -m training.decision_dataset carrier-config --manifest bots/p_only/report/v_data/manifest.json \
+    --identities bots/p_only/report/v_data/identities.json --variant v12_ponly_xxl --p-family p2 --status admitted \
+    --out build/decision/t0010_carrier.json
 python $T lock cpu --task TXXXX -- python -m training.decision_dataset \
     --branches data/branches/v12_ponly_xxl --matches data/p_only/v_data/matches \
     --audit bots/p_only/report/v_data/DATA_AUDIT.json \
@@ -268,18 +312,23 @@ python -m training.train_decision_ranker --data data/decision/t0010_p2 --model l
 python -m training.train_decision_ranker --data data/decision/t0010_p2 --model mlp --hidden 64,16 --exploratory --seed 1 \
     --out runs/decision_mlp_s1
 python -m training.evaluate_decisions select --data data/decision/t0010_p2 --run linear=runs/decision_linear_s1 \
-    --run mlp=runs/decision_mlp_s1 --primary mlp --negligible 0.002 --out reports/models/decision/SELECTION.json
+    --run mlp=runs/decision_mlp_s1 --primary mlp --negligible 0.002 --norm incumbent_override \
+    --out reports/models/decision/SELECTION.json
 # commit SELECTION.json before this step; it verifies every identity, then reads test once
 python -m training.evaluate_decisions test --data data/decision/t0010_p2 \
     --selection reports/models/decision/SELECTION.json --out reports/models/decision/t0010_test
 ```
 
-**For the pilot:** the same commands on the pilot's dataset, with `--authoritative` and `--carrier-config` of the frozen deployment carrier, after its collection. The negligible margin and the primary model are set in the pilot task **before** its data exists.
+**For the pilot:** the same commands on the pilot's dataset, after its collection:
+- `--authoritative`, the strict audit receipt with its `source-digests` output, and the `carrier-config` of the frozen admitted carrier;
+- the default `zscore` rule on the logged scores.
+
+The negligible margin and the primary model are set in the pilot task **before** its data exists.
 
 ## 11. Repository facts that constrain this plan
 
 1. **The stage 2 report's "CONFIRMED" causes are hypotheses.** No data swap and no feature ablation was run. v3 already has the per-carrier hits, volley and escort features that report calls missing, and V3-XL with them was not shown (T0022).
-2. **T0010's continuations are p2** (`v12_ponly_xxl`). T0011 made p3 the finalist. Anything deployed on a P3 carrier needs data from that carrier.
+2. **T0010's continuations are p2** (`v12_ponly_xxl`). T0011 made p3 the *offline* finalist, but T0013 (PR #29) did not show its equal-time benefit, and the defaults remain P2. Any component deployed on a carrier needs data from that carrier.
    - **Refresh rule, proposed for FEATURE_FAMILIES.md:** "A carrier is a new policy whenever its P, V, actor, search settings or budgets change. Data labelled by one carrier version never trains or evaluates a component deployed in another without being collected again."
    - Old-policy data may still pretrain, labeled as such.
 3. **T0010 used one repeat**, so its within-action noise is unknown. Its "resolved" pairs are single-continuation differences.

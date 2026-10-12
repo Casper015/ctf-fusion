@@ -74,8 +74,11 @@ def deviations(rec, line, k_max=3):
 CARRIER = "c" * 64
 
 
-def build_fixture(root: Path, reps=2, seed=0, mutate=None, carrier=CARRIER):
-    """Matches with a designated seat 0 and branch roots with synthetic scores; returns (branches, matches)."""
+def build_fixture(root: Path, reps=2, seed=0, mutate=None, carrier=CARRIER, scores=True):
+    """Matches with a designated seat 0 and branch roots with synthetic outcomes; returns (branches, matches).
+
+    With scores, the carrier logged a shortlist score for the incumbent and every deviation but the last one
+    (so one candidate stays unscored), listed in reverse candidate order to exercise the order alignment."""
     rng = np.random.default_rng(seed)
     mdir, bdir = root / "matches", root / "branches"
     for p in pick_matches():
@@ -98,6 +101,10 @@ def build_fixture(root: Path, reps=2, seed=0, mutate=None, carrier=CARRIER):
                    "seat": 0, "turn": t, "init": m["init"], "carrier_sha256": m["seats"][0]["sha256"], "candidates": cands,
                    "branches": branches, "candidate_mode": "single",
                    "root_outcome": float(pairwise_outcome(m["result"]["score"])[0])}
+            if scores:
+                orders = cands[:-1][::-1] if len(cands) > 2 else cands[::-1]
+                row["carrier_scores"] = {"version": D.SCORES_VERSION, "k": len(orders), "orders": orders,
+                                         "scores": [round(float(x), 3) for x in rng.normal(0, 10, len(orders))]}
             if mutate:
                 row = mutate(row) or row
             out = bdir / f"n{m['teams']:02d}" / f"{m['match_id']}-t{t:03d}.json.gz"
@@ -107,26 +114,44 @@ def build_fixture(root: Path, reps=2, seed=0, mutate=None, carrier=CARRIER):
     return bdir, mdir
 
 
-def make_dataset(tmp: Path, **kw) -> Path:
+def make_dataset(tmp: Path, extra=(), **kw) -> Path:
     bdir, mdir = build_fixture(tmp, **kw)
     out = tmp / "data"
     D.main(["--branches", str(bdir), "--matches", str(mdir), "--out", str(out), "--successors",
-            "--audit", str(REPO / "bots/p_only/report/v_data/DATA_AUDIT.json")])
+            "--audit", str(REPO / "bots/p_only/report/v_data/DATA_AUDIT.json"), *extra])
     return out
 
 
+def collection_receipts(tmp: Path, binary=CARRIER) -> tuple[Path, Path]:
+    """A collection's build manifest and identities for a fixture carrier (fake model files: family unverified)."""
+    inputs = [{"path": "bots\\p_only\\bots\\variants\\fixture.cpp", "sha256": "1" * 64},
+              {"path": "bots\\p_only\\bots\\v12_ponly.hpp", "sha256": "2" * 64},
+              {"path": "inference\\models_fixture\\registry.hpp", "sha256": "3" * 64},
+              {"path": "inference\\models_fixture\\weights_general.hpp", "sha256": "4" * 64}]
+    man = {"variants": {"fixture": {"name": "fixture", "source": "bots\\p_only\\bots\\variants\\fixture.cpp",
+                                    "value_tier": None, "fixed_samples": 0, "bundle_sha256": "b" * 64,
+                                    "binary_sha256": binary, "inputs": inputs}}}
+    ids = {"fixture": {"digest": "x", "components": {"variant": "fixture", "bundle_sha256": "b" * 64, "binary_sha256": binary,
+                                                    "inputs_sha256": "9" * 64, "limits_ms": [2000, 50]}}}
+    tmp.mkdir(parents=True, exist_ok=True)
+    (tmp / "manifest.json").write_text(json.dumps(man))
+    (tmp / "identities.json").write_text(json.dumps(ids))
+    return tmp / "manifest.json", tmp / "identities.json"
+
+
 def handmade(roots):
-    """A decision dict from [(teams, map, [(key, outcomes, support), ...]), ...]; candidate 0 is the incumbent."""
+    """A decision dict from [(teams, map, [(key, outcomes, support[, carrier score]), ...]), ...]; candidate 0 is the
+    incumbent."""
     d = {k: [] for k in D.ROOT_KEYS + D.CAND_KEYS}
-    rmax = max(len(o) for _, _, cs in roots for _, o, _ in cs) or 1
+    rmax = max(len(c[1]) for _, _, cs in roots for c in cs) or 1
     for r, (teams, mp, cs) in enumerate(roots):
         base = len(d["cand_root"])
         for k, v in (("root_match", f"m{r}"), ("root_map", mp), ("root_teams", teams), ("root_seat", 0), ("root_turn", 10),
                      ("root_carrier", "x"), ("root_rec", np.zeros(2, np.int16)), ("root_first", base),
                      ("root_count", len(cs)), ("root_incumbent", base), ("root_original_outcome", np.nan),
-                     ("root_prefix_mismatch", 0), ("root_prefix_faults", 0), ("root_file", "f")):
+                     ("root_prefix_mismatch", 0), ("root_prefix_faults", 0), ("root_shortlist_k", -1), ("root_file", "f")):
             d[k].append(v)
-        for c, (key, outs, sup) in enumerate(cs):
+        for c, (key, outs, sup, *cs_) in enumerate(cs):
             o = np.full(rmax, np.nan)
             o[:len(outs)] = outs
             n = len(outs)
@@ -135,7 +160,7 @@ def handmade(roots):
                          ("cand_flags", 0 if sup else F.PARSE_FAIL), ("cand_dup_of", -1), ("cand_support", sup), ("cand_n", n),
                          ("cand_score", np.zeros((rmax, 15))), ("cand_outcome", o), ("cand_faults", np.zeros(rmax)),
                          ("cand_y", float(np.mean(outs)) if n else np.nan), ("cand_var", float(np.var(outs, ddof=1)) if n >= 2 else np.nan),
-                         ("cand_carrier_score", np.nan)):
+                         ("cand_carrier_score", cs_[0] if cs_ else np.nan)):
                 d[k].append(v)
     return D.to_arrays(d)
 
@@ -174,6 +199,27 @@ class DatasetContract(unittest.TestCase):
                 self.assertAlmostEqual(d["cand_var"][c], np.var(us, ddof=1))
         self.assertFalse(self.index["authoritative"])
         self.assertTrue(any("pending" in r for r in self.index["exploratory_reasons"]))
+
+    def test_carrier_scores_preserved(self):
+        bdir = self.tmp / "a" / "branches"
+        rows = {}
+        for f in bdir.rglob("*.json.gz"):
+            with gzip.open(f, "rt", encoding="utf-8") as fh:
+                rows[f.name] = json.load(fh)
+        checked = 0
+        for s in D.SPLITS:
+            d = D.load(self.data, s, test_unlocked=True)
+            for r in range(len(d["root_match"])):
+                row = rows[str(d["root_file"][r])]
+                logged = dict(zip(row["carrier_scores"]["orders"], row["carrier_scores"]["scores"]))
+                self.assertEqual(int(d["root_shortlist_k"][r]), row["carrier_scores"]["k"])
+                first, count = int(d["root_first"][r]), int(d["root_count"][r])
+                for c in range(first, first + count):
+                    want = logged.get(str(d["cand_line"][c]), np.nan)
+                    np.testing.assert_equal(d["cand_carrier_score"][c], want)
+                    checked += 1
+        self.assertGreater(checked, 0)
+        self.assertEqual(self.index["carrier_scores"]["roots_with_scores"], self.index["carrier_scores"]["roots"])
 
     def test_splits_follow_maps(self):
         for s in D.SPLITS:
@@ -244,6 +290,14 @@ class Linkage(unittest.TestCase):
             "recorded source": lambda r: r.update(sources=["move1"] * len(r["candidates"])),
             "duplicate": lambda r: r.update(candidates=[*r["candidates"][:-1], r["candidates"][1]]),
             "outcome": lambda r: r["branches"][0].update(outcome=r["branches"][0]["outcome"] + 0.1),
+            "score order": lambda r: r["carrier_scores"]["orders"].__setitem__(0, "999 S - S - S -"),
+            "score incumbent": lambda r: r.update(carrier_scores={**r["carrier_scores"], "k": 1,
+                                                                   "orders": [r["candidates"][1]], "scores": [1.0]}),
+            "score finite": lambda r: r["carrier_scores"]["scores"].__setitem__(0, float("nan")),
+            "score k": lambda r: r["carrier_scores"].update(k=r["carrier_scores"]["k"] + 1),
+            "score twice": lambda r: r.update(carrier_scores={**r["carrier_scores"], "k": 2, "orders": [r["candidates"][0]] * 2,
+                                                               "scores": [1.0, 2.0]}),
+            "score version": lambda r: r["carrier_scores"].update(version="other"),
         }
         for name, fn in cases.items():
             with self.subTest(name):
@@ -255,17 +309,6 @@ class Linkage(unittest.TestCase):
         bdir, mdir = build_fixture(self.tmp, reps=1, carrier=None)   # each match keeps its own seat-0 binary
         with self.assertRaises(D.LinkError):
             D.build(sorted(bdir.rglob("*.json.gz")), mdir, log=lambda *_: None)
-
-    def test_authority(self):
-        pending = D.audit_status(str(REPO / "bots/p_only/report/v_data/DATA_AUDIT.json"),
-                                 str(REPO / "bots/p_only/report/v_data/MANIFEST_METADATA_ADAPTER.json"))
-        with self.assertRaises(SystemExit):
-            D.authority(pending, True, True)
-        passed = dict(pending, source_alignment_verified=True, source_alignment_status="passed")
-        with self.assertRaises(SystemExit):        # selected-identity manifest scope needs explicit acceptance
-            D.authority(passed, True, False)
-        self.assertTrue(D.authority(passed, True, True)["authoritative"])
-        self.assertFalse(D.authority(pending, False, False)["authoritative"])
 
     def test_split_contamination(self):
         bdir, mdir = build_fixture(self.tmp, reps=1)
@@ -283,6 +326,124 @@ class Linkage(unittest.TestCase):
             D.check_isolation(data)
         with self.assertRaises(SystemExit):
             D.load(data, "val")
+
+
+class Authority(unittest.TestCase):
+    """Authoritative ingestion binds receipts to the exact source bytes, and the carrier config to its collection."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp())
+        cls.bdir, cls.mdir = build_fixture(cls.tmp / "a", reps=1)
+        cls.dig = D.source_digests(cls.bdir, cls.mdir)
+        man, ids = collection_receipts(cls.tmp / "receipts")
+        cls.cfg = D.derive_carrier_config(str(man), str(ids), "fixture", "p2", "admitted")
+        cls.cfg_path = cls.tmp / "carrier.json"
+        cls.cfg_path.write_text(json.dumps(cls.cfg))
+        cls.scope = cls.tmp / "scope.json"
+        cls.scope.write_text(json.dumps({"verification_scope": "full_original_manifest_bytes"}))
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def receipt(self, dig=None, status="passed", flags=(True, True, True), legacy=None):
+        dig = dig or self.dig
+        a = {"source_alignment_status": status,
+             "rank_npz": {s: {"source_row_alignment_verified": f} for s, f in zip(D.SPLITS, flags)},
+             "decision_source": {k: dig[k] for k in ("version", "branches_sha256", "matches_sha256")}}
+        if legacy is not None:
+            a["root_content_manifest_sha256"] = legacy
+        path = self.tmp / f"audit_{len(list(self.tmp.glob('audit_*')))}.json"
+        path.write_text(json.dumps(a))
+        return path
+
+    def run_build(self, audit, branches=None, cfg=None, authoritative=True, scope=None, extra=()):
+        out = self.tmp / f"data_{len(list(self.tmp.glob('data_*')))}"
+        D.main(["--branches", str(branches or self.bdir), "--matches", str(self.mdir), "--out", str(out),
+                "--audit", str(audit), "--manifest-receipt", str(scope or self.scope),
+                "--carrier-config", str(cfg or self.cfg_path), *(["--authoritative"] if authoritative else []), *extra])
+        return D.index_of(out)
+
+    def test_passing_receipt(self):
+        index = self.run_build(self.receipt(legacy=self.dig["root_content_manifest_sha256"]))
+        self.assertTrue(index["authoritative"])
+        self.assertEqual(index["source"]["digests"]["branches_sha256"], self.dig["branches_sha256"])
+        self.assertTrue(index["carrier"]["config"]["verification"]["verified"])
+
+    def test_foreign_receipt(self):
+        other_b, other_m = build_fixture(self.tmp / "other", reps=1, seed=5)
+        with self.assertRaises(SystemExit):
+            self.run_build(self.receipt(D.source_digests(other_b, other_m)))
+
+    def test_changed_source_bytes(self):
+        copy_dir = self.tmp / "changed"
+        shutil.copytree(self.bdir, copy_dir)
+        f = sorted(copy_dir.rglob("*.json.gz"))[0]
+        with gzip.open(f, "rt", encoding="utf-8") as fh:
+            row = json.load(fh)
+        row["note"] = "edited after the audit"
+        with gzip.open(f, "wt", encoding="utf-8") as fh:
+            json.dump(row, fh)
+        with self.assertRaises(SystemExit):
+            self.run_build(self.receipt(), branches=copy_dir)
+
+    def test_contradictory_or_unpassed_receipts(self):
+        for kw in ({"flags": (True, False, True)}, {"status": "pending_host_reaudit"},
+                   {"status": "pending_host_reaudit", "flags": (True, True, True)}, {"legacy": "0" * 64}):
+            with self.subTest(kw), self.assertRaises(SystemExit):
+                self.run_build(self.receipt(**kw))
+        with self.assertRaises(SystemExit):     # the real T0010 receipt is pending and has no source digests
+            self.run_build(REPO / "bots/p_only/report/v_data/DATA_AUDIT.json")
+        index = self.run_build(REPO / "bots/p_only/report/v_data/DATA_AUDIT.json", authoritative=False)
+        self.assertFalse(index["authoritative"])
+        self.assertTrue(any("pending" in r for r in index["exploratory_reasons"]))
+
+    def test_selected_manifest_scope(self):
+        adapter = REPO / "bots/p_only/report/v_data/MANIFEST_METADATA_ADAPTER.json"
+        with self.assertRaises(SystemExit):
+            self.run_build(self.receipt(), scope=adapter)
+        index = self.run_build(self.receipt(), scope=adapter, extra=["--accept-selected-scope"])
+        self.assertTrue(index["authoritative"] and index["receipts"]["accepted_selected_manifest_scope"])
+
+    def test_carrier_config_conflicts(self):
+        D.check_carrier_config(self.cfg, [CARRIER])
+        cases = {
+            "roots of another binary": (lambda c: c, ["d" * 64]),
+            "policy file": (lambda c: c["opponent_policy"]["files"].update({"inference/models_fixture/weights_general.hpp": "5" * 64}), None),
+            "omitted policy file": (lambda c: c["opponent_policy"]["files"].pop("inference/models_fixture/registry.hpp"), None),
+            "budget": (lambda c: c["budget"].update(turn_ms=60), None),
+            "search inputs": (lambda c: c["search"].update(inputs_sha256="8" * 64), None),
+            "fixed samples": (lambda c: c["search"].update(fixed_samples=128), None),
+            "value": (lambda c: c["value"].update(enabled=True), None),
+            "missing budget": (lambda c: c.pop("budget"), None),
+            "status": (lambda c: c.update(status="final"), None),
+            "receipt hash": (lambda c: c["collection"].update(manifest_sha256="0" * 64), None),
+        }
+        for name, (fn, carriers) in cases.items():
+            cfg = copy.deepcopy(self.cfg)
+            fn(cfg)
+            with self.subTest(name), self.assertRaises(SystemExit):
+                D.check_carrier_config(cfg, carriers or [CARRIER])
+
+    def test_config_binary_must_be_the_roots_carrier(self):
+        man, ids = collection_receipts(self.tmp / "receipts_d", binary="d" * 64)
+        cfg = self.tmp / "carrier_d.json"
+        cfg.write_text(json.dumps(D.derive_carrier_config(str(man), str(ids), "fixture", "p2", "admitted")))
+        for authoritative in (True, False):       # an inconsistent config is refused even for exploratory data
+            with self.subTest(authoritative=authoritative), self.assertRaises(SystemExit):
+                self.run_build(self.receipt(), cfg=cfg, authoritative=authoritative)
+
+    def test_t0010_receipts(self):
+        rep = "bots/p_only/report/v_data/"
+        binary = "6cbd5d34610f7946eebee56713992eae81c283f3bbb6a6fc8a342a1dc3db47c1"
+        cfg = D.derive_carrier_config(rep + "manifest.json", rep + "identities.json", "v12_ponly_xxl", "p2", "admitted")
+        got = D.check_carrier_config(cfg, [binary])
+        self.assertTrue(got["family_verified_from"].startswith("inference/models_xxl/weights_"))
+        self.assertEqual((cfg["budget"], cfg["value"]["enabled"]), ({"first_ms": 2000, "turn_ms": 50}, False))
+        wrong = D.derive_carrier_config(rep + "manifest.json", rep + "identities.json", "v12_ponly_xxl", "p3", "admitted")
+        with self.assertRaises(SystemExit):
+            D.check_carrier_config(wrong, [binary])
 
 
 class Canonical(unittest.TestCase):
@@ -384,20 +545,34 @@ class Arithmetic(unittest.TestCase):
     def test_rule_ties_and_lambda_zero(self):
         d = handmade([(2, 1, [("m", [0.5], True), ("z", [1.0], True), ("b", [0.0], True)])])
         g = np.array([0.0, 0.1, 0.1])
-        self.assertEqual(int(E.apply_rule(d, g, 0.0)[0]), 0)
-        self.assertEqual(int(E.apply_rule(d, g, 10.0)[0]), 0)     # 1 + 0 vs 0 + 10 * 0.1: tie, incumbent kept
-        self.assertEqual(int(E.apply_rule(d, g, 100.0)[0]), 2)    # tie between alternatives: smallest key "b"
+        o = "incumbent_override"
+        self.assertEqual(int(E.apply_rule(d, g, 0.0, o)[0]), 0)
+        self.assertEqual(int(E.apply_rule(d, g, 10.0, o)[0]), 0)     # 1 + 0 vs 0 + 10 * 0.1: tie, incumbent kept
+        self.assertEqual(int(E.apply_rule(d, g, 100.0, o)[0]), 2)    # tie between alternatives: smallest key "b"
         d["cand_support"][2] = False
-        self.assertEqual(int(E.apply_rule(d, np.array([0.0, 0.1, np.nan]), 100.0)[0]), 1)
+        self.assertEqual(int(E.apply_rule(d, np.array([0.0, 0.1, np.nan]), 100.0, o)[0]), 1)
+        self.assertEqual(int(E.apply_rule(d, g, 100.0)[0]), 0)      # zscore without logged scores: the incumbent
         s = E.summarize(d, d["root_incumbent"].astype(np.int64), 0.002)
         self.assertEqual(s["primary"]["mean"], 0.0)
+
+    def test_zscore_rule_uses_logged_scores(self):
+        d = handmade([(2, 1, [("a", [0.5], True, 1.0), ("b", [0.0], True, 3.0), ("c", [1.0], True)]),
+                      (2, 2, [("a", [0.5], True), ("b", [1.0], True, 5.0)])])
+        g = np.array([0.0, 0.0, 9.0, 0.0, 9.0])
+        choice = E.apply_rule(d, g, 0.0)
+        self.assertEqual(int(choice[0]), 1)       # lambda 0: the carrier's top-scored candidate
+        self.assertEqual(int(choice[1]), 3)       # the incumbent has no logged score: kept
+        self.assertEqual(int(E.apply_rule(d, g, 100.0)[0]), 1)   # "c" has no logged score: never chosen
+        g2 = np.array([0.0, -0.1, 0.0, 0.0, 0.0])
+        self.assertEqual(int(E.apply_rule(d, g2, 100.0)[0]), 0)  # z(a) = -1, z(b) = +1: a gain of -0.1 x 100 flips it
+        self.assertEqual(E.scored_roots(d), 1)
 
     def test_unsupported_incumbent_keeps_the_root(self):
         d = handmade([(2, 1, [("a", [0.5], False), ("b", [1.0], True)])])
         g = E.mask_gains(d, np.array([0.3, 0.9]))
         self.assertEqual(g[0], 0.0)
         self.assertTrue(np.isnan(g[1]))
-        self.assertEqual(int(E.apply_rule(d, np.array([0.0, 0.9]), 1e6)[0]), 0)
+        self.assertEqual(int(E.apply_rule(d, np.array([0.0, 0.9]), 1e6, "incumbent_override")[0]), 0)
         self.assertEqual(len(T.gain_items(d, None)["y"]), 0)
         self.assertEqual(N.coverage(d)["incumbent_unsupported"], 1)
 
@@ -425,6 +600,18 @@ class ScorerAndSelection(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         shutil.rmtree(cls.tmp, ignore_errors=True)
+
+    def test_zscore_refused_without_scores(self):
+        data = make_dataset(self.tmp / "noscores", scores=False)
+        run = self.tmp / "noscore_run"
+        T.main(["--data", str(data), "--epochs", "1", "--exploratory", "--out", str(run)])
+        args = ["select", "--data", str(data), "--run", f"linear={run}", "--primary", "linear", "--negligible", "0.002",
+                "--out", str(self.tmp / "noscore_sel.json")]
+        with self.assertRaises(SystemExit):
+            E.main(args)
+        E.main(args + ["--norm", "incumbent_override"])
+        sel = json.loads((self.tmp / "noscore_sel.json").read_text())
+        self.assertTrue(sel["rule"].startswith("EXPLORATORY FALLBACK"))
 
     def test_exploratory_needs_flag(self):
         with self.assertRaises(SystemExit):
@@ -483,6 +670,12 @@ class ScorerAndSelection(unittest.TestCase):
         E.main(args)
         frozen = json.loads(sel.read_text())
         self.assertEqual(frozen["primary"], "mlp - incumbent")
+        self.assertEqual(frozen["norm"], "zscore")
+        val = D.load(self.data, "val")
+        for name, m in frozen["models"].items():          # the frozen rule reproduces its validation number
+            g = T.load_scorer(Path(m["run"]), val["_index"]).gains(val)
+            mean = E.summarize(val, E.apply_rule(val, g, m["lambda"], m["norm"]), 0.002)["primary"]["mean"]
+            self.assertEqual(mean, next(r["mean"] for r in m["val_grid"] if r["lambda"] == m["lambda"]))
         rep_out = self.tmp / "test_report"
         E.main(["test", "--data", str(self.data), "--selection", str(sel), "--out", str(rep_out),
                 "--oracle-value", str(self.tiny_value_run())])

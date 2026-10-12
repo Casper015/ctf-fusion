@@ -214,9 +214,10 @@ The presets therefore stop at XXL. Wider nets can only be offline teachers. Capa
 **Decision learning** (RL_PLAN; T0033 plan, revised by T0034, code only: nothing trained, measured, played or exported).
 - **Retired, unstarted (2026-10-12):** the V pilot T0012 and its screen T0014. Deployed V stays disabled.
 - **The component.** P predicts the opponents and stays frozen. A separate own-action scorer (kind `own_action_scorer`, never exportable as P or V) ranks our own complete orders by their gain over the incumbent.
-- **The data.** A versioned root/candidate dataset is built from the recorded prefix. Its builder checks linkage, support, duplicates, map splits and authority; T0010 is exploratory until its strict re-audit passes.
+- **The data.** A versioned root/candidate dataset is built from the recorded prefix. Its builder checks linkage, support, duplicates and map splits. Authority binds an audit receipt's source digests to the exact bytes read, a carrier config to its collection receipts, and logged carrier scores to their orders. T0010 stays exploratory: its re-audit is pending, it has no source digests and no logged carrier scores.
 - **The diagnostics.** Noise (within- against between-action), coverage and power are reported without automatic kill rules.
-- **The rule.** The deployed rule S_norm + λ·g is frozen on validation and evaluated once on test. Verdicts: benefit, harm, negligible or insufficient precision.
+- **The rule.** The deployed rule (z-scored logged carrier score + λ·gain; incumbent override only as a labeled fallback) is frozen on validation and evaluated once on test. Verdicts: benefit, harm, negligible or insufficient precision.
+- **The carrier.** The pilot freezes the currently admitted carrier, P2 after T0013, or a later admitted model.
 - **Still specified only:** the carrier hook, a 300–500-map host pilot, and the macro, expert-iteration and offline-RL conditions.
 
 ## The host: environment, speed, capacity

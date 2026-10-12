@@ -94,6 +94,8 @@ def coverage(d: dict) -> dict:
             "incumbent_without_outcome": int((~labeled[inc]).sum()),
             "incumbent_unsupported": int((~d["cand_support"][inc]).sum()), "changeable_roots": int(sum(change)),
             "flags": {name: int(((flags & bit) > 0).sum()) for bit, name in F.FLAG_NAMES.items()},
+            "roots_with_carrier_scores": int(np.isfinite(d["cand_carrier_score"][inc]).sum()),
+            "shortlist_k": {str(a): int(b) for a, b in sorted(Counter(d["root_shortlist_k"].astype(np.int64).tolist()).items())},
             "sources": dict(Counter(d["cand_source"].tolist()))}
 
 
