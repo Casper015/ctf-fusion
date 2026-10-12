@@ -1,0 +1,23 @@
+{
+  "measurement_identity": "76a19544caa2caa667b55f41c499a8baac12d01304c25f6985418e298790d7e7",
+  "completed_collection_sha256": "3d4ff2b8b9daca60bd1d3ca5144de28090fd0c1b0ab31950cdb8375ccdec0d61",
+  "completed_audit_sha256": "1d9339e0e4f2a6fcd1ecd893640f6e4caaf9eefc222074e6199f7901adb60e06",
+  "original_results_sha256": "d2cb3f23c73b50445c74631b3b7d1c174ee4f30cca665eb043e4b2577a32e695",
+  "original_raw_audit_sha256": "1b9190c424fa04688e1706493ec66d4b50b99d1b215d5313e3de5156a16b804c",
+  "packager_sha256": "66b886b2a8fbddfb269069d0b50d720c2cfff682709d3e0fe928256374130ba8",
+  "root_reply_provenance": {
+    "near": {
+      "A_equals_recorded_root_reply": 330,
+      "A_differs_from_recorded_root_reply": 135,
+      "same_one_step_public_successor": 2
+    },
+    "far": {
+      "A_equals_recorded_root_reply": 18,
+      "A_differs_from_recorded_root_reply": 2,
+      "same_one_step_public_successor": 0
+    }
+  },
+  "prefix_seat_comparisons": 4965018,
+  "scope": "Completed independent raw/engine/statistics audit; publication validation is separate. No successful formal phase repeated.",
+  "original_core_suite_context": "T13 prior core224:223 pass,1 platform skip. Production sources unchanged; prior completed core/measurement checks not rerun."
+}

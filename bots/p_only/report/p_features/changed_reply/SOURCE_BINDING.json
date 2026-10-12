@@ -1,0 +1,67 @@
+{
+  "manifest_sha256": "4924797314179f4618dde3537fa1e32e489103eb244f8e3be2e45d20325d563a",
+  "original_frozen_manifest_exact": true,
+  "candidate_inputs": [
+    {
+      "path": "bots\\p_only\\bots\\variants\\c08_pf_p2xxl.cpp",
+      "sha256": "894ceddf950eab888950bc0370a279ee063c77ac34d04e238c936564feeadc02"
+    },
+    {
+      "path": "inference\\models_pf_p2xxl_vm\\registry.hpp",
+      "sha256": "a60e3752ce5290b605a749bbefbec1f75433a30c66dee7c48119e45a2af175cd"
+    },
+    {
+      "path": "inference\\models_pf_p2xxl_vm\\weights_general.hpp",
+      "sha256": "640d19cd674e785abd89dbf21a9336f96e0074f25585653984de60f66a703c38"
+    },
+    {
+      "path": "inference\\adapter.hpp",
+      "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+      "path": "inference\\policy.hpp",
+      "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+      "path": "inference\\features.hpp",
+      "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+      "path": "inference\\state.hpp",
+      "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+      "path": "inference\\mlp.hpp",
+      "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+      "path": "inference\\simd.hpp",
+      "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+      "path": "inference\\value.hpp",
+      "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+      "path": "bots\\p_only\\bots\\c08_ponly_f.hpp",
+      "sha256": "4e25782fda32e4871b5fee4a8f51a073568627c30c05b553e6426fbe0011e64c"
+    },
+    {
+      "path": "inference\\combat.hpp",
+      "sha256": "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    },
+    {
+      "path": "inference\\sim.hpp",
+      "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+      "path": "bots\\p_only\\include\\ponly.hpp",
+      "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    }
+  ],
+  "all_candidate_inputs_exact": true,
+  "candidate_binary_sha256": "0c106fc24ec56baa3cd280ac2b2c82a286abcd2e39cc19ac4979088837fe5e94",
+  "frozen_bundle_sha256": "4a73a4e41b599d76b964c4c5a3f242bf08765cca65f2682d13dee3c41d1c5908",
+  "current_bundle_sha256": "94e79214ec2f3e8607660073c252de33e4ae56224081dde0eefa32b52b8abdf8",
+  "bundle_transport": "CRLF to LF exactly reconstructs frozen source; no rebuild; original frozen binary copied byte-for-byte"
+}
