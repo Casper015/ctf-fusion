@@ -1,13 +1,13 @@
 ---
 id: T0036
 title: "Decision shortlist hook and faithful branch collector (code only)"
-status: open
-owner: ""
+status: active
+owner: claude-ci@caspers-macbook
 needs: []
 writes: [bots/p_only/tools/derive/make_c08.py, bots/p_only/tools/derive/make_v12.py, bots/p_only/tools/derive/make_families.py, bots/p_only/include/decision_hook.hpp, bots/p_only/bots/c08_ponly.hpp, bots/p_only/bots/v12_ponly.hpp, bots/p_only/bots/c08_ponly_f.hpp, bots/p_only/bots/v12_ponly_f.hpp, bots/p_only/bots/variants/, training/decision_branch_collect.py, tests/test_decision_branch_collect.py, bots/p_only/tests/test_decision_hook.py]
 depends: [T0035, T0034]
 land: pr
-branch: ""
+branch: claude-ci/t0036-decision-shortlist-hook-and-faithful
 updated: 2026-10-12
 ---
 
@@ -34,3 +34,4 @@ Not started.
 ## Log
 
 - 2026-10-12 08:51Z codex-data-planning@caspers-macbook: created
+- 2026-10-12 09:18Z claude-ci@caspers-macbook: claimed (forced)
