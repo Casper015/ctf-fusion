@@ -1,0 +1,47 @@
+{
+ "seed": 20261210,
+ "games": 1960,
+ "fixtures": 280,
+ "schedule_identity": "9bbaa4b456a46d0dbd564408cfb67db09c9d61add06e2e069cb3181291c4f0c8",
+ "schedule_sha256": "fc008a38158f98d7aef4ba7cdf9966594a05078baf848ddc29e14a11c1abee96",
+ "original_index_sha256": "6d5bdc531793d896d1a5cc156a2df65626b1928628d1da679537dbee5d0ebcb9",
+ "T0028_records_sha256": "34160c57d42d8c191b234e26be7bb3800534cdd996add5312e96cbf49856870f",
+ "T0028_records": 50000,
+ "inspected_previous_schedules": {
+  "${WORK}/ctf-fusion.worktrees/T0010/data/p_only/v_data/schedule.json": {
+   "sha256": "9b00e3c77b283eee2a66c07ddbf3e0d5bad3b2e21eadfe9de49da3bd12baceea",
+   "maps": 7000
+  },
+  "${WORK}/ctf-fusion.worktrees/T0016/data/v_capacity_5xl/screen_time/schedule.json": {
+   "sha256": "89a0766c6aa54f9c2a7479e03d6ef1a3f0b1feb33b54acb2b51e0e437990e700",
+   "maps": 4
+  },
+  "${WORK}/ctf-fusion.worktrees/T0016/data/v_capacity_5xl/screen_work/schedule.json": {
+   "sha256": "89a0766c6aa54f9c2a7479e03d6ef1a3f0b1feb33b54acb2b51e0e437990e700",
+   "maps": 4
+  },
+  "${WORK}/ctf-fusion.worktrees/T0016/build/v_capacity_5xl/screen_time_analysis/schedule.json": {
+   "sha256": "89a0766c6aa54f9c2a7479e03d6ef1a3f0b1feb33b54acb2b51e0e437990e700",
+   "maps": 4
+  },
+  "${WORK}/ctf-fusion.worktrees/T0016/build/v_capacity_5xl/screen_work_analysis/schedule.json": {
+   "sha256": "89a0766c6aa54f9c2a7479e03d6ef1a3f0b1feb33b54acb2b51e0e437990e700",
+   "maps": 4
+  },
+  "${WORK}/ctf-fusion.worktrees/T0019/data/p_only/search/schedule.json": {
+   "sha256": "28926c7907bc1f6d292391a8f9ff742dbdd4beafd83c7de05f1a2cba61a975f8",
+   "maps": 280
+  },
+  "${WORK}/ctf-fusion.worktrees/T0019/data/p_only/value/schedule.json": {
+   "sha256": "dc6f170b97e1f98a2b2613e1cbf1d5df777901649742ca75c4514fd73c43589f",
+   "maps": 280
+  },
+  "${WORK}/ctf-fusion.worktrees/T0022/data/p_only/v3xl_fresh/schedule.json": {
+   "sha256": "51f7f3abc2ab27f19a752ac114edc6e7c0c99220d107bd6eb18928a8ca65f7dd",
+   "maps": 700
+  }
+ },
+ "old_map_intersections": 0,
+ "seed_state": "prepared; not yet consumed by a game",
+ "remote_digest_sha256": "bbd168f7202fb0ef3832f0f8d5aaadd3ee66a299662dea321956294d547d98fc"
+}

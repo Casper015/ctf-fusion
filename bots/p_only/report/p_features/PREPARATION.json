@@ -1,0 +1,126 @@
+{
+ "task": "T0013",
+ "status": "prepared_waiting_T0032",
+ "prepared_utc": "2026-10-12T05:33:51.649497+00:00",
+ "preparation_checkout": "64576e0d6d428e5f45f9ad0a89216d6c4808bfb4",
+ "branch": "codex/t0013-p-features-host-evidence",
+ "user_budget": {
+  "T0013_max_games": 2000,
+  "T0032_games": "additional separate budget, freeze scope after artifacts arrive"
+ },
+ "actual_T0013_games": 1960,
+ "fixtures": 280,
+ "paired_arms": 6,
+ "aa_copies": 1,
+ "config": {
+  "_comment": "P feature ablation at equal full-turn time (docs/FEATURE_FAMILIES.md). Policy p2 and p3 retrained at XXL capacity with identical data, configuration and seed (profiles/p_features.json), each paired with value M; V off in every arm. The committed XXL P-only bots are references. Fixed-time deployment games: p3 pays its combat summaries inside the same turn. Tuning seed 20261210 (never reuse 20261009, 20261020, 20261031, 20261101, 20261102, 20261107 or 20261108).",
+  "seed": 20261210,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 20,
+  "workers": 6,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "variants": "bots/p_only/profiles/variants_families.json",
+  "arms": [
+   "v12_pf_p2xxl",
+   "v12_pf_p3xxl",
+   "c08_pf_p2xxl",
+   "c08_pf_p3xxl",
+   "v12_ponly_xxl",
+   "c08_ponly_xxl"
+  ],
+  "aa": [
+   "v12_pf_p3xxl"
+  ],
+  "comparisons": [
+   [
+    "v12_pf_p3xxl",
+    "v12_pf_p2xxl"
+   ],
+   [
+    "c08_pf_p3xxl",
+    "c08_pf_p2xxl"
+   ],
+   [
+    "v12_pf_p2xxl",
+    "v12_ponly_xxl"
+   ],
+   [
+    "c08_pf_p2xxl",
+    "c08_ponly_xxl"
+   ]
+  ],
+  "contrasts": {
+   "p3 effect, carrier interaction": "c08_pf_p3xxl-c08_pf_p2xxl-v12_pf_p3xxl+v12_pf_p2xxl"
+  },
+  "work_dir": "data/p_only/p_features",
+  "report_dir": "bots/p_only/report/p_features"
+ },
+ "config_sha256": "bc48f2ff4ad8ddabe490c835f18e3fb4d0e6c1ee817a67b736c5dbf608dbf242",
+ "model_sets": {
+  "p2": {
+   "files": {
+    "inference/models_pf_p2xxl_vm/MANIFEST.json": {
+     "sha256": "df31b420ed38824366c0cb6329919d994addd3496ca34058056c44e66f3fd0e7",
+     "bytes": 1649
+    },
+    "inference/models_pf_p2xxl_vm/registry.hpp": {
+     "sha256": "a60e3752ce5290b605a749bbefbec1f75433a30c66dee7c48119e45a2af175cd",
+     "bytes": 2574
+    },
+    "inference/models_pf_p2xxl_vm/weights_general.hpp": {
+     "sha256": "640d19cd674e785abd89dbf21a9336f96e0074f25585653984de60f66a703c38",
+     "bytes": 2928436
+    },
+    "inference/models_pf_p2xxl_vm/weights_general.npz": {
+     "sha256": "4335d337b1ed48e49e4567d19384979f398691f679f5d701c9b9327f24132257",
+     "bytes": 1153706
+    }
+   },
+   "matches_original_T0011_export": true
+  },
+  "p3": {
+   "files": {
+    "inference/models_pf_p3xxl_vm/MANIFEST.json": {
+     "sha256": "9c633a407e27ab521db98bdbc1ad21bcfc73d1be0bf3678c27749039bc7efe8c",
+     "bytes": 1649
+    },
+    "inference/models_pf_p3xxl_vm/registry.hpp": {
+     "sha256": "ea8be6686d9e0c92195c9f0dbd3803025c6af82c8f2d61fb0f7308802f5db06e",
+     "bytes": 2576
+    },
+    "inference/models_pf_p3xxl_vm/weights_general.hpp": {
+     "sha256": "a1c7024808a38a969c9ea5561437a9ff6269070d45fcb355d42439f0d12f6989",
+     "bytes": 3866783
+    },
+    "inference/models_pf_p3xxl_vm/weights_general.npz": {
+     "sha256": "3708a8f3b3ae3cb7834c375d1c29e3930a82aaf7295e984e574c82218a33d681",
+     "bytes": 1629866
+    }
+   },
+   "matches_original_T0011_export": true
+  }
+ },
+ "seed_status": "20261210 reserved by existing T0013 task; not consumed in this preparation; fresh remote ledger and actual prior schedules must be checked before use",
+ "formal_run_started": false,
+ "build_started": false,
+ "schedule_generated": false,
+ "models_exported": false,
+ "synchronization": "Wait until T0032 reports, checkpoints, configs and artifact identities are frozen. T0032 currently promises offline-only validation, no inference export or games; host deployment adapters/parity and additional screen must be frozen separately. Teacher 8XL is offline only and not a host carrier."
+}

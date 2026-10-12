@@ -1,0 +1,89 @@
+{
+ "frozen_identity": "a20191e4434703e3324335592ea2bc0a2a0b01dda1c3cf5c9446854ec295ddf4",
+ "raw_games_checked": 1960,
+ "map_clusters": 280,
+ "full_400_turn_blocks_checked": 784000,
+ "counts": {
+  "allseat_faults": 0,
+  "candidate_faults": 0,
+  "candidate_late": 0,
+  "allseat_turn_replies": 6664000,
+  "invalid_or_missing_replies": 0
+ },
+ "all_seat_faults_retained": [],
+ "paired_comparisons_and_AA_CI_recomputed": 6,
+ "network_counters_recomputed": {
+  "v12_pf_p2xxl": {
+   "turns": 112000,
+   "views": 858154,
+   "encodes": 6412819,
+   "act": 27633700,
+   "target": 9383204,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 0
+  },
+  "v12_pf_p3xxl": {
+   "turns": 112000,
+   "views": 859796,
+   "encodes": 6416914,
+   "act": 27699141,
+   "target": 9661635,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 0
+  },
+  "c08_pf_p2xxl": {
+   "turns": 112000,
+   "views": 31757445,
+   "encodes": 60042577,
+   "act": 65910575,
+   "target": 43182628,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 4400124
+  },
+  "c08_pf_p3xxl": {
+   "turns": 112000,
+   "views": 23225270,
+   "encodes": 42555064,
+   "act": 52631590,
+   "target": 31197841,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 3223674
+  },
+  "v12_ponly_xxl": {
+   "turns": 112000,
+   "views": 852012,
+   "encodes": 6370650,
+   "act": 27444304,
+   "target": 9344146,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 0
+  },
+  "c08_ponly_xxl": {
+   "turns": 112000,
+   "views": 31781406,
+   "encodes": 59689482,
+   "act": 65062473,
+   "target": 42630144,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 4479430
+  },
+  "v12_pf_p3xxl~aa": {
+   "turns": 112000,
+   "views": 859796,
+   "encodes": 6416914,
+   "act": 27699141,
+   "target": 9661635,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 0
+  }
+ },
+ "auditor_sha256": "994918c7e857b676134028ce7e70e1fa7e1e15967d30e5e6d5923ba615dfa28e",
+ "limits": "Successful reply timing fields match raw bot reports; individual timing samples are not retained for independent percentile recomputation. PONLY totals recomputed; SEARCH sample ratios are retained original analysis and not independently recomputed by this audit. No replay/prediction rerun."
+}
