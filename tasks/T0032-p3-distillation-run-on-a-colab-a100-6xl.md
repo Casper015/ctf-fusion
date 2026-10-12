@@ -1,14 +1,14 @@
 ---
 id: T0032
 title: "P3 distillation run on a Colab A100: 6XL teacher, XXL warmup/distill/QAT, three seeds"
-status: active
+status: review
 owner: claude@caspers-macbook
 needs: []
 writes: [reports/models/p_distill/]
 depends: []
 land: pr
 branch: claude/t0032-p3-distillation-run-on-a-colab-a100-6xl
-updated: 2026-10-11
+updated: 2026-10-12
 ---
 
 ## Goal
@@ -30,7 +30,18 @@ Teacher, targets, 3x(warmup, distill, qat) completed with config/log/receipt per
 
 ## Handoff
 
-Not started.
+*2026-10-12 09:45Z claude@caspers-macbook:*
+
+Done and in review: PR https://github.com/Casper015/ctf-fusion/pull/34 (commit 1017dd8, report only, reports/models/p_distill/).
+
+Results (validation only): distill minus supervised XXL p3 -0.0134 / -0.0113 / -0.0100 (mean -0.0116), all in the joint head; 8XL teacher 0.028 below XXL; mixed4_8 QAT from distill costs +0.032 to +0.036. RUNS.json and eval.json are byte copies of the Colab receipts; REPRODUCE.md embeds every script with SHA-256.
+
+Weights, teacher shard and logs: Google Drive cft-fusion/t0032/ (teacher_8xl_p3, warmup/distill/qat_s101-103, targets_train/IDENTITY.json, live mirror; lost_runtime_1-3 are stopped runs, not results). Colab runtime disconnected and deleted 2026-10-12 ~09:40Z.
+
+Not done / next:
+- QAT of the supervised warmups (3 runs, ~1.2 h in parallel on an A100 High-RAM) to measure distill vs supervised after quantization.
+- Export of a distilled student and host evaluation (near/far NLL with T0004's tools, then T0013-style equal-time games); nothing here shows playing strength.
+- Standard-RAM Colab cannot run distill (61 GB random-access working set); use High-RAM.
 
 ## Log
 
@@ -47,3 +58,4 @@ Not started.
 - 2026-10-12 05:28Z claude@caspers-macbook: note: Runtime 3 (A100 40GB, 83 GB RAM): warmup_s101-103 done 05:00-05:01Z and backed up to Drive (best_val 2.08523 / 2.08424 / 2.08286, mean 2.08411; T0011 P3 XXL mean 2.08427). Distill stalled: train cache 42 GB + teacher shard 19 GB read at random by three students thrashed the page cache (GPU 0 %, 200 MB/s disk reads, no batch log line in 17 min). At Casper's request, stored to Drive (teacher and three warmups verified loadable there) and switched back to High-RAM at 05:27Z. The restart cell's handover now triggers on the first student stage the driver starts (warmups are restored from Drive and skipped).
 - 2026-10-12 07:40Z claude@caspers-macbook: note: Runtime 4 (A100 80GB High-RAM) from 05:31Z: teacher and warmup_s101-103 restored from Drive, cache recopied and verified, targets remade, distill_s101-103 side by side from 05:51Z (618 s/epoch, GPU 97 %, no disk reads). Distill epoch-8 supervised val (best): 2.07186 / 2.07294 / 2.07286 vs warmup 2.08523 / 2.08424 / 2.08286, distill minus warmup -0.0134 / -0.0113 / -0.0100 (mean -0.0116; the teacher is 0.028 below the warmups). Gap per epoch narrowed from about -0.041 at epoch 1. Three seeds: per-seed results, no interval claimed. Calibration, then QAT, running.
 - 2026-10-12 09:44Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/34 opened (report commit 1017dd8). QAT done 08:54Z: mixed4_8 integer-forward val 2.10465 / 2.10861 / 2.10461. Calibrated per head, distill minus warmup: joint -0.01396 / -0.01188 / -0.01062, act +0.00029 / +0.00071 / +0.00074, target ~0. Colab runtime disconnected and deleted at Casper's request.
+- 2026-10-12 09:45Z claude@caspers-macbook: handoff -> review
