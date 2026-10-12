@@ -1,7 +1,7 @@
 ---
 id: T0035
 title: "Expanded decision opponent registry and collector (code only)"
-status: review
+status: done
 owner: claude-ci@caspers-macbook
 needs: []
 writes: [profiles/decision_opponents.json, profiles/decision_variants.json, training/decision_opponents.py, training/decision_collect.py, tests/test_decision_opponents.py]
@@ -31,20 +31,9 @@ Reviewed code PR merged: all requested candidates inventoried, disabled/alias st
 
 ## Handoff
 
-*2026-10-12 09:17Z claude-ci@caspers-macbook:*
+*2026-10-12 16:00Z claude-ci@caspers-macbook:*
 
-PR https://github.com/Casper015/ctf-fusion/pull/32 (branch claude-ci/t0035-expanded-decision-opponent-registry-and). Code only: no game, collection, training or timing run; no seed consumed.
-
-Done: profiles/decision_opponents.json, profiles/decision_variants.json, training/decision_opponents.py, training/decision_collect.py, tests/test_decision_opponents.py (20 tests; core 279 OK, 43 skipped).
-Registry today: references 12 enabled; additions 6 enabled (3 repository, 3 vendored by hash, substitutions recorded); neural 44 catalog entries -> 34 enabled, 5 V-pilot wrappers disabled (models_pxxl_vpA-E missing), 5 controls/hybrids not registered; no code aliases among neural entries; designated v12_ponly_xxl has T0010's 22 build inputs. Lineage cap 0.25: Player5 0.25 and Control_Hybrid 0.133 before sampling (not binding); realized at 15 teams Player5 0.28, references 0.53.
-
-Host commands (after review/merge; T0036 adds the shortlist hook, and T0037 should collect with that hooked log-only carrier, not this build):
-  python -m training.decision_collect list --ai-test $AI_TEST_ROOT --out build/decision/registry.json --simulate 2000
-  python -m training.decision_collect schedule --seed <unused seed, added to the DIGEST ledger by T0037> --maps-per-count <n> --out build/decision/SCHEDULE.json
-  python tools/repo/task.py lock cpu --task T0037 -- python -m training.decision_collect prepare --schedule build/decision/SCHEDULE.json --out-dir build/decision/run1 --ai-test $AI_TEST_ROOT
-  python tools/repo/task.py lock cpu --task T0037 -- python -m training.decision_collect collect --frozen build/decision/run1/FROZEN.json --out data/decision/run1 --workers 6 --ai-test $AI_TEST_ROOT
-
-Not checked: no compile of the 34 neural bundles or 18 sources (prepare is host work); self-copies of the designated policy (v12_ponly_xxl as an opponent) are allowed and flagged same_policy_as_designated, a choice for Casper to confirm.
+Merged to main as 54f50f2 (PR #32, including the designated-build fix 070a517). Code only: registry, schedules and collector; no games or seeds used. Host commands in the Handoff.
 
 ## Log
 
@@ -53,3 +42,4 @@ Not checked: no compile of the 34 neural bundles or 18 sources (prepare is host 
 - 2026-10-12 09:17Z claude-ci@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/32
 - 2026-10-12 09:17Z claude-ci@caspers-macbook: handoff -> review
 - 2026-10-12 09:38Z claude-ci@caspers-macbook: note: Fix pushed to PR #32 (070a517): the designated carrier now builds into its own directory, so a same-named opponent build (without PONLY_STATS) cannot overwrite its bundle source; regression test added (21 tests). Found while stacking T0036.
+- 2026-10-12 16:00Z claude-ci@caspers-macbook: done
