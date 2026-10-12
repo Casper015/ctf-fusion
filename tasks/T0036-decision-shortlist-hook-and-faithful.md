@@ -35,3 +35,4 @@ Not started.
 
 - 2026-10-12 08:51Z codex-data-planning@caspers-macbook: created
 - 2026-10-12 09:18Z claude-ci@caspers-macbook: claimed (forced)
+- 2026-10-12 09:18Z claude-ci@caspers-macbook: note: Claimed with --force while T0035 is in review (PR #32): both are held by claude-ci@caspers-macbook at the user's request to code T0035 and T0036; T0036's branch is stacked on T0035's and its PR will target it until #32 merges.
