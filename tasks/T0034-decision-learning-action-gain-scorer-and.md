@@ -88,3 +88,4 @@ Not started.
 - 2026-10-12 06:02Z claude-ci@caspers-macbook: claimed
 - 2026-10-12 06:16Z claude-ci@caspers-macbook: amended writes -> docs/DIGEST.md, docs/RL_PLAN.md, fusion/decision_features.py, tests/test_decision_learning.py, training/decision_dataset.py, training/decision_noise.py, training/evaluate_decisions.py, training/export_mixed.py, training/export_weights.py, training/train_decision_ranker.py
 - 2026-10-12 06:18Z claude-ci@caspers-macbook: amended writes -> docs/DIGEST.md, docs/MARKDOWN_INDEX.md, docs/RL_PLAN.md, fusion/decision_features.py, tests/test_decision_learning.py, training/decision_dataset.py, training/decision_noise.py, training/evaluate_decisions.py, training/export_mixed.py, training/export_weights.py, training/train_decision_ranker.py
+- 2026-10-12 06:21Z claude-ci@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/28
