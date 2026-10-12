@@ -1,7 +1,7 @@
 ---
 id: T0034
 title: "Decision learning: action-gain scorer and reliable evaluation (code only)"
-status: review
+status: done
 owner: claude-ci@caspers-macbook
 needs: []
 writes: [docs/DIGEST.md, docs/MARKDOWN_INDEX.md, docs/RL_PLAN.md, fusion/decision_features.py, tests/test_decision_learning.py, training/decision_dataset.py, training/decision_noise.py, training/evaluate_decisions.py, training/export_mixed.py, training/export_weights.py, training/train_decision_ranker.py]
@@ -80,20 +80,9 @@ A reviewed code-only PR delivers the versioned history/candidate dataset contrac
 
 ## Handoff
 
-*2026-10-12 06:21Z claude-ci@caspers-macbook:*
+*2026-10-12 09:05Z claude-ci@caspers-macbook:*
 
-PR https://github.com/Casper015/ctf-fusion/pull/28 (branch claude-ci/t0034-decision-learning-action-gain-scorer-and; the task asked for a codex/ prefix, task.py assigns the agent's own). Code only: no real training, host measurement, new game, continuation batch, model export or strength improvement occurred. Opponent P frozen, deployed V disabled, T0032 untouched.
-
-Done (commit on the PR branch):
-- fusion/decision_features.py: canonical complete orders + support flags (out-of-cap target = unavailable), root/candidate scorer inputs, feature identity, kind own_action_scorer.
-- training/decision_dataset.py: ctf-fusion-decision-1 from branch roots + source matches; root records from the recorded prefix INIT+TURN 1..t; linkage/on-policy/duplicate/outcome/carrier checks; map splits; per-repeat raw scores; exploratory unless --authoritative passes the strict audit receipt (T0010 is pending -> exploratory); --successors for the oracle only.
-- training/decision_noise.py, training/train_decision_ranker.py (linear, mlp), training/evaluate_decisions.py (select freezes lambda/norm/identities on val; test verifies then evaluates the same rule; headroom with independent repeats; labeled realized-successor oracle).
-- export_weights/export_mixed refuse own_action_scorer runs. docs/RL_PLAN.md revised (T0012/T0014 retired, conditional route, hook spec, bounded pilot, exact proposed host commands in section 10); DIGEST and index updated (lanes amended for both).
-- Tests: tests/test_decision_learning.py 24 tests; full core suite 248 OK (43 skipped) on the Mac.
-
-Next (not created, not run): review/merge PR #28 (Casper). Then, on the host, the exploratory T0010 plumbing run in RL_PLAN section 10 (needs a carrier-config JSON written from the T0010 manifest; T0010 stays exploratory until its strict re-audit). The carrier hook (RL_PLAN section 5) and the 300-500-map pilot (section 6) are later tasks after the deployment carrier (P3 or admitted distilled P3) is frozen; no seed reserved.
-
-Not checked: CI on PR #28 had not reported when this was written; the code has never run on T0010's real data (13,702 roots; prefix extraction per root is the dominant build cost); C08 continuation costs in the plan are estimates.
+Merged as e10c76e (PR #28), including the review fixes 908e427/3798cd0 and the zero-weight fix 83a4e70. Code only: no training, games, measurements or exports. Next: T0035/T0036 (code), then T0037 host pilot.
 
 ## Log
 
@@ -105,3 +94,4 @@ Not checked: CI on PR #28 had not reported when this was written; the code has n
 - 2026-10-12 06:21Z claude-ci@caspers-macbook: handoff -> review
 - 2026-10-12 07:16Z claude-ci@caspers-macbook: note: Review fixes pushed (908e427, 3798cd0; rebased on 9350d8c): receipts bound to exact source bytes via ctf-fusion-decision-source-1 digests (+ T0010 root manifest when present); carrier config ctf-fusion-carrier-config-1 validated against collection manifest/identities and the roots' binary; carrier_scores ingested aligned by order, zscore default with labeled incumbent_override fallback; RL_PLAN freezes the admitted carrier (P2 after T0013). 34 decision tests, core 258 OK (43 skipped). Still code only: no training, games, measurements or exports.
 - 2026-10-12 07:48Z claude-ci@caspers-macbook: note: Follow-up review (zero-weight equivalence) fixed in 83a4e70: lambda=0 returns the incumbent without scoring (hook bypass); zscore anchors the played incumbent at the root's top z-score so switching needs a positive predicted gain; score-only reranking reported as diagnostic baseline carrier_top_score. Regression test for incumbent 1 / alt 2 / gains 0. 35 decision tests, core 259 OK (43 skipped).
+- 2026-10-12 09:05Z claude-ci@caspers-macbook: done
