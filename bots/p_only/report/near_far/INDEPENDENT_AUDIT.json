@@ -1,0 +1,522 @@
+{
+ "passed": true,
+ "source_and_binary_hashes": true,
+ "raw_matches": 260,
+ "score_rows": 832000,
+ "primary_rows": 789836,
+ "joint_means_and_cluster_intervals_independently_recomputed": true,
+ "orders": {
+  "original": {
+   "changed": 0,
+   "movement_changed": 0,
+   "action_changed": 0,
+   "target_changed": 0,
+   "valid_complete_orders": 10400,
+   "invalid_reply_exclusions": 0,
+   "by_count": {
+    "3": {
+     "changed": 0,
+     "turns": 800
+    },
+    "4": {
+     "changed": 0,
+     "turns": 800
+    },
+    "5": {
+     "changed": 0,
+     "turns": 800
+    },
+    "6": {
+     "changed": 0,
+     "turns": 800
+    },
+    "7": {
+     "changed": 0,
+     "turns": 800
+    },
+    "8": {
+     "changed": 0,
+     "turns": 800
+    },
+    "9": {
+     "changed": 0,
+     "turns": 800
+    },
+    "10": {
+     "changed": 0,
+     "turns": 800
+    },
+    "11": {
+     "changed": 0,
+     "turns": 800
+    },
+    "12": {
+     "changed": 0,
+     "turns": 800
+    },
+    "13": {
+     "changed": 0,
+     "turns": 800
+    },
+    "14": {
+     "changed": 0,
+     "turns": 800
+    },
+    "15": {
+     "changed": 0,
+     "turns": 800
+    }
+   },
+   "counters": {
+    "PONLY.builds": 1188575.0,
+    "PONLY.teams": 2795023.0,
+    "PONLY.act": 4204995.0,
+    "PONLY.target": 2218999.0,
+    "PONLY.fallback": 0.0,
+    "PONLY.inconsistent": 0.0,
+    "PONLY.skipped": 164612.0,
+    "SEARCH.calls": 10374.0,
+    "SEARCH.samples": 1301047.0,
+    "SEARCH.requested": 1327872.0,
+    "SEARCH.truncated": 0.0,
+    "SEARCH.rollouts": 12487185.0,
+    "SEARCH.plans": 260353.0,
+    "SEARCH.survivors": 20617.0,
+    "SEARCH.refines": 3296.0,
+    "SEARCH.refine_cuts": 0.0
+   }
+  },
+  "disabled": {
+   "changed": 0,
+   "movement_changed": 0,
+   "action_changed": 0,
+   "target_changed": 0,
+   "valid_complete_orders": 10400,
+   "invalid_reply_exclusions": 0,
+   "by_count": {
+    "3": {
+     "changed": 0,
+     "turns": 800
+    },
+    "4": {
+     "changed": 0,
+     "turns": 800
+    },
+    "5": {
+     "changed": 0,
+     "turns": 800
+    },
+    "6": {
+     "changed": 0,
+     "turns": 800
+    },
+    "7": {
+     "changed": 0,
+     "turns": 800
+    },
+    "8": {
+     "changed": 0,
+     "turns": 800
+    },
+    "9": {
+     "changed": 0,
+     "turns": 800
+    },
+    "10": {
+     "changed": 0,
+     "turns": 800
+    },
+    "11": {
+     "changed": 0,
+     "turns": 800
+    },
+    "12": {
+     "changed": 0,
+     "turns": 800
+    },
+    "13": {
+     "changed": 0,
+     "turns": 800
+    },
+    "14": {
+     "changed": 0,
+     "turns": 800
+    },
+    "15": {
+     "changed": 0,
+     "turns": 800
+    }
+   },
+   "counters": {
+    "PONLY.builds": 1188575.0,
+    "PONLY.teams": 2795023.0,
+    "PONLY.act": 4204995.0,
+    "PONLY.target": 2218999.0,
+    "PONLY.fallback": 0.0,
+    "PONLY.inconsistent": 0.0,
+    "PONLY.skipped": 164612.0,
+    "SEARCH.calls": 10374.0,
+    "SEARCH.samples": 1301047.0,
+    "SEARCH.requested": 1327872.0,
+    "SEARCH.truncated": 0.0,
+    "SEARCH.rollouts": 12487185.0,
+    "SEARCH.plans": 260353.0,
+    "SEARCH.survivors": 20617.0,
+    "SEARCH.refines": 3296.0,
+    "SEARCH.refine_cuts": 0.0,
+    "T0004.branch_teams": 2713477.0,
+    "T0004.near": 1003687.0,
+    "T0004.far": 382627.0,
+    "T0004.middle": 1311058.0,
+    "T0004.inactive_reference": 12327.0,
+    "T0004.selected_l": 0.0
+   }
+  },
+  "branch_s": {
+   "changed": 0,
+   "movement_changed": 0,
+   "action_changed": 0,
+   "target_changed": 0,
+   "valid_complete_orders": 10400,
+   "invalid_reply_exclusions": 0,
+   "by_count": {
+    "3": {
+     "changed": 0,
+     "turns": 800
+    },
+    "4": {
+     "changed": 0,
+     "turns": 800
+    },
+    "5": {
+     "changed": 0,
+     "turns": 800
+    },
+    "6": {
+     "changed": 0,
+     "turns": 800
+    },
+    "7": {
+     "changed": 0,
+     "turns": 800
+    },
+    "8": {
+     "changed": 0,
+     "turns": 800
+    },
+    "9": {
+     "changed": 0,
+     "turns": 800
+    },
+    "10": {
+     "changed": 0,
+     "turns": 800
+    },
+    "11": {
+     "changed": 0,
+     "turns": 800
+    },
+    "12": {
+     "changed": 0,
+     "turns": 800
+    },
+    "13": {
+     "changed": 0,
+     "turns": 800
+    },
+    "14": {
+     "changed": 0,
+     "turns": 800
+    },
+    "15": {
+     "changed": 0,
+     "turns": 800
+    }
+   },
+   "counters": {
+    "PONLY.builds": 1188547.0,
+    "PONLY.teams": 2794877.0,
+    "PONLY.act": 4202496.0,
+    "PONLY.target": 2219693.0,
+    "PONLY.fallback": 0.0,
+    "PONLY.inconsistent": 0.0,
+    "PONLY.skipped": 164612.0,
+    "SEARCH.calls": 10374.0,
+    "SEARCH.samples": 1301047.0,
+    "SEARCH.requested": 1327872.0,
+    "SEARCH.truncated": 0.0,
+    "SEARCH.rollouts": 12487185.0,
+    "SEARCH.plans": 260353.0,
+    "SEARCH.survivors": 20617.0,
+    "SEARCH.refines": 3296.0,
+    "SEARCH.refine_cuts": 0.0,
+    "T0004.branch_teams": 2713331.0,
+    "T0004.near": 1004153.0,
+    "T0004.far": 382735.0,
+    "T0004.middle": 1310392.0,
+    "T0004.inactive_reference": 12281.0,
+    "T0004.selected_l": 0.0
+   }
+  },
+  "far_l": {
+   "changed": 14,
+   "movement_changed": 13,
+   "action_changed": 6,
+   "target_changed": 5,
+   "valid_complete_orders": 10400,
+   "invalid_reply_exclusions": 0,
+   "by_count": {
+    "3": {
+     "changed": 0,
+     "turns": 800
+    },
+    "4": {
+     "changed": 0,
+     "turns": 800
+    },
+    "5": {
+     "changed": 4,
+     "turns": 800
+    },
+    "6": {
+     "changed": 0,
+     "turns": 800
+    },
+    "7": {
+     "changed": 0,
+     "turns": 800
+    },
+    "8": {
+     "changed": 0,
+     "turns": 800
+    },
+    "9": {
+     "changed": 2,
+     "turns": 800
+    },
+    "10": {
+     "changed": 0,
+     "turns": 800
+    },
+    "11": {
+     "changed": 2,
+     "turns": 800
+    },
+    "12": {
+     "changed": 3,
+     "turns": 800
+    },
+    "13": {
+     "changed": 1,
+     "turns": 800
+    },
+    "14": {
+     "changed": 0,
+     "turns": 800
+    },
+    "15": {
+     "changed": 2,
+     "turns": 800
+    }
+   },
+   "counters": {
+    "PONLY.builds": 1188547.0,
+    "PONLY.teams": 2794877.0,
+    "PONLY.act": 4202484.0,
+    "PONLY.target": 2219102.0,
+    "PONLY.fallback": 0.0,
+    "PONLY.inconsistent": 0.0,
+    "PONLY.skipped": 164612.0,
+    "SEARCH.calls": 10374.0,
+    "SEARCH.samples": 1301047.0,
+    "SEARCH.requested": 1327872.0,
+    "SEARCH.truncated": 0.0,
+    "SEARCH.rollouts": 12487185.0,
+    "SEARCH.plans": 260353.0,
+    "SEARCH.survivors": 20617.0,
+    "SEARCH.refines": 3296.0,
+    "SEARCH.refine_cuts": 0.0,
+    "T0004.branch_teams": 2713331.0,
+    "T0004.near": 1004165.0,
+    "T0004.far": 382723.0,
+    "T0004.middle": 1310392.0,
+    "T0004.inactive_reference": 12281.0,
+    "T0004.selected_l": 382723.0
+   }
+  },
+  "near_l": {
+   "changed": 385,
+   "movement_changed": 385,
+   "action_changed": 78,
+   "target_changed": 113,
+   "valid_complete_orders": 10400,
+   "invalid_reply_exclusions": 0,
+   "by_count": {
+    "3": {
+     "changed": 35,
+     "turns": 800
+    },
+    "4": {
+     "changed": 27,
+     "turns": 800
+    },
+    "5": {
+     "changed": 68,
+     "turns": 800
+    },
+    "6": {
+     "changed": 23,
+     "turns": 800
+    },
+    "7": {
+     "changed": 23,
+     "turns": 800
+    },
+    "8": {
+     "changed": 25,
+     "turns": 800
+    },
+    "9": {
+     "changed": 14,
+     "turns": 800
+    },
+    "10": {
+     "changed": 27,
+     "turns": 800
+    },
+    "11": {
+     "changed": 22,
+     "turns": 800
+    },
+    "12": {
+     "changed": 28,
+     "turns": 800
+    },
+    "13": {
+     "changed": 28,
+     "turns": 800
+    },
+    "14": {
+     "changed": 27,
+     "turns": 800
+    },
+    "15": {
+     "changed": 38,
+     "turns": 800
+    }
+   },
+   "counters": {
+    "PONLY.builds": 1188555.0,
+    "PONLY.teams": 2794985.0,
+    "PONLY.act": 4204543.0,
+    "PONLY.target": 2220397.0,
+    "PONLY.fallback": 0.0,
+    "PONLY.inconsistent": 0.0,
+    "PONLY.skipped": 164612.0,
+    "SEARCH.calls": 10374.0,
+    "SEARCH.samples": 1301047.0,
+    "SEARCH.requested": 1327872.0,
+    "SEARCH.truncated": 0.0,
+    "SEARCH.rollouts": 12487185.0,
+    "SEARCH.plans": 260353.0,
+    "SEARCH.survivors": 20617.0,
+    "SEARCH.refines": 3296.0,
+    "SEARCH.refine_cuts": 0.0,
+    "T0004.branch_teams": 2713439.0,
+    "T0004.near": 1003800.0,
+    "T0004.far": 382399.0,
+    "T0004.middle": 1311142.0,
+    "T0004.inactive_reference": 12315.0,
+    "T0004.selected_l": 1003800.0
+   }
+  },
+  "all_l": {
+   "changed": 504,
+   "movement_changed": 503,
+   "action_changed": 101,
+   "target_changed": 140,
+   "valid_complete_orders": 10400,
+   "invalid_reply_exclusions": 0,
+   "by_count": {
+    "3": {
+     "changed": 47,
+     "turns": 800
+    },
+    "4": {
+     "changed": 37,
+     "turns": 800
+    },
+    "5": {
+     "changed": 80,
+     "turns": 800
+    },
+    "6": {
+     "changed": 31,
+     "turns": 800
+    },
+    "7": {
+     "changed": 31,
+     "turns": 800
+    },
+    "8": {
+     "changed": 31,
+     "turns": 800
+    },
+    "9": {
+     "changed": 27,
+     "turns": 800
+    },
+    "10": {
+     "changed": 28,
+     "turns": 800
+    },
+    "11": {
+     "changed": 26,
+     "turns": 800
+    },
+    "12": {
+     "changed": 41,
+     "turns": 800
+    },
+    "13": {
+     "changed": 37,
+     "turns": 800
+    },
+    "14": {
+     "changed": 38,
+     "turns": 800
+    },
+    "15": {
+     "changed": 50,
+     "turns": 800
+    }
+   },
+   "counters": {
+    "PONLY.builds": 1188571.0,
+    "PONLY.teams": 2795082.0,
+    "PONLY.act": 4205801.0,
+    "PONLY.target": 2219360.0,
+    "PONLY.fallback": 0.0,
+    "PONLY.inconsistent": 0.0,
+    "PONLY.skipped": 164612.0,
+    "SEARCH.calls": 10374.0,
+    "SEARCH.samples": 1301047.0,
+    "SEARCH.requested": 1327872.0,
+    "SEARCH.truncated": 0.0,
+    "SEARCH.rollouts": 12487185.0,
+    "SEARCH.plans": 260353.0,
+    "SEARCH.survivors": 20617.0,
+    "SEARCH.refines": 3296.0,
+    "SEARCH.refine_cuts": 0.0,
+    "T0004.branch_teams": 2713536.0,
+    "T0004.near": 1003800.0,
+    "T0004.far": 382749.0,
+    "T0004.middle": 1310896.0,
+    "T0004.inactive_reference": 12311.0,
+    "T0004.selected_l": 2713536.0
+   }
+  }
+ },
+ "paired_map_near_far_concentration_independently_recomputed": true,
+ "limitation": "Branch eligible prediction-call counters are observed; turn-level branch eligibility was not traced.10400 is the complete recorded-decision denominator per mode, including states with no eligible branch call. No strength or latency inference."
+}
