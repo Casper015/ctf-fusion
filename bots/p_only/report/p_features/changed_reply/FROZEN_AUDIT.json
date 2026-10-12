@@ -1,0 +1,11 @@
+{
+  "identity": "76a19544caa2caa667b55f41c499a8baac12d01304c25f6985418e298790d7e7",
+  "sources": {
+    "t0013_changed_audit.py": "4d1e563343c1b3fe289babc50b103c36a71ec794a3ba0d804b61db93a53b87f9",
+    "t0013_changed_audit_run.ps1": "d276e641339350aeaab765622dc5575d5b579521977f55b444931a66c5effb7b",
+    "t0013_changed_audit_monitor.ps1": "60874b2b20b70e05979d28b2b0d4dfdb4312925ae10f45252b8ef002fa6c5ef6",
+    "t0013_changed_finish.ps1": "6c71084d04f5407bb291b9d4c2f9f6a8fb33266d1e94d3f01b44f37e144fd247"
+  },
+  "policy": "wait for verified collection wrapper to exit and COMPLETE; then acquire new exclusive CPU lease; no automatic reruns",
+  "finisher_correction": "v1 exited before any audit: ConvertFrom-Json supplied datetime; reparsing culture string lost birth precision. v2 retains datetime ticks directly. Original collection never restarted."
+}
