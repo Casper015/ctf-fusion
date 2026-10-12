@@ -4,7 +4,7 @@ title: "Decision learning: action-gain scorer and reliable evaluation (code only
 status: active
 owner: claude-ci@caspers-macbook
 needs: []
-writes: [docs/RL_PLAN.md, fusion/decision_features.py, training/decision_dataset.py, training/decision_noise.py, training/train_decision_ranker.py, training/evaluate_decisions.py, training/export_weights.py, training/export_mixed.py, tests/test_decision_learning.py]
+writes: [docs/DIGEST.md, docs/RL_PLAN.md, fusion/decision_features.py, tests/test_decision_learning.py, training/decision_dataset.py, training/decision_noise.py, training/evaluate_decisions.py, training/export_mixed.py, training/export_weights.py, training/train_decision_ranker.py]
 depends: [T0011, T0030]
 land: pr
 branch: claude-ci/t0034-decision-learning-action-gain-scorer-and
@@ -86,3 +86,4 @@ Not started.
 
 - 2026-10-12 05:58Z codex-rl-plan@caspers-macbook: created
 - 2026-10-12 06:02Z claude-ci@caspers-macbook: claimed
+- 2026-10-12 06:16Z claude-ci@caspers-macbook: amended writes -> docs/DIGEST.md, docs/RL_PLAN.md, fusion/decision_features.py, tests/test_decision_learning.py, training/decision_dataset.py, training/decision_noise.py, training/evaluate_decisions.py, training/export_mixed.py, training/export_weights.py, training/train_decision_ranker.py
