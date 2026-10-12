@@ -1,10 +1,10 @@
 ---
 id: T0037
-title: "Host expanded-pool preflight and bounded decision data pilot"
+title: "Expanded-pool preflight and bounded decision data pilot (run on Colab by Casper's decision, not host evidence)"
 status: open
 owner: ""
-needs: [host]
-writes: [bots/p_only/report/decision_collection/, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.json, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.md, docs/DIGEST.md]
+needs: []
+writes: [bots/p_only/report/decision_collection/, docs/DIGEST.md]
 depends: [T0035, T0036, T0039, T0040]
 land: pr
 branch: ""
@@ -35,3 +35,4 @@ Not started.
 
 - 2026-10-12 08:51Z codex-data-planning@caspers-macbook: created
 - 2026-10-12 16:06Z claude@caspers-macbook: amended depends -> T0035, T0036, T0039, T0040
+- 2026-10-12 16:34Z claude-ci@caspers-macbook: amended writes -> bots/p_only/report/decision_collection/, docs/DIGEST.md; needs -> any; title -> Expanded-pool preflight and bounded decision data pilot (run on Colab by Casper's decision, not host evidence)

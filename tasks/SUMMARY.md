@@ -32,7 +32,7 @@ Open, but a dependency is not done yet.
 |---|---|---|---|
 | [T0002](T0002-p-only-stage-1-capacity-and-sampling.md) | host | T0001 | P-only stage 1: capacity and sampling screen at two plies |
 | [T0006](T0006-p-only-phase-5-tune-v-freeze-finalists.md) | host | T0005 | P-only phase 5: freeze the finalists and confirm them |
-| [T0037](T0037-host-expanded-pool-preflight-and-bounded.md) | host | T0040 | Host expanded-pool preflight and bounded decision data pilot |
+| [T0037](T0037-host-expanded-pool-preflight-and-bounded.md) | any | T0040 | Expanded-pool preflight and bounded decision data pilot (run on Colab by Casper's decision, not host evidence) |
 | [T0038](T0038-audit-expanded-decision-pilot-and-build.md) | host | T0037 | Audit expanded decision pilot and build source-bound training dataset |
 
 ## Done
