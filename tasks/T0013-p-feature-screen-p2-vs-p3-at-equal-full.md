@@ -1,7 +1,7 @@
 ---
 id: T0013
 title: "P feature screen: p2 vs p3 at equal full-turn time, V off, and extraction cost"
-status: review
+status: done
 owner: codex@desktop-g60ojud
 needs: [host]
 writes: [bots/p_only/report/p_features/, reports/host/feature_cost_DESKTOP-G60OJUD.json, reports/host/feature_cost_DESKTOP-G60OJUD.md]
@@ -21,11 +21,18 @@ bots/p_only/report/p_features/ and reports/host/feature_cost_DESKTOP-G60OJUD.* c
 
 ## Handoff
 
-*2026-10-12 06:27Z codex@desktop-g60ojud:*
+*2026-10-12 06:50Z codex-t13-review@caspers-macbook:*
 
-PR29 https://github.com/Casper015/ctf-fusion/pull/29 open for review; head c3b6e59cd87b4b6d68b3f1e4a265dd135e9d4bea, branch codex/t0013-p-features-host-evidence. All1960 official games (seed20261210, Voff, 2000/50ms, sixworkers) and actual-weight cost probes complete. v12 P3-P2 +.01102 CI[-.01761,.03965], C08+.00209[-.02559,.02977]: both and every prespecified band/reference comparison/interaction not shown. AA all280scorevectors identical. Independent audit checks1960rawgames/784000turnblocks/6664000allseat replies; zeroallseatfault/missinginvalid/candidatelate. Core224=223pass1platformskip, layout6pass; report/source/hash audits retained. P3costhigher, C08samplesP2/P3 360.1/276.0; not enough strength evidence to change defaults. No replay/export/retraining/defaultchange. reports bots/p_only/report/p_features/RESULTS.md and reports/host/feature_cost_DESKTOP-G60OJUD.*; user outputs/T0013 contains21GitLF reports/DELIVERY/transport. CI pending on exacthead; keep review until accepted. Finishedstages neverrestart, consumedseedneverreuse. T0032 remains separate candidate/budget, offline teacher not deployed.
+Completed: PR #29 https://github.com/Casper015/ctf-fusion/pull/29 reviewed and merged as 9bbe426b40401c1cdb23306c84330fbdc14e06ca; reviewed head c3b6e59cd87b4b6d68b3f1e4a265dd135e9d4bea. Casper explicitly authorized reviewer completion on 2026-10-11 (America/Los_Angeles). Independent delivery reviewer: codex-t13-review@caspers-macbook; original implementation owner retained.
+
+Experiment delivered: 280 paired independent map fixtures / 1960 official 2000/50 ms games, V off, seed 20261210 consumed. v12 P3-P2 +0.01102 CI[-0.01761,+0.03965]; C08 +0.00209 CI[-0.02559,+0.02977]. Both carriers and all prespecified bands show no demonstrated strength gain. A/A score vectors identical on all 280 maps. Zero all-seat faults, missing/invalid replies and candidate late replies in the committed host audit. Actual-weight cost artifacts present; P3 costs more and C08 sample ratios remain descriptive.
+
+Acceptance verified against the task: report-only scope, 1960 raw-receipt identities, 784000 turn-block / 6664000 reply arithmetic, published comparison/audit consistency, all five embedded source hashes/byte counts and Python syntax. Inspected independent audit score/utility/pairing/interval logic. Exact-head CI and Bots workflows succeeded. Reviewer did not rerun the retained host raw corpus, games, cost probes or predictions; SEARCH ratios and individual timing-percentile recomputation limits remain explicit.
+
+Reports: bots/p_only/report/p_features/RESULTS.md and reports/host/feature_cost_DESKTOP-G60OJUD.*. Defaults/models stay unchanged. T0013 is complete as an experiment, not P3 deployment approval. T0032 is separate; do not repeat finished stages, add endpoint games or reuse seed 20261210.
 
 ## Log
 
 - 2026-10-10 19:24Z claude@caspers-macbook: created
 - 2026-10-12 06:27Z codex@desktop-g60ojud: handoff -> review
+- 2026-10-12 06:50Z codex-t13-review@caspers-macbook: user-authorized review accepted -> done; PR #29 merged 9bbe426b40401c1cdb23306c84330fbdc14e06ca; implementation owner retained
