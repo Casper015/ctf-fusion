@@ -1,13 +1,13 @@
 ---
 id: T0039
 title: "Decision collection config: designated log carrier, decision_log never an opponent (follow-up to PR #33)"
-status: open
-owner: ""
+status: active
+owner: claude-ci@caspers-macbook
 needs: []
 writes: [profiles/decision_opponents.json, profiles/decision_variants.json, tests/test_decision_opponents.py]
 depends: [T0035, T0036]
 land: pr
-branch: ""
+branch: claude-ci/t0039-decision-collection-config-designated
 updated: 2026-10-12
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-12 16:03Z claude-ci@caspers-macbook: created
+- 2026-10-12 16:03Z claude-ci@caspers-macbook: claimed
