@@ -188,7 +188,9 @@ def prepare(schedule_path: Path, out_dir: Path, root: Path | None, builders=None
     variant, source = builders or default_builders()
     members = {m["name"]: m for m in reg["members"]}
     d = reg["designated"]
-    designated = variant(d["variant"], out_dir / "bots", bool(d.get("stats")))
+    # The designated carrier has its own build directory: the same variant can also be an opponent (built without
+    # PONLY_STATS), and one directory would let one bundle overwrite the other's source file.
+    designated = variant(d["variant"], out_dir / "designated", bool(d.get("stats")))
     needed = sorted({n for f in sched["fixtures"] for n in f["opponents"]})
     opponents = {}
     for name in needed:

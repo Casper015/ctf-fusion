@@ -304,6 +304,16 @@ class FreezeAndResume(unittest.TestCase):
         with self.assertRaises(SystemExit):
             C.prepare(other, self.tmp / "run2", None, self.builders, self.ENGINE, self.COMPILER, self.reg)
 
+    def test_designated_is_built_apart_from_a_same_named_opponent(self):
+        sched = json.loads(self.sched.read_text())
+        sched["fixtures"][0]["opponents"][0] = "v12_ponly_xxl"          # the designated policy also seated as an opponent
+        sched["fixtures"][0]["units"][0] = "self"
+        other = self.tmp / "self.json"
+        other.write_text(json.dumps(sched))
+        frozen = C.prepare(other, self.tmp / "run3", None, self.builders, self.ENGINE, self.COMPILER, self.reg)
+        self.assertNotEqual(frozen["designated"]["binary"], frozen["opponents"]["v12_ponly_xxl"]["binary"])
+        self.assertEqual(O.sha256_file(frozen["designated"]["binary"]), frozen["designated"]["binary_sha256"])
+
     def test_frozen_records_every_identity(self):
         f = self.frozen
         for key in ("registry", "pool_identity", "schedule", "designated", "opponents", "compiler", "engine", "runner",
