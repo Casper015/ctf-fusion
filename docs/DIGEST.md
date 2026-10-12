@@ -148,7 +148,7 @@ Other points from the review:
 
 ## Models: capacity, features, offline gates
 
-**Sources:** [LARGER_MODEL_EXPERIMENTS.md](LARGER_MODEL_EXPERIMENTS.md), [FEATURE_FAMILIES.md](FEATURE_FAMILIES.md), [V_CAPACITY_5XL.md](V_CAPACITY_5XL.md), [reports/models/](../reports/models/), [MODEL_EXPORT_REVIEW_8595c36.md](../reports/reviews/MODEL_EXPORT_REVIEW_8595c36.md), [TIER_M_REVIEW_AND_L_XL_XXL_TEST_PLAN_7c3f26d.md](../reports/reviews/TIER_M_REVIEW_AND_L_XL_XXL_TEST_PLAN_7c3f26d.md)
+**Sources:** [LARGER_MODEL_EXPERIMENTS.md](LARGER_MODEL_EXPERIMENTS.md), [FEATURE_FAMILIES.md](FEATURE_FAMILIES.md), [V_CAPACITY_5XL.md](V_CAPACITY_5XL.md), [RL_PLAN.md](RL_PLAN.md), [P_MIXED_PRECISION.md](P_MIXED_PRECISION.md), [reports/models/](../reports/models/), [MODEL_EXPORT_REVIEW_8595c36.md](../reports/reviews/MODEL_EXPORT_REVIEW_8595c36.md), [TIER_M_REVIEW_AND_L_XL_XXL_TEST_PLAN_7c3f26d.md](../reports/reviews/TIER_M_REVIEW_AND_L_XL_XXL_TEST_PLAN_7c3f26d.md)
 
 **Tiers and the offline gate.** The test split holds out maps. Each count uses its dedicated model, and the general model for 9, 11, 13 and 14. The means are over all 14 counts. The gain is q_H's loss minus that of the gated mixture, which gives P a weight α between 0.94 and 0.99. Every count passes the gate in every tier.
 
@@ -202,6 +202,21 @@ The presets therefore stop at XXL. Wider nets can only be offline teachers. Capa
 - **Cost.** One 5XL V call takes 1.44 ms alone and 2.91 ms at p99 with 15 copies running. The production reference stays `inference/models_pxxl_v3xl`.
 
 **V pilot reports** (`reports/models/v_pilot/`). V3-XL test log loss is 0.543. Its selection regret is 0.087 [0.012, 0.162], against 0.097 for the on-policy choice and 0.130 for uniform. That is over 15 roots: 37 resolved and 53 uncertain pairs.
+
+**Mixed-precision P** (P_MIXED_PRECISION, T0030; code only).
+- **Three profiles.** reference16 is the legacy INT16 export. uniform8 is 8-bit everywhere. mixed4_8 puts 4-bit weights in the squad head's hidden layers.
+- **The format.** 32-column blocks, explicit integer bounds, and a Python emulation that the C++ kernels match exactly (reference, scalar, SSE2, AVX2, NEON).
+- **The training side:** activation-aware calibration, a distillation and QAT interface (CE plus teacher KL, 50/50 to start), and precision-aware cache keys with low-precision screening and high-precision verification.
+- **Off by default.** Everything is behind `PONLY_PRECISION` and `PONLY_PRECISION_ROUTE`.
+- **Storage** of the XXL P relative to INT16: uniform8 about 0.52, mixed4_8 about 0.42.
+- **Not done:** nothing is trained, exported for a carrier, timed or played.
+
+**RL plan** (RL_PLAN, T0033; a plan, nothing run). It replaces or augments supervised V in three stages, each with a numeric kill rule.
+- **Stage 1: preference optimization** on T0010's 13,702 branch roots. Two arms: V-rank (`--rank-weight`, a critic ranking) and DPO on an own-seat P3 policy.
+- **Noise and power checks come first.** A/A resolution rate against 0.360; minimum detectable effect about 0.006.
+- **Gate.** Δ = y(choice) − y(on-policy) on the test split, read once, equal count weights, clustered by map.
+- **Stages 2 and 3.** Offline RL over the carrier's shortlist, then expert iteration with V as critic: about 4 h (v12) or 14 h (C08) of host time per iteration.
+- **Contradictions it flags.** T0010's data is p2 (re-collection is required before any screen), its rank data is pending a host re-audit, and the Refresh rule must also cover changes to P or an actor.
 
 ## The host: environment, speed, capacity
 
