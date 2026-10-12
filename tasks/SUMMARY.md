@@ -13,7 +13,7 @@ Someone holds these; their `writes` are reserved.
 | [T0025](T0025-p-on-unseen-opponents-offline-check-on.md) | review | codex@desktop-g60ojud | P on unseen opponents: offline check on the two reserved lineages | reports/models/p_ood/, tests/test_repo_layout.py |
 | [T0031](T0031-p-distillation-on-the-gpu-torch-warmup.md) | review | claude@caspers-macbook | P distillation on the GPU: torch warmup/distill stages and T0011 cache reader | docs/P_MIXED_PRECISION.md, fusion/torch_qat.py, tests/test_distill_gpu.py, tests/test_precision.py, tests/test_torch_backend.py, training/distill_policy.py |
 | [T0032](T0032-p3-distillation-run-on-a-colab-a100-6xl.md) | active | claude@caspers-macbook | P3 distillation run on a Colab A100: 6XL teacher, XXL warmup/distill/QAT, three seeds | reports/models/p_distill/ |
-| [T0034](T0034-decision-learning-action-gain-scorer-and.md) | active | claude-ci@caspers-macbook | Decision learning: action-gain scorer and reliable evaluation (code only) | docs/DIGEST.md, docs/RL_PLAN.md, fusion/decision_features.py, tests/test_decision_learning.py, training/decision_dataset.py, training/decision_noise.py, training/evaluate_decisions.py, training/export_mixed.py, training/export_weights.py, training/train_decision_ranker.py |
+| [T0034](T0034-decision-learning-action-gain-scorer-and.md) | active | claude-ci@caspers-macbook | Decision learning: action-gain scorer and reliable evaluation (code only) | docs/DIGEST.md, docs/MARKDOWN_INDEX.md, docs/RL_PLAN.md, fusion/decision_features.py, tests/test_decision_learning.py, training/decision_dataset.py, training/decision_noise.py, training/evaluate_decisions.py, training/export_mixed.py, training/export_weights.py, training/train_decision_ranker.py |
 
 ## Ready to claim
 
