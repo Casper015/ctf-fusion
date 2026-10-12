@@ -4,7 +4,7 @@ title: "P3 distillation run on Colab: 8XL teacher, XXL warmup/distill/QAT, three
 status: review
 owner: claude@caspers-macbook
 needs: []
-writes: [reports/models/p_distill/]
+writes: [reports/models/p_distill/, tests/test_repo_layout.py]
 depends: []
 land: pr
 branch: claude/t0032-p3-distillation-run-on-a-colab-a100-6xl
@@ -60,3 +60,4 @@ Not done / next:
 - 2026-10-12 09:44Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/34 opened (report commit 1017dd8). QAT done 08:54Z: mixed4_8 integer-forward val 2.10465 / 2.10861 / 2.10461. Calibrated per head, distill minus warmup: joint -0.01396 / -0.01188 / -0.01062, act +0.00029 / +0.00071 / +0.00074, target ~0. Colab runtime disconnected and deleted at Casper's request.
 - 2026-10-12 09:45Z claude@caspers-macbook: handoff -> review
 - 2026-10-12 09:45Z claude@caspers-macbook: amended title -> P3 distillation run on Colab: 8XL teacher, XXL warmup/distill/QAT, three seeds
+- 2026-10-12 09:46Z claude@caspers-macbook: amended writes -> reports/models/p_distill/, tests/test_repo_layout.py
