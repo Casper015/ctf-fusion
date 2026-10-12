@@ -48,6 +48,7 @@
 #include "adapter.hpp"
 #include "value.hpp"
 #include "state.hpp"
+#include "decision_hook.hpp"
 #ifndef PONLY_POLICY_FAMILY
 #define PONLY_POLICY_FAMILY 2
 #endif
@@ -1085,7 +1086,14 @@ struct Planner {
         }}
         for(int team=0;team<g.teams;team++)if(team!=g.me)value-=15*(after.score[team]-before.score[team]);return value;
     }
+#if PONLY_DECISION
+    ponly_decision::Log dlog;  // the shortlist this turn's reply was chosen from (decision_hook.hpp)
+    string decisionOrder(const Game& g,const array<vector<ctfcombat::Move>,3>& opts,const ctfcombat::Choice& c)const{
+        string o;for(int k=0;k<3;k++){int m=c.moveIndex[k];if(m<0||m>=(int)opts[k].size())m=0;
+            if(k)o+=' ';o+=opts[k][m].code;o+=' ';o+=ponlyActionText(c.target[k],g.units[3*g.me+k].flag>=0);}return o;}
+#endif
     ctfcombat::Choice refine(const Game& g,const array<Task,3>& jobs,const array<vector<ctfcombat::Move>,3>& initialOptions,vector<ctfcombat::Choice> beam,ctfcombat::Choice fallback){
+        PONLY_DLOG(dlog.stage="beam";for(const auto& c:beam)dlog.add(decisionOrder(g,initialOptions,c),c.value,"beam");dlog.add(decisionOrder(g,initialOptions,fallback),fallback.value,"choose"));
         int near=0;for(auto& e:foes){bool close=false;for(int k=0;k<3;k++)if(pos[3*g.me+k]>=0&&man(pos[3*g.me+k],nav.cell(e.u.p.x,e.u.p.y))<=5)close=true;near+=close;}
         if(near==0||near>9)return fallback;
         ctfcombat::Choice bestVolley;for(auto& c:beam)if(c.target[0]>=0&&c.target[1]>=0&&c.target[2]>=0&&c.value>bestVolley.value)bestVolley=c;
@@ -1096,10 +1104,10 @@ struct Planner {
         // Alternatives join after the base candidates, deduplicated by complete order.
         const size_t baseCount=beam.size();
         for(const auto& a:portfolioAlts){bool dup=false;for(const auto& b:beam)dup=dup||(b.moveIndex==a.moveIndex&&b.target==a.target);
-            if(!dup){beam.push_back(a);portStats.refined++;}}
+            if(!dup){beam.push_back(a);portStats.refined++;PONLY_DLOG(dlog.add(decisionOrder(g,initialOptions,a),a.value,"portfolio"));}}
         {int same=0;for(size_t i=0;i<beam.size();i++)for(size_t j=i+1;j<beam.size();j++)same+=beam[i].moveIndex==beam[j].moveIndex;portStats.sameMove+=same>0;}
 #endif
-        auto deadline=chrono::steady_clock::now()+chrono::milliseconds(PONLY_REFINE_MS);Sim start=initialSim(g);
+        auto deadline=chrono::steady_clock::now()+chrono::milliseconds(PONLY_REFINE_MS);Sim start=initialSim(g);PONLY_DLOG(dlog.stage="refine");
         double best=-1e100;ctfcombat::Choice answer=fallback;
 #if MOD_FUSION_V
         double bestH=-1e100;ctfcombat::Choice answerH=fallback;  // the same choice without V
@@ -1112,9 +1120,9 @@ struct Planner {
                 if(chrono::steady_clock::now()>deadline||PONLY_CUT_TEST(&candidate-beam.data())){
 #if PONLY_PORTFOLIO_K
                     // Inside the alternatives every base candidate has been compared: keep the best so far.
-                    if(size_t(&candidate-beam.data())>=baseCount&&best>-1e99){portStats.cut++;return answer;}
+                    if(size_t(&candidate-beam.data())>=baseCount&&best>-1e99){portStats.cut++;PONLY_DLOG(dlog.stage="cut");return answer;}
 #endif
-                    return fallback;}
+                    PONLY_DLOG(dlog.stage="cut");return fallback;}
                 Sim one=start;array<int,3> acts=candidate.target;
                 // Ply 1: the rivals' orders from the network at the root.
                 vector<int> want,act;rivalOrders(g,fSession.view,one,model,11,want,act);
@@ -1154,16 +1162,17 @@ struct Planner {
 #if MOD_FUSION_V
             if(scenarios==2&&candidate.value+totalH>bestH){bestH=candidate.value+totalH;answerH=candidate;}
 #endif
+            if(scenarios==2)PONLY_DLOG(dlog.refined(decisionOrder(g,initialOptions,candidate),candidate.value+total));
             if(scenarios==2&&candidate.value+total>best){best=candidate.value+total;answer=candidate;}
         }
 #if MOD_FUSION_V
-        if(vCut){vFallbacks++;answer=answerH;}  // V was cut in this decision: its choice without V
+        if(vCut){vFallbacks++;answer=answerH;PONLY_DLOG(dlog.stage="v_cut");}  // V was cut in this decision: its choice without V
         if(fSession.model&&fSession.model->value){vDecisions++;if(answer.moveIndex!=answerH.moveIndex||answer.target!=answerH.target)vChanged++;}
 #endif
         return answer;
     }
     string decide(Game& g){
-        vTurnBegin();fSession.update(g);fSession.report(g);valueReport(g);vBudgetReport(g);portfolioReport(g);
+        PONLY_DLOG(dlog.clear());vTurnBegin();fSession.update(g);fSession.report(g);valueReport(g);vBudgetReport(g);portfolioReport(g);
         if(!initialized){nav.init(g);initialized=true;}respawns(g);forecast(g);auto jobs=assign(g);
         array<ctfcombat::Fighter,3> own;array<vector<ctfcombat::Move>,3> options;
         for(int k=0;k<3;k++){
@@ -1204,6 +1213,7 @@ struct Planner {
         string out=to_string(g.turn);
         for(int k=0;k<3;k++){int m=choice.moveIndex[k],target=choice.target[k];if(m<0||m>=(int)options[k].size())m=0;
             out+=' ';out+=options[k][m].code;out+=' ';out+=ponlyActionText(target,g.units[3*g.me+k].flag>=0);}
+        PONLY_DLOG(out+=dlog.comment(out.substr(out.find(' ')+1),ponly_decision::rootDigest(g)));
         prev=g.units;return out;
     }
 };

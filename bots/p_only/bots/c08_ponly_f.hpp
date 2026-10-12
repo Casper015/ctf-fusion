@@ -95,6 +95,7 @@
 #include "adapter.hpp"
 #include "value.hpp"
 #include "state.hpp"
+#include "decision_hook.hpp"
 #ifndef PONLY_POLICY_FAMILY
 #define PONLY_POLICY_FAMILY 2
 #endif
@@ -2532,6 +2533,12 @@ struct Planner {
         restoreRuntime(saved);decisionDeadline=outer;return answer;
     }
 
+#if PONLY_DECISION
+    ponly_decision::Log dlog;  // the shortlist this turn's reply was chosen from (decision_hook.hpp)
+    string decisionOrder(const array<vector<ctfcombat::Move>,3>& opts,const ctfcombat::Choice& c)const{
+        string o;for(int k=0;k<3;k++){int m=c.moveIndex[k];if(m<0||m>=(int)opts[k].size())m=0;
+            if(k)o+=' ';o+=opts[k][m].code;o+=' ';o+=Action::fromTarget(c.target[k]).text();}return o;}
+#endif
     Decision planTurn(Game& g,bool refineAllowed){
         const auto planStart=chrono::steady_clock::now();
         if(refineAllowed)decisionDeadline=chrono::steady_clock::now()+chrono::milliseconds(g.turn==1?1800:PONLY_TURN_MS);
@@ -2569,6 +2576,7 @@ struct Planner {
         // per-turn thinking budget; its ranking seeds the checked lookahead.
         const bool deep=refineAllowed&&active(g).expectimax&&g.turn>1&&!foes.empty();vector<ctfcombat::Choice> all;
         auto choice=ctfcombat::choose(g.map,own,options,foes,params,refine?&beam:nullptr,&decisionDeadline,deep?&all:nullptr);
+        PONLY_DLOG(if(refineAllowed){dlog.stage="choose";for(const auto& c:beam)dlog.add(decisionOrder(options,c),c.value,"beam");dlog.add(decisionOrder(options,choice),choice.value,"choose");});
 #if PONLY_PORTFOLIO_K
         if(refineAllowed){portfolioFrom=-1;portfolioAlts.clear();
           if((deep||refine)&&std::isfinite(choice.value)&&chrono::steady_clock::now()<decisionDeadline){
@@ -2605,6 +2613,7 @@ struct Planner {
             decisionDeadline=min(decisionDeadline,budget);
 #endif
             if(!ranked.empty()){choice=ranked[0];beam.assign(ranked.begin(),ranked.begin()+min<size_t>(8,ranked.size()));
+                PONLY_DLOG(if(refineAllowed){dlog.clear();dlog.stage="search";dlog.survivors=lastSearch.survivors;for(size_t i=0;i<ranked.size();i++)dlog.add(decisionOrder(options,ranked[i]),ranked[i].value,int(i)<lastSearch.survivors?"survivor":"search");});
 #if MOD_FUSION_V
                 if (fSession.model && fSession.model->value && beam.size() > 1 && !refineGate(g)) {
                     // One scenario, every rival on its most probable order (model 0), settled
@@ -2631,12 +2640,12 @@ struct Planner {
                     }
                     if(vCut){vFallbacks++;bestChoice=choice;}  // V was cut: keep the search's own choice
                     vDecisions[1]++;if(bestChoice.moveIndex!=choice.moveIndex||bestChoice.target!=choice.target)vChanged[1]++;
-                    choice = bestChoice;
+                    choice = bestChoice;PONLY_DLOG(if(refineAllowed)dlog.stage+="+v");
                 }
 #endif
             }
         }
-        if(refine)choice=refineChecked(g,options,beam,choice);
+        if(refine){choice=refineChecked(g,options,beam,choice);PONLY_DLOG(dlog.checked=true);}
         Decision result;
         for(int k=0;k<3;k++){int m=choice.moveIndex[k],t=choice.target[k];if(m<0||m>=(int)options[k].size())m=0;
             result.move[k]=options[k][m].code;auto p=options[k][m].p;result.wanted[k]=p.x<0?-1:nav.cell(p.x,p.y);result.actions[k]=Action::fromTarget(t);}
@@ -2644,8 +2653,8 @@ struct Planner {
     }
     string decide(Game& g){
         if(!initialized){nav.init(g);initialized=true;}
-        vTurnBegin();auto result=planTurn(g,true);fSession.report(g);searchReport(g);vBudgetReport(g);portfolioReport(g);
-        string out=to_string(g.turn);for(int k=0;k<3;k++){out+=' ';out+=result.move[k];out+=' ';out+=result.actions[k].text();}prev=g.units;return out;}
+        PONLY_DLOG(dlog.clear());vTurnBegin();auto result=planTurn(g,true);fSession.report(g);searchReport(g);vBudgetReport(g);portfolioReport(g);
+        string out=to_string(g.turn);for(int k=0;k<3;k++){out+=' ';out+=result.move[k];out+=' ';out+=result.actions[k].text();}PONLY_DLOG(out+=dlog.comment(out.substr(out.find(' ')+1),ponly_decision::rootDigest(g)));prev=g.units;return out;}
 };
 }  // namespace multi
 
@@ -3087,6 +3096,7 @@ public:
         string out=to_string(g.turn);
         for(int k=0;k<3;k++) {out+=' ';out+=mc[bm[k]];out+=' ';out+=ba[k]>=0?to_string(pred[ba[k]].id):"P";}
         for(int id=0;id<(int)u.size();id++){oldp[id]=pos[id];oldhp[id]=u[id].hp;}
+        PONLY_DLOG(ponly_decision::Log d;d.stage="duel";out+=d.comment(out.substr(out.find(' ')+1),ponly_decision::rootDigest(g)));
         return out;
     }
 };
