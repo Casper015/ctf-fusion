@@ -1,7 +1,7 @@
 ---
 id: T0025
 title: "P on unseen opponents: offline check on the two reserved lineages"
-status: active
+status: done
 owner: codex-review@caspers-macbook
 needs: [host]
 writes: [reports/models/p_ood/, tests/test_repo_layout.py]
@@ -21,9 +21,9 @@ No report measures P on opponents it never trained against. Every gate report ha
 
 ## Handoff
 
-*2026-10-12 05:20Z codex@desktop-g60ojud:*
+*2026-10-12 16:09Z codex-review@caspers-macbook:*
 
-Ready for review: PR #27 https://github.com/Casper015/ctf-fusion/pull/27; head 357eb252e3810054cc4b5f3e162dd0ce0e3ca082, branch codex/t0025-unseen-lineage-evidence. Frozen measurement source de5dece1b90206684e06d82617d772e82d6658a3, consumed seed 20261250: 300 official games, 224000 valid reserved-lineage rows, zero all-seat faults. Full source/training-lineage/raw audits, 28 native/actual-NPZ parity cases, pure-P/qH/inertia/uniform offline scoring and 168-cohort independent metric audit complete. XL/XXL NLL 2.113965/2.103551; XXL minus XL -0.010414 nats CI[-0.012779,-0.008049], not a playing-strength result. Reports/models/p_ood/RESULTS.md, CHECKS.md and reproduction/receipts committed. All 224 core tests covered: 223 pass, one platform skip; six layout checks pass. T0030 now done releases registration lane; only p_ood registration added. Exact-head CI pending. No replay/training/export/default change; do not restart successful stages. User authorized status bookkeeping; keep review until accepted/merged.
+Accepted and verified merged: PR #27 (9350d8ca9afc81932de36056abf3a025cf98d406). Review https://github.com/Casper015/ctf-fusion/pull/27#pullrequestreview-5493228470. Report in reports/models/p_ood/: 300 maps, 224000 valid reserved-lineage rows; prediction metrics only. Exact-head CI succeeds, local report-layout checks pass. Existing native/168-cohort audits inspected; no successful measured stage rerun. Closing stale review status under Casper's explicit authorization to approve current PRs and reconcile tasks.
 
 ## Log
 
@@ -31,3 +31,4 @@ Ready for review: PR #27 https://github.com/Casper015/ctf-fusion/pull/27; head 3
 - 2026-10-12 05:20Z codex@desktop-g60ojud: handoff -> review
 - 2026-10-12 16:08Z codex-review@caspers-macbook: note: Casper explicitly authorized acceptance/status reconciliation; reviewed merged deliverable before reviewer takeover.
 - 2026-10-12 16:08Z codex-review@caspers-macbook: claimed (forced)
+- 2026-10-12 16:09Z codex-review@caspers-macbook: done
