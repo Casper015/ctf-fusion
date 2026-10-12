@@ -26,3 +26,6 @@ C08 P2 averaged 360.1 samples per search call and P3 276.0 (both requested 512).
 Seed preparation checked the original ID index, all 50,000 actual T0028 records and inspected previous schedule files; no map intersection or prior formal schedule with this master was found. This is limited to those recorded inputs, not a universal historical-map claim. The seed is now consumed.
 
 No game replay, retraining, model export or default/routing change. T0032 is a separate future candidate set and game budget; its offline teacher is not deployed. T0013 ends at this endpoint. See [INDEPENDENT_AUDIT.json](INDEPENDENT_AUDIT.json) for audit limits and [REPRODUCE.md](REPRODUCE.md) for commands and exact helper source.
+
+
+A separate zero-new-game P2/P3 branch diagnostic and saved distance-band/v12-cost readout are in [marginal/RESULTS.md](marginal/RESULTS.md). It preserves the bounded screen verdict above.

@@ -1,0 +1,1151 @@
+{
+ "identity": "0f1cef3ca220ac3a38e725c9310da650a61eb811ae9d65f7af893a1a40d60456",
+ "modes": {
+  "original": {
+   "changed_replies": 0,
+   "turns": 10400,
+   "root_digest_mismatches": 0,
+   "truncated": 0,
+   "maps": [
+    {
+     "fixture_id": "s20261210-n03-m00001",
+     "teams": 3,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "fb12d8a20d29e9693ecb46ad71b881340e72500738c2c53f9767b0fa8da96784"
+    },
+    {
+     "fixture_id": "s20261210-n03-m00000",
+     "teams": 3,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "64043c82efec43426b04b7989f240dba6779dcdd76e415e4b6f6ef73f8f61ac5"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00000",
+     "teams": 4,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "ebf4310300ff505fa4c61d1aa3389049b8661cfae975116895853d1a7f9435ad"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00001",
+     "teams": 4,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "3ffc9b9c6e98c539f639ee6ae888b5df1db839b0a149c38229b08e9f1da8ef88"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00000",
+     "teams": 5,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "d3d81987f9126fd359e8d6b069b23e92dea702c9b84290583db9117a7e8f4d96"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00000",
+     "teams": 6,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "af52985eca3d17cbb5df6e82f06dee9354260ad4448b49a9ee4becfa553e0d99"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00001",
+     "teams": 5,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "504d4c7ba74b977157abad0c9911ada8b3193a2cd32b0d25262cc52e01951133"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00001",
+     "teams": 6,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "388cf4494f0f87268fcafbf8fc16955eb4cf2e98856bdad65a19628618bcddea"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00000",
+     "teams": 7,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "13e431cd712611a974e611a6ead9876665315a7dc58aeef3bdfa56df6087ae8a"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00001",
+     "teams": 7,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "fbc4cedb471e0022e0b19b5b1d374fd0d84724d2866d53df38eb1abec8c19948"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00001",
+     "teams": 8,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "ef390102a25fab434baca33bd7b99957f048a1c2c73d489c9cbdbe00a4bec944"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00000",
+     "teams": 8,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "f0a263855fc158ff420af09bd62a61fe8fa0e9161dc5066056bc760c735b3f69"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00000",
+     "teams": 9,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "222509856eba312d893e509ca5b86587964af8ef9abba2fde1269bc60ccb5e8e"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00001",
+     "teams": 9,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "3eb8d823708f6b0b3ae694455f9605eb824f5bdb96d1b9719ded83e166da6bee"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00000",
+     "teams": 10,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "bcd5ac1031e6ffdafb9a6b0eee499b077b687b40158d355021b350ca83893187"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00001",
+     "teams": 10,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "05bd6eae585d5d696a1c4b36e5c0294f8482c45e03444f185e4c7cce18f833cd"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00001",
+     "teams": 11,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "d14b05463606c9810471c5b1df319063b514638ac928e412a34467e2327aa0f0"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00000",
+     "teams": 12,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "6e1b4d0a938643acdc5eead9a25380013f306f59d6c862ef1c37b26cd394c879"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00000",
+     "teams": 11,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "c08c142749a5262be718d176a7d89f4683bfd681239b66a6027c4ef80c3d2ac1"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00001",
+     "teams": 12,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "252c120d8de3e723dc66e21954d8b7f41acddaf617e159a660e4f94095bec8f0"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00000",
+     "teams": 14,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "47b7295dc3eece6d386c1a136891cc6a62ab770cb0e9d5cff679e55ae0728253"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00000",
+     "teams": 13,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "f3d6426db333fb61d343029bbb5314251f787eca3ab37cb94ad4548ca8d499a4"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00001",
+     "teams": 13,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "681560b35f9535793f930c2e73eb350f007889a5cf8c18f734ec42e0364c32c4"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00001",
+     "teams": 14,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "7c3c7548a46a36c0e340fd7493f771aee055fb7d99cf9c7cd3f371657507e8a1"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00000",
+     "teams": 15,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "0cc6c2f83bec4b258b11890f2ed09b7efb7e8dd7a8b96c9f6a4d6c70ef22e6c6"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00001",
+     "teams": 15,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "838a21f61d8160924d9f110bf4832fd1cc85027977b1f02aa71c6208416f8901"
+    }
+   ]
+  },
+  "disabled": {
+   "changed_replies": 0,
+   "turns": 10400,
+   "root_digest_mismatches": 0,
+   "truncated": 0,
+   "maps": [
+    {
+     "fixture_id": "s20261210-n03-m00001",
+     "teams": 3,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "fb12d8a20d29e9693ecb46ad71b881340e72500738c2c53f9767b0fa8da96784"
+    },
+    {
+     "fixture_id": "s20261210-n03-m00000",
+     "teams": 3,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "64043c82efec43426b04b7989f240dba6779dcdd76e415e4b6f6ef73f8f61ac5"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00000",
+     "teams": 4,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "ebf4310300ff505fa4c61d1aa3389049b8661cfae975116895853d1a7f9435ad"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00001",
+     "teams": 4,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "3ffc9b9c6e98c539f639ee6ae888b5df1db839b0a149c38229b08e9f1da8ef88"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00000",
+     "teams": 5,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "d3d81987f9126fd359e8d6b069b23e92dea702c9b84290583db9117a7e8f4d96"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00001",
+     "teams": 5,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "504d4c7ba74b977157abad0c9911ada8b3193a2cd32b0d25262cc52e01951133"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00000",
+     "teams": 6,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "af52985eca3d17cbb5df6e82f06dee9354260ad4448b49a9ee4becfa553e0d99"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00001",
+     "teams": 6,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "388cf4494f0f87268fcafbf8fc16955eb4cf2e98856bdad65a19628618bcddea"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00000",
+     "teams": 7,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "13e431cd712611a974e611a6ead9876665315a7dc58aeef3bdfa56df6087ae8a"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00001",
+     "teams": 7,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "fbc4cedb471e0022e0b19b5b1d374fd0d84724d2866d53df38eb1abec8c19948"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00000",
+     "teams": 8,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "f0a263855fc158ff420af09bd62a61fe8fa0e9161dc5066056bc760c735b3f69"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00001",
+     "teams": 8,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "ef390102a25fab434baca33bd7b99957f048a1c2c73d489c9cbdbe00a4bec944"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00000",
+     "teams": 9,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "222509856eba312d893e509ca5b86587964af8ef9abba2fde1269bc60ccb5e8e"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00001",
+     "teams": 9,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "3eb8d823708f6b0b3ae694455f9605eb824f5bdb96d1b9719ded83e166da6bee"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00000",
+     "teams": 10,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "bcd5ac1031e6ffdafb9a6b0eee499b077b687b40158d355021b350ca83893187"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00001",
+     "teams": 10,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "05bd6eae585d5d696a1c4b36e5c0294f8482c45e03444f185e4c7cce18f833cd"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00000",
+     "teams": 12,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "6e1b4d0a938643acdc5eead9a25380013f306f59d6c862ef1c37b26cd394c879"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00000",
+     "teams": 11,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "c08c142749a5262be718d176a7d89f4683bfd681239b66a6027c4ef80c3d2ac1"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00001",
+     "teams": 11,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "d14b05463606c9810471c5b1df319063b514638ac928e412a34467e2327aa0f0"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00001",
+     "teams": 12,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "252c120d8de3e723dc66e21954d8b7f41acddaf617e159a660e4f94095bec8f0"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00000",
+     "teams": 14,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "47b7295dc3eece6d386c1a136891cc6a62ab770cb0e9d5cff679e55ae0728253"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00000",
+     "teams": 13,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "f3d6426db333fb61d343029bbb5314251f787eca3ab37cb94ad4548ca8d499a4"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00001",
+     "teams": 13,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "681560b35f9535793f930c2e73eb350f007889a5cf8c18f734ec42e0364c32c4"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00001",
+     "teams": 14,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "7c3c7548a46a36c0e340fd7493f771aee055fb7d99cf9c7cd3f371657507e8a1"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00000",
+     "teams": 15,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "0cc6c2f83bec4b258b11890f2ed09b7efb7e8dd7a8b96c9f6a4d6c70ef22e6c6"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00001",
+     "teams": 15,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "838a21f61d8160924d9f110bf4832fd1cc85027977b1f02aa71c6208416f8901"
+    }
+   ]
+  },
+  "branch_p2": {
+   "changed_replies": 0,
+   "turns": 10400,
+   "root_digest_mismatches": 0,
+   "truncated": 0,
+   "maps": [
+    {
+     "fixture_id": "s20261210-n03-m00001",
+     "teams": 3,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "fb12d8a20d29e9693ecb46ad71b881340e72500738c2c53f9767b0fa8da96784"
+    },
+    {
+     "fixture_id": "s20261210-n03-m00000",
+     "teams": 3,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "64043c82efec43426b04b7989f240dba6779dcdd76e415e4b6f6ef73f8f61ac5"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00000",
+     "teams": 4,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "ebf4310300ff505fa4c61d1aa3389049b8661cfae975116895853d1a7f9435ad"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00001",
+     "teams": 4,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "3ffc9b9c6e98c539f639ee6ae888b5df1db839b0a149c38229b08e9f1da8ef88"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00000",
+     "teams": 5,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "d3d81987f9126fd359e8d6b069b23e92dea702c9b84290583db9117a7e8f4d96"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00001",
+     "teams": 5,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "504d4c7ba74b977157abad0c9911ada8b3193a2cd32b0d25262cc52e01951133"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00000",
+     "teams": 6,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "af52985eca3d17cbb5df6e82f06dee9354260ad4448b49a9ee4becfa553e0d99"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00001",
+     "teams": 6,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "388cf4494f0f87268fcafbf8fc16955eb4cf2e98856bdad65a19628618bcddea"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00000",
+     "teams": 7,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "13e431cd712611a974e611a6ead9876665315a7dc58aeef3bdfa56df6087ae8a"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00001",
+     "teams": 7,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "fbc4cedb471e0022e0b19b5b1d374fd0d84724d2866d53df38eb1abec8c19948"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00000",
+     "teams": 8,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "f0a263855fc158ff420af09bd62a61fe8fa0e9161dc5066056bc760c735b3f69"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00001",
+     "teams": 8,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "ef390102a25fab434baca33bd7b99957f048a1c2c73d489c9cbdbe00a4bec944"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00000",
+     "teams": 9,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "222509856eba312d893e509ca5b86587964af8ef9abba2fde1269bc60ccb5e8e"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00001",
+     "teams": 9,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "3eb8d823708f6b0b3ae694455f9605eb824f5bdb96d1b9719ded83e166da6bee"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00000",
+     "teams": 10,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "bcd5ac1031e6ffdafb9a6b0eee499b077b687b40158d355021b350ca83893187"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00001",
+     "teams": 10,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "05bd6eae585d5d696a1c4b36e5c0294f8482c45e03444f185e4c7cce18f833cd"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00001",
+     "teams": 11,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "d14b05463606c9810471c5b1df319063b514638ac928e412a34467e2327aa0f0"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00000",
+     "teams": 12,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "6e1b4d0a938643acdc5eead9a25380013f306f59d6c862ef1c37b26cd394c879"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00000",
+     "teams": 11,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "c08c142749a5262be718d176a7d89f4683bfd681239b66a6027c4ef80c3d2ac1"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00001",
+     "teams": 12,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "252c120d8de3e723dc66e21954d8b7f41acddaf617e159a660e4f94095bec8f0"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00000",
+     "teams": 14,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "47b7295dc3eece6d386c1a136891cc6a62ab770cb0e9d5cff679e55ae0728253"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00000",
+     "teams": 13,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "f3d6426db333fb61d343029bbb5314251f787eca3ab37cb94ad4548ca8d499a4"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00001",
+     "teams": 13,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "681560b35f9535793f930c2e73eb350f007889a5cf8c18f734ec42e0364c32c4"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00001",
+     "teams": 14,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "7c3c7548a46a36c0e340fd7493f771aee055fb7d99cf9c7cd3f371657507e8a1"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00000",
+     "teams": 15,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "0cc6c2f83bec4b258b11890f2ed09b7efb7e8dd7a8b96c9f6a4d6c70ef22e6c6"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00001",
+     "teams": 15,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "838a21f61d8160924d9f110bf4832fd1cc85027977b1f02aa71c6208416f8901"
+    }
+   ]
+  },
+  "far_p3": {
+   "changed_replies": 20,
+   "turns": 10400,
+   "root_digest_mismatches": 0,
+   "truncated": 0,
+   "maps": [
+    {
+     "fixture_id": "s20261210-n03-m00001",
+     "teams": 3,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "fb12d8a20d29e9693ecb46ad71b881340e72500738c2c53f9767b0fa8da96784"
+    },
+    {
+     "fixture_id": "s20261210-n03-m00000",
+     "teams": 3,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "64043c82efec43426b04b7989f240dba6779dcdd76e415e4b6f6ef73f8f61ac5"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00000",
+     "teams": 4,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "ebf4310300ff505fa4c61d1aa3389049b8661cfae975116895853d1a7f9435ad"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00001",
+     "teams": 4,
+     "changed_replies": 1,
+     "turns": 400,
+     "output_sha256": "4476d1b7caeb04b9bcd3938f5d6e7d838c5a12bdc9761817c8cf940f8ad19a3a"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00000",
+     "teams": 5,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "d3d81987f9126fd359e8d6b069b23e92dea702c9b84290583db9117a7e8f4d96"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00001",
+     "teams": 5,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "504d4c7ba74b977157abad0c9911ada8b3193a2cd32b0d25262cc52e01951133"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00000",
+     "teams": 6,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "af52985eca3d17cbb5df6e82f06dee9354260ad4448b49a9ee4becfa553e0d99"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00001",
+     "teams": 6,
+     "changed_replies": 1,
+     "turns": 400,
+     "output_sha256": "a5f4e7f5729ede93dd011f84e14d4bb94367774703e6f5f7ef645b11ae350c1d"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00000",
+     "teams": 7,
+     "changed_replies": 1,
+     "turns": 400,
+     "output_sha256": "8f7b3d4546f27f469f6cddc749fe361099021f9898d17a13c1e0c638808a0461"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00001",
+     "teams": 7,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "fbc4cedb471e0022e0b19b5b1d374fd0d84724d2866d53df38eb1abec8c19948"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00000",
+     "teams": 8,
+     "changed_replies": 1,
+     "turns": 400,
+     "output_sha256": "0b80b87063ea04c92ee92e516b306441b9b0eac9e7e1ab3e4bc17873caa452fe"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00001",
+     "teams": 8,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "ef390102a25fab434baca33bd7b99957f048a1c2c73d489c9cbdbe00a4bec944"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00000",
+     "teams": 9,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "222509856eba312d893e509ca5b86587964af8ef9abba2fde1269bc60ccb5e8e"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00001",
+     "teams": 9,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "3eb8d823708f6b0b3ae694455f9605eb824f5bdb96d1b9719ded83e166da6bee"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00000",
+     "teams": 10,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "bcd5ac1031e6ffdafb9a6b0eee499b077b687b40158d355021b350ca83893187"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00001",
+     "teams": 10,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "05bd6eae585d5d696a1c4b36e5c0294f8482c45e03444f185e4c7cce18f833cd"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00001",
+     "teams": 11,
+     "changed_replies": 2,
+     "turns": 400,
+     "output_sha256": "1a91a5480a2c3f594bb2f640398a47351e7a742d43bb72f4af79e0b6cbb51d97"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00000",
+     "teams": 12,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "6e1b4d0a938643acdc5eead9a25380013f306f59d6c862ef1c37b26cd394c879"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00000",
+     "teams": 11,
+     "changed_replies": 1,
+     "turns": 400,
+     "output_sha256": "532316d7b805ba6b82de726477efdcab5247c7fd93ad412990e915e7b1b9f8c6"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00001",
+     "teams": 12,
+     "changed_replies": 1,
+     "turns": 400,
+     "output_sha256": "717d85a7688ebf63d891f4d39d48e82ae1655c2c760b100804d65e802700b9eb"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00000",
+     "teams": 14,
+     "changed_replies": 1,
+     "turns": 400,
+     "output_sha256": "f2ca4e4762578842cd010d386f73d459a29f7d488107953ee70f2af17f442c6e"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00000",
+     "teams": 13,
+     "changed_replies": 2,
+     "turns": 400,
+     "output_sha256": "253c1dab0b4979cd410fa398b73d772c83c28285e0903c30d9853ef464e9ec6f"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00001",
+     "teams": 13,
+     "changed_replies": 4,
+     "turns": 400,
+     "output_sha256": "d30991ac2b431273d17680e5b5e28f57a3df9a044bbbad7ae1fbdcffeedf3aaa"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00001",
+     "teams": 14,
+     "changed_replies": 1,
+     "turns": 400,
+     "output_sha256": "3ad1f318b678e2fc1b84269bfd615ea54300f2f84aa78d4ec7f939efa0e470a2"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00000",
+     "teams": 15,
+     "changed_replies": 4,
+     "turns": 400,
+     "output_sha256": "484130ec505581bccba1f46b8f45362e346e4509a14c4ef589c20c4d09f4c711"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00001",
+     "teams": 15,
+     "changed_replies": 0,
+     "turns": 400,
+     "output_sha256": "838a21f61d8160924d9f110bf4832fd1cc85027977b1f02aa71c6208416f8901"
+    }
+   ]
+  },
+  "near_p3": {
+   "changed_replies": 465,
+   "turns": 10400,
+   "root_digest_mismatches": 0,
+   "truncated": 0,
+   "maps": [
+    {
+     "fixture_id": "s20261210-n03-m00001",
+     "teams": 3,
+     "changed_replies": 16,
+     "turns": 400,
+     "output_sha256": "7203369870694029e41d96124d95e686a6c818f11e560abe35f274ab7d625fd3"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00000",
+     "teams": 4,
+     "changed_replies": 13,
+     "turns": 400,
+     "output_sha256": "be56ef608823345d4078d15e5d8343edb40c9aa459f01850195cd8883931ce11"
+    },
+    {
+     "fixture_id": "s20261210-n03-m00000",
+     "teams": 3,
+     "changed_replies": 26,
+     "turns": 400,
+     "output_sha256": "52b7aedbd8c4e82623740c15b95acbabad8a6278dda89e1c88c7712caec36f63"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00001",
+     "teams": 4,
+     "changed_replies": 15,
+     "turns": 400,
+     "output_sha256": "7028946234095133b9a94538475a1f7da29967ed91b9c7db5b4f6f5c6b81ee6f"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00000",
+     "teams": 5,
+     "changed_replies": 25,
+     "turns": 400,
+     "output_sha256": "7ed3df39edaea941ac803ca794c2ea6e45c37b1510896a1643e22682571b4b37"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00000",
+     "teams": 6,
+     "changed_replies": 11,
+     "turns": 400,
+     "output_sha256": "e15e664d3b1a6f5090ea051a60074a6791bee2e4798555a0073fb970a02df0b1"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00001",
+     "teams": 5,
+     "changed_replies": 27,
+     "turns": 400,
+     "output_sha256": "f6b0652564182af14526b87787631c5f7ef40684e84aaf72c8eff1db2bdcf599"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00001",
+     "teams": 6,
+     "changed_replies": 14,
+     "turns": 400,
+     "output_sha256": "680e8aa551171889452a0740da41e033e0054bf63b16744994b5f1c5ba475667"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00000",
+     "teams": 7,
+     "changed_replies": 12,
+     "turns": 400,
+     "output_sha256": "d2f64abf2790b8bb4c0311520dfc9f5aff984284f7b612621521124d1ef0b704"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00001",
+     "teams": 7,
+     "changed_replies": 13,
+     "turns": 400,
+     "output_sha256": "e37cad4899603f5384039cccb7a425b93851e95ca31c5af0f170a4125bbed915"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00000",
+     "teams": 8,
+     "changed_replies": 14,
+     "turns": 400,
+     "output_sha256": "4424f3490b473096c8edca1ee67f1f2a8b1769c5f4d6e368b1358b113b418307"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00001",
+     "teams": 8,
+     "changed_replies": 18,
+     "turns": 400,
+     "output_sha256": "602dce58ce72f7fbf3f01d45b155410055e2fa086e855e0d55503fdea12d2034"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00000",
+     "teams": 9,
+     "changed_replies": 14,
+     "turns": 400,
+     "output_sha256": "51d8eae03b50a623b076854e2777708e812abf11778e57d9533ac61abfd45a8b"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00001",
+     "teams": 9,
+     "changed_replies": 15,
+     "turns": 400,
+     "output_sha256": "7200a8a824b2030ea0af67cda53145427853afd18e845bc30bf513a639d51ca2"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00000",
+     "teams": 10,
+     "changed_replies": 21,
+     "turns": 400,
+     "output_sha256": "b41a1e80191be72df649cdaa1692d00ac3033f1bb9f13dc2cf28a1182202ca64"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00001",
+     "teams": 10,
+     "changed_replies": 21,
+     "turns": 400,
+     "output_sha256": "6ef3685394a7332f733109cd4c647d506a769ae1dd7666ec48a3959b6497f475"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00000",
+     "teams": 12,
+     "changed_replies": 14,
+     "turns": 400,
+     "output_sha256": "d5bccc5adbdbc64951bc17cab64629fce118c1d5f8c9ee08a10296cb164d5091"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00000",
+     "teams": 11,
+     "changed_replies": 13,
+     "turns": 400,
+     "output_sha256": "594a0b7231b9d6c097acb7a15087d1cfb4c7ed810afe4830df4f5ea763e36d97"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00001",
+     "teams": 11,
+     "changed_replies": 20,
+     "turns": 400,
+     "output_sha256": "13056c54b75a3df645909989f8b5508840bfb2725c4c45ac830dfb6da54f02df"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00001",
+     "teams": 12,
+     "changed_replies": 13,
+     "turns": 400,
+     "output_sha256": "9e7ce058ff02befca57d1fe52ab8c25c34be0b71903c12ebde16472f6cf03d00"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00000",
+     "teams": 13,
+     "changed_replies": 26,
+     "turns": 400,
+     "output_sha256": "44be092823e1f2ca20cde48251522842905fdc2c55583087eb0df2d1268ab1ae"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00000",
+     "teams": 14,
+     "changed_replies": 12,
+     "turns": 400,
+     "output_sha256": "fbd6f1009e526a5f6da91deecec9cf360ad59f00805001b8d80c625f60b0451d"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00001",
+     "teams": 13,
+     "changed_replies": 24,
+     "turns": 400,
+     "output_sha256": "d47aa74056ab642c254fe40c42f6ec3f412fca4bb09f28457926edd7436dfd32"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00001",
+     "teams": 14,
+     "changed_replies": 22,
+     "turns": 400,
+     "output_sha256": "435238b190a7a1496d60697cd41042cbc84e6c1da4314065458519485b2c303a"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00000",
+     "teams": 15,
+     "changed_replies": 24,
+     "turns": 400,
+     "output_sha256": "c116871c4fc2a41152197cf6fbf662b985f9b5ded6f376f0c42067db776a1efe"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00001",
+     "teams": 15,
+     "changed_replies": 22,
+     "turns": 400,
+     "output_sha256": "75f6370944534ddeb7a2c853eedbb180d7987f8ee3ca9c1a4516318cc2103ca0"
+    }
+   ]
+  },
+  "all_p3": {
+   "changed_replies": 601,
+   "turns": 10400,
+   "root_digest_mismatches": 0,
+   "truncated": 0,
+   "maps": [
+    {
+     "fixture_id": "s20261210-n03-m00001",
+     "teams": 3,
+     "changed_replies": 19,
+     "turns": 400,
+     "output_sha256": "9520324d9e1aa6cbffccacdd98470b9a0c275e140e6d5d4873b6d55355390146"
+    },
+    {
+     "fixture_id": "s20261210-n03-m00000",
+     "teams": 3,
+     "changed_replies": 36,
+     "turns": 400,
+     "output_sha256": "eeb5a9f19885bfcab73e642287a0823bac06197960322a9d8ab6212a8f7857c0"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00000",
+     "teams": 4,
+     "changed_replies": 18,
+     "turns": 400,
+     "output_sha256": "084e1a68e3d8f87179995463757ead65231a9ceb90ade873f0d5bcf5e7b3001f"
+    },
+    {
+     "fixture_id": "s20261210-n04-m00001",
+     "teams": 4,
+     "changed_replies": 20,
+     "turns": 400,
+     "output_sha256": "a6f898956891db85d824302a7eecf713db53e6bcd5827006e4c765c33d60d871"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00000",
+     "teams": 5,
+     "changed_replies": 31,
+     "turns": 400,
+     "output_sha256": "8dd2e08fdadc377059414cdd4b4a1b45996b88a7b64d72d1e8d0796e40752632"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00000",
+     "teams": 6,
+     "changed_replies": 17,
+     "turns": 400,
+     "output_sha256": "dfa8125c86eb23beb310ffde2160d54fb6d4f1d4b2dd318407876ba2ebb41d73"
+    },
+    {
+     "fixture_id": "s20261210-n05-m00001",
+     "teams": 5,
+     "changed_replies": 28,
+     "turns": 400,
+     "output_sha256": "dcd3c49d53a04c0d62f0b631b502043a6a0cc7c12fda9dfeabff69fa569c01e5"
+    },
+    {
+     "fixture_id": "s20261210-n06-m00001",
+     "teams": 6,
+     "changed_replies": 18,
+     "turns": 400,
+     "output_sha256": "44af2fbd476605bb39c1d6fc6df89cb7924f63b5c9a1592a77527aaf71562c42"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00000",
+     "teams": 7,
+     "changed_replies": 10,
+     "turns": 400,
+     "output_sha256": "aaead875c5e31425f247bc42053f4df5294617878242a45fb35b2f3b4868f3f5"
+    },
+    {
+     "fixture_id": "s20261210-n07-m00001",
+     "teams": 7,
+     "changed_replies": 18,
+     "turns": 400,
+     "output_sha256": "1f2b26499ad33dc007a5d2357b141ce646dd899c9a09b92190044ee3f3a39d3a"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00001",
+     "teams": 8,
+     "changed_replies": 18,
+     "turns": 400,
+     "output_sha256": "5d63744ac53c6e98081302c4e0107f05c83bf5c633da88c5700fac99796f5b40"
+    },
+    {
+     "fixture_id": "s20261210-n08-m00000",
+     "teams": 8,
+     "changed_replies": 25,
+     "turns": 400,
+     "output_sha256": "af6583d0995f8db42a652cdbfcfe0e915ca50eeee7f140e8cc6f65ff81c3afd6"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00000",
+     "teams": 9,
+     "changed_replies": 14,
+     "turns": 400,
+     "output_sha256": "3c6cb78bbbbe3384707b798d67a2e4961096d1c3a854b2e2a9d7f54ade88a86d"
+    },
+    {
+     "fixture_id": "s20261210-n09-m00001",
+     "teams": 9,
+     "changed_replies": 18,
+     "turns": 400,
+     "output_sha256": "8e833cf1896cc8e63a2ad103e2c409ac2101e1c9a838fc9d673f137d2a40e986"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00000",
+     "teams": 10,
+     "changed_replies": 24,
+     "turns": 400,
+     "output_sha256": "4d97935a482db4f21fdefe3f4ea25f4eb005888b89e50c711b88a86d31c7596f"
+    },
+    {
+     "fixture_id": "s20261210-n10-m00001",
+     "teams": 10,
+     "changed_replies": 32,
+     "turns": 400,
+     "output_sha256": "45255fdd814342b74b0d04d856fc8077fe42ebdcd7675590e2d4dfec3dc456b7"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00000",
+     "teams": 12,
+     "changed_replies": 16,
+     "turns": 400,
+     "output_sha256": "7bdc2f18f43ed75f2e6774953c41f5b719d523e5eabe19e846a2cc8de46e2f71"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00001",
+     "teams": 11,
+     "changed_replies": 24,
+     "turns": 400,
+     "output_sha256": "cb5b983b961e90bd3443fb5e32cc9970dfbcb83b98a12d02742747901d2a9553"
+    },
+    {
+     "fixture_id": "s20261210-n11-m00000",
+     "teams": 11,
+     "changed_replies": 17,
+     "turns": 400,
+     "output_sha256": "02a3206ed5787769951ac4bac2573f556222a16bdf2fa232d4b69bb52d785063"
+    },
+    {
+     "fixture_id": "s20261210-n12-m00001",
+     "teams": 12,
+     "changed_replies": 16,
+     "turns": 400,
+     "output_sha256": "12fe6041cb9dcd47d110e26c22b7660c3bd9aa77ba8a87c4230753e62f8defaf"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00000",
+     "teams": 13,
+     "changed_replies": 29,
+     "turns": 400,
+     "output_sha256": "b2b974416bc91d41e435600a3ea12412f6317d08f6fa11ce2c130a493b5f3f9d"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00000",
+     "teams": 14,
+     "changed_replies": 22,
+     "turns": 400,
+     "output_sha256": "73822edd0eac67d96df45d9a177675d2edbe8d8d9eaaa928b207113cbd3af59b"
+    },
+    {
+     "fixture_id": "s20261210-n13-m00001",
+     "teams": 13,
+     "changed_replies": 36,
+     "turns": 400,
+     "output_sha256": "8c8466f2d8cde4050ca45cc50da41c1f36bd83879375c34a23cb82d61661b5d1"
+    },
+    {
+     "fixture_id": "s20261210-n14-m00001",
+     "teams": 14,
+     "changed_replies": 28,
+     "turns": 400,
+     "output_sha256": "8d7e7742a74f8b2436d93ce9398ecadd007c3bdfb8325421c0730e325140a6d0"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00001",
+     "teams": 15,
+     "changed_replies": 26,
+     "turns": 400,
+     "output_sha256": "0c59aab1ad1172f49bf225a4b63b7e10d5effc3188f99dbb8687a82de25e93ed"
+    },
+    {
+     "fixture_id": "s20261210-n15-m00000",
+     "teams": 15,
+     "changed_replies": 41,
+     "turns": 400,
+     "output_sha256": "371db84b9233a3f6d895bb0f572c2d5443addd77f8d6da0b91a03232f2f0c60a"
+    }
+   ]
+  }
+ },
+ "module_parity": {
+  "passed": true,
+  "output": "exact_raw_outputs 29344",
+  "cases": "14 team counts x 4 heads x 16 deterministic input vectors, integer outputs and scaling exponents exact; synthetic inputs, not a re-evaluation of prediction losses"
+ },
+ "causal_limits": "Decision sensitivity on 26 selected retained map streams, not strength, latency, tax amount, or proof of information blindness. All10400 turn denominator includes states with no eligible branch intervention. Different metric distance from T0011 Manhattan strata."
+}
