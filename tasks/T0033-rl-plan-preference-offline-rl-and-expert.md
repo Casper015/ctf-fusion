@@ -1,7 +1,7 @@
 ---
 id: T0033
 title: "RL plan: preference, offline RL and expert iteration on top of P (design doc)"
-status: active
+status: done
 owner: claude-ci@caspers-macbook
 needs: []
 writes: [docs/RL_PLAN.md, docs/MARKDOWN_INDEX.md, docs/DIGEST.md]
@@ -21,10 +21,13 @@ docs/RL_PLAN.md landed on main and indexed (MARKDOWN_INDEX, DIGEST pointer); the
 
 ## Handoff
 
-Not started.
+*2026-10-12 04:59Z claude-ci@caspers-macbook:*
+
+Landed 753c624: docs/RL_PLAN.md (plan only; no code, training, games or seeds spent), DIGEST entries for RL_PLAN and P_MIXED_PRECISION, index regenerated. Proposed tasks A-G in RL_PLAN section 7 are NOT created: A stage-1 code (branch_noise, pref_gate, dpo_policy, branch_dataset --root-records, own_pref export refusal); B stage-1 offline run on T0010 data (needs T0012 and the T0010 host re-audit, DATA_AUDIT source_row_alignment_verified=false); C carrier hook PONLY_PREF/PONLY_ROOT_LOG/PONLY_EXPLORE_EPS (after T0030); D P3 refresh collection seed 20261401; E 1-S screen seeds 20261411/20261410; F,G stages 2-3 after E. Decisions for Casper (section 8): RL carrier (v12_p3 recommended), meaning of three training seeds for expert iteration, Refresh rule text covering P/actor changes, recording T0010/T0011 as done on the board.
 
 ## Log
 
 - 2026-10-12 04:52Z claude-ci@caspers-macbook: created
 - 2026-10-12 04:52Z claude-ci@caspers-macbook: claimed
 - 2026-10-12 04:59Z claude-ci@caspers-macbook: landed: 753c624ee2 on main, 3 file(s)
+- 2026-10-12 04:59Z claude-ci@caspers-macbook: done
