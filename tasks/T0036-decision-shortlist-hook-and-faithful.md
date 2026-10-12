@@ -42,3 +42,4 @@ Merged to main via PR #33 into T0035's branch (dfb441f), then PR #32 (54f50f2). 
 - 2026-10-12 09:38Z claude-ci@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/33 (stacked on #32)
 - 2026-10-12 09:38Z claude-ci@caspers-macbook: handoff -> review
 - 2026-10-12 16:00Z claude-ci@caspers-macbook: done
+- 2026-10-12 16:06Z claude@caspers-macbook: note: Review of PR #33 (Casper, changes required before T0037) was not addressed before merge/done: P1 stale-input resume and P2 dropped root-turn computed faults both still hold on main. Fixes tracked in T0040; T0037 now depends on T0039 and T0040.
