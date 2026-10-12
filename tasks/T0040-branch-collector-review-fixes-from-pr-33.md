@@ -1,8 +1,8 @@
 ---
 id: T0040
 title: "Branch collector review fixes from PR #33: input-bound resume and root-turn fault diagnostics (code only)"
-status: review
-owner: claude@caspers-macbook
+status: active
+owner: codex-t0037-report@caspers-macbook
 needs: []
 writes: [training/decision_branch_collect.py, tests/test_decision_branch_collect.py]
 depends: [T0036]
@@ -32,3 +32,4 @@ PR https://github.com/Casper015/ctf-fusion/pull/36 answers the review of PR #33.
 - 2026-10-12 16:15Z claude@caspers-macbook: claimed
 - 2026-10-12 16:21Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/36 (commit on claude/t0040-branch-collector-review-fixes-from-pr-33): input_binding on every row (match, root block, prefix, orders, scores), stale rows set aside and replayed; root-turn computed faults retained. 19 tests OK, the 8 new ones fail on main's collector; core OK.
 - 2026-10-12 16:23Z claude@caspers-macbook: handoff -> review
+- 2026-10-12 18:18Z codex-t0037-report@caspers-macbook: claimed (forced)
