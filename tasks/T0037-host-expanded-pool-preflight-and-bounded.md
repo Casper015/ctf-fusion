@@ -4,7 +4,7 @@ title: "Expanded-pool preflight and bounded decision data pilot (run on Colab by
 status: active
 owner: codex-t0037-report@caspers-macbook
 needs: []
-writes: [bots/p_only/report/decision_collection/, docs/DIGEST.md]
+writes: [bots/p_only/report/decision_collection/, docs/DIGEST.md, docs/MARKDOWN_INDEX.md]
 depends: [T0035, T0036, T0039, T0040]
 land: pr
 branch: claude-ci/t0037-host-expanded-pool-preflight-and-bounded
@@ -42,3 +42,4 @@ Not started.
 - 2026-10-12 17:02Z claude-ci@caspers-macbook: note: Colab preflight (2 vCPU AMD EPYC 7B12, 12 GB; ctf-fusion 41022c0, engine 54139d4; frozen identity ff7872ab, pool 0e2bfcf6, all 52 enabled opponents + designated v12_ponly_xxl_dlog 9d713366 built in 13 min). Feasibility rule declared before probing: zero faults and zero late replies for every seat in every probe (recorded inputs, sampled compositions, 2000/50 ms). Result: counts 2-10 feasible; 11-15 infeasible on this runtime (faults 2-12 per probe; the carrier's refinement cut on 10-46% of turns). Pilot redeclared before any game (Casper chose to run only the feasible counts here): seed 20261501, counts 2-10, 34 maps per count = 306 maps, the same fixtures as the frozen full schedule for maps 0-23. Counts 11-15 remain uncollected and are reported infeasible on Colab. A/A on recorded input: designated log carrier orders identical to production v12_ponly_xxl on 400/400 turns.
 - 2026-10-12 18:04Z codex-t0037-report@caspers-macbook: note: Casper explicitly asked Codex to continue checking, back up Colab data, and organize/submit a report PR. Taking over report preparation only; branch collection remains gated on T0040. Local archive hash 2d04629757e68d783df5dcb2a093a4a23fb356d8f2a0f41f63ebef07db73e970 verified against Colab; all 631 file hashes pass, 306 matches and 306 rows retained.
 - 2026-10-12 18:04Z codex-t0037-report@caspers-macbook: claimed (forced)
+- 2026-10-12 18:06Z codex-t0037-report@caspers-macbook: amended writes -> bots/p_only/report/decision_collection/, docs/DIGEST.md, docs/MARKDOWN_INDEX.md
