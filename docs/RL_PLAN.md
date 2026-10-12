@@ -172,7 +172,12 @@ The opponent P is neither read nor trained.
 DPO stays a separately gated follow-up. PPO, CQL and IQL are not implemented.
 
 **The decision rule.** Choose argmax S_norm(c) + λ · g(c) among the incumbent and the supported candidates.
-- **`zscore`, the proposed rule and the default.** S_norm is the carrier's logged shortlist score, z-scored over the root's scored candidates. A candidate without a logged score cannot be chosen, and a root whose incumbent has none keeps the incumbent. With λ = 0, the rule picks the carrier's top-scored candidate; `select` reports how often that differs from the incumbent. Data without any logged score is refused in this mode.
+- **`zscore`, the proposed rule and the default.** S_norm is the carrier's logged shortlist score, z-scored over the root's scored candidates.
+  - The incumbent, the order the carrier actually played, is raised to the root's top z-score. A logged alternative that outscores it is therefore never chosen on its score alone: a switch needs λ · g(c) > z_top − z(c), a positive predicted gain.
+  - A candidate without a logged score cannot be chosen, and a root whose incumbent has none keeps the incumbent.
+  - Data without any logged score is refused in this mode.
+- **λ = 0 is the incumbent, returned without any scoring**, exactly as the hook's bypass. With g = 0, every λ keeps the incumbent, so no improvement is ever credited to a model that predicts none.
+- **Score-only reranking is not the disabled learned rule.** `test` reports argmax of the logged carrier score as the separately named diagnostic baseline `carrier_top_score`, in the same Bonferroni family as the secondary comparisons. It is never selectable or primary. `select` records how often the incumbent is not the carrier's top-scored order.
 - **`incumbent_override`, an explicitly exploratory fallback** for data without logged scores, such as T0010. S = 1 for the incumbent and 0 otherwise, so a switch needs λ · g(c) > 1. This is an incumbent override, not the proposed rule, and every selection and report labels it so.
 - Ties go to the incumbent, then to the smallest canonical key.
 - `select` and `test` call the same rule function with the frozen λ and normalization. A test checks that the frozen rule reproduces its validation number.

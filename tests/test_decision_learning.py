@@ -559,13 +559,28 @@ class Arithmetic(unittest.TestCase):
         d = handmade([(2, 1, [("a", [0.5], True, 1.0), ("b", [0.0], True, 3.0), ("c", [1.0], True)]),
                       (2, 2, [("a", [0.5], True), ("b", [1.0], True, 5.0)])])
         g = np.array([0.0, 0.0, 9.0, 0.0, 9.0])
-        choice = E.apply_rule(d, g, 0.0)
-        self.assertEqual(int(choice[0]), 1)       # lambda 0: the carrier's top-scored candidate
-        self.assertEqual(int(choice[1]), 3)       # the incumbent has no logged score: kept
-        self.assertEqual(int(E.apply_rule(d, g, 100.0)[0]), 1)   # "c" has no logged score: never chosen
-        g2 = np.array([0.0, -0.1, 0.0, 0.0, 0.0])
-        self.assertEqual(int(E.apply_rule(d, g2, 100.0)[0]), 0)  # z(a) = -1, z(b) = +1: a gain of -0.1 x 100 flips it
+        np.testing.assert_array_equal(E.apply_rule(d, g, 0.0), d["root_incumbent"])   # lambda 0: the bypass
+        self.assertEqual(int(E.apply_rule(d, g, 100.0)[0]), 0)    # "b" outscores the incumbent but has no gain; "c" is unscored
+        self.assertEqual(int(E.apply_rule(d, g, 100.0)[1]), 3)    # the incumbent has no logged score: kept
+        self.assertEqual(int(E.apply_rule(d, np.array([0.0, 0.01, 0.0, 0.0, 0.0]), 100.0)[0]), 1)   # a positive gain switches
+        low = handmade([(2, 1, [("a", [0.5], True, 3.0), ("b", [0.0], True, 1.0)])])        # z(a) = +1, z(b) = -1
+        self.assertEqual(int(E.apply_rule(low, np.array([0.0, 0.01]), 100.0)[0]), 0)   # 100 x 0.01 < the 2-sd gap
+        self.assertEqual(int(E.apply_rule(low, np.array([0.0, 0.03]), 100.0)[0]), 1)
         self.assertEqual(E.scored_roots(d), 1)
+        np.testing.assert_array_equal(E.carrier_top_score(d), [1, 3])   # the score-only diagnostic baseline
+        self.assertEqual(E.incumbent_not_top_scored(d), 1)
+
+    def test_zero_weight_never_credits_score_reranking(self):
+        """Review regression (PR #28): incumbent scored 1, alternative 2, both gains 0."""
+        d = handmade([(2, 1, [("inc", [0.0], True, 1.0), ("alt", [1.0], True, 2.0)]),
+                      (3, 2, [("inc", [0.5], True, 1.0), ("alt", [1.0], True, 2.0)])])
+        zero = np.zeros(4)
+        for lam in E.DEFAULT_LAMBDAS:
+            choice = E.apply_rule(d, zero, lam)
+            np.testing.assert_array_equal(choice, d["root_incumbent"])
+            s = E.summarize(d, choice, 0.002)
+            self.assertEqual((s["primary"]["mean"], s["changed_roots"]), (0.0, 0))
+        self.assertGreater(E.summarize(d, E.carrier_top_score(d), 0.002)["primary"]["mean"], 0)  # reported only as a baseline
 
     def test_unsupported_incumbent_keeps_the_root(self):
         d = handmade([(2, 1, [("a", [0.5], False), ("b", [1.0], True)])])
@@ -671,6 +686,10 @@ class ScorerAndSelection(unittest.TestCase):
         frozen = json.loads(sel.read_text())
         self.assertEqual(frozen["primary"], "mlp - incumbent")
         self.assertEqual(frozen["norm"], "zscore")
+        self.assertIn("val_incumbent_not_top_scored", frozen)
+        for m in frozen["models"].values():                   # zero weight is the incumbent: no credited change
+            zero = next(r for r in m["val_grid"] if r["lambda"] == 0.0)
+            self.assertEqual((zero["mean"], zero["changed_share"]), (0.0, 0.0))
         val = D.load(self.data, "val")
         for name, m in frozen["models"].items():          # the frozen rule reproduces its validation number
             g = T.load_scorer(Path(m["run"]), val["_index"]).gains(val)
@@ -682,6 +701,8 @@ class ScorerAndSelection(unittest.TestCase):
         rep = json.loads(rep_out.with_suffix(".json").read_text())
         self.assertIn("mlp - incumbent", rep["comparisons"])
         self.assertTrue(rep["oracle"]["status"].startswith("DIAGNOSTIC ORACLE"))
+        self.assertTrue(rep["baselines"]["carrier_top_score"]["status"].startswith("DIAGNOSTIC BASELINE"))
+        self.assertNotIn("carrier_top_score", rep["rules"])
         self.assertEqual(rep["rules"]["incumbent"]["primary"]["mean"], 0.0)
         self.assertFalse(rep["authoritative"])
         tampered = dict(frozen)

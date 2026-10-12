@@ -10,17 +10,24 @@
 The rule. At a root, among the rule's candidates, choose argmax S_norm(c) + lambda * g(c), where g(c) = Q(s, c) - Q(s, a0)
 is the scorer's gain over the incumbent a0 (g(a0) = 0) and S_norm is the carrier's own score normalized per root:
   zscore              (the proposed deployment rule, the default) the carrier's logged shortlist scores
-                      (cand_carrier_score), z-scored over the root's candidates that have one. Candidates without a
-                      logged score cannot be chosen; a root whose incumbent has none keeps the incumbent. Datasets
-                      without any logged score (T0010) are refused in this mode.
+                      (cand_carrier_score), z-scored over the root's candidates that have one, with the incumbent
+                      (the order the carrier actually played) raised to the root's top z-score: a logged alternative
+                      that outscores the incumbent is not chosen by itself, a switch needs a positive predicted gain
+                      (lambda * g(c) > z_top - z(c)). Candidates without a logged score cannot be chosen; a root
+                      whose incumbent has none keeps the incumbent. Datasets without any logged score (T0010) are
+                      refused in this mode.
   incumbent_override  an explicit exploratory fallback for data without logged scores: S = 1 for the incumbent and
                       0 otherwise, so a switch needs lambda * g(c) > 1. It overrides the incumbent; it is not the
                       proposed rule, and every report says so.
 The rule's candidates are the incumbent (always) and supported candidates with an outcome and a finite gain. Ties go
 to the incumbent, then to the smallest canonical key, so the rule is deterministic. lambda and the normalization are
 chosen on validation and frozen with the model identities before the test split is opened; test evaluates that
-same rule (the same function, apply_rule), never argmax Q. With zscore, lambda = 0 is the carrier's top-scored
-candidate; select reports how often that differs from the incumbent.
+same rule (the same function, apply_rule), never argmax Q. lambda = 0 returns the incumbent without scoring, as the
+carrier hook's bypass does (docs/RL_PLAN.md section 5), and with g = 0 every lambda keeps the incumbent, so no
+improvement can be credited to a model that predicts none. Score-only reranking (argmax of the logged carrier score,
+no scorer) is not the disabled learned rule: test reports it separately as the diagnostic baseline
+carrier_top_score, never as a selectable or primary rule; select counts the roots where the incumbent is not the
+carrier's top-scored order.
 
 The primary quantity. For every root whose incumbent has an outcome: Delta = mean outcome of the chosen candidate
 minus that of the incumbent (0 where the rule keeps the incumbent). Unchanged and uncertain roots stay in the
@@ -149,11 +156,16 @@ def normalized_carrier_scores(d: dict, norm: str, ok: np.ndarray) -> np.ndarray:
             continue                      # nothing to normalize: the incumbent alone
         sd = raw[c].std()
         s[c] = (raw[c] - raw[c].mean()) / sd if sd > 0 else 0.0
+        inc = d["root_incumbent"][r]
+        s[inc] = s[c].max()                  # the played order anchors the root: switching needs a predicted gain
     return s
 
 
 def apply_rule(d: dict, gain: np.ndarray, lam: float, norm: str = "zscore") -> np.ndarray:
-    """Global candidate index chosen at each root (deterministic ties: incumbent, then smallest canonical key)."""
+    """Global candidate index chosen at each root (deterministic ties: incumbent, then smallest canonical key).
+    lambda = 0 is the incumbent without any scoring, the carrier hook's bypass."""
+    if lam == 0:
+        return d["root_incumbent"].astype(np.int64)
     gain = mask_gains(d, gain)
     ok = rule_candidates(d, gain, norm)
     g = np.where(np.isfinite(gain), gain, 0.0)
@@ -170,6 +182,26 @@ def apply_rule(d: dict, gain: np.ndarray, lam: float, norm: str = "zscore") -> n
 
 def scored_roots(d: dict) -> int:
     return int(np.isfinite(d["cand_carrier_score"][d["root_incumbent"]]).sum())
+
+
+def carrier_top_score(d: dict) -> np.ndarray:
+    """DIAGNOSTIC BASELINE, not the disabled learned rule: argmax of the logged carrier score among choosable
+    candidates (ties: incumbent, then smallest key); roots without a logged incumbent score keep the incumbent."""
+    ok = rule_candidates(d, np.zeros(len(d["cand_root"])), "zscore")
+    raw = np.where(np.isfinite(d["cand_carrier_score"]), d["cand_carrier_score"], -np.inf)
+    out = d["root_incumbent"].astype(np.int64).copy()
+    for r, idx in roots_of(d):
+        c = idx[ok[idx]]
+        if len(c) < 2:
+            continue
+        top = c[raw[c] >= raw[c].max() - TIE]
+        inc = int(d["root_incumbent"][r])
+        out[r] = inc if inc in top else top[np.argsort(d["cand_key"][top], kind="stable")[0]]
+    return out
+
+
+def incumbent_not_top_scored(d: dict) -> int:
+    return int((carrier_top_score(d) != d["root_incumbent"]).sum())
 
 
 def deltas(d: dict, choice: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
@@ -331,12 +363,11 @@ def select(a) -> dict:
             s = summarize(d, apply_rule(d, g, lam, a.norm), a.negligible)
             grid.append({"lambda": lam, "mean": s["primary"]["mean"], "changed_share": s["changed_share"]})
         best = max(grid, key=lambda r: (r["mean"] if r["mean"] is not None else -np.inf, -r["lambda"]))
-        zero = apply_rule(d, g, 0.0, a.norm)
-        models[name] = model_identity(Path(run)) | {"lambda": best["lambda"], "norm": a.norm, "val_grid": grid,
-                                                    "lambda0_differs_from_incumbent": int((zero != d["root_incumbent"]).sum())}
+        models[name] = model_identity(Path(run)) | {"lambda": best["lambda"], "norm": a.norm, "val_grid": grid}
     sel = {"schema": SELECTION_SCHEMA, "created": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
            "dataset": dataset_identity(data), "norm": a.norm, "rule": RULES[a.norm],
-           "carrier_scored_val_roots": scored_roots(d), "negligible_margin": a.negligible, "z": 1.96,
+           "carrier_scored_val_roots": scored_roots(d), "val_incumbent_not_top_scored": incumbent_not_top_scored(d),
+           "negligible_margin": a.negligible, "z": 1.96,
            "primary": f"{a.primary} - incumbent",
            "secondary": [f"{n} - incumbent" for n in sorted(models) if n != a.primary] +
                         [f"{a.primary} - {n}" for n in sorted(models) if n != a.primary],
@@ -359,7 +390,15 @@ def evaluate(a) -> dict:
     for name, m in sel["models"].items():
         rules[name] = apply_rule(d, model_gains(d, Path(m["run"])), m["lambda"], m["norm"])
     res = {n: summarize(d, c, margin, z) for n, c in rules.items()}
-    zs = bonferroni_z(len(sel["secondary"]))
+    baselines = {}
+    # one Bonferroni family: the predeclared secondary comparisons plus the diagnostic baseline when scores exist
+    zs = bonferroni_z(len(sel["secondary"]) + (1 if scored_roots(d) else 0))
+    if scored_roots(d):
+        b = summarize(d, carrier_top_score(d), margin, z)
+        baselines["carrier_top_score"] = strip(b) | {
+            "status": "DIAGNOSTIC BASELINE: argmax of the logged carrier score, no scorer; not the disabled learned rule "
+                      "(lambda = 0 is the incumbent); its runtime equivalent is a carrier that plays its top logged score",
+            "vs_incumbent": paired(d, b, res["incumbent"], margin, zs)}
     comps = {}
     for label in [sel["primary"], *sel["secondary"]]:
         x, y = (s.strip() for s in label.split(" - "))
@@ -368,7 +407,7 @@ def evaluate(a) -> dict:
     report = {"split": "test", "selection_sha256": sel["selection_sha256"], "dataset": sel["dataset"], "rule": sel["rule"],
               "carrier_scored_roots": scored_roots(d),
               "authoritative": sel["dataset"]["authoritative"], "comparisons": comps,
-              "rules": {n: strip(s) for n, s in res.items()}, "headroom": headroom(d, margin, z)}
+              "rules": {n: strip(s) for n, s in res.items()}, "baselines": baselines, "headroom": headroom(d, margin, z)}
     if a.oracle_value:
         report["oracle"] = oracle_value(d, data, "test", Path(a.oracle_value), margin, z)
     write_report(Path(a.out), report)
@@ -394,6 +433,9 @@ def write_report(out: Path, report: dict) -> None:
         cs = s["changed_share"]
         lines.append(f"| {n} | {s['evaluable_roots']} / {s['unevaluable_roots']} | "
                      f"{'-' if cs is None else f'{cs:.3f}'} | {f(s['changed_mean_delta'])} |")
+    for n, b in report.get("baselines", {}).items():
+        v = b["vs_incumbent"]
+        lines += ["", f"{n} - incumbent: {f(v.get('mean'))} [{f(v.get('lo'))}, {f(v.get('hi'))}] {v['verdict']}. {b['status']}."]
     h = report["headroom"]
     lines += ["", f"Headroom: {h['status']}" + (f"; {f(h['headroom']['mean'])} [{f(h['headroom']['lo'])}, "
                                                  f"{f(h['headroom']['hi'])}]" if "headroom" in h else "")]
