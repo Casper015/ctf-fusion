@@ -28,7 +28,10 @@ class Registry(unittest.TestCase):
     def test_counts_and_states(self):
         c = self.reg["counts"]
         self.assertEqual((c["reference:enabled"], c["addition:enabled"]), (12, 6))
-        self.assertEqual((c["neural:enabled"], c["neural:disabled"], c["neural:not_registered"]), (34, 5, 5))
+        self.assertEqual((c["neural:enabled"], c["neural:disabled"], c["neural:not_registered"]), (34, 5, 7))
+        for name in ("v12_ponly_xxl_dlog", "c08_ponly_xxl_dlog"):                    # log carriers: never opponents
+            self.assertEqual(self.by[name]["status"], "not_registered")
+            self.assertIn("decision_log", self.by[name]["reason"])
         for x in "ABCDE":
             m = self.by[f"v12_ponly_pxxl_vp{x}_v"]
             self.assertEqual(m["status"], "disabled")
@@ -60,9 +63,15 @@ class Registry(unittest.TestCase):
 
     def test_designated_incumbent(self):
         d = self.reg["designated"]
-        self.assertEqual((d["variant"], d["value"], d["status"]), ("v12_ponly_xxl", "off", "admitted"))
-        self.assertTrue(d["reference"]["same_inputs"])     # the T0010 incumbent's build inputs, file by file
-        self.assertTrue(self.by["v12_ponly_xxl"].get("same_policy_as_designated"))
+        self.assertEqual((d["variant"], d["incumbent"], d["value"], d["status"]),
+                         ("v12_ponly_xxl_dlog", "v12_ponly_xxl", "off", "admitted"))
+        # Against the T0010 incumbent's build inputs: the same model files; only the carrier code differs (the family
+        # carrier with the log hook), which is why its data is a new carrier version.
+        diff = {p for p, _ in d["reference"]["differences"]}
+        self.assertFalse(d["reference"]["same_inputs"])
+        self.assertFalse(any(p.startswith("inference/models") for p in diff))
+        self.assertIn("bots/p_only/include/decision_hook.hpp", diff)
+        self.assertNotIn("v12_ponly_xxl_dlog", {u["name"] for u in O.mixture(self.reg)["units"].values()})
 
     def test_exclusion_and_quarantine_change_the_pool(self):
         tmp = Path(tempfile.mkdtemp())
@@ -103,7 +112,7 @@ class Catalogs(unittest.TestCase):
         merged = O.merge_catalogs(O.load_json(O.VARIANTS)["catalogs"])
         names = [v["name"] for v in merged]
         self.assertEqual(len(names), len(set(names)))
-        self.assertEqual(len(names), 44)
+        self.assertEqual(len(names), 46)
         tmp = Path(tempfile.mkdtemp())
         try:
             (tmp / "b.json").write_text(json.dumps({"variants": [{"name": "x", "role": "ponly", "source": "s.cpp"}]}))
@@ -306,7 +315,7 @@ class FreezeAndResume(unittest.TestCase):
 
     def test_designated_is_built_apart_from_a_same_named_opponent(self):
         sched = json.loads(self.sched.read_text())
-        sched["fixtures"][0]["opponents"][0] = "v12_ponly_xxl"          # the designated policy also seated as an opponent
+        sched["fixtures"][0]["opponents"][0] = "v12_ponly_xxl"          # the incumbent's production build as an opponent
         sched["fixtures"][0]["units"][0] = "self"
         other = self.tmp / "self.json"
         other.write_text(json.dumps(sched))
@@ -320,7 +329,7 @@ class FreezeAndResume(unittest.TestCase):
                     "limits_ms"):
             self.assertIn(key, f)
         self.assertEqual(f["limits_ms"], [2000, 50])
-        self.assertEqual(f["designated"]["variant"], "v12_ponly_xxl")
+        self.assertEqual(f["designated"]["variant"], "v12_ponly_xxl_dlog")
         opp = next(iter(f["opponents"].values()))
         self.assertIn(opp["component"], O.COMPONENTS)
         self.assertTrue(copy.deepcopy(f["runner"]))
