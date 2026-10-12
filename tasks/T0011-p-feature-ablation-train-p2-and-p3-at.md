@@ -1,14 +1,14 @@
 ---
 id: T0011
 title: "P feature ablation: train p2 and p3 at XXL on identical data, offline comparison, export"
-status: active
+status: done
 owner: codex@desktop-g60ojud
 needs: [cuda]
 writes: [reports/models/p_features/, inference/models_pf_p2xxl_vm/, inference/models_pf_p3xxl_vm/]
 depends: [T0009]
 land: pr
 branch: codex/t0011-p-feature-ablation-train-p2-and-p3-at
-updated: 2026-10-11
+updated: 2026-10-12
 ---
 
 ## Goal
@@ -21,25 +21,10 @@ PR merged with reports/models/p_features/ (audit, test comparison, run configs a
 
 ## Handoff
 
-*2026-10-11 04:53Z codex@desktop-g60ojud:*
+*2026-10-12 05:20Z codex@desktop-g60ojud:*
 
-# T0011 running after bounded-memory restart
+Completed and merged PR #21 https://github.com/Casper015/ctf-fusion/pull/21; head 23014eb184f667567ca4ca17d190bb6048d2bf1a, merge 516d671be561a627e39b13291177a23962aca85b. Exact-head verification CI passed. All six training/calibration/comparison runs, exports, actual-weight parity and delivery checks complete; reports/models/p_features/RESULTS.md and CHECKS.md, user outputs/T0011. P3 improves joint NLL, not a playing-strength claim. T0013 model dependency is satisfied. Completed stages must not be restarted. User authorized task status reconciliation on 2026-10-12.
 
-Background computation continues under CPU and GPU locks. Keep this task active while its owned processes are alive; do not launch a competing GPU/CPU evidence run or rerun the pipeline over partial/completed artifacts.
-
-Frozen source: 9a78345172010a207fe89c54af12704b8cc3fddf on branch codex/t0011-p-feature-ablation-train-p2-and-p3-at, worktree T0011. No shared training/core code was changed. Tracked lanes remain reports/models/p_features/ and the two inference/models_pf_p{2,3}xxl_vm/ sets. Reports and reproduction drivers are currently uncommitted; do not pull, rebase or commit while training/evaluation source is frozen.
-
-Done: rebuilt all 21000 original matches with exact original stride/keep/map-split options into data/shards_l3; all 30049121 old feature/label rows matched bit-for-bit (DATA_REBUILD.json, DATA_PARITY.json). Full train feature audit passed: all 15146322 attack labels covered. The original full-RAM concatenate/subset loader exhausted host RAM before any training epoch/checkpoint; the user rebooted. Stale owned locks were removed only after confirming the Python processes were gone.
-
-Restart: data/pf_policy_cache holds read-only NPY mappings with all 24153825 eligible training and 2981919 validation rows, in exactly the old count/shard/row order, unchanged dtypes and values. POLICY_CACHE.json records each source shard and per-field source/cache data digests, verified in bounded 8192-row chunks. CACHE_CONTRACT.json also compares every eligible n02 train/val row against original prepare for both families and checks unchanged RNG state. The launcher replaces only prepare and bounds the original check_labels; original trainer, globally shuffled minibatches, hidden widths, objectives, all original XXL arguments, FP32, stopping, calibration and exports stay unchanged. REPRODUCE.md embeds the exact preparation/cache/launcher/pipeline/resume scripts. RESTART.json and FROZEN_PLAN_before_restart.json preserve the failed attempt. RESTART_MEMORY.json records a resumed training snapshot: 15.174 GiB private commit vs original 84.55 GiB; working set includes reclaimable file-backed mmap pages and must not be confused with private allocations. The Torch read-only NumPy warning is expected at the read-only CPU-to-CUDA transfer; the source arrays are never written.
-
-Current owned chain: CPU lock PID10832 -> resume PID44640 -> GPU lock PID26864 -> pipeline PID34248 -> P2 seed1 trainer PID44412 (verify command lines before acting on any PID; they may expire). First epoch completed: train2.37958, val2.32287, seconds185.311, optimizer_steps23588. Later epochs continue. No improvement conclusion is available from one epoch.
-
-Inspect build/t0011/pipeline_mmap_state.json and pipeline_mmap.log, runs/pf_p2_xxl_s1/log.jsonl, then tools/repo/task.py locks. The currently running command is CPU-locked python <scratch>/t0011_resume.py, whose exact source is embedded in REPRODUCE.md. It automatically trains P2/P3 seed1, compares validation with map-clustered 95% intervals, trains both families seed2/3 only if P3 overall validation joint-NLL interval lies wholly below zero, evaluates the frozen models on test, and exports prespecified seed1 PXXL + VM to the two declared model sets. No test-seed/checkpoint selection. Only T0011 is claimed; T0026 -> T0007 -> T0012 is the read queue, with T0012 waiting for T0010 data.
-
-Next after pipeline completion: inspect PIPELINE.json, FINALIST_DECISION.json and all stratified val/test reports; regenerate summary/learning curves and report receipts. Verify generated model arrays/header/registry identities and native integer parity, run required core/export checks, commit only declared lanes, push a PR and attach it to the Codex task, record PR in the board. Task is done only after the reports/models PR is merged and T0013 can build. No host playing-strength claim from offline prediction. If interrupted after a completed run, do not blindly restart: driver deliberately refuses an existing model.npz; verify its config/checkpoint receipt, then document a safe resume that skips verified complete stages.
-
-T0022 is already fully landed on GitHub main at 7a307af49adc896be21fc8b3832e73e1bbd35763. Remote commit existence and CI38110819439/Bots38110819414 SUCCESS were reverified after reboot. Do not replay its consumed seed20261240. Final reports are bots/p_only/report/v3xl_fresh/ and user-facing copies under outputs/T0022/.
 ## Continuous monitoring requested by user
 
 User explicitly requested ongoing monitoring to prevent another memory interruption. Thread heartbeat automation id t0011 is ACTIVE, every5 minutes in the current Codex conversation. It monitors process/log progress and memory, continues validation/report/export/PR work on completion, and safely diagnoses/restarts only a failed stage after verifying receipts. Normal unchanged status stays quiet.
@@ -63,3 +48,4 @@ Limit was applied at04:51Z during P2 seed1 epoch3 after epochs1/2. Physical avai
 - 2026-10-11 06:00Z codex@desktop-g60ojud: note: P3 seed1 calibration completed and artifacts saved at05:59Z, exit0. Verified identical P2/P3 hidden widths, data/rows/source/seed and every training argument except family/output. P3 model SHA256 b3f863a0e1810a02bdaa87543d5adf1185b2269d99bce99eaa92c816becd9def. Automatic paired map-clustered validation comparison is now running as verified child PID43156 under pipeline34248; guard9872 applied40 GiB and CPU advances. Available physical46.27 GiB/commit49.15 GiB at06:00Z. Await confidence intervals before finalist decision; no playing-strength claim.
 - 2026-10-11 06:05Z codex@desktop-g60ojud: note: Seed1 paired validation finished:2981919 rows,2112 map clusters; P3-P2 joint-NLL mean-0.08838297,95%CI[-0.08959273,-0.08717321]. Prespecified finalist rule passed without using test, so pipeline automatically started P2 seed2 at06:02Z, verified child20100; both families seeds2/3 will follow unchanged. User already informed. Guard9872 remains healthy with40 GiB cap; CPU advances, available physical10.57 GiB/commit36.59 GiB at06:05Z. Offline prediction improvement is not yet a playing-strength result.
 - 2026-10-11 06:35Z codex@desktop-g60ojud: note: P2 seed2 completed8 epochs/188704 optimizer steps: final smoothed combined train2.19432457,val2.21472096; unchanged CPU calibration/evaluation underway before model/config save. CPU advances and guard remains healthy at06:35Z: working37.94 GiB,private28.75 GiB,available physical13.88 GiB/commit26.63 GiB. Seed2 first epoch437.119s,second228.486s,then epochs4-8 about180s; memory policy unchanged, do not infer model capacity throughput differences from these timings. Wait for verified artifact save, no restart.
+- 2026-10-12 05:20Z codex@desktop-g60ojud: done
