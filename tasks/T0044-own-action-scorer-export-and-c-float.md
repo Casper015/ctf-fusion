@@ -28,3 +28,4 @@ Not started.
 - 2026-10-14 19:54Z claude@caspers-macbook: created
 - 2026-10-14 19:55Z claude@caspers-macbook: claimed (forced)
 - 2026-10-14 19:55Z claude@caspers-macbook: note: Claimed with --force before T0043 (same owner) merged: the branch is stacked on T0043's branch (PR #40) because it includes inference/own_action.hpp; its PR shows T0043's commit until #40 merges.
+- 2026-10-14 20:00Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/41 opened (stacked on #40).
