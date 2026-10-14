@@ -1,14 +1,14 @@
 ---
 id: T0032
 title: "P3 distillation run on Colab: 8XL teacher, XXL warmup/distill/QAT, three seeds"
-status: review
+status: done
 owner: claude@caspers-macbook
 needs: []
 writes: [reports/models/p_distill/, tests/test_repo_layout.py]
 depends: []
 land: pr
 branch: claude/t0032-p3-distillation-run-on-a-colab-a100-6xl
-updated: 2026-10-12
+updated: 2026-10-14
 ---
 
 ## Goal
@@ -30,18 +30,9 @@ Teacher, targets, 3x(warmup, distill, qat) completed with config/log/receipt per
 
 ## Handoff
 
-*2026-10-12 09:45Z claude@caspers-macbook:*
+*2026-10-14 21:36Z claude@caspers-macbook:*
 
-Done and in review: PR https://github.com/Casper015/ctf-fusion/pull/34 (commit 1017dd8, report only, reports/models/p_distill/).
-
-Results (validation only): distill minus supervised XXL p3 -0.0134 / -0.0113 / -0.0100 (mean -0.0116), all in the joint head; 8XL teacher 0.028 below XXL; mixed4_8 QAT from distill costs +0.032 to +0.036. RUNS.json and eval.json are byte copies of the Colab receipts; REPRODUCE.md embeds every script with SHA-256.
-
-Weights, teacher shard and logs: Google Drive cft-fusion/t0032/ (teacher_8xl_p3, warmup/distill/qat_s101-103, targets_train/IDENTITY.json, live mirror; lost_runtime_1-3 are stopped runs, not results). Colab runtime disconnected and deleted 2026-10-12 ~09:40Z.
-
-Not done / next:
-- QAT of the supervised warmups (3 runs, ~1.2 h in parallel on an A100 High-RAM) to measure distill vs supervised after quantization.
-- Export of a distilled student and host evaluation (near/far NLL with T0004's tools, then T0013-style equal-time games); nothing here shows playing strength.
-- Standard-RAM Colab cannot run distill (61 GB random-access working set); use High-RAM.
+result: reports/models/p_distill/RESULTS.md (PR #34 merged). 8XL P3 teacher distilled into XXL students: distill - warmup mean -0.0116 validation loss (all in the joint head; act slightly worse); mixed4_8 QAT costs +0.032 to +0.036, more than the gain. Validation prediction loss only: no export, timing or strength claim.
 
 ## Log
 
@@ -62,3 +53,4 @@ Not done / next:
 - 2026-10-12 09:45Z claude@caspers-macbook: amended title -> P3 distillation run on Colab: 8XL teacher, XXL warmup/distill/QAT, three seeds
 - 2026-10-12 09:46Z claude@caspers-macbook: amended writes -> reports/models/p_distill/, tests/test_repo_layout.py
 - 2026-10-12 16:09Z codex-review@caspers-macbook: note: Report accepted at 91915d1223674640575fddfd861b861d7b44f824: https://github.com/Casper015/ctf-fusion/pull/34#pullrequestreview-5493227117. Ten completed runs, arithmetic, six local layout checks and exact-head CI verified. No strength/deployment claim; finish status after PR #34 merge.
+- 2026-10-14 21:36Z claude@caspers-macbook: done
