@@ -1,13 +1,13 @@
 ---
 id: T0043
 title: "Own-action features in C++: runtime encoder and Python parity on recorded inputs"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [inference/own_action.hpp, tools/cpp/own_action_check.cpp, tests/test_own_action_parity.py]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0043-own-action-features-in-c-runtime-encoder
 updated: 2026-10-14
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-14 19:48Z claude@caspers-macbook: created
+- 2026-10-14 19:48Z claude@caspers-macbook: claimed
