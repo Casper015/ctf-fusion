@@ -142,7 +142,9 @@ def faults(d: dict) -> dict:
     rec = d["cand_repeat_state"] > D.REPEAT_NONE
     out = {"branch_records": int(rec.sum()), "failed_repeats": int((d["cand_repeat_state"] == D.REPEAT_FAILED).sum()),
            "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded "
-                   "prefix; root = the discarded root-turn replies the bots computed"}
+                   "prefix; root = the discarded root-turn replies the bots computed",
+           "failed_note": "failed repeats counts branch records without a final score; the current collector raises "
+                          "instead of writing one, so 0 does not mean nothing failed (see the collector's summary)"}
     for name, key in (("continuation", "cand_faults"), ("prefix", "cand_faults_prefix"), ("root", "cand_faults_root")):
         v = d[key][rec]
         known = v >= 0

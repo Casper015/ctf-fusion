@@ -52,7 +52,10 @@ repeat r of its incumbent stay in the same column (paired comparisons) and even/
 (training.evaluate_decisions.headroom) are the same whichever repeats are missing. The same repeat id does not make
 two repeats correlated or independent: the collector has no controlled seed (decision_branch_collect.RNG_NOTE).
 cand_repeat_state per column: 0 no branch record, 1 an outcome, 2 a branch record without a usable final score
-(a failed continuation, kept and listed in index.json "failed_repeats", never imputed).
+(a failed continuation, kept and listed in index.json "failed_repeats", never imputed). The current collector
+(training.decision_branch_collect) never writes such a record: a continuation that fails raises and its root is not
+stored, so it is missing (state 0, or the root absent or dropped), not failed. "failed_repeats": 0 therefore does not
+mean that nothing failed; read the collector's own summary for failures.
 
 Faults per repeat, by phase (training.decision_branch_collect fault_counts; -1 without a branch record, -2 when the
 collector did not record that phase):
