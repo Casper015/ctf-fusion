@@ -1,13 +1,13 @@
 ---
 id: T0044
 title: "Own-action scorer export and C++ float inference (linear, MLP)"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [inference/own_action_scorer.hpp, training/export_decision_scorer.py, tools/cpp/own_action_scorer_check.cpp, tests/test_own_action_scorer.py]
 depends: [T0043]
 land: pr
-branch: ""
+branch: claude/t0044-own-action-scorer-export-and-c-float
 updated: 2026-10-14
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-14 19:54Z claude@caspers-macbook: created
+- 2026-10-14 19:55Z claude@caspers-macbook: claimed (forced)
