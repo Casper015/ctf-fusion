@@ -1,7 +1,7 @@
 ---
 id: T0046
 title: "Task board: archive finished tasks and a live board in tasks/README.md"
-status: active
+status: review
 owner: claude@caspers-macbook
 needs: []
 writes: [tools/repo/task.py, tests/test_task_board.py, tests/test_repo_layout.py, tasks/README.md, AGENTS.md]
@@ -21,9 +21,12 @@ PR merged; the board tests cover placement on done/drop/merge, the archive comma
 
 ## Handoff
 
-Not started.
+*2026-10-14 21:08Z claude@caspers-macbook:*
+
+PR #43 (branch claude/t0046-task-board-archive-finished-tasks-and-a). Done: task.py places task files by status (archive/ for done/dropped) in every board commit, 'archive' command, generated board section in tasks/README.md, check warnings, link-test equivalence, tests (board 19, core 302 OK). Next after merge: python tools/repo/task.py archive (moves 31 finished tasks, fills the README board); ask agents to use task.py from updated main. Not done: docs/MARKDOWN_INDEX.md regeneration (T0037's lane).
 
 ## Log
 
 - 2026-10-14 21:02Z claude@caspers-macbook: created
 - 2026-10-14 21:02Z claude@caspers-macbook: claimed
+- 2026-10-14 21:08Z claude@caspers-macbook: handoff -> review
