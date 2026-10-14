@@ -90,7 +90,13 @@ def prepare(seed):
     schedule['schedule_identity']=O.digest({k:v for k,v in schedule.items() if k not in ('created','schedule_identity')})
     C.write_json(OUT/'SCHEDULE.json',schedule)
     lookup=lambda name,out,stats:dict(build['programs']['designated' if name==reg['designated']['variant'] else name])
-    frozen=C.prepare(OUT/'SCHEDULE.json',OUT,ai_test_root(),builders=(lookup,None),registry=reg)
+    def source_lookup(path,out):
+        for build_row in build['programs'].values():
+            source=Path(build_row.get('source',''))
+            source=source if source.is_absolute() else REPO/source
+            if source.resolve()==Path(path).resolve() and 'source_sha256' in build_row:return dict(build_row)
+        raise AssertionError('no preflighted binary for requested source '+str(path))
+    frozen=C.prepare(OUT/'SCHEDULE.json',OUT,ai_test_root(),builders=(lookup,source_lookup),registry=reg)
     plan={'version':'ctf-host-decision-pilot-plan-1','maps':336,'maps_per_count':24,'counts':list(range(2,16)),'seed':seed,'workers':pre['selected_workers'],'repeats':REPEATS,'alternatives':ALTERNATIVES,'max_continuations':336*4*4,'limits_ms':[2000,50],'prefix_replay_limit_ms':5000,'policy':'admitted P2 XXL / V off / v12_ponly_xxl_dlog log-only, its distinct host binary identity','root_selection':'each count has four requested maps per category (carrier, flag, contact, interception, defense, quiet); among observable TURNs t>=6 with a valid scored logged incumbent (K1 allowed), pick minimum SHA hash in the requested category; otherwise deterministic category rotation fallback. No final score, future reply or realized successor selects a root. Retain all stratum opportunities, rejected log reasons, actual logged K and collected K, shortages and fallback.','root_categories':list(CATEGORIES),'category_definitions':{'carrier':'a living own unit holds a flag','flag':'ground flag within Manhattan4 of a living own unit','contact':'living enemy within Manhattan4 of a living own unit','interception':'living enemy carrier within Manhattan8 of a living own unit','defense':'living enemy within Manhattan6 of own base','quiet':'none of the preceding opportunities'},'continuation_policy':'common recorded opponent root actions, live/reactive after root; fresh process full-prefix replay; forced action does not rewrite carrier memory; repeats retain original flag stream and are not IID new maps','expansion_and_stop_rule':'run every declared map and selected candidate four times; no expansion or early favorable stop. Preserve faults/errors/partial rows. A stopped job is not restarted automatically. Resume verifies existing byte hashes and only attempts missing stages.','split_rule':'training.decision_dataset.split_of_map; all candidates and repeats of one map remain in its split','frozen_identity':frozen['identity'],'preflight_sha256':O.sha256_file(OUT/'PREFLIGHT_FINAL.json'),'build_receipt_sha256':O.sha256_file(OUT/'BUILD_ALL.json'),'source_files':source_snapshot(),'source_commit':__import__('subprocess').check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()}
     plan['identity']=O.digest(plan)
     C.write_json(OUT/'PLAN.json',plan)
@@ -100,6 +106,7 @@ def prepare(seed):
 
 def match_job(job):
     fx,frozen,plan=job
+    if (DATA/'STOP_REQUESTED').exists():return {'stage':'match','id':fx['fixture_id'],'cancelled':True}
     path=C.match_path(DATA,fx)
     receipt_path=DATA/'rows'/f"{fx['fixture_id']}.json"
     if path.exists() or receipt_path.exists():
@@ -175,6 +182,7 @@ def select_root(match,requested):
 
 def continuation(job):
     match_path,root_path,candidate,repeat,plan=job
+    if (DATA/'STOP_REQUESTED').exists():return {'stage':'continuation','id':str(root_path),'cancelled':True}
     root=load_gz(root_path)
     path=DATA/'continuations'/f"n{root['teams']:02d}"/f"{root['match_id']}-t{root['turn']:03d}-c{candidate}-r{repeat}.json.gz"
     receipt=path.with_suffix('.sha256.json')
@@ -241,6 +249,7 @@ def continuation(job):
 
 
 def run():
+    assert not (DATA/'STOP_REQUESTED').exists(),'user stop marker present; no automatic resume'
     plan,frozen=verify_plan()
     schedule=json.loads((OUT/'SCHEDULE.json').read_text())
     state={'plan_identity':plan['identity'],'stage':'matches','scheduled_maps':336,'workers':plan['workers'],'matches':0,'continuations':0,'errors':[]}
@@ -251,7 +260,10 @@ def run():
             if result.get('error'):state['errors'].append(result)
             C.write_json(OUT/'state.json',state)
             print('match',state['matches'],'/336',result,flush=True)
+            if result.get('cancelled'):
+                state['stage']='stopped';C.write_json(OUT/'state.json',state);return
     verify_plan()
+    assert not (DATA/'STOP_REQUESTED').exists(),'stopped before continuation queue; no automatic resume'
     jobs=[];root_paths=[];selection_ledger=[]
     for index,fx in enumerate(schedule['fixtures']):
         mp=C.match_path(DATA,fx)
@@ -281,6 +293,8 @@ def run():
             if result.get('partial'):state['errors'].append(result)
             C.write_json(OUT/'state.json',state)
             if state['continuations']%16==0:print('continuations',state['continuations'],'/',len(jobs),flush=True)
+            if result.get('cancelled'):
+                state['stage']='stopped';C.write_json(OUT/'state.json',state);return
     verify_plan()
     for rp,mp in root_paths:
         root=load_gz(rp);branches=[]
