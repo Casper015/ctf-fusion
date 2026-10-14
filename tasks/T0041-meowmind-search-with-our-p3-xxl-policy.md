@@ -1,7 +1,7 @@
 ---
 id: T0041
 title: "meowmind search with our P3 XXL policy: T0011 and distilled 'both' bots (Mac pilot)"
-status: review
+status: done
 owner: claude@caspers-macbook
 needs: []
 writes: [bots/meowmind_p/]
@@ -21,9 +21,9 @@ PR merged with both bundled bots, make.py, README with exact rebuild commands an
 
 ## Handoff
 
-*2026-10-14 19:38Z claude@caspers-macbook:*
+*2026-10-14 21:56Z claude@caspers-macbook:*
 
-PR #38. Done: bots/meowmind_p/ with meowmind_p_t0011_xxl_both.cpp (sha a27b7300...) and meowmind_p_distill_xxl_both.cpp (sha 680ccd22...), make.py (rebuilds the T0011 bundle byte-identically), README with exact rebuild commands and three Mac round-robins (not host evidence; gain over meowmind not shown). Next: after merge run python tools/repo/md_index.py --write once T0037 frees docs/MARKDOWN_INDEX.md; a host paired screen (50 ms, unchanged control, A/A copies) is a separate host task. Uncertain: the distilled model set is not committed; distill_policy does not record the feature family (README step 2).
+result: bots/meowmind_p/ (PR #38 merged): meowmind with our P3 XXL policy (T0011 and distilled 'both' bundles, make.py, Mac round-robins). Gain over meowmind not shown (six variants vs one control, uncorrected); no host evidence.
 
 ## Log
 
@@ -32,3 +32,4 @@ PR #38. Done: bots/meowmind_p/ with meowmind_p_t0011_xxl_both.cpp (sha a27b7300.
 - 2026-10-14 19:35Z claude@caspers-macbook: claimed
 - 2026-10-14 19:38Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/38 opened: both bundled bots, make.py, README with Mac pilot results (gain not shown). MARKDOWN_INDEX left to after T0037.
 - 2026-10-14 19:38Z claude@caspers-macbook: handoff -> review
+- 2026-10-14 21:56Z claude@caspers-macbook: done
