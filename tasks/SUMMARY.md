@@ -11,7 +11,7 @@ Someone holds these; their `writes` are reserved.
 | Task | Status | Owner | Title | Writes |
 |---|---|---|---|---|
 | [T0032](T0032-p3-distillation-run-on-a-colab-a100-6xl.md) | review | claude@caspers-macbook | P3 distillation run on Colab: 8XL teacher, XXL warmup/distill/QAT, three seeds | reports/models/p_distill/, tests/test_repo_layout.py |
-| [T0037](T0037-host-expanded-pool-preflight-and-bounded.md) | active | codex-host-handoff@caspers-macbook | Expanded-pool preflight and bounded decision data pilot (run on Colab by Casper's decision, not host evidence) | bots/p_only/report/decision_collection/, docs/DIGEST.md, docs/MARKDOWN_INDEX.md |
+| [T0037](T0037-host-expanded-pool-preflight-and-bounded.md) | active | codex-host-handoff@caspers-macbook | Host expanded-pool preflight and bounded decision data pilot (Windows desktop-g60ojud) | bots/p_only/report/decision_collection/, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.json, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md |
 
 ## Ready to claim
 

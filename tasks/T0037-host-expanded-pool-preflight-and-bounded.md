@@ -1,10 +1,10 @@
 ---
 id: T0037
-title: "Expanded-pool preflight and bounded decision data pilot (run on Colab by Casper's decision, not host evidence)"
+title: "Host expanded-pool preflight and bounded decision data pilot (Windows desktop-g60ojud)"
 status: active
 owner: codex-host-handoff@caspers-macbook
-needs: []
-writes: [bots/p_only/report/decision_collection/, docs/DIGEST.md, docs/MARKDOWN_INDEX.md]
+needs: [host]
+writes: [bots/p_only/report/decision_collection/, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.json, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md]
 depends: [T0035, T0036, T0039, T0040]
 land: pr
 branch: claude-ci/t0037-host-expanded-pool-preflight-and-bounded
@@ -12,6 +12,12 @@ updated: 2026-10-14
 ---
 
 ## Goal
+
+Execution-location reset (Casper, October 14, 2026): run the remaining authoritative pilot on desktop-g60ojud, the Windows host, under its exclusive CPU lease. Stop Colab continuation/recovery scheduling. Do not reset/delete any Colab runtime or erase its archives, binaries, partial rows or failed-run receipts. A last recorded PID or runtime screenshot is not current process evidence; check original logs/receipts before any salvage operation.
+
+Preserve PR #37 and the 306-map Colab stage-1 corpus as a separately identified historical/exploratory source. Do not pool it with the host corpus, label it host timing evidence, or assume Colab recorded incumbent choices are the host's on-policy choices. Use a new host output namespace and freeze host source, compiler, engine, runner, binaries, models, limits, pool, schedule and concurrency. Reserve a genuinely unused host training-only seed before the first new fixture; consumed Colab seed20261501 remains consumed. Reuse only verified completed HOST artifacts under their exact identities; do not replay completed Colab fixtures as if they were a fresh host measurement.
+
+Restore the intended 2-15-team coverage for the 300-500 independent-map host pilot, including n15 load preflight. Keep P2 XXL, V off, and the log-only v12 incumbent until a model has separate deployment admission. Run no training or strength screen in this task. T0038 will audit the completed, source-bound host pilot; any optional Colab auxiliary audit stays explicitly separate.
 
 Read AGENTS.md and CONTRIBUTING.md, claim this task and use its isolated worktree. Respect active/review write lanes and machine locks. All repository prose is English. Do not spawn subagents. Preserve completed experiments and consumed seeds. Do not reopen T0012/T0014, change production defaults, or interfere with T0032. Run the bounded host preflight and fresh-map decision-data pilot after T0035 and T0036 are merged; this task authorizes the pilot, not model training or a strength screen. All formal host work uses exclusive CPU leases; no concurrent Windows training or competing benchmarks. Colab T0032 is separate.
 
@@ -25,7 +31,7 @@ Preserve all per-repeat scores/outcomes, source receipts, official limits and fl
 
 ## Done when
 
-Reviewed report PR merged: requested-program availability, runtime/A-A preflight, actual sampler masses, frozen inputs/seed/schedule and complete 300-500-map pilot plus candidate/repeat/fault coverage published. Raw whole matches and branches remain on host. No training or strength claim.
+Reviewed host report PR merged: Windows runtime/admission/A-A preflight, full 2-15-team coverage in a predeclared 300-500 independent-map pilot, actual sampler masses, new frozen host identities/unused seed/schedule, all root/candidate/repeat/phase-fault coverage and durable raw/binary backup receipts. Colab corpus and failures preserved separately. No training, production-default or strength claim. T0038 remains dependent on this completed host deliverable.
 
 ## Handoff
 
@@ -57,3 +63,4 @@ Stage-1 report submitted as PR #37 https://github.com/Casper015/ctf-fusion/pull/
 - 2026-10-12 21:21Z codex-t0037-report@caspers-macbook: note: Casper shared a new Edge screenshot at Colab 14:17: VM UI visibly connected, but ps table shows recovery_run.py PID4623 Z and recovery_monitor.py PID4931 Z, with no active prepare/branch child; earlier elapsed runtime 53:35, both recovery processes exited after ~34 min. This is a likely recovery abort, NOT completion. Need inspect /content/t0037/recovery.log and monitor log, branches_recovery and /content/t0037/build/all hashes from Colab UI before resuming. CUA control calls now time out after30s despite screenshot showing connected page; do not restart or mark done until logs/files read. Verified stage1 backup preserved local. Heartbeat remains active. Last tools failures communicated to Casper.
 - 2026-10-14 19:23Z codex-host-handoff@caspers-macbook: note: Casper explicitly moved this task back from Colab to the Windows host on October 14, 2026. This authorizes configuration/handoff takeover only; no host match batch is being started by this Mac session. Preserve all Colab records and consumed seed20261501.
 - 2026-10-14 19:24Z codex-host-handoff@caspers-macbook: claimed (forced)
+- 2026-10-14 19:24Z codex-host-handoff@caspers-macbook: amended writes -> bots/p_only/report/decision_collection/, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.json, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md; needs -> host; title -> Host expanded-pool preflight and bounded decision data pilot (Windows desktop-g60ojud); goal; done when
