@@ -1,13 +1,13 @@
 ---
 id: T0045
 title: "v12 own-action scoring hook (PONLY_DECISION 2), default off"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [bots/p_only/include/decision_score.hpp, bots/p_only/tools/derive/make_scoring.py, bots/p_only/bots/v12_ponly_fs.hpp, bots/p_only/tests/test_decision_scoring.py, bots/p_only/tests/replay_test.cpp, docs/OWN_ACTION_RUNTIME.md, CONTRIBUTING.md]
 depends: [T0044]
 land: pr
-branch: ""
+branch: claude/t0045-v12-own-action-scoring-hook-ponly
 updated: 2026-10-14
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-14 20:03Z claude@caspers-macbook: created
+- 2026-10-14 20:03Z claude@caspers-macbook: claimed (forced)
