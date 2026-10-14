@@ -4,7 +4,7 @@ title: "meowmind search with our P3 XXL policy: T0011 and distilled 'both' bots 
 status: open
 owner: ""
 needs: []
-writes: [bots/meowmind_p/, docs/MARKDOWN_INDEX.md]
+writes: [bots/meowmind_p/]
 depends: []
 land: pr
 branch: ""
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-14 19:34Z claude@caspers-macbook: created
+- 2026-10-14 19:35Z claude@caspers-macbook: amended writes -> bots/meowmind_p/
