@@ -35,7 +35,7 @@ Reviewed host report PR merged: Windows runtime/admission/A-A preflight, full 2-
 
 ## Handoff
 
-*2026-10-14 23:20Z codex-decision-pilot@desktop-g60ojud:*
+*2026-10-14 23:21Z codex-decision-pilot@desktop-g60ojud:*
 
 Host collection delivery submitted as PR #44: https://github.com/Casper015/ctf-fusion/pull/44 (head c61d5290fd7eb9e2a6d561c61ea1f59e5d8f8d8c), open and mergeable; GitHub CI pending at handoff. Do not merge automatically or mark done until the reviewed host PR actually merges.
 
@@ -45,7 +45,7 @@ Known selector defect: original frozen code tested invented flag status ground i
 
 English report and machine receipts: reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.{md,json}. Full raw: data/decision/host_20261014; receipts/bins: build/decision_host_20261014. Original source 2313043dbdb88dd8315cdfa3c9b7ee981352db48; PLAN 8a4a0417ae7d765cf54a2b9b705b0bd79a6e3bd36b1ba18c66876c1e223cadb5; FROZEN 7b7e7dce60cbfb64a1c00222dcd2c65c8521b35c0a3151586908aecc585e2fc9. Seed20261701 reserved before first fixture and consumed. Branch was rebased after collection; current main is not the measured source. Source-sensitive verification must use exact original source tree from bundle with preserved delivery scripts and original inputs/engine/raw, never rebuild binaries or reconstruct the original freeze from current bytes.
 
-Durable backups in this chat: C:/Users/caspe/Documents/Codex/2026-10-12/ctf-fusion-decision-pilot/outputs/T0037_host/.
+Durable backups in this chat's workspace: `outputs/T0037_host/`. Local `work/readiness.json` resolves the workspace and worktree paths; private host paths are omitted from this published handoff.
 - HOST_INPUTS_seed20261701.tar.gz: e4e6aa87a4426add5dc1d634071d0b82eed51562f5e73209721e5245624989b9 (258 verified members, sealed before first fixture).
 - HOST_RAW_seed20261701.tar.gz: 890d43de7f76bac53bc651a26bf26d9d0bcf725ab1e1447e1354a8c947946c09 (13,318 read-back verified members).
 - SOURCE_2313043.bundle: 3199087deb394862be45245266cc2f8eda6347f62921b926ba53d74599defa90 (independent bare clone and fsck passed).
@@ -85,3 +85,4 @@ Next: check exact PR44 head CI and reviewer feedback; fix only owned delivery is
 - 2026-10-14 19:28Z codex-decision-pilot@desktop-g60ojud: note: Claimed on Windows after T0035/T0036/T0039/T0040 completed. Official start created isolated T0037 worktree. Actual host implementation branch is codex/t0037-host-decision-pilot-20261014, preserving the historical claude-ci task branch and PR37 Colab report. No Colab recovery resumed; fresh host namespace build/decision_host_20261014 and data/decision/host_20261014. Static downloaded T0032 files remain separate and unadmitted; baseline stays P2 XXL/V off/log-only.
 - 2026-10-14 20:04Z codex-decision-pilot@desktop-g60ojud: note: Host preflight complete and exact-name/exact-command raw coverage verified: 432 standalone probes plus208 load probes, counts2/5/10/15,96turns, official2000/50ms, allphase faults0 at workers1/2/4/6. Log-only incumbent and production baseline orders match768/768 requests. Windows baseline/Baseline path collision diagnosed; only8 truly missing control probes completed, all successful raw/hash receipts retained. Preflight FINAL identity ac4242958fd6920c661aa0a1266da035e9c8e6154bac71a89292df0fc278ffc5. Freeze6workers. Reserve masterseed20261701 TRAINING ONLY BEFORE any new fixture: freshremote ef1279d and1985 local retained metadata files/38 seed literals/9489 mapseeds checked; prior consumed20261501 and20261250/60 excluded. Pilotpredeclared336independentmaps24percount2-15, observable-stratified1root/map,inc+max3actualloggedcandidates,4repeats, no expansion/favorable stop. Exact source/binary/model/runner/engine/pool/schedule/concurrency freeze and durable inputbackup precede collection.
 - 2026-10-14 23:20Z codex-decision-pilot@desktop-g60ojud: handoff -> review
+- 2026-10-14 23:21Z codex-decision-pilot@desktop-g60ojud: handoff -> review
