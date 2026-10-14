@@ -1,13 +1,13 @@
 ---
 id: T0041
 title: "meowmind search with our P3 XXL policy: T0011 and distilled 'both' bots (Mac pilot)"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [bots/meowmind_p/]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0041-meowmind-search-with-our-p3-xxl-policy
 updated: 2026-10-14
 ---
 
@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-14 19:34Z claude@caspers-macbook: created
 - 2026-10-14 19:35Z claude@caspers-macbook: amended writes -> bots/meowmind_p/
+- 2026-10-14 19:35Z claude@caspers-macbook: claimed
