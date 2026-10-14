@@ -1,13 +1,13 @@
 ---
 id: T0042
 title: "Decision data diagnostics: root-matched noise correction, repeat IDs, per-phase faults"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [training/decision_dataset.py, training/decision_noise.py, training/evaluate_decisions.py, tests/test_decision_learning.py, tests/test_decision_diagnostics.py, docs/RL_PLAN.md]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0042-decision-data-diagnostics-root-matched
 updated: 2026-10-14
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-14 19:41Z claude@caspers-macbook: created
+- 2026-10-14 19:41Z claude@caspers-macbook: claimed
