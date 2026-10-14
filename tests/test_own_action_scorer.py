@@ -152,6 +152,17 @@ class Export(unittest.TestCase):
         self.assertIn('"v12_ponly_xxl_dlog"', text)
         self.assertIn("#define OWN_ACTION_SCORER_LAMBDA_ZERO 0", text)
         self.assertIn(sel["selection_sha256"], text)
+        again = export(run, self.tmp / "sel_again", "--selection", str(path), "--model-name", "mlp")
+        self.assertEqual((self.tmp / "sel_again" / X.HEADER).read_bytes(), (self.tmp / "sel_out" / X.HEADER).read_bytes())
+        self.assertEqual(again["header_sha256"], man["header_sha256"])           # reproducible byte for byte
+        for bad in (-0.5, float("nan"), "1", True):
+            wrong = json.loads(json.dumps(sel))
+            wrong["models"]["mlp"]["lambda"] = bad
+            wrong.pop("selection_sha256")
+            wrong["selection_sha256"] = E.canonical_sha(wrong)
+            path.write_text(json.dumps(wrong))
+            with self.assertRaises(SystemExit, msg=repr(bad)):
+                export(run, self.tmp / "sel_bad_lambda", "--selection", str(path), "--model-name", "mlp")
         tampered = dict(sel, norm="incumbent_override")
         path.write_text(json.dumps(tampered))
         with self.assertRaises(SystemExit):
