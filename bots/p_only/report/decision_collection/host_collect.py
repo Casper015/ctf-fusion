@@ -47,7 +47,7 @@ def save_gz(path,obj):
 
 def source_snapshot():
     paths=[*C.RUNNER_FILES,*B.COLLECTOR_FILES,'fusion/protocol.py','fusion/labels.py','fusion/paths.py','training/dataset.py']
-    paths+= [(Path(__file__).parent/name).relative_to(REPO).as_posix() for name in ('host_build.py','host_common.py','host_preflight.py','host_collect.py','host_helper.ps1','host_observer.ps1')]
+    paths+= [(Path(__file__).parent/name).relative_to(REPO).as_posix() for name in ('host_build.py','host_common.py','host_preflight.py','host_preflight_repair.py','host_preflight_aggregate.py','host_seed_check.py','host_collect.py','host_helper.ps1','host_observer.ps1')]
     return {p:O.sha256_file(REPO/p) for p in sorted(set(paths))}
 
 
@@ -67,7 +67,7 @@ def verify_plan():
         for item in b.get('inputs',[]):
             p=Path(item['path']);p=p if p.is_absolute() else REPO/p
             assert O.sha256_file(p)==item['sha256'],f'build input changed: {name} {p}'
-    assert O.sha256_file(OUT/'PREFLIGHT.json')==plan['preflight_sha256']
+    assert O.sha256_file(OUT/'PREFLIGHT_FINAL.json')==plan['preflight_sha256']
     return plan,frozen
 
 
@@ -76,7 +76,7 @@ def prepare(seed):
     assert (OUT/'SEED_CHECK.json').exists(),'fresh seed inspection receipt required'
     seed_receipt=json.loads((OUT/'SEED_CHECK.json').read_text())
     assert seed_receipt['selected_seed']==seed and seed_receipt['status']=='unused_before_reservation'
-    pre=json.loads((OUT/'PREFLIGHT.json').read_text())
+    pre=json.loads((OUT/'PREFLIGHT_FINAL.json').read_text())
     build=json.loads((OUT/'BUILD_ALL.json').read_text())
     reg=actual_registry()
     schedule=O.make_schedule(reg,seed,24,range(2,16),allow_consumed=True)
@@ -84,13 +84,14 @@ def prepare(seed):
     # not a bypass of the independently saved fresh-seed inspection.
     assert len(schedule['fixtures'])==336
     assert len({fx['map_seed'] for fx in schedule['fixtures']})==336
+    assert not ({fx['map_seed'] for fx in schedule['fixtures']} & set(seed_receipt['known_derived_map_seeds'])), 'new schedule reuses a retained historical map seed'
     schedule['realized_component_shares']=C.schedule_shares(schedule)
     schedule['seed_check_sha256']=O.sha256_file(OUT/'SEED_CHECK.json')
     schedule['schedule_identity']=O.digest({k:v for k,v in schedule.items() if k not in ('created','schedule_identity')})
     C.write_json(OUT/'SCHEDULE.json',schedule)
     lookup=lambda name,out,stats:dict(build['programs']['designated' if name==reg['designated']['variant'] else name])
     frozen=C.prepare(OUT/'SCHEDULE.json',OUT,ai_test_root(),builders=(lookup,None),registry=reg)
-    plan={'version':'ctf-host-decision-pilot-plan-1','maps':336,'maps_per_count':24,'counts':list(range(2,16)),'seed':seed,'workers':pre['selected_workers'],'repeats':REPEATS,'alternatives':ALTERNATIVES,'max_continuations':336*4*4,'limits_ms':[2000,50],'prefix_replay_limit_ms':5000,'policy':'admitted P2 XXL / V off / v12_ponly_xxl_dlog log-only, its distinct host binary identity','root_selection':'each count has four requested maps per category (carrier, flag, contact, interception, defense, quiet); among observable TURNs t>=6 with a valid scored logged incumbent (K1 allowed), pick minimum SHA hash in the requested category; otherwise deterministic category rotation fallback. No final score, future reply or realized successor selects a root. Retain all stratum opportunities, rejected log reasons, actual logged K and collected K, shortages and fallback.','root_categories':list(CATEGORIES),'category_definitions':{'carrier':'a living own unit holds a flag','flag':'ground flag within Manhattan4 of a living own unit','contact':'living enemy within Manhattan4 of a living own unit','interception':'living enemy carrier within Manhattan8 of a living own unit','defense':'living enemy within Manhattan6 of own base','quiet':'none of the preceding opportunities'},'continuation_policy':'common recorded opponent root actions, live/reactive after root; fresh process full-prefix replay; forced action does not rewrite carrier memory; repeats retain original flag stream and are not IID new maps','expansion_and_stop_rule':'run every declared map and selected candidate four times; no expansion or early favorable stop. Preserve faults/errors/partial rows. A stopped job is not restarted automatically. Resume verifies existing byte hashes and only attempts missing stages.','split_rule':'training.decision_dataset.split_of_map; all candidates and repeats of one map remain in its split','frozen_identity':frozen['identity'],'preflight_sha256':O.sha256_file(OUT/'PREFLIGHT.json'),'build_receipt_sha256':O.sha256_file(OUT/'BUILD_ALL.json'),'source_files':source_snapshot(),'source_commit':__import__('subprocess').check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()}
+    plan={'version':'ctf-host-decision-pilot-plan-1','maps':336,'maps_per_count':24,'counts':list(range(2,16)),'seed':seed,'workers':pre['selected_workers'],'repeats':REPEATS,'alternatives':ALTERNATIVES,'max_continuations':336*4*4,'limits_ms':[2000,50],'prefix_replay_limit_ms':5000,'policy':'admitted P2 XXL / V off / v12_ponly_xxl_dlog log-only, its distinct host binary identity','root_selection':'each count has four requested maps per category (carrier, flag, contact, interception, defense, quiet); among observable TURNs t>=6 with a valid scored logged incumbent (K1 allowed), pick minimum SHA hash in the requested category; otherwise deterministic category rotation fallback. No final score, future reply or realized successor selects a root. Retain all stratum opportunities, rejected log reasons, actual logged K and collected K, shortages and fallback.','root_categories':list(CATEGORIES),'category_definitions':{'carrier':'a living own unit holds a flag','flag':'ground flag within Manhattan4 of a living own unit','contact':'living enemy within Manhattan4 of a living own unit','interception':'living enemy carrier within Manhattan8 of a living own unit','defense':'living enemy within Manhattan6 of own base','quiet':'none of the preceding opportunities'},'continuation_policy':'common recorded opponent root actions, live/reactive after root; fresh process full-prefix replay; forced action does not rewrite carrier memory; repeats retain original flag stream and are not IID new maps','expansion_and_stop_rule':'run every declared map and selected candidate four times; no expansion or early favorable stop. Preserve faults/errors/partial rows. A stopped job is not restarted automatically. Resume verifies existing byte hashes and only attempts missing stages.','split_rule':'training.decision_dataset.split_of_map; all candidates and repeats of one map remain in its split','frozen_identity':frozen['identity'],'preflight_sha256':O.sha256_file(OUT/'PREFLIGHT_FINAL.json'),'build_receipt_sha256':O.sha256_file(OUT/'BUILD_ALL.json'),'source_files':source_snapshot(),'source_commit':__import__('subprocess').check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()}
     plan['identity']=O.digest(plan)
     C.write_json(OUT/'PLAN.json',plan)
     C.write_json(DATA/'PLAN.json',plan)

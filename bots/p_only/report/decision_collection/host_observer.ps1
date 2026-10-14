@@ -21,8 +21,15 @@ while ($true) {
     $rows=@()
     foreach ($row in $snapshot | Where-Object { $treePids.Contains([int]$_.ProcessId) }) {
         $privateBytes=$null
-        try { $privateBytes=(Get-Process -Id $row.ProcessId -ErrorAction Stop).PrivateMemorySize64 } catch {}
-        $rows+=@{pid=$row.ProcessId; parent_pid=$row.ParentProcessId; birth_utc=$row.CreationDate.ToUniversalTime().ToString('o'); command=$row.CommandLine; cpu_100ns=([uint64]$row.KernelModeTime+[uint64]$row.UserModeTime); private_bytes=$privateBytes; working_set_bytes=$row.WorkingSetSize}
+        $privateBirthVerified=$false
+        try {
+            $processObject=Get-Process -Id $row.ProcessId -ErrorAction Stop
+            # CIM truncates process birth times to microseconds. Never read a
+            # reused PID's private bytes as if they belonged to the old birth.
+            $privateBirthVerified=[math]::Abs($processObject.StartTime.ToUniversalTime().Ticks-$row.CreationDate.ToUniversalTime().Ticks) -lt 10
+            if ($privateBirthVerified) { $privateBytes=$processObject.PrivateMemorySize64 }
+        } catch {}
+        $rows+=@{pid=$row.ProcessId; parent_pid=$row.ParentProcessId; birth_utc=$row.CreationDate.ToUniversalTime().ToString('o'); command=$row.CommandLine; cpu_100ns=([uint64]$row.KernelModeTime+[uint64]$row.UserModeTime); private_bytes=$privateBytes; private_birth_verified=$privateBirthVerified; working_set_bytes=$row.WorkingSetSize}
     }
     $memory=Get-CimInstance Win32_PerfFormattedData_PerfOS_Memory
     $os=Get-CimInstance Win32_OperatingSystem

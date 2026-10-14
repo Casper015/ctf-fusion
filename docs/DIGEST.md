@@ -450,6 +450,8 @@ Never reuse a seed for a new comparison. Pick one that is not in this table, and
 | 20261240 | Fresh-map V3-XL screen (T0022) |
 | (not recorded) | 50,000-game tournament (T0028): its seeds are not committed |
 | 20261301–20261364 | 64 showcase games of the newest P-only bots on the Mac (2026-10-11), 2–15 teams; nine are in the replay viewer. Not evidence |
+| 20261501 | T0037 historical Colab pilot (306 maps, counts 2-10); preserved separately, never host evidence |
+| 20261701 | T0037 Windows decision pilot: training only, reserved after fresh board/ledger and 1,985 retained metadata files; 336 maps, counts 2-15, 24 each, four repeats per actual candidate |
 | (unchosen) | Confirmation (T0006): chosen only after the finalists are frozen |
 
 ## Known defects in the records
