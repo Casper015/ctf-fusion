@@ -91,6 +91,8 @@ inline constexpr int kWait = 0, kPickup = 1, kDrop = 2, kAttack = 3;  // fusion.
 struct Request { int move = 0, act = kWait, target = -1; };
 
 // fusion.protocol.parse_reply: "<turn> <m> <a> <m> <a> <m> <a>" before any '#'; false where the engine rejects it.
+// One known difference: the engine (and Python) also read a non-ASCII decimal digit such as "\u0663" as a target id;
+// this parser reads bytes and refuses it. Carriers write ASCII, so their own orders are unaffected.
 inline bool parseReply(const std::string& line, int turn, std::array<Request, 3>& out) {
     const std::string body = line.substr(0, line.find('#'));
     std::vector<std::string> tok;

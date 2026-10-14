@@ -4,7 +4,7 @@ title: "Own-action features in C++: runtime encoder and Python parity on recorde
 status: review
 owner: claude@caspers-macbook
 needs: []
-writes: [inference/own_action.hpp, tools/cpp/own_action_check.cpp, tests/test_own_action_parity.py]
+writes: [fusion/protocol.py, inference/own_action.hpp, tests/test_own_action_parity.py, tools/cpp/own_action_check.cpp]
 depends: []
 land: pr
 branch: claude/t0043-own-action-features-in-c-runtime-encoder
@@ -31,3 +31,4 @@ PR #40 (branch claude/t0043-own-action-features-in-c-runtime-encoder). Done: inf
 - 2026-10-14 19:48Z claude@caspers-macbook: claimed
 - 2026-10-14 19:53Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/40 opened.
 - 2026-10-14 19:53Z claude@caspers-macbook: handoff -> review
+- 2026-10-14 21:32Z claude@caspers-macbook: amended writes -> fusion/protocol.py, inference/own_action.hpp, tests/test_own_action_parity.py, tools/cpp/own_action_check.cpp
