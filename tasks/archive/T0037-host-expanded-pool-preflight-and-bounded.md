@@ -1,7 +1,7 @@
 ---
 id: T0037
 title: "Host expanded-pool preflight and bounded decision data pilot (Windows desktop-g60ojud)"
-status: review
+status: done
 owner: codex-decision-pilot@desktop-g60ojud
 needs: [host]
 writes: [bots/p_only/report/decision_collection/, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.json, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md]
@@ -35,25 +35,9 @@ Reviewed host report PR merged: Windows runtime/admission/A-A preflight, full 2-
 
 ## Handoff
 
-*2026-10-14 23:21Z codex-decision-pilot@desktop-g60ojud:*
+*2026-10-14 23:54Z codex-decision-pilot@desktop-g60ojud:*
 
-Host collection delivery submitted as PR #44: https://github.com/Casper015/ctf-fusion/pull/44 (head c61d5290fd7eb9e2a6d561c61ea1f59e5d8f8d8c), open and mergeable; GitHub CI pending at handoff. Do not merge automatically or mark done until the reviewed host PR actually merges.
-
-Completed: 336 independent Windows maps, 24 at every count 2-15; 336 unchanged roots; 5,268 continuations (327 roots K4, nine K1, four repeats/candidate). Fixed admitted P2 XXL/V off/log-only carrier, six measured workers, exclusive CPU lease. Every match/all-continuation-phase fault and partial count is zero. Prefix requested/raw mismatches 18,972 retained; forced actions do not restore internal bot memory. No training, strength or production change.
-
-Known selector defect: original frozen code tested invented flag status ground instead of actual home/dropped. All 56 flag-requested maps fell back. Original collector/raw/freeze remain immutable historical evidence, not suitable for new collection. Corrected observable-only audit reports overlapping flag52/quiet54/carrier117/contact240/interception132/defense88 roots; only 10/56 flag requests meet intended context, despite all 336 maps having opportunities (24,519 turns). Balanced flag-targeted selection was not demonstrated. T0038 must independently audit this bias and usable coverage/noise/precision. Do not reselect roots, expand favorable samples or replay successful fixtures.
-
-English report and machine receipts: reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.{md,json}. Full raw: data/decision/host_20261014; receipts/bins: build/decision_host_20261014. Original source 2313043dbdb88dd8315cdfa3c9b7ee981352db48; PLAN 8a4a0417ae7d765cf54a2b9b705b0bd79a6e3bd36b1ba18c66876c1e223cadb5; FROZEN 7b7e7dce60cbfb64a1c00222dcd2c65c8521b35c0a3151586908aecc585e2fc9. Seed20261701 reserved before first fixture and consumed. Branch was rebased after collection; current main is not the measured source. Source-sensitive verification must use exact original source tree from bundle with preserved delivery scripts and original inputs/engine/raw, never rebuild binaries or reconstruct the original freeze from current bytes.
-
-Durable backups in this chat's workspace: `outputs/T0037_host/`. Local `work/readiness.json` resolves the workspace and worktree paths; private host paths are omitted from this published handoff.
-- HOST_INPUTS_seed20261701.tar.gz: e4e6aa87a4426add5dc1d634071d0b82eed51562f5e73209721e5245624989b9 (258 verified members, sealed before first fixture).
-- HOST_RAW_seed20261701.tar.gz: 890d43de7f76bac53bc651a26bf26d9d0bcf725ab1e1447e1354a8c947946c09 (13,318 read-back verified members).
-- SOURCE_2313043.bundle: 3199087deb394862be45245266cc2f8eda6347f62921b926ba53d74599defa90 (independent bare clone and fsck passed).
-- HOST_DELIVERY_SUPPLEMENT.tar.gz: 6162e3ecc6e63bc86c9aec0cb7183dd727c67a5375c9bb8b6204be5406155c2f (25 read-back verified members; post-collection audit/scripts/CHECKS).
-
-All required local checks passed: core316 (skip1), P-only50, collection contracts4, corrected protocol regressions3, board, Markdown index, bundle/compile. Final documentation layout/board22 checks and lane/privacy/syntax/hash sanity passed. Full offline delivery verification checked every successful raw hash and independently recomputed utilities without bots. No active machine lease remains after completed collection/finalization/checks; do not act on historical PIDs.
-
-Next: check exact PR44 head CI and reviewer feedback; fix only owned delivery issues without modifying sealed evidence. Once a human reviews/merges PR44, fetch remote main, verify actual merge commit and reviewed head in main, then task.py done T0037 with truthful receipts. Only then claim/start T0038 in its own official worktree and independently audit preserved host raw (do not replay). Exact reproduction commands are in the report: host_verify.py, host_flag_coverage.py, host_backup.py --destination <delivery-directory>, host_report.py --backup-dir <delivery-directory>, on the source tree and inputs described above. Colab PR37/306 maps/seed20261501 and downloaded T0032 models stay separate. Existing t0037-t0038 heartbeat continues quietly; t0011 and c08-t0037-t0038 stay PAUSED.
+result: PR #44 merged: 336-map Windows decision pilot delivered (seed 20261701, 336 roots, 5,268 continuations, zero faults), byte-verified raw/inputs/source backups preserved, flag selector defect documented with corrected protocol diagnostics; ready for T0038 source-bound audit.
 
 ## Log
 
@@ -87,3 +71,4 @@ Next: check exact PR44 head CI and reviewer feedback; fix only owned delivery is
 - 2026-10-14 23:20Z codex-decision-pilot@desktop-g60ojud: handoff -> review
 - 2026-10-14 23:21Z codex-decision-pilot@desktop-g60ojud: handoff -> review
 - 2026-10-14 23:53Z claude@caspers-macbook: note: PR #44 merged by Casper's request (2026-10-14). Board change (T0046, PR #43): finished tasks now live in tasks/archive/ and tasks/README.md shows the live board. Please run task.py from an updated main (git pull) before your next board command: an older task.py does not see tasks/archive/ and would drop archived tasks from SUMMARY.md. Marking T0037 done is left to you (T0038 waits on it).
+- 2026-10-14 23:54Z codex-decision-pilot@desktop-g60ojud: done
