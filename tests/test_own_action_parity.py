@@ -169,6 +169,22 @@ class Parity(unittest.TestCase):
             if bit != F.TARGET_OUT_OF_CAP:            # covered by the constructed root below
                 self.assertGreater(seen[bit], 0, f"no recorded candidate exercised {name}")
 
+    def test_reply_edge_cases(self):
+        """parse_reply mirrors the engine: "²" passes str.isdigit but is no number (rejected, never a crash); a
+        non-ASCII decimal digit such as Arabic-Indic three is a target for the engine and Python, and the C++ byte
+        parser refuses it (the one documented difference)."""
+        from fusion.protocol import ATTACK, parse_reply  # noqa: PLC0415
+        self.assertIsNone(parse_reply("5 S \u00b2 S - S -", 5))
+        self.assertEqual(parse_reply("5 S \u0663 S - S -", 5)[0].target, 3)
+        self.assertEqual(parse_reply("5 S 03 S - S -", 5)[0], parse_reply("5 S 3 S - S -", 5)[0])
+        self.assertEqual(parse_reply("5 S 3 S - S -", 5)[0].act, ATTACK)
+        m = self.matches[0]
+        turn = categories(m, 0)["contact"]
+        tok = F.normalize_line(m["replies"][turn - 1][0]).split()
+        lines = [m["replies"][turn - 1][0], " ".join(tok[:2] + ["\u00b2"] + tok[3:]), " ".join(tok[:2] + ["\u0663"] + tok[3:])]
+        cc = run_tool(D.prefix_stream(m, 0, turn), 0, turn, lines)
+        self.assertEqual([c["key"] for c in cc["cands"][1:]], ["invalid", "invalid"])
+
     def test_future_blocks_are_not_read(self):
         m = self.matches[1]
         turn = categories(m, 0)["contact"]
