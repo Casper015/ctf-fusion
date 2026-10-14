@@ -22,6 +22,16 @@ LOCAL_ONLY = ("build/", "data/", "runs/")
 VENDORED = ("roster/bots/src/", "roster/new_bots/")
 
 
+def moved_task(path: Path) -> bool:
+    """A link to a task file is valid while the task exists in tasks/ or tasks/archive/: tools/repo/task.py moves the
+    file between them with the task's status, and the task id is what the link means."""
+    if not re.fullmatch(r"T\d{4}-[a-z0-9-]+\.md", path.name):
+        return False
+    folder = path.parent.resolve()
+    tasks = folder.parent if folder.name == "archive" else folder
+    return tasks == (REPO / "tasks").resolve() and ((tasks / path.name).exists() or (tasks / "archive" / path.name).exists())
+
+
 def tracked() -> list[str]:
     if shutil.which("git") is None or not (REPO / ".git").exists():
         raise unittest.SkipTest("not a git checkout")
@@ -95,7 +105,7 @@ class TestRepoLayout(unittest.TestCase):
                     if re.match(r"^[a-z][a-z0-9+.-]*:", target) or target.startswith(("#", "<")):
                         continue
                     target = unquote(target.split("#")[0])
-                    if target and not ((REPO / f).parent / target).exists():
+                    if target and not ((REPO / f).parent / target).exists() and not moved_task((REPO / f).parent / target):
                         broken.append(f"{f}:{n}: {m.group(1)}")
         self.assertEqual(broken, [], "broken markdown links")
 

@@ -114,6 +114,7 @@ A task's `writes` field is the binding version of this table for that task.
 
 ## 6. Quick reference
 
+- The board as it is now: the top of [tasks/README.md](tasks/README.md), rewritten with every board change. Finished tasks move to `tasks/archive/` by themselves; `python tools/repo/task.py archive` moves any left behind.
 - Task file format and statuses: [tasks/README.md](tasks/README.md).
 - Every path that moved, and old handoff briefs: [docs/PATH_MAP.md](docs/PATH_MAP.md), [docs/handoffs/](docs/handoffs/README.md).
 - What every document says, compressed by topic, and the seeds already used: [docs/DIGEST.md](docs/DIGEST.md). Every Markdown file: [docs/MARKDOWN_INDEX.md](docs/MARKDOWN_INDEX.md).
