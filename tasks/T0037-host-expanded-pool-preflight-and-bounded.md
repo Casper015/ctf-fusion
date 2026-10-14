@@ -1,8 +1,8 @@
 ---
 id: T0037
 title: "Host expanded-pool preflight and bounded decision data pilot (Windows desktop-g60ojud)"
-status: open
-owner: ""
+status: active
+owner: codex-decision-pilot@desktop-g60ojud
 needs: [host]
 writes: [bots/p_only/report/decision_collection/, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.json, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md]
 depends: [T0035, T0036, T0039, T0040]
@@ -69,3 +69,4 @@ Host next steps: (1) inspect locks, existing receipts and actual processes; (2) 
 - 2026-10-14 19:24Z codex-host-handoff@caspers-macbook: claimed (forced)
 - 2026-10-14 19:24Z codex-host-handoff@caspers-macbook: amended writes -> bots/p_only/report/decision_collection/, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.json, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md; needs -> host; title -> Host expanded-pool preflight and bounded decision data pilot (Windows desktop-g60ojud); goal; done when
 - 2026-10-14 19:24Z codex-host-handoff@caspers-macbook: handoff -> open
+- 2026-10-14 19:27Z codex-decision-pilot@desktop-g60ojud: claimed
