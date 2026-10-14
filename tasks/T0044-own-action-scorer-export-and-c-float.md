@@ -1,7 +1,7 @@
 ---
 id: T0044
 title: "Own-action scorer export and C++ float inference (linear, MLP)"
-status: active
+status: review
 owner: claude@caspers-macbook
 needs: []
 writes: [inference/own_action_scorer.hpp, training/export_decision_scorer.py, tools/cpp/own_action_scorer_check.cpp, tests/test_own_action_scorer.py]
@@ -21,7 +21,9 @@ PR merged; exported headers of fixed-weight linear and MLP scorers reproduce Pyt
 
 ## Handoff
 
-Not started.
+*2026-10-14 20:00Z claude@caspers-macbook:*
+
+PR #41 (branch claude/t0044-own-action-scorer-export-and-c-float, merges T0043's branch). Done: training/export_decision_scorer.py (kind-separated export bound to features, run hashes, selection, carrier config; exact float32 hex weights), inference/own_action_scorer.hpp (validate + double-accumulated Q), tools/cpp/own_action_scorer_check.cpp, tests (parity <1e-9 vs numpy float64 on 14 recorded roots; refusals). Verified: core suite 308 OK. Next: merge #40 then #41; T0045 uses kScorer in the v12 hook. Not done: quantization (optional, separate).
 
 ## Log
 
@@ -29,3 +31,4 @@ Not started.
 - 2026-10-14 19:55Z claude@caspers-macbook: claimed (forced)
 - 2026-10-14 19:55Z claude@caspers-macbook: note: Claimed with --force before T0043 (same owner) merged: the branch is stacked on T0043's branch (PR #40) because it includes inference/own_action.hpp; its PR shows T0043's commit until #40 merges.
 - 2026-10-14 20:00Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/41 opened (stacked on #40).
+- 2026-10-14 20:00Z claude@caspers-macbook: handoff -> review
