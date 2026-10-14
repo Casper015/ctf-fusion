@@ -25,11 +25,11 @@ How a trained own-action scorer reaches a carrier, and what the host must check 
    - the hook picks argmax S + λ·g; ties go to the reply, then to the smallest canonical key.
    The only difference offline is that a candidate there also needs an observed outcome.
 
-**Fallbacks keep the reply:** an invalid model (`validate`), a stage without deciding scores, K = 1, or the deadline. The deadline is `PONLY_DSCORE_DEADLINE_MS` after the turn began, default 40. That is not a free budget: the carrier's own budgets are unchanged, and only the host can say whether 40 is safe.
+**Fallbacks keep the reply:** an invalid model (`validate`), a stage without deciding scores, K = 1, or the deadline. The deadline is `PONLY_DSCORE_DEADLINE_MS` after `decide()` was entered, default 40. Reading and parsing the TURN block before that is not counted, so the host measures replies from the engine's side. That is not a free budget: the carrier's own budgets are unchanged, and only the host can say whether 40 is safe.
 
 **Build-time identity:** the scorer must be bound to `PONLY_DSCORE_DATA_CARRIER`, the collection carrier whose shortlist this build reproduces, with the same opponent-P family and V setting. Otherwise the build fails. An unbound test export builds only with `PONLY_DSCORE_ALLOW_UNBOUND`.
 
-**Counters:** one stderr line at the last turn: `DSCORE roots scored switched no_scores k1 deadline invalid candidates unsupported`.
+**Counters:** one stderr line at the last turn: `DSCORE roots scored switched no_scores k1 deadline invalid candidates unsupported`. A process that dies or is stopped earlier prints none.
 
 ## Host handoff
 

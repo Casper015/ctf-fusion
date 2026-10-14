@@ -24,15 +24,17 @@
 //      rule's candidates, population sd, the reply raised to their top) or incumbent_override (1 for the reply, 0
 //      otherwise); argmax of S + lambda g; ties within 1e-12 go to the reply, then to the smallest canonical key.
 // The reply stands on an invalid model (validate), a missing deciding score, K = 1, or the deadline:
-// PONLY_DSCORE_DEADLINE_MS after the turn began (default 40 of the 50 ms reply limit; not an extra budget: the
-// carrier's own budgets are unchanged, and the host measures the real cost before any screen).
+// PONLY_DSCORE_DEADLINE_MS after decide() was entered (default 40 of the 50 ms reply limit; not an extra budget: the
+// carrier's own budgets are unchanged, and the host measures the real cost before any screen). The clock starts when
+// decide() is entered, not when the TURN block arrived: reading and parsing the input before it is not counted, so
+// the host validation measures replies from the engine's side (its 50 ms).
 //
 // Identity: the scorer must have been trained on data of PONLY_DSCORE_DATA_CARRIER (the collection carrier whose
 // shortlist this build reproduces, e.g. "v12_ponly_xxl_dlog"), with this build's opponent-P family and V setting;
 // otherwise the build fails (Hook::check). An unbound test export builds only with PONLY_DSCORE_ALLOW_UNBOUND.
 //
-// Counters, one stderr line at the last turn: DSCORE roots scored switched no_scores k1 deadline invalid candidates
-// unsupported. PONLY_DSCORE_TRACE appends the logged shortlist and " ## dsc1 ..." to every reply (tests only: the
+// Counters, one stderr line at the last turn (g.turn == g.turns): DSCORE roots scored switched no_scores k1 deadline
+// invalid candidates unsupported. A process that dies or is stopped before the last turn prints none. PONLY_DSCORE_TRACE appends the logged shortlist and " ## dsc1 ..." to every reply (tests only: the
 // engine ignores everything after '#').
 #pragma once
 #ifndef PONLY_DECISION
