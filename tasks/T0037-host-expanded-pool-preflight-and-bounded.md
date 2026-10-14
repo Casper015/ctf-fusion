@@ -1,8 +1,8 @@
 ---
 id: T0037
 title: "Host expanded-pool preflight and bounded decision data pilot (Windows desktop-g60ojud)"
-status: active
-owner: codex-host-handoff@caspers-macbook
+status: open
+owner: ""
 needs: [host]
 writes: [bots/p_only/report/decision_collection/, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.json, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md]
 depends: [T0035, T0036, T0039, T0040]
@@ -35,9 +35,13 @@ Reviewed host report PR merged: Windows runtime/admission/A-A preflight, full 2-
 
 ## Handoff
 
-*2026-10-12 18:08Z codex-t0037-report@caspers-macbook:*
+*2026-10-14 19:24Z codex-host-handoff@caspers-macbook:*
 
-Stage-1 report submitted as PR #37 https://github.com/Casper015/ctf-fusion/pull/37, head 1df0afbd1c7287f071a1fc96aa0e081f0b9b3d33. Source receipts pin 41022c0, engine 54139d4; seed 20261501 consumed; frozen pilot 06b5ccacdafe75ab. 306 complete whole matches, all roots available, two faults retained in s20261501-n09-m00032. Local backup is Player5/workspace/backups/T0037_colab_seed20261501_20261012; archive SHA-256 2d04629757e68d783df5dcb2a093a4a23fb356d8f2a0f41f63ebef07db73e970; 631 file hashes verified. Original Colab /content/t0037 remains intact, binaries still there. Core suite 291 tests OK (43 skipped); task check and diff check pass. This is partial progress, not a completion handoff. Next: review/merge #36 before any branch collection; retain frozen matches/binaries, freeze separate branch collector provenance, collect actual K and four repeats per candidate, report prefix/root/continuation faults and noise. No model training or host strength claim; T0038 remains gated.
+Moved back to Windows desktop-g60ojud under Casper's explicit October 14 request. Task is OPEN for a host-capable worker; this Mac has not launched host games. Claim through task.py, use an isolated task worktree and the exclusive CPU lock.
+
+Preserved history: PR #37 remains the Colab stage-1 report. Its306 matches (counts2-10), verified631-file backup and consumed seed20261501 remain separate and immutable. Original/recovery branch completion is unverified; preserve partial/failed records and do not restart Colab recovery. Old Colab continuation scheduling is being paused.
+
+Host next steps: (1) inspect locks, existing receipts and actual processes; (2) build/admit the expanded pool plus v12_ponly_xxl_dlog/P2XXL/Voff, verify exclusions and n15 load, and freeze concurrency; (3) select and ledger a genuinely unused training-only host seed, use a new host namespace and collect a predeclared300-500-map balanced2-15 pilot; (4) select actual logged roots/candidates, collect four repeats initially, retain prefix/root/continuation faults and preserve exact binary/raw hashes; (5) back up before reporting/closing and hand the exact corpus to T0038. Colab observations must not be mixed into host labels or claimed as host timing evidence. No training in T0037.
 
 ## Log
 
@@ -64,3 +68,4 @@ Stage-1 report submitted as PR #37 https://github.com/Casper015/ctf-fusion/pull/
 - 2026-10-14 19:23Z codex-host-handoff@caspers-macbook: note: Casper explicitly moved this task back from Colab to the Windows host on October 14, 2026. This authorizes configuration/handoff takeover only; no host match batch is being started by this Mac session. Preserve all Colab records and consumed seed20261501.
 - 2026-10-14 19:24Z codex-host-handoff@caspers-macbook: claimed (forced)
 - 2026-10-14 19:24Z codex-host-handoff@caspers-macbook: amended writes -> bots/p_only/report/decision_collection/, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.json, reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.md, docs/DIGEST.md, docs/MARKDOWN_INDEX.md; needs -> host; title -> Host expanded-pool preflight and bounded decision data pilot (Windows desktop-g60ojud); goal; done when
+- 2026-10-14 19:24Z codex-host-handoff@caspers-macbook: handoff -> open
