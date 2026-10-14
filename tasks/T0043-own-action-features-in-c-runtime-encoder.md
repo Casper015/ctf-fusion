@@ -1,7 +1,7 @@
 ---
 id: T0043
 title: "Own-action features in C++: runtime encoder and Python parity on recorded inputs"
-status: review
+status: done
 owner: claude@caspers-macbook
 needs: []
 writes: [fusion/protocol.py, inference/own_action.hpp, tests/test_own_action_parity.py, tools/cpp/own_action_check.cpp]
@@ -21,9 +21,9 @@ PR merged; parity tests pass bit for bit on recorded inputs; the C++ header pins
 
 ## Handoff
 
-*2026-10-14 19:53Z claude@caspers-macbook:*
+*2026-10-14 21:56Z claude@caspers-macbook:*
 
-PR #40 (branch claude/t0043-own-action-features-in-c-runtime-encoder). Done: inference/own_action.hpp (runtime encoder, canonicalization, duplicates, support, root/candidate features; pins own-action-1 and digest 9ed719f238cd5d70), tools/cpp/own_action_check.cpp, tests/test_own_action_parity.py (24 recorded roots, 4,534 replies, one constructed full-slot root; bit-exact). Verified: core suite 303 OK. Next: T0044 (scorer export + C++ inference) builds on this header. Not checked: Windows compilers.
+result: PR #40 merged: inference/own_action.hpp, bit-exact with fusion/decision_features.py on recorded roots (digest 9ed719f238cd5d70); parse_reply no longer crashes on non-number digits; one documented difference (non-ASCII digits).
 
 ## Log
 
@@ -32,3 +32,4 @@ PR #40 (branch claude/t0043-own-action-features-in-c-runtime-encoder). Done: inf
 - 2026-10-14 19:53Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/40 opened.
 - 2026-10-14 19:53Z claude@caspers-macbook: handoff -> review
 - 2026-10-14 21:32Z claude@caspers-macbook: amended writes -> fusion/protocol.py, inference/own_action.hpp, tests/test_own_action_parity.py, tools/cpp/own_action_check.cpp
+- 2026-10-14 21:56Z claude@caspers-macbook: done
