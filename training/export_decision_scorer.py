@@ -108,6 +108,8 @@ def header(scorer, ident: dict, run_sha: dict, rule: dict, carrier: dict, cfg: d
              "#ifndef FUSION_OWN_ACTION_SCORER_MODEL_HPP", "#define FUSION_OWN_ACTION_SCORER_MODEL_HPP",
              "// Needs inference/ on the include path (or the headers inlined before this one).",
              '#include "own_action_scorer.hpp"', "",
+             "// lambda = 0 is the incumbent without any scoring: a carrier hook compiles itself out (decision_score.hpp).",
+             f"#define OWN_ACTION_SCORER_LAMBDA_ZERO {1 if float(rule['lambda']) == 0.0 else 0}", "",
              f'static_assert(fusion::own_action::kRootDim == {cfg["root_dim"]} && fusion::own_action::kCandDim == {cfg["cand_dim"]}, '
              '"scorer dimensions");', "",
              "namespace fusion::own_action::exported {", ""]

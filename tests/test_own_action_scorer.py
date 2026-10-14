@@ -150,6 +150,7 @@ class Export(unittest.TestCase):
                          ("v12_ponly_xxl_dlog", "admitted", "p2", 0))
         text = (self.tmp / "sel_out" / X.HEADER).read_text()
         self.assertIn('"v12_ponly_xxl_dlog"', text)
+        self.assertIn("#define OWN_ACTION_SCORER_LAMBDA_ZERO 0", text)
         self.assertIn(sel["selection_sha256"], text)
         tampered = dict(sel, norm="incumbent_override")
         path.write_text(json.dumps(tampered))
