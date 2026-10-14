@@ -2,13 +2,13 @@
 id: T0037
 title: "Expanded-pool preflight and bounded decision data pilot (run on Colab by Casper's decision, not host evidence)"
 status: active
-owner: codex-t0037-report@caspers-macbook
+owner: codex-host-handoff@caspers-macbook
 needs: []
 writes: [bots/p_only/report/decision_collection/, docs/DIGEST.md, docs/MARKDOWN_INDEX.md]
 depends: [T0035, T0036, T0039, T0040]
 land: pr
 branch: claude-ci/t0037-host-expanded-pool-preflight-and-bounded
-updated: 2026-10-12
+updated: 2026-10-14
 ---
 
 ## Goal
@@ -56,3 +56,4 @@ Stage-1 report submitted as PR #37 https://github.com/Casper015/ctf-fusion/pull/
 - 2026-10-12 21:17Z codex-t0037-report@caspers-macbook: note: 2026-10-12 21:15 UTC heartbeat: Edge/CUA calls timed out 3 times; current Colab state unverified. Last verified recovery_run.py PID 4623, prepare child PID 4625 alive compiling v12_ponly_m_v; recovery_monitor PID4931. Do not restart, interrupt or duplicate. Stage-1 backup is safe and fully verified. Existing ACTIVE heartbeat t0037-colab has full recovery instructions; retry observation using same Edge tab 1696948576. Only resume or rebuild after checking actual runtime/log/files.
 - 2026-10-12 21:21Z codex-t0037-report@caspers-macbook: note: Casper shared a new Edge screenshot at Colab 14:17: VM UI visibly connected, but ps table shows recovery_run.py PID4623 Z and recovery_monitor.py PID4931 Z, with no active prepare/branch child; earlier elapsed runtime 53:35, both recovery processes exited after ~34 min. This is a likely recovery abort, NOT completion. Need inspect /content/t0037/recovery.log and monitor log, branches_recovery and /content/t0037/build/all hashes from Colab UI before resuming. CUA control calls now time out after30s despite screenshot showing connected page; do not restart or mark done until logs/files read. Verified stage1 backup preserved local. Heartbeat remains active. Last tools failures communicated to Casper.
 - 2026-10-14 19:23Z codex-host-handoff@caspers-macbook: note: Casper explicitly moved this task back from Colab to the Windows host on October 14, 2026. This authorizes configuration/handoff takeover only; no host match batch is being started by this Mac session. Preserve all Colab records and consumed seed20261501.
+- 2026-10-14 19:24Z codex-host-handoff@caspers-macbook: claimed (forced)
