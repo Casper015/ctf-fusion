@@ -17,7 +17,11 @@
 #define PONLY_NO_MAIN 1
 // -DPONLY_FAMILIES: the family-aware carriers (make_families.py); select PONLY_POLICY_FAMILY,
 // PONLY_VALUE_FAMILY and pre-include a model set's registry (-include <set>/registry.hpp).
-#if defined(CARRIER_C08) && defined(PONLY_FAMILIES)
+// -DPONLY_SCORING (with -DPONLY_FAMILIES): the v12 own-action scoring carrier (make_scoring.py); PONLY_DECISION 2
+// needs an exported scorer's scorer_model.hpp pre-included (-include <export>/scorer_model.hpp).
+#if defined(CARRIER_V12) && defined(PONLY_FAMILIES) && defined(PONLY_SCORING)
+#include "v12_ponly_fs.hpp"
+#elif defined(CARRIER_C08) && defined(PONLY_FAMILIES)
 #include "c08_ponly_f.hpp"
 #elif defined(CARRIER_V12) && defined(PONLY_FAMILIES)
 #include "v12_ponly_f.hpp"

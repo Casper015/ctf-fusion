@@ -74,6 +74,8 @@ Other rules:
 | `reports/**`, `docs/benchmark/*TABLES.md`, `roster/report/**` | the script named in the file's header |
 | `roster/bots/src/**` | vendored sources, named by sha256: never edit |
 | `bots/p_only/include/ponly_precision.hpp`, `ponly_p3_precision.hpp` (precision-aware views, task T0030; [P_MIXED_PRECISION.md](docs/P_MIXED_PRECISION.md)) | `python bots/p_only/tools/derive/make_families.py` (`bots/p_only/tests/test_precision_carriers.py` re-derives and compares) |
+| `bots/p_only/bots/v12_ponly_fs.hpp` (the v12 own-action scoring carrier, task T0045; [OWN_ACTION_RUNTIME.md](docs/OWN_ACTION_RUNTIME.md)) | `python bots/p_only/tools/derive/make_scoring.py` after `make_families.py` (`bots/p_only/tests/test_decision_scoring.py` re-derives and compares) |
+| `inference/own_action_scorers/<name>/` (exported own-action scorers, never P or V) | `python -m training.export_decision_scorer` |
 | `build/p_precision/**` (experimental low-bit P exports, never committed) | `python -m training.export_precision export ...` |
 | `tasks/T*.md` | `tools/repo/task.py`. Humans may edit by hand; run `task.py check` before pushing. |
 | `tasks/SUMMARY.md` | `tools/repo/task.py`, with every board change (`task.py summary --write` after a hand edit of a task) |
