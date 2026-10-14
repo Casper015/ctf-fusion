@@ -28,3 +28,4 @@ Not started.
 - 2026-10-14 20:03Z claude@caspers-macbook: created
 - 2026-10-14 20:03Z claude@caspers-macbook: claimed (forced)
 - 2026-10-14 20:03Z claude@caspers-macbook: note: Claimed with --force before T0044 (same owner) merged: the branch merges T0044's branch (PR #41, itself on #40).
+- 2026-10-14 20:17Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/42 opened (stacked on #41, #40).
