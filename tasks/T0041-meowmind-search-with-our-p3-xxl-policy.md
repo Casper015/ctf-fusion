@@ -1,0 +1,28 @@
+---
+id: T0041
+title: "meowmind search with our P3 XXL policy: T0011 and distilled 'both' bots (Mac pilot)"
+status: open
+owner: ""
+needs: []
+writes: [bots/meowmind_p/, docs/MARKDOWN_INDEX.md]
+depends: []
+land: pr
+branch: ""
+updated: 2026-10-14
+---
+
+## Goal
+
+Commit the two meowmind hybrid bots that use our P3 XXL joint policy for their own candidate prior and as an extra opponent expert (T0011 XXL and T0032 distill_s101), the generator that builds them, and the Mac pilot round-robin results, labeled as development-machine results, not host evidence. Casper chose to publish meowmind's source in this repository.
+
+## Done when
+
+PR merged with both bundled bots, make.py, README with exact rebuild commands and Mac results; no claims beyond 'not shown'.
+
+## Handoff
+
+Not started.
+
+## Log
+
+- 2026-10-14 19:34Z claude@caspers-macbook: created
