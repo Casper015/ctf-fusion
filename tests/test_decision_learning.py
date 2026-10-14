@@ -141,7 +141,7 @@ def collection_receipts(tmp: Path, binary=CARRIER) -> tuple[Path, Path]:
 
 def handmade(roots):
     """A decision dict from [(teams, map, [(key, outcomes, support[, carrier score]), ...]), ...]; candidate 0 is the
-    incumbent."""
+    incumbent. outcomes[r] is repeat id r: a number, None (no branch record) or "fail" (a record without a score)."""
     d = {k: [] for k in D.ROOT_KEYS + D.CAND_KEYS}
     rmax = max(len(c[1]) for _, _, cs in roots for c in cs) or 1
     for r, (teams, mp, cs) in enumerate(roots):
@@ -153,13 +153,22 @@ def handmade(roots):
             d[k].append(v)
         for c, (key, outs, sup, *cs_) in enumerate(cs):
             o = np.full(rmax, np.nan)
-            o[:len(outs)] = outs
-            n = len(outs)
+            state = np.zeros(rmax, np.int8)
+            for i, x in enumerate(outs):
+                if x is None:
+                    continue
+                state[i] = D.REPEAT_FAILED if x == "fail" else D.REPEAT_OUTCOME
+                if x != "fail":
+                    o[i] = x
+            vals = o[np.isfinite(o)]
+            n = len(vals)
+            rec = np.where(state > 0, 0, D.FAULT_NO_BRANCH)
             for k, v in (("cand_root", r), ("cand_line", key), ("cand_key", key), ("cand_source", "x"), ("cand_on_policy", c == 0),
                          ("cand_move", np.zeros(3)), ("cand_act", np.zeros(3)), ("cand_target", np.zeros(3)), ("cand_slot", np.zeros(3)),
                          ("cand_flags", 0 if sup else F.PARSE_FAIL), ("cand_dup_of", -1), ("cand_support", sup), ("cand_n", n),
-                         ("cand_score", np.zeros((rmax, 15))), ("cand_outcome", o), ("cand_faults", np.zeros(rmax)),
-                         ("cand_y", float(np.mean(outs)) if n else np.nan), ("cand_var", float(np.var(outs, ddof=1)) if n >= 2 else np.nan),
+                         ("cand_repeat_state", state), ("cand_score", np.zeros((rmax, 15))), ("cand_outcome", o),
+                         ("cand_faults", rec), ("cand_faults_prefix", rec), ("cand_faults_root", rec),
+                         ("cand_y", float(np.mean(vals)) if n else np.nan), ("cand_var", float(np.var(vals, ddof=1)) if n >= 2 else np.nan),
                          ("cand_carrier_score", cs_[0] if cs_ else np.nan)):
                 d[k].append(v)
     return D.to_arrays(d)
