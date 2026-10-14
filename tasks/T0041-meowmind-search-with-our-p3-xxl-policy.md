@@ -28,3 +28,4 @@ Not started.
 - 2026-10-14 19:34Z claude@caspers-macbook: created
 - 2026-10-14 19:35Z claude@caspers-macbook: amended writes -> bots/meowmind_p/
 - 2026-10-14 19:35Z claude@caspers-macbook: claimed
+- 2026-10-14 19:38Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/38 opened: both bundled bots, make.py, README with Mac pilot results (gain not shown). MARKDOWN_INDEX left to after T0037.
