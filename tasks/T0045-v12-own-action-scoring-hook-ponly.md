@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-14 20:03Z claude@caspers-macbook: created
 - 2026-10-14 20:03Z claude@caspers-macbook: claimed (forced)
+- 2026-10-14 20:03Z claude@caspers-macbook: note: Claimed with --force before T0044 (same owner) merged: the branch merges T0044's branch (PR #41, itself on #40).
