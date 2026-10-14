@@ -1,13 +1,13 @@
 ---
 id: T0046
 title: "Task board: archive finished tasks and a live board in tasks/README.md"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [tools/repo/task.py, tests/test_task_board.py, tests/test_repo_layout.py, tasks/README.md, AGENTS.md]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0046-task-board-archive-finished-tasks-and-a
 updated: 2026-10-14
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-14 21:02Z claude@caspers-macbook: created
+- 2026-10-14 21:02Z claude@caspers-macbook: claimed
