@@ -1,7 +1,7 @@
 ---
 id: T0042
 title: "Decision data diagnostics: root-matched noise correction, repeat IDs, per-phase faults"
-status: review
+status: done
 owner: claude@caspers-macbook
 needs: []
 writes: [training/decision_dataset.py, training/decision_noise.py, training/evaluate_decisions.py, tests/test_decision_learning.py, tests/test_decision_diagnostics.py, docs/RL_PLAN.md]
@@ -21,9 +21,9 @@ PR merged with the fixes, documentation in docs/RL_PLAN.md section 3, and regres
 
 ## Handoff
 
-*2026-10-14 19:47Z claude@caspers-macbook:*
+*2026-10-14 21:56Z claude@caspers-macbook:*
 
-PR #39 (branch claude/t0042-decision-data-diagnostics-root-matched, commit 05d3371). Done: noise statistics over one noise-root population (T0038 counterexample is a regression test), paired gap variance and implied covariance with stated assumptions, dataset schema ctf-fusion-decision-2 keeping repeat ids, failed repeats and per-phase faults, headroom by repeat id, RL_PLAN section 3. Verified: core suite 311 OK. Next: review/merge; T0038 builds its dataset with this schema (python -m training.decision_dataset ... then python -m training.decision_noise --data <out> --out <report>). Not checked: real noise levels (synthetic outcomes only).
+result: PR #39 merged: decision noise over one noise-root population (T0038 counterexample is a regression test), paired gap variance with assumptions, dataset schema ctf-fusion-decision-2 (repeat ids kept, failed repeats, faults by phase), headroom by repeat id.
 
 ## Log
 
@@ -31,3 +31,4 @@ PR #39 (branch claude/t0042-decision-data-diagnostics-root-matched, commit 05d33
 - 2026-10-14 19:41Z claude@caspers-macbook: claimed
 - 2026-10-14 19:47Z claude@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/39 opened.
 - 2026-10-14 19:47Z claude@caspers-macbook: handoff -> review
+- 2026-10-14 21:56Z claude@caspers-macbook: done
