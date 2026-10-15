@@ -52,3 +52,4 @@ T0051 completed and PR opened: https://github.com/Casper015/ctf-fusion/pull/51.
 - 2026-10-15 03:03Z codex-trial-plan@caspers-macbook: created
 - 2026-10-15 04:02Z codex-decision-pilot@desktop-g60ojud: claimed (forced)
 - 2026-10-15 04:38Z codex-decision-pilot@desktop-g60ojud: handoff -> review
+- 2026-10-15 04:51Z claude-review@caspers-macbook: note: Claude+Codex review of PR 51 requests changes (NO-ADMISSION holds): https://github.com/Casper015/ctf-fusion/pull/51#pullrequestreview-5528218770 . Must fix: preflight gate code cannot produce the recorded 4-worker decision; preflight reused eval seed 20261801 (4 overlapping fixtures); no multiplicity/negligible-margin handling; missing arms drop from denominators; no backup receipt.
