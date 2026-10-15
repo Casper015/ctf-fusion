@@ -14,6 +14,8 @@
 // stderr: the model identity on the first turn, and every turn, before the reply, the cumulative counters
 // (MEOWRL turns ... leaves ...). A runner keeps only the tail of stderr and may stop the process right after the last
 // reply, so a counter line printed once at the end can be lost; the per-turn line is always in the tail.
+// MEOW_RL_SEARCH=2 selects search_v2.hpp (task T0061: common random numbers and staged admission) and appends its
+// work counters to that line; MEOW_RL_SEARCH=1 is the T0056/T0057 search, unchanged.
 #pragma once
 
 #define main meowmind_reference_main
@@ -36,15 +38,22 @@
 #ifndef MEOW_RL_SEARCH
 #define MEOW_RL_SEARCH 0
 #endif
-#if MEOW_RL_SEARCH
+#if MEOW_RL_SEARCH == 1
 #include "search.hpp"
+#elif MEOW_RL_SEARCH == 2
+#include "search_v2.hpp"
+#elif MEOW_RL_SEARCH
+#error "MEOW_RL_SEARCH is 0, 1 or 2"
 #endif
+
 
 namespace meow_rl_bot {
 
 struct Counters {
     long turns = 0, refused = 0, search_used = 0, search_fallback = 0, leaves = 0;
+    long trajectories = 0, refuse_trajectory = 0, refuse_expand = 0, refuse_critic = 0, refuse_late = 0;   // MEOW_RL_SEARCH=2
 };
+
 
 inline std::string safe_reply(int turn) { return std::to_string(turn) + " S - S - S -"; }
 
@@ -55,8 +64,12 @@ inline int run() {
     meow_rl::Observation obs;
     Counters c;
     uint64_t seed = 0;
-#if MEOW_RL_SEARCH
+    long max_turn_us = 0, first_turn_us = 0, max_resolve_us = 0;   // steady and first own work after the read; the resolver
+    (void)max_turn_us, (void)first_turn_us, (void)max_resolve_us;
+#if MEOW_RL_SEARCH == 1
     meow_rl_search::Search search;
+#elif MEOW_RL_SEARCH == 2
+    meow_rl_search2::Search search;
 #endif
     while (read_turn(s.g)) {
         auto started = std::chrono::steady_clock::now();
@@ -75,22 +88,48 @@ inline int run() {
                                        : meow_rl_sample::draw(sc, obs.joint_mask, meow_rl_model::kActor.outExp,
                                                               meow_rl_model::kTemperature,
                                                               meow_rl_sample::uniform(seed, s.g.turn));
-#if MEOW_RL_SEARCH
+#if MEOW_RL_SEARCH == 1
             auto r = search.choose(s, obs, sc, joint, started);
             c.leaves += r.leaves;
             if (r.used) c.search_used++, joint = r.joint;
             else c.search_fallback++;
+#elif MEOW_RL_SEARCH == 2
+            search.reply_us = max_resolve_us;
+            auto r = search.choose(s, obs, sc, joint, seed, started);
+            c.leaves += r.leaves, c.trajectories += r.trajectories;
+            c.refuse_trajectory += r.refused == 1, c.refuse_critic += r.refused == 2, c.refuse_late += r.refused == 3;
+            c.refuse_expand += r.refused == 4;
+            if (r.used) c.search_used++, joint = r.joint;
+            else c.search_fallback++;
 #endif
             int actions[meow_rl::kUnits];
+            auto t_resolve = std::chrono::steady_clock::now();
             why = s.resolve(joint, reply, actions);
+            max_resolve_us = std::max(max_resolve_us, long(std::chrono::duration_cast<std::chrono::microseconds>(
+                                                               std::chrono::steady_clock::now() - t_resolve).count()));
         }
         if (!why.empty()) {
             if (c.refused++ == 0) std::fprintf(stderr, "MEOWRL refused turn %d: %s\n", s.g.turn, why.c_str());
             s.forget_history();
             reply = safe_reply(s.g.turn);
         }
+#if MEOW_RL_SEARCH == 2
+        long turn_us = long(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - started).count());
+        if (c.turns > 1) max_turn_us = std::max(max_turn_us, turn_us);
+        std::fprintf(stderr,
+                     "MEOWRL turns %ld refused %ld search_used %ld search_fallback %ld leaves %ld trajectories %ld "
+                     "refuse_trajectory %ld refuse_expand %ld refuse_critic %ld refuse_late %ld max_setup_us %ld "
+                     "max_traj_us %ld max_expand_us %ld max_critic_us %ld max_search_us %ld max_resolve_us %ld "
+                     "max_turn_us %ld first_turn_us %ld critic %s\n",
+                     c.turns, c.refused, c.search_used, c.search_fallback, c.leaves, c.trajectories, c.refuse_trajectory,
+                     c.refuse_expand, c.refuse_critic, c.refuse_late, search.max_setup_us, search.max_traj_us,
+                     search.max_expand_us, search.max_critic_us, search.max_search_us, max_resolve_us, max_turn_us,
+                     c.turns == 1 ? turn_us : first_turn_us, meow_rl_critic::kFormat);
+        if (c.turns == 1) first_turn_us = turn_us;
+#else
         std::fprintf(stderr, "MEOWRL turns %ld refused %ld search_used %ld search_fallback %ld leaves %ld\n", c.turns,
                      c.refused, c.search_used, c.search_fallback, c.leaves);
+#endif
         std::cout << reply << std::endl;
     }
     return 0;

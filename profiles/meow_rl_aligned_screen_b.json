@@ -1,0 +1,105 @@
+{
+ "_comment": "Schedule B of task T0061 (docs/MEOWMIND_RL_ALIGNED.md): the deployed search/precision comparison. D = the T0059 large-V actor actor-direct; F, R, H = the same actor header with search v2 and the checkpoint's FP32, reference16 and WideAct16 critic. Equal-time packages: each arm's search does what fits in the frozen deadline (counters record the work), so B compares deployments; the fixed-work diagnostics compare precision. Seed: fresh, distinct from schedule A's, reserved and frozen before any game. Exactly 8 workers, bound to the passed preflight. One prespecified family of five contrasts, Bonferroni alpha 0.05 with the computed normal quantile (analyze.py --multiplicity bonferroni); no backend is chosen from these games and reported with an unadjusted interval.",
+ "seed": null,
+ "teams": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "maps_per_count": 28,
+ "workers": 8,
+ "workers_exact": true,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "keep_matches": true,
+ "variants": "bots/meow_rl/variants_aligned.json",
+ "margin": 0.0,
+ "preflight": "reports/host/meow_rl_aligned/PREFLIGHT.json",
+ "reference": [
+  "Fable",
+  "MiMo",
+  "Kimi",
+  "GLM",
+  "Player4"
+ ],
+ "fixtures": 392,
+ "games": 1960,
+ "work_dir": "data/meow_rl_aligned/screen_b",
+ "report_dir": "reports/host/meow_rl_aligned/screen_b",
+ "arms": [
+  "meow_rl_aligned_p2_large",
+  "meow_rl_aligned_p2_large_fp32",
+  "meow_rl_aligned_p2_large_r16",
+  "meow_rl_aligned_p2_large_w16"
+ ],
+ "aa": [
+  "meow_rl_aligned_p2_large_r16"
+ ],
+ "comparisons": [
+  [
+   "meow_rl_aligned_p2_large_fp32",
+   "meow_rl_aligned_p2_large"
+  ],
+  [
+   "meow_rl_aligned_p2_large_r16",
+   "meow_rl_aligned_p2_large"
+  ],
+  [
+   "meow_rl_aligned_p2_large_w16",
+   "meow_rl_aligned_p2_large"
+  ],
+  [
+   "meow_rl_aligned_p2_large_w16",
+   "meow_rl_aligned_p2_large_r16"
+  ],
+  [
+   "meow_rl_aligned_p2_large_fp32",
+   "meow_rl_aligned_p2_large_r16"
+  ]
+ ],
+ "multiplicity": {
+  "method": "bonferroni",
+  "alpha": 0.05,
+  "family": 5
+ },
+ "families": {
+  "search": {
+   "method": "bonferroni",
+   "alpha": 0.05,
+   "comparisons": [
+    [
+     "meow_rl_aligned_p2_large_fp32",
+     "meow_rl_aligned_p2_large"
+    ],
+    [
+     "meow_rl_aligned_p2_large_r16",
+     "meow_rl_aligned_p2_large"
+    ],
+    [
+     "meow_rl_aligned_p2_large_w16",
+     "meow_rl_aligned_p2_large"
+    ],
+    [
+     "meow_rl_aligned_p2_large_w16",
+     "meow_rl_aligned_p2_large_r16"
+    ],
+    [
+     "meow_rl_aligned_p2_large_fp32",
+     "meow_rl_aligned_p2_large_r16"
+    ]
+   ]
+  }
+ },
+ "freeze": "reports/host/meow_rl_aligned/FREEZE.json"
+}
