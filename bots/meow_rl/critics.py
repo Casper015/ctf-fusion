@@ -227,6 +227,7 @@ def header(backend: dict, name: str, identity: dict) -> str:
             body.append(f'static_assert({max(w.shape)} <= fusion::flt::kMaxWidth, "critic layer {i} exceeds the float buffers");')
         body += ["inline constexpr fusion::flt::Layer critic_layers[] = {", *rows, "};",
                  f"inline constexpr fusion::flt::Net kCritic{{critic_layers, {len(rows)}}};",
+                 "inline const char* kernel_name() { return fusion::flt::name(); }",
                  "inline double value(const float* f) {", "    float out[1];", "    fusion::flt::forward(kCritic, f, out);",
                  "    return double(out[0]);", "}"]
     elif fmt.startswith("reference16"):
@@ -239,6 +240,7 @@ def header(backend: dict, name: str, identity: dict) -> str:
             body.append(f'static_assert({max(o, n_in)} <= fusion::kMaxWidth, "critic layer {i} exceeds kMaxWidth");')
         body += ["inline constexpr fusion::Layer critic_layers[] = {", *rows, "};",
                  f"inline constexpr fusion::Net kCritic{{critic_layers, {len(rows)}, {net['out_exp']}}};", INPUT,
+                 "inline const char* kernel_name() { return fusion::kernel::name(); }",
                  "inline double value(const float* f) {", f"    int32_t x[{net['in']}], acc[1];",
                  f"    for (int i = 0; i < {net['in']}; i++) x[i] = quantize(f[i]);",
                  "    fusion::forwardRaw(kCritic, x, acc);", "    return std::ldexp(double(acc[0]), -kCritic.outExp);", "}"]
@@ -252,6 +254,7 @@ def header(backend: dict, name: str, identity: dict) -> str:
             body.append(f'static_assert({max(o, n_in)} <= fusion::wide::kMaxWidth, "critic layer {i} exceeds the wide buffers");')
         body += ["inline constexpr fusion::wide::Layer critic_layers[] = {", *rows, "};",
                  f"inline constexpr fusion::wide::Net kCritic{{critic_layers, {len(rows)}, {net['out_exp']}}};", INPUT,
+                 "inline const char* kernel_name() { return fusion::wide::name(); }",
                  "inline double value(const float* f) {", f"    int32_t x[{net['in']}];", "    int64_t acc[1];",
                  f"    for (int i = 0; i < {net['in']}; i++) x[i] = quantize(f[i]);",
                  "    fusion::wide::forwardRaw(kCritic, x, acc);", "    return fusion::wide::toReal(kCritic, acc[0]);", "}"]

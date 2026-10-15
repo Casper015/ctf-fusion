@@ -26,7 +26,7 @@ from training.meow_rl import identity as I
 from training.meow_rl import policy as P
 
 REPO = Path(__file__).resolve().parents[1]
-for p in ("bots/meow_rl", "tools/meow_rl_aligned", "bots/p_only/tools"):
+for p in ("bots/meow_rl", "bots/meow_rl/aligned", "bots/p_only/tools"):
     sys.path.insert(0, str(REPO / p))
 import corpus as K  # noqa: E402
 import critics as C  # noqa: E402
@@ -75,7 +75,7 @@ def make_batches(root: Path, lib, actor) -> list[Path]:
                     rows[k].append(arr[idx])
                 rows["episode"].append(np.full(len(idx), u * 100 + e))
                 rows["mask"].append(np.packbits(M[idx], axis=1))
-                eps.append({"index": u * 100 + e, "teams": teams, "seat": 0, "map_seed": 1000 * u + 10 * e + len(run)})
+                eps.append({"index": u * 100 + e, "teams": teams, "seat": 0, "map_seed": 1000 * u + 10 * e})   # both runs
             np.savez(d / f"update_{u:06d}.npz", **{k: np.concatenate(v) for k, v in rows.items()})
             (d / f"update_{u:06d}.json").write_text(json.dumps({"episodes": eps}))
         dirs.append(d)
@@ -189,8 +189,8 @@ class AlignedPipeline(unittest.TestCase):
         again = K.main(["--batches", *map(str, self.dirs), "--out", str(self.tmp / "corpus2"), "--total", "280"])
         self.assertEqual(again["splits"], self.man["splits"])
         self.assertEqual(again["selected"], self.man["selected"])
-        cal, diag = (set((r[0].split("/")[0], r[4], r[6]) for r in self.man["selected"][s]) for s in ("calibration", "diagnostic"))
-        self.assertFalse(cal & diag)                                        # no map group in both splits
+        cal, diag = (set((r[4], r[6]) for r in self.man["selected"][s]) for s in ("calibration", "diagnostic"))
+        self.assertFalse(cal & diag)                                        # no map in both splits, whichever run played it
         self.assertEqual(self.man["splits"]["calibration"]["rows"], 280)
         short = self.man["splits"]["calibration"]["selection"]["shortage_by_count"]
         self.assertGreater(short["3"], 0)                                   # no 3-team data: reported, not invented
@@ -216,6 +216,8 @@ class AlignedPipeline(unittest.TestCase):
                 self.assertTrue(n["scores_equal"] and n["draws_equal"] and n["greedy_equal"], (key, path))
             self.assertGreater(a["agreement_diagnostic"]["sampled_agreement"], 0.8)
         self.assertTrue(r["actors"]["warm"]["array_route"]["tensors_equal"])
+        self.assertIn(r["actors"]["warm"]["native"]["simd1"]["kernel"], ("avx2", "sse2", "neon", "scalar"))
+        self.assertEqual(r["actors"]["warm"]["native"]["simd0"]["kernel"], "scalar")
         self.assertTrue(r["actors"]["warm"]["array_route"]["log_probs_equal"])
         for fmt in C.FORMATS:
             self.assertTrue(all(v["bit_equal"] for v in r["critics"][fmt]["native"].values()), fmt)
@@ -320,6 +322,12 @@ class AlignedPipeline(unittest.TestCase):
             TR.select(ns(out=str(td), roots=56, per_game=8, seed=TR.SEED))
         man = TR.build(ns(out=str(td), actor_header=str(self.inf / "p2_large" / "actor.hpp")))
         self.assertEqual(man["trees"], 12)
+        tree = json.loads((td / "trees.jsonl").read_text().splitlines()[0])
+        self.assertEqual(len(tree["mask"]), 125)
+        self.assertEqual(len(tree["scenarios"]), 2)
+        self.assertEqual(set(tree["scenarios"][0]), {"opp1_rng", "sim1", "opp2_rng", "cont", "sim2", "opp1_orders"})
+        self.assertEqual(len(tree["leaves"]), 4 * 2)
+        self.assertTrue(all(len(lf["root_actions"]) == 3 for lf in tree["leaves"]))
         r = D.main(["--trees", str(td), "--corpus", str(self.corpus), "--critic-npz", str(self.npz["p2_large"]),
                     "--headers", str(self.inf), "--out", str(self.tmp / "diag")])
         for k in ("F", "R", "H"):
@@ -327,6 +335,9 @@ class AlignedPipeline(unittest.TestCase):
         self.assertEqual(r["root"]["trees"], 12)
         self.assertIn("top_action_agreement", r["root"]["R"])
         self.assertTrue((self.tmp / "diag" / "DIAGNOSTICS.md").read_text().startswith("# Fixed-work"))
+        scored = [json.loads(x) for x in (self.tmp / "diag" / "ROOTS_SCORED.jsonl").read_text().splitlines()]
+        self.assertEqual(len(scored), 12)
+        self.assertEqual(set(scored[0]["values"]), set(D.BACKENDS))
 
 
 class Gates(unittest.TestCase):
@@ -342,11 +353,15 @@ class Gates(unittest.TestCase):
                     {"max_ms": 48.0}, {"first_ms": 1800.0}, {"max_ms": None}):
             self.assertFalse(PF.verdict([self.row(**bad)], False)[0], bad)
         self.assertFalse(PF.verdict([self.row(counters={"turns": 400, "search_used": 0})], True)[0])
+        self.assertFalse(PF.verdict([self.row(counters={"turns": 400, "refused": 400, "search_used": 0})], False)[0])
+        text = "#define MEOW_RL_SEARCH_TRAJ_US 6000\n#ifndef MEOW_RL_SEARCH_TRAJ_US\n#define MEOW_RL_SEARCH_TRAJ_US 4000\n#endif\n"
+        self.assertEqual(PF.first_defines(text), {"MEOW_RL_SEARCH_TRAJ_US": 6000})
 
     def test_counter_lines_of_both_search_versions_parse(self):
         v1 = "MEOWRL turns 7 refused 0 search_used 3 search_fallback 4 leaves 20"
-        v2 = v1 + " trajectories 24 refuse_trajectory 1 refuse_critic 2 refuse_late 1 max_traj_us 900 max_critic_us 400 " \
-                  "max_search_us 5000 max_turn_us 6000 first_turn_us 9000 critic wideact16"
+        v2 = v1 + " trajectories 24 refuse_trajectory 1 refuse_expand 0 refuse_critic 2 refuse_late 1 max_setup_us 80 " \
+                  "max_traj_us 900 max_expand_us 300 max_critic_us 400 max_search_us 5000 max_resolve_us 20 max_turn_us 6000 " \
+                  "first_turn_us 9000 critic wideact16"
         self.assertEqual(PF.parse_counters([v1]), {"turns": 7, "refused": 0, "search_used": 3, "search_fallback": 4, "leaves": 20})
         self.assertEqual(PF.parse_counters(["x", v2])["max_critic_us"], 400)
         self.assertIsNone(PF.parse_counters(["nothing"]))
@@ -369,6 +384,24 @@ class Gates(unittest.TestCase):
                 RS.check_preflight(rec, {"x": {"binary_sha256": "bb"}}, ["x"], 8)
             with self.assertRaises(SystemExit):
                 RS.check_preflight(rec, {"x": {"binary_sha256": "aa"}}, ["x"], 6)
+            frozen_cfg = cfg | {"seed": 7}
+            p.write_text(json.dumps(frozen_cfg))
+            sched = Path(t) / "schedule.json"
+            sched.write_text(json.dumps({"seed": 7, "team_counts": cfg["teams"], "maps_per_count": 28,
+                                         "reference": [{"name": n} for n in cfg["reference"]]}))
+            fz = Path(t) / "FREEZE.json"
+            fz.write_text(json.dumps({"schedules": {"a": {"profile": str(p), "profile_sha256": RS.sha256_file(p),
+                                                          "schedule_sha256": RS.sha256_file(sched)}}}))
+            RS.check_freeze(fz, p, frozen_cfg, sched)
+            p.write_text(json.dumps(frozen_cfg | {"margin": 0.01}))                 # the profile changed after the freeze
+            with self.assertRaisesRegex(SystemExit, "changed after"):
+                RS.check_freeze(fz, p, frozen_cfg, sched)
+            p.write_text(json.dumps(frozen_cfg))
+            sched.write_text(sched.read_text() + " ")                               # another schedule
+            with self.assertRaisesRegex(SystemExit, "not the frozen schedule"):
+                RS.check_freeze(fz, p, frozen_cfg, sched)
+            with self.assertRaisesRegex(SystemExit, "does not exist"):
+                RS.check_freeze(Path(t) / "none.json", p, frozen_cfg, sched)
 
     def test_schedules_are_frozen_specifications_with_their_budgets(self):
         a = json.loads((REPO / "profiles" / "meow_rl_aligned_screen_a.json").read_text())
@@ -399,6 +432,12 @@ class Gates(unittest.TestCase):
         self.assertEqual(r["families"]["primary"]["rows"][0]["verdict"], "helps")          # 2.1 > 1.96 se
         self.assertEqual(r["families"]["secondary"]["rows"][0]["verdict"], "not shown")    # 2.1 < 2.24 se
         self.assertEqual(r["families"]["secondary"]["rows"][1]["verdict"], "hurts")
+        part = json.loads(json.dumps(screen))
+        part["comparisons"]["meow_rl_aligned_p2_large - meow_rl_aligned_warm"]["missing"] = 390
+        self.assertEqual(RP.judge(cfg, part)["families"]["primary"]["rows"][0]["verdict"], "incomplete")
+        part["comparisons"]["meow_rl_aligned_p2_large - meow_rl_aligned_warm"]["overall"] = None
+        self.assertEqual(RP.judge(cfg, part)["families"]["primary"]["rows"][0]["verdict"], "incomplete")
+        self.assertEqual(RP.judge(cfg, screen | {"incomplete": ["f1"]})["families"]["primary"]["rows"][0]["verdict"], "incomplete")
 
 
 if __name__ == "__main__":

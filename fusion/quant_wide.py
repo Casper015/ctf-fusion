@@ -67,6 +67,8 @@ def quantize(W: list, b: list, in_scale, in_lo, in_hi, a_max: int = A_MAX) -> di
     bs = [np.asarray(c, np.float64) for c in b]
     Ws[0] = Ws[0] / np.asarray(in_scale, np.float64)[None, :]
     in_max = np.maximum(np.abs(np.asarray(in_lo, np.int64)), np.abs(np.asarray(in_hi, np.int64)))
+    if int(in_max.max()) > ACT_MAX:                     # the native layer input is int16: +-32767 on both sides
+        raise ValueError("inputs outside +-32767 are not representable in the int16 layer input")
     if 2 * W_LIMIT * int(max(int(in_max.max()), ACT_MAX)) > PAIR_LIMIT:
         raise ValueError("inputs too large for exact int16 pair sums")
     layers = []

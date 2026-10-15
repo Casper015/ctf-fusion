@@ -100,5 +100,6 @@
     ]
    ]
   }
- }
+ },
+ "freeze": "reports/host/meow_rl_aligned/FREEZE.json"
 }

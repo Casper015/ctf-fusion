@@ -1,22 +1,24 @@
 """Freeze schedules A and B of the aligned Meowmind RL screens (task T0061, docs/MEOWMIND_RL_ALIGNED.md; host only).
 
-    python tools/meow_rl_aligned/freeze.py --seed-a <ledgered> --seed-b <ledgered> --out reports/host/meow_rl_aligned/FREEZE.json
+    python bots/meow_rl/aligned/freeze.py --seed-a <ledgered> --seed-b <ledgered> --out reports/host/meow_rl_aligned/FREEZE.json
 
 Run after the eight-worker preflight passed and before any screen game. It refuses unless:
   * the preflight receipt passed at 8 workers and measured exactly the binaries now built for every arm;
   * the two seeds are distinct, listed in docs/MEOWMIND_RL_SCREEN_SEEDS.md, and neither is the preflight's seed;
   * the held-out roster passes the audit below.
-Then it writes each seed into its profile (profiles/meow_rl_aligned_screen_{a,b}.json, the only change it makes), and
-FREEZE.json: the arms and their bundle/binary sha256, the comparisons and families, margins, multiplicity, workers,
+Then it writes each seed into its profile (profiles/meow_rl_aligned_screen_{a,b}.json, the only change it makes),
+generates each schedule (roster.strength schedule, into the profile's work_dir/schedule.json; it refuses an existing
+one), and writes FREEZE.json: the profiles' and schedules' sha256 and identities, the arms and their bundle/binary sha256, the comparisons and families, margins, multiplicity, workers,
 fixture and game budgets, the preflight receipt's sha256 and the roster audit. The screens then run with
 bots/p_only/tools/run_screen.py --config profiles/meow_rl_aligned_screen_a.json (and b); nothing frozen here may
 change after the first game.
 
 Roster audit (the five held-out opponents of profiles/meow_rl_screen.json): for each, its family in the roster
-registry and its source sha256 in the AI_Test checkout; it must not appear in either training pool
-(profiles/meow_rl_training_pool.json, profiles/meow_rl_training_pool_v2.json) by name, path or source sha256, and its
-source must not carry the Meowmind reference's distinctive identifiers (a copy or descendant of the actor under
-test). Families shared with a training pool are listed (descriptive: a family label is not an ancestry). A marker scan
+registry, its source sha256 in the AI_Test checkout, every file it includes locally (transitively, each with its
+sha256) and the sha256 of the executable the runner actually starts (build/roster, compiled by the preflight). It must
+not appear in either training pool (profiles/meow_rl_training_pool.json, profiles/meow_rl_training_pool_v2.json) by
+name, path or source sha256, and neither its source nor any included file may carry the Meowmind reference's
+distinctive identifiers (a copy or descendant of the actor under test); a missing executable blocks the freeze. Families shared with a training pool are listed (descriptive: a family label is not an ancestry). A marker scan
 is a screen, not a proof of independence; a hit blocks the freeze until a human decides.
 """
 from __future__ import annotations
@@ -28,7 +30,7 @@ import re
 import sys
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
 
 PROFILES = {"a": REPO / "profiles" / "meow_rl_aligned_screen_a.json", "b": REPO / "profiles" / "meow_rl_aligned_screen_b.json"}
@@ -50,7 +52,24 @@ def pool_bots(path: Path) -> list[dict]:
     return bots
 
 
+INCLUDE_RE = re.compile(r'^\s*#\s*include\s*"([^"]+)"', re.M)
+
+
+def local_includes(path: Path) -> list[Path]:
+    """Every file `path` includes with quotes, transitively, resolved next to the including file."""
+    seen, todo = [], [Path(path)]
+    while todo:
+        f = todo.pop()
+        for inc in INCLUDE_RE.findall(f.read_text(encoding="utf-8", errors="replace")):
+            q = (f.parent / inc).resolve()
+            if q.is_file() and q not in seen and q != Path(path).resolve():
+                seen.append(q)
+                todo.append(q)
+    return seen
+
+
 def audit(roster: list[str], root: Path) -> dict:
+    from fusion import runner  # noqa: PLC0415
     from fusion.paths import bot_path, load_pool  # noqa: PLC0415
     registry = {e["name"]: e for e in load_pool()["bots"]}
     training = [(p.name, b) for p in POOLS for b in pool_bots(p)]
@@ -62,13 +81,19 @@ def audit(roster: list[str], root: Path) -> dict:
     for name in roster:
         e = registry[name]
         path = bot_path(e, root)
-        text = path.read_text(encoding="utf-8", errors="replace")
         sha = sha256(path)
-        hits = sorted({m for m in MARKERS if re.search(re.escape(m), text)})
+        files = [path, *local_includes(path)]
+        hits = sorted({m for f in files for m in MARKERS if m in f.read_text(encoding="utf-8", errors="replace")})
+        cmd = runner.command_for(path, REPO / "build" / "roster")
+        exe = Path(cmd[-1]) if path.suffix.lower() == ".py" else Path(cmd[0])   # a Python bot runs its source
+        exe_sha = sha256(exe) if exe.is_file() else None
         row = {"name": name, "family": e.get("family"), "path": e.get("path"), "source_sha256": sha,
-               "in_training_pool": {"name": name in t_names, "path": e.get("path") in t_paths, "sha256": sha in t_shas},
+               "includes": [{"file": f.name, "sha256": sha256(f)} for f in files[1:]],
+               "command": [Path(c).name for c in cmd], "executable_sha256": exe_sha,
+               "in_training_pool": {"name": name in t_names, "path": e.get("path") in t_paths,
+                                    "sha256": sha in t_shas or any(sha256(f) in t_shas for f in files[1:])},
                "family_in_training_pool": e.get("family") in t_families, "reference_markers": hits}
-        if any(row["in_training_pool"].values()) or hits:
+        if any(row["in_training_pool"].values()) or hits or exe_sha is None:
             blocked.append(name)
         rows.append(row)
     return {"roster": rows, "blocked": blocked, "pools": {p.name: sha256(p) for p in POOLS}, "markers": MARKERS}
@@ -121,10 +146,24 @@ def main(argv=None) -> dict:
                      "games": len(cfg["teams"]) * cfg["maps_per_count"] * len(arms)}
         if frozen[k]["fixtures"] != cfg["fixtures"] or frozen[k]["games"] != cfg["games"]:
             raise SystemExit(f"{PROFILES[k].name}: fixtures/games differ from its stated budget")
+    from roster.strength import schedule, schedule_identity  # noqa: PLC0415
+    for k, cfg in cfgs.items():
+        sp = REPO / cfg["work_dir"] / "schedule.json"
+        if sp.exists():
+            raise SystemExit(f"{sp} exists: a frozen schedule is generated once, by the freeze")
     for k, cfg in cfgs.items():
         PROFILES[k].write_text(json.dumps(cfg, indent=1) + "\n", encoding="utf-8", newline="\n")
         frozen[k]["profile_sha256"] = sha256(PROFILES[k])
-    out = {"schema": "ctf-meow-rl-aligned-freeze-1", "generator": "tools/meow_rl_aligned/freeze.py",
+        sched = schedule(cfg["maps_per_count"], cfg["teams"], cfg["reference"], cfg["seed"], root)
+        sp = REPO / cfg["work_dir"] / "schedule.json"
+        sp.parent.mkdir(parents=True, exist_ok=True)
+        sp.write_text(json.dumps(sched, indent=1) + "\n", encoding="utf-8", newline="\n")
+        frozen[k] |= {"schedule": sp.relative_to(REPO).as_posix(), "schedule_sha256": sha256(sp),
+                      "schedule_identity": schedule_identity(sched), "scheduled_fixtures": len(sched["fixtures"]),
+                      "reference_sources": sched["reference"]}
+        if len(sched["fixtures"]) != cfg["fixtures"]:
+            raise SystemExit(f"{PROFILES[k].name}: the schedule has {len(sched['fixtures'])} fixtures, the budget {cfg['fixtures']}")
+    out = {"schema": "ctf-meow-rl-aligned-freeze-1", "generator": "bots/meow_rl/aligned/freeze.py",
            "preflight": {"path": Path(a.preflight).relative_to(REPO).as_posix() if Path(a.preflight).is_relative_to(REPO) else a.preflight,
                          "sha256": sha256(Path(a.preflight)), "seed": receipt["seed"], "workers": receipt["workers"]},
            "schedules": frozen, "roster_audit": report, "total_games": sum(f["games"] for f in frozen.values())}

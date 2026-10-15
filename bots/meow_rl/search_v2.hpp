@@ -19,17 +19,21 @@
 // 2. Admission. The block is read before the clock starts (bot.hpp), so the deadline MEOW_RL_SEARCH_DEADLINE_MS
 //    (MEOW_RL_SEARCH_FIRST_MS on turn 1) leaves the rest of the 50 ms for parsing, the reply and scheduling. Work is
 //    admitted only if its estimated cost fits before the deadline:
-//      * before the scenarios and before each trajectory: the whole trajectory (ply 1, the ply-2 expansion, ply 2
-//        and the critic);
+//      * before the setup (root ordering and the scenarios' opponent orders): the setup and one whole trajectory;
+//      * before each trajectory: the whole trajectory (ply 1, the ply-2 expansion, ply 2 and the critic);
+//      * before the ply-2 expansion (successor forecasts, 15 continuation actor evaluations, opponent orders, ply 2):
+//        the expansion;
 //      * before the critic call: one critic call;
 //      * after the evaluation: the deadline itself.
 //    An estimate is max(prior, the largest cost measured so far in this game) x MEOW_RL_SEARCH_SAFETY_PCT / 100; the
-//    priors (MEOW_RL_SEARCH_TRAJ_US, MEOW_RL_SEARCH_CRITIC_US) are per-variant settings frozen by the eight-worker
-//    preflight, which records the worst trajectory and critic costs it saw. Any refusal discards the whole search and
+//    priors (MEOW_RL_SEARCH_SETUP_US, _TRAJ_US, _EXPAND_US, _CRITIC_US) are per-variant settings frozen by the
+//    eight-worker preflight, which records the worst costs it saw (a trajectory refused part-way still records what
+//    it spent). The reply is resolved after the search (Session::resolve, the reference's resolver for one joint); its
+//    cost is measured too (bot.hpp max_resolve_us) and is part of the turn the preflight times. Any refusal discards the whole search and
 //    plays the actor's choice (already computed, so the fallback is always ready); a partial comparison is never used.
 //    This is an empirical gate, not a real-time proof: the preflight is what shows that no reply was late.
-// Counters (bot.hpp's MEOWRL line): trajectories evaluated, refusals per stage, the largest trajectory, critic and
-// search cost in microseconds.
+// Counters (bot.hpp's MEOWRL line): trajectories evaluated, refusals per stage, the largest setup, trajectory,
+// expansion, critic and search cost in microseconds.
 #pragma once
 #include <algorithm>
 #include <array>
@@ -56,6 +60,12 @@
 #endif
 #ifndef MEOW_RL_SEARCH_CRITIC_US
 #define MEOW_RL_SEARCH_CRITIC_US 2000
+#endif
+#ifndef MEOW_RL_SEARCH_SETUP_US
+#define MEOW_RL_SEARCH_SETUP_US 1000
+#endif
+#ifndef MEOW_RL_SEARCH_EXPAND_US
+#define MEOW_RL_SEARCH_EXPAND_US 2000
 #endif
 #ifndef MEOW_RL_SEARCH_SAFETY_PCT
 #define MEOW_RL_SEARCH_SAFETY_PCT 150
@@ -110,17 +120,34 @@ inline double terminal_reward(const Game& state, int me) {
 }
 
 // One trajectory's leaf: a terminal reward, or the 416 value features of the prepared leaf state for the critic.
+// FNV-1a 64 of a set of orders (move and action of every unit), for the fixed-tree records.
+inline uint64_t order_hash(const std::vector<Order>& orders, uint64_t h = 1469598103934665603ull) {
+    for (auto& o : orders)
+        for (int v : {o.move, o.action})
+            for (int b = 0; b < 4; b++) h = (h ^ ((uint32_t(v) >> (8 * b)) & 0xFF)) * 1099511628211ull;
+    return h;
+}
+
 struct Leaf {
     bool terminal = false;
     int plies = 0;            // 1: the game ended in ply 1; 2: two plies
     double reward = 0;        // terminal only
     int cont = -1;            // our ply-2 continuation joint (-1: all stay, the safe fallback)
+    std::array<int, 3> root_actions{{-1, -1, -1}}, cont_actions{{-1, -1, -1}};   // the resolver's own actions
+    uint64_t opp2_hash = 0;   // the ply-2 opponent orders (order_hash)
     std::array<float, kVF> feats{};
+};
+
+struct Always {
+    bool operator()() const { return true; }
 };
 
 // Ply 1 (root joint `joint`, scenario orders `opp1`), the ply-2 expansion and ply 2, as search.hpp, with the
 // scenario's common streams. The planner's history, new-life flags and prepared turn are restored before returning.
-inline void trajectory(meow_rl::Session& s, int joint, const std::vector<Order>& opp1, uint64_t T, int smp, Leaf& leaf) {
+// `expand` is asked before the ply-2 expansion; false stops there (the leaf is then incomplete and false is returned).
+template <class Gate = Always>
+inline bool trajectory(meow_rl::Session& s, int joint, const std::vector<Order>& opp1, uint64_t T, int smp, Leaf& leaf,
+                       Gate&& expand = Gate{}) {
     const Game& g = s.g;
     const Game& o = s.observation;
     Planner& p = s.planner;
@@ -129,10 +156,12 @@ inline void trajectory(meow_rl::Session& s, int joint, const std::vector<Order>&
     ca.actions = p.shots(o, g.me, ca.moves, s.prob);
     Game next = p.step(g, ca, opp1, stream(T, kSim1, smp));
     leaf = Leaf{};
+    leaf.root_actions = ca.actions;
     if (next.turn > g.turns) {
         leaf.terminal = true, leaf.plies = 1, leaf.reward = terminal_reward(next, g.me);
-        return;
+        return true;
     }
+    if (!expand()) return false;
     auto savedHistory = p.previous;
     auto savedLife = p.newLife;
     int savedTurn = p.preparedTurn;
@@ -152,9 +181,11 @@ inline void trajectory(meow_rl::Session& s, int joint, const std::vector<Order>&
         cont.moves = {j2 / 25, j2 / 5 % 5, j2 % 5};
         cont.actions = p.shots(fo, g.me, cont.moves, pp);
         leaf.cont = j2;
+        leaf.cont_actions = cont.actions;
     }                                                        // else all stay and wait (the safe fallback)
     p.rng = stream(T, kOpp2, smp);
     auto eo = p.enemyOrders(fo, pp, true);
+    leaf.opp2_hash = order_hash(eo);
     p.previous = savedHistory;
     p.newLife = savedLife;
     p.preparedTurn = savedTurn;
@@ -162,10 +193,11 @@ inline void trajectory(meow_rl::Session& s, int joint, const std::vector<Order>&
     leaf.plies = 2;
     if (end.turn > g.turns) {
         leaf.terminal = true, leaf.reward = terminal_reward(end, g.me);
-        return;
+        return true;
     }
     auto f = p.geo.value(learning::prepared(end), g.me);
     std::copy(f.begin(), f.end(), leaf.feats.begin());
+    return true;
 }
 
 #ifndef MEOW_RL_TREE_ONLY
@@ -175,11 +207,12 @@ struct Result {
     int joint = -1;
     long leaves = 0;     // critic evaluations
     long trajectories = 0;
-    int refused = 0;     // 0 none, 1 before a trajectory, 2 before the critic, 3 after an evaluation
+    int refused = 0;     // 0 none, 1 before the setup or a trajectory, 2 before the critic, 3 after an evaluation,
+                         // 4 before a ply-2 expansion
 };
 
 struct Search {
-    long max_traj_us = 0, max_critic_us = 0, max_search_us = 0;   // the largest costs measured in this game
+    long max_setup_us = 0, max_traj_us = 0, max_expand_us = 0, max_critic_us = 0, max_search_us = 0;   // largest costs this game
 
     static long us(std::chrono::steady_clock::duration d) {
         return long(std::chrono::duration_cast<std::chrono::microseconds>(d).count());
@@ -197,11 +230,12 @@ struct Search {
             max_search_us = std::max(max_search_us, us(clock::now() - t_begin));
             return res;
         };
-        const long traj_est = estimate(MEOW_RL_SEARCH_TRAJ_US, max_traj_us);
-        if (!admit(traj_est)) return finish(Result{false, -1, 0, 0, 1});
+        if (!admit(estimate(MEOW_RL_SEARCH_SETUP_US, max_setup_us) + estimate(MEOW_RL_SEARCH_TRAJ_US, max_traj_us)))
+            return finish(Result{false, -1, 0, 0, 1});
         uint64_t T = turn_seed(game_seed, s.g.turn);
         auto rs = roots(obs, sc, actor_choice);
         auto opp = scenarios(s, T);
+        max_setup_us = std::max(max_setup_us, us(clock::now() - t_begin));
         double best = -1e300;
         Leaf leaf;
         for (int ri = 0; ri < int(rs.size()); ri++) {
@@ -209,11 +243,23 @@ struct Search {
             for (int smp = 0; smp < kSamples; smp++) {
                 if (!admit(estimate(MEOW_RL_SEARCH_TRAJ_US, max_traj_us))) return finish(Result{false, -1, r.leaves, r.trajectories, 1});
                 auto t0 = clock::now();
-                trajectory(s, rs[ri], opp[smp], T, smp, leaf);
+                clock::time_point t_expand{};
+                auto expand = [&] {
+                    t_expand = clock::now();
+                    return admit(estimate(MEOW_RL_SEARCH_EXPAND_US, max_expand_us));
+                };
+                auto spent = [&] { max_traj_us = std::max(max_traj_us, us(clock::now() - t0)); };   // also when refused
+                if (!trajectory(s, rs[ri], opp[smp], T, smp, leaf, expand)) {
+                    spent();
+                    return finish(Result{false, -1, r.leaves, r.trajectories, 4});
+                }
+                if (leaf.plies == 2) max_expand_us = std::max(max_expand_us, us(clock::now() - t_expand));
                 double v = leaf.reward;
                 if (!leaf.terminal) {
-                    if (!admit(estimate(MEOW_RL_SEARCH_CRITIC_US, max_critic_us)))
+                    if (!admit(estimate(MEOW_RL_SEARCH_CRITIC_US, max_critic_us))) {
+                        spent();
                         return finish(Result{false, -1, r.leaves, r.trajectories, 2});
+                    }
                     auto t1 = clock::now();
                     v = meow_rl_critic::value(leaf.feats.data());
                     max_critic_us = std::max(max_critic_us, us(clock::now() - t1));
@@ -222,7 +268,7 @@ struct Search {
 #ifdef MEOW_RL_SEARCH_TEST_INJECT_DELAY_MS
                 std::this_thread::sleep_for(std::chrono::milliseconds(MEOW_RL_SEARCH_TEST_INJECT_DELAY_MS));
 #endif
-                max_traj_us = std::max(max_traj_us, us(clock::now() - t0));
+                spent();
                 r.trajectories++;
                 if (clock::now() > deadline) return finish(Result{false, -1, r.leaves, r.trajectories, 3});
                 sum += v;

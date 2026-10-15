@@ -17,7 +17,7 @@ T0061 writes the code and the frozen specifications, and tests them without an e
 
 ## 1. One calibration corpus
 
-`tools/meow_rl_aligned/corpus.py` selects decisions from T0059's retained training batches (`runs/meow_rl_pool2/{large_v,small_v}_s101/batches`). It selects 16,000 learner decisions for calibration and 16,000 for export diagnostics, deterministically and before any new game. Each decision carries its 3 × 5 × 112 actor features and its 416 value features. No game is played and no screen or held-out opponent is involved.
+`bots/meow_rl/aligned/corpus.py` selects decisions from T0059's retained training batches (`runs/meow_rl_pool2/{large_v,small_v}_s101/batches`). It selects 16,000 learner decisions for calibration and 16,000 for export diagnostics, deterministically and before any new game. Each decision carries its 3 × 5 × 112 actor features and its 416 value features. No game is played and no screen or held-out opponent is involved.
 
 **Strata.** Feature indices are zero-based, as written by the reference encoder (`learning::Geometry::policy` and `value`):
 
@@ -33,7 +33,7 @@ T0061 writes the code and the frozen specifications, and tests them without an e
 Combat is a proxy: it detects an attack line, not an attack. The exact new-life flag cannot be recovered from features, because preparation predicts respawns before encoding.
 
 **Selection rules.**
-- **Split.** A map group (run, team count, map seed) goes to the diagnostic split when `sha256(seed|diagnostic|group) mod 5 == 0`. The two splits never share a map.
+- **Split.** A map group (team count, map seed) goes to the diagnostic split when `sha256(seed|diagnostic|group) mod 5 == 0`. The group does not depend on which run played the map, so the two splits never share a map, even across the two runs.
 - **Quotas.** 1,143 decisions per count for counts 2–13 and 1,142 for counts 14–15, split evenly over the three phases.
 - **Order.** Within a cell the selector cycles over the non-empty tactical signatures. Within a signature it takes rows in `sha256(seed|file|episode|turn)` order.
 - **Shortfalls.** A shortage is filled from the same count's other phases, then from the other counts. Nothing is duplicated or manufactured, and every shortage is reported.
@@ -56,7 +56,7 @@ Combat is a proxy: it detects an attack line, not an attack. The exact new-life 
 | `p2_large` | T0059, pool v2, large V (**primary**, and the search source) | `runs/meow_rl_pool2/large_v_s101/checkpoints/final.pt` `331ad783…` |
 | `p2_small` | T0059, pool v2, small V (capacity ablation) | `runs/meow_rl_pool2/small_v_s101/checkpoints/final.pt` `54acc330…` |
 
-`tools/meow_rl_aligned/export.py` does the following:
+`bots/meow_rl/aligned/export.py` does the following:
 
 1. **Pins.** It refuses a checkpoint whose bytes differ from its pin.
 2. **One configuration.** It quantizes every actor to reference16 with the same rules: margin 1.1, ranges rounded up to 8 significant bits, inputs scaled by 2^12 and clamped to ±16384, floor(x + 1/2) rounding. Every actor is calibrated on all 16,000 calibration decisions (240,000 unit-move rows).
@@ -68,7 +68,7 @@ Combat is a proxy: it detects an attack line, not an attack. The exact new-life 
    - log-probability error;
    - agreement of the sampled joint under four common uniforms per decision (deployment samples, so greedy agreement alone is not enough);
    - saturation per hidden layer.
-6. **Native parity.** With a compiler, `tools/cpp/meow_rl/wide_check.cpp` checks the generated header on every diagnostic row, on the scalar and the SIMD path. Its 15 scores, its sampled joint (`sample.hpp`, the deployed draw) and its greedy joint must equal the Python emulation.
+6. **Native parity.** With a compiler, `tools/cpp/meow_rl/wide_check.cpp` checks the generated header on every diagnostic row, on the scalar and the SIMD path. Its 15 scores, its sampled joint (`sample.hpp`, the deployed draw) and its greedy joint must equal the Python emulation. Each check records the kernel the dispatch actually ran; on the host, `--require-simd avx2` refuses an export whose SIMD checks ran on anything else. The check program switches its standard streams to binary mode on Windows.
 
 All four variants of the search source include **one identical `actor.hpp`**: D (actor-direct), F, R and H. `EXPORT.json` checks this.
 
@@ -160,24 +160,34 @@ v2 keeps v1's two-ply rule unchanged:
   - `Planner::rng` is read only by `enemyOrders`;
   - `shots()` reads only the probabilities it is given, and `predict()` without saving overwrites only per-turn scratch that each later call recomputes.
 - **Staged admission.** The clock starts after the block is read. Work is admitted only if its estimated cost fits before `MEOW_RL_SEARCH_DEADLINE_MS` (30 ms; 1,500 ms on turn 1):
-  1. before the scenarios and before every trajectory, the whole trajectory;
-  2. before the critic call, one critic call;
-  3. after the evaluation, the deadline itself.
+  1. before the setup (root ordering and the scenarios' opponent orders), the setup plus one trajectory;
+  2. before every trajectory, the whole trajectory;
+  3. before the ply-2 expansion (successor forecasts, 15 continuation actor evaluations, opponent orders, ply 2), the expansion;
+  4. before the critic call, one critic call;
+  5. after the evaluation, the deadline itself.
+
+  A trajectory refused part-way still records what it spent. The reply is resolved after the search, and its cost is measured too (`max_resolve_us`).
 
   An estimate is max(prior, the largest cost seen this game) × 150%. The priors per backend are in `aligned.json`. Any refusal discards the whole search and plays the actor's choice, which is already computed; a partial comparison is never used. This is an empirical gate, not a real-time proof: the eight-worker preflight shows whether any reply was late. The MEOWRL counter line adds:
   - trajectories;
-  - refusals per stage;
-  - the largest trajectory, critic, search and turn costs (µs);
+  - refusals per stage (`refuse_trajectory`, `refuse_expand`, `refuse_critic`, `refuse_late`);
+  - the largest setup, trajectory, expansion, critic, search, resolve and turn costs (µs);
   - the first-turn cost;
   - the critic format.
 
 `tools/cpp/meow_rl/tree.cpp` builds the same trees through the same functions with no deadline. A test shows the deployed v2 bot's choice equals the harness tree scored in Python, for every backend. On the plumbing check this held on 58 of 58 roots for each of F, R and H.
 
-## 5. Fixed-work diagnostics (`tools/meow_rl_aligned/trees.py`, `diagnose.py`)
+## 5. Fixed-work diagnostics (`bots/meow_rl/aligned/trees.py`, `diagnose.py`)
 
 1. **collect** (host, exactly 8 workers, a fresh seed base in `docs/MEOWMIND_RL_SEEDS.md`). Diagnostic games of the deployed D bot against the training lineages of pool v2, 16 per count, one count per game. They are never strength evidence and never use the held-out roster. Each seat's stream is rebuilt exactly from the match record: its INIT plus the shared TURN blocks, which the runner checked against what the seat received.
 2. **select** (before any tree is scored). 1,024 roots: 74 per count for counts 2 and 3, 73 for 4–15. Within a count they split evenly over the phases; turn 1, with its 1,500 ms deadline, is excluded. Within a phase they cycle over the tactical signatures, at most 6 roots per game. The roots come from fresh diagnostic maps, never from the calibration corpus's maps.
-3. **build**. One materialized tree per root, hashed: candidate keys, masks through the feasible count, continuation joints, terminal flags, rewards, and leaf value features. Reduced trees (fewer than 4 feasible candidates) are counted.
+3. **build**. One materialized tree per root. Each tree records and hashes (FNV-1a 64):
+   - the feasible-joint mask, the actor's uniform and choice, and the candidate keys;
+   - the turn seed, and every scenario's streams: both opponent RNG states, both simulator seeds and the continuation uniform;
+   - the hash of each scenario's ply-1 opponent orders;
+   - for every leaf: terminal flag, plies, reward, the resolver's own actions at the root and at the continuation, the continuation joint, the hash of the ply-2 opponent orders, and the 416 value features.
+
+   Reduced trees (fewer than 4 feasible candidates) are counted.
 4. **diagnose**. Every leaf is scored by F, R, H and R0. With a compiler, the native headers must reproduce every leaf bit for bit. The report covers, against F:
    - leaf MAE, RMSE, max and bias, and saturation;
    - top-action agreement;
@@ -186,16 +196,16 @@ v2 keeps v1's two-ply rule unchanged:
    - agreement by F's top-two margin and by count;
    - how often each backend overrides the actor.
 
-   95% intervals come from a bootstrap over games, because roots of one game are not independent.
+   95% intervals come from a bootstrap over games, because roots of one game are not independent. `ROOTS_SCORED.jsonl` keeps every root's candidate values and choice per backend, so any disagreement can be inspected.
 
 This measures the critics' arithmetic on identical trees. It cannot tell inaccurate value ranking apart from inaccurate opponent or simulator forecasts. That needs real-engine continuations: a separate task with its own seed ledger and budget, not authorized here.
 
-## 6. The eight-worker gate (`tools/meow_rl_aligned/preflight.py`)
+## 6. The eight-worker gate (`bots/meow_rl/aligned/preflight.py`)
 
 The gate runs **exactly eight concurrent game workers**: not eight threads per bot, and not six workers.
 - **Scope.** All seven distinct variants (deduplicated by binary sha256) play the same 64 fixtures: 16 maps at counts 2, 5, 8 and 15 against the held-out roster, at 2,000 ms first and 50 ms later replies. That makes 448 games, interleaved fixture by fixture.
 - **Pass rule.** A variant passes only if all of these hold:
-  - no seat faults, replies late, sends a malformed reply or dies;
+  - no seat faults, replies late, sends a malformed reply or dies, and our bot refused no block;
   - counters are present for every turn played;
   - the steady maximum is below 48 ms and the first reply below 1,800 ms;
   - a search variant completed at least one search.
@@ -207,14 +217,20 @@ The gate runs **exactly eight concurrent game workers**: not eight threads per b
   - every game, with first and steady timing kept separate.
 - **On failure.** If any arm fails, the gate is **blocked**. The failure is kept. Concurrency is never lowered and an arm is never dropped to make it pass. A new preflight needs a fresh seed and new frozen settings.
 
-`run_screen.py` now enforces three things:
+`run_screen.py` now enforces four things:
 - it refuses a config whose seed is null;
 - it refuses a `--workers` override when the config freezes `workers_exact`;
-- it refuses an arm whose binary is not the one the receipt measured.
+- it refuses an arm whose binary is not the one the receipt measured;
+- with `freeze`, it refuses unless the config file and its schedule are byte-identical to what the freeze recorded, and the schedule carries the config's seed, counts, map budget and roster.
 
 ## 7. Schedules A and B
 
-Both use the held-out roster: Fable, MiMo, Kimi, GLM, Player4. `tools/meow_rl_aligned/freeze.py` audits it against both training pools by name, path and source sha256, and scans the sources for the reference's distinctive identifiers. A hit blocks the freeze until a human decides. The freeze writes each fresh seed into its profile and records every frozen identity in `FREEZE.json`.
+Both use the held-out roster: Fable, MiMo, Kimi, GLM, Player4. `bots/meow_rl/aligned/freeze.py` audits it against both training pools by name, path and source sha256, including every file each bot includes locally. It scans all of them for the reference's distinctive identifiers and records the executable the runner actually starts. A hit, or a missing executable, blocks the freeze until a human decides. The scan is a screen, not a proof of independence.
+
+The freeze then:
+- writes each fresh seed into its profile;
+- generates each schedule once;
+- records every frozen identity in `FREEZE.json`: the profiles' and schedules' sha256, the arms' binaries, families, workers and budgets.
 
 | | Schedule A ([profile](../profiles/meow_rl_aligned_screen_a.json)) | Schedule B ([profile](../profiles/meow_rl_aligned_screen_b.json)) |
 |---|---|---|
@@ -228,7 +244,7 @@ The two schedules total 3,920 formal games. On top of that come the preflight (4
 Rules for both schedules:
 - No early stopping or extension.
 - Failed fixtures and missing arms are kept and reported.
-- `tools/meow_rl_aligned/report.py` judges every comparison under its family, with computed quantiles. Results are reported in percentage points of pairwise rank utility.
+- `bots/meow_rl/aligned/report.py` judges every comparison under its family, with computed quantiles. Results are reported in percentage points of pairwise rank utility. A comparison with any scheduled fixture missing gets the verdict "incomplete", never a confirmatory one.
 - An interval containing 0 is not shown, never "equivalent".
 - B's arms do whatever work fits in the frozen deadline, so B compares deployment packages. The fixed-work diagnostics compare precision.
 - A one-seed large-versus-small or old-versus-new-pool difference is evidence about those checkpoints, not a general effect.
@@ -238,18 +254,18 @@ Rules for both schedules:
 These steps run on desktop-g60ojud with `CTF_CAN=host,cuda,ai-test`, after T0061 is merged. Wrap every timed or collecting step in `python tools/repo/task.py lock cpu --task <T> -- …`, with CUDA training and benchmarks stopped. Reserve every seed in its ledger before its first game, and check `docs/DIGEST.md`.
 
 ```bash
-python tools/meow_rl_aligned/corpus.py --batches runs/meow_rl_pool2/large_v_s101/batches runs/meow_rl_pool2/small_v_s101/batches --out data/meow_rl_aligned/corpus
-python tools/meow_rl_aligned/export.py --corpus data/meow_rl_aligned/corpus
+python bots/meow_rl/aligned/corpus.py --batches runs/meow_rl_pool2/large_v_s101/batches runs/meow_rl_pool2/small_v_s101/batches --out data/meow_rl_aligned/corpus
+python bots/meow_rl/aligned/export.py --corpus data/meow_rl_aligned/corpus --require-simd avx2
 python bots/p_only/tools/build.py --stats --variants bots/meow_rl/variants_aligned.json
-python tools/meow_rl_aligned/trees.py collect --seed-base <S_roots> --out data/meow_rl_aligned/trees
-python tools/meow_rl_aligned/trees.py select --out data/meow_rl_aligned/trees
-python tools/meow_rl_aligned/trees.py build --out data/meow_rl_aligned/trees
-python tools/meow_rl_aligned/diagnose.py --trees data/meow_rl_aligned/trees --corpus data/meow_rl_aligned/corpus --out reports/host/meow_rl_aligned/diagnostics
-python tools/meow_rl_aligned/preflight.py --seed <S_preflight>
-python tools/meow_rl_aligned/freeze.py --seed-a <S_A> --seed-b <S_B>
+python bots/meow_rl/aligned/trees.py collect --seed-base <S_roots> --out data/meow_rl_aligned/trees
+python bots/meow_rl/aligned/trees.py select --out data/meow_rl_aligned/trees
+python bots/meow_rl/aligned/trees.py build --out data/meow_rl_aligned/trees
+python bots/meow_rl/aligned/diagnose.py --trees data/meow_rl_aligned/trees --corpus data/meow_rl_aligned/corpus --out reports/host/meow_rl_aligned/diagnostics
+python bots/meow_rl/aligned/preflight.py --seed <S_preflight>
+python bots/meow_rl/aligned/freeze.py --seed-a <S_A> --seed-b <S_B>
 python bots/p_only/tools/run_screen.py --config profiles/meow_rl_aligned_screen_a.json
 python bots/p_only/tools/run_screen.py --config profiles/meow_rl_aligned_screen_b.json
-python tools/meow_rl_aligned/report.py
+python bots/meow_rl/aligned/report.py
 ```
 
 **What to commit.**

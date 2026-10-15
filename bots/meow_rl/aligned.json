@@ -1,7 +1,7 @@
 {
- "_comment": "The aligned Meowmind RL exports of task T0061 (docs/MEOWMIND_RL_ALIGNED.md). Frozen before any export or game: the actors and their committed checkpoint pins, the one export configuration, the search source and the three critic backends, the experiment-specific variant names (none reuses a historical name) and the per-backend search settings. tools/meow_rl_aligned/export.py reads this file and refuses a checkpoint whose bytes differ from its pin. Search settings change only before the eight-worker preflight that validates them, and a change needs a fresh preflight.",
+ "_comment": "The aligned Meowmind RL exports of task T0061 (docs/MEOWMIND_RL_ALIGNED.md). Frozen before any export or game: the actors and their committed checkpoint pins, the one export configuration, the search source and the three critic backends, the experiment-specific variant names (none reuses a historical name) and the per-backend search settings. bots/meow_rl/aligned/export.py reads this file and refuses a checkpoint whose bytes differ from its pin. Search settings change only before the eight-worker preflight that validates them, and a change needs a fresh preflight.",
  "schema": "ctf-meow-rl-aligned-1",
- "corpus": {"generator": "tools/meow_rl_aligned/corpus.py", "batches": ["runs/meow_rl_pool2/large_v_s101/batches", "runs/meow_rl_pool2/small_v_s101/batches"], "rows": 16000},
+ "corpus": {"generator": "bots/meow_rl/aligned/corpus.py", "batches": ["runs/meow_rl_pool2/large_v_s101/batches", "runs/meow_rl_pool2/small_v_s101/batches"], "rows": 16000},
  "export": {"actor_format": "meow_rl_reference16_v1", "margin": 1.1, "range_bits": 8, "input_bits": 12, "input_max": 16384, "rounding": "floor(x + 1/2)", "calibration": "all calibration.npz rows (16,000 decisions x 15 unit-moves for the actor, 16,000 value rows for the critics)", "validation": "diagnostic.npz (disjoint map groups)"},
  "actors": {
   "warm": {"kind": "warm_start", "what": "the reference Meowmind actor, no PPO update", "reference_sha256": "cc7b730c"},
@@ -13,7 +13,7 @@
  "critics": {"fp32": "F", "reference16": "R", "wideact16": "H"},
  "search": {
   "version": 2, "candidates": 4, "samples": 2, "deadline_ms": 30, "first_ms": 1500, "safety_pct": 150,
-  "prior_us": {"fp32": {"trajectory": 6000, "critic": 4000}, "reference16": {"trajectory": 3000, "critic": 1500}, "wideact16": {"trajectory": 4000, "critic": 2500}}
+  "prior_us": {"fp32": {"setup": 1000, "trajectory": 6000, "expand": 2000, "critic": 4000}, "reference16": {"setup": 1000, "trajectory": 3000, "expand": 2000, "critic": 1500}, "wideact16": {"setup": 1000, "trajectory": 4000, "expand": 2000, "critic": 2500}}
  },
  "variants": {
   "meow_rl_aligned_warm": {"actor": "warm", "role": "Schedule A: the aligned warm start (actor-direct)"},

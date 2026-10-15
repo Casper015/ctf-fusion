@@ -1,6 +1,6 @@
 """The eight-worker host gate of the aligned Meowmind RL experiment (task T0061, docs/MEOWMIND_RL_ALIGNED.md; host only).
 
-    python tools/repo/task.py lock cpu --task <T> -- python tools/meow_rl_aligned/preflight.py --seed <ledgered> \\
+    python tools/repo/task.py lock cpu --task <T> -- python bots/meow_rl/aligned/preflight.py --seed <ledgered> \\
         --out reports/host/meow_rl_aligned/PREFLIGHT.json
 
 Plays every distinct frozen variant of bots/meow_rl/aligned.json (deduplicated by binary sha256) on the same 64
@@ -37,7 +37,7 @@ import time
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "bots" / "p_only" / "tools"))
 
@@ -52,12 +52,12 @@ LIMITS = (2.0, 0.050)
 STEADY_MAX_MS, FIRST_MAX_MS = 48.0, 1800.0
 CONFIG = REPO / "bots" / "meow_rl" / "aligned.json"
 ROSTER = REPO / "profiles" / "meow_rl_screen.json"
-FIELDS = ("turns", "refused", "search_used", "search_fallback", "leaves", "trajectories", "refuse_trajectory",
-          "refuse_critic", "refuse_late", "max_traj_us", "max_critic_us", "max_search_us", "max_turn_us", "first_turn_us")
-COUNTER_RE = re.compile(r"MEOWRL\s+turns\s+(\d+)\s+refused\s+(\d+)\s+search_used\s+(\d+)\s+search_fallback\s+(\d+)\s+leaves\s+(\d+)"
-                        r"(?:\s+trajectories\s+(\d+)\s+refuse_trajectory\s+(\d+)\s+refuse_critic\s+(\d+)\s+refuse_late\s+(\d+)"
-                        r"\s+max_traj_us\s+(\d+)\s+max_critic_us\s+(\d+)\s+max_search_us\s+(\d+)\s+max_turn_us\s+(\d+)"
-                        r"\s+first_turn_us\s+(\d+))?")
+BASE = ("turns", "refused", "search_used", "search_fallback", "leaves")
+V2 = ("trajectories", "refuse_trajectory", "refuse_expand", "refuse_critic", "refuse_late", "max_setup_us", "max_traj_us",
+      "max_expand_us", "max_critic_us", "max_search_us", "max_resolve_us", "max_turn_us", "first_turn_us")
+FIELDS = BASE + V2
+COUNTER_RE = re.compile(r"MEOWRL\s+" + r"\s+".join(rf"{k}\s+(\d+)" for k in BASE)
+                        + r"(?:\s+" + r"\s+".join(rf"{k}\s+(\d+)" for k in V2) + ")?")
 
 
 def parse_counters(lines: list[str]) -> dict | None:
@@ -67,6 +67,14 @@ def parse_counters(lines: list[str]) -> dict | None:
         if m:
             return {k: int(v) for k, v in zip(FIELDS, m.groups()) if v is not None}
     return None
+
+
+def first_defines(text: str) -> dict:
+    """The MEOW_RL_SEARCH* settings in force: the first #define of each (later ones sit behind #ifndef)."""
+    out = {}
+    for k, v in re.findall(r"^\s*#\s*define\s+(MEOW_RL_SEARCH\w*)\s+(\d+)", text, re.M):
+        out.setdefault(k, int(v))
+    return out
 
 
 def run_job(job):
@@ -98,6 +106,9 @@ def verdict(rows: list[dict], search: bool) -> tuple[bool, list[str]]:
         total = sum(int(r[key] or 0) for r in rows)
         if total:
             why.append(f"{key} {total}")
+    refused = sum((r["counters"] or {}).get("refused", 0) for r in rows)
+    if refused:                                         # blocks the bot could not observe or resolve (not search refusals)
+        why.append(f"refused blocks {refused}")
     if any(r["dead"] for r in rows):
         why.append(f"dead {sum(1 for r in rows if r['dead'])}")
     missing = [r["fixture_id"] for r in rows if r["counters"] is None or r["counters"]["turns"] != r["turns_played"]]
@@ -162,8 +173,7 @@ def main(argv=None) -> int:
         seen[e["binary_sha256"]] = name
         variants[name] = {"bundle": e["bundle"], "bundle_sha256": e["bundle_sha256"], "binary_sha256": e["binary_sha256"],
                           "search": bool(spec.get("critic")), "critic": spec.get("critic"), "also": [],
-                          "settings": {k: v for k, v in re.findall(r"^\s*#\s*define\s+(MEOW_RL_SEARCH\w*)\s+(\d+)", text, re.M)}
-                          | build_settings(text)}
+                          "settings": first_defines(text) | build_settings(text)}
     roster = json.loads(ROSTER.read_text(encoding="utf-8"))["opponents"]["reference"]
     sched = schedule(MAPS, COUNTS, roster, a.seed, root)
     pool = {e["name"]: e for e in load_pool()["bots"]}
@@ -193,20 +203,20 @@ def main(argv=None) -> int:
         by_count = {str(c): {"steady_max_ms": max((r["max_ms"] or 0.0) for r in rs if r["teams"] == c),
                              "p99_max_ms": max((r["p99_ms"] or 0.0) for r in rs if r["teams"] == c),
                              "first_max_ms": max((r["first_ms"] or 0.0) for r in rs if r["teams"] == c)} for c in COUNTS}
-        work = {k: sum(c.get(k, 0) for c in cs) for k in ("turns", "search_used", "search_fallback", "leaves", "trajectories",
-                                                           "refuse_trajectory", "refuse_critic", "refuse_late")}
-        worst = {k: max((c.get(k, 0) for c in cs), default=0) for k in ("max_traj_us", "max_critic_us", "max_search_us",
-                                                                          "max_turn_us", "first_turn_us")}
+        work = {k: sum(c.get(k, 0) for c in cs) for k in ("turns", "refused", "search_used", "search_fallback", "leaves",
+                                                           "trajectories", "refuse_trajectory", "refuse_expand",
+                                                           "refuse_critic", "refuse_late")}
+        worst = {k: max((c.get(k, 0) for c in cs), default=0) for k in V2 if k.startswith(("max_", "first_"))}
         prior = cfg["search"]["prior_us"].get(v["critic"] or "", {}) if v["search"] else {}
+        stage = {"setup": "max_setup_us", "trajectory": "max_traj_us", "expand": "max_expand_us", "critic": "max_critic_us"}
         summary[name] = {**v, "games": len(rs), "passed": ok, "why_not": why, "by_count": by_count, "work": work, "worst_us": worst,
-                         "prior_us": prior, "prior_exceeded": {k: worst[f"max_{'traj' if k == 'trajectory' else 'critic'}_us"] > us
-                                                               for k, us in prior.items()},
+                         "prior_us": prior, "prior_exceeded": {k: worst[stage[k]] > us for k, us in prior.items()},
                          "turn_coverage": (sum(c["turns"] for c in cs) / max(1, sum(r["turns_played"] for r in rs)))}
         print(f"[aligned preflight] {name}: {'PASS' if ok else 'FAIL'} {why}", flush=True)
     for name, v in list(variants.items()):
         for alias in v["also"]:                                     # the identical binary, measured under `name`
             summary[alias] = {"alias_of": name, "binary_sha256": v["binary_sha256"], "passed": summary[name]["passed"]}
-    receipt = {"schema": "ctf-meow-rl-aligned-preflight-1", "generator": "tools/meow_rl_aligned/preflight.py",
+    receipt = {"schema": "ctf-meow-rl-aligned-preflight-1", "generator": "bots/meow_rl/aligned/preflight.py",
                "started": started, "finished": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "wall_s": round(time.time() - t0, 1),
                "seed": a.seed, "workers": WORKERS, "counts": COUNTS, "maps_per_count": MAPS,
                "limits_ms": [1000 * LIMITS[0], 1000 * LIMITS[1]], "gates_ms": {"steady": STEADY_MAX_MS, "first": FIRST_MAX_MS},

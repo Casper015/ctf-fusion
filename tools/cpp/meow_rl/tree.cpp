@@ -7,10 +7,14 @@
 // runner sent that seat) through meow_rl::Session exactly as the deployed
 // bot reads it, and at each requested turn builds the search_v2.hpp tree of that turn with no deadline: the roots
 // (the sampled actor choice of sample.hpp, then the next joints by accumulator), the shared scenarios and every
-// trajectory, through the same functions the deployed MEOW_RL_SEARCH=2 bot calls. Each turn writes one JSON line
-// (roots, actor choice, feasible joints, leaves in root-major order with terminal flags, rewards, continuation joints
-// and the offset of their 416 float32 value features in the leaves file) and a hash of the whole tree. Critics are
-// not evaluated here: bots/meow_rl/diagnose.py scores the same leaves with every backend.
+// trajectory, through the same functions the deployed MEOW_RL_SEARCH=2 bot calls. Each turn writes one JSON line:
+// the feasible-joint mask, the actor's uniform and choice, the roots, the turn seed and every scenario's streams
+// (ply-1 and ply-2 opponent RNG states, both simulator seeds, the continuation uniform's 64 bits) with the hash of
+// its ply-1 opponent orders, and the leaves in root-major order (terminal flag, plies, reward, the resolver's own
+// actions at the root and at the continuation, the continuation joint, the ply-2 opponent orders' hash and the
+// offset of the 416 float32 value features in the leaves file). "hash" is FNV-1a 64 over every one of those fields
+// and the features, in that order. Critics are not evaluated here: bots/meow_rl/aligned/diagnose.py scores the same
+// leaves with every backend.
 //
 // The history of a replay does not depend on the joints answered (Session::resolve's history is the observed
 // positions), and the search's random streams depend only on the INIT and the turn, so a tree here is the tree the
@@ -78,15 +82,37 @@ int main(int argc, char** argv) {
             joint = meow_rl_sample::draw(sc, obs.joint_mask, meow_rl_model::kActor.outExp, meow_rl_model::kTemperature,
                                          meow_rl_sample::uniform(seed, s.g.turn));
             if (wanted.count(s.g.turn)) {
-                uint64_t T = meow_rl_search2::turn_seed(seed, s.g.turn);
-                auto rs = meow_rl_search2::roots(obs, sc, joint);
-                auto opp = meow_rl_search2::scenarios(s, T);
+                namespace S2 = meow_rl_search2;
+                uint64_t T = S2::turn_seed(seed, s.g.turn);
+                auto rs = S2::roots(obs, sc, joint);
+                auto opp = S2::scenarios(s, T);
+                double u = meow_rl_sample::uniform(seed, s.g.turn);
+                std::string mask(meow_rl::kJoint, '0');
+                for (int j = 0; j < meow_rl::kJoint; j++) mask[j] = obs.joint_mask[j] ? '1' : '0';
+                auto exact = [](double v) { char b[40]; std::snprintf(b, sizeof b, "%.17g", v); return std::string(b); };
+                auto hex = [](uint64_t v) { char b[20]; std::snprintf(b, sizeof b, "\"%016" PRIx64 "\"", v); return std::string(b); };
                 uint64_t h = fnv(1469598103934665603ull, &T, sizeof T);
+                h = fnv(h, mask.data(), mask.size());
+                h = fnv(h, &u, sizeof u);
+                h = fnv(h, &joint, sizeof joint);
+                for (int r : rs) h = fnv(h, &r, sizeof r);
                 std::string js = "{\"turn\":" + std::to_string(s.g.turn) + ",\"turns\":" + std::to_string(s.g.turns) +
                                  ",\"teams\":" + std::to_string(s.g.teams) + ",\"me\":" + std::to_string(s.g.me) +
-                                 ",\"valid\":" + std::to_string(obs.valid) + ",\"actor\":" + std::to_string(joint) +
-                                 ",\"samples\":" + std::to_string(meow_rl_search2::kSamples) + ",\"roots\":[";
+                                 ",\"valid\":" + std::to_string(obs.valid) + ",\"mask\":\"" + mask + "\"" +
+                                 ",\"actor_uniform\":" + exact(u) + ",\"actor\":" + std::to_string(joint) +
+                                 ",\"samples\":" + std::to_string(S2::kSamples) + ",\"turn_seed\":" + hex(T) + ",\"roots\":[";
                 for (size_t i = 0; i < rs.size(); i++) js += (i ? "," : "") + std::to_string(rs[i]);
+                js += "],\"scenarios\":[";
+                for (int smp = 0; smp < S2::kSamples; smp++) {
+                    uint64_t st[5] = {S2::stream(T, S2::kOpp1, smp), S2::stream(T, S2::kSim1, smp), S2::stream(T, S2::kOpp2, smp),
+                                      S2::stream(T, S2::kCont, smp), S2::stream(T, S2::kSim2, smp)};
+                    uint64_t oh = S2::order_hash(opp[smp]);
+                    h = fnv(h, st, sizeof st);
+                    h = fnv(h, &oh, sizeof oh);
+                    js += std::string(smp ? "," : "") + "{\"opp1_rng\":" + hex(st[0]) + ",\"sim1\":" + hex(st[1]) +
+                          ",\"opp2_rng\":" + hex(st[2]) + ",\"cont\":" + hex(st[3]) + ",\"sim2\":" + hex(st[4]) +
+                          ",\"opp1_orders\":" + hex(oh) + "}";
+                }
                 js += "],\"leaves\":[";
                 meow_rl_search2::Leaf leaf;
                 bool first = true;
@@ -99,12 +125,19 @@ int main(int argc, char** argv) {
                             at = offset++;
                             h = fnv(h, leaf.feats.data(), sizeof(float) * leaf.feats.size());
                         }
+                        int flags[2] = {int(leaf.terminal), leaf.plies};
+                        h = fnv(h, flags, sizeof flags);
                         h = fnv(h, &leaf.reward, sizeof leaf.reward);
                         h = fnv(h, &leaf.cont, sizeof leaf.cont);
-                        char buf[200];
+                        h = fnv(h, leaf.root_actions.data(), sizeof leaf.root_actions);
+                        h = fnv(h, leaf.cont_actions.data(), sizeof leaf.cont_actions);
+                        h = fnv(h, &leaf.opp2_hash, sizeof leaf.opp2_hash);
+                        char buf[400];
                         std::snprintf(buf, sizeof buf, "%s{\"root\":%zu,\"sample\":%d,\"terminal\":%s,\"plies\":%d,\"reward\":%.17g,"
-                                      "\"cont\":%d,\"row\":%ld}", first ? "" : ",", ri, smp, leaf.terminal ? "true" : "false",
-                                      leaf.plies, leaf.reward, leaf.cont, at);
+                                      "\"root_actions\":[%d,%d,%d],\"cont\":%d,\"cont_actions\":[%d,%d,%d],\"opp2_orders\":\"%016" PRIx64 "\","
+                                      "\"row\":%ld}", first ? "" : ",", ri, smp, leaf.terminal ? "true" : "false", leaf.plies, leaf.reward,
+                                      leaf.root_actions[0], leaf.root_actions[1], leaf.root_actions[2], leaf.cont,
+                                      leaf.cont_actions[0], leaf.cont_actions[1], leaf.cont_actions[2], leaf.opp2_hash, at);
                         js += buf;
                         first = false;
                     }

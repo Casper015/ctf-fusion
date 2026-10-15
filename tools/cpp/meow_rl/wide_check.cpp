@@ -1,5 +1,5 @@
 // Native parity check of the generated Meowmind RL headers of task T0061 (tests/test_meow_rl_aligned.py and
-// tools/meow_rl_aligned/export.py run it on every export).
+// bots/meow_rl/aligned/export.py run it on every export).
 //
 // Critic mode:  c++ -std=c++20 -O2 -I inference -DCRITIC_HEADER='"path/critic_<format>.hpp"' [-DFUSION_SIMD=0] wide_check.cpp
 //   stdin: rows of 416 little-endian float32 value features; stdout: one float64 per row, meow_rl_critic::value (the
@@ -8,10 +8,22 @@
 //   stdin: rows of 3 x 5 x 112 float32 features, 125 mask bytes and one float64 uniform; stdout per row: the 15 int32
 //   output accumulators (meow_rl_int::score), the int32 joint sample.hpp draws with that uniform (the deployed
 //   choice) and the greedy joint.
-// stderr names the mode, the format and the kernel path (FUSION_SIMD=0 forces the scalar loops).
+// stderr names the mode, the format and the kernel the dispatch actually ran ("kernel avx2|neon|scalar"; FUSION_SIMD=0
+// forces the scalar loops). Standard streams are switched to binary mode on Windows: the payloads are raw bytes.
 #include <cstdint>
 #include <cstdio>
 #include <vector>
+#if defined(_WIN32)
+#include <fcntl.h>
+#include <io.h>
+#endif
+
+static void binary_stdio() {
+#if defined(_WIN32)
+    _setmode(_fileno(stdin), _O_BINARY);
+    _setmode(_fileno(stdout), _O_BINARY);
+#endif
+}
 
 #ifndef FUSION_MAX_WIDTH
 #define FUSION_MAX_WIDTH 1024
@@ -21,6 +33,7 @@
 #include CRITIC_HEADER
 
 int main() {
+    binary_stdio();
     constexpr int kVF = 416;
     std::vector<float> row(kVF);
     long n = 0;
@@ -29,7 +42,8 @@ int main() {
         std::fwrite(&v, sizeof v, 1, stdout);
         n++;
     }
-    std::fprintf(stderr, "critic format %s simd %d rows %ld\n", meow_rl_critic::kFormat, FUSION_SIMD, n);
+    std::fprintf(stderr, "critic format %s simd %d kernel %s rows %ld\n", meow_rl_critic::kFormat, FUSION_SIMD,
+                 meow_rl_critic::kernel_name(), n);
     return 0;
 }
 
@@ -47,6 +61,7 @@ struct Game {   // the fields sample.hpp's INIT helpers name; actor mode never c
 #include "../../../bots/meow_rl/sample.hpp"
 
 int main() {
+    binary_stdio();
     float feats[3][5][112];
     unsigned char mask[125];
     double u;
@@ -62,7 +77,7 @@ int main() {
         std::fwrite(out, sizeof out, 1, stdout);
         n++;
     }
-    std::fprintf(stderr, "actor %s simd %d rows %ld\n", meow_rl_model::kName, FUSION_SIMD, n);
+    std::fprintf(stderr, "actor %s simd %d kernel %s rows %ld\n", meow_rl_model::kName, FUSION_SIMD, fusion::kernel::name(), n);
     return 0;
 }
 #else

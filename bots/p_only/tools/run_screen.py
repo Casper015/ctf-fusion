@@ -24,7 +24,10 @@ Steps (re-run the same command after an interruption; finished games are kept):
 A config may also freeze the worker count ("workers_exact": true refuses --workers with another value) and bind the
 screen to a passed preflight ("preflight": a receipt path): every arm's built binary must then have the sha256 the
 receipt measured at that worker count, so a rebuild or another concurrency can never enter the formal games (T0061).
-A config whose seed is still null is a specification, not a runnable screen.
+A config whose seed is still null is a specification, not a runnable screen. With "freeze" (a FREEZE.json written by
+bots/meow_rl/aligned/freeze.py) the config file itself and the schedule the freeze generated must be byte-identical
+to what was frozen, and the schedule must carry the config's seed, counts, map budget and roster; nothing else is
+scheduled.
 
 Results (small JSON and Markdown, meant to be committed) land in report_dir with
 RUN.json (config, commits, host, wall time per step); raw results and match logs
@@ -58,6 +61,29 @@ def step(name: str, args: list[str], timings: dict, check: bool = True) -> int:
     r = subprocess.run([sys.executable, *args], cwd=REPO, check=check)
     timings[name] = round(time.time() - t0, 1)
     return r.returncode
+
+
+def sha256_file(path: Path) -> str:
+    import hashlib  # noqa: PLC0415
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def check_freeze(path: Path, config: Path, cfg: dict, sched: Path) -> None:
+    """Refuse unless this config and its schedule are exactly what the freeze recorded."""
+    if not Path(path).is_file():
+        raise SystemExit(f"{config} names the freeze {path}, which does not exist: freeze before any game")
+    frozen = json.loads(Path(path).read_text(encoding="utf-8"))
+    entry = next((e for e in frozen["schedules"].values() if (REPO / e["profile"]).resolve() == Path(config).resolve()), None)
+    if entry is None:
+        raise SystemExit(f"{config} is not one of the frozen schedules in {path}")
+    if sha256_file(config) != entry["profile_sha256"]:
+        raise SystemExit(f"{config} changed after it was frozen")
+    if not sched.is_file() or sha256_file(sched) != entry["schedule_sha256"]:
+        raise SystemExit(f"{sched} is missing or is not the frozen schedule")
+    s = json.loads(sched.read_text(encoding="utf-8"))
+    names = [r["name"] for r in s["reference"]]
+    if (s["seed"], s["team_counts"], s["maps_per_count"], names) != (cfg["seed"], cfg["teams"], cfg["maps_per_count"], cfg["reference"]):
+        raise SystemExit(f"{sched} does not match the config's seed, counts, map budget or roster")
 
 
 def check_preflight(path: Path, manifest: dict, arms: list[str], workers: int) -> None:
@@ -110,6 +136,8 @@ def main(argv=None):
             build += ["--variants", str(REPO / cfg["variants"])]
         step("build", build + [*arms], timings)
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))["variants"]
+        if cfg.get("freeze") and not a.smoke:
+            check_freeze(REPO / cfg["freeze"], Path(a.config), cfg, sched)
         if not sched.exists():
             sched_cmd = ["-m", "roster.strength", "schedule", "--maps-per-count", str(maps), "--teams", *map(str, teams),
                          "--seed", str(cfg["seed"]), "--out", str(sched)]

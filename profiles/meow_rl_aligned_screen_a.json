@@ -1,5 +1,5 @@
 {
- "_comment": "Schedule A of task T0061 (docs/MEOWMIND_RL_ALIGNED.md): the aligned actor-direct comparison. Every actor is exported against the one frozen corpus with one configuration; the arms differ only in their actor weights. Seed: fresh, reserved in docs/MEOWMIND_RL_SCREEN_SEEDS.md and written here by the freeze (tools/meow_rl_aligned/freeze.py) before any game; never the seed of schedule B, a preflight or any earlier screen. Exactly 8 workers (workers_exact), bound to the passed preflight receipt. Families: the primary at 95%; the two secondary contrasts one Bonferroni family (alpha 0.05, z computed); per-count and band rows are descriptive. Utility differences are reported in percentage points; an interval containing 0 means not shown. No early stopping or extension.",
+ "_comment": "Schedule A of task T0061 (docs/MEOWMIND_RL_ALIGNED.md): the aligned actor-direct comparison. Every actor is exported against the one frozen corpus with one configuration; the arms differ only in their actor weights. Seed: fresh, reserved in docs/MEOWMIND_RL_SCREEN_SEEDS.md and written here by the freeze (bots/meow_rl/aligned/freeze.py) before any game; never the seed of schedule B, a preflight or any earlier screen. Exactly 8 workers (workers_exact), bound to the passed preflight receipt. Families: the primary at 95%; the two secondary contrasts one Bonferroni family (alpha 0.05, z computed); per-count and band rows are descriptive. Utility differences are reported in percentage points; an interval containing 0 means not shown. No early stopping or extension.",
  "seed": null,
  "teams": [
   2,
@@ -85,5 +85,6 @@
     ]
    ]
   }
- }
+ },
+ "freeze": "reports/host/meow_rl_aligned/FREEZE.json"
 }

@@ -1,8 +1,8 @@
 """Fixed-work search trees of the aligned Meowmind RL search diagnosis (task T0061, docs/MEOWMIND_RL_ALIGNED.md).
 
-    python tools/meow_rl_aligned/trees.py collect --seed-base <ledgered> --out data/meow_rl_aligned/trees   (host, 8 workers)
-    python tools/meow_rl_aligned/trees.py select --out data/meow_rl_aligned/trees
-    python tools/meow_rl_aligned/trees.py build  --out data/meow_rl_aligned/trees
+    python bots/meow_rl/aligned/trees.py collect --seed-base <ledgered> --out data/meow_rl_aligned/trees   (host, 8 workers)
+    python bots/meow_rl/aligned/trees.py select --out data/meow_rl_aligned/trees
+    python bots/meow_rl/aligned/trees.py build  --out data/meow_rl_aligned/trees
 
 collect: diagnostic games (never evidence of strength) of the deployed actor-direct bot D (meow_rl_aligned_p2_large, the
 built binary of build/p_only/manifest.json, checked against its bundle) against the training lineages of
@@ -13,14 +13,14 @@ rebuilt from it exactly (its INIT and the shared TURN blocks, which the runner c
 
 select: before any tree is scored, 1,024 roots: 74 per count for 2 and 3, 73 for 4-15; within a count, an even split
 over the phases (turns 2-133, 134-266, 267-400; turn 1 has its own 1,500 ms deadline and is excluded) and, within a
-phase, a cycle over the corpus's tactical signatures (tools/meow_rl_aligned/corpus.py), at most --per-game roots per
+phase, a cycle over the corpus's tactical signatures (bots/meow_rl/aligned/corpus.py), at most --per-game roots per
 game, each signature's candidates ordered by sha256("<seed>|<match>|<turn>"). Shortages are filled within the count,
 then reported; nothing is duplicated.
 
 build: compiles tools/cpp/meow_rl/tree.cpp with D's exported actor header and materializes the search_v2.hpp tree of
 every selected root (4 roots x 2 scenarios, common random numbers, no deadline): trees.jsonl (one line per root, with
 its tree hash and stream sha256) and leaves.f32 (416 float32 value features per non-terminal leaf). MANIFEST.json
-binds the inputs (header and source sha256, streams, roots) to the outputs. tools/meow_rl_aligned/diagnose.py scores them.
+binds the inputs (header and source sha256, streams, roots) to the outputs. bots/meow_rl/aligned/diagnose.py scores them.
 """
 from __future__ import annotations
 
@@ -38,9 +38,9 @@ from pathlib import Path
 
 import numpy as np
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
-sys.path.insert(0, str(REPO / "tools" / "meow_rl_aligned"))
+sys.path.insert(0, str(REPO / "bots" / "meow_rl" / "aligned"))
 
 import corpus as K  # noqa: E402
 from fusion import matchlog, runner  # noqa: E402
@@ -123,7 +123,7 @@ def collect(a) -> dict:
     started = time.strftime("%Y-%m-%dT%H:%M:%S%z")
     with ProcessPoolExecutor(max_workers=WORKERS) as ex:
         rows = list(ex.map(_play, [(s, commands, info, root, str(keep)) for s in specs]))
-    receipt = {"schema": "ctf-meow-rl-aligned-roots-collection-1", "generator": "tools/meow_rl_aligned/trees.py collect",
+    receipt = {"schema": "ctf-meow-rl-aligned-roots-collection-1", "generator": "bots/meow_rl/aligned/trees.py collect",
                "started": started, "finished": time.strftime("%Y-%m-%dT%H:%M:%S%z"), "workers": WORKERS,
                "limits_ms": [1000 * LIMITS[0], 1000 * LIMITS[1]], "seed_base": a.seed_base, "seed_ledger": ledger,
                "pool": a.pool, "pool_sha256": sha256(Path(a.pool)), "games_per_count": a.games, "variant": VARIANT,
@@ -195,7 +195,7 @@ def select(a) -> dict:
     by_match = defaultdict(list)
     for c in chosen:
         by_match[c["match"]].append(c["turn"])
-    roots = {"schema": "ctf-meow-rl-aligned-roots-1", "generator": "tools/meow_rl_aligned/trees.py select", "seed": a.seed,
+    roots = {"schema": "ctf-meow-rl-aligned-roots-1", "generator": "bots/meow_rl/aligned/trees.py select", "seed": a.seed,
              "requested": a.roots, "selected": len(chosen), "per_game_cap": a.per_game, "shortage_by_count": short,
              "candidates": len(pool), "strata": K.strata([{**c, "teams": c["teams"]} for c in chosen]),
              "matches": {m: {"turns": sorted(t), "record_sha256": sha256(out / "matches" / f"{m}.json.gz")}
@@ -250,7 +250,7 @@ def build(a) -> dict:
             leaves.write(block.tobytes())
             lf.unlink()
     (out / "trees.jsonl").write_text("".join(json.dumps(x) + "\n" for x in lines), encoding="utf-8", newline="\n")
-    manifest = {"schema": "ctf-meow-rl-aligned-trees-1", "generator": "tools/meow_rl_aligned/trees.py build",
+    manifest = {"schema": "ctf-meow-rl-aligned-trees-1", "generator": "bots/meow_rl/aligned/trees.py build",
                 "actor_header": str(a.actor_header), "actor_header_sha256": sha256(Path(a.actor_header)),
                 "tree_source_sha256": sha256(REPO / "tools" / "cpp" / "meow_rl" / "tree.cpp"),
                 "search_source_sha256": sha256(REPO / "bots" / "meow_rl" / "search_v2.hpp"),

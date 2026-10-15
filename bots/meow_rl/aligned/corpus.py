@@ -1,6 +1,6 @@
 """Freeze the shared calibration corpus and its disjoint diagnostic split (task T0061, docs/MEOWMIND_RL_ALIGNED.md).
 
-    python tools/meow_rl_aligned/corpus.py --batches runs/meow_rl_pool2/large_v_s101/batches \\
+    python bots/meow_rl/aligned/corpus.py --batches runs/meow_rl_pool2/large_v_s101/batches \\
         runs/meow_rl_pool2/small_v_s101/batches --out data/meow_rl_aligned/corpus
 
 Selects, deterministically and before any new game, 16,000 learner decisions for calibration and 16,000 for export
@@ -15,7 +15,8 @@ Strata (from the episode records and the reference's own features; docs/MEOWMIND
     attack line of a living own unit, actor features 57/66/75/84 of the stay move), low HP (a living own unit at
     HP <= 34, actor feature 0), respawn (an own unit waits to respawn, value features 11/23/35). Combat is a proxy (an
     attack line, not an attack); respawn means waiting, the exact new-life flag is not recoverable from features.
-Split: a map group (run, team count, map seed) is diagnostic when sha256("<seed>|diagnostic|<group>") mod 5 == 0.
+Split: a map group (team count, map seed; the same engine for every run, whichever run played it) is diagnostic
+when sha256("<seed>|diagnostic|<group>") mod 5 == 0, so a map never reaches both splits through two runs.
 Quotas: 1,143 decisions per count for 2-13 and 1,142 for 14-15 (16,000), split evenly over the phases (remainder to
 the earliest). Within a (count, phase) cell the selector cycles over the non-empty signatures in numeric order and
 takes each signature's next row by sha256("<seed>|<file>|<episode>|<turn>") (then file and row). A shortage is filled
@@ -37,7 +38,7 @@ from pathlib import Path
 
 import numpy as np
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
 
 SCHEMA = "ctf-meow-rl-aligned-corpus-1"
@@ -118,7 +119,7 @@ def inventory(dirs: list[Path]) -> tuple[list[dict], list[dict]]:
 
 
 def is_diagnostic(seed: str, row: dict) -> bool:
-    group = f"{row['run']}|{row['teams']}|{row['map_seed']}"
+    group = f"{row['teams']}|{row['map_seed']}"
     return int(hashlib.sha256(f"{seed}|diagnostic|{group}".encode()).hexdigest(), 16) % 5 == 0
 
 
@@ -225,16 +226,16 @@ def main(argv=None) -> dict:
     diag_pool = [r for r in rows if is_diagnostic(a.seed, r)]
     cal, cal_rep = select(cal_pool, a.seed, a.total)
     diag, diag_rep = select(diag_pool, a.seed, a.total)
-    cal_maps = {(r["run"], r["teams"], r["map_seed"]) for r in cal}
-    if cal_maps & {(r["run"], r["teams"], r["map_seed"]) for r in diag}:
+    cal_maps = {(r["teams"], r["map_seed"]) for r in cal}
+    if cal_maps & {(r["teams"], r["map_seed"]) for r in diag}:
         raise SystemExit("calibration and diagnostic splits share a map group")
     digests = {"calibration": materialize(cal, files, out / "calibration.npz"),
                "diagnostic": materialize(diag, files, out / "diagnostic.npz")}
     keep = ("file", "row", "episode", "turn", "teams", "seat", "map_seed", "sig")
-    manifest = {"schema": SCHEMA, "generator": "tools/meow_rl_aligned/corpus.py", "seed": a.seed, "total": a.total,
+    manifest = {"schema": SCHEMA, "generator": "bots/meow_rl/aligned/corpus.py", "seed": a.seed, "total": a.total,
                 "rules": {"phases": PHASES, "signature_bits": BITS, "low_hp_max": 0.34, "attack_line_features": ATTACK,
                           "carrier_feature": CARRIER, "respawn_value_features": RESPAWN,
-                          "diagnostic_groups": "sha256(seed|diagnostic|run|teams|map_seed) % 5 == 0", "quotas": quotas(a.total)},
+                          "diagnostic_groups": "sha256(seed|diagnostic|teams|map_seed) % 5 == 0", "quotas": quotas(a.total)},
                 "parents": [{k: f[k] for k in ("file", "sha256", "json_sha256", "rows")} for f in files],
                 "pool_rows": {"calibration": len(cal_pool), "diagnostic": len(diag_pool)},
                 "splits": {"calibration": {"rows": len(cal), "selection": cal_rep, "strata": strata(cal),
@@ -244,7 +245,7 @@ def main(argv=None) -> dict:
                            "diagnostic": {"rows": len(diag), "selection": diag_rep, "strata": strata(diag),
                                           "array_sha256": digests["diagnostic"],
                                           "file_sha256": sha256(out / "diagnostic.npz"),
-                                          "map_groups": len({(r["run"], r["teams"], r["map_seed"]) for r in diag})}},
+                                          "map_groups": len({(r["teams"], r["map_seed"]) for r in diag})}},
                 "selected": {"calibration": [[r[k] for k in keep] for r in cal],
                              "diagnostic": [[r[k] for k in keep] for r in diag], "columns": list(keep)}}
     tmp = out / "MANIFEST.json.tmp"
