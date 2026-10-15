@@ -16,12 +16,12 @@ import time
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
-REPO = Path(__file__).resolve().parents[4]
+REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "bots" / "p_only" / "tools"))
 
 from fusion import matchlog, runner
-from fusion.paths import ai_test_root, bot_path, engine_path, load_pool, sha256
+from fusion.paths import ai_test_root, bot_path, engine_path, git_commit, load_engine, load_pool, sha256
 from roster.strength import REFERENCE, schedule, utility
 from training.collect import Fixture, play
 from roster import trajectory
@@ -89,6 +89,12 @@ def run_job(job):
     }
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--seed", type=int, default=20261801, help="Preflight schedule seed")
+    parser.add_argument("--workers", nargs="+", type=int, default=[1, 2, 4, 6], help="Concurrency ladder to test")
+    parser.add_argument("--dry-run", action="store_true", help="Print plan and exit")
+    args = parser.parse_args()
+
     root = ai_test_root()
     os.environ["AI_TEST_ROOT"] = str(root)
     
@@ -107,7 +113,7 @@ def main():
     
     # 1 map each at counts 2, 5, 10, 15
     teams_list = [2, 5, 10, 15]
-    seed = 20261801
+    seed = args.seed
     sched = schedule(1, teams_list, REFERENCE, seed, root)
     fixtures = sched["fixtures"]
     
@@ -119,53 +125,38 @@ def main():
         path = bot_path(pool[ref["name"]], root)
         commands[ref["name"]] = runner.command_for(path, build)
         info[ref["name"]] = {"family": pool[ref["name"]]["family"], "sha256": ref["source_sha256"]}
-    from fusion.paths import git_commit
-    info["__engine__"] = sha256(engine_path(root))
-    info["__commit__"] = git_commit(root)
+    info |= {"__engine__": sha256(engine_path(root)), "__commit__": git_commit(root)}
+    load_engine(root)
     
-    limits = (2.0, 0.05)  # 2000 ms, 50 ms
+    limits = (2.0, 0.050)
     
+    jobs = []
+    for fx in fixtures:
+        for arm in arms:
+            jobs.append((fx, arm, manifest[arm], commands, info, root, limits))
+            
+    print(f"[PREFLIGHT] Testing {len(jobs)} jobs across workers {args.workers} (seed {seed})", flush=True)
+    if args.dry_run:
+        return
+
     results_by_worker = {}
-    ladder = [1, 2, 4, 6]
     
-    for w in ladder:
-        print(f"\n=======================================================", flush=True)
-        print(f"[PREFLIGHT] Testing concurrency = {w} workers...", flush=True)
-        print(f"=======================================================", flush=True)
+    for w in args.workers:
+        print(f"\n--- Testing concurrency: {w} workers ---", flush=True)
+        t_start = time.time()
+        with ProcessPoolExecutor(max_workers=w) as executor:
+            batch_results = list(executor.map(run_job, jobs))
+        total_time = round(time.time() - t_start, 1)
         
-        # Build jobs
-        jobs = []
-        for fx in fixtures:
-            for arm in arms:
-                jobs.append((fx, arm, manifest[arm], commands, info, root, limits))
-        
-        t0 = time.time()
-        batch_results = []
-        if w == 1:
-            for job in jobs:
-                res = run_job(job)
-                batch_results.append(res)
-                print(f"  [w={w}] {res['arm']} n={res['teams']} score={res['score']} "
-                      f"p50={res['p50_ms']}ms p99={res['p99_ms']}ms max={res['max_ms']}ms "
-                      f"late={res['late']} dead={res['dead']} dscore={res['dscore']}", flush=True)
-        else:
-            with ProcessPoolExecutor(max_workers=w) as ex:
-                for res in ex.map(run_job, jobs):
-                    batch_results.append(res)
-                    print(f"  [w={w}] {res['arm']} n={res['teams']} "
-                          f"p50={res['p50_ms']}ms p99={res['p99_ms']}ms max={res['max_ms']}ms "
-                          f"late={res['late']} dead={res['dead']} dscore={res['dscore']}", flush=True)
-        
-        total_time = round(time.time() - t0, 1)
-        
-        # Summary statistics for this concurrency level
+        # Analyze results
         total_games = len(batch_results)
-        total_late = sum(r["late"] for r in batch_results)
-        total_dead = sum(1 for r in batch_results if r["dead"])
-        total_faults = sum(r["faults"] for r in batch_results)
+        total_faults = sum(int(r.get("faults") or 0) for r in batch_results)
+        total_late = sum(int(r.get("late") or 0) for r in batch_results)
+        total_dead = sum(1 for r in batch_results if r.get("dead"))
+        
         n15_results = [r for r in batch_results if r["teams"] == 15]
-        n15_max = max((r["max_ms"] for r in n15_results if r["max_ms"] is not None), default=0.0)
-        n15_p99 = max((r["p99_ms"] for r in n15_results if r["p99_ms"] is not None), default=0.0)
+        n15_max = max(r["max_ms"] for r in n15_results) if n15_results else 0.0
+        n15_p99 = max(r["p99_ms"] for r in n15_results) if n15_results else 0.0
         
         # Check deadline counters in DSCORE
         scoring_results = [r for r in batch_results if r["dscore"] is not None]
@@ -173,6 +164,20 @@ def main():
         total_switches = sum(r["dscore"]["switched"] for r in scoring_results)
         total_scored = sum(r["dscore"]["scored"] for r in scoring_results)
         
+        # Strict gating: 0 dead processes, 0 late replies, 0 faults, 0 deadline drops,
+        # all scoring hooks reported valid DSCORE with 0 invalid fallbacks, and n15 max under 48ms
+        has_invalid = any(r["dscore"] is not None and r["dscore"]["invalid"] > 0 for r in batch_results)
+        missing_dscore = any(r["dscore"] is None and "first_trial" in r["arm"] for r in batch_results)
+        safe_pass = (
+            total_dead == 0
+            and total_late == 0
+            and total_faults == 0
+            and total_deadline_hits == 0
+            and not has_invalid
+            and not missing_dscore
+            and n15_max < 48.0
+        )
+
         worker_summary = {
             "workers": w,
             "total_games": total_games,
@@ -187,7 +192,7 @@ def main():
                 "total_switched_roots": total_switches,
                 "total_deadline_drop_counter": total_deadline_hits,
             },
-            "safe_pass": (total_dead == 0 and total_late == 0 and n15_max < 48.0),
+            "safe_pass": safe_pass,
             "results": batch_results,
         }
         results_by_worker[w] = worker_summary
@@ -195,10 +200,10 @@ def main():
               f"n15_p99={n15_p99}ms n15_max={n15_max}ms deadline_hits={total_deadline_hits} "
               f"SAFE_PASS={worker_summary['safe_pass']}", flush=True)
     
-    # Determine safe admitted concurrency
+    # Determine safe admitted concurrency: max consecutive passing concurrency in ladder
     admitted_workers = 1
     for w in [1, 2, 4, 6]:
-        if results_by_worker[w]["safe_pass"]:
+        if w in results_by_worker and results_by_worker[w]["safe_pass"]:
             admitted_workers = w
         else:
             break
@@ -210,6 +215,7 @@ def main():
         "task": "T0051",
         "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "host": "desktop-g60ojud",
+        "generator": "bots/p_only/tools/preflight_own_action.py",
         "official_limits": {"first_ms": 2000, "turn_ms": 50},
         "admitted_workers": admitted_workers,
         "concurrency_ladder": {
@@ -223,8 +229,8 @@ def main():
     
     out1 = REPO / "bots" / "p_only" / "report" / "own_action_first_trial" / "PREFLIGHT.json"
     out2 = REPO / "reports" / "host" / "own_action_first_trial" / "PREFLIGHT.json"
-    out1.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
-    out2.write_text(json.dumps(receipt, indent=2), encoding="utf-8")
+    out1.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8", newline="\n")
+    out2.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(f"Preflight receipts written to {out1} and {out2}")
 
 if __name__ == "__main__":
