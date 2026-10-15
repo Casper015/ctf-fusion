@@ -1,0 +1,2546 @@
+{
+ "authoritative": true,
+ "exploratory_reasons": [],
+ "drops": {},
+ "splits": {
+  "train": {
+   "coverage": {
+    "roots": 268,
+    "maps": 268,
+    "candidates": 1048,
+    "k_per_root": {
+     "1": 8,
+     "4": 260
+    },
+    "supported": 1048,
+    "unsupported": 0,
+    "without_outcome": 0,
+    "failed_repeats": 0,
+    "incumbent_without_outcome": 0,
+    "incumbent_unsupported": 0,
+    "changeable_roots": 260,
+    "flags": {
+     "parse_fail": 0,
+     "requested_move_illegal": 0,
+     "action_canonicalized": 795,
+     "target_out_of_cap": 0,
+     "target_invalid": 0,
+     "duplicate_effective": 0,
+     "canonical_differs_from_request": 795
+    },
+    "roots_with_carrier_scores": 268,
+    "shortlist_k": {
+     "1": 8,
+     "4": 260
+    },
+    "sources": {
+     "recorded": 268,
+     "shortlist:beam": 780
+    }
+   },
+   "noise": {
+    "repeats": {
+     "4": 1048
+    },
+    "failed_repeats": 0,
+    "assumptions": [
+     "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+     "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+     "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+    ],
+    "noise_roots": 260,
+    "noise_candidates": 1040,
+    "within_action_variance": 0.007288086880691,
+    "within_action_dof": 3120,
+    "within_action_variance_all_candidates": 0.0073815756249069955,
+    "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+    "between_action_variance_raw": 0.012228704929290853,
+    "between_roots": 260,
+    "between_action_variance_net": 0.010406683209118103,
+    "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+    "paired": {
+     "paired_gap_variance": 0.016203163795406966,
+     "dof": 2340,
+     "pairs": 780,
+     "candidate_variance": 0.007028213164000763,
+     "incumbent_variance": 0.00806770803076172,
+     "implied_covariance": -0.0005536213003222417,
+     "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+    }
+   },
+   "faults": {
+    "branch_records": 4192,
+    "failed_repeats": 0,
+    "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+    "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+    "continuation": {
+     "faults": 0,
+     "repeats_with_faults": 0,
+     "repeats_unrecorded": 0
+    },
+    "prefix": {
+     "faults": 0,
+     "repeats_with_faults": 0,
+     "repeats_unrecorded": 0
+    },
+    "root": {
+     "faults": 0,
+     "repeats_with_faults": 0,
+     "repeats_unrecorded": 0
+    }
+   },
+   "collisions": {
+    "colliding_pairs": 0,
+    "roots_with_collisions": 0
+   },
+   "replay": {
+    "status": "memory/replay diagnostic, not repeat noise",
+    "roots": 268,
+    "mean": 0.010730880075562908,
+    "sd": 0.10490292694038857,
+    "share_beyond_one_step": 0.26865671641791045
+   },
+   "power": {
+    "status": "planning approximation (map-level variance of an always-switch rule; not a test result)",
+    "maps": 260,
+    "s2_map": 0.014524369335399958,
+    "mde": {
+     "maps=300 switch_share=0.1": 0.006160926759006733,
+     "maps=300 switch_share=0.25": 0.009741280527970287,
+     "maps=300 switch_share=0.5": 0.013776251037536522,
+     "maps=400 switch_share=0.1": 0.00533551908415516,
+     "maps=400 switch_share=0.25": 0.008436196402612957,
+     "maps=400 switch_share=0.5": 0.011930583367418358,
+     "maps=500 switch_share=0.1": 0.004772233346967344,
+     "maps=500 switch_share=0.25": 0.007545563451112701,
+     "maps=500 switch_share=0.5": 0.01067103816831032
+    }
+   },
+   "per_count": {
+    "2": {
+     "coverage": {
+      "roots": 18,
+      "maps": 18,
+      "candidates": 72,
+      "k_per_root": {
+       "4": 18
+      },
+      "supported": 72,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 18,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 51,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 51
+      },
+      "roots_with_carrier_scores": 18,
+      "shortlist_k": {
+       "4": 18
+      },
+      "sources": {
+       "recorded": 18,
+       "shortlist:beam": 54
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 72
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 18,
+      "noise_candidates": 72,
+      "within_action_variance": 0.0,
+      "within_action_dof": 216,
+      "within_action_variance_all_candidates": 0.0,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.03587962962962962,
+      "between_roots": 18,
+      "between_action_variance_net": 0.03587962962962962,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.0,
+       "dof": 162,
+       "pairs": 54,
+       "candidate_variance": 0.0,
+       "incumbent_variance": 0.0,
+       "implied_covariance": 0.0,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 288,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "3": {
+     "coverage": {
+      "roots": 22,
+      "maps": 22,
+      "candidates": 85,
+      "k_per_root": {
+       "1": 1,
+       "4": 21
+      },
+      "supported": 85,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 21,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 72,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 72
+      },
+      "roots_with_carrier_scores": 22,
+      "shortlist_k": {
+       "1": 1,
+       "4": 21
+      },
+      "sources": {
+       "recorded": 22,
+       "shortlist:beam": 63
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 85
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 21,
+      "noise_candidates": 84,
+      "within_action_variance": 0.001488095238095238,
+      "within_action_dof": 252,
+      "within_action_variance_all_candidates": 0.0014705882352941176,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.008928571428571428,
+      "between_roots": 21,
+      "between_action_variance_net": 0.008556547619047618,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.004629629629629629,
+       "dof": 189,
+       "pairs": 63,
+       "candidate_variance": 0.000992063492063492,
+       "incumbent_variance": 0.002976190476190476,
+       "implied_covariance": -0.00033068783068783067,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 340,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "4": {
+     "coverage": {
+      "roots": 20,
+      "maps": 20,
+      "candidates": 80,
+      "k_per_root": {
+       "4": 20
+      },
+      "supported": 80,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 20,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 63,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 63
+      },
+      "roots_with_carrier_scores": 20,
+      "shortlist_k": {
+       "4": 20
+      },
+      "sources": {
+       "recorded": 20,
+       "shortlist:beam": 60
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 80
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 20,
+      "noise_candidates": 80,
+      "within_action_variance": 0.00815972222222222,
+      "within_action_dof": 240,
+      "within_action_variance_all_candidates": 0.00815972222222222,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.021788194444444447,
+      "between_roots": 20,
+      "between_action_variance_net": 0.01974826388888889,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.016666666666666663,
+       "dof": 180,
+       "pairs": 60,
+       "candidate_variance": 0.008641975308641973,
+       "incumbent_variance": 0.006712962962962962,
+       "implied_covariance": -0.000655864197530864,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 320,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "5": {
+     "coverage": {
+      "roots": 19,
+      "maps": 19,
+      "candidates": 73,
+      "k_per_root": {
+       "1": 1,
+       "4": 18
+      },
+      "supported": 73,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 18,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 53,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 53
+      },
+      "roots_with_carrier_scores": 19,
+      "shortlist_k": {
+       "1": 1,
+       "4": 18
+      },
+      "sources": {
+       "recorded": 19,
+       "shortlist:beam": 54
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 73
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 18,
+      "noise_candidates": 72,
+      "within_action_variance": 0.008879484953703705,
+      "within_action_dof": 216,
+      "within_action_variance_all_candidates": 0.008757848173515981,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.013088650173611112,
+      "between_roots": 18,
+      "between_action_variance_net": 0.010868778935185185,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.015793788580246913,
+       "dof": 162,
+       "pairs": 54,
+       "candidate_variance": 0.01070601851851852,
+       "incumbent_variance": 0.003399884259259259,
+       "implied_covariance": -0.0008439429012345673,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 292,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "6": {
+     "coverage": {
+      "roots": 16,
+      "maps": 16,
+      "candidates": 61,
+      "k_per_root": {
+       "1": 1,
+       "4": 15
+      },
+      "supported": 61,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 15,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 47,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 47
+      },
+      "roots_with_carrier_scores": 16,
+      "shortlist_k": {
+       "1": 1,
+       "4": 15
+      },
+      "sources": {
+       "recorded": 16,
+       "shortlist:beam": 45
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 61
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 15,
+      "noise_candidates": 60,
+      "within_action_variance": 0.009958333333333331,
+      "within_action_dof": 180,
+      "within_action_variance_all_candidates": 0.010286885245901638,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.014142361111111112,
+      "between_roots": 15,
+      "between_action_variance_net": 0.01165277777777778,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.022574074074074073,
+       "dof": 135,
+       "pairs": 45,
+       "candidate_variance": 0.009703703703703704,
+       "incumbent_variance": 0.01072222222222222,
+       "implied_covariance": -0.0010740740740740745,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 244,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "7": {
+     "coverage": {
+      "roots": 19,
+      "maps": 19,
+      "candidates": 73,
+      "k_per_root": {
+       "1": 1,
+       "4": 18
+      },
+      "supported": 73,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 18,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 59,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 59
+      },
+      "roots_with_carrier_scores": 19,
+      "shortlist_k": {
+       "1": 1,
+       "4": 18
+      },
+      "sources": {
+       "recorded": 19,
+       "shortlist:beam": 54
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 73
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 18,
+      "noise_candidates": 72,
+      "within_action_variance": 0.010641718106995888,
+      "within_action_dof": 216,
+      "within_action_variance_all_candidates": 0.01090024099441908,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.00972141846707819,
+      "between_roots": 18,
+      "between_action_variance_net": 0.007060988940329218,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.025570130315500685,
+       "dof": 162,
+       "pairs": 54,
+       "candidate_variance": 0.009709362139917695,
+       "incumbent_variance": 0.013438786008230463,
+       "implied_covariance": -0.0012109910836762636,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 292,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "8": {
+     "coverage": {
+      "roots": 18,
+      "maps": 18,
+      "candidates": 72,
+      "k_per_root": {
+       "4": 18
+      },
+      "supported": 72,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 18,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 64,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 64
+      },
+      "roots_with_carrier_scores": 18,
+      "shortlist_k": {
+       "4": 18
+      },
+      "sources": {
+       "recorded": 18,
+       "shortlist:beam": 54
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 72
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 18,
+      "noise_candidates": 72,
+      "within_action_variance": 0.010522959183673474,
+      "within_action_dof": 216,
+      "within_action_variance_all_candidates": 0.010522959183673474,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.010251322751322752,
+      "between_roots": 18,
+      "between_action_variance_net": 0.007620582955404384,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.027447089947089946,
+       "dof": 162,
+       "pairs": 54,
+       "candidate_variance": 0.009070294784580497,
+       "incumbent_variance": 0.014880952380952384,
+       "implied_covariance": -0.0017479213907785323,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 288,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "9": {
+     "coverage": {
+      "roots": 19,
+      "maps": 19,
+      "candidates": 76,
+      "k_per_root": {
+       "4": 19
+      },
+      "supported": 76,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 19,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 58,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 58
+      },
+      "roots_with_carrier_scores": 19,
+      "shortlist_k": {
+       "4": 19
+      },
+      "sources": {
+       "recorded": 19,
+       "shortlist:beam": 57
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 76
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 19,
+      "noise_candidates": 76,
+      "within_action_variance": 0.002685546875,
+      "within_action_dof": 228,
+      "within_action_variance_all_candidates": 0.002685546875,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.0034340306332236842,
+      "between_roots": 19,
+      "between_action_variance_net": 0.0027626439144736842,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.007018686038011696,
+       "dof": 171,
+       "pairs": 57,
+       "candidate_variance": 0.002124451754385965,
+       "incumbent_variance": 0.004368832236842105,
+       "implied_covariance": -0.0002627010233918125,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 304,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "10": {
+     "coverage": {
+      "roots": 18,
+      "maps": 18,
+      "candidates": 69,
+      "k_per_root": {
+       "1": 1,
+       "4": 17
+      },
+      "supported": 69,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 17,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 48,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 48
+      },
+      "roots_with_carrier_scores": 18,
+      "shortlist_k": {
+       "1": 1,
+       "4": 17
+      },
+      "sources": {
+       "recorded": 18,
+       "shortlist:beam": 51
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 69
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 17,
+      "noise_candidates": 68,
+      "within_action_variance": 0.0045501997095134345,
+      "within_action_dof": 204,
+      "within_action_variance_all_candidates": 0.004912924196338044,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.012049708000484147,
+      "between_roots": 17,
+      "between_action_variance_net": 0.010912158073105789,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.007963164689744208,
+       "dof": 153,
+       "pairs": 51,
+       "candidate_variance": 0.004730493020253369,
+       "incumbent_variance": 0.00400931977729363,
+       "implied_covariance": 0.00038832405390139615,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 276,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "11": {
+     "coverage": {
+      "roots": 17,
+      "maps": 17,
+      "candidates": 68,
+      "k_per_root": {
+       "4": 17
+      },
+      "supported": 68,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 17,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 52,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 52
+      },
+      "roots_with_carrier_scores": 17,
+      "shortlist_k": {
+       "4": 17
+      },
+      "sources": {
+       "recorded": 17,
+       "shortlist:beam": 51
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 68
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 17,
+      "noise_candidates": 68,
+      "within_action_variance": 0.006326593137254899,
+      "within_action_dof": 204,
+      "within_action_variance_all_candidates": 0.006326593137254899,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.004155177696078431,
+      "between_roots": 17,
+      "between_action_variance_net": 0.0025735294117647063,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.01199754901960784,
+       "dof": 153,
+       "pairs": 51,
+       "candidate_variance": 0.006523692810457516,
+       "incumbent_variance": 0.005735294117647057,
+       "implied_covariance": 0.0001307189542483671,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 272,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "12": {
+     "coverage": {
+      "roots": 19,
+      "maps": 19,
+      "candidates": 76,
+      "k_per_root": {
+       "4": 19
+      },
+      "supported": 76,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 19,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 49,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 49
+      },
+      "roots_with_carrier_scores": 19,
+      "shortlist_k": {
+       "4": 19
+      },
+      "sources": {
+       "recorded": 19,
+       "shortlist:beam": 57
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 76
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 19,
+      "noise_candidates": 76,
+      "within_action_variance": 0.007695827896186747,
+      "within_action_dof": 228,
+      "within_action_variance_all_candidates": 0.007695827896186747,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.009039822567783096,
+      "between_roots": 19,
+      "between_action_variance_net": 0.00711586559373641,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.021062901744719923,
+       "dof": 171,
+       "pairs": 57,
+       "candidate_variance": 0.006732999855009424,
+       "incumbent_variance": 0.010584312019718718,
+       "implied_covariance": -0.0018727949349958903,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 304,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "13": {
+     "coverage": {
+      "roots": 21,
+      "maps": 21,
+      "candidates": 84,
+      "k_per_root": {
+       "4": 21
+      },
+      "supported": 84,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 21,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 58,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 58
+      },
+      "roots_with_carrier_scores": 21,
+      "shortlist_k": {
+       "4": 21
+      },
+      "sources": {
+       "recorded": 21,
+       "shortlist:beam": 63
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 84
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 21,
+      "noise_candidates": 84,
+      "within_action_variance": 0.008949239417989417,
+      "within_action_dof": 252,
+      "within_action_variance_all_candidates": 0.008949239417989417,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.01089633625440917,
+      "between_roots": 21,
+      "between_action_variance_net": 0.008659026399911816,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.019271751910640803,
+       "dof": 189,
+       "pairs": 63,
+       "candidate_variance": 0.0083980930335097,
+       "incumbent_variance": 0.010602678571428568,
+       "implied_covariance": -0.00013549015285126663,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 336,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "14": {
+     "coverage": {
+      "roots": 21,
+      "maps": 21,
+      "candidates": 81,
+      "k_per_root": {
+       "1": 1,
+       "4": 20
+      },
+      "supported": 81,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 20,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 60,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 60
+      },
+      "roots_with_carrier_scores": 21,
+      "shortlist_k": {
+       "1": 1,
+       "4": 20
+      },
+      "sources": {
+       "recorded": 21,
+       "shortlist:beam": 60
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 81
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 20,
+      "noise_candidates": 80,
+      "within_action_variance": 0.013905325443786984,
+      "within_action_dof": 240,
+      "within_action_variance_all_candidates": 0.014553960600969149,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.00787875986193294,
+      "between_roots": 20,
+      "between_action_variance_net": 0.004402428500986195,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.031286982248520716,
+       "dof": 180,
+       "pairs": 60,
+       "candidate_variance": 0.012736275476660095,
+       "incumbent_variance": 0.017412475345167648,
+       "implied_covariance": -0.0005691157133464863,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 324,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "15": {
+     "coverage": {
+      "roots": 21,
+      "maps": 21,
+      "candidates": 78,
+      "k_per_root": {
+       "1": 2,
+       "4": 19
+      },
+      "supported": 78,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 19,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 61,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 61
+      },
+      "roots_with_carrier_scores": 21,
+      "shortlist_k": {
+       "1": 2,
+       "4": 19
+      },
+      "sources": {
+       "recorded": 21,
+       "shortlist:beam": 57
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 78
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 19,
+      "noise_candidates": 76,
+      "within_action_variance": 0.008531373075546007,
+      "within_action_dof": 228,
+      "within_action_variance_all_candidates": 0.008322158991801849,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.010749530075187972,
+      "between_roots": 19,
+      "between_action_variance_net": 0.00861668680630147,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.015880474997016353,
+       "dof": 171,
+       "pairs": 57,
+       "candidate_variance": 0.008771929824561401,
+       "incumbent_variance": 0.0078097028284998225,
+       "implied_covariance": 0.0003505788280224343,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 312,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    }
+   }
+  },
+  "val": {
+   "coverage": {
+    "roots": 37,
+    "maps": 37,
+    "candidates": 148,
+    "k_per_root": {
+     "4": 37
+    },
+    "supported": 148,
+    "unsupported": 0,
+    "without_outcome": 0,
+    "failed_repeats": 0,
+    "incumbent_without_outcome": 0,
+    "incumbent_unsupported": 0,
+    "changeable_roots": 37,
+    "flags": {
+     "parse_fail": 0,
+     "requested_move_illegal": 0,
+     "action_canonicalized": 120,
+     "target_out_of_cap": 0,
+     "target_invalid": 0,
+     "duplicate_effective": 0,
+     "canonical_differs_from_request": 120
+    },
+    "roots_with_carrier_scores": 37,
+    "shortlist_k": {
+     "4": 37
+    },
+    "sources": {
+     "recorded": 37,
+     "shortlist:beam": 111
+    }
+   },
+   "noise": {
+    "repeats": {
+     "4": 148
+    },
+    "failed_repeats": 0,
+    "assumptions": [
+     "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+     "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+     "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+    ],
+    "noise_roots": 37,
+    "noise_candidates": 148,
+    "within_action_variance": 0.005578922201891247,
+    "within_action_dof": 444,
+    "within_action_variance_all_candidates": 0.005578922201891247,
+    "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+    "between_action_variance_raw": 0.017289773264027964,
+    "between_roots": 37,
+    "between_action_variance_net": 0.01589504271355515,
+    "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+    "paired": {
+     "paired_gap_variance": 0.011914214958225346,
+     "dof": 333,
+     "pairs": 111,
+     "candidate_variance": 0.005175125349912947,
+     "incumbent_variance": 0.006790312757826145,
+     "implied_covariance": 2.5611574756873208e-05,
+     "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+    }
+   },
+   "faults": {
+    "branch_records": 592,
+    "failed_repeats": 0,
+    "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+    "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+    "continuation": {
+     "faults": 0,
+     "repeats_with_faults": 0,
+     "repeats_unrecorded": 0
+    },
+    "prefix": {
+     "faults": 0,
+     "repeats_with_faults": 0,
+     "repeats_unrecorded": 0
+    },
+    "root": {
+     "faults": 0,
+     "repeats_with_faults": 0,
+     "repeats_unrecorded": 0
+    }
+   },
+   "collisions": {
+    "colliding_pairs": 0,
+    "roots_with_collisions": 0
+   },
+   "replay": {
+    "status": "memory/replay diagnostic, not repeat noise",
+    "roots": 37,
+    "mean": 0.008936465186465183,
+    "sd": 0.08113411548297429,
+    "share_beyond_one_step": 0.21621621621621623
+   },
+   "power": {
+    "status": "planning approximation (map-level variance of an always-switch rule; not a test result)",
+    "maps": 37,
+    "s2_map": 0.041550422731586406,
+    "mde": {
+     "maps=300 switch_share=0.1": 0.010420417685416732,
+     "maps=300 switch_share=0.25": 0.01647612702810841,
+     "maps=300 switch_share=0.5": 0.023300762298532833,
+     "maps=400 switch_share=0.1": 0.009024346433615531,
+     "maps=400 switch_share=0.25": 0.014268744562321288,
+     "maps=400 switch_share=0.5": 0.02017905207807212,
+     "maps=500 switch_share=0.1": 0.00807162083122885,
+     "maps=500 switch_share=0.25": 0.012762353117972355,
+     "maps=500 switch_share=0.5": 0.01804869286723106
+    }
+   },
+   "per_count": {
+    "2": {
+     "coverage": {
+      "roots": 4,
+      "maps": 4,
+      "candidates": 16,
+      "k_per_root": {
+       "4": 4
+      },
+      "supported": 16,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 4,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 13,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 13
+      },
+      "roots_with_carrier_scores": 4,
+      "shortlist_k": {
+       "4": 4
+      },
+      "sources": {
+       "recorded": 4,
+       "shortlist:beam": 12
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 16
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 4,
+      "noise_candidates": 16,
+      "within_action_variance": 0.0,
+      "within_action_dof": 48,
+      "within_action_variance_all_candidates": 0.0,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.0,
+      "between_roots": 4,
+      "between_action_variance_net": 0.0,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.0,
+       "dof": 36,
+       "pairs": 12,
+       "candidate_variance": 0.0,
+       "incumbent_variance": 0.0,
+       "implied_covariance": 0.0,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 64,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "3": {
+     "coverage": {
+      "roots": 1,
+      "maps": 1,
+      "candidates": 4,
+      "k_per_root": {
+       "4": 1
+      },
+      "supported": 4,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 1,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 4,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 4
+      },
+      "roots_with_carrier_scores": 1,
+      "shortlist_k": {
+       "4": 1
+      },
+      "sources": {
+       "recorded": 1,
+       "shortlist:beam": 3
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 4
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 1,
+      "noise_candidates": 4,
+      "within_action_variance": 0.0,
+      "within_action_dof": 12,
+      "within_action_variance_all_candidates": 0.0,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.08333333333333333,
+      "between_roots": 1,
+      "between_action_variance_net": 0.08333333333333333,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.0,
+       "dof": 9,
+       "pairs": 3,
+       "candidate_variance": 0.0,
+       "incumbent_variance": 0.0,
+       "implied_covariance": 0.0,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 16,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "4": {
+     "coverage": {
+      "roots": 1,
+      "maps": 1,
+      "candidates": 4,
+      "k_per_root": {
+       "4": 1
+      },
+      "supported": 4,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 1,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 4,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 4
+      },
+      "roots_with_carrier_scores": 1,
+      "shortlist_k": {
+       "4": 1
+      },
+      "sources": {
+       "recorded": 1,
+       "shortlist:beam": 3
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 4
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 1,
+      "noise_candidates": 4,
+      "within_action_variance": 0.0,
+      "within_action_dof": 12,
+      "within_action_variance_all_candidates": 0.0,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.02546296296296296,
+      "between_roots": 1,
+      "between_action_variance_net": 0.02546296296296296,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.0,
+       "dof": 9,
+       "pairs": 3,
+       "candidate_variance": 0.0,
+       "incumbent_variance": 0.0,
+       "implied_covariance": 0.0,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 16,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "5": {
+     "coverage": {
+      "roots": 3,
+      "maps": 3,
+      "candidates": 12,
+      "k_per_root": {
+       "4": 3
+      },
+      "supported": 12,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 3,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 11,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 11
+      },
+      "roots_with_carrier_scores": 3,
+      "shortlist_k": {
+       "4": 3
+      },
+      "sources": {
+       "recorded": 3,
+       "shortlist:beam": 9
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 12
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 3,
+      "noise_candidates": 12,
+      "within_action_variance": 0.0,
+      "within_action_dof": 36,
+      "within_action_variance_all_candidates": 0.0,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.05164930555555555,
+      "between_roots": 3,
+      "between_action_variance_net": 0.05164930555555555,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.0,
+       "dof": 27,
+       "pairs": 9,
+       "candidate_variance": 0.0,
+       "incumbent_variance": 0.0,
+       "implied_covariance": 0.0,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 48,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "6": {
+     "coverage": {
+      "roots": 5,
+      "maps": 5,
+      "candidates": 20,
+      "k_per_root": {
+       "4": 5
+      },
+      "supported": 20,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 5,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 20,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 20
+      },
+      "roots_with_carrier_scores": 5,
+      "shortlist_k": {
+       "4": 5
+      },
+      "sources": {
+       "recorded": 5,
+       "shortlist:beam": 15
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 20
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 5,
+      "noise_candidates": 20,
+      "within_action_variance": 0.0017916666666666669,
+      "within_action_dof": 60,
+      "within_action_variance_all_candidates": 0.0017916666666666669,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.021197916666666667,
+      "between_roots": 5,
+      "between_action_variance_net": 0.02075,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.005944444444444446,
+       "dof": 45,
+       "pairs": 15,
+       "candidate_variance": 0.001055555555555556,
+       "incumbent_variance": 0.004,
+       "implied_covariance": -0.0004444444444444448,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 80,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "7": {
+     "coverage": {
+      "roots": 2,
+      "maps": 2,
+      "candidates": 8,
+      "k_per_root": {
+       "4": 2
+      },
+      "supported": 8,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 2,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 8,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 8
+      },
+      "roots_with_carrier_scores": 2,
+      "shortlist_k": {
+       "4": 2
+      },
+      "sources": {
+       "recorded": 2,
+       "shortlist:beam": 6
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 8
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 2,
+      "noise_candidates": 8,
+      "within_action_variance": 0.00028935185185185135,
+      "within_action_dof": 24,
+      "within_action_variance_all_candidates": 0.00028935185185185135,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.001085069444444445,
+      "between_roots": 2,
+      "between_action_variance_net": 0.001012731481481482,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.0003858024691358018,
+       "dof": 18,
+       "pairs": 6,
+       "candidate_variance": 0.0003858024691358018,
+       "incumbent_variance": 0.0,
+       "implied_covariance": 0.0,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 32,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "8": {
+     "coverage": {
+      "roots": 4,
+      "maps": 4,
+      "candidates": 16,
+      "k_per_root": {
+       "4": 4
+      },
+      "supported": 16,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 4,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 12,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 12
+      },
+      "roots_with_carrier_scores": 4,
+      "shortlist_k": {
+       "4": 4
+      },
+      "sources": {
+       "recorded": 4,
+       "shortlist:beam": 12
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 16
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 4,
+      "noise_candidates": 16,
+      "within_action_variance": 0.002099277210884354,
+      "within_action_dof": 48,
+      "within_action_variance_all_candidates": 0.002099277210884354,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.02305883290816327,
+      "between_roots": 4,
+      "between_action_variance_net": 0.022534013605442185,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.00364937641723356,
+       "dof": 36,
+       "pairs": 12,
+       "candidate_variance": 0.002373866213151927,
+       "incumbent_variance": 0.001275510204081633,
+       "implied_covariance": 2.168404344971009e-19,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 64,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "9": {
+     "coverage": {
+      "roots": 3,
+      "maps": 3,
+      "candidates": 12,
+      "k_per_root": {
+       "4": 3
+      },
+      "supported": 12,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 3,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 8,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 8
+      },
+      "roots_with_carrier_scores": 3,
+      "shortlist_k": {
+       "4": 3
+      },
+      "sources": {
+       "recorded": 3,
+       "shortlist:beam": 9
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 12
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 3,
+      "noise_candidates": 12,
+      "within_action_variance": 0.013454861111111112,
+      "within_action_dof": 36,
+      "within_action_variance_all_candidates": 0.013454861111111112,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.006483289930555555,
+      "between_roots": 3,
+      "between_action_variance_net": 0.003119574652777777,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.04007523148148148,
+       "dof": 27,
+       "pairs": 9,
+       "candidate_variance": 0.01077835648148148,
+       "incumbent_variance": 0.021484375,
+       "implied_covariance": -0.00390625,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 48,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "10": {
+     "coverage": {
+      "roots": 2,
+      "maps": 2,
+      "candidates": 8,
+      "k_per_root": {
+       "4": 2
+      },
+      "supported": 8,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 2,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 8,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 8
+      },
+      "roots_with_carrier_scores": 2,
+      "shortlist_k": {
+       "4": 2
+      },
+      "sources": {
+       "recorded": 2,
+       "shortlist:beam": 6
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 8
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 2,
+      "noise_candidates": 8,
+      "within_action_variance": 0.021765689300411523,
+      "within_action_dof": 24,
+      "within_action_variance_all_candidates": 0.021765689300411523,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.028702096193415644,
+      "between_roots": 2,
+      "between_action_variance_net": 0.023260673868312765,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.04659636488340192,
+       "dof": 18,
+       "pairs": 6,
+       "candidate_variance": 0.017789780521262004,
+       "incumbent_variance": 0.033693415637860075,
+       "implied_covariance": 0.002443415637860078,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 32,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "11": {
+     "coverage": {
+      "roots": 6,
+      "maps": 6,
+      "candidates": 24,
+      "k_per_root": {
+       "4": 6
+      },
+      "supported": 24,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 6,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 13,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 13
+      },
+      "roots_with_carrier_scores": 6,
+      "shortlist_k": {
+       "4": 6
+      },
+      "sources": {
+       "recorded": 6,
+       "shortlist:beam": 18
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 24
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 6,
+      "noise_candidates": 24,
+      "within_action_variance": 0.010902777777777777,
+      "within_action_dof": 72,
+      "within_action_variance_all_candidates": 0.010902777777777777,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.005872395833333331,
+      "between_roots": 6,
+      "between_action_variance_net": 0.003146701388888887,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.014537037037037036,
+       "dof": 54,
+       "pairs": 18,
+       "candidate_variance": 0.013217592592592593,
+       "incumbent_variance": 0.003958333333333334,
+       "implied_covariance": 0.001319444444444446,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 96,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "12": {
+     "coverage": {
+      "roots": 2,
+      "maps": 2,
+      "candidates": 8,
+      "k_per_root": {
+       "4": 2
+      },
+      "supported": 8,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 2,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 3,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 3
+      },
+      "roots_with_carrier_scores": 2,
+      "shortlist_k": {
+       "4": 2
+      },
+      "sources": {
+       "recorded": 2,
+       "shortlist:beam": 6
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 8
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 2,
+      "noise_candidates": 8,
+      "within_action_variance": 0.0013774104683195593,
+      "within_action_dof": 24,
+      "within_action_variance_all_candidates": 0.0013774104683195593,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.00955578512396694,
+      "between_roots": 2,
+      "between_action_variance_net": 0.00921143250688705,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.005509641873278237,
+       "dof": 18,
+       "pairs": 6,
+       "candidate_variance": 0.0,
+       "incumbent_variance": 0.005509641873278237,
+       "implied_covariance": 0.0,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 32,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "13": {
+     "coverage": {
+      "roots": 2,
+      "maps": 2,
+      "candidates": 8,
+      "k_per_root": {
+       "4": 2
+      },
+      "supported": 8,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 2,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 8,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 8
+      },
+      "roots_with_carrier_scores": 2,
+      "shortlist_k": {
+       "4": 2
+      },
+      "sources": {
+       "recorded": 2,
+       "shortlist:beam": 6
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 8
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 2,
+      "noise_candidates": 8,
+      "within_action_variance": 0.0018446180555555553,
+      "within_action_dof": 24,
+      "within_action_variance_all_candidates": 0.0018446180555555553,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.021574797453703706,
+      "between_roots": 2,
+      "between_action_variance_net": 0.021113642939814818,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.003616898148148146,
+       "dof": 18,
+       "pairs": 6,
+       "candidate_variance": 0.0021942515432098767,
+       "incumbent_variance": 0.0007957175925925912,
+       "implied_covariance": -0.00031346450617283895,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 32,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    },
+    "14": {
+     "coverage": {
+      "roots": 2,
+      "maps": 2,
+      "candidates": 8,
+      "k_per_root": {
+       "4": 2
+      },
+      "supported": 8,
+      "unsupported": 0,
+      "without_outcome": 0,
+      "failed_repeats": 0,
+      "incumbent_without_outcome": 0,
+      "incumbent_unsupported": 0,
+      "changeable_roots": 2,
+      "flags": {
+       "parse_fail": 0,
+       "requested_move_illegal": 0,
+       "action_canonicalized": 8,
+       "target_out_of_cap": 0,
+       "target_invalid": 0,
+       "duplicate_effective": 0,
+       "canonical_differs_from_request": 8
+      },
+      "roots_with_carrier_scores": 2,
+      "shortlist_k": {
+       "4": 2
+      },
+      "sources": {
+       "recorded": 2,
+       "shortlist:beam": 6
+      }
+     },
+     "noise": {
+      "repeats": {
+       "4": 8
+      },
+      "failed_repeats": 0,
+      "assumptions": [
+       "Every statistic below is computed over one population: the noise roots, i.e. roots with at least two noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, candidates without an outcome and roots with fewer than two noise candidates enter none of them, so adding such data changes nothing.",
+       "between_action_variance_net = raw minus within-action variance x the root's mean 1/n, averaged over roots. It assumes one within-action variance for every noise candidate, independent repeats inside a candidate, and no covariance between the repeat noise of different candidates at a root; positive covariance would make the correction too large and the net value too small.",
+       "Repeats are paired by repeat id (the same column of cand_outcome). The collector has no controlled seed (decision_branch_collect.RNG_NOTE): matching repeat ids neither create nor prove correlation, and a small implied covariance is consistent with, but does not prove, independent identically distributed repeats."
+      ],
+      "noise_roots": 2,
+      "noise_candidates": 8,
+      "within_action_variance": 0.0163646449704142,
+      "within_action_dof": 24,
+      "within_action_variance_all_candidates": 0.0163646449704142,
+      "within_action_all_note": "every candidate with two or more outcomes, supported or not, at any root: reported for comparison, never used to correct the between-action variance",
+      "between_action_variance_raw": 0.0006163708086785011,
+      "between_roots": 2,
+      "between_action_variance_net": -0.0034747904339250493,
+      "between_action_note": "raw minus the expected within-action share over the same roots and candidates",
+      "paired": {
+       "paired_gap_variance": 0.03842044707429323,
+       "dof": 18,
+       "pairs": 6,
+       "candidate_variance": 0.012163050624589087,
+       "incumbent_variance": 0.02896942800788955,
+       "implied_covariance": 0.0013560157790927056,
+       "note": "pooled over candidate/incumbent pairs on their shared repeat ids; independent repeats would give paired_gap_variance = candidate_variance + incumbent_variance (implied covariance 0)"
+      }
+     },
+     "faults": {
+      "branch_records": 32,
+      "failed_repeats": 0,
+      "note": "continuation = cand_faults (live play after the root turn only); prefix = replaying the recorded prefix; root = the discarded root-turn replies the bots computed",
+      "failed_note": "failed repeats counts branch records without a final score; the current collector raises instead of writing one, so 0 does not mean nothing failed (see the collector's summary)",
+      "continuation": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "prefix": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      },
+      "root": {
+       "faults": 0,
+       "repeats_with_faults": 0,
+       "repeats_unrecorded": 0
+      }
+     }
+    }
+   }
+  }
+ }
+}
