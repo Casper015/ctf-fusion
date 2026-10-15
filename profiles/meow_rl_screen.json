@@ -63,7 +63,6 @@
    "MiMo",
    "Kimi",
    "GLM",
-   "Player2_v005",
    "Player4"
   ]
  },
@@ -146,22 +145,20 @@
    "MiMo",
    "Kimi",
    "GLM",
-   "Player2_v005",
    "Player4"
   ]
  },
  "opponents": {
-  "_comment": "Held-out evaluation roster (plan section 5): the screens' opponents are never training opponents. T0055 trained against profiles/meow_rl_training_pool.json (Sol, Astra, Opus, Sonnet, DeepSeek, Qwen, Meowmind, Meowmind+P3-distilled, Player5, Baseline), which holds 8 of the 12 bots of the default roster (roster.strength.REFERENCE), so the default roster is not used. Also excluded as related lineages: Astra_Full (the Astra lineage), Control_Hybrid and the Player5_Omega/R3 bots (Player5 lineage), and Noise/Random (not playing opponents). The remaining six profiles/pool.json bots are six separate families. Each fixture draws its opponents from this list (roster.strength.schedule), repeating bots in larger games.",
+  "_comment": "Held-out evaluation roster (plan section 5; docs/MEOWMIND_RL_POOL_SPLIT.md, T0058): the screens' opponents are never training opponents or their lineages. T0055 trained against profiles/meow_rl_training_pool.json, which holds 8 of the 12 default-roster bots (roster.strength.REFERENCE), and training pool v2 adds the AI_Test lineages (Astra variants, the Player5 lineage incl. Player2_v005, Control_Hybrid/Omega, C-series/R3 and S1/S2 controls, Player1, Player3). The roster is the held-out lineages that profiles/pool.json lists: Fable, MiMo, Kimi, GLM and Player4 (Player2 and Player6, also held out, are not in profiles/pool.json). Each fixture draws its opponents from this list (roster.strength.schedule), repeating bots in larger games.",
   "reference": [
    "Fable",
    "MiMo",
    "Kimi",
    "GLM",
-   "Player2_v005",
    "Player4"
   ],
-  "training_pool": "profiles/meow_rl_training_pool.json",
   "related_excluded": [
+   "Player2_v005",
    "Astra_Full",
    "Control_Hybrid",
    "Player5_Omega",
@@ -169,6 +166,10 @@
    "R3_CFL_conditional",
    "Noise",
    "Random"
+  ],
+  "training_pools": [
+   "profiles/meow_rl_training_pool.json",
+   "profiles/meow_rl_training_pool_v2.json"
   ]
  }
 }

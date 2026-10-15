@@ -77,11 +77,12 @@ On the Mac, with a 28,801-parameter stand-in critic, the 15-team recorded game a
 
 Two separately frozen schedules, each a `run_screen.py` config once T0057 fills a fresh seed (reserved in `docs/MEOWMIND_RL_SCREEN_SEEDS.md` before the first game) and its frozen worker count.
 
-**Opponents are held out (plan section 5).** T0055 trained against `profiles/meow_rl_training_pool.json`: Sol, Astra, Opus, Sonnet, DeepSeek, Qwen, Meowmind, Meowmind + P3-distilled, Player5 and Baseline. That pool holds 8 of the 12 bots of the default screen roster (`roster.strength.REFERENCE`). Both screens therefore draw their opponents (`reference`) from six bots of separate families that never appeared in training:
-- Fable, MiMo, Kimi and GLM;
-- Player2_v005 and Player4.
+**Opponents are held out (plan section 5; the split is docs/MEOWMIND_RL_POOL_SPLIT.md, T0058).** T0055 trained against `profiles/meow_rl_training_pool.json`, which holds 8 of the 12 bots of the default screen roster (`roster.strength.REFERENCE`). Training pool v2 (T0058) adds the AI_Test lineages:
+- the Astra variants;
+- the Player5 lineage: Player2_v005, Control_Hybrid/Omega, the C-series/R3 bots and the S1/S2 controls;
+- Player1 and Player3.
 
-Related lineages are excluded too: Astra_Full, Control_Hybrid and the Player5_Omega/R3 bots. The test checks that the roster is disjoint from the training pool. Meowmind and Meowmind + P3-distilled remain secondary *arms* (they take our seat and are compared), never opponents.
+Both screens therefore draw their opponents (`reference`) only from held-out lineages listed in `profiles/pool.json`: Fable, MiMo, Kimi, GLM and Player4. The test checks that the roster is disjoint from both training pools. Meowmind and Meowmind + P3-distilled remain secondary *arms* (they take our seat and are compared), never opponents.
 
 | Schedule | Fixtures | Arms | Games | Endpoint |
 |---|---:|---|---:|---|

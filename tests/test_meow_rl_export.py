@@ -341,11 +341,14 @@ class Specification(unittest.TestCase):
         self.assertTrue(held <= set(pool), held - set(pool))
         self.assertFalse(held & set(opp["related_excluded"]))
         self.assertEqual(len({pool[n]["family"] for n in held}), len(held))   # one bot per family
-        training = {"Sol", "Astra", "Opus", "Sonnet", "DeepSeek", "Qwen", "Meowmind", "Meowmind_Distill_P3", "Player5", "Baseline"}
-        tp = REPO / opp["training_pool"]
-        if tp.is_file():                                                    # T0055's frozen pool, once committed
-            training = {b["name"] for b in json.loads(tp.read_text())["bots"]}
-            self.assertFalse({pool[n]["path"] for n in held} & {b["path"] for b in json.loads(tp.read_text())["bots"]})
+        training = {"Sol", "Astra", "Opus", "Sonnet", "DeepSeek", "Qwen", "Meowmind", "Meowmind_Distill_P3", "Player5", "Baseline",
+                    "Player2_v005", "Control_Hybrid", "Control_Omega", "Astra_Full", "Player1", "Player3"}
+        for rel in opp["training_pools"]:                                   # T0055's and T0058's pools, once committed
+            tp = REPO / rel
+            if tp.is_file():
+                bots = json.loads(tp.read_text())["bots"]
+                training |= {b["name"] for b in bots}
+                self.assertFalse({pool[n]["path"] for n in held} & {b["path"] for b in bots}, rel)
         self.assertFalse(held & training)
         for block in ("primary", "secondary"):
             self.assertEqual(spec[block]["reference"], opp["reference"])
