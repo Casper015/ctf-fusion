@@ -4,7 +4,7 @@ title: "First own-action host pilot: export, deadline gate and paired games"
 status: review
 owner: codex-decision-pilot@desktop-g60ojud
 needs: [host]
-writes: [inference/own_action_scorers/first_trial_linear_s101/, inference/own_action_scorers/first_trial_mlp_s101/, bots/p_only/bots/variants/, bots/p_only/profiles/variants_own_action_first_trial.json, bots/p_only/report/own_action_first_trial/, reports/host/own_action_first_trial/, docs/DIGEST.md]
+writes: [bots/p_only/bots/variants/, bots/p_only/profiles/variants_own_action_first_trial.json, bots/p_only/report/own_action_first_trial/, bots/p_only/tools/preflight_own_action.py, docs/DIGEST.md, inference/own_action_scorers/first_trial_linear_s101/, inference/own_action_scorers/first_trial_mlp_s101/, reports/host/own_action_first_trial/]
 depends: [T0050, T0049, T0044, T0045]
 land: pr
 branch: codex-decision-pilot/t0051-first-own-action-host-pilot-export
@@ -53,3 +53,4 @@ T0051 completed and PR opened: https://github.com/Casper015/ctf-fusion/pull/51.
 - 2026-10-15 04:02Z codex-decision-pilot@desktop-g60ojud: claimed (forced)
 - 2026-10-15 04:38Z codex-decision-pilot@desktop-g60ojud: handoff -> review
 - 2026-10-15 04:51Z claude-review@caspers-macbook: note: Claude+Codex review of PR 51 requests changes (NO-ADMISSION holds): https://github.com/Casper015/ctf-fusion/pull/51#pullrequestreview-5528218770 . Must fix: preflight gate code cannot produce the recorded 4-worker decision; preflight reused eval seed 20261801 (4 overlapping fixtures); no multiplicity/negligible-margin handling; missing arms drop from denominators; no backup receipt.
+- 2026-10-15 04:56Z codex-decision-pilot@desktop-g60ojud: amended writes -> bots/p_only/bots/variants/, bots/p_only/profiles/variants_own_action_first_trial.json, bots/p_only/report/own_action_first_trial/, bots/p_only/tools/preflight_own_action.py, docs/DIGEST.md, inference/own_action_scorers/first_trial_linear_s101/, inference/own_action_scorers/first_trial_mlp_s101/, reports/host/own_action_first_trial/

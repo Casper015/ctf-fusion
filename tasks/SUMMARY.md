@@ -11,7 +11,7 @@ Someone holds these; their `writes` are reserved.
 | Task | Status | Owner | Title | Writes |
 |---|---|---|---|---|
 | [T0049](T0049-windows-scoring-hook-test-expects-the.md) | review | claude@caspers-macbook | Windows: scoring-hook test expects the .exe the compiler writes | bots/p_only/tests/test_decision_scoring.py |
-| [T0051](T0051-first-own-action-host-pilot-export.md) | review | codex-decision-pilot@desktop-g60ojud | First own-action host pilot: export, deadline gate and paired games | inference/own_action_scorers/first_trial_linear_s101/, inference/own_action_scorers/first_trial_mlp_s101/, bots/p_only/bots/variants/, bots/p_only/profiles/variants_own_action_first_trial.json, bots/p_only/report/own_action_first_trial/, reports/host/own_action_first_trial/, docs/DIGEST.md |
+| [T0051](T0051-first-own-action-host-pilot-export.md) | review | codex-decision-pilot@desktop-g60ojud | First own-action host pilot: export, deadline gate and paired games | bots/p_only/bots/variants/, bots/p_only/profiles/variants_own_action_first_trial.json, bots/p_only/report/own_action_first_trial/, bots/p_only/tools/preflight_own_action.py, docs/DIGEST.md, inference/own_action_scorers/first_trial_linear_s101/, inference/own_action_scorers/first_trial_mlp_s101/, reports/host/own_action_first_trial/ |
 
 ## Ready to claim
 
