@@ -1,0 +1,686 @@
+{
+ "schedule": "5f7354b8d4e20f00da5b1af84b0087a4976faf0a0438f551b550aad35e4558fb",
+ "seed": 20261952,
+ "fixtures": 392,
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "incomplete": {},
+ "stale_rows": {},
+ "arms": {
+  "meow_rl_large_v_s101": {
+   "games": 392,
+   "binary_sha256": "5fee7b97818986bedc13a0e6f0a390e181979fde3628c6318a407ebdbcc1a827",
+   "utility": 0.78715,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 42.3,
+   "p99_ms_median": 0.653,
+   "p99_ms_worst": 1.541,
+   "max_ms": 2.483
+  },
+  "meowmind": {
+   "games": 392,
+   "binary_sha256": "62988480aeed2793e7c82be896850241ca2a99e6323c2ee1d03d6b0368cff203",
+   "utility": 0.8167,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 63.5,
+   "p99_ms_median": 10.553,
+   "p99_ms_worst": 12.461,
+   "max_ms": 13.056
+  },
+  "v12_ponly_xxl": {
+   "games": 392,
+   "binary_sha256": "6cbd5d34610f7946eebee56713992eae81c283f3bbb6a6fc8a342a1dc3db47c1",
+   "utility": 0.81755,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 45.7,
+   "p99_ms_median": 4.868,
+   "p99_ms_worst": 9.571,
+   "max_ms": 10.981
+  },
+  "meowmind_p3_distill_xxl": {
+   "games": 392,
+   "binary_sha256": "bcffab2270cafb5ff59de1ea54827be15a9bf6647908b834093234a582bcbf09",
+   "utility": 0.85552,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 65.5,
+   "p99_ms_median": 10.44,
+   "p99_ms_worst": 12.204,
+   "max_ms": 12.986
+  },
+  "meowmind_p3_xxl": {
+   "games": 392,
+   "binary_sha256": "93ce877ed01447077ddb9c4a35b2c5dbccbe193b32cafa688379aa2d37bd4961",
+   "utility": 0.86003,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 65.4,
+   "p99_ms_median": 10.417,
+   "p99_ms_worst": 12.133,
+   "max_ms": 12.805
+  },
+  "meow_rl_small_v_s101": {
+   "games": 392,
+   "binary_sha256": "f60fff1a2c3521f6b99a9fdb4d9468ac4fec02b3c6ffb441c7291267528d10c5",
+   "utility": 0.75465,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 41.1,
+   "p99_ms_median": 0.646,
+   "p99_ms_worst": 1.57,
+   "max_ms": 2.706
+  },
+  "meow_rl_large_v_s101_search": {
+   "games": 392,
+   "binary_sha256": "433b3c2439b0a483403b61bd5abd6ba188998734d2dd38ae2a3751bb56339664",
+   "utility": 0.63922,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 69.7,
+   "p99_ms_median": 6.938,
+   "p99_ms_worst": 15.124,
+   "max_ms": 15.785
+  },
+  "meow_rl_large_v_s101_search~aa": {
+   "games": 392,
+   "binary_sha256": "433b3c2439b0a483403b61bd5abd6ba188998734d2dd38ae2a3751bb56339664",
+   "utility": 0.63922,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 58.7,
+   "p99_ms_median": 6.746,
+   "p99_ms_worst": 14.931,
+   "max_ms": 16.293
+  }
+ },
+ "comparisons": {
+  "meow_rl_large_v_s101 - meowmind": {
+   "overall": {
+    "mean": -0.02955,
+    "ci95": [
+     -0.05116,
+     -0.00793
+    ],
+    "se": 0.01103,
+    "fixtures": 392,
+    "verdict": "hurts"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 28,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": -0.02579,
+     "ci95": [
+      -0.08319,
+      0.03161
+     ],
+     "se": 0.02929,
+     "fixtures": 84,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": -0.02053,
+     "ci95": [
+      -0.05982,
+      0.01876
+     ],
+     "se": 0.02005,
+     "fixtures": 140,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": -0.04672,
+     "ci95": [
+      -0.07725,
+      -0.01619
+     ],
+     "se": 0.01558,
+     "fixtures": 140,
+     "verdict": "hurts"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": -0.00893,
+    "4": -0.00595,
+    "5": -0.0625,
+    "6": -0.01071,
+    "7": 0.0506,
+    "8": -0.01531,
+    "9": -0.0558,
+    "10": -0.07143,
+    "11": -0.04286,
+    "12": 0.00487,
+    "13": -0.07887,
+    "14": -0.06319,
+    "15": -0.05357
+   },
+   "improved": 104,
+   "unchanged": 145,
+   "degraded": 143,
+   "identical_scores": 1,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  },
+  "meow_rl_large_v_s101 - v12_ponly_xxl": {
+   "overall": {
+    "mean": -0.03039,
+    "ci95": [
+     -0.05345,
+     -0.00734
+    ],
+    "se": 0.01176,
+    "fixtures": 392,
+    "verdict": "hurts"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.01786,
+     "ci95": [
+      -0.01714,
+      0.05286
+     ],
+     "se": 0.01786,
+     "fixtures": 28,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": 0.00992,
+     "ci95": [
+      -0.056,
+      0.07584
+     ],
+     "se": 0.03363,
+     "fixtures": 84,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": -0.04515,
+     "ci95": [
+      -0.08424,
+      -0.00606
+     ],
+     "se": 0.01994,
+     "fixtures": 140,
+     "verdict": "hurts"
+    },
+    "11-15": {
+     "mean": -0.04947,
+     "ci95": [
+      -0.0815,
+      -0.01744
+     ],
+     "se": 0.01634,
+     "fixtures": 140,
+     "verdict": "hurts"
+    }
+   },
+   "per_count": {
+    "2": 0.01786,
+    "3": 0.04464,
+    "4": -0.02381,
+    "5": 0.00893,
+    "6": -0.06786,
+    "7": -0.00298,
+    "8": -0.01531,
+    "9": -0.04241,
+    "10": -0.09722,
+    "11": -0.1,
+    "12": -0.00325,
+    "13": -0.04911,
+    "14": -0.04396,
+    "15": -0.05102
+   },
+   "improved": 100,
+   "unchanged": 135,
+   "degraded": 157,
+   "identical_scores": 0,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  },
+  "meow_rl_large_v_s101 - meowmind_p3_distill_xxl": {
+   "overall": {
+    "mean": -0.06837,
+    "ci95": [
+     -0.08826,
+     -0.04848
+    ],
+    "se": 0.01015,
+    "fixtures": 392,
+    "verdict": "hurts"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 28,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": -0.06944,
+     "ci95": [
+      -0.11925,
+      -0.01963
+     ],
+     "se": 0.02541,
+     "fixtures": 84,
+     "verdict": "hurts"
+    },
+    "6-10": {
+     "mean": -0.07588,
+     "ci95": [
+      -0.11145,
+      -0.0403
+     ],
+     "se": 0.01815,
+     "fixtures": 140,
+     "verdict": "hurts"
+    },
+    "11-15": {
+     "mean": -0.07388,
+     "ci95": [
+      -0.10459,
+      -0.04318
+     ],
+     "se": 0.01566,
+     "fixtures": 140,
+     "verdict": "hurts"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": -0.08036,
+    "4": -0.04762,
+    "5": -0.08036,
+    "6": -0.07857,
+    "7": -0.0744,
+    "8": -0.06122,
+    "9": -0.04018,
+    "10": -0.125,
+    "11": -0.06607,
+    "12": -0.02597,
+    "13": -0.08036,
+    "14": -0.11538,
+    "15": -0.08163
+   },
+   "improved": 68,
+   "unchanged": 152,
+   "degraded": 172,
+   "identical_scores": 0,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  },
+  "meow_rl_large_v_s101 - meow_rl_small_v_s101": {
+   "overall": {
+    "mean": 0.0325,
+    "ci95": [
+     0.00974,
+     0.05527
+    ],
+    "se": 0.01162,
+    "fixtures": 392,
+    "verdict": "helps"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 28,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": 0.04464,
+     "ci95": [
+      -0.01983,
+      0.10912
+     ],
+     "se": 0.0329,
+     "fixtures": 84,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": 0.02242,
+     "ci95": [
+      -0.01552,
+      0.06036
+     ],
+     "se": 0.01935,
+     "fixtures": 140,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": 0.04181,
+     "ci95": [
+      0.00822,
+      0.07539
+     ],
+     "se": 0.01713,
+     "fixtures": 140,
+     "verdict": "helps"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": -0.00893,
+    "4": 0.10714,
+    "5": 0.03571,
+    "6": 0.08929,
+    "7": 0.0506,
+    "8": 0.03571,
+    "9": -0.01786,
+    "10": -0.04563,
+    "11": 0.04286,
+    "12": 0.06494,
+    "13": 0.05208,
+    "14": 0.04533,
+    "15": 0.00383
+   },
+   "improved": 159,
+   "unchanged": 122,
+   "degraded": 111,
+   "identical_scores": 1,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  },
+  "meow_rl_large_v_s101_search - meow_rl_large_v_s101": {
+   "overall": {
+    "mean": -0.14793,
+    "ci95": [
+     -0.17331,
+     -0.12256
+    ],
+    "se": 0.01295,
+    "fixtures": 392,
+    "verdict": "hurts"
+   },
+   "bands": {
+    "2": {
+     "mean": -0.17857,
+     "ci95": [
+      -0.32304,
+      -0.03411
+     ],
+     "se": 0.07371,
+     "fixtures": 28,
+     "verdict": "hurts"
+    },
+    "3-5": {
+     "mean": -0.17609,
+     "ci95": [
+      -0.24155,
+      -0.11063
+     ],
+     "se": 0.0334,
+     "fixtures": 84,
+     "verdict": "hurts"
+    },
+    "6-10": {
+     "mean": -0.11952,
+     "ci95": [
+      -0.15665,
+      -0.08239
+     ],
+     "se": 0.01894,
+     "fixtures": 140,
+     "verdict": "hurts"
+    },
+    "11-15": {
+     "mean": -0.15333,
+     "ci95": [
+      -0.18927,
+      -0.11738
+     ],
+     "se": 0.01834,
+     "fixtures": 140,
+     "verdict": "hurts"
+    }
+   },
+   "per_count": {
+    "2": -0.17857,
+    "3": -0.1875,
+    "4": -0.22024,
+    "5": -0.12054,
+    "6": -0.1,
+    "7": -0.1131,
+    "8": -0.12755,
+    "9": -0.13393,
+    "10": -0.12302,
+    "11": -0.15893,
+    "12": -0.23214,
+    "13": -0.14881,
+    "14": -0.12088,
+    "15": -0.10587
+   },
+   "improved": 63,
+   "unchanged": 104,
+   "degraded": 225,
+   "identical_scores": 1,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  },
+  "meowmind_p3_distill_xxl - meowmind_p3_xxl": {
+   "overall": {
+    "mean": -0.00451,
+    "ci95": [
+     -0.02233,
+     0.0133
+    ],
+    "se": 0.00909,
+    "fixtures": 392,
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 28,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": -0.00843,
+     "ci95": [
+      -0.06573,
+      0.04886
+     ],
+     "se": 0.02923,
+     "fixtures": 84,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": -0.00482,
+     "ci95": [
+      -0.03236,
+      0.02273
+     ],
+     "se": 0.01405,
+     "fixtures": 140,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": -0.00275,
+     "ci95": [
+      -0.02615,
+      0.02065
+     ],
+     "se": 0.01194,
+     "fixtures": 140,
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.03571,
+    "4": -0.06548,
+    "5": 0.00446,
+    "6": 0.03214,
+    "7": 0.0,
+    "8": -0.01531,
+    "9": -0.04688,
+    "10": 0.00595,
+    "11": -0.00357,
+    "12": -0.03734,
+    "13": -0.02083,
+    "14": 0.0467,
+    "15": 0.00128
+   },
+   "improved": 110,
+   "unchanged": 176,
+   "degraded": 106,
+   "identical_scores": 2,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  }
+ },
+ "rerun_noise": {
+  "meow_rl_large_v_s101_search~aa - meow_rl_large_v_s101_search": {
+   "overall": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "se": 0.0,
+    "fixtures": 392,
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 28,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 84,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 140,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 140,
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.0,
+    "4": 0.0,
+    "5": 0.0,
+    "6": 0.0,
+    "7": 0.0,
+    "8": 0.0,
+    "9": 0.0,
+    "10": 0.0,
+    "11": 0.0,
+    "12": 0.0,
+    "13": 0.0,
+    "14": 0.0,
+    "15": 0.0
+   },
+   "improved": 0,
+   "unchanged": 392,
+   "degraded": 0,
+   "identical_scores": 392,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  }
+ },
+ "network_calls": {
+  "v12_ponly_xxl": {
+   "turns": 156800,
+   "views_per_turn": 7.6,
+   "team_encodes_per_turn": 57.16,
+   "act_heads_per_turn": 244.95,
+   "target_heads_per_turn": 80.35,
+   "fallbacks": 0,
+   "inconsistent": 0,
+   "skipped": 0
+  }
+ },
+ "identities": {
+  "meow_rl_large_v_s101": "b414a7bc9520ac8e6d5c32a0fe8bbe9ad9ea541a47dd8cce96fc9342d02f85d7",
+  "meowmind": "e1b92cda9e702b5a25dc80f4f1cf5fa0a03acf0823ca78c3621a639cdc5fd700",
+  "v12_ponly_xxl": "a58f63f6b58d86c89bbeb43b40da5a0c89f1d472cb9882213189b86564643ec9",
+  "meowmind_p3_distill_xxl": "6a57ba499d231b3dc153274c6dc02b9edef50bbdac293cc2488067c4058ac72d",
+  "meowmind_p3_xxl": "076250f266b73d06eaa8d42c249cdfa608408c6fedd59f45768c5451d6a40a0f",
+  "meow_rl_small_v_s101": "9349a4011c4376c59a305de082499424c33885aef75d14412bb6551e6439e3ad",
+  "meow_rl_large_v_s101_search": "9663664149443e974904b5772ad5728a1d083c8367e0b5ba629e445489b96df9",
+  "meow_rl_large_v_s101_search~aa": "9663664149443e974904b5772ad5728a1d083c8367e0b5ba629e445489b96df9"
+ }
+}

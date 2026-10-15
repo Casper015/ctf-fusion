@@ -237,6 +237,10 @@ class Search(unittest.TestCase):
         cls.search = compile_variant(cls.var / "srch.cpp", cls.tmp / "srch")
         cls.search0 = compile_variant(cls.var / "srch.cpp", cls.tmp / "srch0",
                                       ["-DMEOW_RL_SEARCH_DEADLINE_MS=0", "-DMEOW_RL_SEARCH_FIRST_MS=0"])
+        cls.search_delayed = compile_variant(cls.var / "srch.cpp", cls.tmp / "srch_delayed",
+                                              ["-DMEOW_RL_SEARCH_TEST_INJECT_DELAY_MS=60",
+                                               "-DMEOW_RL_SEARCH_DEADLINE_MS=30",
+                                               "-DMEOW_RL_SEARCH_FIRST_MS=30"])
         cls.direct = compile_variant(cls.var / "direct.cpp", cls.tmp / "direct")
 
     def test_a_search_out_of_time_plays_exactly_the_actor(self):
@@ -245,6 +249,13 @@ class Search(unittest.TestCase):
             got, err = run_bot(self.search0, text)
             self.assertEqual(got, run_bot(self.direct, text)[0], game)
             self.assertIn("search_used 0 search_fallback 400", err)
+
+    def test_search_falls_back_when_v_computation_exceeds_deadline(self):
+        blocks = B.split_stream(stream("n02"))[:5]
+        text = "".join(blocks)
+        got, err = run_bot(self.search_delayed, text)
+        self.assertEqual(got, run_bot(self.direct, text)[0])
+        self.assertIn("search_used 0 search_fallback 5", err)
 
     def test_search_choices_are_feasible_and_counted(self):
         text = stream("n04")

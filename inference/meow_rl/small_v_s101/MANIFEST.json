@@ -1,0 +1,60 @@
+{
+ "actor_digest": "326645b1314a1a0f87c4ac3c8e03594c5267531a33a2bc0966668f50c19cf368",
+ "agreement_held_out": {
+  "actor": {
+   "greedy_agreement": 0.96125,
+   "max_abs_logp_error": 1.8077312545284698,
+   "max_abs_prob_error": 0.26535171963903,
+   "mean_abs_logp_error": 0.29274205194474834,
+   "observations": 800,
+   "saturated": [
+    0,
+    1
+   ]
+  },
+  "games": [
+   "n02",
+   "n15"
+  ]
+ },
+ "calibration": {
+  "batches": "data/meow_rl_calibration/small_v_s101",
+  "files": 40,
+  "files_sha256": "72f08faf73e2cfb70d27525929daca6d65a1f49e027ce4bbc436a9e9af1f6e71",
+  "margin": 1.1,
+  "rows": 16000
+ },
+ "code_digest": "44e0aa6d1a401ad98c355e781c892671088a85530ddb7994889f44f648bdce7d",
+ "deployment": {
+  "choice": "sampled actor-direct: one draw from the integer actor's softmax over feasible joints at T = 1.05, common per-turn uniforms (bots/meow_rl/sample.hpp); MEOW_RL_GREEDY=1 builds the greedy diagnostic",
+  "search": null
+ },
+ "files": {
+  "actor.hpp": "1cafb24f486dee8050567da673f281cc2fdd3a4a0b6578836ff044cf105c31e1"
+ },
+ "format": {
+  "actor": "meow_rl_reference16_v1",
+  "critic": null
+ },
+ "generator": "bots/meow_rl/export.py",
+ "identity": {
+  "actor": "meow_actor_112_64_32_1_joint125_t105_v1",
+  "actor_weights": "trained",
+  "critic": "meow_public416_mlp_64_32_v1",
+  "policy_features": "meow_policy112_v1",
+  "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+  "resolver": "meowmind_reference_shots_frozen_v1",
+  "reward_units": "terminal_2_pairwise_utility_minus_1",
+  "temperature": 1.05,
+  "value_features": "meow_public416_v1"
+ },
+ "identity_digest": "9a76d9b618d2b71427fdb4101027c3ea4615f99c9eb3cf1a2d48a1b9a6168bcc",
+ "name": "small_v_s101",
+ "schema": "ctf-meow-rl-export-1",
+ "search": false,
+ "source": {
+  "kind": "checkpoint",
+  "path": "runs/meow_rl/small_v_s101/checkpoints/final.pt",
+  "sha256": "328494a900d188614233c8b09712972a55b2ad95b5fbbbbdf312e5dbd90bb4c0"
+ }
+}

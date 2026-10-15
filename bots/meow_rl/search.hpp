@@ -28,7 +28,12 @@
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <thread>
 #include <vector>
+
+#ifndef MEOW_RL_SEARCH_STEP_RESERVE_MS
+#define MEOW_RL_SEARCH_STEP_RESERVE_MS 2
+#endif
 
 #ifndef MEOW_RL_SEARCH_CANDIDATES
 #define MEOW_RL_SEARCH_CANDIDATES 4
@@ -102,7 +107,8 @@ struct Search {
             ca.actions = p.shots(o, g.me, ca.moves, s.prob);
             double sum = 0;
             for (int smp = 0; smp < MEOW_RL_SEARCH_SAMPLES; smp++) {
-                if (clock::now() > deadline) return Result{false, -1, r.leaves};   // incomplete: the actor plays
+                if (clock::now() + std::chrono::milliseconds(MEOW_RL_SEARCH_STEP_RESERVE_MS) >= deadline)
+                    return Result{false, -1, r.leaves};   // incomplete: the actor plays
                 Game next = p.step(g, ca, opponent[smp], seed(g.turn, smp, ri));
                 if (next.turn > g.turns) {
                     sum += terminal_reward(next, g.me);
@@ -135,12 +141,18 @@ struct Search {
                 p.newLife = savedLife;
                 p.preparedTurn = savedTurn;
                 Game leaf = p.step(next, cont, eo, seed(next.turn, smp, ri) + 11);
-                sum += leaf.turn > g.turns ? terminal_reward(leaf, g.me) : critic_value(p.geo, leaf, g.me);
+#ifdef MEOW_RL_SEARCH_TEST_INJECT_DELAY_MS
+                std::this_thread::sleep_for(std::chrono::milliseconds(MEOW_RL_SEARCH_TEST_INJECT_DELAY_MS));
+#endif
+                double cv = leaf.turn > g.turns ? terminal_reward(leaf, g.me) : critic_value(p.geo, leaf, g.me);
+                if (clock::now() >= deadline) return Result{false, -1, r.leaves};
+                sum += cv;
                 if (leaf.turn <= g.turns) r.leaves++;
             }
             double v = sum / MEOW_RL_SEARCH_SAMPLES;
             if (v > best) best = v, r.joint = j;
         }
+        if (clock::now() >= deadline) return Result{false, -1, r.leaves};
         r.used = true;
         return r;
     }

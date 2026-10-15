@@ -1,0 +1,132 @@
+{
+ "created": "2026-10-15T05:35:06",
+ "smoke": false,
+ "config": {
+  "_comment": "Product and architecture questions, a separate frozen schedule on fresh maps (never the primary's). Six prespecified overall contrasts, one family, Bonferroni: each judged on a two-sided 1 - 0.05/6 interval (z = 2.638, from the analyze.py estimate and standard error); bands and per-count rows are descriptive. L = large-V-trained actor, S = small-V-trained actor (both sampled actor-direct), Q = L's actor with the bounded value search of the large V (Q~aa its A/A copy). 'meowmind_p3_distill_xxl - meowmind_p3_xxl' is the in-game test of distillation (T0032's 8XL teacher) on one carrier: if it is not shown, a larger P2 teacher has no game evidence behind it either. Whole-bot comparisons (different carriers) answer product questions, not mechanisms.",
+  "seed": 20261952,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 28,
+  "workers": 6,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "variants": "bots/meow_rl/variants.json",
+  "arms": [
+   "meow_rl_large_v_s101",
+   "meowmind",
+   "v12_ponly_xxl",
+   "meowmind_p3_distill_xxl",
+   "meowmind_p3_xxl",
+   "meow_rl_small_v_s101",
+   "meow_rl_large_v_s101_search"
+  ],
+  "aa": [
+   "meow_rl_large_v_s101_search"
+  ],
+  "comparisons": [
+   [
+    "meow_rl_large_v_s101",
+    "meowmind"
+   ],
+   [
+    "meow_rl_large_v_s101",
+    "v12_ponly_xxl"
+   ],
+   [
+    "meow_rl_large_v_s101",
+    "meowmind_p3_distill_xxl"
+   ],
+   [
+    "meow_rl_large_v_s101",
+    "meow_rl_small_v_s101"
+   ],
+   [
+    "meow_rl_large_v_s101_search",
+    "meow_rl_large_v_s101"
+   ],
+   [
+    "meowmind_p3_distill_xxl",
+    "meowmind_p3_xxl"
+   ]
+  ],
+  "fixtures": 392,
+  "games": 3136,
+  "multiplicity": {
+   "method": "bonferroni",
+   "family": 6,
+   "alpha": 0.05,
+   "z": 2.638
+  },
+  "margin": 0.0,
+  "work_dir": "data/meow_rl_screen/secondary",
+  "report_dir": "reports/host/meow_rl_screen/secondary",
+  "reference": [
+   "Fable",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player4"
+  ]
+ },
+ "effective": {
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 28,
+  "turn_ms": 50,
+  "arms": [
+   "meow_rl_large_v_s101",
+   "meowmind",
+   "v12_ponly_xxl",
+   "meowmind_p3_distill_xxl",
+   "meowmind_p3_xxl",
+   "meow_rl_small_v_s101",
+   "meow_rl_large_v_s101_search"
+  ],
+  "aa": [
+   "meow_rl_large_v_s101_search"
+  ],
+  "workers": 6
+ },
+ "ctf_fusion_commit": "467a6b29d8a3d84d42d8ba6527c63f9fdcdeb273",
+ "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+ "host": "DESKTOP-G60OJUD",
+ "os": "Windows-10-10.0.19045-SP0",
+ "cpu_count": 32,
+ "python": "3.14.3",
+ "wall_seconds": {
+  "build": 0.7,
+  "run": 1119.1,
+  "analyze": 16.6,
+  "total": 1136.5
+ },
+ "analysis_status": 0
+}

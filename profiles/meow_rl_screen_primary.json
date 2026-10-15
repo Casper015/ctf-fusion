@@ -1,0 +1,51 @@
+{
+  "_comment": "Isolates RL: the trained actor against its identical untrained warm start (same bot, resolver, opponent model, features and integer format; only the actor weights differ), plus an A/A copy of the candidate. Endpoint: equal-count mean paired utility difference meow_rl_large_v_s101 - meow_rl_warm_start over all 392 fixtures, 95% map-cluster interval (bots/p_only/tools/analyze.py), margin 0: an interval containing 0 is 'not shown'. A/A: score-vector agreement and its utility difference are diagnostics, not evidence of zero bias.",
+  "seed": 20261951,
+  "teams": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "maps_per_count": 28,
+  "workers": 6,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "variants": "bots/meow_rl/variants.json",
+  "arms": [
+    "meow_rl_large_v_s101",
+    "meow_rl_warm_start"
+  ],
+  "aa": [
+    "meow_rl_large_v_s101"
+  ],
+  "comparisons": [
+    [
+      "meow_rl_large_v_s101",
+      "meow_rl_warm_start"
+    ]
+  ],
+  "fixtures": 392,
+  "games": 1176,
+  "margin": 0.0,
+  "work_dir": "data/meow_rl_screen/primary",
+  "report_dir": "reports/host/meow_rl_screen/primary",
+  "reference": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+  ]
+}
