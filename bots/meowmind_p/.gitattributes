@@ -1,0 +1,2 @@
+# The original meowmind source is kept byte for byte (CRLF line endings; sha256 in README.md), like roster/bots/src/.
+meowmind-ctf-374-20261011.cpp -text -diff linguist-vendored
