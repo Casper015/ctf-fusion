@@ -1,7 +1,7 @@
 ---
 id: T0047
 title: "Board: keep relative links working in archived task files"
-status: active
+status: review
 owner: claude@caspers-macbook
 needs: []
 writes: [tools/repo/task.py, tests/test_task_board.py]
@@ -21,9 +21,12 @@ PR merged; the archive repair commit run; test_markdown_links_resolve passes on 
 
 ## Handoff
 
-Not started.
+*2026-10-15 00:39Z claude@caspers-macbook:*
+
+PR #45 (CI green). Done: task.py rewrites a moved task file's broken relative links (tasks/ <-> tasks/archive/), archive repairs old files; already run on main (fixed T0003, T0004, T0008, T0024, T0025). Next: merge #45; nothing else to run.
 
 ## Log
 
 - 2026-10-15 00:10Z claude@caspers-macbook: created
 - 2026-10-15 00:10Z claude@caspers-macbook: claimed
+- 2026-10-15 00:39Z claude@caspers-macbook: handoff -> review
