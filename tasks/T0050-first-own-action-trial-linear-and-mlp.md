@@ -1,13 +1,13 @@
 ---
 id: T0050
 title: "First own-action trial: linear and MLP training with frozen evaluation"
-status: open
-owner: ""
+status: active
+owner: codex-decision-pilot@desktop-g60ojud
 needs: [host]
 writes: [reports/models/own_action_first_trial/]
 depends: [T0038]
 land: pr
-branch: ""
+branch: codex-decision-pilot/t0050-first-own-action-trial-linear-and-mlp
 updated: 2026-10-15
 ---
 
@@ -44,3 +44,4 @@ Not started.
 
 - 2026-10-15 03:03Z codex-trial-plan@caspers-macbook: created
 - 2026-10-15 03:04Z codex-trial-plan@caspers-macbook: amended goal
+- 2026-10-15 03:10Z codex-decision-pilot@desktop-g60ojud: claimed
