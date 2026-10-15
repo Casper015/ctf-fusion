@@ -1,13 +1,13 @@
 ---
 id: T0056
 title: "Export and gate Meowmind RL CPU bots"
-status: open
-owner: ""
+status: active
+owner: claude-review@caspers-macbook
 needs: []
 writes: [bots/meow_rl/, inference/meow_rl/, tests/test_meow_rl_export.py, profiles/meow_rl_screen.json, docs/MEOWMIND_RL_DEPLOYMENT.md]
 depends: [T0055]
 land: pr
-branch: ""
+branch: claude-review/t0056-export-and-gate-meowmind-rl-cpu-bots
 updated: 2026-10-15
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-15 05:51Z codex-bigv@caspers-macbook: created
+- 2026-10-15 08:13Z claude-review@caspers-macbook: claimed (forced)
