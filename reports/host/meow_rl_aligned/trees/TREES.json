@@ -1,0 +1,14 @@
+{
+ "schema": "ctf-meow-rl-aligned-trees-1",
+ "generator": "bots/meow_rl/aligned/trees.py build",
+ "actor_header": "C:\\Users\\caspe\\OneDrive\\Code\\ctf-fusion.worktrees\\T0063\\inference\\meow_rl\\aligned\\p2_large\\actor.hpp",
+ "actor_header_sha256": "5462db3232f342f290564ed649c15b29dd20dcc32e4c1a7097c54bc216f7ec8e",
+ "tree_source_sha256": "7eff7f1135093e2ac8513b0e80779ebc99ee4f4379f8d4560da29dad5cc4510b",
+ "search_source_sha256": "716c3c947bda717fcbf88c2370265959ec4083c92fde57cfaff00e13a46fade9",
+ "roots_sha256": "53e42fa8b01d03219d176adedc2d3626d916a7e0b042c7127a4ae9aec692d34a",
+ "trees": 1024,
+ "reduced_trees": 4,
+ "leaves": 8112,
+ "trees_sha256": "a9286f72edae56671c07a68f6917b890074e4c398f3e0b92d597dd70571554d0",
+ "leaves_sha256": "fd63180b2abce77e57ae285dfe0635a4f5e41328b91d0a826d07a8b4a6010109"
+}

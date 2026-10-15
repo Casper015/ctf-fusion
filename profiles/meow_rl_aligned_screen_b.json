@@ -1,6 +1,6 @@
 {
  "_comment": "Schedule B of task T0061 (docs/MEOWMIND_RL_ALIGNED.md): the deployed search/precision comparison. D = the T0059 large-V actor actor-direct; F, R, H = the same actor header with search v2 and the checkpoint's FP32, reference16 and WideAct16 critic. Equal-time packages: each arm's search does what fits in the frozen deadline (counters record the work), so B compares deployments; the fixed-work diagnostics compare precision. Seed: fresh, distinct from schedule A's, reserved and frozen before any game. Exactly 8 workers, bound to the passed preflight. One prespecified family of five contrasts, Bonferroni alpha 0.05 with the computed normal quantile (analyze.py --multiplicity bonferroni); no backend is chosen from these games and reported with an unadjusted interval.",
- "seed": null,
+ "seed": 20261955,
  "teams": [
   2,
   3,
