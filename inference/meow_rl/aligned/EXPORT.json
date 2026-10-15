@@ -1,0 +1,731 @@
+{
+ "actors": {
+  "p1_large": {
+   "actor_digest": "5aa93320b927bab6fafdcda4ea4fe0b230c829e81fa7034d8a7406eeb5f81a52",
+   "agreement_diagnostic": {
+    "greedy_agreement": 0.9565625,
+    "kl_max": 0.16431915283941428,
+    "kl_mean": 0.007112320881121523,
+    "max_abs_logp_error": 2.2526717264880602,
+    "mean_abs_logp_error": 0.2910534391696962,
+    "observations": 16000,
+    "rows_per_layer": 240000,
+    "sampled_agreement": 0.9350625,
+    "saturated": [
+     11,
+     8
+    ],
+    "tv_max": 0.2343919680681102,
+    "tv_mean": 0.034303391959185164,
+    "tv_p99": 0.1449046932631545,
+    "uniforms_per_decision": 4
+   },
+   "calibration": {
+    "margin": 1.1,
+    "rows": 16000,
+    "unit_move_rows": 240000
+   },
+   "files": {
+    "actor.hpp": "2244b9947f92cd2f6f7e56d6ba2741db5516562f75d2e60c2142f107f7aba7bd"
+   },
+   "identity": {
+    "actor": "meow_actor_112_64_32_1_joint125_t105_v1",
+    "actor_weights": "trained",
+    "critic": "meow_public416_mlp_1024_1024_512_v1",
+    "policy_features": "meow_policy112_v1",
+    "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+    "resolver": "meowmind_reference_shots_frozen_v1",
+    "reward_units": "terminal_2_pairwise_utility_minus_1",
+    "temperature": 1.05,
+    "value_features": "meow_public416_v1"
+   },
+   "identity_digest": "4993f0476d8f97218f352e2ab9cb515bd0753f93138ae70e126b9edb1590ed6d",
+   "layers": [
+    {
+     "bound": 585753384,
+     "exp": 24,
+     "shift": 17
+    },
+    {
+     "bound": 10518464,
+     "exp": 19,
+     "shift": 12
+    },
+    {
+     "bound": 23108836,
+     "exp": 16,
+     "shift": 9
+    }
+   ],
+   "native": {
+    "simd0": {
+     "draws_equal": true,
+     "greedy_equal": true,
+     "kernel": "scalar",
+     "path": "actor aligned_p1_large simd 0 kernel scalar rows 16000",
+     "rows": 16000,
+     "scores_equal": true
+    },
+    "simd1": {
+     "draws_equal": true,
+     "greedy_equal": true,
+     "kernel": "avx2",
+     "path": "actor aligned_p1_large simd 1 kernel avx2 rows 16000",
+     "rows": 16000,
+     "scores_equal": true
+    }
+   },
+   "source": {
+    "kind": "checkpoint",
+    "manifest": "reports/models/meow_rl_pilot/MANIFEST.json",
+    "path": "runs/meow_rl/large_v_s101/checkpoints/final.pt",
+    "sha256": "f8b98a3445ba7d58396375cd9b3bce0278e9bf6a11e1a45a1e87a8650e3a3ddb"
+   }
+  },
+  "p2_large": {
+   "actor_digest": "2ce42760d65354168fbf2abcc28e3f5f2cae4c5c84d7935865553c5fc9783eb0",
+   "agreement_diagnostic": {
+    "greedy_agreement": 0.9539375,
+    "kl_max": 0.2480225380036762,
+    "kl_mean": 0.007288005240426934,
+    "max_abs_logp_error": 2.381427222320717,
+    "mean_abs_logp_error": 0.2925852364330761,
+    "observations": 16000,
+    "rows_per_layer": 240000,
+    "sampled_agreement": 0.933234375,
+    "saturated": [
+     10,
+     8
+    ],
+    "tv_max": 0.31403551314739386,
+    "tv_mean": 0.03497937732608981,
+    "tv_p99": 0.1444781894753192,
+    "uniforms_per_decision": 4
+   },
+   "calibration": {
+    "margin": 1.1,
+    "rows": 16000,
+    "unit_move_rows": 240000
+   },
+   "files": {
+    "actor.hpp": "5462db3232f342f290564ed649c15b29dd20dcc32e4c1a7097c54bc216f7ec8e"
+   },
+   "identity": {
+    "actor": "meow_actor_112_64_32_1_joint125_t105_v1",
+    "actor_weights": "trained",
+    "critic": "meow_public416_mlp_1024_1024_512_v1",
+    "policy_features": "meow_policy112_v1",
+    "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+    "resolver": "meowmind_reference_shots_frozen_v1",
+    "reward_units": "terminal_2_pairwise_utility_minus_1",
+    "temperature": 1.05,
+    "value_features": "meow_public416_v1"
+   },
+   "identity_digest": "4993f0476d8f97218f352e2ab9cb515bd0753f93138ae70e126b9edb1590ed6d",
+   "layers": [
+    {
+     "bound": 558130615,
+     "exp": 24,
+     "shift": 17
+    },
+    {
+     "bound": 10724014,
+     "exp": 19,
+     "shift": 12
+    },
+    {
+     "bound": 22935524,
+     "exp": 16,
+     "shift": 9
+    }
+   ],
+   "native": {
+    "simd0": {
+     "draws_equal": true,
+     "greedy_equal": true,
+     "kernel": "scalar",
+     "path": "actor aligned_p2_large simd 0 kernel scalar rows 16000",
+     "rows": 16000,
+     "scores_equal": true
+    },
+    "simd1": {
+     "draws_equal": true,
+     "greedy_equal": true,
+     "kernel": "avx2",
+     "path": "actor aligned_p2_large simd 1 kernel avx2 rows 16000",
+     "rows": 16000,
+     "scores_equal": true
+    }
+   },
+   "source": {
+    "kind": "checkpoint",
+    "manifest": "reports/models/meow_rl_pool2/MANIFEST.json",
+    "path": "runs/meow_rl_pool2/large_v_s101/checkpoints/final.pt",
+    "sha256": "331ad7838c33440ff654a7e5539114c697fd3f63d99055e1d2f201170fba1051"
+   }
+  },
+  "p2_small": {
+   "actor_digest": "adce06cfcb4e86618834955cb4659a7b62b0bed8e8431c6a84d8fad3cff1972e",
+   "agreement_diagnostic": {
+    "greedy_agreement": 0.9545,
+    "kl_max": 0.1777408404969442,
+    "kl_mean": 0.007183844147391259,
+    "max_abs_logp_error": 1.9669551076775065,
+    "mean_abs_logp_error": 0.28858175634304234,
+    "observations": 16000,
+    "rows_per_layer": 240000,
+    "sampled_agreement": 0.93384375,
+    "saturated": [
+     11,
+     10
+    ],
+    "tv_max": 0.2931715367039468,
+    "tv_mean": 0.03464177823061178,
+    "tv_p99": 0.14209659698281524,
+    "uniforms_per_decision": 4
+   },
+   "calibration": {
+    "margin": 1.1,
+    "rows": 16000,
+    "unit_move_rows": 240000
+   },
+   "files": {
+    "actor.hpp": "540c6360eda51d2b67df5ada8b8cc990055063b99ede5a92828df79673d75a1a"
+   },
+   "identity": {
+    "actor": "meow_actor_112_64_32_1_joint125_t105_v1",
+    "actor_weights": "trained",
+    "critic": "meow_public416_mlp_64_32_v1",
+    "policy_features": "meow_policy112_v1",
+    "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+    "resolver": "meowmind_reference_shots_frozen_v1",
+    "reward_units": "terminal_2_pairwise_utility_minus_1",
+    "temperature": 1.05,
+    "value_features": "meow_public416_v1"
+   },
+   "identity_digest": "9a76d9b618d2b71427fdb4101027c3ea4615f99c9eb3cf1a2d48a1b9a6168bcc",
+   "layers": [
+    {
+     "bound": 581417944,
+     "exp": 24,
+     "shift": 17
+    },
+    {
+     "bound": 10126663,
+     "exp": 19,
+     "shift": 12
+    },
+    {
+     "bound": 23064548,
+     "exp": 16,
+     "shift": 9
+    }
+   ],
+   "native": {
+    "simd0": {
+     "draws_equal": true,
+     "greedy_equal": true,
+     "kernel": "scalar",
+     "path": "actor aligned_p2_small simd 0 kernel scalar rows 16000",
+     "rows": 16000,
+     "scores_equal": true
+    },
+    "simd1": {
+     "draws_equal": true,
+     "greedy_equal": true,
+     "kernel": "avx2",
+     "path": "actor aligned_p2_small simd 1 kernel avx2 rows 16000",
+     "rows": 16000,
+     "scores_equal": true
+    }
+   },
+   "source": {
+    "kind": "checkpoint",
+    "manifest": "reports/models/meow_rl_pool2/MANIFEST.json",
+    "path": "runs/meow_rl_pool2/small_v_s101/checkpoints/final.pt",
+    "sha256": "54acc3301a6d7c17db09a8360cdf39088c753471565054fc8ef9d5592a7aeaca"
+   }
+  },
+  "warm": {
+   "actor_digest": "67b3df3d1ca3701d432083fe0e62935862ed1a5b4658b7381953c1f7c60885f4",
+   "agreement_diagnostic": {
+    "greedy_agreement": 0.9555,
+    "kl_max": 0.15793225003402525,
+    "kl_mean": 0.007149053295993827,
+    "max_abs_logp_error": 2.4480487079145874,
+    "mean_abs_logp_error": 0.2977790253086426,
+    "observations": 16000,
+    "rows_per_layer": 240000,
+    "sampled_agreement": 0.9369375,
+    "saturated": [
+     9,
+     8
+    ],
+    "tv_max": 0.25852859276178836,
+    "tv_mean": 0.033849644940774935,
+    "tv_p99": 0.14620610109045623,
+    "uniforms_per_decision": 4
+   },
+   "array_route": {
+    "digest_equal": true,
+    "log_probs_equal": true,
+    "tensors_equal": true
+   },
+   "calibration": {
+    "margin": 1.1,
+    "rows": 16000,
+    "unit_move_rows": 240000
+   },
+   "files": {
+    "actor.hpp": "c57f8c3e883c559ef8b2f5cb6c019afebfe930728c66c50f3a6ed08f44a45ef2"
+   },
+   "identity": {
+    "actor": "meow_actor_112_64_32_1_joint125_t105_v1",
+    "actor_weights": "reference_warm_start",
+    "critic": null,
+    "policy_features": "meow_policy112_v1",
+    "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+    "resolver": "meowmind_reference_shots_frozen_v1",
+    "reward_units": "terminal_2_pairwise_utility_minus_1",
+    "temperature": 1.05,
+    "value_features": "meow_public416_v1"
+   },
+   "identity_digest": "c2955b455dfb107c02be79c0270560ecb838165108178e50820494e6d284e640",
+   "layers": [
+    {
+     "bound": 569545964,
+     "exp": 24,
+     "shift": 17
+    },
+    {
+     "bound": 10655938,
+     "exp": 19,
+     "shift": 12
+    },
+    {
+     "bound": 23481956,
+     "exp": 16,
+     "shift": 9
+    }
+   ],
+   "native": {
+    "simd0": {
+     "draws_equal": true,
+     "greedy_equal": true,
+     "kernel": "scalar",
+     "path": "actor aligned_warm simd 0 kernel scalar rows 16000",
+     "rows": 16000,
+     "scores_equal": true
+    },
+    "simd1": {
+     "draws_equal": true,
+     "greedy_equal": true,
+     "kernel": "avx2",
+     "path": "actor aligned_warm simd 1 kernel avx2 rows 16000",
+     "rows": 16000,
+     "scores_equal": true
+    }
+   },
+   "source": {
+    "kind": "warm_start",
+    "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc"
+   }
+  }
+ },
+ "code_digest": "44e0aa6d1a401ad98c355e781c892671088a85530ddb7994889f44f648bdce7d",
+ "config_sha256": "490a4269e9209675283e0ee7f105b897228fe195cd31fc2e8b34c05c74e8b2cf",
+ "corpus": {
+  "manifest_sha256": "6c62b92480c7e1a3e1b08ac58a5a92823c29bf23ad3af4f5c67b5b27c2f19a74",
+  "rows": {
+   "calibration": 16000,
+   "diagnostic": 16000
+  },
+  "schema": "ctf-meow-rl-aligned-corpus-1",
+  "seed": "meow_rl_aligned_corpus_v1"
+ },
+ "critics": {
+  "fp32": {
+   "arm": "F",
+   "calibration": null,
+   "deployed": true,
+   "describe": {
+    "arithmetic": "float32, 8 interleaved partial sums per row",
+    "parameter_bytes": 8007684,
+    "weights": "float32"
+   },
+   "digest": "a84c0882fdee2138286122ff41d881f87c2cbea5f1d47281600c6a6bf20b33d3",
+   "error_vs_float64": {
+    "bias": 3.7774214237829704e-09,
+    "mae": 2.3512500245204474e-08,
+    "max_abs": 2.595769368340939e-07,
+    "observations": 16000,
+    "rmse": 3.1453299315941254e-08,
+    "saturated": null
+   },
+   "file_sha256": "a0694ff7e474ebe5236035b7ed26307af329b03c1a093866f4257c3bc41707e2",
+   "native": {
+    "simd0": {
+     "bit_equal": true,
+     "kernel": "scalar",
+     "max_abs_diff": 0.0,
+     "path": "critic format fp32 simd 0 kernel scalar rows 16000",
+     "rows": 16000
+    },
+    "simd1": {
+     "bit_equal": true,
+     "kernel": "avx2",
+     "max_abs_diff": 0.0,
+     "path": "critic format fp32 simd 1 kernel avx2 rows 16000",
+     "rows": 16000
+    }
+   }
+  },
+  "reference16": {
+   "arm": "R",
+   "calibration": {
+    "dead_neurons": [
+     0,
+     75,
+     67
+    ],
+    "margin": 1.1,
+    "observations": 16000,
+    "range_bits": 8,
+    "scale_rule": "aligned_critic_scale_v1: range_of(margin x peak), never-active neurons -> layer median active range"
+   },
+   "deployed": true,
+   "describe": {
+    "accumulator": "int32 (proved inside +-2^30)",
+    "biases": "int32",
+    "hidden_activation": "0..128 (129 levels)",
+    "layers": [
+     {
+      "bound": 726446110,
+      "exp": 15,
+      "max_abs_weight": 219,
+      "shift": 8
+     },
+     {
+      "bound": 852659770,
+      "exp": 16,
+      "max_abs_weight": 26675,
+      "shift": 9
+     },
+     {
+      "bound": 256653286,
+      "exp": 16,
+      "max_abs_weight": 22140,
+      "shift": 9
+     },
+     {
+      "bound": 78999930,
+      "exp": 23,
+      "max_abs_weight": 25761,
+      "shift": 16
+     }
+    ],
+    "parameter_bytes": 4008964,
+    "weights": "int16"
+   },
+   "digest": "88bd784d6451bbb36013794a93ae03740ec536411397c4e6d04d78449b77bd74",
+   "error_vs_float64": {
+    "bias": -0.1854850706792433,
+    "mae": 0.20116975292855022,
+    "max_abs": 0.9115911824013962,
+    "observations": 16000,
+    "rmse": 0.24422542961320323,
+    "saturated": [
+     17105,
+     143828,
+     1467
+    ]
+   },
+   "file_sha256": "329e9779bb04f49f5f073cface425ed8e5ee5aafd71694ba704e5523100c69eb",
+   "native": {
+    "simd0": {
+     "bit_equal": true,
+     "kernel": "scalar",
+     "max_abs_diff": 0.0,
+     "path": "critic format reference16 simd 0 kernel scalar rows 16000",
+     "rows": 16000
+    },
+    "simd1": {
+     "bit_equal": true,
+     "kernel": "avx2",
+     "max_abs_diff": 0.0,
+     "path": "critic format reference16 simd 1 kernel avx2 rows 16000",
+     "rows": 16000
+    }
+   }
+  },
+  "reference16_t0056": {
+   "arm": null,
+   "calibration": {
+    "dead_neurons": [
+     0,
+     75,
+     67
+    ],
+    "margin": 1.1,
+    "observations": 16000,
+    "range_bits": 8
+   },
+   "deployed": false,
+   "describe": {
+    "accumulator": "int32 (proved inside +-2^30)",
+    "biases": "int32",
+    "hidden_activation": "0..128 (129 levels)",
+    "layers": [
+     {
+      "bound": 726446110,
+      "exp": 15,
+      "max_abs_weight": 219,
+      "shift": 8
+     },
+     {
+      "bound": 437082645,
+      "exp": 15,
+      "max_abs_weight": 19708,
+      "shift": 8
+     },
+     {
+      "bound": 176057468,
+      "exp": 15,
+      "max_abs_weight": 18014,
+      "shift": 8
+     },
+     {
+      "bound": 73905658,
+      "exp": 23,
+      "max_abs_weight": 25761,
+      "shift": 16
+     }
+    ],
+    "parameter_bytes": 4008964,
+    "weights": "int16"
+   },
+   "digest": "ed717b45de5f58c92c6151be57f69b1893f44c2335c3a51c8e8d6d3a9d38390f",
+   "error_vs_float64": {
+    "bias": -0.18585795929646085,
+    "mae": 0.20170104855049753,
+    "max_abs": 0.9162061316277756,
+    "observations": 16000,
+    "rmse": 0.2447495403609097,
+    "saturated": [
+     17105,
+     206848,
+     3483
+    ]
+   }
+  },
+  "wideact16": {
+   "arm": "H",
+   "calibration": {
+    "dead_neurons": [
+     0,
+     75,
+     67
+    ],
+    "margin": 1.1,
+    "observations": 16000,
+    "range_bits": 8,
+    "scale_rule": "aligned_critic_scale_v1: range_of(margin x peak), never-active neurons -> layer median active range"
+   },
+   "deployed": true,
+   "describe": {
+    "acc_limit": 4503599627370496,
+    "accumulator": "int64",
+    "biases": "int64",
+    "hidden_activation": "int16 storage, 0..32767 (2^15 = 1.0, 32768 levels)",
+    "layers": [
+     {
+      "bound": 92968406738,
+      "bound_log2": 36.436021480297306,
+      "exp": 22,
+      "hidden": true,
+      "in": 416,
+      "max_abs_weight": 27989,
+      "out": 1024,
+      "shift": 7
+     },
+     {
+      "bound": 218274241833,
+      "bound_log2": 37.66735093417961,
+      "exp": 24,
+      "hidden": true,
+      "in": 1024,
+      "max_abs_weight": 26675,
+      "out": 1024,
+      "shift": 9
+     },
+     {
+      "bound": 65701242402,
+      "bound_log2": 35.93520160085588,
+      "exp": 24,
+      "hidden": true,
+      "in": 1024,
+      "max_abs_weight": 22140,
+      "out": 512,
+      "shift": 9
+     },
+     {
+      "bound": 20223368530,
+      "bound_log2": 34.235304270385946,
+      "exp": 31,
+      "hidden": false,
+      "in": 512,
+      "max_abs_weight": 25761,
+      "out": 1,
+      "shift": 16
+     }
+    ],
+    "pair_limit": 2147483647,
+    "parameter_bytes": 4019208,
+    "peak_buffer_bytes": 12288,
+    "rounding": "round half up of acc / 2^shift on positive accumulators; acc <= 0 -> 0",
+    "scheme": "wideact16_v1",
+    "weights": "int16"
+   },
+   "digest": "0b8b610188a2e5169806d4f1ea561116be74ee4bf6644ecec4edb4475e6354ae",
+   "error_vs_float64": {
+    "bias": -0.00017756422311615235,
+    "mae": 0.0013317481023820247,
+    "max_abs": 0.031466376490986825,
+    "observations": 16000,
+    "rmse": 0.0017126358317205445,
+    "saturated": [
+     271,
+     402,
+     78
+    ]
+   },
+   "file_sha256": "32172555373160e8910b6bcaca2b24017ad1c13b727c8cc24655eb5fd87f0a82",
+   "native": {
+    "simd0": {
+     "bit_equal": true,
+     "kernel": "scalar",
+     "max_abs_diff": 0.0,
+     "path": "critic format wideact16 simd 0 kernel scalar rows 16000",
+     "rows": 16000
+    },
+    "simd1": {
+     "bit_equal": true,
+     "kernel": "avx2",
+     "max_abs_diff": 0.0,
+     "path": "critic format wideact16 simd 1 kernel avx2 rows 16000",
+     "rows": 16000
+    }
+   }
+  }
+ },
+ "evidence": true,
+ "export": {
+  "actor_format": "meow_rl_reference16_v1",
+  "calibration": "all calibration.npz rows (16,000 decisions x 15 unit-moves for the actor, 16,000 value rows for the critics)",
+  "input_bits": 12,
+  "input_max": 16384,
+  "margin": 1.1,
+  "range_bits": 8,
+  "rounding": "floor(x + 1/2)",
+  "validation": "diagnostic.npz (disjoint map groups)"
+ },
+ "generator": "bots/meow_rl/aligned/export.py",
+ "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+ "schema": "ctf-meow-rl-aligned-export-1",
+ "variants": {
+  "meow_rl_aligned_p1_large": {
+   "actor": "p1_large",
+   "actor_hpp_sha256": "2244b9947f92cd2f6f7e56d6ba2741db5516562f75d2e60c2142f107f7aba7bd",
+   "critic": null,
+   "deployed_networks": [
+    "actor (reference16)"
+   ],
+   "note": "actor-direct: the training critic is not deployed",
+   "search": false,
+   "sha256": "3112eef1fc8ee70f5d7945857d72a9c5499c5b2d0537078ecc5c69b8e3e63154",
+   "source": "bots/meow_rl/variants/aligned/meow_rl_aligned_p1_large.cpp",
+   "training_critic": "meow_public416_mlp_1024_1024_512_v1"
+  },
+  "meow_rl_aligned_p2_large": {
+   "actor": "p2_large",
+   "actor_hpp_sha256": "5462db3232f342f290564ed649c15b29dd20dcc32e4c1a7097c54bc216f7ec8e",
+   "critic": null,
+   "deployed_networks": [
+    "actor (reference16)"
+   ],
+   "note": "actor-direct: the training critic is not deployed",
+   "search": false,
+   "sha256": "e36c4eb791f0458067b140cd0b1358ae2cee3cabce30fc6320c6c4a5572388c2",
+   "source": "bots/meow_rl/variants/aligned/meow_rl_aligned_p2_large.cpp",
+   "training_critic": "meow_public416_mlp_1024_1024_512_v1"
+  },
+  "meow_rl_aligned_p2_large_fp32": {
+   "actor": "p2_large",
+   "actor_hpp_sha256": "5462db3232f342f290564ed649c15b29dd20dcc32e4c1a7097c54bc216f7ec8e",
+   "critic": "fp32",
+   "deployed_networks": [
+    "actor (reference16)",
+    "critic meow_public416_mlp_1024_1024_512_v1 (fp32)"
+   ],
+   "note": null,
+   "search": true,
+   "sha256": "92ec20a3bb444091537aeefd5190971cc2a3b370444814b6fa21ba4e0db9e16e",
+   "source": "bots/meow_rl/variants/aligned/meow_rl_aligned_p2_large_fp32.cpp",
+   "training_critic": "meow_public416_mlp_1024_1024_512_v1"
+  },
+  "meow_rl_aligned_p2_large_r16": {
+   "actor": "p2_large",
+   "actor_hpp_sha256": "5462db3232f342f290564ed649c15b29dd20dcc32e4c1a7097c54bc216f7ec8e",
+   "critic": "reference16",
+   "deployed_networks": [
+    "actor (reference16)",
+    "critic meow_public416_mlp_1024_1024_512_v1 (reference16)"
+   ],
+   "note": null,
+   "search": true,
+   "sha256": "5004d7367e71adcc3253450d44dbc57d2c27d677c7abae738660628a84266b76",
+   "source": "bots/meow_rl/variants/aligned/meow_rl_aligned_p2_large_r16.cpp",
+   "training_critic": "meow_public416_mlp_1024_1024_512_v1"
+  },
+  "meow_rl_aligned_p2_large_w16": {
+   "actor": "p2_large",
+   "actor_hpp_sha256": "5462db3232f342f290564ed649c15b29dd20dcc32e4c1a7097c54bc216f7ec8e",
+   "critic": "wideact16",
+   "deployed_networks": [
+    "actor (reference16)",
+    "critic meow_public416_mlp_1024_1024_512_v1 (wideact16)"
+   ],
+   "note": null,
+   "search": true,
+   "sha256": "9301d37faca4b35221ebc982e8018c18bf265eddd27bc1e1066ba321e451c1a7",
+   "source": "bots/meow_rl/variants/aligned/meow_rl_aligned_p2_large_w16.cpp",
+   "training_critic": "meow_public416_mlp_1024_1024_512_v1"
+  },
+  "meow_rl_aligned_p2_small": {
+   "actor": "p2_small",
+   "actor_hpp_sha256": "540c6360eda51d2b67df5ada8b8cc990055063b99ede5a92828df79673d75a1a",
+   "critic": null,
+   "deployed_networks": [
+    "actor (reference16)"
+   ],
+   "note": "actor-direct: the training critic is not deployed",
+   "search": false,
+   "sha256": "11bbaa6543b9b501779698eb57ab201961d1537036f52dae0aca62ee700a1c3c",
+   "source": "bots/meow_rl/variants/aligned/meow_rl_aligned_p2_small.cpp",
+   "training_critic": "meow_public416_mlp_64_32_v1"
+  },
+  "meow_rl_aligned_warm": {
+   "actor": "warm",
+   "actor_hpp_sha256": "c57f8c3e883c559ef8b2f5cb6c019afebfe930728c66c50f3a6ed08f44a45ef2",
+   "critic": null,
+   "deployed_networks": [
+    "actor (reference16)"
+   ],
+   "note": "actor-direct: the training critic is not deployed",
+   "search": false,
+   "sha256": "bac4920c184d6c93898c7c0c296495a38ff3e950b2111d414888b84b59b5b270",
+   "source": "bots/meow_rl/variants/aligned/meow_rl_aligned_warm.cpp",
+   "training_critic": null
+  }
+ }
+}

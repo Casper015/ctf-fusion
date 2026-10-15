@@ -257,10 +257,10 @@ class AlignedPipeline(unittest.TestCase):
         out = {}
         for name in ("meow_rl_aligned_p2_large", "meow_rl_aligned_p2_large_r16", "meow_rl_aligned_p2_large_w16",
                      "meow_rl_aligned_p2_large_fp32"):
-            (vd / f"{name}.cpp").write_text(X.variant_source(name, cfg["variants"][name], cfg, self.inf, vd))
+            (vd / f"{name}.cpp").write_text(X.variant_source(name, cfg["variants"][name], cfg, self.inf, vd), encoding="utf-8")
             text, _ = bundle(vd / f"{name}.cpp")
             src = vd / f"{name}_bundle.cpp"
-            src.write_text(text)
+            src.write_text(text, encoding="utf-8")
             exe = vd / f"{name}{runner.EXE}"
             extra = [f"-DMEOW_RL_SEARCH_TEST_INJECT_DELAY_MS={cfg['search']['inject']}"] if cfg["search"].get("inject") else []
             subprocess.run([CXX, "-std=c++20", "-O2", "-w", *extra, str(src), "-o", str(exe)], check=True, capture_output=True)
@@ -268,12 +268,12 @@ class AlignedPipeline(unittest.TestCase):
         return out
 
     def test_search_v2_chooses_exactly_what_the_tree_harness_scores(self):
-        cfg = json.loads(X.CONFIG.read_text())
+        cfg = json.loads(X.CONFIG.read_text(encoding="utf-8"))
         cfg["search"] |= {"deadline_ms": 100000, "first_ms": 100000}
         bots = self._bots(cfg)
         text = stream("n04")
         tree = TR.compile_tree(self.inf / "p2_large" / "actor.hpp", self.tmp / f"tree{runner.EXE}")
-        (self.tmp / "n04.txt").write_text(text)
+        (self.tmp / "n04.txt").write_text(text, encoding="utf-8")
         turns = list(range(2, 401, 9))
         r = subprocess.run([str(tree), str(self.tmp / "n04.txt"), *map(str, turns)], capture_output=True, text=True, check=True,
                            env=dict(os.environ, MEOW_RL_TREE_LEAVES=str(self.tmp / "eq.f32")))

@@ -1,0 +1,85 @@
+{
+ "actor_digest": "67b3df3d1ca3701d432083fe0e62935862ed1a5b4658b7381953c1f7c60885f4",
+ "agreement_diagnostic": {
+  "greedy_agreement": 0.9555,
+  "kl_max": 0.15793225003402525,
+  "kl_mean": 0.007149053295993827,
+  "max_abs_logp_error": 2.4480487079145874,
+  "mean_abs_logp_error": 0.2977790253086426,
+  "observations": 16000,
+  "rows_per_layer": 240000,
+  "sampled_agreement": 0.9369375,
+  "saturated": [
+   9,
+   8
+  ],
+  "tv_max": 0.25852859276178836,
+  "tv_mean": 0.033849644940774935,
+  "tv_p99": 0.14620610109045623,
+  "uniforms_per_decision": 4
+ },
+ "array_route": {
+  "digest_equal": true,
+  "log_probs_equal": true,
+  "tensors_equal": true
+ },
+ "calibration": {
+  "margin": 1.1,
+  "rows": 16000,
+  "unit_move_rows": 240000
+ },
+ "files": {
+  "actor.hpp": "c57f8c3e883c559ef8b2f5cb6c019afebfe930728c66c50f3a6ed08f44a45ef2"
+ },
+ "identity": {
+  "actor": "meow_actor_112_64_32_1_joint125_t105_v1",
+  "actor_weights": "reference_warm_start",
+  "critic": null,
+  "policy_features": "meow_policy112_v1",
+  "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+  "resolver": "meowmind_reference_shots_frozen_v1",
+  "reward_units": "terminal_2_pairwise_utility_minus_1",
+  "temperature": 1.05,
+  "value_features": "meow_public416_v1"
+ },
+ "identity_digest": "c2955b455dfb107c02be79c0270560ecb838165108178e50820494e6d284e640",
+ "layers": [
+  {
+   "bound": 569545964,
+   "exp": 24,
+   "shift": 17
+  },
+  {
+   "bound": 10655938,
+   "exp": 19,
+   "shift": 12
+  },
+  {
+   "bound": 23481956,
+   "exp": 16,
+   "shift": 9
+  }
+ ],
+ "native": {
+  "simd0": {
+   "draws_equal": true,
+   "greedy_equal": true,
+   "kernel": "scalar",
+   "path": "actor aligned_warm simd 0 kernel scalar rows 16000",
+   "rows": 16000,
+   "scores_equal": true
+  },
+  "simd1": {
+   "draws_equal": true,
+   "greedy_equal": true,
+   "kernel": "avx2",
+   "path": "actor aligned_warm simd 1 kernel avx2 rows 16000",
+   "rows": 16000,
+   "scores_equal": true
+  }
+ },
+ "source": {
+  "kind": "warm_start",
+  "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc"
+ }
+}
