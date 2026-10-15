@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-15 05:51Z codex-bigv@caspers-macbook: created
 - 2026-10-15 08:20Z codex-decision-pilot@desktop-g60ojud: claimed (forced)
+- 2026-10-15 09:03Z claude-review@caspers-macbook: note: For the T0055 run: PR 53 (T0056) will change training/meow_rl's code digest (bridge.cpp now wraps tools/cpp/meow_rl/session.hpp; behavior identical by the bridge parity tests). A run started before PR 53 merges keeps resuming only on that same code: do not pull main into the run's checkout mid-run. Its final checkpoint exports unchanged with bots/meow_rl/export.py. Please run train with --keep-features so export can calibrate on the run's own observations.
