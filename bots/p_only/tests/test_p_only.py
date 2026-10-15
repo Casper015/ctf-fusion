@@ -181,6 +181,95 @@ class Analyze(unittest.TestCase):
         r = analyze.paired(a, b, fixtures, [2], exclude={"f3"})
         self.assertEqual((r["fixtures"], r["scheduled"], r["missing"]), (3, 3, 0))
 
+    def test_family_wise_intervals_decide_the_verdict(self):
+        self.assertAlmostEqual(analyze.family_z("bonferroni", 0.05, 6), 2.6383, places=4)
+        self.assertAlmostEqual(analyze.family_z("none", 0.05, 6), 1.96, places=2)
+        fixtures = {f"f{i}": {"teams": 2} for i in range(20)}
+        a = {f: {"utility": 0.53 + (0.03 if i % 2 else -0.03), "score": [0]} for i, f in enumerate(fixtures)}
+        b = {f: {"utility": 0.5, "score": [0]} for f in fixtures}
+        plain = analyze.paired(a, b, fixtures, [2])["overall"]          # mean 0.03, se ~0.0069: 95% [0.016, 0.044]
+        fam = analyze.paired(a, b, fixtures, [2], z=5.0)["overall"]     # a wide family interval: [-0.004, 0.064]
+        self.assertEqual(plain["ci95"], fam["ci95"])                    # the 95% interval is always kept
+        self.assertNotIn("ci", plain)
+        self.assertEqual((plain["verdict"], fam["verdict"], fam["verdict_95"]), ("helps", "not shown", "helps"))
+        self.assertLess(fam["ci"][0], 0)
+
+    def test_meowrl_counters_and_their_coverage(self):
+        tmp = Path(tempfile.mkdtemp(prefix="meowrl-matches-"))
+        key = __import__("hashlib").sha256(b"armA").hexdigest()[:10]
+
+        def match(lines, turns=400):
+            return {"seats": [{"name": "@candidate"}, {"name": "X"}], "blocks": ["b"] * turns,
+                    "bots": [{"stderr_tail": lines}, {"stderr_tail": []}]}
+        for i, lines in enumerate([["MEOWRL turns 399 refused 0 search_used 300 search_fallback 99 leaves 2400",
+                                    "MEOWRL turns 400 refused 1 search_used 300 search_fallback 100 leaves 2400"],
+                                   ["MEOWRL model x scheme y"]]):          # the second game lost its counter line
+            (tmp / f"g{i}-{key}.json.gz").write_bytes(gzip.compress(json.dumps(match(lines)).encode()))
+        c = analyze.counters(tmp, {key: "armA"})["armA"]["meowrl"]
+        self.assertEqual((c["games"], c["games_with_counters"]), (2, 1))
+        self.assertEqual((c["turns"], c["game_turns"], c["search_used"], c["search_fallback"], c["refused"]), (400, 400, 300, 100, 1))
+        self.assertEqual(c["turn_coverage"], 1.0)
+
+    def test_analysis_applies_the_family_and_reports_opponent_faults(self):
+        tmp = Path(tempfile.mkdtemp(prefix="analyze-family-"))
+        fx = [{"fixture_id": f"f{i}", "teams": 2 + i % 2} for i in range(12)]
+        sched = {"seed": 1, "fixtures": fx, "reference": []}
+        (tmp / "s.json").write_text(json.dumps(sched))
+        sid = analyze.schedule_identity(sched)
+        (tmp / "m.json").write_text(json.dumps({"variants": {a: {"binary_sha256": a} for a in ("A", "B", "C")}}))
+        rows = []
+        for f in fx:
+            for arm, u in (("A", 0.6), ("B", 0.5), ("C", 0.5)):
+                rows.append({"candidate": arm, "source_sha256": arm, "fixture_id": f["fixture_id"], "teams": f["teams"],
+                             "schedule": sid, "utility": u + (0.01 if f["fixture_id"] in ("f1", "f2") else 0), "score": [1],
+                             "faults": 0, "dead": None, "late": 0, "first_ms": 1, "p99_ms": 1, "max_ms": 1,
+                             "opponent_faults": 1 if arm == "A" else 0, "opponent_dead": 0})
+        (tmp / "r.jsonl").write_text("\n".join(json.dumps(r) for r in rows) + "\n")
+        args = ["--results", str(tmp / "r.jsonl"), "--schedule", str(tmp / "s.json"), "--manifest", str(tmp / "m.json"),
+                "--arms", "A", "B", "C", "--compare", "A:B", "--compare", "B:C", "--out", str(tmp / "out")]
+        try:
+            analyze.main(args + ["--multiplicity", "bonferroni"])
+        except SystemExit as e:
+            self.assertIn(e.code, (0, None))
+        out = json.loads((tmp / "out" / "screen.json").read_text())
+        self.assertEqual(out["multiplicity"]["comparisons"], 2)
+        self.assertAlmostEqual(out["multiplicity"]["z"], 2.2414, places=3)
+        self.assertIn("ci", out["comparisons"]["A - B"]["overall"])
+        self.assertEqual(out["arms"]["A"]["opponent_faults"], 12)
+        self.assertIn("Multiplicity", (tmp / "out" / "SCREEN.md").read_text())
+        with self.assertRaises(SystemExit) as cm:                        # a comparison of an arm not analyzed is an error
+            analyze.main(args[:-2] + ["--compare", "A:Z", "--out", str(tmp / "out2")])
+        self.assertNotIn(cm.exception.code, (0, None))
+
+
+class MeowRLPreflight(unittest.TestCase):
+    def setUp(self):
+        import preflight_meow_rl  # noqa: PLC0415
+        self.P = preflight_meow_rl
+
+    def row(self, **kw):
+        base = {"arm": "a", "fixture_id": "f", "teams": 15, "faults": 0, "late": 0, "dead": None, "max_ms": 10.0,
+                "opponent_faults": 0, "opponent_late": 0, "opponent_dead": 0,
+                "meowrl": {"turns": 400, "refused": 0, "search_used": 1, "search_fallback": 0, "leaves": 8}}
+        return base | kw
+
+    def test_missing_counters_and_opponent_faults_fail_a_level(self):
+        self.assertEqual(self.P.level_verdict([self.row()]), (True, []))
+        ok, why = self.P.level_verdict([self.row(meowrl=None)])
+        self.assertFalse(ok)
+        self.assertIn("no MEOWRL counters in 1 games", why)
+        self.assertFalse(self.P.level_verdict([self.row(opponent_faults=2)])[0])
+        self.assertFalse(self.P.level_verdict([self.row(max_ms=48.0)])[0])
+        self.assertIsNone(self.P.parse_meowrl(["MEOWRL model x"]))
+        self.assertEqual(self.P.parse_meowrl(["MEOWRL turns 3 refused 0 search_used 2 search_fallback 1 leaves 9"])["search_fallback"], 1)
+
+    def test_the_deadline_is_read_from_the_bundle(self):
+        text = ("#define FUSION_MAX_WIDTH 1024\n#define MEOW_RL_SEARCH 1\n#define MEOW_RL_SEARCH_DEADLINE_MS 25\n"
+                "#ifndef MEOW_RL_SEARCH_DEADLINE_MS\n#define MEOW_RL_SEARCH_DEADLINE_MS 30\n#endif\n")
+        self.assertEqual(self.P.build_settings(text), {"search": True, "search_deadline_ms": 25})
+        self.assertEqual(self.P.build_settings("#ifndef MEOW_RL_SEARCH\n#define MEOW_RL_SEARCH 0\n#endif\n"),
+                         {"search": False, "search_deadline_ms": None})
+
 
 @unittest.skipUnless(CXX, "no C++ compiler")
 class Replay(unittest.TestCase):

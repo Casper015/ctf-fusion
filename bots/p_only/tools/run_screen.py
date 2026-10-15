@@ -120,6 +120,11 @@ def main(argv=None):
         analyze += ["--aa", *aa]
     for c in comparisons:
         analyze += ["--compare", f"{c[0]}:{c[1]}"]
+    mult = cfg.get("multiplicity")                       # the predeclared family-wise rule, e.g. {"method": "bonferroni", "alpha": 0.05}
+    if mult and not a.smoke:
+        analyze += ["--multiplicity", mult["method"], "--family-alpha", str(mult.get("alpha", 0.05))]
+    if cfg.get("margin"):
+        analyze += ["--margin", str(cfg["margin"])]
     for name, terms in contrasts.items():
         analyze += ["--contrast", f"{name}={terms}"]
     if cfg.get("keep_matches"):

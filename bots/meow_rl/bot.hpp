@@ -11,7 +11,9 @@
 //   3. Session::resolve: the reference's resolver and reply format.
 // A block the session refuses (malformed input) is answered with every unit staying and waiting, counted, and the
 // movement history is reset (Session::forget_history): the next turn never compares against stale positions.
-// stderr: the model identity on the first turn, counters on the last (MEOWRL ...).
+// stderr: the model identity on the first turn, and every turn, before the reply, the cumulative counters
+// (MEOWRL turns ... leaves ...). A runner keeps only the tail of stderr and may stop the process right after the last
+// reply, so a counter line printed once at the end can be lost; the per-turn line is always in the tail.
 #pragma once
 
 #define main meowmind_reference_main
@@ -87,14 +89,10 @@ inline int run() {
             s.forget_history();
             reply = safe_reply(s.g.turn);
         }
-        std::cout << reply << std::endl;
-        if (s.g.turn == s.g.turns)
-            std::fprintf(stderr, "MEOWRL turns %ld refused %ld search_used %ld search_fallback %ld leaves %ld\n", c.turns,
-                         c.refused, c.search_used, c.search_fallback, c.leaves);
-    }
-    if (c.turns > 0 && s.g.turn < s.g.turns)
         std::fprintf(stderr, "MEOWRL turns %ld refused %ld search_used %ld search_fallback %ld leaves %ld\n", c.turns,
                      c.refused, c.search_used, c.search_fallback, c.leaves);
+        std::cout << reply << std::endl;
+    }
     return 0;
 }
 
