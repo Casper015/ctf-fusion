@@ -23,6 +23,7 @@ make one.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -65,6 +66,17 @@ def build_settings(bundle_text: str) -> dict:
     d = DEADLINE_RE.search(bundle_text)
     search = bool(s and int(s.group(1)))
     return {"search": search, "search_deadline_ms": int(d.group(1)) if (search and d) else None}
+
+
+def checked_bundle(arm: str, entry: dict, repo: Path) -> str:
+    """The arm's bundled source, after checking that the bundle and the binary on disk are the manifest's (a failed
+    rebuild can leave a new bundle beside an old binary); refuses otherwise."""
+    text = (repo / entry["bundle"]).read_text(encoding="utf-8")
+    if hashlib.sha256(text.encode("utf-8")).hexdigest() != entry["bundle_sha256"]:
+        raise SystemExit(f"{arm}: {entry['bundle']} differs from the manifest's bundle_sha256 (rebuild)")
+    if sha256(repo / entry["binary"]) != entry["binary_sha256"]:
+        raise SystemExit(f"{arm}: {entry['binary']} differs from the manifest's binary_sha256 (rebuild)")
+    return text
 
 
 def level_verdict(rows: list[dict]) -> tuple[bool, list[str]]:
@@ -128,7 +140,7 @@ def main(argv=None) -> int:
         if arm not in manifest:
             raise SystemExit(f"{arm} is not built (python bots/p_only/tools/build.py --variants bots/meow_rl/variants.json)")
         e = manifest[arm]
-        text = (REPO / e["bundle"]).read_text(encoding="utf-8")
+        text = checked_bundle(arm, e, REPO)
         arms[arm] = {"bundle": e["bundle"], "bundle_sha256": e["bundle_sha256"], "binary_sha256": e["binary_sha256"],
                      **build_settings(text)}
     roster = json.loads((REPO / "profiles" / "meow_rl_screen.json").read_text(encoding="utf-8"))["opponents"]["reference"]

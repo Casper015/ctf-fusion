@@ -159,9 +159,9 @@ def counters(matches: Path, arm_keys: dict) -> dict:
                     last = mr
             mw = meow[arm]
             mw["games"] += 1
+            mw["game_turns"] += len(m.get("blocks", []))          # every game played, counted or not
             if last:
                 mw["games_with_counters"] += 1
-                mw["game_turns"] += len(m.get("blocks", []))
                 for i, k in enumerate(("turns", "refused", "search_used", "search_fallback", "leaves")):
                     mw[k] += int(last.group(i + 1))
             for line in bot.get("stderr_tail", []):
@@ -185,7 +185,7 @@ def counters(matches: Path, arm_keys: dict) -> dict:
     for arm, a in acc.items():
         row = {}
         mw = meow.get(arm, {})
-        if mw.get("games_with_counters"):                # bots/meow_rl: cumulative counters; coverage says how complete
+        if mw.get("games_with_counters") or arm.startswith("meow_rl"):   # bots/meow_rl arms always: zero coverage shows
             row["meowrl"] = {k: int(mw[k]) for k in ("games", "games_with_counters", "turns", "game_turns", "refused",
                                                       "search_used", "search_fallback", "leaves")}
             row["meowrl"]["turn_coverage"] = round(mw["turns"] / mw["game_turns"], 4) if mw["game_turns"] else None
@@ -310,6 +310,7 @@ def main(argv=None):
                         "opponent_faults": (sum(r["opponent_faults"] for r in rs) if all("opponent_faults" in r for r in rs)
                                             else None),
                         "opponent_dead": (sum(r["opponent_dead"] for r in rs) if all("opponent_dead" in r for r in rs) else None),
+                        "opponent_late": (sum(r["opponent_late"] for r in rs) if all("opponent_late" in r for r in rs) else None),
                         "first_ms_max": max((r["first_ms"] for r in rs if r.get("first_ms") is not None), default=None),
                         "p99_ms_median": p99[len(p99) // 2] if p99 else None,
                         "p99_ms_worst": p99[-1] if p99 else None,
@@ -348,12 +349,13 @@ def main(argv=None):
     md = [f"# P-only paired screen{' (INCOMPLETE)' if incomplete else ''}", "",
           f"Schedule `{sid}`, seed {sched.get('seed')}, {len(fixtures)} fixtures over team counts {teams[0]}-{teams[-1]} "
           f"({len(fixtures) // max(1, len(teams))} maps per count). Utility: share of the other teams beaten (ties half). "
-          "Intervals: 95%, map groups per count, counts weighted equally. improved/unchanged/degraded count fixtures by "
+          f"Intervals: {'95%' if abs(z - Z95) <= 1e-9 else f'z = {family['z']} for the comparisons, 95% for re-run noise'}, "
+          "map groups per count, counts weighted equally. improved/unchanged/degraded count fixtures by "
           "the sign of the paired difference; they are not wins.", ""]
     if incomplete:
         md += ["**Missing fixtures:** " + ", ".join(f"{k} {v}" for k, v in incomplete.items()), ""]
-    if family["method"] != "none":
-        md += [f"**Multiplicity:** {family['method']} over the {family['comparisons']} comparisons (family alpha "
+    if abs(z - Z95) > 1e-9:
+        md += [f"**Comparison intervals:** {family['method']} over the {family['comparisons']} comparisons (alpha "
                f"{family['alpha']}): their intervals and verdicts use z = {family['z']} (the 95% interval and verdict are in "
                "screen.json as ci95 and verdict_95). Re-run noise rows use 95%.", ""]
     if a.margin or excl:
@@ -361,7 +363,7 @@ def main(argv=None):
                f"{', '.join(sorted(excl)) if excl else 'none'}.", ""]
     if stale:
         md += ["Stale rows ignored (another identity, binary or schedule): " + ", ".join(f"{k} {v}" for k, v in stale.items()), ""]
-    level = "Interval" + (f" (z = {family['z']})" if family["method"] != "none" else " (95%)")
+    level = "Interval" + (f" (z = {family['z']})" if abs(z - Z95) > 1e-9 else " (95%)")
     md += ["## Paired differences", "", f"| Comparison | Band | Mean | {level} | Verdict | Fixtures |", "|---|---|---:|---|---|---:|"]
     for name, c in list(comparisons.items()) + list(noise.items()):
         for band, s in [("all", c["overall"])] + list(c["bands"].items()):
@@ -370,12 +372,12 @@ def main(argv=None):
         md.append(f"| {name} | improved / unchanged / degraded | {c['improved']} / {c['unchanged']} / {c['degraded']} | "
                   f"identical scores {c['identical_scores']} of {c['fixtures']}"
                   + (f"; missing {c['missing']} of {c['scheduled']} scheduled" if c["missing"] else "") + " | | |")
-    md += ["", "## Arms", "", "| Arm | Games | Utility | Faults | Dead | Late | Opponent faults | Opponent dead | First reply max ms | p99 median ms | p99 worst game ms | Max reply ms | Binary |",
-           "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
+    md += ["", "## Arms", "", "| Arm | Games | Utility | Faults | Dead | Late | Opponent faults | Opponent late | Opponent dead | First reply max ms | p99 median ms | p99 worst game ms | Max reply ms | Binary |",
+           "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
     na = lambda v: "n/a" if v is None else v  # noqa: E731  (rows older than all-seat accounting carry no opponent fields)
     for arm, s in per_arm.items():
         md.append(f"| {arm} | {s['games']} | {s['utility'] if s['utility'] is not None else 'n/a'} | {s['faults']} | {s['dead_games']} | "
-                  f"{s['late_replies']} | {na(s['opponent_faults'])} | {na(s['opponent_dead'])} | {s['first_ms_max']} | "
+                  f"{s['late_replies']} | {na(s['opponent_faults'])} | {na(s['opponent_late'])} | {na(s['opponent_dead'])} | {s['first_ms_max']} | "
                   f"{s['p99_ms_median']} | {s['p99_ms_worst']} | {s['max_ms']} | `{s['binary_sha256'][:12]}` |")
     meow = {arm: c["meowrl"] for arm, c in calls.items() if c.get("meowrl")}
     if meow:

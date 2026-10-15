@@ -138,9 +138,10 @@ class Bots(unittest.TestCase):
         self.assertIn(SM.draw(self.q, f, mask, 0.0), (0, 7))
         self.assertEqual(SM.draw(self.q, f, mask, np.nextafter(1.0, 0)), 7)
 
-    def test_counters_are_printed_every_turn_before_the_reply(self):
+    def test_counters_are_printed_every_turn(self):
         """A runner keeps only the stderr tail and may stop the bot right after its last reply (T0057 lost the
-        counters that way): the cumulative line comes every turn, so the tail always holds a recent one."""
+        counters that way): the cumulative line comes every turn, so the tail always holds a recent one. (stdout and
+        stderr are separate streams; the source writes the counter line before the reply.)"""
         text = "".join(B.split_stream(stream("n02"))[:12])
         _, err = run_bot(self.exe, text)
         lines = [l for l in err.splitlines() if l.startswith("MEOWRL turns")]

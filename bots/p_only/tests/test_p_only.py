@@ -207,8 +207,12 @@ class Analyze(unittest.TestCase):
             (tmp / f"g{i}-{key}.json.gz").write_bytes(gzip.compress(json.dumps(match(lines)).encode()))
         c = analyze.counters(tmp, {key: "armA"})["armA"]["meowrl"]
         self.assertEqual((c["games"], c["games_with_counters"]), (2, 1))
-        self.assertEqual((c["turns"], c["game_turns"], c["search_used"], c["search_fallback"], c["refused"]), (400, 400, 300, 100, 1))
-        self.assertEqual(c["turn_coverage"], 1.0)
+        self.assertEqual((c["turns"], c["game_turns"], c["search_used"], c["search_fallback"], c["refused"]), (400, 800, 300, 100, 1))
+        self.assertEqual(c["turn_coverage"], 0.5)                       # the uncounted game's turns stay in the denominator
+        for p in tmp.glob("g0-*"):
+            p.unlink()
+        none = analyze.counters(tmp, {key: "meow_rl_x"})["meow_rl_x"]["meowrl"]   # no counters at all: zero, not absent
+        self.assertEqual((none["games_with_counters"], none["turn_coverage"]), (0, 0.0))
 
     def test_analysis_applies_the_family_and_reports_opponent_faults(self):
         tmp = Path(tempfile.mkdtemp(prefix="analyze-family-"))
@@ -236,7 +240,10 @@ class Analyze(unittest.TestCase):
         self.assertAlmostEqual(out["multiplicity"]["z"], 2.2414, places=3)
         self.assertIn("ci", out["comparisons"]["A - B"]["overall"])
         self.assertEqual(out["arms"]["A"]["opponent_faults"], 12)
-        self.assertIn("Multiplicity", (tmp / "out" / "SCREEN.md").read_text())
+        md = (tmp / "out" / "SCREEN.md").read_text()
+        self.assertIn("Comparison intervals:", md)
+        self.assertIn("Interval (z = 2.2414)", md)
+        self.assertNotIn("Intervals: 95%,", md)
         with self.assertRaises(SystemExit) as cm:                        # a comparison of an arm not analyzed is an error
             analyze.main(args[:-2] + ["--compare", "A:Z", "--out", str(tmp / "out2")])
         self.assertNotIn(cm.exception.code, (0, None))
@@ -262,6 +269,23 @@ class MeowRLPreflight(unittest.TestCase):
         self.assertFalse(self.P.level_verdict([self.row(max_ms=48.0)])[0])
         self.assertIsNone(self.P.parse_meowrl(["MEOWRL model x"]))
         self.assertEqual(self.P.parse_meowrl(["MEOWRL turns 3 refused 0 search_used 2 search_fallback 1 leaves 9"])["search_fallback"], 1)
+
+    def test_the_tested_binary_must_be_the_manifests(self):
+        import hashlib  # noqa: PLC0415
+        tmp = Path(tempfile.mkdtemp(prefix="preflight-bind-"))
+        (tmp / "b.cpp").write_text("#define MEOW_RL_SEARCH 1\n", encoding="utf-8")
+        (tmp / "x.exe").write_bytes(b"binary")
+        entry = {"bundle": "b.cpp", "binary": "x.exe",
+                 "bundle_sha256": hashlib.sha256(b"#define MEOW_RL_SEARCH 1\n").hexdigest(),
+                 "binary_sha256": hashlib.sha256(b"binary").hexdigest()}
+        self.assertIn("MEOW_RL_SEARCH", self.P.checked_bundle("a", entry, tmp))
+        (tmp / "b.cpp").write_text("#define MEOW_RL_SEARCH 1\n#define MEOW_RL_SEARCH_DEADLINE_MS 25\n", encoding="utf-8")
+        with self.assertRaises(SystemExit):                             # a rebuilt bundle beside the old binary
+            self.P.checked_bundle("a", entry, tmp)
+        (tmp / "b.cpp").write_text("#define MEOW_RL_SEARCH 1\n", encoding="utf-8")
+        (tmp / "x.exe").write_bytes(b"other")
+        with self.assertRaises(SystemExit):
+            self.P.checked_bundle("a", entry, tmp)
 
     def test_the_deadline_is_read_from_the_bundle(self):
         text = ("#define FUSION_MAX_WIDTH 1024\n#define MEOW_RL_SEARCH 1\n#define MEOW_RL_SEARCH_DEADLINE_MS 25\n"

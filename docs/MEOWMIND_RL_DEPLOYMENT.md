@@ -19,7 +19,7 @@ Per turn, the bot:
 2. chooses the joint movement;
 3. runs `Session::resolve`.
 
-A block the session refuses (malformed input) is answered with every unit staying and waiting, and is counted. stderr carries the model identity on turn 1 and the counters (`MEOWRL turns … refused … search_used … search_fallback … leaves …`) on the last turn.
+A block the session refuses (malformed input) is answered with every unit staying and waiting, and is counted. stderr carries the model identity on turn 1 and, every turn before the reply, the cumulative counters (`MEOWRL turns … refused … search_used … search_fallback … leaves …`). A runner keeps only the stderr tail and may stop the bot right after its last reply, so a once-at-the-end line can be lost.
 
 **Deployed choice: sampled actor-direct.** PPO optimizes the sampled policy, so the predeclared deployment draws from the integer actor's softmax over feasible joints at T = 1.05. The draw is one inverse-CDF uniform.
 
