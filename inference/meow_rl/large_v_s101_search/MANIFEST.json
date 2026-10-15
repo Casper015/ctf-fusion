@@ -1,0 +1,67 @@
+{
+ "actor_digest": "c80de6dbe137e0b3a47e488aa59dd04be1c993de951211c9d645686bca7ce504",
+ "agreement_held_out": {
+  "actor": {
+   "greedy_agreement": 0.965,
+   "max_abs_logp_error": 1.5809555370679576,
+   "max_abs_prob_error": 0.15386530840806328,
+   "mean_abs_logp_error": 0.28412113571653247,
+   "observations": 800,
+   "saturated": [
+    1,
+    0
+   ]
+  },
+  "critic": {
+   "max_abs_value_error": 0.5697952211427326,
+   "mean_abs_value_error": 0.20945829794866402,
+   "observations": 800,
+   "parameters": 2001921
+  },
+  "games": [
+   "n02",
+   "n15"
+  ]
+ },
+ "calibration": {
+  "batches": "data/meow_rl_calibration/large_v_s101",
+  "files": 40,
+  "files_sha256": "c60de5868c5c273ff07384be07829e798ae0a751c7452743597cf087c820c977",
+  "margin": 1.1,
+  "rows": 16000
+ },
+ "code_digest": "44e0aa6d1a401ad98c355e781c892671088a85530ddb7994889f44f648bdce7d",
+ "deployment": {
+  "choice": "sampled actor-direct: one draw from the integer actor's softmax over feasible joints at T = 1.05, common per-turn uniforms (bots/meow_rl/sample.hpp); MEOW_RL_GREEDY=1 builds the greedy diagnostic",
+  "search": "bots/meow_rl/search.hpp (MEOW_RL_SEARCH=1)"
+ },
+ "files": {
+  "actor.hpp": "3a9753fb949e6664722db74e8ab46cda1cae6d22e05b4f476f625f265b22ddcd",
+  "critic.hpp": "383e67baf1de5ed4e1662f3b945ffa61f7d905877d61f16aeb2ce500c6ae99c0"
+ },
+ "format": {
+  "actor": "meow_rl_reference16_v1",
+  "critic": "meow_rl_reference16_v1"
+ },
+ "generator": "bots/meow_rl/export.py",
+ "identity": {
+  "actor": "meow_actor_112_64_32_1_joint125_t105_v1",
+  "actor_weights": "trained",
+  "critic": "meow_public416_mlp_1024_1024_512_v1",
+  "policy_features": "meow_policy112_v1",
+  "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+  "resolver": "meowmind_reference_shots_frozen_v1",
+  "reward_units": "terminal_2_pairwise_utility_minus_1",
+  "temperature": 1.05,
+  "value_features": "meow_public416_v1"
+ },
+ "identity_digest": "4993f0476d8f97218f352e2ab9cb515bd0753f93138ae70e126b9edb1590ed6d",
+ "name": "large_v_s101_search",
+ "schema": "ctf-meow-rl-export-1",
+ "search": true,
+ "source": {
+  "kind": "checkpoint",
+  "path": "runs/meow_rl/large_v_s101/checkpoints/final.pt",
+  "sha256": "f8b98a3445ba7d58396375cd9b3bce0278e9bf6a11e1a45a1e87a8650e3a3ddb"
+ }
+}

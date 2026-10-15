@@ -92,6 +92,9 @@ inline int run() {
             std::fprintf(stderr, "MEOWRL turns %ld refused %ld search_used %ld search_fallback %ld leaves %ld\n", c.turns,
                          c.refused, c.search_used, c.search_fallback, c.leaves);
     }
+    if (c.turns > 0 && s.g.turn < s.g.turns)
+        std::fprintf(stderr, "MEOWRL turns %ld refused %ld search_used %ld search_fallback %ld leaves %ld\n", c.turns,
+                     c.refused, c.search_used, c.search_fallback, c.leaves);
     return 0;
 }
 
