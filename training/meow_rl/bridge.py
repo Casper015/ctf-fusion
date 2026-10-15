@@ -46,7 +46,9 @@ def build(out_dir: Path = BUILD) -> Path:
         raise RuntimeError("no C++ compiler found (install g++/clang++ or w64devkit, or set CXX)")
     flags = build_flags()
     h = hashlib.sha256()
-    for part in (BRIDGE_SOURCE.read_bytes(), REFERENCE.read_bytes(), " ".join(flags).encode(), cxx.encode()):
+    headers = sorted(BRIDGE_SOURCE.parent.glob("*.hpp"))            # session.hpp and the rest of tools/cpp/meow_rl
+    for part in (BRIDGE_SOURCE.read_bytes(), *(p.read_bytes() for p in headers), REFERENCE.read_bytes(),
+                 " ".join(flags).encode(), cxx.encode()):
         h.update(part)
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
