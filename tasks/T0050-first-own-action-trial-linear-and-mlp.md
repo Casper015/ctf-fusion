@@ -19,7 +19,14 @@ Use ONLY the accepted T0038 host corpus/dataset from PR46, seed20261701: data/de
 
 Before any training or test read, commit a PLAN.json with exact source/dataset/model/config identities and the following bounded plan. Six runs only: linear and MLP(hidden64,16), each seeds101,102,103. Primary loss gain; epochs50 maximum, patience5, batch256, lr1e-3, weight decay1e-4, existing root/count/noise weighting unchanged. Use the existing NumPy CPU trainer under the host CPU lease. Seed numbers here are optimizer RNG seeds, not new game/map seeds. Predeclare primary model mlp_s101 versus incumbent; linear_s101 is the main secondary comparator; other seeds are reproducibility/sensitivity comparisons, not extra independent data. No pairwise-loss/hyperparameter/architecture sweep in this task.
 
-Existing CLI: python -m training.train_decision_ranker --data data/decision/host_pilot_dataset --model linear|mlp --hidden64,16 (use the actual --hidden argument syntax) --loss gain --seed<seed> --out runs/own_action_first_trial/<name>. Do not pass --exploratory or bypass identity failures. Use train only for optimization and val only for early stopping/rule selection. Report loss, candidate coverage, switches, per-count/context behavior, run-to-run variation and overfit symptoms; current validation has only37 independent maps.
+Example commands for seed101 (repeat with seeds102 and103 and distinct matching output names; all six planned runs only):
+
+```bash
+python -m training.train_decision_ranker --data data/decision/host_pilot_dataset --model linear --loss gain --seed 101 --epochs 50 --patience 5 --batch 256 --lr 1e-3 --weight-decay 1e-4 --out runs/own_action_first_trial/linear_s101
+python -m training.train_decision_ranker --data data/decision/host_pilot_dataset --model mlp --hidden 64,16 --loss gain --seed 101 --epochs 50 --patience 5 --batch 256 --lr 1e-3 --weight-decay 1e-4 --out runs/own_action_first_trial/mlp_s101
+```
+
+Run these inside the host CPU lease, after PLAN.json is committed. Do not pass --exploratory or bypass identity failures. Use train only for optimization and val only for early stopping/rule selection. Report loss, candidate coverage, switches, per-count/context behavior, run-to-run variation and overfit symptoms; current validation has only37 independent maps.
 
 Freeze the incumbent-anchored zscore rule with training.evaluate_decisions select, all six named runs, primary mlp_s101, existing lambda grid including0, and negligible margin0.002 utility. The six names must not contain the comparison delimiter ' - '. Record the resulting SELECTION.json and all model/config/dataset/feature/carrier hashes before opening test. Evaluate that frozen selection ONCE through training.evaluate_decisions test. Preserve its secondary-comparison correction. Do not tune, select a different primary/seed, retrain or expand the test set after inspecting31 test maps. Original headroom+0.0525/+0.0895 is diagnostic only, not achieved model gain.
 
@@ -36,3 +43,4 @@ Not started.
 ## Log
 
 - 2026-10-15 03:03Z codex-trial-plan@caspers-macbook: created
+- 2026-10-15 03:04Z codex-trial-plan@caspers-macbook: amended goal
