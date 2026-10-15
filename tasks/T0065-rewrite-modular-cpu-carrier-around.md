@@ -138,8 +138,11 @@ Keep old evidence, raw logs and checkpoint backups. Shared calibration, sampling
 
 ## Handoff
 
-Not started.
+*2026-10-15 23:04Z codex-architecture@caspers-macbook:*
+
+Planning and source audit completed; implementation has not started. Read this task in full, then claim T0065 and use task.py start to obtain an isolated worktree. Current P2/P3 inference already exposes joint movement, marginals, action types and attack-target slots; preserve those interfaces instead of building a new predictor. Start with the inventory and legacy parity extraction, then replace the predictor. T0062-T0064 remain independent and their frozen artifacts must not change. The new runtime code can start now; host selection/training is a subsequent task, informed by the aligned results. No CNN, full autoregressive rewrite, new teacher run, or match batch was requested for this code task.
 
 ## Log
 
 - 2026-10-15 23:03Z codex-architecture@caspers-macbook: created
+- 2026-10-15 23:04Z codex-architecture@caspers-macbook: handoff prepared
