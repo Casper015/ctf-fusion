@@ -1,0 +1,366 @@
+{
+ "schema": "ctf-meow-rl-pool-1",
+ "family_cap": 0.15,
+ "_comment": "Meowmind RL training pool v2 (task T0058, docs/MEOWMIND_RL_POOL_SPLIT.md): T0055's pool v1 plus the AI_Test (original test repo) training lineages. Families are whole lineages; each draws an equal share (1/9 = 11.1%). Held out for testing, never here: Fable, MiMo, Kimi, GLM, Player2, Player4, Player6 (their lineages). Paths are relative to the arena root (the AI_Test checkout); '@repo/' is this repository. sha256 pins of AI_Test files come from AI_Test commit 3bab99c; the host training task verifies them (fusion paths and training.meow_rl.pool refuse a mismatch).",
+ "held_out": [
+  "Fable",
+  "MiMo",
+  "Kimi",
+  "GLM",
+  "Player2",
+  "Player4",
+  "Player6"
+ ],
+ "bots": [
+  {
+   "name": "Sol",
+   "family": "gpt",
+   "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+   "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de",
+   "source": "T0055 pool v1"
+  },
+  {
+   "name": "Astra",
+   "family": "gpt",
+   "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+   "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740",
+   "source": "T0055 pool v1"
+  },
+  {
+   "name": "Opus",
+   "family": "claude",
+   "path": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+   "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b",
+   "source": "T0055 pool v1"
+  },
+  {
+   "name": "Sonnet",
+   "family": "claude",
+   "path": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+   "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6",
+   "source": "T0055 pool v1"
+  },
+  {
+   "name": "DeepSeek",
+   "family": "deepseek",
+   "path": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+   "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825",
+   "source": "T0055 pool v1"
+  },
+  {
+   "name": "Qwen",
+   "family": "qwen",
+   "path": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+   "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410",
+   "source": "T0055 pool v1"
+  },
+  {
+   "name": "Meowmind_Distill_P3",
+   "family": "meowmind",
+   "path": "@repo/bots/meowmind_p/meowmind_p_distill_xxl_both.cpp",
+   "sha256": "680ccd22501f99c59c0f4ee7cab1d170d1b1aa1078eecf563fc17d26785e3e14",
+   "source": "T0055 pool v1"
+  },
+  {
+   "name": "Meowmind",
+   "family": "meowmind",
+   "path": "@repo/bots/meowmind_p/meowmind-ctf-374-20261011.cpp",
+   "sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+   "source": "T0055 pool v1"
+  },
+  {
+   "name": "Player5",
+   "family": "player5",
+   "path": "ctf-stress-pack/bots/Player5.cpp",
+   "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9",
+   "source": "T0055 pool v1"
+  },
+  {
+   "name": "Baseline",
+   "family": "baseline",
+   "path": "ctf-stress-pack/bots/baseline.cpp",
+   "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42",
+   "source": "T0055 pool v1"
+  },
+  {
+   "name": "Astra_Carrier",
+   "family": "gpt",
+   "path": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Carrier.cpp",
+   "sha256": "1e815569be7e1178b3a33e60246204ce35822d6d72cbd6ab2f057e1a324b7827",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "Astra_Full",
+   "family": "gpt",
+   "path": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Full.cpp",
+   "sha256": "96527873c384b31c71cda7a12216941547af48b051a5becdf8041c1d3957fa7c",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "Astra_Habits",
+   "family": "gpt",
+   "path": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Habits.cpp",
+   "sha256": "7b4baf61fb3f4d30af225462f1cba902b10101f48ea8841327814c7110bfd17a",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "Astra_Joint",
+   "family": "gpt",
+   "path": "ctf-benchmark-v3/track1_10k_suite/bots/Astra_Joint.cpp",
+   "sha256": "624e7f46d6bc0a4cae88ef908c8154ac4177e978ed24eeed118e7be6f7cfb7b9",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "Control_Hybrid",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track1_10k_suite/bots/B0_Control_Hybrid.cpp",
+   "sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "Control_Omega",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track1_10k_suite/bots/Control_Omega.cpp",
+   "sha256": "7a7b13e987460caeb7d4d4b55544661795792819586967aa3cd88f54f5a4dc91",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "Player5_Omega_r3",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track1_10k_suite/bots/B1_Player5_Omega_r3.cpp",
+   "sha256": "b8c6562057a3b27643e2c9f69480df8b2df0bbea2200509e14aec69e84e1a44b",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "Player2_v005",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track1_10k_suite/bots/B2_Player2_v005.cpp",
+   "sha256": "5e80d9a725c64fb09ecc024e80c8564e02bffbd72093629e513cc481d31adc8d",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C02_Control_NG_foundation",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C02_Control_NG_foundation.cpp",
+   "sha256": "82026ffe6d23f8615b5387aad1d4d4a2a87079a084cecdb24284979a7c445fa1",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C03_G_ASYM_plans",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C03_G_ASYM_plans.cpp",
+   "sha256": "c5f060b1d2144d8194d3a677f7cad5bffd960890dc93397e0187c43965a69ba1",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C04_G_PLAYOUT_4ply",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp",
+   "sha256": "a7128273ba8039327299a2fa6d544ca9ef4d10f16062eb72e41b2ee0d980bc24",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C05_G_RISK_entropic",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C05_G_RISK_entropic.cpp",
+   "sha256": "86440ec78610ffada097a16b7f8b2e22fb862d0dda35e06dafe4815b3bd1c174",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C06_G_SH_halving",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C06_G_SH_halving.cpp",
+   "sha256": "fa152b542d8046d9ac0966c0b85d54c017da976f94c439199aad5c7b7878aa74",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C07_Player5_Omega",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C07_Player5_Omega.cpp",
+   "sha256": "e6cc85725c153dff0662aac6005244f512ffacb328cfecc0dd6d7c349620e897",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C08_Player5_Omega_LIT",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C08_Player5_Omega_LIT.cpp",
+   "sha256": "953530cd620626a66ca331191508c337dcdae0095fc141e477ae318577a804a7",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C09_Player5_Omega_defaultWeights",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C09_Player5_Omega_defaultWeights.cpp",
+   "sha256": "3de40f983e3f7ab445ae4fcd3d725969da9ae3a9cf19e353225f0a549d55a2a4",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C10_Player5_Omega_hybridMacro",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C10_Player5_Omega_hybridMacro.cpp",
+   "sha256": "3e76237a1d9b80b5f0b5efaf4e51d0fee457cd0b7aca8af36087c4e6a94766b7",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C11_R3_CDP_horizon",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C11_R3_CDP_horizon.cpp",
+   "sha256": "d787af60d44f5eeff472c8f48e20ddbf021cfde90d805b14ce876dd60225fb9e",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C12_R3_CFL_conditional",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C12_R3_CFL_conditional.cpp",
+   "sha256": "5bb6101a8235abd65d7b67786e134d291b51ca2a411b2753ce27e7644c66fa58",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C13_R3_CL_terminal",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C13_R3_CL_terminal.cpp",
+   "sha256": "1cef4a35aeeeb11defd6649203b23da23b1346bc37ed6efe646d03b56cae70a5",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C14_R3_DROP_scored",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C14_R3_DROP_scored.cpp",
+   "sha256": "37da6c6de8106e788508a72f102176633535561d35d77314d24eb04f4ec57b7a",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C15_R3_ESCORT_healthy",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C15_R3_ESCORT_healthy.cpp",
+   "sha256": "5b3e59e7fe2ca4fc8f107ceb279941076a4bb2e88a086063621a00e6a8ac0d8d",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C16_R3_ESCORT_mech",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C16_R3_ESCORT_mech.cpp",
+   "sha256": "11f1b51d186321452288d275cf9e90e348842d10dd81e16bebdb532c36d9f371",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C17_R3_EXPECTIMAX_anytime",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C17_R3_EXPECTIMAX_anytime.cpp",
+   "sha256": "43a18c071abcc4f8116d935a2a40a39db2dcfae55ba0d32ee538e6fc5232d6ce",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C18_R3_EXPECTIMAX_sampled",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C18_R3_EXPECTIMAX_sampled.cpp",
+   "sha256": "80f51ca6d74b3ce2da7a5cb0f618aee630313bd10e4127567bb869260e169739",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C19_R3_FLAGS_joint",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C19_R3_FLAGS_joint.cpp",
+   "sha256": "e5a6dbf07eb8680ebe79f97324297ac238f051e5224236239bc0d4a2b0cff500",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C20_R3_HABITS_adaptive",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C20_R3_HABITS_adaptive.cpp",
+   "sha256": "0dfebf565999d63113ad0290ba77a1ebf3e1085de5ae4abc6beb5d1eb5bda464",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C21_R3_HEALTHY_pickup",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C21_R3_HEALTHY_pickup.cpp",
+   "sha256": "47fcb335c989c4e69be6acf6fadd78afc8484bc5c667ee1ce7a3ede7aeca7eaf",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "C22_R3_WEIGHTS_tuned",
+   "family": "player5",
+   "path": "ctf-benchmark-v3/track2_2k_c_series/bots/C22_R3_WEIGHTS_tuned.cpp",
+   "sha256": "4ca932ad02696de50c913c3d4f2b8ff04546f702d2d5acac7dc28e0930355a80",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "S1_A_Conservative",
+   "family": "player5",
+   "path": "ctf-s1-controls/exports/S1_A_Conservative.cpp",
+   "sha256": "b59004ea958f3a955c0ebf83f430af95434b333c4d75c919df0b179a2942c69c",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "S1_B_DuelPlus",
+   "family": "player5",
+   "path": "ctf-s1-controls/exports/S1_B_DuelPlus.cpp",
+   "sha256": "c2ace3e13a04bcab0418e3760efb62321825c80697209cd6aa5004248169cb3e",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "S1_C_Adaptive6p_Fast15",
+   "family": "player5",
+   "path": "ctf-s1-controls/exports/S1_C_Adaptive6p_Fast15.cpp",
+   "sha256": "33a4951ca479c2655f83939de5091eccfda17a774b5302d9cb6152a737ab297b",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "S1_D_CrowdHabit",
+   "family": "player5",
+   "path": "ctf-s1-controls/exports/S1_D_CrowdHabit.cpp",
+   "sha256": "955e7693db520f70186025361cf59958ff2a18a0ddeb50e74fe003ed00aa32d5",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "S2_1_StepGuard",
+   "family": "player5",
+   "path": "ctf-s1-controls/exports/S2_1_StepGuard.cpp",
+   "sha256": "57167600645691f05d0f0c9ab44537a65264f86d72a925fcbac7ddb7ee3d802c",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "S2_2_Fast15All",
+   "family": "player5",
+   "path": "ctf-s1-controls/exports/S2_2_Fast15All.cpp",
+   "sha256": "b4255c8799c37b8f1f58783c46a668660f7af073368134dee2fe89ecbacb6ac5",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "S2_3_RiskStrong",
+   "family": "player5",
+   "path": "ctf-s1-controls/exports/S2_3_RiskStrong.cpp",
+   "sha256": "de5800f5a0f0817ab6b7d42bc34345e5058239b1d1c5432a2259cd42004d10f0",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "S2_4_ReturnAware",
+   "family": "player5",
+   "path": "ctf-s1-controls/exports/S2_4_ReturnAware.cpp",
+   "sha256": "4351fce0570f360d2dd5cd4a7c5456e845893aaf565ecdb54f852f391549edfb",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "S2_5_Risk3plus",
+   "family": "player5",
+   "path": "ctf-s1-controls/exports/S2_5_Risk3plus.cpp",
+   "sha256": "26e4844cf6da6212cba8ffcc27ea156c1e847d214694760d9e49c4908357251c",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "Player1",
+   "family": "player1",
+   "path": "ctf-stress-pack/bots/Player1.cpp",
+   "sha256": "fda911b516f84fb04c27e23476c9cb674dd043dbcbdfd0a24626b3ca78cd33a1",
+   "source": "AI_Test 3bab99c"
+  },
+  {
+   "name": "Player3",
+   "family": "player3",
+   "path": "ctf-stress-pack/bots/Player3.cpp",
+   "sha256": "a31cf6cdd04e6b2b83efded5ac60402fb7c26040b249629a4cd3759faf452f6e",
+   "source": "AI_Test 3bab99c"
+  }
+ ]
+}
