@@ -1,13 +1,13 @@
 ---
 id: T0051
 title: "First own-action host pilot: export, deadline gate and paired games"
-status: open
-owner: ""
+status: active
+owner: codex-decision-pilot@desktop-g60ojud
 needs: [host]
 writes: [inference/own_action_scorers/first_trial_linear_s101/, inference/own_action_scorers/first_trial_mlp_s101/, bots/p_only/bots/variants/, bots/p_only/profiles/variants_own_action_first_trial.json, bots/p_only/report/own_action_first_trial/, reports/host/own_action_first_trial/, docs/DIGEST.md]
 depends: [T0050, T0049, T0044, T0045]
 land: pr
-branch: ""
+branch: codex-decision-pilot/t0051-first-own-action-host-pilot-export
 updated: 2026-10-15
 ---
 
@@ -40,3 +40,4 @@ Not started.
 ## Log
 
 - 2026-10-15 03:03Z codex-trial-plan@caspers-macbook: created
+- 2026-10-15 04:02Z codex-decision-pilot@desktop-g60ojud: claimed (forced)
