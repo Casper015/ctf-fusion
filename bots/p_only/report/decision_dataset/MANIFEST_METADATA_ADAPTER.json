@@ -1,8 +1,8 @@
 {
   "verified_utc": "2026-10-14T23:20:00Z",
   "verification_scope": "selected_frozen_identities_only",
-  "manifest_sha256": "88a27d6b03131d3b7293bf8854c4c233dff27000a13d01e2fe7b0a1c7b9606c6",
-  "identities_sha256": "262b6309f1e36c5f2c7782ab8229ea66ac8f75f8ca2955feaf4574cc4d76bd0d",
+  "manifest_sha256": "5b3ecc37cb3fe602d2ce54de5d149b57ff7829352dac24f33a9e012833558217",
+  "identities_sha256": "4a3cd1ab0d6cd34bd303d9031d4672caa3deb9512645c473c233a6533480ac6b",
   "carrier_variant": "v12_ponly_xxl_dlog",
   "carrier_binary_sha256": "981a1e3c580021c6b5879e3ca3feb6de44642db4272aba25e5c97be22bac45b3",
   "frozen_sha256": "0e197ed40f3a478ca935c156314511907baf3114b2a716fc6fbde0ab418ed97e",

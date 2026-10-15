@@ -1,10 +1,10 @@
 {
   "schema": "ctf-decision-data-quality-1",
-  "timestamp_utc": "2026-10-15T00:08:00Z",
+  "timestamp_utc": "2026-10-15T01:10:00Z",
   "auditor": "codex-data-audit@desktop-g60ojud",
   "machine": "DESKTOP-G60OJUD",
   "verdict": "GO",
-  "recommendation": "Proceed to small linear/MLP own-action scorer training task. The net between-action signal is positive and substantial, exceeding within-action noise, and independent split-repeat headroom confirms significant exploitable gain (+0.0525 train, +0.0895 val). Flag context underrepresentation (10/56 requests) must be handled explicitly without claiming balanced flag-targeted selection.",
+  "recommendation": "Proceed to small linear/MLP own-action scorer training task. Net between-action signal is positive and exceeds within-action noise. Out-of-sample split-repeat headroom (+0.0525 train, +0.0895 val) provides a diagnostic upper-bound indicating that the candidate action pool contains discriminating signal under oracle label selection, though it is not a prediction of trained model gain. Repeats share common root states and prefix trajectories and must not be treated as independent identically distributed samples. Generalization power on the held-out test split is bounded by M=31 independent maps, so training maps must not be pooled to inflate test-set sample power. Flag context underrepresentation (10/56 requests) must be handled explicitly without claiming balanced flag-targeted selection.",
   "corpus": {
     "seed": 20261701,
     "matches": 336,
@@ -33,9 +33,11 @@
     "continuations": 5268,
     "continuation_faults": {
       "prefix": 0,
-      "root_computed": 0,
+      "root_discarded": 0,
       "continuation": 0
     },
+    "trajectories_verified": 5268,
+    "candidate_repeat_matrix_complete": true,
     "k_distribution": {
       "4": 327,
       "1": 9
@@ -49,46 +51,48 @@
     "carrier_sha256": "981a1e3c580021c6b5879e3ca3feb6de44642db4272aba25e5c97be22bac45b3",
     "splits": {
       "train": {
-        "sha256": "70441e0197382c630b2f64f230e54722ae031bb184e5a73e3874e08b00b877bc",
+        "maps": 268,
         "roots": 268,
         "candidates": 1048,
-        "maps": 268
+        "changeable_roots": 260,
+        "missing_outcomes": 0,
+        "dropped_roots": 0,
+        "npz_sha256": "70441e0197382c630b2f64f230e54722ae031bb184e5a73e3874e08b00b877bc"
       },
       "val": {
-        "sha256": "74b630efa4e80bd2f947c45a816751124b06c155bc6e05533d88adb0255b5ace",
+        "maps": 37,
         "roots": 37,
         "candidates": 148,
-        "maps": 37
+        "changeable_roots": 37,
+        "missing_outcomes": 0,
+        "dropped_roots": 0,
+        "npz_sha256": "74b630efa4e80bd2f947c45a816751124b06c155bc6e05533d88adb0255b5ace"
       },
       "test": {
-        "sha256": "1b9a0dd6719c27d98e621248dda06c841df0b54a61ea3edb5f8d5d8541cce598",
+        "maps": 31,
         "roots": 31,
         "candidates": 121,
-        "maps": 31
+        "changeable_roots": 30,
+        "missing_outcomes": 0,
+        "dropped_roots": 0,
+        "npz_sha256": "1b9a0dd6719c27d98e621248dda06c841df0b54a61ea3edb5f8d5d8541cce598"
       }
-    },
-    "digests": {
-      "version": "ctf-fusion-decision-source-1",
-      "branches_sha256": "d4b13e1c172caebfbe0b0822fb3ec95cf4f9c81680cb70e1994583cee5b3c38b",
-      "matches_sha256": "65d979158d2bb8d19db1184c1f3895e5c1e7c9ce157c83b2318ae7879eb643cf",
-      "branch_files": 336,
-      "match_files": 336,
-      "root_content_manifest_sha256": "d1a3e89a14354f8e416f93950a3045d9b2a033d4a95530974b99654d86ca35ea"
     }
   },
-  "signal_and_noise": {
+  "diagnostics": {
     "train": {
-      "within_action_variance": 0.007288086880691,
-      "between_action_variance_raw": 0.012228704929290853,
-      "between_action_variance_net": 0.010406683209118103,
-      "paired_gap_variance": 0.016203163795406966,
-      "implied_covariance": -0.0005536213003222417,
-      "replay_mean_diff": 0.010730880075562908,
-      "replay_sd_diff": 0.10490292694038857,
+      "noise_roots": 260,
+      "within_action_variance": 0.0072884615384615385,
+      "between_action_variance_raw": 0.012234088981451368,
+      "between_action_variance_net": 0.010411973596835983,
+      "paired_gap_variance": 0.01620247657257913,
+      "implied_covariance": -0.000547960309191317,
+      "replay_mean_diff": 0.01068800923236372,
+      "replay_sd_diff": 0.10492804533036665,
       "headroom": {
-        "mean": 0.05252749281939906,
-        "lo": 0.03447802561563207,
-        "hi": 0.07057696002316605,
+        "mean": 0.05252813133608754,
+        "lo": 0.03445839255286576,
+        "hi": 0.07059787011930932,
         "clusters": 260,
         "verdict": "benefit",
         "roots": 260,
@@ -96,7 +100,8 @@
       }
     },
     "val": {
-      "within_action_variance": 0.005578922201891247,
+      "noise_roots": 37,
+      "within_action_variance": 0.005579954954954955,
       "between_action_variance_raw": 0.017289773264027964,
       "between_action_variance_net": 0.01589504271355515,
       "paired_gap_variance": 0.011914214958225346,
@@ -143,7 +148,9 @@
   },
   "power_planning": {
     "status": "planning approximation (map-level variance of an always-switch rule; not a test result)",
-    "maps": 260,
+    "training_maps": 260,
+    "held_out_test_maps": 31,
+    "test_power_note": "Generalization power on the held-out test split is strictly governed by M=31 independent maps. The 268 training maps do not contribute to test-set sample power.",
     "s2_map": 0.014524369335399958,
     "mde": {
       "maps=300 switch_share=0.1": 0.006160926759006733,
@@ -156,5 +163,6 @@
       "maps=500 switch_share=0.25": 0.007545563451112701,
       "maps=500 switch_share=0.5": 0.01067103816831032
     }
-  }
+  },
+  "preliminary_bot_eval_note": "Preliminary smoke checks (such as single-match or multi-bot runs) demonstrate functional compilation and protocol execution, but do not constitute formal proof of distillation dominance or official production admission. Formal admission requires rigorous paired A/A and multi-team controls under frozen benchmark protocols."
 }

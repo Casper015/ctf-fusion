@@ -39,8 +39,8 @@
   },
   "collection": {
     "manifest": "bots/p_only/report/decision_dataset/manifest.json",
-    "manifest_sha256": "88a27d6b03131d3b7293bf8854c4c233dff27000a13d01e2fe7b0a1c7b9606c6",
+    "manifest_sha256": "5b3ecc37cb3fe602d2ce54de5d149b57ff7829352dac24f33a9e012833558217",
     "identities": "bots/p_only/report/decision_dataset/identities.json",
-    "identities_sha256": "262b6309f1e36c5f2c7782ab8229ea66ac8f75f8ca2955feaf4574cc4d76bd0d"
+    "identities_sha256": "4a3cd1ab0d6cd34bd303d9031d4672caa3deb9512645c473c233a6533480ac6b"
   }
 }

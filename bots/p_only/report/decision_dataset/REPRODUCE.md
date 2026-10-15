@@ -14,7 +14,7 @@ All successful pilot fixtures and continuations are immutable. Do not re-run mat
 
 ## 2. Independent Corpus Audit
 
-Run the independent audit script to verify all 336 matches, 336 branch roots, 5,268 continuations, and prefix causal feature extraction:
+Run the independent audit script to verify all 336 matches, 336 branch roots, 5,268 continuations, prefix causal feature extraction, trajectory file hashes, and compiled NPZ datasets:
 
 ```powershell
 $env:PYTHONPATH = "."
@@ -23,12 +23,15 @@ python bots/p_only/report/decision_dataset/audit_pilot.py
 
 This verifies:
 1. All 336 matches completed 400 turns with zero faults across all seats.
-2. Carrier binary SHA256 matches `981a1e3c580021c6b5879e3ca3feb6de44642db4272aba25e5c97be22bac45b3`.
+2. Carrier binary SHA256 matches `981a1e3c580021c6b5879e3ca3feb6de44642db4272aba25e5c97be22bac45b3`, carrier source matches, and 12 opponent model weight headers in `inference/models_xxl/` match admitted hashes.
 3. Candidate 0 matches the on-policy recorded reply.
-4. Shortlist carrier scores are present and valid for all roots.
-5. All 5,268 continuations have zero prefix, root-computed, and live faults.
-6. Recomputed utilities from raw team score vectors match stored outcomes within $10^{-9}$.
-7. Generates `bots/p_only/report/decision_dataset/DATA_AUDIT.json`.
+4. Shortlist carrier scores are present, ordered, and finite for all roots.
+5. All 5,268 continuation trajectory files on disk exist and match their declared SHA-256 digests bit-exactly.
+6. The candidate $\times$ repeat matrix is complete ($K \times 4$) across all 336 roots.
+7. All 5,268 continuations have zero prefix, root-discarded, and live continuation faults.
+8. Recomputed utilities from raw team score vectors match stored outcomes within $10^{-9}$.
+9. Compiled NPZ datasets match raw records in root count, candidate count, utilities, and carrier scores with zero discrepancy.
+10. Generates `bots/p_only/report/decision_dataset/DATA_AUDIT.json`.
 
 ## 3. Build Authoritative Decision Dataset
 
@@ -68,9 +71,6 @@ Outputs:
 - `reports/eval/decision_data_quality/noise.json`
 - `reports/eval/decision_data_quality/noise.md`
 
-## 5. Artifact Hashes & Verified Digests
+## 5. Artifact Hashes & Line Ending Normalization
 
-- `DATA_AUDIT.json`: SHA256 verified in `CHECKS.json`
-- `MANIFEST_METADATA_ADAPTER.json`: `verification_scope: selected_frozen_identities_only`
-- `carrier_config.json`: Validated against `inference/models_xxl/weights_general.hpp`
-- `DATA_QUALITY_REPORT.md`: Comprehensive audit report and GO recommendation
+All tracked artifacts in `bots/p_only/report/decision_dataset/` and `reports/eval/decision_data_quality/` are strictly normalized to UNIX LF line endings (`eol=lf`). Checksums in `CHECKS.json` certify the bit-exact LF byte sequences across all platforms.
