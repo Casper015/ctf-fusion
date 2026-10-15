@@ -1,0 +1,159 @@
+{
+  "schema": "ctf-fusion-decision-first-trial-plan-1",
+  "task": "T0050",
+  "created": "2026-10-15T03:15:00Z",
+  "author": "codex-decision-pilot@desktop-g60ojud",
+  "dataset": {
+    "name": "host_pilot_dataset",
+    "path": "data/decision/host_pilot_dataset",
+    "schema": "ctf-fusion-decision-2",
+    "seed": 20261701,
+    "total_maps": 336,
+    "total_roots": 336,
+    "total_candidates": 1317,
+    "total_continuations": 5268,
+    "index_sha256": "d3a19bd3de638118b60f367ed1eed68fb02a86b95e1978b50f3bf76b5a1ae0b3",
+    "authoritative": true,
+    "splits": {
+      "train": {
+        "roots": 268,
+        "candidates": 1048,
+        "maps": 268,
+        "sha256": "70441e0197382c630b2f64f230e54722ae031bb184e5a73e3874e08b00b877bc"
+      },
+      "val": {
+        "roots": 37,
+        "candidates": 148,
+        "maps": 37,
+        "sha256": "74b630efa4e80bd2f947c45a816751124b06c155bc6e05533d88adb0255b5ace"
+      },
+      "test": {
+        "roots": 31,
+        "candidates": 121,
+        "maps": 31,
+        "sha256": "1b9a0dd6719c27d98e621248dda06c841df0b54a61ea3edb5f8d5d8541cce598"
+      }
+    }
+  },
+  "features": {
+    "family": "own-action-1",
+    "version": "own-action-1",
+    "digest": "9ed719f238cd5d70",
+    "layout_version": 3
+  },
+  "carrier": {
+    "variant": "v12_ponly_xxl_dlog",
+    "binary_sha256": "981a1e3c580021c6b5879e3ca3feb6de44642db4272aba25e5c97be22bac45b3",
+    "opponent_policy": "p2",
+    "value_enabled": false
+  },
+  "training_plan": {
+    "bounded_runs_count": 6,
+    "runs": [
+      {
+        "name": "linear_s101",
+        "model": "linear",
+        "loss": "gain",
+        "seed": 101,
+        "epochs": 50,
+        "patience": 5,
+        "batch": 256,
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "out": "runs/own_action_first_trial/linear_s101",
+        "role": "secondary_comparator"
+      },
+      {
+        "name": "mlp_s101",
+        "model": "mlp",
+        "hidden": "64,16",
+        "loss": "gain",
+        "seed": 101,
+        "epochs": 50,
+        "patience": 5,
+        "batch": 256,
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "out": "runs/own_action_first_trial/mlp_s101",
+        "role": "primary_model"
+      },
+      {
+        "name": "linear_s102",
+        "model": "linear",
+        "loss": "gain",
+        "seed": 102,
+        "epochs": 50,
+        "patience": 5,
+        "batch": 256,
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "out": "runs/own_action_first_trial/linear_s102",
+        "role": "sensitivity_comparison"
+      },
+      {
+        "name": "mlp_s102",
+        "model": "mlp",
+        "hidden": "64,16",
+        "loss": "gain",
+        "seed": 102,
+        "epochs": 50,
+        "patience": 5,
+        "batch": 256,
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "out": "runs/own_action_first_trial/mlp_s102",
+        "role": "sensitivity_comparison"
+      },
+      {
+        "name": "linear_s103",
+        "model": "linear",
+        "loss": "gain",
+        "seed": 103,
+        "epochs": 50,
+        "patience": 5,
+        "batch": 256,
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "out": "runs/own_action_first_trial/linear_s103",
+        "role": "sensitivity_comparison"
+      },
+      {
+        "name": "mlp_s103",
+        "model": "mlp",
+        "hidden": "64,16",
+        "loss": "gain",
+        "seed": 103,
+        "epochs": 50,
+        "patience": 5,
+        "batch": 256,
+        "lr": 0.001,
+        "weight_decay": 0.0001,
+        "out": "runs/own_action_first_trial/mlp_s103",
+        "role": "sensitivity_comparison"
+      }
+    ]
+  },
+  "selection_plan": {
+    "method": "training.evaluate_decisions select",
+    "norm": "zscore",
+    "primary": "mlp_s101",
+    "main_secondary": "linear_s101",
+    "negligible_margin": 0.002,
+    "lambdas": [0.0, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0, 200.0, 500.0],
+    "selection_out": "reports/models/own_action_first_trial/SELECTION.json"
+  },
+  "test_plan": {
+    "method": "training.evaluate_decisions test",
+    "test_split_maps": 31,
+    "single_frozen_evaluation": true,
+    "multiplicity_correction": "Bonferroni over secondary comparisons",
+    "test_out": "reports/models/own_action_first_trial/test"
+  },
+  "bounds_and_commitments": [
+    "Offline gain learning on accepted T0038 dataset only.",
+    "NumPy CPU trainer under host CPU lease.",
+    "No pairwise loss, no hyperparameter sweeps, no architecture search.",
+    "No test-split access prior to committing SELECTION.json.",
+    "Exactly one evaluation on test split without tuning or seed reselection."
+  ]
+}
