@@ -1,0 +1,134 @@
+"""Durable run storage: atomic files, the episode journal, rollout batches and resumable state.
+
+Layout of a run directory (under runs/, never committed):
+
+    config.json              identities, profile, pool, CLI; a resumed run must match (except mode/budget)
+    journal.jsonl            append-only, fsynced: episodes started, batches committed, episodes discarded
+    batches/update_000012.npz   per update: sampled actions, old log probs, old values, advantages, returns,
+                             masks, turns, episode index per row (+ actor/value features with --keep-features)
+    batches/update_000012.json  the update's episode records and diagnostics
+    state.pt                 the commit point: learner (models + optimizers), RNG states, counters, next episode
+    checkpoints/decisions_0000100000.pt   fixed-interval copies of state.pt; checkpoints/final.pt at the budget
+
+An update is committed when state.pt is replaced. On resume, episodes the journal shows as started but not committed
+are recorded as discarded and their indices (seeds) are never reused; batch files of an uncommitted update move to
+discarded/. Opponent processes cannot be restored, so an interrupted collection is discarded, not continued.
+"""
+from __future__ import annotations
+
+import io
+import json
+import os
+import shutil
+import time
+from pathlib import Path
+
+import numpy as np
+
+
+def fsync_dir(path: Path):
+    if os.name == "nt":
+        return                                   # Windows has no directory fsync; os.replace is atomic there
+    fd = os.open(path, os.O_RDONLY)
+    try:
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def atomic_write(path: Path, data: bytes):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(f"{path.name}.tmp{os.getpid()}")
+    with open(tmp, "wb") as f:
+        f.write(data)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
+    fsync_dir(path.parent)
+
+
+def atomic_json(path: Path, obj):
+    atomic_write(path, (json.dumps(obj, indent=1, sort_keys=True) + "\n").encode())
+
+
+def atomic_npz(path: Path, arrays: dict):
+    buf = io.BytesIO()
+    np.savez_compressed(buf, **arrays)
+    atomic_write(path, buf.getvalue())
+
+
+class RunStore:
+    def __init__(self, out: Path):
+        self.out = Path(out)
+        self.out.mkdir(parents=True, exist_ok=True)
+        (self.out / "batches").mkdir(exist_ok=True)
+        (self.out / "checkpoints").mkdir(exist_ok=True)
+        self.journal_path = self.out / "journal.jsonl"
+
+    # journal
+    def log(self, event: str, **fields):
+        line = json.dumps({"event": event, "time": time.strftime("%Y-%m-%dT%H:%M:%S"), **fields}, sort_keys=True)
+        with open(self.journal_path, "a", encoding="utf-8") as f:
+            f.write(line + "\n")
+            f.flush()
+            os.fsync(f.fileno())
+
+    def journal(self) -> list[dict]:
+        if not self.journal_path.is_file():
+            return []
+        out = []
+        for line in self.journal_path.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                out.append(json.loads(line))
+        return out
+
+    def recover(self, committed_next: int, committed_update: int) -> dict:
+        """After a restart: discard what was started after the last commit. Returns the next free episode index."""
+        started = {i for e in self.journal() if e["event"] == "started" for i in e["indices"]}
+        lost = sorted(i for i in started if i >= committed_next)
+        if lost:
+            self.log("discarded", indices=lost, reason="interrupted before the update was committed")
+        moved = []
+        for p in sorted((self.out / "batches").glob("update_*")):
+            if int(p.stem.split("_")[1]) > committed_update:
+                dest = self.out / "discarded" / p.name
+                dest.parent.mkdir(exist_ok=True)
+                shutil.move(str(p), dest)
+                moved.append(p.name)
+        return {"next_index": max([committed_next, *[i + 1 for i in started]]), "discarded": lost, "moved": moved}
+
+    # config
+    def config(self) -> dict | None:
+        p = self.out / "config.json"
+        return json.loads(p.read_text(encoding="utf-8")) if p.is_file() else None
+
+    def write_config(self, cfg: dict):
+        atomic_json(self.out / "config.json", cfg)
+
+    # batches
+    def batch_paths(self, update: int) -> tuple[Path, Path]:
+        stem = self.out / "batches" / f"update_{update:06d}"
+        return stem.with_suffix(".npz"), stem.with_suffix(".json")
+
+    def write_batch(self, update: int, arrays: dict, meta: dict):
+        npz, js = self.batch_paths(update)
+        atomic_npz(npz, arrays)
+        atomic_json(js, meta)
+
+    # state
+    def save_state(self, state: dict, checkpoint_name: str | None = None):
+        import torch  # noqa: PLC0415  (the store itself is torch-free for rollout workers)
+        buf = io.BytesIO()
+        torch.save(state, buf)
+        data = buf.getvalue()
+        atomic_write(self.out / "state.pt", data)
+        if checkpoint_name:
+            atomic_write(self.out / "checkpoints" / checkpoint_name, data)
+
+    def load_state(self) -> dict | None:
+        import torch  # noqa: PLC0415
+        p = self.out / "state.pt"
+        if not p.is_file():
+            return None
+        return torch.load(p, map_location="cpu", weights_only=False)
