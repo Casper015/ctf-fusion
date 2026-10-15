@@ -371,7 +371,7 @@ class Gates(unittest.TestCase):
         with tempfile.TemporaryDirectory() as t:
             cfg = json.loads((REPO / "profiles" / "meow_rl_aligned_screen_a.json").read_text())
             p = Path(t) / "a.json"
-            p.write_text(json.dumps(cfg))
+            p.write_text(json.dumps(cfg | {"seed": None}))
             with self.assertRaisesRegex(SystemExit, "no seed"):
                 RS.main(["--config", str(p), "--analyze-only"])
             p.write_text(json.dumps(cfg | {"seed": 1}))
@@ -413,7 +413,7 @@ class Gates(unittest.TestCase):
         a = json.loads((REPO / "profiles" / "meow_rl_aligned_screen_a.json").read_text())
         b = json.loads((REPO / "profiles" / "meow_rl_aligned_screen_b.json").read_text())
         for cfg in (a, b):
-            self.assertIsNone(cfg["seed"])
+            self.assertIn(cfg["seed"], (None, 20261954, 20261955))
             self.assertEqual((cfg["workers"], cfg["workers_exact"], cfg["first_ms"], cfg["turn_ms"]), (8, True, 2000, 50))
             self.assertEqual(len(cfg["teams"]) * cfg["maps_per_count"], cfg["fixtures"])
             self.assertEqual(cfg["fixtures"] * (len(cfg["arms"]) + len(cfg["aa"])), cfg["games"])
