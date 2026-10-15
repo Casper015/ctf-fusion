@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from .identity import JOINT, MOVES, PF, TEMPERATURE, UNITS
+from .identity import JOINT, PF, TEMPERATURE
 
 JA = np.arange(JOINT) // 25
 JB = np.arange(JOINT) // 5 % 5

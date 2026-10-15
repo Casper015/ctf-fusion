@@ -237,7 +237,8 @@ def train(argv=None, collector=None, engine: dict | None = None) -> dict:
             st["families"], st["counts"] = Counter(st["families"]), Counter(st["counts"])
         rec = store.recover(st["next_index"], st["update"])
         st["next_index"] = rec["next_index"]
-        st["discarded_episodes"] += len(rec["discarded"])        # executed or started, never trained (decisions unknown)
+        st["discarded_episodes"] = rec["discarded_episodes"]      # started, never trained (from the journal)
+        st["discarded_decisions"] = rec["discarded_decisions"]
         last = st.get("last_checkpoint")
         if last and last["update"] == st["update"]:                # state.pt is exactly that checkpoint's state
             store.ensure_checkpoint(last["name"])
@@ -262,10 +263,9 @@ def train(argv=None, collector=None, engine: dict | None = None) -> dict:
                                     lambda idx: store.log("started", indices=idx, update=st["update"]))
             bad = [r for r in results if r["status"] != "ok"]
             if bad:
-                st["discarded_episodes"] += len(results)
-                st["discarded_decisions"] += sum(len(r["arrays"]["action"]) for r in results if r["status"] == "ok")
-                store.log("discarded", indices=[r["index"] for r in results], reason=f"{bad[0]['status']} in batch",
-                          errors=[r.get("error") for r in bad])
+                done = sum(len(r["arrays"]["action"]) for r in results if r["status"] == "ok")
+                store.log("discarded", indices=[r["index"] for r in results], decisions=done,
+                          reason=f"{bad[0]['status']} in batch", errors=[r.get("error") for r in bad])
                 raise SystemExit(f"{bad[0]['status']}: batch discarded (fix the cause before continuing): {bad[0].get('error')}")
             t1 = time.time()
             batch, keep, diag = make_batch(results, learner, cfg, args.keep_features)

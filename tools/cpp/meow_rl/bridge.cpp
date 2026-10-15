@@ -58,8 +58,8 @@ std::string invalid(const Game& g) {
     if (int(g.bases.size()) != g.teams || g.spots.empty()) return "bad bases or spots";
     if (int(g.units.size()) != 3 * g.teams || int(g.score.size()) != g.teams) return "expected 3 units and a score per team";
     auto cell = [&](int x, int y) { return x >= 0 && y >= 0 && x < g.size && y < g.size; };
-    for (auto& b : g.bases)
-        if (!cell(b.first, b.second)) return "base outside the map";
+    for (auto& b : g.bases)        // Geometry::init reads the 3x3 base around each center
+        if (b.first < 1 || b.second < 1 || b.first > g.size - 2 || b.second > g.size - 2) return "base not inside the map";
     for (auto& s : g.spots)
         if (!cell(s.first, s.second)) return "spot outside the map";
     for (int i = 0; i < int(g.units.size()); i++) {

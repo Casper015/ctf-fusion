@@ -94,11 +94,17 @@ class RunStore:
         return out
 
     def recover(self, committed_next: int, committed_update: int) -> dict:
-        """After a restart: discard what was started after the last commit. Returns the next free episode index."""
-        started = {i for e in self.journal() if e["event"] == "started" for i in e["indices"]}
+        """After a restart: discard what was started after the last commit. Returns the next free episode index and
+        the run's discard totals (from the journal, so a crash after a discard loses nothing)."""
+        events = self.journal()
+        torn = getattr(self, "torn", None)
+        if torn is not None:                                      # drop the torn bytes before anything is appended
+            (self.out / "journal.torn").write_text(torn + "\n", encoding="utf-8")
+            atomic_write(self.journal_path, "".join(json.dumps(e, sort_keys=True) + "\n" for e in events).encode())
+        started = {i for e in events if e["event"] == "started" for i in e["indices"]}
         lost = sorted(i for i in started if i >= committed_next)
         if lost:
-            self.log("discarded", indices=lost, reason="interrupted before the update was committed")
+            self.log("discarded", indices=lost, decisions=0, reason="interrupted before the update was committed")
         moved = []
         for p in sorted((self.out / "batches").iterdir()):
             m = re.fullmatch(r"update_(\d{6})\.(npz|json)", p.name)
@@ -109,8 +115,10 @@ class RunStore:
                 moved.append(p.name)
         for p in [*self.out.glob("*.tmp*"), *(self.out / "checkpoints").glob("*.tmp*")]:
             p.unlink()
+        discards = [e for e in self.journal() if e["event"] == "discarded"]
         return {"next_index": max([committed_next, *[i + 1 for i in started]]), "discarded": lost, "moved": moved,
-                "torn_journal_line": getattr(self, "torn", None)}
+                "torn_journal_line": torn, "discarded_episodes": len({i for e in discards for i in e["indices"]}),
+                "discarded_decisions": sum(e.get("decisions", 0) for e in discards)}
 
     # config
     def config(self) -> dict | None:

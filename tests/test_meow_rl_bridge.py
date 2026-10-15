@@ -145,6 +145,7 @@ class Bridge(unittest.TestCase):
         init = blocks[0]
         for bad in (init.replace("INIT 2 0 ", "INIT 2 2 ", 1),                 # seat outside the teams
                     init.replace("\nU 3 1 ", "\nU -1 1 ", 1),                # a unit id the reference would index
+                    init.replace("BASES 2\n", "BASES 2\n22 22\n", 1),          # a base on the map's edge
                     init.replace("F 0 home", "F 0 carried", 1).replace(" -1 -1\nEVENTS", " 99 -1\nEVENTS", 1)):
             with B.Session(self.lib) as s, self.assertRaises(B.BridgeError):
                 s.observe(bad)

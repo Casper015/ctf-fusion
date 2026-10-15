@@ -183,6 +183,10 @@ class Storage(unittest.TestCase):
         rec = st.recover(committed_next=3, committed_update=1)
         self.assertIn("update_000001.npz.tmp77", rec["moved"])
         self.assertIsNotNone(rec["torn_journal_line"])
+        st.log("discarded", indices=[9], decisions=400, reason="test")       # appends after the torn line was dropped
+        again = RunStore(out).recover(committed_next=10, committed_update=1)
+        self.assertIsNone(again["torn_journal_line"])
+        self.assertEqual((again["discarded_episodes"], again["discarded_decisions"]), (3, 400))
         atomic_json(out / "x.json", {"a": 1})
         self.assertEqual(json.loads((out / "x.json").read_text()), {"a": 1})
         self.assertEqual([p.name for p in out.iterdir() if ".tmp" in p.name], [])
