@@ -1,7 +1,7 @@
 ---
 id: T0048
 title: "Add the original meowmind source next to its P3 hybrids"
-status: active
+status: done
 owner: claude@caspers-macbook
 needs: []
 writes: [bots/meowmind_p/]
@@ -21,9 +21,12 @@ PR merged; the committed file's sha256 equals the README's, and make.py rebuilds
 
 ## Handoff
 
-Not started.
+*2026-10-15 01:01Z claude@caspers-macbook:*
+
+result: PR #47 merged: bots/meowmind_p/meowmind-ctf-374-20261011.cpp, the original meowmind stored byte for byte (sha256 cc7b730c..., CRLF kept by bots/meowmind_p/.gitattributes); make.py rebuilds the T0011 hybrid from it byte for byte.
 
 ## Log
 
 - 2026-10-15 00:59Z claude@caspers-macbook: created
 - 2026-10-15 00:59Z claude@caspers-macbook: claimed
+- 2026-10-15 01:01Z claude@caspers-macbook: done
