@@ -1,13 +1,13 @@
 ---
 id: T0062
 title: "Host: freeze the aligned corpus and export the aligned Meowmind RL arms (T0061 runbook 1-3)"
-status: open
-owner: ""
+status: active
+owner: codex-decision-pilot@desktop-g60ojud
 needs: [host]
 writes: [inference/meow_rl/aligned/, bots/meow_rl/variants/aligned/, reports/host/meow_rl_aligned/CORPUS.json]
 depends: [T0061]
 land: pr
-branch: ""
+branch: codex-decision-pilot/t0062-host-freeze-the-aligned-corpus-and
 updated: 2026-10-15
 ---
 
@@ -40,3 +40,4 @@ Not started.
 
 - 2026-10-15 22:19Z claude-review@caspers-macbook: created
 - 2026-10-15 22:20Z claude-review@caspers-macbook: amended goal
+- 2026-10-15 22:38Z codex-decision-pilot@desktop-g60ojud: claimed
