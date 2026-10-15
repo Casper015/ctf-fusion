@@ -4,7 +4,7 @@ title: "Aligned Meowmind RL exports and search diagnosis: shared calibration cor
 status: active
 owner: claude-review@caspers-macbook
 needs: []
-writes: [fusion/quant_wide.py, inference/mlp_wide.hpp, inference/mlp_float.hpp, bots/meow_rl/, tools/cpp/meow_rl/tree.cpp, tools/cpp/meow_rl/wide_check.cpp, tools/meow_rl_aligned/, bots/p_only/tools/preflight_meow_rl.py, profiles/meow_rl_aligned_screen.json, docs/MEOWMIND_RL_ALIGNED.md, docs/MARKDOWN_INDEX.md, tests/test_meow_rl_aligned.py]
+writes: [bots/meow_rl/, bots/p_only/tests/test_p_only.py, bots/p_only/tools/preflight_meow_rl.py, bots/p_only/tools/run_screen.py, docs/MARKDOWN_INDEX.md, docs/MEOWMIND_RL_ALIGNED.md, fusion/quant_wide.py, inference/mlp_float.hpp, inference/mlp_wide.hpp, profiles/meow_rl_aligned_screen.json, profiles/meow_rl_aligned_screen_a.json, profiles/meow_rl_aligned_screen_b.json, tests/test_meow_rl_aligned.py, tools/cpp/meow_rl/tree.cpp, tools/cpp/meow_rl/wide_check.cpp, tools/meow_rl_aligned/]
 depends: []
 land: pr
 branch: claude-review/t0061-aligned-meowmind-rl-exports-and-search
@@ -42,3 +42,4 @@ Not started.
 - 2026-10-15 19:58Z claude-review@caspers-macbook: created
 - 2026-10-15 19:59Z claude-review@caspers-macbook: claimed
 - 2026-10-15 19:59Z claude-review@caspers-macbook: amended goal; done when
+- 2026-10-15 20:25Z claude-review@caspers-macbook: amended writes -> bots/meow_rl/, bots/p_only/tests/test_p_only.py, bots/p_only/tools/preflight_meow_rl.py, bots/p_only/tools/run_screen.py, docs/MARKDOWN_INDEX.md, docs/MEOWMIND_RL_ALIGNED.md, fusion/quant_wide.py, inference/mlp_float.hpp, inference/mlp_wide.hpp, profiles/meow_rl_aligned_screen.json, profiles/meow_rl_aligned_screen_a.json, profiles/meow_rl_aligned_screen_b.json, tests/test_meow_rl_aligned.py, tools/cpp/meow_rl/tree.cpp, tools/cpp/meow_rl/wide_check.cpp, tools/meow_rl_aligned/
