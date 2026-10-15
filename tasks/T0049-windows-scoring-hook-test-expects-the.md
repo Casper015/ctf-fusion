@@ -1,13 +1,13 @@
 ---
 id: T0049
 title: "Windows: scoring-hook test expects the .exe the compiler writes"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [bots/p_only/tests/test_decision_scoring.py]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0049-windows-scoring-hook-test-expects-the
 updated: 2026-10-15
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-15 02:04Z claude@caspers-macbook: created
+- 2026-10-15 02:04Z claude@caspers-macbook: claimed
