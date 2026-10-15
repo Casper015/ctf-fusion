@@ -1,0 +1,1703 @@
+{
+ "split": "test",
+ "selection_sha256": "a571b05a4473eaaa7a26ebb93372d5dd785ed1ca48bfd6e357537b392936233d",
+ "dataset": {
+  "path": "data\\decision\\host_pilot_dataset",
+  "index_sha256": "d3a19bd3de638118b60f367ed1eed68fb02a86b95e1978b50f3bf76b5a1ae0b3",
+  "splits": {
+   "train": "70441e0197382c630b2f64f230e54722ae031bb184e5a73e3874e08b00b877bc",
+   "val": "74b630efa4e80bd2f947c45a816751124b06c155bc6e05533d88adb0255b5ace",
+   "test": "1b9a0dd6719c27d98e621248dda06c841df0b54a61ea3edb5f8d5d8541cce598"
+  },
+  "features": {
+   "family": "own-action-1",
+   "version": "own-action-1",
+   "digest": "9ed719f238cd5d70",
+   "layout_version": 3
+  },
+  "carrier": {
+   "binary_sha256": [
+    "981a1e3c580021c6b5879e3ca3feb6de44642db4272aba25e5c97be22bac45b3"
+   ],
+   "config": {
+    "path": "bots/p_only/report/decision_dataset/carrier_config.json",
+    "sha256": "f0cea701efafd583b9b7a2029149ceaad84b4f3872982ee1c350769660a7636d",
+    "config": {
+     "schema": "ctf-fusion-carrier-config-1",
+     "status": "admitted",
+     "variant": "v12_ponly_xxl_dlog",
+     "binary_sha256": "981a1e3c580021c6b5879e3ca3feb6de44642db4272aba25e5c97be22bac45b3",
+     "bundle_sha256": "c4d520b89ba81686b94739cec5fd46760ed76347279448a1168fcb5eab4e6b3d",
+     "opponent_policy": {
+      "family": "p2",
+      "models": "inference/models_xxl",
+      "files": {
+       "inference/models_xxl/registry.hpp": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556",
+       "inference/models_xxl/weights_general.hpp": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844",
+       "inference/models_xxl/weights_n02.hpp": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b",
+       "inference/models_xxl/weights_n03.hpp": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8",
+       "inference/models_xxl/weights_n04.hpp": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11",
+       "inference/models_xxl/weights_n05.hpp": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071",
+       "inference/models_xxl/weights_n06.hpp": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb",
+       "inference/models_xxl/weights_n07.hpp": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455",
+       "inference/models_xxl/weights_n08.hpp": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141",
+       "inference/models_xxl/weights_n10.hpp": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525",
+       "inference/models_xxl/weights_n12.hpp": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609",
+       "inference/models_xxl/weights_n15.hpp": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675"
+      },
+      "calibration": "temperatures folded into the exported headers listed in files"
+     },
+     "value": {
+      "enabled": false,
+      "tier": null
+     },
+     "search": {
+      "source": "bots/p_only/bots/variants/v12_ponly_xxl_dlog.cpp",
+      "source_sha256": "98b4e2f0f6d24be5e17b08a39d4f8d67b97bc4af5a686cffdfb8281c1e8d9e78",
+      "inputs_sha256": "43322a8b8ca27111c445551736ccaab0bec53af5cc0185cfd4bb63ecd3f4535d",
+      "fixed_samples": 0
+     },
+     "budget": {
+      "first_ms": 2000,
+      "turn_ms": 50
+     },
+     "collection": {
+      "manifest": "bots/p_only/report/decision_dataset/manifest.json",
+      "manifest_sha256": "5b3ecc37cb3fe602d2ce54de5d149b57ff7829352dac24f33a9e012833558217",
+      "identities": "bots/p_only/report/decision_dataset/identities.json",
+      "identities_sha256": "4a3cd1ab0d6cd34bd303d9031d4672caa3deb9512645c473c233a6533480ac6b"
+     }
+    },
+    "verification": {
+     "verified": true,
+     "status": "admitted",
+     "family_verified_from": "inference/models_xxl/weights_general.hpp"
+    }
+   }
+  },
+  "authoritative": true,
+  "exploratory_reasons": []
+ },
+ "rule": "proposed rule: z-scored logged carrier scores + lambda * gain",
+ "carrier_scored_roots": 31,
+ "authoritative": true,
+ "comparisons": {
+  "mlp_s101 - incumbent": {
+   "mean": -0.015096510632224915,
+   "lo": -0.05627623207602922,
+   "hi": 0.026083210811579393,
+   "clusters": 31,
+   "verdict": "insufficient precision",
+   "roots": 31,
+   "z": 1.96,
+   "role": "primary"
+  },
+  "linear_s101 - incumbent": {
+   "mean": -0.02029920724117152,
+   "lo": -0.08462803026975171,
+   "hi": 0.04402961578740867,
+   "clusters": 31,
+   "verdict": "insufficient precision",
+   "roots": 31,
+   "z": 2.8375969129437872,
+   "role": "secondary"
+  },
+  "linear_s102 - incumbent": {
+   "mean": -0.026284974945689224,
+   "lo": -0.08622051852191243,
+   "hi": 0.03365056863053397,
+   "clusters": 31,
+   "verdict": "insufficient precision",
+   "roots": 31,
+   "z": 2.8375969129437872,
+   "role": "secondary"
+  },
+  "linear_s103 - incumbent": {
+   "mean": -0.0167233560090703,
+   "lo": -0.07141190786003128,
+   "hi": 0.03796519584189069,
+   "clusters": 31,
+   "verdict": "insufficient precision",
+   "roots": 31,
+   "z": 2.8375969129437872,
+   "role": "secondary"
+  },
+  "mlp_s102 - incumbent": {
+   "mean": -0.03386717449217448,
+   "lo": -0.09618266223712649,
+   "hi": 0.02844831325277753,
+   "clusters": 31,
+   "verdict": "insufficient precision",
+   "roots": 31,
+   "z": 2.8375969129437872,
+   "role": "secondary"
+  },
+  "mlp_s103 - incumbent": {
+   "mean": -0.018760381483595767,
+   "lo": -0.081997948249696,
+   "hi": 0.04447718528250447,
+   "clusters": 31,
+   "verdict": "insufficient precision",
+   "roots": 31,
+   "z": 2.8375969129437872,
+   "role": "secondary"
+  },
+  "mlp_s101 - linear_s101": {
+   "mean": 0.005202696608946606,
+   "lo": -0.027457860764997538,
+   "hi": 0.037863253982890754,
+   "clusters": 31,
+   "verdict": "insufficient precision",
+   "roots": 31,
+   "z": 2.8375969129437872,
+   "role": "secondary"
+  },
+  "mlp_s101 - linear_s102": {
+   "mean": 0.011188464313464307,
+   "lo": -0.03445668424713047,
+   "hi": 0.05683361287405908,
+   "clusters": 31,
+   "verdict": "insufficient precision",
+   "roots": 31,
+   "z": 2.8375969129437872,
+   "role": "secondary"
+  },
+  "mlp_s101 - linear_s103": {
+   "mean": 0.001626845376845383,
+   "lo": -0.020129993747672763,
+   "hi": 0.02338368450136353,
+   "clusters": 31,
+   "verdict": "insufficient precision",
+   "roots": 31,
+   "z": 2.8375969129437872,
+   "role": "secondary"
+  },
+  "mlp_s101 - mlp_s102": {
+   "mean": 0.018770663859949563,
+   "lo": -0.03006462453025715,
+   "hi": 0.06760595225015628,
+   "clusters": 31,
+   "verdict": "insufficient precision",
+   "roots": 31,
+   "z": 2.8375969129437872,
+   "role": "secondary"
+  },
+  "mlp_s101 - mlp_s103": {
+   "mean": 0.0036638708513708545,
+   "lo": -0.026279590869570917,
+   "hi": 0.033607332572312625,
+   "clusters": 31,
+   "verdict": "insufficient precision",
+   "roots": 31,
+   "z": 2.8375969129437872,
+   "role": "secondary"
+  }
+ },
+ "rules": {
+  "incumbent": {
+   "primary": {
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "clusters": 31,
+    "verdict": "negligible",
+    "roots": 31,
+    "z": 1.96
+   },
+   "evaluable_roots": 31,
+   "unevaluable_roots": 0,
+   "maps": 31,
+   "changed_share": 0.0,
+   "changed_roots": 0,
+   "changed_mean_delta": null,
+   "roots_with_alternatives": 30,
+   "supported_without_outcome": 0,
+   "per_count": {
+    "2": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "4": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "5": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "6": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "7": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "8": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "9": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "10": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 4,
+     "verdict": "not shown",
+     "roots": 4,
+     "z": 1.96
+    },
+    "11": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "12": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "13": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "14": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "15": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    }
+   },
+   "per_band": {
+    "2-2": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3-5": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 6,
+     "verdict": "not shown",
+     "roots": 6,
+     "z": 1.96
+    },
+    "6-10": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 14,
+     "verdict": "not shown",
+     "roots": 14,
+     "z": 1.96
+    },
+    "11-15": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 9,
+     "verdict": "not shown",
+     "roots": 9,
+     "z": 1.96
+    }
+   }
+  },
+  "linear_s101": {
+   "primary": {
+    "mean": -0.02029920724117152,
+    "lo": -0.06473275330293907,
+    "hi": 0.024134338820596027,
+    "clusters": 31,
+    "verdict": "insufficient precision",
+    "roots": 31,
+    "z": 1.96
+   },
+   "evaluable_roots": 31,
+   "unevaluable_roots": 0,
+   "maps": 31,
+   "changed_share": 0.5806451612903226,
+   "changed_roots": 18,
+   "changed_mean_delta": -0.04199590918340919,
+   "roots_with_alternatives": 30,
+   "supported_without_outcome": 0,
+   "per_count": {
+    "2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "4": {
+     "mean": 0.0,
+     "lo": -0.04715027198381939,
+     "hi": 0.04715027198381939,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "5": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "6": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "7": {
+     "mean": 0.027777777777777752,
+     "lo": -0.02666666666666664,
+     "hi": 0.08222222222222214,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "8": {
+     "mean": 0.0714285714285714,
+     "lo": -0.06857142857142853,
+     "hi": 0.21142857142857133,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "9": {
+     "mean": -0.1328125,
+     "lo": -0.393125,
+     "hi": 0.1275,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "10": {
+     "mean": -0.041666666666666685,
+     "lo": -0.12333333333333338,
+     "hi": 0.04000000000000001,
+     "clusters": 4,
+     "verdict": "not shown",
+     "roots": 4,
+     "z": 1.96
+    },
+    "11": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "12": {
+     "mean": -0.04545454545454545,
+     "lo": -0.13454545454545452,
+     "hi": 0.04363636363636363,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "13": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "14": {
+     "mean": 0.08653846153846168,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "15": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    }
+   },
+   "per_band": {
+    "2-2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3-5": {
+     "mean": 0.0,
+     "lo": -0.014057495108456535,
+     "hi": 0.014057495108456535,
+     "clusters": 6,
+     "verdict": "not shown",
+     "roots": 6,
+     "z": 1.96
+    },
+    "6-10": {
+     "mean": -0.015054563492063506,
+     "lo": -0.07901933893644819,
+     "hi": 0.048910211952321175,
+     "clusters": 14,
+     "verdict": "not shown",
+     "roots": 14,
+     "z": 1.96
+    },
+    "11-15": {
+     "mean": 0.008216783216783246,
+     "lo": -0.030406886096084895,
+     "hi": 0.04684045252965138,
+     "clusters": 9,
+     "verdict": "not shown",
+     "roots": 9,
+     "z": 1.96
+    }
+   }
+  },
+  "linear_s102": {
+   "primary": {
+    "mean": -0.026284974945689224,
+    "lo": -0.06768397170718754,
+    "hi": 0.015114021815809092,
+    "clusters": 31,
+    "verdict": "insufficient precision",
+    "roots": 31,
+    "z": 1.96
+   },
+   "evaluable_roots": 31,
+   "unevaluable_roots": 0,
+   "maps": 31,
+   "changed_share": 0.5483870967741935,
+   "changed_roots": 17,
+   "changed_mean_delta": -0.03851948704889881,
+   "roots_with_alternatives": 30,
+   "supported_without_outcome": 0,
+   "per_count": {
+    "2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "4": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "5": {
+     "mean": 0.03125,
+     "lo": -0.03,
+     "hi": 0.0925,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "6": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "7": {
+     "mean": 0.027777777777777752,
+     "lo": -0.02666666666666664,
+     "hi": 0.08222222222222214,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "8": {
+     "mean": 0.0714285714285714,
+     "lo": -0.06857142857142853,
+     "hi": 0.21142857142857133,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "9": {
+     "mean": -0.09375,
+     "lo": -0.27749999999999997,
+     "hi": 0.09,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "10": {
+     "mean": -0.00347222222222221,
+     "lo": -0.01027777777777774,
+     "hi": 0.003333333333333321,
+     "clusters": 4,
+     "verdict": "not shown",
+     "roots": 4,
+     "z": 1.96
+    },
+    "11": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "12": {
+     "mean": -0.04545454545454545,
+     "lo": -0.13454545454545452,
+     "hi": 0.04363636363636363,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "13": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "14": {
+     "mean": -0.10576923076923062,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "15": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    }
+   },
+   "per_band": {
+    "2-2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3-5": {
+     "mean": 0.010416666666666666,
+     "lo": -0.01044877155891774,
+     "hi": 0.03128210489225107,
+     "clusters": 6,
+     "verdict": "not shown",
+     "roots": 6,
+     "z": 1.96
+    },
+    "6-10": {
+     "mean": 0.0003968253968253849,
+     "lo": -0.04888660936649315,
+     "hi": 0.049680260160143916,
+     "clusters": 14,
+     "verdict": "not shown",
+     "roots": 14,
+     "z": 1.96
+    },
+    "11-15": {
+     "mean": -0.030244755244755214,
+     "lo": -0.07032564694644906,
+     "hi": 0.009836136456938635,
+     "clusters": 9,
+     "verdict": "not shown",
+     "roots": 9,
+     "z": 1.96
+    }
+   }
+  },
+  "linear_s103": {
+   "primary": {
+    "mean": -0.0167233560090703,
+    "lo": -0.054498122798156856,
+    "hi": 0.021051410780016263,
+    "clusters": 31,
+    "verdict": "insufficient precision",
+    "roots": 31,
+    "z": 1.96
+   },
+   "evaluable_roots": 31,
+   "unevaluable_roots": 0,
+   "maps": 31,
+   "changed_share": 0.41935483870967744,
+   "changed_roots": 13,
+   "changed_mean_delta": -0.0402930402930403,
+   "roots_with_alternatives": 30,
+   "supported_without_outcome": 0,
+   "per_count": {
+    "2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "4": {
+     "mean": -0.041666666666666644,
+     "lo": -0.12333333333333327,
+     "hi": 0.03999999999999998,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "5": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "6": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "7": {
+     "mean": 0.027777777777777752,
+     "lo": -0.02666666666666664,
+     "hi": 0.08222222222222214,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "8": {
+     "mean": 0.0714285714285714,
+     "lo": -0.06857142857142853,
+     "hi": 0.21142857142857133,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "9": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "10": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 4,
+     "verdict": "not shown",
+     "roots": 4,
+     "z": 1.96
+    },
+    "11": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "12": {
+     "mean": -0.041666666666666685,
+     "lo": -0.12333333333333339,
+     "hi": 0.04000000000000002,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "13": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "14": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "15": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    }
+   },
+   "per_band": {
+    "2-2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3-5": {
+     "mean": -0.013888888888888881,
+     "lo": -0.04343193367440314,
+     "hi": 0.01565415589662538,
+     "clusters": 6,
+     "verdict": "not shown",
+     "roots": 6,
+     "z": 1.96
+    },
+    "6-10": {
+     "mean": 0.019841269841269826,
+     "lo": -0.008469994677271348,
+     "hi": 0.048152534359811,
+     "clusters": 14,
+     "verdict": "not shown",
+     "roots": 14,
+     "z": 1.96
+    },
+    "11-15": {
+     "mean": -0.008333333333333337,
+     "lo": -0.02577256114498449,
+     "hi": 0.009105894478317814,
+     "clusters": 9,
+     "verdict": "not shown",
+     "roots": 9,
+     "z": 1.96
+    }
+   }
+  },
+  "mlp_s101": {
+   "primary": {
+    "mean": -0.015096510632224915,
+    "lo": -0.05627623207602922,
+    "hi": 0.026083210811579393,
+    "clusters": 31,
+    "verdict": "insufficient precision",
+    "roots": 31,
+    "z": 1.96
+   },
+   "evaluable_roots": 31,
+   "unevaluable_roots": 0,
+   "maps": 31,
+   "changed_share": 0.6129032258064516,
+   "changed_roots": 19,
+   "changed_mean_delta": -0.03344754660544135,
+   "roots_with_alternatives": 30,
+   "supported_without_outcome": 0,
+   "per_count": {
+    "2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "4": {
+     "mean": -0.041666666666666644,
+     "lo": -0.12333333333333327,
+     "hi": 0.03999999999999998,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "5": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "6": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "7": {
+     "mean": 0.027777777777777752,
+     "lo": -0.02666666666666664,
+     "hi": 0.08222222222222214,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "8": {
+     "mean": 0.0714285714285714,
+     "lo": -0.06857142857142853,
+     "hi": 0.21142857142857133,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "9": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "10": {
+     "mean": -0.006944444444444475,
+     "lo": -0.06306449323757374,
+     "hi": 0.04917560434868478,
+     "clusters": 4,
+     "verdict": "not shown",
+     "roots": 4,
+     "z": 1.96
+    },
+    "11": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "12": {
+     "mean": -0.09848484848484852,
+     "lo": -0.19836781489494126,
+     "hi": 0.001398117925244205,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "13": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "14": {
+     "mean": 0.08653846153846168,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "15": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    }
+   },
+   "per_band": {
+    "2-2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3-5": {
+     "mean": -0.013888888888888881,
+     "lo": -0.04343193367440314,
+     "hi": 0.01565415589662538,
+     "clusters": 6,
+     "verdict": "not shown",
+     "roots": 6,
+     "z": 1.96
+    },
+    "6-10": {
+     "mean": 0.018452380952380932,
+     "lo": -0.011873867946381744,
+     "hi": 0.048778629851143604,
+     "clusters": 14,
+     "verdict": "not shown",
+     "roots": 14,
+     "z": 1.96
+    },
+    "11-15": {
+     "mean": -0.0023892773892773694,
+     "lo": -0.04930215450058776,
+     "hi": 0.04452359972203302,
+     "clusters": 9,
+     "verdict": "not shown",
+     "roots": 9,
+     "z": 1.96
+    }
+   }
+  },
+  "mlp_s102": {
+   "primary": {
+    "mean": -0.03386717449217448,
+    "lo": -0.07691005892123767,
+    "hi": 0.009175709936888717,
+    "clusters": 31,
+    "verdict": "insufficient precision",
+    "roots": 31,
+    "z": 1.96
+   },
+   "evaluable_roots": 31,
+   "unevaluable_roots": 0,
+   "maps": 31,
+   "changed_share": 0.6774193548387096,
+   "changed_roots": 21,
+   "changed_mean_delta": -0.03892998535855679,
+   "roots_with_alternatives": 30,
+   "supported_without_outcome": 0,
+   "per_count": {
+    "2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "4": {
+     "mean": 3.700743415417188e-17,
+     "lo": -3.552713678800501e-17,
+     "hi": 1.0954200509634877e-16,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "5": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "6": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "7": {
+     "mean": 0.027777777777777752,
+     "lo": -0.02666666666666664,
+     "hi": 0.08222222222222214,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "8": {
+     "mean": -0.035714285714285754,
+     "lo": -0.3857142857142857,
+     "hi": 0.31428571428571417,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "9": {
+     "mean": -0.09375,
+     "lo": -0.27749999999999997,
+     "hi": 0.09,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "10": {
+     "mean": 0.013888888888888867,
+     "lo": -0.013333333333333312,
+     "hi": 0.04111111111111104,
+     "clusters": 4,
+     "verdict": "not shown",
+     "roots": 4,
+     "z": 1.96
+    },
+    "11": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "12": {
+     "mean": -0.04545454545454545,
+     "lo": -0.13454545454545452,
+     "hi": 0.04363636363636363,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "13": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "14": {
+     "mean": -0.10576923076923062,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "15": {
+     "mean": 0.014880952380952365,
+     "lo": -0.006151430059254235,
+     "hi": 0.035913334821158965,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    }
+   },
+   "per_band": {
+    "2-2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3-5": {
+     "mean": 1.2335811384723961e-17,
+     "lo": -1.3903683446004134e-17,
+     "hi": 3.8575306215452056e-17,
+     "clusters": 6,
+     "verdict": "not shown",
+     "roots": 6,
+     "z": 1.96
+    },
+    "6-10": {
+     "mean": -0.017559523809523827,
+     "lo": -0.08200834538022324,
+     "hi": 0.04688929776117558,
+     "clusters": 14,
+     "verdict": "not shown",
+     "roots": 14,
+     "z": 1.96
+    },
+    "11-15": {
+     "mean": -0.02726856476856474,
+     "lo": -0.06844141125175458,
+     "hi": 0.0139042817146251,
+     "clusters": 9,
+     "verdict": "not shown",
+     "roots": 9,
+     "z": 1.96
+    }
+   }
+  },
+  "mlp_s103": {
+   "primary": {
+    "mean": -0.018760381483595767,
+    "lo": -0.062440169227998284,
+    "hi": 0.02491940626080675,
+    "clusters": 31,
+    "verdict": "insufficient precision",
+    "roots": 31,
+    "z": 1.96
+   },
+   "evaluable_roots": 31,
+   "unevaluable_roots": 0,
+   "maps": 31,
+   "changed_share": 0.6451612903225806,
+   "changed_roots": 20,
+   "changed_mean_delta": -0.035042214729714735,
+   "roots_with_alternatives": 30,
+   "supported_without_outcome": 0,
+   "per_count": {
+    "2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "4": {
+     "mean": 0.027777777777777755,
+     "lo": -0.07037334027651962,
+     "hi": 0.12592889583207514,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "5": {
+     "mean": -0.03125,
+     "lo": -0.0925,
+     "hi": 0.03,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "6": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "7": {
+     "mean": 0.027777777777777752,
+     "lo": -0.02666666666666664,
+     "hi": 0.08222222222222214,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "8": {
+     "mean": 0.0714285714285714,
+     "lo": -0.06857142857142853,
+     "hi": 0.21142857142857133,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "9": {
+     "mean": -0.109375,
+     "lo": -0.32375,
+     "hi": 0.10499999999999998,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "10": {
+     "mean": -0.05902777777777779,
+     "lo": -0.12226209568273629,
+     "hi": 0.004206540127180705,
+     "clusters": 4,
+     "verdict": "not shown",
+     "roots": 4,
+     "z": 1.96
+    },
+    "11": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "12": {
+     "mean": -0.026515151515151547,
+     "lo": -0.12639811792524425,
+     "hi": 0.07336781489494115,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "13": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "14": {
+     "mean": 0.08653846153846168,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "15": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    }
+   },
+   "per_band": {
+    "2-2": {
+     "mean": -0.25,
+     "lo": -0.74,
+     "hi": 0.24,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3-5": {
+     "mean": -0.0011574074074074143,
+     "lo": -0.03965395797962693,
+     "hi": 0.03733914316481211,
+     "clusters": 6,
+     "verdict": "not shown",
+     "roots": 6,
+     "z": 1.96
+    },
+    "6-10": {
+     "mean": -0.013839285714285728,
+     "lo": -0.07017455142388562,
+     "hi": 0.04249597999531417,
+     "clusters": 14,
+     "verdict": "not shown",
+     "roots": 14,
+     "z": 1.96
+    },
+    "11-15": {
+     "mean": 0.012004662004662027,
+     "lo": -0.025455758092100704,
+     "hi": 0.04946508210142476,
+     "clusters": 9,
+     "verdict": "not shown",
+     "roots": 9,
+     "z": 1.96
+    }
+   }
+  }
+ },
+ "baselines": {
+  "carrier_top_score": {
+   "primary": {
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "clusters": 31,
+    "verdict": "negligible",
+    "roots": 31,
+    "z": 1.96
+   },
+   "evaluable_roots": 31,
+   "unevaluable_roots": 0,
+   "maps": 31,
+   "changed_share": 0.0,
+   "changed_roots": 0,
+   "changed_mean_delta": null,
+   "roots_with_alternatives": 30,
+   "supported_without_outcome": 0,
+   "per_count": {
+    "2": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "4": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "5": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "6": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "7": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "8": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "9": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "10": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 4,
+     "verdict": "not shown",
+     "roots": 4,
+     "z": 1.96
+    },
+    "11": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "12": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    },
+    "13": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "14": {
+     "mean": 0.0,
+     "lo": NaN,
+     "hi": NaN,
+     "clusters": 1,
+     "verdict": "not shown",
+     "roots": 1,
+     "z": 1.96
+    },
+    "15": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 3,
+     "verdict": "not shown",
+     "roots": 3,
+     "z": 1.96
+    }
+   },
+   "per_band": {
+    "2-2": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 2,
+     "verdict": "not shown",
+     "roots": 2,
+     "z": 1.96
+    },
+    "3-5": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 6,
+     "verdict": "not shown",
+     "roots": 6,
+     "z": 1.96
+    },
+    "6-10": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 14,
+     "verdict": "not shown",
+     "roots": 14,
+     "z": 1.96
+    },
+    "11-15": {
+     "mean": 0.0,
+     "lo": 0.0,
+     "hi": 0.0,
+     "clusters": 9,
+     "verdict": "not shown",
+     "roots": 9,
+     "z": 1.96
+    }
+   },
+   "status": "DIAGNOSTIC BASELINE: argmax of the logged carrier score, no scorer; not the disabled learned rule (lambda = 0 is the incumbent); its runtime equivalent is a carrier that plays its top logged score",
+   "vs_incumbent": {
+    "mean": 0.0,
+    "lo": 0.0,
+    "hi": 0.0,
+    "clusters": 31,
+    "verdict": "negligible",
+    "roots": 31,
+    "z": 2.8375969129437872
+   }
+  }
+ },
+ "headroom": {
+  "status": "estimated with independent repeat subsets (select: even repeat ids, evaluate: odd repeat ids)",
+  "roots": 30,
+  "headroom": {
+   "mean": 0.04865967365967365,
+   "lo": 0.00027478820750848065,
+   "hi": 0.09704455911183882,
+   "clusters": 30,
+   "verdict": "benefit",
+   "roots": 30,
+   "z": 1.96
+  }
+ }
+}

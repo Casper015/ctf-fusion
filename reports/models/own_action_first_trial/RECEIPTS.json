@@ -1,0 +1,197 @@
+{
+  "schema": "ctf-fusion-decision-first-trial-receipts-1",
+  "task": "T0050",
+  "timestamp_utc": "2026-10-15T03:14:00Z",
+  "author": "codex-decision-pilot@desktop-g60ojud",
+  "dataset": {
+    "path": "data/decision/host_pilot_dataset",
+    "schema": "ctf-fusion-decision-2",
+    "seed": 20261701,
+    "total_maps": 336,
+    "total_roots": 336,
+    "total_candidates": 1317,
+    "total_continuations": 5268,
+    "index_sha256": "d3a19bd3de638118b60f367ed1eed68fb02a86b95e1978b50f3bf76b5a1ae0b3",
+    "authoritative": true,
+    "splits": {
+      "train": {
+        "roots": 268,
+        "candidates": 1048,
+        "maps": 268,
+        "sha256": "70441e0197382c630b2f64f230e54722ae031bb184e5a73e3874e08b00b877bc"
+      },
+      "val": {
+        "roots": 37,
+        "candidates": 148,
+        "maps": 37,
+        "sha256": "74b630efa4e80bd2f947c45a816751124b06c155bc6e05533d88adb0255b5ace"
+      },
+      "test": {
+        "roots": 31,
+        "candidates": 121,
+        "maps": 31,
+        "sha256": "1b9a0dd6719c27d98e621248dda06c841df0b54a61ea3edb5f8d5d8541cce598"
+      }
+    }
+  },
+  "runs": {
+    "linear_s101": {
+      "model": "linear",
+      "seed": 101,
+      "hidden": [],
+      "role": "secondary_comparator",
+      "epochs_trained": 45,
+      "best_epoch": 40,
+      "train_loss_final": 0.019478584030488477,
+      "val_loss_final": 0.04507246358547904,
+      "val_loss_best": 0.044829546257418376,
+      "config_sha256": "0c01de32a3c442428543f00c862d55adbd01928860e739671f5e4ed13964c5c8",
+      "model_sha256": "5f6b888f22aa1543a2842c41967d77a40d4cd9199ce53f1057986f86cfd408d8",
+      "log_sha256": "bc6dcab6066b11cc6c061c94101861058714233c1a7fdc51e2518adf6d19036f"
+    },
+    "linear_s102": {
+      "model": "linear",
+      "seed": 102,
+      "hidden": [],
+      "role": "sensitivity_comparison",
+      "epochs_trained": 41,
+      "best_epoch": 36,
+      "train_loss_final": 0.020117752674419766,
+      "val_loss_final": 0.056422981597402326,
+      "val_loss_best": 0.05621712183868673,
+      "config_sha256": "59cc16ff3bdd4cc28bdf90d03c42b6792d20f5351bd615177a39eddf30a0ab82",
+      "model_sha256": "7c1444d037b0d14cadc99774241d5ad1ecf85952bbbef22fb178dacfa7f9be1d",
+      "log_sha256": "d8d2eb884d9a06d3fd493d4bfce8109d7564753bdd1505ab7f114675bc4cdd1f"
+    },
+    "linear_s103": {
+      "model": "linear",
+      "seed": 103,
+      "hidden": [],
+      "role": "sensitivity_comparison",
+      "epochs_trained": 50,
+      "best_epoch": 49,
+      "train_loss_final": 0.02058811066492626,
+      "val_loss_final": 0.051405251618823984,
+      "val_loss_best": 0.05139272746829764,
+      "config_sha256": "e287e2f01d56d2c30f3dd93c6a60dd51c176c69a9895c624ded9ad4f8174dd0e",
+      "model_sha256": "670215e89ca49534ddf58e4f1a02a81264d4bf5adccc399dc1957d8e04a72c61",
+      "log_sha256": "99b3c414219c22ea5e8b710bbe988be3b0449eed74e91d42f3f9105f31f4b98e"
+    },
+    "mlp_s101": {
+      "model": "mlp",
+      "seed": 101,
+      "hidden": [64, 16],
+      "role": "primary_model",
+      "epochs_trained": 13,
+      "best_epoch": 8,
+      "train_loss_final": 0.013102515575149278,
+      "val_loss_final": 0.04897136212633143,
+      "val_loss_best": 0.04786091280859076,
+      "config_sha256": "f8f48ee146cc0b6ca3391f4e14d4b49cf4c2ee0f0aed02e63ffa68b4afebc4fd",
+      "model_sha256": "ff01c27e73ce4bb54738a5e68086d523135c8d2ee684063d33d6e8580108ca26",
+      "log_sha256": "f9a12dad67adbf34519036a2df9b5800a4086363255f0460a7783273c389773d"
+    },
+    "mlp_s102": {
+      "model": "mlp",
+      "seed": 102,
+      "hidden": [64, 16],
+      "role": "sensitivity_comparison",
+      "epochs_trained": 22,
+      "best_epoch": 17,
+      "train_loss_final": 0.00967850114265455,
+      "val_loss_final": 0.04782334687500571,
+      "val_loss_best": 0.04726336505129125,
+      "config_sha256": "a59c0b67fb8fd1ade4fe351e854ebf47939ef68da59bd1bdf17ad926bed634bb",
+      "model_sha256": "40aacc6a225ce5cce7f3fea6f8017a6dcf83a2f28d0dbc78ed559ce127f0863b",
+      "log_sha256": "2354708fd45bbe6123843affa5b5277d44be91c7533811f074c5154dcec26043"
+    },
+    "mlp_s103": {
+      "model": "mlp",
+      "seed": 103,
+      "hidden": [64, 16],
+      "role": "sensitivity_comparison",
+      "epochs_trained": 14,
+      "best_epoch": 9,
+      "train_loss_final": 0.013232420499176705,
+      "val_loss_final": 0.04665002832612475,
+      "val_loss_best": 0.04567866522692405,
+      "config_sha256": "c8721b1b168215bf854741bd48929d4a002b93d070fd9a2899c30c9adaf133aa",
+      "model_sha256": "ca768042433f667d7751b3cdca425ef3585a4b57314e97b58c4e9a5d837e57dd",
+      "log_sha256": "034b0902de65abee25cc518c0f7b3454b3f7ffa7fcf697b385e2096ee96e8638"
+    }
+  },
+  "frozen_selection": {
+    "selection_sha256": "a571b05a4473eaaa7a26ebb93372d5dd785ed1ca48bfd6e357537b392936233d",
+    "norm": "zscore",
+    "primary": "mlp_s101",
+    "primary_lambda": 100.0,
+    "main_secondary": "linear_s101",
+    "secondary_lambda": 50.0,
+    "lambdas_chosen": {
+      "linear_s101": 50.0,
+      "linear_s102": 100.0,
+      "linear_s103": 50.0,
+      "mlp_s101": 100.0,
+      "mlp_s102": 100.0,
+      "mlp_s103": 100.0
+    },
+    "negligible_margin": 0.002
+  },
+  "test_evaluation": {
+    "split": "test",
+    "maps": 31,
+    "roots": 31,
+    "primary_comparison": {
+      "label": "mlp_s101 - incumbent",
+      "mean": -0.015096510632224915,
+      "ci": [-0.05627623207602922, 0.026083210811579393],
+      "verdict": "insufficient precision"
+    },
+    "secondary_comparisons": {
+      "linear_s101 - incumbent": {
+        "mean": -0.02029920724117152,
+        "ci": [-0.08462803026975171, 0.04402961578740867],
+        "verdict": "insufficient precision"
+      },
+      "linear_s102 - incumbent": {
+        "mean": -0.026284974945689224,
+        "ci": [-0.08622051852191243, 0.03365056863053397],
+        "verdict": "insufficient precision"
+      },
+      "linear_s103 - incumbent": {
+        "mean": -0.0167233560090703,
+        "ci": [-0.07141190786003128, 0.03796519584189069],
+        "verdict": "insufficient precision"
+      },
+      "mlp_s102 - incumbent": {
+        "mean": -0.03386717449217448,
+        "ci": [-0.09618266223712649, 0.02844831325277753],
+        "verdict": "insufficient precision"
+      },
+      "mlp_s103 - incumbent": {
+        "mean": -0.018760381483595767,
+        "ci": [-0.081997948249696, 0.04447718528250447],
+        "verdict": "insufficient precision"
+      },
+      "mlp_s101 - linear_s101": {
+        "mean": 0.005202696608946606,
+        "ci": [-0.027457860764997538, 0.037863253982890754],
+        "verdict": "insufficient precision"
+      }
+    },
+    "headroom": {
+      "mean": 0.04868,
+      "ci": [0.00034, 0.09702]
+    }
+  },
+  "reproducibility_commands": [
+    "python -m training.train_decision_ranker --data data/decision/host_pilot_dataset --model linear --loss gain --seed 101 --epochs 50 --patience 5 --batch 256 --lr 1e-3 --weight-decay 1e-4 --out runs/own_action_first_trial/linear_s101",
+    "python -m training.train_decision_ranker --data data/decision/host_pilot_dataset --model mlp --hidden 64,16 --loss gain --seed 101 --epochs 50 --patience 5 --batch 256 --lr 1e-3 --weight-decay 1e-4 --out runs/own_action_first_trial/mlp_s101",
+    "python -m training.train_decision_ranker --data data/decision/host_pilot_dataset --model linear --loss gain --seed 102 --epochs 50 --patience 5 --batch 256 --lr 1e-3 --weight-decay 1e-4 --out runs/own_action_first_trial/linear_s102",
+    "python -m training.train_decision_ranker --data data/decision/host_pilot_dataset --model mlp --hidden 64,16 --loss gain --seed 102 --epochs 50 --patience 5 --batch 256 --lr 1e-3 --weight-decay 1e-4 --out runs/own_action_first_trial/mlp_s102",
+    "python -m training.train_decision_ranker --data data/decision/host_pilot_dataset --model linear --loss gain --seed 103 --epochs 50 --patience 5 --batch 256 --lr 1e-3 --weight-decay 1e-4 --out runs/own_action_first_trial/linear_s103",
+    "python -m training.train_decision_ranker --data data/decision/host_pilot_dataset --model mlp --hidden 64,16 --loss gain --seed 103 --epochs 50 --patience 5 --batch 256 --lr 1e-3 --weight-decay 1e-4 --out runs/own_action_first_trial/mlp_s103",
+    "python -m training.evaluate_decisions select --data data/decision/host_pilot_dataset --run linear_s101=runs/own_action_first_trial/linear_s101 --run mlp_s101=runs/own_action_first_trial/mlp_s101 --run linear_s102=runs/own_action_first_trial/linear_s102 --run mlp_s102=runs/own_action_first_trial/mlp_s102 --run linear_s103=runs/own_action_first_trial/linear_s103 --run mlp_s103=runs/own_action_first_trial/mlp_s103 --primary mlp_s101 --norm zscore --negligible 0.002 --out reports/models/own_action_first_trial/SELECTION.json",
+    "python -m training.evaluate_decisions test --data data/decision/host_pilot_dataset --selection reports/models/own_action_first_trial/SELECTION.json --out reports/models/own_action_first_trial/test"
+  ]
+}
