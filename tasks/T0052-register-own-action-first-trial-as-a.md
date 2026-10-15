@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-15 03:52Z claude-review@caspers-macbook: created
 - 2026-10-15 03:52Z claude-review@caspers-macbook: claimed
+- 2026-10-15 03:55Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/50 opened; layout test and core suite (326, 44 skipped) pass on macOS.
