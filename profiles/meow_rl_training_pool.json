@@ -1,0 +1,66 @@
+{
+  "schema": "ctf-meow-rl-pool-1",
+  "family_cap": 0.15,
+  "bots": [
+    {
+      "name": "Sol",
+      "family": "gpt",
+      "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+      "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+    },
+    {
+      "name": "Astra",
+      "family": "gpt",
+      "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+      "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+    },
+    {
+      "name": "Opus",
+      "family": "claude",
+      "path": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+      "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+    },
+    {
+      "name": "Sonnet",
+      "family": "claude",
+      "path": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+      "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+    },
+    {
+      "name": "DeepSeek",
+      "family": "deepseek",
+      "path": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+      "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+    },
+    {
+      "name": "Qwen",
+      "family": "qwen",
+      "path": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+      "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+    },
+    {
+      "name": "Meowmind_Distill_P3",
+      "family": "meowmind",
+      "path": "@repo/bots/meowmind_p/meowmind_p_distill_xxl_both.cpp",
+      "sha256": "680ccd22501f99c59c0f4ee7cab1d170d1b1aa1078eecf563fc17d26785e3e14"
+    },
+    {
+      "name": "Meowmind",
+      "family": "meowmind",
+      "path": "@repo/bots/meowmind_p/meowmind-ctf-374-20261011.cpp",
+      "sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc"
+    },
+    {
+      "name": "Player5",
+      "family": "player5",
+      "path": "ctf-stress-pack/bots/Player5.cpp",
+      "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+    },
+    {
+      "name": "Baseline",
+      "family": "baseline",
+      "path": "ctf-stress-pack/bots/baseline.cpp",
+      "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+    }
+  ]
+}

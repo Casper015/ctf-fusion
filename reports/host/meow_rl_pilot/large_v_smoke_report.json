@@ -1,0 +1,42 @@
+{
+ "checks": {
+  "all_finite": true,
+  "max_logp_recompute_gap": 2.6702880859375e-05,
+  "nonzero_actor_grad": true,
+  "nonzero_critic_grad": true,
+  "state_round_trip": true,
+  "updates": 3
+ },
+ "counts": {
+  "10": 1,
+  "11": 2,
+  "12": 6,
+  "13": 3,
+  "14": 3,
+  "15": 4,
+  "2": 2,
+  "3": 8,
+  "4": 3,
+  "5": 3,
+  "6": 6,
+  "7": 3,
+  "8": 1,
+  "9": 5
+ },
+ "decisions": 20000,
+ "dev": false,
+ "discarded_decisions": 0,
+ "discarded_episodes": 0,
+ "episodes": 50,
+ "families": {
+  "baseline": 56,
+  "claude": 54,
+  "deepseek": 53,
+  "gpt": 49,
+  "meowmind": 50,
+  "player5": 48,
+  "qwen": 50
+ },
+ "faults": 0,
+ "updates": 3
+}

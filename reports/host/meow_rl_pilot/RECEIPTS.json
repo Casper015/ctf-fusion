@@ -1,0 +1,898 @@
+{
+  "schema": "ctf-meow-rl-host-receipts-1",
+  "task": "T0055",
+  "machine": {
+    "hostname": "desktop-g60ojud",
+    "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+    "vram_mb": 12288,
+    "cpu_threads": 32,
+    "workers": 6,
+    "os": "Windows 11"
+  },
+  "git": {
+    "repo_commit": "ba24fce25b28ad4bd7b3d836011b76b059d67bcf",
+    "branch": "codex-decision-pilot/t0055-train-meowmind-large-v-ppo-host-pilot"
+  },
+  "artifacts": {
+    "pool": {
+      "path": "profiles\\meow_rl_training_pool.json",
+      "sha256": "ecc56feb20c718293378927de184a0539bfbe82284bbc77bb7896e7fcb8a0641"
+    },
+    "seed_ledger": {
+      "path": "docs\\MEOWMIND_RL_SEEDS.md",
+      "sha256": "ab90dbf1a67540dca8d523181ade0d085ca41e168784cbf7e4fb7fa4254b2881"
+    },
+    "durable_backup": {
+      "path": "data\\backups\\meow_rl_pilot_20261015.tar.gz",
+      "bytes": 312274389,
+      "sha256": "8812af86e0a3bf52000fdaffbe8d50692aa29adcf4ba5ec18e2d49ccb93ac241"
+    }
+  },
+  "arms": {
+    "large_v": {
+      "config": {
+        "arm": "large_v",
+        "bridge_library": {
+          "compiler": "C:\\path\\w64devkit\\bin\\g++.EXE",
+          "flags": [
+            "-std=c++20",
+            "-O2",
+            "-shared",
+            "-static"
+          ],
+          "name": "meow_rl_bridge-fd1a45c0e87de9c4.dll",
+          "sha256": "c696c94ab859f73ace2d920fee2265f6ccfb4afe573dbe0599a4f8750e9943db"
+        },
+        "budget": 1000000,
+        "checkpoint_interval": 100000,
+        "counts": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "critic_hidden": [
+          1024,
+          1024,
+          512
+        ],
+        "dev": false,
+        "device": {
+          "cuda": "12.8",
+          "device": "cuda",
+          "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+          "gpu_memory_gb": 11.99,
+          "tf32": false,
+          "torch": "2.11.0+cu128"
+        },
+        "engine": {
+          "commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+          "sha256": "07e43f6210c640d87a9161193a71c394fde157f816af004d37a68ecc1e36a14a"
+        },
+        "identity": {
+          "actor": "meow_actor_112_64_32_1_joint125_t105_v1",
+          "critic": "meow_public416_mlp_1024_1024_512_v1",
+          "policy_features": "meow_policy112_v1",
+          "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+          "resolver": "meowmind_reference_shots_frozen_v1",
+          "reward_units": "terminal_2_pairwise_utility_minus_1",
+          "temperature": 1.05,
+          "value_features": "meow_public416_v1"
+        },
+        "limits": [
+          2.0,
+          0.05
+        ],
+        "mode": "full",
+        "opponents": {
+          "Astra": {
+            "executable_sha256": "ae03baa80955c6e5bb1539346c6a130daed40b341d35b69641fcb5ea5a80aa32",
+            "family": "gpt",
+            "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+          },
+          "Baseline": {
+            "executable_sha256": "a3718da028e5f1906c1bf8a3a8f99ce0519de322ea1b549cef17d7898296f4a5",
+            "family": "baseline",
+            "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+          },
+          "DeepSeek": {
+            "executable_sha256": "ae43d2f0c5178877581330f548cf6cc47986cfdf4edf644455cf863dfedb1b97",
+            "family": "deepseek",
+            "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+          },
+          "Meowmind": {
+            "executable_sha256": "08046af49a252f7bf2b690178ed04ba1b90f46c97bd4e12b495862b72b5218c9",
+            "family": "meowmind",
+            "sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc"
+          },
+          "Meowmind_Distill_P3": {
+            "executable_sha256": "f8f365cf21ef22c79885cccb18108f4ce1b18420985e28cff235c55cae303ee5",
+            "family": "meowmind",
+            "sha256": "680ccd22501f99c59c0f4ee7cab1d170d1b1aa1078eecf563fc17d26785e3e14"
+          },
+          "Opus": {
+            "executable_sha256": "aa35fbd533cb435bc30eec79bb06d54f507416bd08dccfc6867910ddc4cb1ff9",
+            "family": "claude",
+            "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+          },
+          "Player5": {
+            "executable_sha256": "9cd12aa1c002442669487bbe84501dea2ce27e94ab6ae215c98999a0c25799ab",
+            "family": "player5",
+            "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+          },
+          "Qwen": {
+            "executable_sha256": "997ec2627e9f432934451b074ad1708e407d0324e25808371735b81c2002e9dd",
+            "family": "qwen",
+            "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+          },
+          "Sol": {
+            "executable_sha256": "6999587eacff1594ef6ab7ac9818f83dad312de472eac2ea74fe57fa254608ad",
+            "family": "gpt",
+            "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+          },
+          "Sonnet": {
+            "executable_sha256": "74e8960c67503d9e18587a50b4a230bc411aaa5d750dccc908b8d7aee1e66f4c",
+            "family": "claude",
+            "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+          }
+        },
+        "optimizer_seed": 101,
+        "platform": "win32",
+        "pool": {
+          "bots": [
+            {
+              "family": "gpt",
+              "name": "Astra",
+              "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+              "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+            },
+            {
+              "family": "baseline",
+              "name": "Baseline",
+              "path": "ctf-stress-pack/bots/baseline.cpp",
+              "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+            },
+            {
+              "family": "deepseek",
+              "name": "DeepSeek",
+              "path": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+              "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+            },
+            {
+              "family": "meowmind",
+              "name": "Meowmind",
+              "path": "@repo/bots/meowmind_p/meowmind-ctf-374-20261011.cpp",
+              "sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc"
+            },
+            {
+              "family": "meowmind",
+              "name": "Meowmind_Distill_P3",
+              "path": "@repo/bots/meowmind_p/meowmind_p_distill_xxl_both.cpp",
+              "sha256": "680ccd22501f99c59c0f4ee7cab1d170d1b1aa1078eecf563fc17d26785e3e14"
+            },
+            {
+              "family": "claude",
+              "name": "Opus",
+              "path": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+              "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+            },
+            {
+              "family": "player5",
+              "name": "Player5",
+              "path": "ctf-stress-pack/bots/Player5.cpp",
+              "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+            },
+            {
+              "family": "qwen",
+              "name": "Qwen",
+              "path": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+              "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+            },
+            {
+              "family": "gpt",
+              "name": "Sol",
+              "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+              "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+            },
+            {
+              "family": "claude",
+              "name": "Sonnet",
+              "path": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+              "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+            }
+          ],
+          "cap": 0.15,
+          "schema": "ctf-meow-rl-pool-1",
+          "shares": {
+            "baseline": 0.14285714285714285,
+            "claude": 0.14285714285714285,
+            "deepseek": 0.14285714285714285,
+            "gpt": 0.14285714285714285,
+            "meowmind": 0.14285714285714285,
+            "player5": 0.14285714285714285,
+            "qwen": 0.14285714285714285
+          }
+        },
+        "pool_sha256": "ecc56feb20c718293378927de184a0539bfbe82284bbc77bb7896e7fcb8a0641",
+        "ppo": {
+          "actor_lr": 0.0001,
+          "adam_betas": [
+            0.9,
+            0.999
+          ],
+          "adam_eps": 1e-05,
+          "advantage_eps": 1e-08,
+          "clip": 0.1,
+          "critic_lr": 0.0003,
+          "entropy_coefficient": 0.01,
+          "epochs_per_update": 4,
+          "gae_lambda": 0.95,
+          "gamma": 1.0,
+          "kl_estimator": "mean(rho-1-log rho), before the step",
+          "kl_stop": "actor stops for the rest of the update; critic continues",
+          "max_grad_norm": 0.5,
+          "minibatch": 1024,
+          "target_kl": 0.01,
+          "value_loss_coefficient": 0.5,
+          "weight_decay": 0.0
+        },
+        "profile": {
+          "actor": {
+            "action_resolver": "frozen_original",
+            "hidden": [
+              64,
+              32
+            ],
+            "input_per_move": 112,
+            "joint_actions": 125,
+            "warm_start": "original_meowmind_actor"
+          },
+          "critic": {
+            "features": 416,
+            "hidden": [
+              1024,
+              1024,
+              512
+            ],
+            "initialization": "fresh",
+            "output": 1,
+            "parameters": 2001921,
+            "units": "terminal_2_pairwise_utility_minus_1"
+          },
+          "deployment": {
+            "device": "cpu",
+            "first_turn_ms": 2000,
+            "later_turn_ms": 50,
+            "stage_a": "actor_plus_frozen_resolver",
+            "stage_b": "separate_value_guided_search_experiment"
+          },
+          "host": "desktop-g60ojud",
+          "opponent_predictor": "frozen_original_meowmind_with_causal_online_belief",
+          "pilot": {
+            "arms": [
+              "large_v",
+              "small_v"
+            ],
+            "checkpoint_interval": 100000,
+            "decisions_per_arm": 1000000,
+            "family_share_cap": 0.15,
+            "game_seeds": "allocate_fresh_in_ledger_before_run",
+            "optimizer_seed": 101,
+            "potential_shaping": false,
+            "primary_checkpoint": "final",
+            "self_play": false,
+            "smoke_decisions_included_in_total": 20000,
+            "team_counts": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ]
+          },
+          "plan": "docs/MEOWMIND_RL_PLAN.md",
+          "ppo": {
+            "actor_lr": 0.0001,
+            "clip": 0.1,
+            "critic_lr": 0.0003,
+            "entropy_coefficient": 0.01,
+            "epochs_per_update": 4,
+            "gae_lambda": 0.95,
+            "gamma": 1.0,
+            "max_grad_norm": 0.5,
+            "minibatch": 1024,
+            "rollout_decisions": 8192,
+            "target_kl": 0.01,
+            "value_clipping": false,
+            "value_loss_coefficient": 0.5
+          },
+          "schema": "ctf-meowmind-rl-plan-1",
+          "small_critic": {
+            "hidden": [
+              64,
+              32
+            ],
+            "parameters": 28801
+          },
+          "status": "specification_requires_trainer",
+          "training_device": "cuda"
+        },
+        "profile_sha256": "506161eb538b112989aee08f1448472d647e8b069958236b0e327112094f5a69",
+        "python": "3.14.3",
+        "rollout_decisions": 8192,
+        "schema": "ctf-meow-rl-run-1",
+        "seed_base": 20261901,
+        "seed_ledger": {
+          "path": "docs/MEOWMIND_RL_SEEDS.md",
+          "sha256": "ab90dbf1a67540dca8d523181ade0d085ca41e168784cbf7e4fb7fa4254b2881"
+        },
+        "sources": {
+          "code_digest": "c61eb852ab82734e8e27ef8be6489aaebf208a96a983557e276573ce29c4158d",
+          "files": {
+            "tools/cpp/meow_rl/actor_int.hpp": "18a2fd123def697d816b4e11995cbb39d13aebf2574aa9e7b00e712db5cb79ae",
+            "tools/cpp/meow_rl/bridge.cpp": "d78d7578dced9bd361a0900fb5cc321b05c1a7b88e285bc91a7580329798d2a5",
+            "training/meow_rl/__init__.py": "9c118b682552296d3c9ad326de7f01b7d05f3b84a36d24c52240c5e2a53ff079",
+            "training/meow_rl/bridge.py": "6d78bb87883a6b28213f4357fe23f4b2bcd2b8b0daac64ed76d6e41d5c8157f9",
+            "training/meow_rl/env.py": "4eff32e85a1e2e999e5fe12e7dd41d6e8601cd3789e3e7d7bc86a38276d44c4a",
+            "training/meow_rl/gae.py": "be6456c58f7f38171d15b728ca4763b8c97d390f021107b6b1d1c96eca795c66",
+            "training/meow_rl/identity.py": "6123376ae11d538bd918047d13ffa27acd8221c20c6abf029e8014f2e9020f3d",
+            "training/meow_rl/nets.py": "97cfda76e1a6dabe27ca48167c5cc5580dbc5cf253ddb5da26d52572be18a9f1",
+            "training/meow_rl/policy.py": "e9c7db243bb47e702bcfec4b23cf9d12627bc5a649227984beaf5e89f66df340",
+            "training/meow_rl/pool.py": "ca587c84e6a5747c3c5f93a94f47185a5af9a5217d047c48a94d41842059a060",
+            "training/meow_rl/ppo.py": "034c88adfec7541efe05d3167424bb2972e5e4a86984e2a949b86dec8a9faba0",
+            "training/meow_rl/quant.py": "0894648ef52b2cb27503e21a6f827a9f3aed46457b52cc0ba5cfbb891b431d7c",
+            "training/meow_rl/store.py": "ca70e8aea9bd29a98f94ed9556265085f1701e4dea00293a29e38458b000cb48",
+            "training/meow_rl/train.py": "2c773a26e18a9fdd5410c71207c560d89305353a384b4b639226e6b47e3fa123"
+          },
+          "reference": "bots/meowmind_p/meowmind-ctf-374-20261011.cpp",
+          "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc"
+        },
+        "task": "T0054/T0055",
+        "workers": 6
+      },
+      "counters": {
+        "decisions": 1000000,
+        "updates": 120,
+        "episodes": 2500,
+        "faults": 0,
+        "discarded_decisions": 0,
+        "discarded_episodes": 0,
+        "families": {
+          "deepseek": 2705,
+          "claude": 2636,
+          "meowmind": 2564,
+          "qwen": 2675,
+          "player5": 2660,
+          "baseline": 2698,
+          "gpt": 2726
+        },
+        "counts": {
+          "3": 184,
+          "4": 175,
+          "15": 167,
+          "6": 193,
+          "9": 184,
+          "12": 198,
+          "10": 188,
+          "8": 166,
+          "7": 175,
+          "14": 172,
+          "11": 185,
+          "5": 163,
+          "13": 166,
+          "2": 184
+        }
+      },
+      "metrics": {
+        "utility_initial": 0.5951280861995147,
+        "utility_final": 0.7377354788069074,
+        "utility_mean": 0.6318257774935603,
+        "utility_max": 0.7665326736755308,
+        "v_loss_initial": 0.005709780645298047,
+        "v_loss_final": 0.0014851981516888675,
+        "v_loss_mean": 0.002118119120435343,
+        "approx_kl_max": 0.0009450220285672911,
+        "approx_kl_mean": 0.0005425775770728207,
+        "total_collect_s": 1339.9,
+        "total_learn_s": 53.959999999999994
+      },
+      "checkpoints": {
+        "decisions_0000104000.pt": {
+          "bytes": 24219896,
+          "sha256": "5016498f75ca1bced1fa477b56aa5e5083553bbaa48cfc808aa77db03419b990"
+        },
+        "decisions_0000204800.pt": {
+          "bytes": 24223032,
+          "sha256": "9bcbc7830869f8f86c84fd92f7c323e18ab793956b4f15f9b59bc4be396777c4"
+        },
+        "decisions_0000305600.pt": {
+          "bytes": 24226616,
+          "sha256": "0365dc07089f7554c1ebbf3734d8d0f5e3aba038f21b52b37f1993d4f6461a97"
+        },
+        "decisions_0000406400.pt": {
+          "bytes": 24229880,
+          "sha256": "be8485ec243a2d9e59ddede2c3e3afd18ea05ddcdf250aac4401bfef5858d5de"
+        },
+        "decisions_0000507200.pt": {
+          "bytes": 24233144,
+          "sha256": "b37d2bdd53c70965424a9acca03296eb49de2f9782663be4f5993403b1631490"
+        },
+        "decisions_0000608000.pt": {
+          "bytes": 24236472,
+          "sha256": "1218c880a979b73c0ed3d779fc146e806083b87b7b03e503093da6649034a57c"
+        },
+        "decisions_0000700400.pt": {
+          "bytes": 24239672,
+          "sha256": "ae97b4c34ab983dcebf3a3bd42f7fc21dae3835ba5d5b39c9b25e1529d1caf94"
+        },
+        "decisions_0000801200.pt": {
+          "bytes": 24243064,
+          "sha256": "1189a9c65a9d8965ca7c4a6d0853e1e02733abfb22c0bdd6de3921010657df69"
+        },
+        "decisions_0000902000.pt": {
+          "bytes": 24246328,
+          "sha256": "97c998ae7147016d6b30d9b1ab928548aadc4faf3524cdc7ca85461d81391cd9"
+        },
+        "final.pt": {
+          "bytes": 24249656,
+          "sha256": "f8b98a3445ba7d58396375cd9b3bce0278e9bf6a11e1a45a1e87a8650e3a3ddb"
+        },
+        "smoke.pt": {
+          "bytes": 24216632,
+          "sha256": "d3844ff7a68a16817febc41a7a2bab34eea710e81050f58428ba0673d0f2ba57"
+        }
+      }
+    },
+    "small_v": {
+      "config": {
+        "arm": "small_v",
+        "bridge_library": {
+          "compiler": "C:\\path\\w64devkit\\bin\\g++.EXE",
+          "flags": [
+            "-std=c++20",
+            "-O2",
+            "-shared",
+            "-static"
+          ],
+          "name": "meow_rl_bridge-fd1a45c0e87de9c4.dll",
+          "sha256": "c696c94ab859f73ace2d920fee2265f6ccfb4afe573dbe0599a4f8750e9943db"
+        },
+        "budget": 1000000,
+        "checkpoint_interval": 100000,
+        "counts": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "critic_hidden": [
+          64,
+          32
+        ],
+        "dev": false,
+        "device": {
+          "cuda": "12.8",
+          "device": "cuda",
+          "gpu": "NVIDIA GeForce RTX 4080 Laptop GPU",
+          "gpu_memory_gb": 11.99,
+          "tf32": false,
+          "torch": "2.11.0+cu128"
+        },
+        "engine": {
+          "commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+          "sha256": "07e43f6210c640d87a9161193a71c394fde157f816af004d37a68ecc1e36a14a"
+        },
+        "identity": {
+          "actor": "meow_actor_112_64_32_1_joint125_t105_v1",
+          "critic": "meow_public416_mlp_64_32_v1",
+          "policy_features": "meow_policy112_v1",
+          "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+          "resolver": "meowmind_reference_shots_frozen_v1",
+          "reward_units": "terminal_2_pairwise_utility_minus_1",
+          "temperature": 1.05,
+          "value_features": "meow_public416_v1"
+        },
+        "limits": [
+          2.0,
+          0.05
+        ],
+        "mode": "full",
+        "opponents": {
+          "Astra": {
+            "executable_sha256": "ae03baa80955c6e5bb1539346c6a130daed40b341d35b69641fcb5ea5a80aa32",
+            "family": "gpt",
+            "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+          },
+          "Baseline": {
+            "executable_sha256": "a3718da028e5f1906c1bf8a3a8f99ce0519de322ea1b549cef17d7898296f4a5",
+            "family": "baseline",
+            "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+          },
+          "DeepSeek": {
+            "executable_sha256": "ae43d2f0c5178877581330f548cf6cc47986cfdf4edf644455cf863dfedb1b97",
+            "family": "deepseek",
+            "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+          },
+          "Meowmind": {
+            "executable_sha256": "08046af49a252f7bf2b690178ed04ba1b90f46c97bd4e12b495862b72b5218c9",
+            "family": "meowmind",
+            "sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc"
+          },
+          "Meowmind_Distill_P3": {
+            "executable_sha256": "f8f365cf21ef22c79885cccb18108f4ce1b18420985e28cff235c55cae303ee5",
+            "family": "meowmind",
+            "sha256": "680ccd22501f99c59c0f4ee7cab1d170d1b1aa1078eecf563fc17d26785e3e14"
+          },
+          "Opus": {
+            "executable_sha256": "aa35fbd533cb435bc30eec79bb06d54f507416bd08dccfc6867910ddc4cb1ff9",
+            "family": "claude",
+            "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+          },
+          "Player5": {
+            "executable_sha256": "9cd12aa1c002442669487bbe84501dea2ce27e94ab6ae215c98999a0c25799ab",
+            "family": "player5",
+            "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+          },
+          "Qwen": {
+            "executable_sha256": "997ec2627e9f432934451b074ad1708e407d0324e25808371735b81c2002e9dd",
+            "family": "qwen",
+            "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+          },
+          "Sol": {
+            "executable_sha256": "6999587eacff1594ef6ab7ac9818f83dad312de472eac2ea74fe57fa254608ad",
+            "family": "gpt",
+            "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+          },
+          "Sonnet": {
+            "executable_sha256": "74e8960c67503d9e18587a50b4a230bc411aaa5d750dccc908b8d7aee1e66f4c",
+            "family": "claude",
+            "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+          }
+        },
+        "optimizer_seed": 101,
+        "platform": "win32",
+        "pool": {
+          "bots": [
+            {
+              "family": "gpt",
+              "name": "Astra",
+              "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+              "sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740"
+            },
+            {
+              "family": "baseline",
+              "name": "Baseline",
+              "path": "ctf-stress-pack/bots/baseline.cpp",
+              "sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42"
+            },
+            {
+              "family": "deepseek",
+              "name": "DeepSeek",
+              "path": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+              "sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825"
+            },
+            {
+              "family": "meowmind",
+              "name": "Meowmind",
+              "path": "@repo/bots/meowmind_p/meowmind-ctf-374-20261011.cpp",
+              "sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc"
+            },
+            {
+              "family": "meowmind",
+              "name": "Meowmind_Distill_P3",
+              "path": "@repo/bots/meowmind_p/meowmind_p_distill_xxl_both.cpp",
+              "sha256": "680ccd22501f99c59c0f4ee7cab1d170d1b1aa1078eecf563fc17d26785e3e14"
+            },
+            {
+              "family": "claude",
+              "name": "Opus",
+              "path": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+              "sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b"
+            },
+            {
+              "family": "player5",
+              "name": "Player5",
+              "path": "ctf-stress-pack/bots/Player5.cpp",
+              "sha256": "0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9"
+            },
+            {
+              "family": "qwen",
+              "name": "Qwen",
+              "path": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+              "sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410"
+            },
+            {
+              "family": "gpt",
+              "name": "Sol",
+              "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+              "sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de"
+            },
+            {
+              "family": "claude",
+              "name": "Sonnet",
+              "path": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+              "sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6"
+            }
+          ],
+          "cap": 0.15,
+          "schema": "ctf-meow-rl-pool-1",
+          "shares": {
+            "baseline": 0.14285714285714285,
+            "claude": 0.14285714285714285,
+            "deepseek": 0.14285714285714285,
+            "gpt": 0.14285714285714285,
+            "meowmind": 0.14285714285714285,
+            "player5": 0.14285714285714285,
+            "qwen": 0.14285714285714285
+          }
+        },
+        "pool_sha256": "ecc56feb20c718293378927de184a0539bfbe82284bbc77bb7896e7fcb8a0641",
+        "ppo": {
+          "actor_lr": 0.0001,
+          "adam_betas": [
+            0.9,
+            0.999
+          ],
+          "adam_eps": 1e-05,
+          "advantage_eps": 1e-08,
+          "clip": 0.1,
+          "critic_lr": 0.0003,
+          "entropy_coefficient": 0.01,
+          "epochs_per_update": 4,
+          "gae_lambda": 0.95,
+          "gamma": 1.0,
+          "kl_estimator": "mean(rho-1-log rho), before the step",
+          "kl_stop": "actor stops for the rest of the update; critic continues",
+          "max_grad_norm": 0.5,
+          "minibatch": 1024,
+          "target_kl": 0.01,
+          "value_loss_coefficient": 0.5,
+          "weight_decay": 0.0
+        },
+        "profile": {
+          "actor": {
+            "action_resolver": "frozen_original",
+            "hidden": [
+              64,
+              32
+            ],
+            "input_per_move": 112,
+            "joint_actions": 125,
+            "warm_start": "original_meowmind_actor"
+          },
+          "critic": {
+            "features": 416,
+            "hidden": [
+              1024,
+              1024,
+              512
+            ],
+            "initialization": "fresh",
+            "output": 1,
+            "parameters": 2001921,
+            "units": "terminal_2_pairwise_utility_minus_1"
+          },
+          "deployment": {
+            "device": "cpu",
+            "first_turn_ms": 2000,
+            "later_turn_ms": 50,
+            "stage_a": "actor_plus_frozen_resolver",
+            "stage_b": "separate_value_guided_search_experiment"
+          },
+          "host": "desktop-g60ojud",
+          "opponent_predictor": "frozen_original_meowmind_with_causal_online_belief",
+          "pilot": {
+            "arms": [
+              "large_v",
+              "small_v"
+            ],
+            "checkpoint_interval": 100000,
+            "decisions_per_arm": 1000000,
+            "family_share_cap": 0.15,
+            "game_seeds": "allocate_fresh_in_ledger_before_run",
+            "optimizer_seed": 101,
+            "potential_shaping": false,
+            "primary_checkpoint": "final",
+            "self_play": false,
+            "smoke_decisions_included_in_total": 20000,
+            "team_counts": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15
+            ]
+          },
+          "plan": "docs/MEOWMIND_RL_PLAN.md",
+          "ppo": {
+            "actor_lr": 0.0001,
+            "clip": 0.1,
+            "critic_lr": 0.0003,
+            "entropy_coefficient": 0.01,
+            "epochs_per_update": 4,
+            "gae_lambda": 0.95,
+            "gamma": 1.0,
+            "max_grad_norm": 0.5,
+            "minibatch": 1024,
+            "rollout_decisions": 8192,
+            "target_kl": 0.01,
+            "value_clipping": false,
+            "value_loss_coefficient": 0.5
+          },
+          "schema": "ctf-meowmind-rl-plan-1",
+          "small_critic": {
+            "hidden": [
+              64,
+              32
+            ],
+            "parameters": 28801
+          },
+          "status": "specification_requires_trainer",
+          "training_device": "cuda"
+        },
+        "profile_sha256": "506161eb538b112989aee08f1448472d647e8b069958236b0e327112094f5a69",
+        "python": "3.14.3",
+        "rollout_decisions": 8192,
+        "schema": "ctf-meow-rl-run-1",
+        "seed_base": 20261902,
+        "seed_ledger": {
+          "path": "docs/MEOWMIND_RL_SEEDS.md",
+          "sha256": "ab90dbf1a67540dca8d523181ade0d085ca41e168784cbf7e4fb7fa4254b2881"
+        },
+        "sources": {
+          "code_digest": "c61eb852ab82734e8e27ef8be6489aaebf208a96a983557e276573ce29c4158d",
+          "files": {
+            "tools/cpp/meow_rl/actor_int.hpp": "18a2fd123def697d816b4e11995cbb39d13aebf2574aa9e7b00e712db5cb79ae",
+            "tools/cpp/meow_rl/bridge.cpp": "d78d7578dced9bd361a0900fb5cc321b05c1a7b88e285bc91a7580329798d2a5",
+            "training/meow_rl/__init__.py": "9c118b682552296d3c9ad326de7f01b7d05f3b84a36d24c52240c5e2a53ff079",
+            "training/meow_rl/bridge.py": "6d78bb87883a6b28213f4357fe23f4b2bcd2b8b0daac64ed76d6e41d5c8157f9",
+            "training/meow_rl/env.py": "4eff32e85a1e2e999e5fe12e7dd41d6e8601cd3789e3e7d7bc86a38276d44c4a",
+            "training/meow_rl/gae.py": "be6456c58f7f38171d15b728ca4763b8c97d390f021107b6b1d1c96eca795c66",
+            "training/meow_rl/identity.py": "6123376ae11d538bd918047d13ffa27acd8221c20c6abf029e8014f2e9020f3d",
+            "training/meow_rl/nets.py": "97cfda76e1a6dabe27ca48167c5cc5580dbc5cf253ddb5da26d52572be18a9f1",
+            "training/meow_rl/policy.py": "e9c7db243bb47e702bcfec4b23cf9d12627bc5a649227984beaf5e89f66df340",
+            "training/meow_rl/pool.py": "ca587c84e6a5747c3c5f93a94f47185a5af9a5217d047c48a94d41842059a060",
+            "training/meow_rl/ppo.py": "034c88adfec7541efe05d3167424bb2972e5e4a86984e2a949b86dec8a9faba0",
+            "training/meow_rl/quant.py": "0894648ef52b2cb27503e21a6f827a9f3aed46457b52cc0ba5cfbb891b431d7c",
+            "training/meow_rl/store.py": "ca70e8aea9bd29a98f94ed9556265085f1701e4dea00293a29e38458b000cb48",
+            "training/meow_rl/train.py": "2c773a26e18a9fdd5410c71207c560d89305353a384b4b639226e6b47e3fa123"
+          },
+          "reference": "bots/meowmind_p/meowmind-ctf-374-20261011.cpp",
+          "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc"
+        },
+        "task": "T0054/T0055",
+        "workers": 6
+      },
+      "counters": {
+        "decisions": 1000000,
+        "updates": 120,
+        "episodes": 2500,
+        "faults": 0,
+        "discarded_decisions": 0,
+        "discarded_episodes": 0,
+        "families": {
+          "qwen": 2696,
+          "baseline": 2623,
+          "gpt": 2728,
+          "meowmind": 2576,
+          "claude": 2608,
+          "deepseek": 2756,
+          "player5": 2700
+        },
+        "counts": {
+          "3": 182,
+          "2": 197,
+          "4": 164,
+          "10": 176,
+          "14": 178,
+          "7": 172,
+          "6": 183,
+          "12": 161,
+          "15": 174,
+          "11": 197,
+          "8": 156,
+          "5": 177,
+          "13": 187,
+          "9": 196
+        }
+      },
+      "metrics": {
+        "utility_initial": 0.6128294985437843,
+        "utility_final": 0.6416753881039596,
+        "utility_mean": 0.6233661360409871,
+        "utility_max": 0.7546745582459868,
+        "v_loss_initial": 0.005900131169861804,
+        "v_loss_final": 0.0018241835399142776,
+        "v_loss_mean": 0.002966189907783701,
+        "approx_kl_max": 0.0007811708821804313,
+        "approx_kl_mean": 0.0005327239713385665,
+        "total_collect_s": 1350.27,
+        "total_learn_s": 47.870000000000005
+      },
+      "checkpoints": {
+        "decisions_0000104000.pt": {
+          "bytes": 540112,
+          "sha256": "4d279c14f0dfbc4e37afbdf2ee4b72b0e407a1e6cbde155777f094399936d647"
+        },
+        "decisions_0000204800.pt": {
+          "bytes": 543312,
+          "sha256": "6b0bfd74c766de6c3a7f23a09cbdf90a0a6ad8ff2277e0e3c661d51b035cc672"
+        },
+        "decisions_0000305600.pt": {
+          "bytes": 546768,
+          "sha256": "a348d6647e5367f925f45266ef7c272a01452728e9fb1691ba5d8c5bfa74c2bd"
+        },
+        "decisions_0000406400.pt": {
+          "bytes": 550160,
+          "sha256": "e6a0b56904b4fd7aeed6aa77f527669daea814b490afb63ab9e0a276730c3b25"
+        },
+        "decisions_0000507200.pt": {
+          "bytes": 553360,
+          "sha256": "06e34908a2d9c86e5e1f1361b27b9bb3e5a63f669fee40fcde8edfe2bc40a150"
+        },
+        "decisions_0000608000.pt": {
+          "bytes": 556752,
+          "sha256": "f707e5c7992bffcc00bcb9d7b46b77e24e1e6690b925784a0a986e37c540a66c"
+        },
+        "decisions_0000700400.pt": {
+          "bytes": 559888,
+          "sha256": "d4bf42af0922fd091b14439e6774c335a21ce85161a3a3425a1de9bd304ef785"
+        },
+        "decisions_0000801200.pt": {
+          "bytes": 563408,
+          "sha256": "01a73b2d32bccb560941de06fa05b6745f26d9482f435bb9edfe502f577b6e16"
+        },
+        "decisions_0000902000.pt": {
+          "bytes": 566416,
+          "sha256": "2eb856c25a7ae10d724ad8461fb19534a229d79e33e72630636e445802ba6490"
+        },
+        "final.pt": {
+          "bytes": 569808,
+          "sha256": "328494a900d188614233c8b09712972a55b2ad95b5fbbbbdf312e5dbd90bb4c0"
+        },
+        "smoke.pt": {
+          "bytes": 536912,
+          "sha256": "3c538e8e2fa4caa48a1f831633ae31a7c754359eb22294af7e4c63489095f3b7"
+        }
+      }
+    }
+  }
+}
