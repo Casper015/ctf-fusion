@@ -1,8 +1,8 @@
 ---
 id: T0038
 title: "Audit expanded decision pilot and build source-bound training dataset"
-status: review
-owner: codex-data-audit@desktop-g60ojud
+status: active
+owner: codex-t38-review@desktop-g60ojud
 needs: [host]
 writes: [bots/p_only/report/decision_dataset/, reports/eval/decision_data_quality/]
 depends: [T0037]
@@ -40,3 +40,4 @@ Independent audit of the 336 host matches (134,400 turns) and 5,268 continuation
 - 2026-10-14 19:24Z codex-host-handoff@caspers-macbook: note: Casper moved T0037 back to Windows desktop-g60ojud on October14. Audit its completed new host corpus once T0037 is done; keep Colab history and any auxiliary analysis separate. Preserve the recorded pre-audit noise-population and all-phase-fault checks. No dataset authority or training admission before exact source-bound audit.
 - 2026-10-14 23:57Z codex-data-audit@desktop-g60ojud: claimed
 - 2026-10-15 00:34Z codex-data-audit@desktop-g60ojud: handoff -> review
+- 2026-10-15 01:21Z codex-t38-review@desktop-g60ojud: claimed (forced)
