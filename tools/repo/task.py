@@ -39,6 +39,7 @@ import datetime as dt
 import difflib
 import json
 import os
+import posixpath
 import re
 import shlex
 import socket
@@ -155,6 +156,49 @@ def overlaps(a: list[str], b: list[str]) -> bool:
 
 def now() -> str:
     return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%MZ")
+
+
+LINK = re.compile(r"\]\(([^)\s]+)\)")
+TASK_LINK = re.compile(r"^T\d{4}-[a-z0-9-]+\.md$")
+
+
+def relink(text: str, name: str, exists) -> str:
+    """Links of a task file at tasks/<name> that resolve only from the other task folder (tasks/ vs tasks/archive/),
+    rewritten to reach the same target from where the file is. A file written in tasks/ links '../bots/...'; moved into
+    archive/ the same target is '../../bots/...'. URLs, anchors, links that resolve, links to task files (valid in
+    either folder) and fenced code are left alone. exists(path) says whether a repository path is a file or folder."""
+    here = posixpath.dirname(f"{DIR}/{name}")
+    other = DIR if here != DIR else f"{DIR}/{ARCHIVE}"
+
+    def fix(m: re.Match) -> str:
+        target = m.group(1)
+        if re.match(r"^[a-z][a-z0-9+.-]*:", target) or target.startswith(("#", "<", "/")):
+            return m.group(0)
+        path, sep, anchor = target.partition("#")
+        if not path or TASK_LINK.match(posixpath.basename(path)) or exists(posixpath.normpath(posixpath.join(here, path))):
+            return m.group(0)
+        meant = posixpath.normpath(posixpath.join(other, path))
+        if meant.startswith("..") or not exists(meant):
+            return m.group(0)
+        new = posixpath.relpath(meant, here) + ("/" if path.endswith("/") else "")
+        return f"]({new}{sep}{anchor})"
+
+    out, fence = [], False
+    for line in text.split("\n"):
+        if line.lstrip().startswith("```"):
+            fence = not fence
+        out.append(line if fence else LINK.sub(fix, line))
+    return "\n".join(out)
+
+
+def tree_paths(rev: str, cwd: Path) -> set[str]:
+    """Every file and folder path at a commit."""
+    files = git("ls-tree", "-r", "--name-only", rev, cwd=cwd).split("\n")
+    out = set(files)
+    for f in files:
+        parts = f.split("/")
+        out.update("/".join(parts[:i]) for i in range(1, len(parts)))
+    return out
 
 
 def placed(name: str, meta: dict) -> str:
@@ -366,11 +410,13 @@ class Board:
             if not changes:
                 return base, result
             changes = dict(changes)
+            paths = None
             for name, text in list(changes.items()):        # a task file goes where its status puts it
                 if text is not None and TASK_FILE.match(Path(name).name):
                     want = placed(name, parse(text)[0])
                     if want != name:
-                        changes[want], changes[name] = text, None
+                        paths = paths or tree_paths(base, self.cwd)
+                        changes[want], changes[name] = relink(text, want, paths.__contains__), None
             after = dict(before)
             for name, text in changes.items():
                 m = TASK_FILE.match(Path(name).name)
@@ -604,6 +650,11 @@ def op_archive(board: Board, agent: str) -> list[str]:
     """Put every task file where its status belongs (finished ones in tasks/archive/) and refresh the README board."""
     def edit(tasks):
         moved = {name: render(meta, body) for name, meta, body in tasks.values() if placed(name, meta) != name}
+        paths = tree_paths(board.ref, board.cwd)
+        for name, meta, body in tasks.values():                    # files already in place whose links broke on a move
+            text = render(meta, body)
+            if name not in moved and relink(text, name, paths.__contains__) != text:
+                moved[name] = relink(text, name, paths.__contains__)
         readme = board.readme(board.ref)
         fresh = with_board(readme, tasks)
         if not moved and fresh is not None and fresh != readme:

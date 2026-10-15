@@ -245,6 +245,48 @@ class TestConcurrentAgents(unittest.TestCase):
         self.assertIn("tasks/archive/T0002-tune.md", files)
         self.assertIn("tasks/T0001-screen.md", files)
 
+    def test_links_follow_a_moved_task(self):
+        seed = self.a
+        (seed / "docs").mkdir(exist_ok=True)
+        (seed / "docs" / "x.md").write_text("# x\n", encoding="utf-8")
+        body = ("\n## Goal\n\nSee [x](../docs/x.md#part), [the board](README.md), [T0001](T0001-screen.md), "
+                "[web](https://example.com/a.md) and `[raw](../docs/x.md)`.\n\n```\n[fenced](../docs/x.md)\n```\n\n"
+                "## Done when\n\nd\n\n## Handoff\n\nNot started.\n\n## Log\n\n- created\n")
+        meta = task.parse(task_text("T0004", "linked", ["x/"]))[0]
+        (seed / "tasks" / "T0004-linked.md").write_text(task.render(meta, body), encoding="utf-8")
+        (seed / "tasks" / "README.md").write_text("# board\n", encoding="utf-8")
+        run("add", "-A", cwd=seed)
+        run("commit", "-q", "-m", "a task with links", cwd=seed)
+        run("push", "-q", "origin", "HEAD:main", cwd=seed)
+        task.op_update(self.board(self.b), "T0004", "claude@mac", status="done", verb="done")
+        b = self.board(self.b)
+        archived = task.git("show", f"{b.fetch()}:tasks/archive/T0004-linked.md", cwd=self.b)
+        self.assertIn("[x](../../docs/x.md#part)", archived)
+        self.assertIn("[the board](../README.md)", archived)
+        self.assertIn("[T0001](T0001-screen.md)", archived)                  # task links stay: valid in either folder
+        self.assertIn("(https://example.com/a.md)", archived)
+        self.assertIn("[fenced](../docs/x.md)", archived)                    # code is not a link
+        task.op_update(self.board(self.b), "T0004", "claude@mac", status="open", handoff="reopened", verb="handoff")
+        back = task.git("show", f"{b.fetch()}:tasks/T0004-linked.md", cwd=self.b)
+        self.assertIn("[x](../docs/x.md#part)", back)
+        self.assertIn("[the board](README.md)", back)
+
+    def test_archive_repairs_links_of_files_moved_without_them(self):
+        seed = self.a
+        (seed / "docs").mkdir(exist_ok=True)
+        (seed / "docs" / "x.md").write_text("# x\n", encoding="utf-8")
+        (seed / "tasks" / "archive").mkdir()
+        body = "\n## Goal\n\n[x](../docs/x.md)\n\n## Done when\n\nd\n\n## Handoff\n\nr\n\n## Log\n\n- created\n"
+        meta = task.parse(task_text("T0004", "old", ["x/"], status="done", owner="x@y"))[0]
+        (seed / "tasks" / "archive" / "T0004-old.md").write_text(task.render(meta, body), encoding="utf-8")
+        run("add", "-A", cwd=seed)
+        run("commit", "-q", "-m", "archived before links were rewritten", cwd=seed)
+        run("push", "-q", "origin", "HEAD:main", cwd=seed)
+        self.assertEqual(task.op_archive(self.board(self.b), "claude@mac"), ["T0004"])
+        b = self.board(self.b)
+        self.assertIn("[x](../../docs/x.md)", task.git("show", f"{b.fetch()}:tasks/archive/T0004-old.md", cwd=self.b))
+        self.assertEqual(task.op_archive(self.board(self.b), "claude@mac"), [])
+
     def test_archive_command_and_readme_board(self):
         seed = self.a
         (seed / "tasks" / "T0004-old.md").write_text(task_text("T0004", "old", ["old/"], status="done", owner="x@y"), encoding="utf-8")

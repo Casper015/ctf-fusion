@@ -1,0 +1,454 @@
+{
+ "mixture": {
+  "cap": {
+   "binding": false,
+   "effective_cap": 0.25,
+   "lineages": 15,
+   "post_cap": {
+    "lineage:Control_Hybrid": 0.1333333333333334,
+    "lineage:Player5": 0.25,
+    "lineage:baseline": 0.049999999999999996,
+    "lineage:cand-012": 0.03333333333333333,
+    "lineage:ctf-arena_Player5_sparring": 0.03333333333333333,
+    "lineage:deepseek-v4.1-flash": 0.049999999999999996,
+    "lineage:fable-5.1": 0.049999999999999996,
+    "lineage:glm-5.3": 0.049999999999999996,
+    "lineage:gpt-6-astra": 0.049999999999999996,
+    "lineage:gpt-6.1-sol": 0.049999999999999996,
+    "lineage:kimi-k3": 0.049999999999999996,
+    "lineage:mimo-v2.6-pro": 0.049999999999999996,
+    "lineage:opus-5.5": 0.049999999999999996,
+    "lineage:qwen-3.8-max": 0.049999999999999996,
+    "lineage:sonnet-5.5": 0.049999999999999996
+   },
+   "pre_cap": {
+    "lineage:Control_Hybrid": 0.1333333333333334,
+    "lineage:Player5": 0.25,
+    "lineage:baseline": 0.049999999999999996,
+    "lineage:cand-012": 0.03333333333333333,
+    "lineage:ctf-arena_Player5_sparring": 0.03333333333333333,
+    "lineage:deepseek-v4.1-flash": 0.049999999999999996,
+    "lineage:fable-5.1": 0.049999999999999996,
+    "lineage:glm-5.3": 0.049999999999999996,
+    "lineage:gpt-6-astra": 0.049999999999999996,
+    "lineage:gpt-6.1-sol": 0.049999999999999996,
+    "lineage:kimi-k3": 0.049999999999999996,
+    "lineage:mimo-v2.6-pro": 0.049999999999999996,
+    "lineage:opus-5.5": 0.049999999999999996,
+    "lineage:qwen-3.8-max": 0.049999999999999996,
+    "lineage:sonnet-5.5": 0.049999999999999996
+   },
+   "relaxed": false,
+   "requested_cap": 0.25
+  },
+  "composition_after_cap": {
+   "addition": 0.19999999999999998,
+   "neural": 0.20000000000000004,
+   "reference": 0.6
+  },
+  "composition_target": {
+   "addition": 0.2,
+   "neural": 0.2,
+   "reference": 0.6
+  }
+ },
+ "simulation_2000_games_per_count": {
+  "cap": {
+   "binding": false,
+   "effective_cap": 0.25,
+   "lineages": 15,
+   "post_cap": {
+    "lineage:Control_Hybrid": 0.1333333333333334,
+    "lineage:Player5": 0.25,
+    "lineage:baseline": 0.049999999999999996,
+    "lineage:cand-012": 0.03333333333333333,
+    "lineage:ctf-arena_Player5_sparring": 0.03333333333333333,
+    "lineage:deepseek-v4.1-flash": 0.049999999999999996,
+    "lineage:fable-5.1": 0.049999999999999996,
+    "lineage:glm-5.3": 0.049999999999999996,
+    "lineage:gpt-6-astra": 0.049999999999999996,
+    "lineage:gpt-6.1-sol": 0.049999999999999996,
+    "lineage:kimi-k3": 0.049999999999999996,
+    "lineage:mimo-v2.6-pro": 0.049999999999999996,
+    "lineage:opus-5.5": 0.049999999999999996,
+    "lineage:qwen-3.8-max": 0.049999999999999996,
+    "lineage:sonnet-5.5": 0.049999999999999996
+   },
+   "pre_cap": {
+    "lineage:Control_Hybrid": 0.1333333333333334,
+    "lineage:Player5": 0.25,
+    "lineage:baseline": 0.049999999999999996,
+    "lineage:cand-012": 0.03333333333333333,
+    "lineage:ctf-arena_Player5_sparring": 0.03333333333333333,
+    "lineage:deepseek-v4.1-flash": 0.049999999999999996,
+    "lineage:fable-5.1": 0.049999999999999996,
+    "lineage:glm-5.3": 0.049999999999999996,
+    "lineage:gpt-6-astra": 0.049999999999999996,
+    "lineage:gpt-6.1-sol": 0.049999999999999996,
+    "lineage:kimi-k3": 0.049999999999999996,
+    "lineage:mimo-v2.6-pro": 0.049999999999999996,
+    "lineage:opus-5.5": 0.049999999999999996,
+    "lineage:qwen-3.8-max": 0.049999999999999996,
+    "lineage:sonnet-5.5": 0.049999999999999996
+   },
+   "relaxed": false,
+   "requested_cap": 0.25
+  },
+  "composition_after_cap": {
+   "addition": 0.19999999999999998,
+   "neural": 0.20000000000000004,
+   "reference": 0.6
+  },
+  "composition_target": {
+   "addition": 0.2,
+   "neural": 0.2,
+   "reference": 0.6
+  },
+  "per_count": {
+   "10": {
+    "component_share": {
+     "addition": 0.2019,
+     "neural": 0.2304,
+     "reference": 0.5676
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1483,
+     "lineage:Player5": 0.2624,
+     "lineage:baseline": 0.0484,
+     "lineage:qwen-3.8-max": 0.0482
+    },
+    "units_never_drawn": []
+   },
+   "11": {
+    "component_share": {
+     "addition": 0.2049,
+     "neural": 0.2361,
+     "reference": 0.5589
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1502,
+     "lineage:Player5": 0.2681,
+     "lineage:kimi-k3": 0.0481,
+     "lineage:mimo-v2.6-pro": 0.0478
+    },
+    "units_never_drawn": []
+   },
+   "12": {
+    "component_share": {
+     "addition": 0.2055,
+     "neural": 0.24,
+     "reference": 0.5544
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1528,
+     "lineage:Player5": 0.2708,
+     "lineage:deepseek-v4.1-flash": 0.0477,
+     "lineage:gpt-6-astra": 0.0475
+    },
+    "units_never_drawn": []
+   },
+   "13": {
+    "component_share": {
+     "addition": 0.2067,
+     "neural": 0.2418,
+     "reference": 0.5515
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1551,
+     "lineage:Player5": 0.2717,
+     "lineage:qwen-3.8-max": 0.0478,
+     "lineage:sonnet-5.5": 0.0469
+    },
+    "units_never_drawn": []
+   },
+   "14": {
+    "component_share": {
+     "addition": 0.2054,
+     "neural": 0.254,
+     "reference": 0.5406
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1631,
+     "lineage:Player5": 0.274,
+     "lineage:baseline": 0.0462,
+     "lineage:mimo-v2.6-pro": 0.046
+    },
+    "units_never_drawn": []
+   },
+   "15": {
+    "component_share": {
+     "addition": 0.2025,
+     "neural": 0.2612,
+     "reference": 0.5363
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.166,
+     "lineage:Player5": 0.2758,
+     "lineage:fable-5.1": 0.0454,
+     "lineage:qwen-3.8-max": 0.0455
+    },
+    "units_never_drawn": []
+   },
+   "2": {
+    "component_share": {
+     "addition": 0.186,
+     "neural": 0.203,
+     "reference": 0.611
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1395,
+     "lineage:Player5": 0.2345,
+     "lineage:mimo-v2.6-pro": 0.0565,
+     "lineage:sonnet-5.5": 0.0575
+    },
+    "units_never_drawn": []
+   },
+   "3": {
+    "component_share": {
+     "addition": 0.1923,
+     "neural": 0.2132,
+     "reference": 0.5945
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1378,
+     "lineage:Player5": 0.2547,
+     "lineage:baseline": 0.0553,
+     "lineage:mimo-v2.6-pro": 0.0537
+    },
+    "units_never_drawn": []
+   },
+   "4": {
+    "component_share": {
+     "addition": 0.2047,
+     "neural": 0.2042,
+     "reference": 0.5912
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1355,
+     "lineage:Player5": 0.249,
+     "lineage:opus-5.5": 0.0542,
+     "lineage:sonnet-5.5": 0.0525
+    },
+    "units_never_drawn": []
+   },
+   "5": {
+    "component_share": {
+     "addition": 0.2066,
+     "neural": 0.214,
+     "reference": 0.5794
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1439,
+     "lineage:Player5": 0.2571,
+     "lineage:fable-5.1": 0.0505,
+     "lineage:mimo-v2.6-pro": 0.051
+    },
+    "units_never_drawn": []
+   },
+   "6": {
+    "component_share": {
+     "addition": 0.196,
+     "neural": 0.2141,
+     "reference": 0.5899
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1424,
+     "lineage:Player5": 0.2535,
+     "lineage:glm-5.3": 0.0519,
+     "lineage:opus-5.5": 0.0511
+    },
+    "units_never_drawn": []
+   },
+   "7": {
+    "component_share": {
+     "addition": 0.204,
+     "neural": 0.2155,
+     "reference": 0.5805
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1435,
+     "lineage:Player5": 0.2544,
+     "lineage:glm-5.3": 0.0504,
+     "lineage:qwen-3.8-max": 0.0525
+    },
+    "units_never_drawn": []
+   },
+   "8": {
+    "component_share": {
+     "addition": 0.2028,
+     "neural": 0.2191,
+     "reference": 0.5781
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1448,
+     "lineage:Player5": 0.2582,
+     "lineage:gpt-6.1-sol": 0.0505,
+     "lineage:mimo-v2.6-pro": 0.0503
+    },
+    "units_never_drawn": []
+   },
+   "9": {
+    "component_share": {
+     "addition": 0.2036,
+     "neural": 0.2273,
+     "reference": 0.5692
+    },
+    "top_lineages": {
+     "lineage:Control_Hybrid": 0.1445,
+     "lineage:Player5": 0.2636,
+     "lineage:glm-5.3": 0.0488,
+     "lineage:mimo-v2.6-pro": 0.05
+    },
+    "units_never_drawn": []
+   }
+  }
+ },
+ "pilot_schedule_realized": {
+  "2": {
+   "components": {
+    "addition": 0.2647,
+    "neural": 0.2647,
+    "reference": 0.4706
+   },
+   "groups_neural": {
+    "v12": 5,
+    "C08": 4
+   },
+   "top_lineages": {
+    "lineage:Player5": 0.2647,
+    "lineage:Control_Hybrid": 0.1471,
+    "lineage:qwen-3.8-max": 0.1176
+   }
+  },
+  "3": {
+   "components": {
+    "neural": 0.2059,
+    "reference": 0.5,
+    "addition": 0.2941
+   },
+   "groups_neural": {
+    "C08": 10,
+    "v12": 4
+   },
+   "top_lineages": {
+    "lineage:Control_Hybrid": 0.2059,
+    "lineage:Player5": 0.2059,
+    "lineage:baseline": 0.0882
+   }
+  },
+  "4": {
+   "components": {
+    "reference": 0.598,
+    "neural": 0.2255,
+    "addition": 0.1765
+   },
+   "groups_neural": {
+    "v12": 10,
+    "C08": 13
+   },
+   "top_lineages": {
+    "lineage:Player5": 0.2255,
+    "lineage:Control_Hybrid": 0.1569,
+    "lineage:glm-5.3": 0.1078
+   }
+  },
+  "5": {
+   "components": {
+    "neural": 0.2574,
+    "reference": 0.5662,
+    "addition": 0.1765
+   },
+   "groups_neural": {
+    "C08": 15,
+    "v12": 20
+   },
+   "top_lineages": {
+    "lineage:Player5": 0.2941,
+    "lineage:Control_Hybrid": 0.1176,
+    "lineage:fable-5.1": 0.0882
+   }
+  },
+  "6": {
+   "components": {
+    "reference": 0.6059,
+    "neural": 0.2176,
+    "addition": 0.1765
+   },
+   "groups_neural": {
+    "v12": 21,
+    "C08": 16
+   },
+   "top_lineages": {
+    "lineage:Player5": 0.2294,
+    "lineage:Control_Hybrid": 0.1235,
+    "lineage:gpt-6-astra": 0.0647
+   }
+  },
+  "7": {
+   "components": {
+    "reference": 0.5686,
+    "neural": 0.2402,
+    "addition": 0.1912
+   },
+   "groups_neural": {
+    "v12": 26,
+    "C08": 23
+   },
+   "top_lineages": {
+    "lineage:Player5": 0.2696,
+    "lineage:Control_Hybrid": 0.1569,
+    "lineage:opus-5.5": 0.0637
+   }
+  },
+  "8": {
+   "components": {
+    "reference": 0.5462,
+    "addition": 0.2353,
+    "neural": 0.2185
+   },
+   "groups_neural": {
+    "v12": 24,
+    "C08": 28
+   },
+   "top_lineages": {
+    "lineage:Player5": 0.2689,
+    "lineage:Control_Hybrid": 0.1723,
+    "lineage:kimi-k3": 0.0588
+   }
+  },
+  "9": {
+   "components": {
+    "addition": 0.2279,
+    "reference": 0.5551,
+    "neural": 0.2169
+   },
+   "groups_neural": {
+    "C08": 30,
+    "v12": 29
+   },
+   "top_lineages": {
+    "lineage:Player5": 0.261,
+    "lineage:Control_Hybrid": 0.1397,
+    "lineage:glm-5.3": 0.0662
+   }
+  },
+  "10": {
+   "components": {
+    "neural": 0.2059,
+    "reference": 0.6013,
+    "addition": 0.1928
+   },
+   "groups_neural": {
+    "C08": 31,
+    "v12": 32
+   },
+   "top_lineages": {
+    "lineage:Player5": 0.2614,
+    "lineage:Control_Hybrid": 0.134,
+    "lineage:opus-5.5": 0.0588
+   }
+  }
+ },
+ "schedule_identity": "1d80e761c27c88e42eb0ae4cea5f346b95619574ff2915e1fb2d7a9a61b0653b",
+ "seed": 20261501
+}

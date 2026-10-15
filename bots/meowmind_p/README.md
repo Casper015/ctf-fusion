@@ -2,12 +2,13 @@
 
 The meowmind CTF bot with our P3 XXL opponent policy added to its search. Two bundled single-file bots, the generator that builds them, and the development-machine pilot results (task T0041). **The pilot results are not host evidence:** they come from a Mac, and they show no difference from the unchanged bot.
 
-meowmind (`meowmind-ctf-374-20261011.cpp`, sha256 `cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc`) is another author's bot. Casper chose to publish its source here, inside the two bundles. The source carries no license notice.
+meowmind ([`meowmind-ctf-374-20261011.cpp`](meowmind-ctf-374-20261011.cpp), sha256 `cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc`) is another author's bot. Casper chose to publish its source here: the original file, unmodified, and inside the two bundles. The source carries no license notice.
 
 ## The bots
 
 | File | Policy P | sha256 |
 |---|---|---|
+| `meowmind-ctf-374-20261011.cpp` | none: the original meowmind, unmodified (the control in the pilot) | `cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc` |
 | `meowmind_p_t0011_xxl_both.cpp` | T0011 P3 XXL, seed 1 (`inference/models_pf_p3xxl_vm`, header `a1c70248…`) | `a27b73001fd42c96bb9a76f0c7b4f317c7acf9038ad57b2941671b1fe98614d3` |
 | `meowmind_p_distill_xxl_both.cpp` | T0032 `distill_s101` (8XL teacher, XXL student; model.npz `68d2e776…`, best val 2.07186) | `680ccd22501f99c59c0f4ee7cab1d170d1b1aa1078eecf563fc17d26785e3e14` |
 
@@ -21,7 +22,7 @@ Everything else is meowmind's: its value net, rollouts, shots, time budget (12 m
 ## Rebuilding
 
 ```bash
-python bots/meowmind_p/make.py meowmind-ctf-374-20261011.cpp models_pf_p3xxl_vm meowmind_p_t0011_xxl_both.cpp
+python bots/meowmind_p/make.py bots/meowmind_p/meowmind-ctf-374-20261011.cpp models_pf_p3xxl_vm meowmind_p_t0011_xxl_both.cpp
 ```
 
 This reproduces `meowmind_p_t0011_xxl_both.cpp` byte for byte. `MODEL_DIR` is relative to `inference/`. The patch stops if any anchor in the meowmind source is missing or repeated.
@@ -34,7 +35,7 @@ The distilled bot needs a model set that is not committed:
 
 ```bash
 python -m training.export_mixed --policy-run <distill_s101> --value-tier m --out inference/models_pdistill_xxl_vm
-python bots/meowmind_p/make.py meowmind-ctf-374-20261011.cpp models_pdistill_xxl_vm meowmind_p_distill_xxl_both.cpp
+python bots/meowmind_p/make.py bots/meowmind_p/meowmind-ctf-374-20261011.cpp models_pdistill_xxl_vm meowmind_p_distill_xxl_both.cpp
 ```
 
 The export's header sha256 was `1b1999b60f7ef89d597a14d0dd3c6fad8936b053bc210fcbdd4f0ce3df7e2e4f`. Only the policy is used; the set's V (models_m) is not called.

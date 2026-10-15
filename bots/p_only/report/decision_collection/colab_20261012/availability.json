@@ -1,0 +1,938 @@
+{
+ "pool_identity": "0e2bfcf6d151c984c110d473e51a31ada1bc4edc2bc080c804b45a9acbc67e32",
+ "counts": {
+  "addition:enabled": 6,
+  "neural:disabled": 5,
+  "neural:enabled": 34,
+  "neural:not_registered": 7,
+  "reference:enabled": 12
+ },
+ "designated": {
+  "bundle_sha256": "419c53730cd7e90f4806bf060e3e9931ef7dcfb6abe9d607186aa0563b8020e4",
+  "code_sha256": "222052925977599852d9ae55c00c4f534f18ee322707508c1a86e534e6802f67",
+  "incumbent": "v12_ponly_xxl",
+  "inputs_sha256": "43322a8b8ca27111c445551736ccaab0bec53af5cc0185cfd4bb63ecd3f4535d",
+  "note": "the log-only build (PONLY_DECISION 1, family carrier) of the admitted incumbent v12_ponly_xxl: the same orders (bots/p_only/tests/test_decision_hook.py), plus the scored shortlist after '#'; a new carrier version for data, never pooled with v12_ponly_xxl data",
+  "policy": "p2 XXL (inference/models_xxl)",
+  "reference": {
+   "binary_sha256": "6cbd5d34610f7946eebee56713992eae81c283f3bbb6a6fc8a342a1dc3db47c1",
+   "differences": [
+    [
+     "bots/p_only/bots/v12_ponly.hpp",
+     "5c63bee55a6b59b327c489524c82250186bef36329896910512928211100d8b7"
+    ],
+    [
+     "bots/p_only/bots/v12_ponly_f.hpp",
+     "7bed8371b045a627f0b2fc1d3784009272bf6a14763f08db8b05e1bfa8e130d3"
+    ],
+    [
+     "bots/p_only/bots/variants/v12_ponly_xxl.cpp",
+     "bae25e4131a2b3afff46ac195648078f5c19ede9df34e8982dec3ed1255dfdb4"
+    ],
+    [
+     "bots/p_only/bots/variants/v12_ponly_xxl_dlog.cpp",
+     "98b4e2f0f6d24be5e17b08a39d4f8d67b97bc4af5a686cffdfb8281c1e8d9e78"
+    ],
+    [
+     "bots/p_only/include/decision_hook.hpp",
+     "0e70f752aaf6d253d8fe382c3ec6be4436c47157bb682638727a0203b058dfdc"
+    ],
+    [
+     "inference/combat.hpp",
+     "6f456e52de1ec74e919b6bab1fbe698bb961663179a4bb881f82833a638539f7"
+    ],
+    [
+     "inference/sim.hpp",
+     "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    ]
+   ],
+   "manifest": "bots/p_only/report/v_data/manifest.json",
+   "same_inputs": false,
+   "variant": "v12_ponly_xxl"
+  },
+  "source": "bots/p_only/bots/variants/v12_ponly_xxl_dlog.cpp",
+  "stats": true,
+  "status": "admitted",
+  "value": "off",
+  "variant": "v12_ponly_xxl_dlog"
+ },
+ "members": [
+  {
+   "name": "Astra",
+   "component": "reference",
+   "group": "Astra",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:gpt-6-astra",
+   "unit": "src:ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp"
+   }
+  },
+  {
+   "name": "Sol",
+   "component": "reference",
+   "group": "Sol",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:gpt-6.1-sol",
+   "unit": "src:ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp"
+   }
+  },
+  {
+   "name": "Fable",
+   "component": "reference",
+   "group": "Fable",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:fable-5.1",
+   "unit": "src:ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp"
+   }
+  },
+  {
+   "name": "Sonnet",
+   "component": "reference",
+   "group": "Sonnet",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:sonnet-5.5",
+   "unit": "src:ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp"
+   }
+  },
+  {
+   "name": "Opus",
+   "component": "reference",
+   "group": "Opus",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:opus-5.5",
+   "unit": "src:ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp"
+   }
+  },
+  {
+   "name": "DeepSeek",
+   "component": "reference",
+   "group": "DeepSeek",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:deepseek-v4.1-flash",
+   "unit": "src:ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp"
+   }
+  },
+  {
+   "name": "Qwen",
+   "component": "reference",
+   "group": "Qwen",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:qwen-3.8-max",
+   "unit": "src:ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp"
+   }
+  },
+  {
+   "name": "MiMo",
+   "component": "reference",
+   "group": "MiMo",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:mimo-v2.6-pro",
+   "unit": "src:ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp"
+   }
+  },
+  {
+   "name": "Kimi",
+   "component": "reference",
+   "group": "Kimi",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:kimi-k3",
+   "unit": "src:ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp"
+   }
+  },
+  {
+   "name": "GLM",
+   "component": "reference",
+   "group": "GLM",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:glm-5.3",
+   "unit": "src:ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp"
+   }
+  },
+  {
+   "name": "Player5",
+   "component": "reference",
+   "group": "Player5",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "src:ctf-stress-pack/bots/Player5.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/0b80d9175a27f9ea66ccd5e9845e33871dbbd0176b3bb2fccfbdc87d18385eb9.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-stress-pack/bots/Player5.cpp"
+   }
+  },
+  {
+   "name": "Baseline",
+   "component": "reference",
+   "group": "Baseline",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:baseline",
+   "unit": "src:ctf-stress-pack/bots/baseline.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-stress-pack/bots/baseline.cpp"
+   }
+  },
+  {
+   "name": "ctf-arena_Player5_v12_rollout_volley",
+   "component": "addition",
+   "group": "ctf-arena_Player5_v12_rollout_volley",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "src:@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "repository",
+    "label": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp",
+    "substituted": false,
+    "recorded_path": "@repo/roster/new_bots/forks/ctf-arena_Player5_v12_rollout_volley.cpp"
+   }
+  },
+  {
+   "name": "cand-012",
+   "component": "addition",
+   "group": "cand-012",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:cand-012",
+   "unit": "src:New_AI_Test/Player2/workspace/experiments/cand-012.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/45ac4cb215a6d3cf171750e25711e4748fdf8a88d8f554d488000e95942ce251.cpp",
+    "substituted": true,
+    "recorded_path": "New_AI_Test/Player2/workspace/experiments/cand-012.cpp"
+   }
+  },
+  {
+   "name": "C04_G_PLAYOUT_4ply",
+   "component": "addition",
+   "group": "C04_G_PLAYOUT_4ply",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "src:ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/a7128273ba8039327299a2fa6d544ca9ef4d10f16062eb72e41b2ee0d980bc24.cpp",
+    "substituted": true,
+    "recorded_path": "ctf-benchmark-v3/track2_2k_c_series/bots/C04_G_PLAYOUT_4ply.cpp"
+   }
+  },
+  {
+   "name": "bot_2",
+   "component": "addition",
+   "group": "bot_2",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "src:New_AI_Test/Player5/workspace/submission/bot.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "vendored",
+    "label": "@repo/roster/bots/src/43e4fdf89e89cc63b4758c4210dd2fb6e279152aa37512b361e424e55079f516.cpp",
+    "substituted": true,
+    "recorded_path": "New_AI_Test/Player5/workspace/submission/bot.cpp"
+   }
+  },
+  {
+   "name": "ctf-arena_Player5_fortress",
+   "component": "addition",
+   "group": "ctf-arena_Player5_fortress",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "src:@repo/roster/new_bots/forks/ctf-arena_Player5_fortress.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "repository",
+    "label": "@repo/roster/new_bots/forks/ctf-arena_Player5_fortress.cpp",
+    "substituted": false,
+    "recorded_path": "@repo/roster/new_bots/forks/ctf-arena_Player5_fortress.cpp"
+   }
+  },
+  {
+   "name": "ctf-arena_Player5_sparring_raider",
+   "component": "addition",
+   "group": "ctf-arena_Player5_sparring_raider",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:ctf-arena_Player5_sparring",
+   "unit": "src:@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_raider.cpp",
+   "role": null,
+   "value_on": null,
+   "models": null,
+   "resolution": {
+    "how": "repository",
+    "label": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_raider.cpp",
+    "substituted": false,
+    "recorded_path": "@repo/roster/new_bots/independent/ctf-arena_Player5_sparring_raider.cpp"
+   }
+  },
+  {
+   "name": "c08_control",
+   "component": "neural",
+   "group": "C08",
+   "status": "not_registered",
+   "reason": "role control: not a P-only or P+V entry",
+   "lineage": null,
+   "unit": null,
+   "role": "control",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_control_2ply",
+   "component": "neural",
+   "group": "C08",
+   "status": "not_registered",
+   "reason": "role control: not a P-only or P+V entry",
+   "lineage": null,
+   "unit": null,
+   "role": "control",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_hybrid_m",
+   "component": "neural",
+   "group": "C08",
+   "status": "not_registered",
+   "reason": "role hybrid: not a P-only or P+V entry",
+   "lineage": null,
+   "unit": null,
+   "role": "hybrid",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_ponly_s",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:fbd0bf958d19d163b9127b59df176eaaed72a77e43e5172d84ce9b3af40b5d6f",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_ponly_m",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:6c56ac55c4e7b5507ba29ab6f3483af34fe82d9c3d044c329f1f81f4629df9a2",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_ponly_l",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:a54a5e7bd8c8df200895c81cf5fd906babba27b8425d55f91208513a5ebf552d",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_ponly_xl",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:1224c55609587718bafeb29e36d5c1a491f57f92fb8bb91b6a3f206820ba3566",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_ponly_xxl",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:e53109c41cc95501bfc182714cc6ed55fe1f2ae8bb889d58b5803ff37193bdab",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_ponly_m_v",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:67d4738e82196cf560c82cf327641d7fe8357e27afdebaf1647b25e366135e47",
+   "role": "ponly_v",
+   "value_on": true,
+   "models": null
+  },
+  {
+   "name": "v12_control",
+   "component": "neural",
+   "group": "v12",
+   "status": "not_registered",
+   "reason": "role control: not a P-only or P+V entry",
+   "lineage": null,
+   "unit": null,
+   "role": "control",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "v12_hybrid_m",
+   "component": "neural",
+   "group": "v12",
+   "status": "not_registered",
+   "reason": "role hybrid: not a P-only or P+V entry",
+   "lineage": null,
+   "unit": null,
+   "role": "hybrid",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "v12_ponly_s",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:92e926078fb4816c11facbde0f3315c7c5b5140d898abc50dbbe5b55af69c7d4",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "v12_ponly_m",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:af509b77741a01d0c98ca6a1172873e5460db8fa5a3704b10de8bc6f92bd3ce9",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "v12_ponly_l",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:65622fbd85edfd483ff4a01e278559f4d4c563d921917084d2a24831f30a0ea5",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "v12_ponly_xl",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:bb1d45338b5cae64f610bd13622c5ef47fc4c477152a102aa814e858ef2290e3",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "v12_ponly_xxl",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:b0226bcabf5d3c26a632d8c8ab81f56e8e70cc366b0c4706b20d72cb56194daf",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "v12_ponly_m_v",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:220eb67fc6ab1042e5aa81d9f161ee40d5f90f7dff030a719c906d8dd8ddb230",
+   "role": "ponly_v",
+   "value_on": true,
+   "models": null
+  },
+  {
+   "name": "c08_ponly_xl_fs256",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:cdd344afa0d36a90938c4d975f4a8ad0880a48018fe7393dd127531380807695",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_ponly_xxl_fs256",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:359ba6ec7086a6b5c9a242ab20aee7728a5833ee39f188107ea57e185ec7ec73",
+   "role": "ponly",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_ponly_pxl_vm",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:214c93b76668c9cbd12307f21d94d9c0d991c015ace30df975c18a880888f832",
+   "role": "ponly",
+   "value_on": false,
+   "models": "inference/models_pxl_vm"
+  },
+  {
+   "name": "c08_ponly_pxl_vm_v",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:c7481623a44ff575f711872b749a24e2603ff53b59035c1dac843b3e99ae2291",
+   "role": "ponly_v",
+   "value_on": true,
+   "models": "inference/models_pxl_vm"
+  },
+  {
+   "name": "c08_ponly_pxxl_vm",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:a8118b82b6e6c644196f8592c4f583ba7f1bfd703c3e15f470a0cf69559dadbe",
+   "role": "ponly",
+   "value_on": false,
+   "models": "inference/models_pxxl_vm"
+  },
+  {
+   "name": "c08_ponly_pxxl_vm_v",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:60bfb47273cb330d6d35b2edd10313b4764b84eca962a1776a480d0e4df6b8ed",
+   "role": "ponly_v",
+   "value_on": true,
+   "models": "inference/models_pxxl_vm"
+  },
+  {
+   "name": "v12_ponly_pxl_vm",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:f459e619abb2de5e360c05dac6204a800859913dad659c8a607c9784f1f5a88d",
+   "role": "ponly",
+   "value_on": false,
+   "models": "inference/models_pxl_vm"
+  },
+  {
+   "name": "v12_ponly_pxl_vm_v",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:972812c93ee0d9a805722c2cd470d6ab23a1a1cc14cf429fc1518612674c5155",
+   "role": "ponly_v",
+   "value_on": true,
+   "models": "inference/models_pxl_vm"
+  },
+  {
+   "name": "v12_ponly_pxxl_vm",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:2a3f6f1295e7a926a6cf13025b77a83029ae599400e3606627812452e2bc6870",
+   "role": "ponly",
+   "value_on": false,
+   "models": "inference/models_pxxl_vm"
+  },
+  {
+   "name": "v12_ponly_pxxl_vm_v",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:18589d232dbb15c519965fb7bed695c124d433f02189c0440becdd1d381b98e4",
+   "role": "ponly_v",
+   "value_on": true,
+   "models": "inference/models_pxxl_vm"
+  },
+  {
+   "name": "c08_ponly_pxxl_v3xl",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:3e5107fddff0912d856739840a2a0e488133ef491114b044ca332f2e89869e12",
+   "role": "ponly",
+   "value_on": false,
+   "models": "inference/models_pxxl_v3xl"
+  },
+  {
+   "name": "c08_ponly_pxxl_v3xl_v",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:fe89caa82e52a67507eabc3e71eaf17e04b09961e01def4f8409a4dc4346a336",
+   "role": "ponly_v",
+   "value_on": true,
+   "models": "inference/models_pxxl_v3xl"
+  },
+  {
+   "name": "v12_pf_p2xxl",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:9da096466173e87ba1436a1dd093c06b0289f3b00c87df18b08c33d19c0dbf3c",
+   "role": "family",
+   "value_on": false,
+   "models": "inference/models_pf_p2xxl_vm"
+  },
+  {
+   "name": "c08_pf_p2xxl",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:d9c5c88ef91bc78d82560eed000defd38e0c0bfd9d4ab8b732ecce142f4df419",
+   "role": "family",
+   "value_on": false,
+   "models": "inference/models_pf_p2xxl_vm"
+  },
+  {
+   "name": "v12_pf_p3xxl",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:a972fa32dabe8b64ba3690531101cbf2512ee2c1dc5deb5532fca4ccde0e6ceb",
+   "role": "family",
+   "value_on": false,
+   "models": "inference/models_pf_p3xxl_vm"
+  },
+  {
+   "name": "c08_pf_p3xxl",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:302ef8cf1b23282b1f418060d0fddce5039e5702474bbccfb394c15e565e4df3",
+   "role": "family",
+   "value_on": false,
+   "models": "inference/models_pf_p3xxl_vm"
+  },
+  {
+   "name": "v12_ponly_pxxl_vpA_v",
+   "component": "neural",
+   "group": "v12",
+   "status": "disabled",
+   "reason": "missing model registry or include: bots/p_only/bots/variants/v12_ponly_pxxl_vpA_v.cpp: include not found: models_pxxl_vpA/registry.hpp",
+   "lineage": "lineage:Player5",
+   "unit": null,
+   "role": "family",
+   "value_on": true,
+   "models": "inference/models_pxxl_vpA"
+  },
+  {
+   "name": "v12_ponly_pxxl_vpB_v",
+   "component": "neural",
+   "group": "v12",
+   "status": "disabled",
+   "reason": "missing model registry or include: bots/p_only/bots/variants/v12_ponly_pxxl_vpB_v.cpp: include not found: models_pxxl_vpB/registry.hpp",
+   "lineage": "lineage:Player5",
+   "unit": null,
+   "role": "family",
+   "value_on": true,
+   "models": "inference/models_pxxl_vpB"
+  },
+  {
+   "name": "v12_ponly_pxxl_vpC_v",
+   "component": "neural",
+   "group": "v12",
+   "status": "disabled",
+   "reason": "missing model registry or include: bots/p_only/bots/variants/v12_ponly_pxxl_vpC_v.cpp: include not found: models_pxxl_vpC/registry.hpp",
+   "lineage": "lineage:Player5",
+   "unit": null,
+   "role": "family",
+   "value_on": true,
+   "models": "inference/models_pxxl_vpC"
+  },
+  {
+   "name": "v12_ponly_pxxl_vpD_v",
+   "component": "neural",
+   "group": "v12",
+   "status": "disabled",
+   "reason": "missing model registry or include: bots/p_only/bots/variants/v12_ponly_pxxl_vpD_v.cpp: include not found: models_pxxl_vpD/registry.hpp",
+   "lineage": "lineage:Player5",
+   "unit": null,
+   "role": "family",
+   "value_on": true,
+   "models": "inference/models_pxxl_vpD"
+  },
+  {
+   "name": "v12_ponly_pxxl_vpE_v",
+   "component": "neural",
+   "group": "v12",
+   "status": "disabled",
+   "reason": "missing model registry or include: bots/p_only/bots/variants/v12_ponly_pxxl_vpE_v.cpp: include not found: models_pxxl_vpE/registry.hpp",
+   "lineage": "lineage:Player5",
+   "unit": null,
+   "role": "family",
+   "value_on": true,
+   "models": "inference/models_pxxl_vpE"
+  },
+  {
+   "name": "c08_search_a",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:632366242a6ae921bf8cf3ac7cdfca55439da986e37a326f2d7fcea5f45e18e1",
+   "role": "search",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_search_b",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:5331056fa8f8cad640ab29fe5250df632f9bfbd016acbc74910dcea607850d81",
+   "role": "search",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_search_c",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:a994025f41a4eb5704eaff79ef4e8588e1dc72c4a7c6221ead8337163634a3f6",
+   "role": "search",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_search_d",
+   "component": "neural",
+   "group": "C08",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Control_Hybrid",
+   "unit": "code:362f2b77ff9b966124a2b4af4fc84b66945b322ba601a8faa0892c6f30855ab4",
+   "role": "search",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "v12_search_a",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:ac4df217682618cc3c1b347eb9f8cbfb9440d982f5d02c89454d13504ba9a282",
+   "role": "search",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "v12_search_b",
+   "component": "neural",
+   "group": "v12",
+   "status": "enabled",
+   "reason": null,
+   "lineage": "lineage:Player5",
+   "unit": "code:33588ef652ca6894853456f3239f5bb14425274a9e1dd17da4dc1966724f64d9",
+   "role": "search",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "v12_ponly_xxl_dlog",
+   "component": "neural",
+   "group": "v12",
+   "status": "not_registered",
+   "reason": "role decision_log: not a P-only or P+V entry",
+   "lineage": null,
+   "unit": null,
+   "role": "decision_log",
+   "value_on": false,
+   "models": null
+  },
+  {
+   "name": "c08_ponly_xxl_dlog",
+   "component": "neural",
+   "group": "C08",
+   "status": "not_registered",
+   "reason": "role decision_log: not a P-only or P+V entry",
+   "lineage": null,
+   "unit": null,
+   "role": "decision_log",
+   "value_on": false,
+   "models": null
+  }
+ ],
+ "warnings": []
+}
