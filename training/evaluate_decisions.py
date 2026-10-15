@@ -247,15 +247,19 @@ def paired(d: dict, a: dict, b: dict, margin: float, z: float) -> dict:
 
 
 def headroom(d: dict, margin: float, z: float = 1.96) -> dict:
-    """Best-candidate headroom with independent repeat subsets: select on even repeats, evaluate on odd ones."""
+    """Best-candidate headroom with independent repeat subsets: select on even repeat ids, evaluate on odd ones.
+
+    Column r of cand_outcome is repeat id r (training.decision_dataset keeps ids), so the partition does not shift
+    when a repeat is missing. A root counts only when every choosable candidate has an outcome on both sides."""
     ok = choosable(d)
-    n = d["cand_n"]
     rows, teams, maps = [], [], []
     for r, idx in roots_of(d):
         c = idx[ok[idx]]
-        if len(c) < 2 or (n[c] < 2).any():
+        if len(c) < 2:
             continue
         o = d["cand_outcome"][c]
+        if not (np.isfinite(o[:, 0::2]).any(axis=1).all() and np.isfinite(o[:, 1::2]).any(axis=1).all()):
+            continue
         sel = np.nanmean(o[:, 0::2], axis=1)
         ev = np.nanmean(o[:, 1::2], axis=1)
         inc = int(np.nonzero(c == d["root_incumbent"][r])[0][0])
@@ -264,10 +268,10 @@ def headroom(d: dict, margin: float, z: float = 1.96) -> dict:
         teams.append(d["root_teams"][r])
         maps.append(d["root_map"][r])
     if len(np.unique(maps)) < 2:
-        return {"status": "unavailable: fewer than two maps whose choosable candidates all have two or more repeats",
+        return {"status": "unavailable: fewer than two maps whose choosable candidates all have even- and odd-id outcomes",
                 "roots": len(rows)}
     ci = cluster_ci(np.array(rows), count_weights(np.array(teams)), np.array(maps), z)
-    return {"status": "estimated with independent repeat subsets (select: even repeats, evaluate: odd repeats)",
+    return {"status": "estimated with independent repeat subsets (select: even repeat ids, evaluate: odd repeat ids)",
             "roots": len(rows), "headroom": ci | {"verdict": verdict(ci, margin)}}
 
 

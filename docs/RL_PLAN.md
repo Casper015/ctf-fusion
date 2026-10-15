@@ -33,7 +33,7 @@ Their task files and every completed V experiment stay as they are: T0003, T0016
 | File | What it does |
 |---|---|
 | [fusion/decision_features.py](../fusion/decision_features.py) | Canonical complete orders, support flags and duplicate detection. Root and candidate scorer inputs. The feature identity, and the model kind `own_action_scorer`. |
-| [training/decision_dataset.py](../training/decision_dataset.py) | The versioned root/candidate dataset `ctf-fusion-decision-1`. It builds from branch roots plus their source matches, with linkage checks, map splits and authority receipts. |
+| [training/decision_dataset.py](../training/decision_dataset.py) | The versioned root/candidate dataset `ctf-fusion-decision-2` (T0042: repeat ids kept, faults by phase). It builds from branch roots plus their source matches, with linkage checks, map splits and authority receipts. |
 | [training/decision_noise.py](../training/decision_noise.py) | Coverage, noise, replay and power diagnostics. No automatic verdicts. |
 | [training/train_decision_ranker.py](../training/train_decision_ranker.py) | A linear baseline and a small MLP Q_θ(history, candidate). It trains on incumbent-relative gains or within-root preferences. |
 | [training/evaluate_decisions.py](../training/evaluate_decisions.py) | `select` freezes λ, the normalization and every identity on validation. `test` evaluates exactly that rule, once. Also: the headroom and oracle diagnostics. |
@@ -55,10 +55,11 @@ Their task files and every completed V experiment stay as they are: T0003, T0016
 - whether it is on-policy;
 - its canonical move, action, target unit and target slot per unit, and its flags;
 - its duplicate pointer and support bit;
-- its raw final score vector for every repeat, the derived outcome, the repeat count, faults per repeat, mean and sample variance;
+- its raw final score vector for every repeat, the derived outcome, the repeat count, mean and sample variance;
+- per repeat, kept under its **original repeat id** (column r is repeat r for every candidate): whether a branch record exists and whether it has an outcome or failed, and its faults by phase (prefix replay, discarded root-turn replies, live continuation);
 - the carrier's own score where a hook logged it.
 
-Missing outcomes stay missing (n = 0, NaN). Dropped roots are listed with their reasons.
+Missing outcomes stay missing (n = 0, NaN). A failed continuation stays a failed repeat, listed in the index, never an outcome. Dropped roots are listed with their reasons. Repeats are never packed or renumbered, so a missing repeat does not shift paired comparisons or the even/odd headroom partition.
 
 ### Canonical orders and support
 
@@ -131,8 +132,11 @@ The scores land in `cand_carrier_score`, aligned by order. A candidate the carri
 
 ### Noise and coverage (`training.decision_noise`)
 
-- **Within-action repeat variance** is the pooled sample variance of repeats of the *same* candidate at the same root. It exists only where a candidate has two or more repeats. One repeat cannot establish it, and the report says so instead of estimating.
-- **Between-action variance** is the variance of candidate means inside a root. It is reported raw and, when the within-action share is known, net of it. The spread of effects across *different* roots is never used as continuation noise.
+- **One population.** Every noise statistic uses the same *noise roots*: roots with two or more noise candidates (the incumbent and supported candidates with an outcome). Unsupported candidates, unlabeled candidates and roots without a comparison enter none of them. Before T0042 the correction pooled every candidate, so adding an unsupported root changed the corrected statistic while the raw one stayed fixed (T0038's counterexample, now a regression test).
+- **Within-action repeat variance** is the pooled sample variance of repeats of the *same* candidate, over the noise candidates. It exists only where a candidate has two or more outcomes. One repeat cannot establish it, and the report says so instead of estimating. The same variance over every candidate is reported apart and corrects nothing.
+- **Between-action variance** is the variance of candidate means inside a root. It is reported raw and, when the within-action share is known, net of it. The net value assumes one within-action variance, independent repeats inside a candidate and no covariance between candidates' repeat noise. The spread of effects across *different* roots is never used as continuation noise.
+- **Paired candidate-minus-incumbent variance** is pooled over shared repeat ids, with the covariance it implies. The collector has no controlled seed, so matching repeat ids neither create nor prove correlation, and a small covariance does not prove that repeats are independent and identically distributed.
+- **Faults by phase:** prefix replay, the discarded root-turn replies, and live continuation, plus failed repeats. `cand_faults` counts the continuation phase only.
 - **The replay diagnostic** compares the original game's outcome with the incumbent's replayed continuations. It measures bot memory and restart effects, not repeat noise.
 - **Coverage:**
   - effective map counts and per-count coverage;
@@ -204,7 +208,7 @@ DPO stays a separately gated follow-up. PPO, CQL and IQL are not implemented.
 An interval containing zero does not show that learning is impossible. The primary comparison is fixed before test. Secondary comparisons use a Bonferroni interval over their number.
 
 **Diagnostics, labeled as such.**
-- **Headroom** with independent repeat subsets: select the best candidate on even repeats, evaluate it on odd repeats. It is unavailable below two repeats. A test shows that a candidate selected on a lucky repeat loses on the other one.
+- **Headroom** with independent repeat subsets: select the best candidate on even repeat ids, evaluate it on odd ones. It is unavailable below two repeats. A test shows that a candidate selected on a lucky repeat loses on the other one.
 - **The `--oracle-value` oracle** ranks by a V on **realized** successors. Those contain the opponents' actual turn-t replies, so the oracle is unavailable at deployment and is not evidence for any deployable predictor.
 - **A deployable V or simulator comparison** must choose using P-predicted opponent actions, through the carrier hook (section 5). That is not implemented here.
 

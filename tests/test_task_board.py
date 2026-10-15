@@ -217,6 +217,61 @@ class TestConcurrentAgents(unittest.TestCase):
         self.assertEqual(task.git("show", "refs/remotes/origin/main:docs/ok.md", cwd=self.b), "ok")
 
 
+    def files(self, clone) -> list[str]:
+        b = self.board(clone)
+        return sorted(task.git("ls-tree", "-r", "--name-only", b.fetch(), "tasks", cwd=clone).split("\n"))
+
+    def test_finished_tasks_move_to_the_archive_and_back(self):
+        task.op_update(self.board(self.a), "T0003", "codex@host", status="done", handoff="result: docs/x.md", verb="done")
+        files = self.files(self.b)
+        self.assertIn("tasks/archive/T0003-docs.md", files)
+        self.assertNotIn("tasks/T0003-docs.md", files)
+        b = self.board(self.b)
+        name, meta, _ = b.tasks(b.fetch())["T0003"]
+        self.assertEqual((name, meta["status"]), ("archive/T0003-docs.md", "done"))
+        self.assertIn("(archive/T0003-docs.md)", task.git("show", f"{b.ref}:tasks/SUMMARY.md", cwd=self.b))
+        task.op_update(self.board(self.b), "T0002", "claude@mac", status="dropped", verb="dropped")
+        self.assertIn("tasks/archive/T0002-tune.md", self.files(self.a))
+        task.op_update(self.board(self.a), "T0003", "codex@host", status="open", handoff="reopened: X is missing", verb="handoff")
+        files = self.files(self.a)
+        self.assertIn("tasks/T0003-docs.md", files)                      # reopened: back among the live tasks
+        self.assertNotIn("tasks/archive/T0003-docs.md", files)
+        self.assertEqual(task.op_new(self.board(self.b), "claude@mac", "next", [], ["x/"], [], "pr", "", ""), "T0004")
+        task.op_claim(self.board(self.b), "T0003", "claude@mac", set())  # claims and lanes work across both folders
+
+    def test_merged_duplicates_are_archived(self):
+        task.op_merge(self.board(self.a), "T0001", ["T0002"], "codex@host", "same screen")
+        files = self.files(self.b)
+        self.assertIn("tasks/archive/T0002-tune.md", files)
+        self.assertIn("tasks/T0001-screen.md", files)
+
+    def test_archive_command_and_readme_board(self):
+        seed = self.a
+        (seed / "tasks" / "T0004-old.md").write_text(task_text("T0004", "old", ["old/"], status="done", owner="x@y"), encoding="utf-8")
+        (seed / "tasks" / "README.md").write_text(f"# The task board\n\nintro\n\n{task.BOARD_START}\n{task.BOARD_END}\n\nmore\n",
+                                                encoding="utf-8")
+        run("add", "-A", cwd=seed)
+        run("commit", "-q", "-m", "a finished task in the old place, and a README", cwd=seed)
+        run("push", "-q", "origin", "HEAD:main", cwd=seed)
+        errors, warnings = task.check(task.read_worktree(seed))
+        self.assertEqual(errors, [])
+        self.assertTrue(any("T0004 not where the status puts them" in w for w in warnings))
+        self.assertEqual(task.op_archive(self.board(self.b), "claude@mac"), ["T0004"])
+        self.assertIn("tasks/archive/T0004-old.md", self.files(self.b))
+        self.assertEqual(task.op_archive(self.board(self.b), "claude@mac"), [])     # nothing left to move
+        b = self.board(self.b)
+        readme = task.git("show", f"{b.fetch()}:tasks/README.md", cwd=self.b)
+        self.assertTrue(readme.startswith("# The task board\n\nintro"))
+        self.assertTrue(readme.rstrip().endswith("more"))
+        self.assertIn("[T0004](archive/T0004-old.md)", readme)             # recently finished
+        task.op_claim(self.board(self.a), "T0003", "codex@host", set())
+        readme = task.git("show", f"{b.fetch()}:tasks/README.md", cwd=self.b)
+        self.assertIn("| [T0003](T0003-docs.md) | active | codex@host | docs |", readme)   # every board change rewrites it
+        run("pull", "-q", "origin", "main", cwd=self.b)
+        tasks = task.read_worktree(self.b)
+        self.assertEqual(task.check(tasks, readme=(self.b / "tasks" / "README.md").read_text(encoding="utf-8"))[1], [])
+
+
 class TestMachineLock(unittest.TestCase):
     def test_lock_is_exclusive(self):
         with tempfile.TemporaryDirectory() as tmp:

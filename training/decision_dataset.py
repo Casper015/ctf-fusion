@@ -39,10 +39,30 @@ Roots: root_match, root_map, root_teams, root_seat, root_turn, root_carrier, roo
   diagnostic, not a repeat), root_prefix_mismatch, root_prefix_faults, root_shortlist_k, root_file.
 Candidates: cand_root, cand_line (requested order), cand_key (canonical identity), cand_source, cand_on_policy,
   cand_move/cand_act/cand_target/cand_slot (3,), cand_flags (fusion.decision_features), cand_dup_of,
-  cand_support, cand_n (repeats), cand_score (C, R, 15; -1 pad), cand_outcome (C, R; NaN pad), cand_faults
-  (C, R; -1 pad), cand_y (mean; NaN without repeats), cand_var (sample variance; NaN below two repeats),
-  cand_carrier_score (the carrier's logged score; NaN where none was logged).
+  cand_support, cand_n (repeats with an outcome), cand_repeat_state, cand_score (C, R, 15; -1 pad), cand_outcome
+  (C, R; NaN pad), cand_faults, cand_faults_prefix, cand_faults_root, cand_y (mean over the repeats with an outcome;
+  NaN without one), cand_var (sample variance; NaN below two outcomes), cand_carrier_score (the carrier's logged
+  score; NaN where none was logged).
 Missing outcomes and scores stay missing; nothing is imputed. Dropped roots are listed with their reasons.
+
+Repeats keep their identity (schema ctf-fusion-decision-2). Column r of every (C, R) array is the branch file's
+repeat r for every candidate of the dataset, R = the largest repeat id + 1: a candidate whose repeat 0 failed has
+NaN in column 0 and its repeat 1 still in column 1. Nothing is packed or renumbered, so repeat r of a candidate and
+repeat r of its incumbent stay in the same column (paired comparisons) and even/odd repeat-id partitions
+(training.evaluate_decisions.headroom) are the same whichever repeats are missing. The same repeat id does not make
+two repeats correlated or independent: the collector has no controlled seed (decision_branch_collect.RNG_NOTE).
+cand_repeat_state per column: 0 no branch record, 1 an outcome, 2 a branch record without a usable final score
+(a failed continuation, kept and listed in index.json "failed_repeats", never imputed). The current collector
+(training.decision_branch_collect) never writes such a record: a continuation that fails raises and its root is not
+stored, so it is missing (state 0, or the root absent or dropped), not failed. "failed_repeats": 0 therefore does not
+mean that nothing failed; read the collector's own summary for failures.
+
+Faults per repeat, by phase (training.decision_branch_collect fault_counts; -1 without a branch record, -2 when the
+collector did not record that phase):
+  cand_faults         live continuation faults after the root turn ("faults"); it is not an all-phase total;
+  cand_faults_prefix  faults while the recorded prefix was replayed ("prefix_faults");
+  cand_faults_root    faults of the discarded root-turn replies the bots computed while the engine played the
+                      forced orders ("discarded_root_computed_faults").
 
 Authority. Every source file is hashed from the exact bytes the build parses. --authoritative refuses unless
   - the --audit receipt is internally consistent (its status and per-split flags agree) and says "passed";
@@ -77,7 +97,8 @@ from fusion.labels import pairwise_outcome
 from fusion.paths import REPO
 from fusion.protocol import parse_block
 
-SCHEMA = "ctf-fusion-decision-1"
+SCHEMA = "ctf-fusion-decision-2"
+MAX_REPEATS = 64
 SOURCE_VERSION = "ctf-fusion-decision-source-1"
 CARRIER_CONFIG_SCHEMA = "ctf-fusion-carrier-config-1"
 SCORES_VERSION = "ctf-fusion-shortlist-scores-1"
@@ -91,8 +112,11 @@ ROOT_KEYS = ("root_match", "root_map", "root_teams", "root_seat", "root_turn", "
              "root_count", "root_incumbent", "root_original_outcome", "root_prefix_mismatch", "root_prefix_faults",
              "root_shortlist_k", "root_file")
 CAND_KEYS = ("cand_root", "cand_line", "cand_key", "cand_source", "cand_on_policy", "cand_move", "cand_act", "cand_target",
-             "cand_slot", "cand_flags", "cand_dup_of", "cand_support", "cand_n", "cand_score", "cand_outcome",
-             "cand_faults", "cand_y", "cand_var", "cand_carrier_score")
+             "cand_slot", "cand_flags", "cand_dup_of", "cand_support", "cand_n", "cand_repeat_state", "cand_score",
+             "cand_outcome", "cand_faults", "cand_faults_prefix", "cand_faults_root", "cand_y", "cand_var",
+             "cand_carrier_score")
+REPEAT_NONE, REPEAT_OUTCOME, REPEAT_FAILED = 0, 1, 2
+FAULT_NO_BRANCH, FAULT_UNRECORDED = -1, -2
 
 
 class LinkError(ValueError):
@@ -204,14 +228,30 @@ def check_link(row: dict, match: dict, name: str) -> int:
         need(0 <= c < len(cands), f"branch candidate {c} out of range")
         need(bool(b["on_policy"]) == (c == 0), f"on_policy flag of candidate {c} is wrong")
         need(b["line"] == cands[c], f"branch line of candidate {c} differs from the candidate")
-        need((c, b["repeat"]) not in seen, f"candidate {c} repeat {b['repeat']} appears twice")
-        seen.add((c, b["repeat"]))
+        rep = b.get("repeat")
+        need(isinstance(rep, int) and not isinstance(rep, bool) and 0 <= rep < MAX_REPEATS,
+             f"candidate {c}: repeat id {rep!r} is not an integer in [0, {MAX_REPEATS})")
+        need((c, rep) not in seen, f"candidate {c} repeat {rep} appears twice")
+        seen.add((c, rep))
         need(b.get("root_block") == root_block, f"candidate {c}: root block is not the recorded TURN {turn} block")
-        score = b["score"]
+        score = b.get("score")
+        if score is None:          # a failed continuation: kept as such (cand_repeat_state 2), never given an outcome
+            need(b.get("outcome") is None, f"candidate {c} repeat {rep}: an outcome without a final score")
+            continue
         need(len(score) == row["teams"], f"candidate {c}: score vector has {len(score)} teams")
         u = float(pairwise_outcome(score)[seat])
         need(abs(u - float(b["outcome"])) <= OUTCOME_TOL, f"candidate {c}: stored outcome {b['outcome']} != utility {u} of its score")
     return seat
+
+
+def phase_faults(b: dict) -> dict:
+    """Faults of one branch by phase; FAULT_UNRECORDED where the collector did not record that phase."""
+    counts = b.get("fault_counts") or {}
+    cont = len(b["faults"]) if isinstance(b.get("faults"), list) else counts.get("continuation", FAULT_UNRECORDED)
+    prefix = b.get("prefix_faults", counts.get("prefix", FAULT_UNRECORDED))
+    root = (len(b["discarded_root_computed_faults"]) if isinstance(b.get("discarded_root_computed_faults"), list)
+            else counts.get("root_discarded", FAULT_UNRECORDED))
+    return {"continuation": int(cont), "prefix": int(prefix), "root": int(root)}
 
 
 def carrier_scores(row: dict, name: str) -> tuple[np.ndarray, int]:
@@ -311,10 +351,11 @@ def build(branch_files, matches: Path, successors: bool = False, log=print) -> t
     by_match = defaultdict(list)
     for f, row in rows:
         by_match[(row["match_id"], row["teams"])].append((f, row))
-    reps = max([1] + [n for _, row in rows for n in Counter(b["candidate"] for b in row["branches"]).values()])
+    reps = max([1] + [int(b["repeat"]) + 1 for _, row in rows for b in row["branches"]
+                      if isinstance(b.get("repeat"), int) and 0 <= b["repeat"] < MAX_REPEATS])
     out = {sp: defaultdict(list) for sp in SPLITS}
     oracle = {sp: defaultdict(list) for sp in SPLITS}
-    carriers, match_entries, scored = set(), [], 0
+    carriers, match_entries, scored, failed = set(), [], 0, []
     for key, items in sorted(by_match.items()):
         match_id, teams = key
         mpath = s["match_paths"][key]
@@ -352,25 +393,37 @@ def build(branch_files, matches: Path, successors: bool = False, log=print) -> t
                 bs = sorted(by_cand.get(c, []), key=lambda b: b["repeat"])
                 score = np.full((reps, MAX_TEAMS), -1, np.int32)
                 outc = np.full(reps, np.nan)
-                faults = np.full(reps, -1, np.int16)
-                for i, b in enumerate(bs):
+                state = np.full(reps, REPEAT_NONE, np.int8)
+                faults = {ph: np.full(reps, FAULT_NO_BRANCH, np.int16) for ph in ("continuation", "prefix", "root")}
+                for b in bs:
+                    i = int(b["repeat"])          # the column is the repeat id: nothing is packed or renumbered
+                    for ph, n_ph in phase_faults(b).items():
+                        faults[ph][i] = n_ph
+                    if b.get("score") is None:
+                        state[i] = REPEAT_FAILED
+                        failed.append({"file": f.name, "candidate": c, "repeat": i,
+                                       "reason": str(b.get("error", "no final score recorded"))})
+                        continue
+                    state[i] = REPEAT_OUTCOME
                     score[i, :teams] = b["score"]
                     outc[i] = float(pairwise_outcome(b["score"])[seat])
-                    faults[i] = len(b.get("faults", []))
-                n = len(bs)
+                have = np.isfinite(outc)
+                n = int(have.sum())
                 for name, val in (("cand_root", r), ("cand_line", line), ("cand_key", cn["key"]),
                                   ("cand_source", candidate_source(row, c)), ("cand_on_policy", c == 0),
                                   ("cand_move", cn["move"]), ("cand_act", cn["act"]), ("cand_target", cn["target"]),
                                   ("cand_slot", cn["slot"]), ("cand_flags", flags[c]),
                                   ("cand_dup_of", dup[c] + base if dup[c] >= 0 else -1),
-                                  ("cand_support", bool(F.supported(flags[c]))), ("cand_n", n), ("cand_score", score),
-                                  ("cand_outcome", outc), ("cand_faults", faults),
-                                  ("cand_y", float(np.mean(outc[:n])) if n else np.nan),
-                                  ("cand_var", float(np.var(outc[:n], ddof=1)) if n >= 2 else np.nan),
+                                  ("cand_support", bool(F.supported(flags[c]))), ("cand_n", n),
+                                  ("cand_repeat_state", state), ("cand_score", score), ("cand_outcome", outc),
+                                  ("cand_faults", faults["continuation"]), ("cand_faults_prefix", faults["prefix"]),
+                                  ("cand_faults_root", faults["root"]),
+                                  ("cand_y", float(np.mean(outc[have])) if n else np.nan),
+                                  ("cand_var", float(np.var(outc[have], ddof=1)) if n >= 2 else np.nan),
                                   ("cand_carrier_score", cscore[c])):
                     d[name].append(val)
                 if successors:
-                    nb = {b["next_block"] for b in bs}
+                    nb = {b["next_block"] for b in bs if b.get("score") is not None}
                     o = oracle[split]
                     if len(nb) == 1 and None not in nb:
                         o["succ_rec"].append(successor_record(match, seat, turn, nb.pop()))
@@ -381,7 +434,7 @@ def build(branch_files, matches: Path, successors: bool = False, log=print) -> t
         log(f"[decision_dataset] {match_id}: {len(items)} roots")
     if len(carriers) > 1:
         raise LinkError(f"roots of {len(carriers)} different carrier binaries: one dataset binds one carrier")
-    stats = {"drops": s["drops"], "carriers": sorted(carriers), "repeats_max": reps, "roots": len(rows),
+    stats = {"drops": s["drops"], "carriers": sorted(carriers), "repeats_max": reps, "roots": len(rows), "failed": failed,
              "roots_with_carrier_scores": int(scored), "branch_entries": s["branch_entries"], "match_entries": match_entries}
     return {"decision": out, "oracle": oracle if successors else None}, stats
 
@@ -391,8 +444,9 @@ _DTYPES = {"root_map": np.int64, "root_teams": np.int16, "root_seat": np.int16, 
            "root_prefix_mismatch": np.int32, "root_prefix_faults": np.int32, "root_shortlist_k": np.int16,
            "cand_root": np.int32, "cand_on_policy": bool,
            "cand_move": np.int16, "cand_act": np.int16, "cand_target": np.int16, "cand_slot": np.int16, "cand_flags": np.int16,
-           "cand_dup_of": np.int32, "cand_support": bool, "cand_n": np.int16, "cand_score": np.int32,
-           "cand_outcome": np.float64, "cand_faults": np.int16, "cand_y": np.float64, "cand_var": np.float64,
+           "cand_dup_of": np.int32, "cand_support": bool, "cand_n": np.int16, "cand_repeat_state": np.int8,
+           "cand_score": np.int32, "cand_outcome": np.float64, "cand_faults": np.int16, "cand_faults_prefix": np.int16,
+           "cand_faults_root": np.int16, "cand_y": np.float64, "cand_var": np.float64,
            "cand_carrier_score": np.float64}
 
 
@@ -571,6 +625,7 @@ def write(out: Path, built: dict, stats: dict, meta: dict) -> dict:
                 raise LinkError(f"maps in both {a} and {b}: {sorted(maps[a] & maps[b])[:5]}")
     index["drops"] = {"count": len(stats["drops"]), "by_reason": dict(Counter(d["reason"] for d in stats["drops"])),
                       "roots": stats["drops"]}
+    index["failed_repeats"] = {"count": len(stats.get("failed", [])), "repeats": stats.get("failed", [])}
     (out / "index.json").write_text(json.dumps(index, indent=1), encoding="utf-8")
     return index
 

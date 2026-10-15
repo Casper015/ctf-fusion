@@ -73,7 +73,10 @@ def parse_reply(line: str | None, turn: int) -> list[Request] | None:
         elif act == "X":
             out.append(Request(MOVE_INDEX[mv], DROP, -1))
         elif act.isdigit():
-            out.append(Request(MOVE_INDEX[mv], ATTACK, int(act)))
+            try:                      # the engine: str.isdigit, then int(); "²" passes isdigit but int() rejects it
+                out.append(Request(MOVE_INDEX[mv], ATTACK, int(act)))
+            except ValueError:
+                return None
         else:
             return None
     return out

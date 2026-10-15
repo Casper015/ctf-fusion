@@ -12,6 +12,8 @@ import shutil
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import numpy as np
 
@@ -25,9 +27,9 @@ CARRIER = "c" * 64
 MATCH = REPO / "roster" / "report" / "results" / "matches" / "n04" / "n04-s1-000003.json.gz"
 
 
-def deviation(order: str, k: int) -> str:
+def deviation(order: str, k: int, skip: int = 0) -> str:
     tok = order.split()
-    tok[2 * k] = next(m for m in "SUDLR" if m != tok[2 * k])
+    tok[2 * k] = [m for m in "SUDLR" if m != tok[2 * k]][skip]
     return " ".join(tok)
 
 
@@ -175,9 +177,112 @@ class Collect(unittest.TestCase):
 
     def test_resume_and_identity(self):
         self.run_collect()
-        self.assertEqual(self.run_collect()["complete_before"], 1)
+        self.assertIn("input_binding", self.rows()[0])
+        s = self.run_collect()
+        self.assertEqual((s["complete_before"], s["played"], s["stale"]), (1, 0, {}))
         with self.assertRaises(SystemExit):                          # another configuration, same output
             self.run_collect(repeats=2)
+
+    # Review of PR #33 [P1]: a stored row is bound to its exact input, not only to the collector identity.
+
+    def save(self, m: dict) -> None:
+        matchlog.save(self.mdir / "n04" / f"{self.match['match_id']}.json.gz", m)
+
+    def relog(self, m: dict, t: int, **kw) -> None:
+        m["replies"][t - 1][0] = log_line(t, B.order_of(m["replies"][t - 1][0]), m["blocks"][t - 1], **kw)
+
+    def mutations(self, t: int) -> dict:
+        order = B.order_of(self.match["replies"][t - 1][0])
+
+        def score(m):                                                # the review's reproduction: 2.5 -> 123.5
+            self.relog(m, t, entries=[(order, "1.5", "123.5", "beam"), (deviation(order, 0), "1", "3", "beam"),
+                                      (deviation(order, 1), "2", "1", "beam"), (deviation(order, 2), "0.5", "na", "beam")])
+
+        def orders(m):
+            self.relog(m, t, entries=[(order, "1.5", "2.5", "beam"), (deviation(order, 0, 1), "1", "3", "beam"),
+                                      (deviation(order, 1), "2", "1", "beam"), (deviation(order, 2), "0.5", "na", "beam")])
+
+        def root(m):                                                 # the same turn stays the root (log re-bound)
+            lines = m["blocks"][t - 1].split("\n")
+            i = next(k for k, x in enumerate(lines) if x.startswith("U ") and x.split()[5] == "100")
+            u = lines[i].split()
+            u[5] = "99"
+            lines[i] = " ".join(u)
+            m["blocks"][t - 1] = "\n".join(lines)
+            self.relog(m, t)
+
+        def prefix(m):                                               # an opponent's recorded reply before the root
+            p = t - 3
+            m["replies"][p - 1][1] = f"{p} " + deviation(B.order_of(m["replies"][p - 1][1]), 0)
+        return {"scores": score, "candidates": orders, "root_block_sha256": root, "prefix_sha256": prefix}
+
+    def test_changed_input_is_replayed_not_reused(self):
+        self.run_collect()
+        t = self.rows()[0]["turn"]
+        for field, mutate in self.mutations(t).items():
+            with self.subTest(field):
+                shutil.rmtree(self.out)
+                self.save(self.match)
+                self.run_collect()
+                m = copy.deepcopy(self.match)
+                mutate(m)
+                self.save(m)
+                s = self.run_collect()
+                self.assertEqual((s["complete_before"], s["played"]), (0, 1))
+                (why, n), = s["stale"].items()
+                self.assertEqual(n, 1)
+                self.assertIn(field, why)
+                self.assertIn("match_sha256", why)
+                rows = self.rows()
+                self.assertEqual(len(rows), 1)                       # the stale row is set aside, not ingested
+                self.assertEqual(rows[0]["turn"], t)
+                self.assertEqual(len(list((self.out / "stale").iterdir())), 1)
+                if field == "scores":
+                    self.assertEqual(rows[0]["carrier_scores"]["scores"][0], 123.5)
+                again = self.run_collect()                           # now bound to the new input: reused
+                self.assertEqual((again["complete_before"], again["played"], again["stale"]), (1, 0, {}))
+
+    def test_root_turn_change_sets_the_old_row_aside(self):
+        self.run_collect()
+        t = self.rows()[0]["turn"]
+        m = copy.deepcopy(self.match)
+        self.relog(m, t, stage="cut")                                # that turn no longer has deciding scores
+        self.save(m)
+        s = self.run_collect()
+        self.assertEqual((s["played"], s["stale"]), (1, {"root turn changed": 1}))
+        rows = self.rows()
+        self.assertEqual(len(rows), 1)
+        self.assertNotEqual(rows[0]["turn"], t)
+
+    def test_no_root_any_more_sets_the_old_row_aside(self):
+        self.run_collect()
+        plain = copy.deepcopy(self.match)
+        plain["replies"] = matchlog.load(MATCH)["replies"]
+        self.save(plain)
+        s = self.run_collect()
+        self.assertEqual((s["roots"], s["stale"]), (0, {"root turn changed": 1}))
+        self.assertEqual(self.rows(), [])
+
+    def test_dropped_rows_are_bound_too(self):
+        self.run_collect(reproduce_fn=lambda e, m, t: False)
+        t = self.rows()[0]["turn"]
+        self.assertEqual(self.run_collect(reproduce_fn=lambda e, m, t: False)["complete_before"], 1)
+        m = copy.deepcopy(self.match)
+        self.mutations(t)["scores"](m)
+        self.save(m)
+        s = self.run_collect()
+        self.assertEqual((s["complete_before"], s["played"]), (0, 1))
+        self.assertNotIn("dropped", self.rows()[0])
+
+    def test_unbound_row_is_not_reused(self):
+        self.run_collect()
+        rp = next(self.out.rglob("*.json.gz"))
+        with gzip.open(rp, "rt", encoding="utf-8") as fh:
+            row = json.load(fh)
+        del row["input_binding"]
+        B.write_gz(rp, row)
+        s = self.run_collect()
+        self.assertEqual((s["played"], s["stale"]), (1, {"input changed: unbound": 1}))
 
     def test_source_mismatch_refused(self):
         frozen = copy.deepcopy(self.frozen)
@@ -212,6 +317,107 @@ class Collect(unittest.TestCase):
             self.run_collect(continuation="fast")
         self.run_collect(continuation="fixed_work_diagnostic")
         self.assertEqual(self.rows()[0]["continuation_policy"], "fixed_work_diagnostic")
+
+
+class _Game:
+    """A four-turn stand-in for the engine: decode checks the turn and token count as engine.py does."""
+    TURNS = 4
+
+    def __init__(self, teams, map_seed, flag_seed=None):
+        self.turn, self.done, self.applied = 0, False, {}
+        _Game.last = self
+
+    def encode(self, i):
+        return f"TURN {self.turn + 1}\nEND\n"
+
+    def decode(self, i, line):
+        tok = line.partition("#")[0].split()
+        if not tok or tok[0] != str(self.turn + 1) or len(tok) != 7:
+            raise ValueError("not a reply for this turn")
+        return {"order": " ".join(tok[1:])}
+
+    def step(self, orders):
+        self.turn += 1
+        self.applied[self.turn] = dict(orders)
+        self.done = self.turn >= self.TURNS
+
+    def result(self):
+        return {"score": [1, 0, 0]}
+
+
+class _Bot:
+    """Scripted bots: SCRIPT[(name, turn)] is 'timeout', 'malformed' or 'dead'; otherwise a valid reply."""
+    SCRIPT: dict = {}
+
+    def __init__(self, cmd, name, limits):
+        self.name, self.turn_limit, self.strikes, self.dead, self.faults = name, limits[1], 0, None, []
+
+    def send(self, text):
+        return None if self.dead else 0.0
+
+    def receive(self, started, turn):
+        what = self.SCRIPT.get((self.name, turn))
+        if self.dead:
+            return None
+        if what == "timeout":
+            return self.strike(turn, "timeout (>50 ms)")
+        if what == "dead":
+            self.dead = "process exited"
+            return None
+        return "garbage" if what == "malformed" else f"{turn} S - S - S -"
+
+    def ok(self):
+        self.strikes = 0
+
+    def strike(self, turn, reason):
+        self.strikes += 1
+        self.faults.append((turn, reason))
+
+    def close(self):
+        pass
+
+
+class RootTurnFaults(unittest.TestCase):
+    """Review of PR #33 [P2]: faults of the computed root-turn replies are kept although the engine plays the
+    recorded and forced orders there."""
+
+    def setUp(self):
+        self.match = {"teams": 3, "map_seed": 1, "flag_seed": 2,
+                      "seats": [{"name": "@candidate"}, {"name": "a"}, {"name": "b"}],
+                      "replies": [[f"{t} S - S - S -", f"{t} U - U - U -", f"{t} D - D - D -"] for t in range(1, 5)]}
+        self.forced = "3 L - L - L -"
+        self.engine = SimpleNamespace(Game=_Game)
+
+    def play(self, script):
+        _Bot.SCRIPT = script
+        with patch("fusion.runner.Bot", _Bot):
+            return B.play_branch(self.engine, self.match, 0, 3, self.forced, [["x"]] * 3, B.LIMITS)
+
+    def test_root_timeout_and_malformed_reply_are_recorded(self):
+        r = self.play({("a", 3): "timeout", ("b", 3): "malformed"})
+        self.assertEqual(r["discarded_root_computed_faults"],
+                         [[3, 1, "timeout (>50 ms)"], [3, 2, "malformed output: not a reply for this turn"]])
+        self.assertEqual(r["root_computed_replies"], ["3 S - S - S -", None, "garbage"])
+        self.assertEqual(r["fault_counts"], {"prefix": 0, "root_discarded": 2, "continuation": 0})
+        self.assertEqual((r["prefix_faults"], r["faults"]), (0, []))
+        root = _Game.last.applied[3]                                 # the engine root action stays forced/recorded
+        self.assertEqual(root[0], {"order": "L - L - L -"})
+        self.assertEqual(root[1], {"order": "U - U - U -"})
+        self.assertEqual(root[2], {"order": "D - D - D -"})
+
+    def test_phases_are_counted_apart(self):
+        r = self.play({("a", 2): "timeout", ("b", 3): "dead"})
+        self.assertEqual(r["fault_counts"], {"prefix": 1, "root_discarded": 1, "continuation": 0})
+        self.assertEqual(r["discarded_root_computed_faults"], [[3, 2, "no reply (process exited)"]])
+        self.assertEqual(_Game.last.applied[3][2], {"order": "D - D - D -"})     # recorded order still applied
+        r = self.play({("a", 4): "malformed"})
+        self.assertEqual(r["fault_counts"], {"prefix": 0, "root_discarded": 0, "continuation": 1})
+        self.assertEqual(r["faults"], [[4, 1, "malformed output: not a reply for this turn"]])
+
+    def test_clean_root_records_nothing(self):
+        r = self.play({})
+        self.assertEqual((r["discarded_root_computed_faults"], r["fault_counts"]["root_discarded"]), ([], 0))
+        self.assertEqual(len(r["root_computed_replies"]), 3)
 
 
 if __name__ == "__main__":

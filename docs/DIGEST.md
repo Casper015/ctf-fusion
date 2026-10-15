@@ -433,7 +433,6 @@ Never reuse a seed for a new comparison. Pick one that is not in this table, and
 
 | Seed | Used by |
 |---|---|
-| 20261501 | T0037 Colab stage-1 decision collection: 306 maps, 2–10 teams; training-only, consumed; branches pending |
 | 20261009 | Roster light strength screen |
 | 20261019 | Recommended-pool pilot (400 matches) |
 | 20261020 | Carrier P pilot, V ablation, 1,000-game tournament |
@@ -451,6 +450,8 @@ Never reuse a seed for a new comparison. Pick one that is not in this table, and
 | 20261240 | Fresh-map V3-XL screen (T0022) |
 | (not recorded) | 50,000-game tournament (T0028): its seeds are not committed |
 | 20261301–20261364 | 64 showcase games of the newest P-only bots on the Mac (2026-10-11), 2–15 teams; nine are in the replay viewer. Not evidence |
+| 20261501 | T0037 historical Colab pilot: training only, 306 whole matches at counts 2–10, no branch labels; preserved separately, never host evidence |
+| 20261701 | T0037 Windows decision pilot: training only, reserved after fresh board/ledger and 1,985 retained metadata files; 336 maps, counts 2-15, 24 each, four repeats per actual candidate |
 | (unchosen) | Confirmation (T0006): chosen only after the finalists are frozen |
 
 ## Known defects in the records
@@ -470,8 +471,16 @@ These records are kept as they are. Fix them through their generator or owner ta
 - **The official field.** Are the judge bots plus other submissions the real opponents? P is only as good as the overlap between the training pool and that field (REVIEW §6).
 - **Whether V helps at all.** No V configuration has shown a benefit so far (T0003; T0022's fresh-map V3-XL was not shown). The V pilots T0012 and T0014 were retired unstarted on 2026-10-12; deployed V stays off, and decision learning (RL_PLAN) is the conditional route.
 
-## T0037 Colab stage-1 collection
+## T0037 Windows decision pilot (October 14, 2026)
+
+**Sources:** [host report](../reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.md), [machine receipts](../reports/host/decision_opponent_preflight_DESKTOP-G60OJUD.json).
+
+Host source 2313043, training-only master 20261701, P2 XXL/V off/log-only carrier 981a1e3c5800, fixed 6 workers after official 2000/50 ms preflight (432 standalone, 208 load). Complete: 336 independent maps (24 each count 2-15), 336 roots, 5,268 continuations; 327 roots have K = 4 and 9 have K = 1. Whole-match and all continuation-phase faults 0, partials 0; 18,972 prefix order/raw mismatches retained. Original input backup 258 members verified before first fixture; raw/build backup 13,318 members individually read-back verified, SHA 890d43de7f76bac53bc651a26bf26d9d0bcf725ab1e1447e1354a8c947946c09; complete measured Git source/history separately backed up and fsck-verified.
+
+Known selection defect: frozen Python selector looked for nonexistent flag status `ground`; actual protocol uses `home`/`dropped`. All 56 flag-requested maps fell back, so nominal flag/quiet labels are not actual coverage. Corrected observable-only diagnostics retain every original root: 52 selected roots with ground-flag opportunities, 54 actual quiet roots; 10/56 requested flag contexts hit incidentally. All six contexts occur overall; balanced flag-targeted selection was not demonstrated. No replacement roots/games or extra favorable samples. Corrected protocol validator/regressions and supplemental per-map/per-count contexts are supplied; original freeze and raw remain unchanged. T0038 independently audits source-linked features, support, selection bias, noise and precision after reviewed host PR merge/done. No training/strength/deployment claim; Colab PR #37 (306 maps, seed 20261501) and unadmitted T0032 models stay separate.
+
+## T0037 Colab stage-1 collection (October 12, 2026)
 
 **Sources:** [stage-1 report](../bots/p_only/report/decision_collection/colab_20261012/RESULTS.md).
 
-306 whole matches (34 maps each at 2–10 teams), all with usable roots, are backed up and verified. Two retained faults occurred in one 9-team fixture. Counts 11–15 failed the bounded Colab load gate and remain uncollected. Colab results are not host timing or strength evidence. Branch continuations wait for T0040 / PR #36; candidate/repeat labels, noise and learnability remain unmeasured. This partial report does not close T0037 or unlock T0038. Seed 20261501 is consumed.
+Historical and exploratory, never pooled with the Windows pilot above. 306 whole matches (34 maps each at 2–10 teams, seed 20261501), all with usable roots, are backed up and verified; one 9-team fixture retained two seat faults. Counts 11–15 failed the bounded Colab load gate and were not collected. A Colab branch-continuation run started after PR #36 merged; its last verified checkpoint was 48 roots (768 continuations) before the runtime disconnected, its completion was never verified, and no branch rows were backed up, so this corpus has no candidate labels. T0037 was completed on the Windows host instead (PR #44). Colab results are not host timing or strength evidence.

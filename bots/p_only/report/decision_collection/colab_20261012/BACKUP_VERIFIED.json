@@ -23,5 +23,5 @@
       "dead": null
     }
   ],
-  "stage": "whole-match collection only; branch continuations pending"
+  "stage": "whole-match collection only; a branch-continuation run started on Colab after PR #36 merged; its last verified checkpoint was 48 roots (768 continuations) before the runtime disconnected, its completion was never verified, and no branch rows are in this backup"
 }

@@ -1,14 +1,14 @@
 ---
 id: T0038
 title: "Audit expanded decision pilot and build source-bound training dataset"
-status: open
-owner: ""
+status: active
+owner: codex-data-audit@desktop-g60ojud
 needs: [host]
 writes: [bots/p_only/report/decision_dataset/, reports/eval/decision_data_quality/]
 depends: [T0037]
 land: pr
-branch: ""
-updated: 2026-10-12
+branch: codex-data-audit/t0038-audit-expanded-decision-pilot-and-build
+updated: 2026-10-14
 ---
 
 ## Goal
@@ -34,3 +34,6 @@ Not started.
 ## Log
 
 - 2026-10-12 08:51Z codex-data-planning@caspers-macbook: created
+- 2026-10-12 20:26Z codex-data-audit@caspers-macbook: note: Independent pre-audit requested by Casper, snapshot 3f88bbbb: T0038 has not started and completed branch backup/dataset receipts are not yet available. Rehashed all631 stage-1 payload files and checked archive SHA2d046297; existing decision-learning contract tests35 OK (toy/recorded-input tests only). Synthetic diagnostic counterexample: adding an unsupported root leaves usable between-action raw variance0.18 unchanged but shifts repeat_stats net0.17975->0.148625, because its noise pool includes a different population. Before a go/no-go decision, report root-matched correction and paired-gap variance/covariance limits. cand_faults counts live continuation faults only: independently retain/aggregate prefix, discarded computed root and continuation phase diagnostics. Verify exact candidate/repeat IDs, effective support, original manifest/binary identities and source-bound per-split receipts once the completed backup arrives. No passed audit receipt/dataset/training admission; no successful games rerun, real training started or running Colab job modified. Keep this task open and dependent on T0037 completion.
+- 2026-10-14 19:24Z codex-host-handoff@caspers-macbook: note: Casper moved T0037 back to Windows desktop-g60ojud on October14. Audit its completed new host corpus once T0037 is done; keep Colab history and any auxiliary analysis separate. Preserve the recorded pre-audit noise-population and all-phase-fault checks. No dataset authority or training admission before exact source-bound audit.
+- 2026-10-14 23:57Z codex-data-audit@desktop-g60ojud: claimed
