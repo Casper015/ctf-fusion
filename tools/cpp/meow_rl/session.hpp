@@ -60,6 +60,42 @@ inline std::string invalid(const Game& g) {
     return "";
 }
 
+// The learner's inputs in state `o` (a prepared state) for team `me`, with the planner's movement history:
+// the move features, unit feasibility, joint mask, value features and (with `prob`) the reference actor's own
+// probabilities. Returns false if the all-stay joint (the safe fallback) is infeasible. Session::observe uses it for
+// the real turn; a search uses it at simulated states (with the history it set for that branch).
+inline bool fill(const Planner& p, const Game& o, int me, const std::vector<Planner::Prob>* prob, Observation& out) {
+    int alive = 0, dest[kUnits][kMoves];
+    for (int k = 0; k < kUnits; k++) {
+        int id = 3 * me + k, cell = p.geo.cell(o.units[id]);
+        auto all = p.geo.policyMoves(o, id, p.previous[id]);
+        for (int m = 0; m < kMoves; m++) {
+            std::memcpy(out.feats[k][m], all[m].data(), sizeof(float) * kPF);
+            out.unit_legal[k][m] = cell >= 0 ? (m == 0 || all[m][7] <= .5f) : m == 0;   // Planner::policy's -100 rule
+            dest[k][m] = cell < 0 ? -1 : p.geo.nb[cell][m];
+            out.ref_prob[k][m] = prob ? (*prob)[id][m] : 0.f;
+        }
+        if (cell >= 0) alive |= 1 << k;
+    }
+    int valid = 0;
+    for (int a = 0; a < kMoves; a++)
+        for (int b = 0; b < kMoves; b++)
+            for (int c = 0; c < kMoves; c++) {
+                int mv[3] = {a, b, c};
+                bool ok = true;
+                for (int k = 0; k < kUnits && ok; k++) ok = out.unit_legal[k][mv[k]];
+                for (int k = 0; k < kUnits && ok; k++)
+                    for (int l = k + 1; l < kUnits && ok; l++)
+                        if (dest[k][mv[k]] >= 0 && dest[k][mv[k]] == dest[l][mv[l]]) ok = false;   // Planner::moves
+                out.joint_mask[a * 25 + b * 5 + c] = ok;
+                valid += ok;
+            }
+    auto v = p.geo.value(o, me);
+    std::memcpy(out.value_feats, v.data(), sizeof(float) * kVF);
+    out.alive = alive, out.valid = valid;
+    return out.joint_mask[0];
+}
+
 struct Session {
     Game g;                              // the raw blocks as read (INIT data persists across turns)
     Planner planner;                     // the reference's per-episode state
@@ -88,37 +124,9 @@ struct Session {
         for (auto& u : observation.units) p.newLife[u.id] = g.units[u.id].x < 0 && u.x >= 0;
         prob = p.predict(observation, true);
 
-        const Game& o = observation;
-        int alive = 0, dest[kUnits][kMoves];
-        for (int k = 0; k < kUnits; k++) {
-            int id = 3 * g.me + k, cell = p.geo.cell(o.units[id]);
-            auto all = p.geo.policyMoves(o, id, p.previous[id]);
-            for (int m = 0; m < kMoves; m++) {
-                std::memcpy(out.feats[k][m], all[m].data(), sizeof(float) * kPF);
-                out.unit_legal[k][m] = cell >= 0 ? (m == 0 || all[m][7] <= .5f) : m == 0;   // Planner::policy's -100 rule
-                dest[k][m] = cell < 0 ? -1 : p.geo.nb[cell][m];
-                out.ref_prob[k][m] = prob[id][m];
-            }
-            if (cell >= 0) alive |= 1 << k;
-        }
-        int valid = 0;
-        for (int a = 0; a < kMoves; a++)
-            for (int b = 0; b < kMoves; b++)
-                for (int c = 0; c < kMoves; c++) {
-                    int mv[3] = {a, b, c};
-                    bool ok = true;
-                    for (int k = 0; k < kUnits && ok; k++) ok = out.unit_legal[k][mv[k]];
-                    for (int k = 0; k < kUnits && ok; k++)
-                        for (int l = k + 1; l < kUnits && ok; l++)
-                            if (dest[k][mv[k]] >= 0 && dest[k][mv[k]] == dest[l][mv[l]]) ok = false;   // Planner::moves
-                    out.joint_mask[a * 25 + b * 5 + c] = ok;
-                    valid += ok;
-                }
-        if (!out.joint_mask[0]) return "the all-stay joint move is infeasible";   // the safe fallback
-        auto v = p.geo.value(o, g.me);
-        std::memcpy(out.value_feats, v.data(), sizeof(float) * kVF);
+        if (!fill(p, observation, g.me, &prob, out)) return "the all-stay joint move is infeasible";   // the safe fallback
         out.turn = g.turn, out.turns = g.turns, out.teams = g.teams, out.me = g.me, out.size = g.size;
-        out.alive = alive, out.valid = valid, out.units = int(g.units.size());
+        out.units = int(g.units.size());
         observed_turn = g.turn;
         return "";
     }
