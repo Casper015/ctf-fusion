@@ -1,0 +1,28 @@
+---
+id: T0054
+title: "Implement Meowmind on-policy PPO training"
+status: open
+owner: ""
+needs: []
+writes: [training/meow_rl/, tools/cpp/meow_rl/, tests/test_meow_rl.py, tests/test_meow_rl_bridge.py, docs/MEOWMIND_RL_IMPLEMENTATION.md]
+depends: [T0053]
+land: pr
+branch: ""
+updated: 2026-10-15
+---
+
+## Goal
+
+Implement docs/MEOWMIND_RL_PLAN.md and profiles/meowmind_rl_pilot.json. Build the missing causal native feature/action bridge, live engine adapter, masked joint actor, separate 2M and 28.8K critics, actual on-policy PPO/GAE trainer and resumable rollout store. Preserve Meowmind attribution and original source. No match batches on development machines; no model-strength claim.
+
+## Done when
+
+Feature/actor/resolver parity; causal observations; actual sampled-action log probabilities; legal masks; terminal/truncation GAE; finite updates; checkpoint resume; source/config identity tests pass. Provide a tested host CLI with smoke and full-budget modes, CPU opponent rollout plus CUDA learning, and no search/proposal probability mismatch. PR merged before host training.
+
+## Handoff
+
+Not started.
+
+## Log
+
+- 2026-10-15 05:50Z codex-bigv@caspers-macbook: created
