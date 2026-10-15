@@ -1,7 +1,7 @@
 ---
 id: T0061
 title: "Aligned Meowmind RL exports and search diagnosis: shared calibration corpus, WideAct16/FP32 critics, search v2, fixed trees, eight-worker gate (code)"
-status: active
+status: review
 owner: claude-review@caspers-macbook
 needs: []
 writes: [bots/meow_rl/, bots/p_only/tests/test_p_only.py, bots/p_only/tools/preflight_meow_rl.py, bots/p_only/tools/run_screen.py, docs/MARKDOWN_INDEX.md, docs/MEOWMIND_RL_ALIGNED.md, fusion/quant_wide.py, inference/mlp_float.hpp, inference/mlp_wide.hpp, profiles/meow_rl_aligned_screen.json, profiles/meow_rl_aligned_screen_a.json, profiles/meow_rl_aligned_screen_b.json, tests/test_meow_rl_aligned.py, tools/cpp/meow_rl/tree.cpp, tools/cpp/meow_rl/wide_check.cpp, tools/meow_rl_aligned/]
@@ -35,7 +35,23 @@ PR merged: tests cover the selector, export reproducibility and parity, the Wide
 
 ## Handoff
 
-Not started.
+*2026-10-15 22:23Z claude-review@caspers-macbook:*
+
+**Done.** PR https://github.com/Casper015/ctf-fusion/pull/58 is on branch claude-review/t0061-aligned-meowmind-rl-exports-and-search. The design and runbook are in docs/MEOWMIND_RL_ALIGNED.md.
+- Code: corpus selector, aligned exporter, FP32/reference16/WideAct16 critics, search v2, tree harness, diagnostics, eight-worker preflight, freeze and verdict report.
+- Frozen specs: bots/meow_rl/aligned.json and profiles/meow_rl_aligned_screen_{a,b}.json. Their seeds stay null until T0063's freeze.
+
+**Next:**
+- Review and merge PR 58 once CI is green; the final-commit P-only run was skipped locally and CI runs it. Then python tools/repo/task.py done T0061.
+- The host runs T0062, then T0063, then T0064 (all depend in that order).
+
+**Uncertain or not checked:**
+- real checkpoints and batches (torch, pins);
+- AVX2, Windows and MinGW execution of the new kernels and the wide_check binary stdio;
+- corpus.py's memory use on about 2M rows;
+- whether the frozen search priors suit 8 workers. The preflight decides.
+
+T0063 needs docs/MEOWMIND_RL_SEEDS.md, which is held by T0059 (in review).
 
 ## Log
 
@@ -44,3 +60,4 @@ Not started.
 - 2026-10-15 19:59Z claude-review@caspers-macbook: amended goal; done when
 - 2026-10-15 20:25Z claude-review@caspers-macbook: amended writes -> bots/meow_rl/, bots/p_only/tests/test_p_only.py, bots/p_only/tools/preflight_meow_rl.py, bots/p_only/tools/run_screen.py, docs/MARKDOWN_INDEX.md, docs/MEOWMIND_RL_ALIGNED.md, fusion/quant_wide.py, inference/mlp_float.hpp, inference/mlp_wide.hpp, profiles/meow_rl_aligned_screen.json, profiles/meow_rl_aligned_screen_a.json, profiles/meow_rl_aligned_screen_b.json, tests/test_meow_rl_aligned.py, tools/cpp/meow_rl/tree.cpp, tools/cpp/meow_rl/wide_check.cpp, tools/meow_rl_aligned/
 - 2026-10-15 22:20Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/58 (c4e7ab8, a9c421b, 1f20c76 + index). Codex sol6.1 design memo, review (3 blockers + 8) and re-review all addressed. Core 405 OK; P-only 64 OK on a9c421b (final-commit rerun skipped at Casper's request to unblock the host; CI covers it). Host work: T0062 (corpus+exports, PR) -> T0063 (diagnostics, 8-worker preflight, freeze) -> T0064 (schedules A/B, verdicts, conclusion).
+- 2026-10-15 22:23Z claude-review@caspers-macbook: handoff -> review
