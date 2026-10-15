@@ -10,6 +10,10 @@ No reserved seed in this file may be reused for training, calibration, or across
 | 20261950 | preflight | 16 | 32 | Host timing preflight (ladder 1..6 workers, 2..15 teams) | Reserved |
 | 20261951 | primary | 392 (28/count) | 1,176 | Primary screen: RL vs Warm Start + A/A | Reserved |
 | 20261952 | secondary | 392 (28/count) | 3,136 | Secondary screen: 6 prespecified Bonferroni contrasts | Reserved |
+| 20261953 | aligned_preflight | 64 (16/count x 4) | 448 | Eight-worker gate: failed on buffered stderr | Consumed |
+| 20261954 | aligned_screen_a | 392 (28/count) | 1,960 | Aligned Schedule A: warm, p1_large, p2_large, p2_small, A/A | Reserved |
+| 20261955 | aligned_screen_b | 392 (28/count) | 1,960 | Aligned Schedule B: D, F, R, H, A/A | Reserved |
+| 20261956 | aligned_preflight | 64 (16/count x 4) | 448 | Fresh eight-worker gate across 7 aligned variants with unbuffered stderr | Reserved |
 
 ## Schedule Derivation Contract
 

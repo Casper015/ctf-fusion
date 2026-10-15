@@ -1,0 +1,341 @@
+{
+ "schema": "ctf-meow-rl-aligned-freeze-1",
+ "generator": "bots/meow_rl/aligned/freeze.py",
+ "preflight": {
+  "path": "reports/host/meow_rl_aligned/PREFLIGHT.json",
+  "sha256": "6c28735f696380225da61318c3223f8e1953c443dbcce465a286d297f3e3cf91",
+  "seed": 20261956,
+  "workers": 8
+ },
+ "schedules": {
+  "a": {
+   "profile": "profiles/meow_rl_aligned_screen_a.json",
+   "seed": 20261954,
+   "arms": {
+    "meow_rl_aligned_p2_large": {
+     "bundle_sha256": "0de074c5a1c2021391aafe68b01e839a07b2cbdb6ee6a85eeebc1809038bca7a",
+     "binary_sha256": "d76921a1967510ec0f361e20e79649bb458daf12f1366b81a88c7bda755227fc"
+    },
+    "meow_rl_aligned_warm": {
+     "bundle_sha256": "8ddc67048aa185ce108bcd8ce067997b31c468ee7221ba3c98fd2af4674aea70",
+     "binary_sha256": "4538f0d302bd2684ef4b3b7e1542237f7d862a03447a3646d160c132da9d822c"
+    },
+    "meow_rl_aligned_p1_large": {
+     "bundle_sha256": "7ce1c340f37aaebf11526062decfae5027712998e41087776a0286cf4420ca53",
+     "binary_sha256": "1ac91250e5ab3fa12db719551b61d4b09b69e46e2270da7cfdeb1cce95593c59"
+    },
+    "meow_rl_aligned_p2_small": {
+     "bundle_sha256": "f20624eda754e06683a6535cc15351c7d17c9122759f8135a0be749c0b84cdfc",
+     "binary_sha256": "59d8aade3d63aaf7f6c9b8ef27585982c722e4b52c2f27df2c5b4c9830a18716"
+    }
+   },
+   "aa": [
+    "meow_rl_aligned_p2_large"
+   ],
+   "comparisons": [
+    [
+     "meow_rl_aligned_p2_large",
+     "meow_rl_aligned_warm"
+    ],
+    [
+     "meow_rl_aligned_p2_large",
+     "meow_rl_aligned_p1_large"
+    ],
+    [
+     "meow_rl_aligned_p2_large",
+     "meow_rl_aligned_p2_small"
+    ]
+   ],
+   "families": {
+    "primary": {
+     "method": "none",
+     "alpha": 0.05,
+     "comparisons": [
+      [
+       "meow_rl_aligned_p2_large",
+       "meow_rl_aligned_warm"
+      ]
+     ]
+    },
+    "secondary": {
+     "method": "bonferroni",
+     "alpha": 0.05,
+     "comparisons": [
+      [
+       "meow_rl_aligned_p2_large",
+       "meow_rl_aligned_p1_large"
+      ],
+      [
+       "meow_rl_aligned_p2_large",
+       "meow_rl_aligned_p2_small"
+      ]
+     ]
+    }
+   },
+   "multiplicity": null,
+   "margin": 0.0,
+   "workers": 8,
+   "fixtures": 392,
+   "games": 1960,
+   "profile_sha256": "21bc86f3a22c3f296677552984ca7073323a567e84f974d1f785e871ba8f216f",
+   "schedule": "data/meow_rl_aligned/screen_a/schedule.json",
+   "schedule_sha256": "87980a87d8493596386ef7a3b06ababb6030f1e5363cddc5265e747ceb95f805",
+   "schedule_identity": "c7ab9ca4dfff5db5a5d5000ae36f65e7fdcf850d367910b20907a2c4a34c2301",
+   "scheduled_fixtures": 392,
+   "reference_sources": [
+    {
+     "name": "Fable",
+     "path": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+     "source_sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "name": "MiMo",
+     "path": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+     "source_sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "name": "Kimi",
+     "path": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+     "source_sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "name": "GLM",
+     "path": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+     "source_sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "name": "Player4",
+     "path": "ctf-stress-pack/bots/Player4.cpp",
+     "source_sha256": "2058f78e5979a51f40dcb7dac4ee66e22f8ab816176822e3388caa6732f1453a"
+    }
+   ]
+  },
+  "b": {
+   "profile": "profiles/meow_rl_aligned_screen_b.json",
+   "seed": 20261955,
+   "arms": {
+    "meow_rl_aligned_p2_large": {
+     "bundle_sha256": "0de074c5a1c2021391aafe68b01e839a07b2cbdb6ee6a85eeebc1809038bca7a",
+     "binary_sha256": "d76921a1967510ec0f361e20e79649bb458daf12f1366b81a88c7bda755227fc"
+    },
+    "meow_rl_aligned_p2_large_fp32": {
+     "bundle_sha256": "048097823100e74ce0b3742749fa53a35d510644b95b558871b6b07539c7664a",
+     "binary_sha256": "2b10a327ce7a4702af4e2e80313f1c2d898c9f7d7e33ff6478c162b6dfd5108e"
+    },
+    "meow_rl_aligned_p2_large_r16": {
+     "bundle_sha256": "f0813cd77dd4492c767c8ce486602fa16de4eedb9d937d367f23e87f5e2fbf7a",
+     "binary_sha256": "e7df2c2f043ddb352fd4b79b7d8f587b516a6b49cbb5ae413d4bcb66ac14c1d3"
+    },
+    "meow_rl_aligned_p2_large_w16": {
+     "bundle_sha256": "b83854b9085cd4c9b4007e1817213da31158656206e901b326b878fc0def3c49",
+     "binary_sha256": "29eae4c39b6ae89f1f7cff45fff49696d1b9144e4cf20ff0a4ff2f0d0f74256a"
+    }
+   },
+   "aa": [
+    "meow_rl_aligned_p2_large_r16"
+   ],
+   "comparisons": [
+    [
+     "meow_rl_aligned_p2_large_fp32",
+     "meow_rl_aligned_p2_large"
+    ],
+    [
+     "meow_rl_aligned_p2_large_r16",
+     "meow_rl_aligned_p2_large"
+    ],
+    [
+     "meow_rl_aligned_p2_large_w16",
+     "meow_rl_aligned_p2_large"
+    ],
+    [
+     "meow_rl_aligned_p2_large_w16",
+     "meow_rl_aligned_p2_large_r16"
+    ],
+    [
+     "meow_rl_aligned_p2_large_fp32",
+     "meow_rl_aligned_p2_large_r16"
+    ]
+   ],
+   "families": {
+    "search": {
+     "method": "bonferroni",
+     "alpha": 0.05,
+     "comparisons": [
+      [
+       "meow_rl_aligned_p2_large_fp32",
+       "meow_rl_aligned_p2_large"
+      ],
+      [
+       "meow_rl_aligned_p2_large_r16",
+       "meow_rl_aligned_p2_large"
+      ],
+      [
+       "meow_rl_aligned_p2_large_w16",
+       "meow_rl_aligned_p2_large"
+      ],
+      [
+       "meow_rl_aligned_p2_large_w16",
+       "meow_rl_aligned_p2_large_r16"
+      ],
+      [
+       "meow_rl_aligned_p2_large_fp32",
+       "meow_rl_aligned_p2_large_r16"
+      ]
+     ]
+    }
+   },
+   "multiplicity": {
+    "method": "bonferroni",
+    "alpha": 0.05,
+    "family": 5
+   },
+   "margin": 0.0,
+   "workers": 8,
+   "fixtures": 392,
+   "games": 1960,
+   "profile_sha256": "04f36dbf0b7b03fde96dc1fcd4a8977e6b207a02ebe0a3c5dc6a86dcc31f9a18",
+   "schedule": "data/meow_rl_aligned/screen_b/schedule.json",
+   "schedule_sha256": "52f0c39da87d015b4014c73394347d50eab9445042065348cd525a7f1ccff1bd",
+   "schedule_identity": "fe686cacbaaf99ece5b3e497fd207b46ab46970e0f3cc2a23b52fb468f236a6e",
+   "scheduled_fixtures": 392,
+   "reference_sources": [
+    {
+     "name": "Fable",
+     "path": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+     "source_sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+    },
+    {
+     "name": "MiMo",
+     "path": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+     "source_sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+    },
+    {
+     "name": "Kimi",
+     "path": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+     "source_sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+    },
+    {
+     "name": "GLM",
+     "path": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+     "source_sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+    },
+    {
+     "name": "Player4",
+     "path": "ctf-stress-pack/bots/Player4.cpp",
+     "source_sha256": "2058f78e5979a51f40dcb7dac4ee66e22f8ab816176822e3388caa6732f1453a"
+    }
+   ]
+  }
+ },
+ "roster_audit": {
+  "roster": [
+   {
+    "name": "Fable",
+    "family": "fable",
+    "path": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+    "source_sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04",
+    "includes": [],
+    "command": [
+     "fable-5.1-0170519f251e488d.exe"
+    ],
+    "executable_sha256": "dcf4dd932816dfa98293e9256e0cd458bc5e9a940822babd8ea4142e22ca41c8",
+    "in_training_pool": {
+     "name": false,
+     "path": false,
+     "sha256": false
+    },
+    "family_in_training_pool": false,
+    "reference_markers": []
+   },
+   {
+    "name": "MiMo",
+    "family": "mimo",
+    "path": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+    "source_sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85",
+    "includes": [],
+    "command": [
+     "mimo-v2.6-pro-ae4bdfe5070859c6.exe"
+    ],
+    "executable_sha256": "19b45eb6233f65383ade3c01bac82409768659fdb91650351758b61dd5fc140d",
+    "in_training_pool": {
+     "name": false,
+     "path": false,
+     "sha256": false
+    },
+    "family_in_training_pool": false,
+    "reference_markers": []
+   },
+   {
+    "name": "Kimi",
+    "family": "kimi",
+    "path": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+    "source_sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b",
+    "includes": [],
+    "command": [
+     "kimi-k3-710749ba212c4e02.exe"
+    ],
+    "executable_sha256": "698e881a0dd16a467fbf726174047f86a89087a5f0d657a00cf68a4e29af607c",
+    "in_training_pool": {
+     "name": false,
+     "path": false,
+     "sha256": false
+    },
+    "family_in_training_pool": false,
+    "reference_markers": []
+   },
+   {
+    "name": "GLM",
+    "family": "glm",
+    "path": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+    "source_sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e",
+    "includes": [],
+    "command": [
+     "glm-5.3-8b0893a36f01b48e.exe"
+    ],
+    "executable_sha256": "c444c7094a335eec996a036103a5de7c7163e62d333ed1ac512a6a0ee7cfe80f",
+    "in_training_pool": {
+     "name": false,
+     "path": false,
+     "sha256": false
+    },
+    "family_in_training_pool": false,
+    "reference_markers": []
+   },
+   {
+    "name": "Player4",
+    "family": "player4",
+    "path": "ctf-stress-pack/bots/Player4.cpp",
+    "source_sha256": "2058f78e5979a51f40dcb7dac4ee66e22f8ab816176822e3388caa6732f1453a",
+    "includes": [],
+    "command": [
+     "Player4-6be90e63600ecd7b.exe"
+    ],
+    "executable_sha256": "fc927095ae3f62d9ac084de1b9ee71a75e82933513e6b5031e4cfdb4019c66e9",
+    "in_training_pool": {
+     "name": false,
+     "path": false,
+     "sha256": false
+    },
+    "family_in_training_pool": false,
+    "reference_markers": []
+   }
+  ],
+  "blocked": [],
+  "pools": {
+   "meow_rl_training_pool.json": "ecc56feb20c718293378927de184a0539bfbe82284bbc77bb7896e7fcb8a0641",
+   "meow_rl_training_pool_v2.json": "f3c04df616f0d67a68947174b354e8208392199171b3d3cc94130790dec81661"
+  },
+  "markers": [
+   "NN_JOINT_BELIEF",
+   "OPPONENT_HEADS",
+   "NN_ACTION_EVIDENCE",
+   "workingExperts",
+   "headPosterior",
+   "meowmind",
+   "Meowmind",
+   "meow_rl",
+   "policyMoves"
+  ]
+ },
+ "total_games": 3920
+}

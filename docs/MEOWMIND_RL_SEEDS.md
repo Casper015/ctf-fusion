@@ -18,6 +18,7 @@ No reserved seed in this file may be reused for different configurations, evalua
 | 20261908 | T0056 | `small_v_s101` | 40 episodes | Frozen Actor Calibration Games | Reserved |
 | 20261909 | T0059 | `large_v` (`meow_public416_mlp_1024_1024_512_v1`) | 20,000 smoke + 1,000,000 full | Pool v2 Primary Large-V PPO Run | Reserved |
 | 20261910 | T0059 | `small_v` (64-32-1 baseline) | 20,000 smoke + 1,000,000 full | Pool v2 Small-V Capacity Ablation Control | Reserved |
+| 20261911 | T0063 | `trees_collect` (`meow_rl_aligned_p2_large`) | 224 games | Aligned Fixed-Work Diagnostic Roots | Reserved |
 
 ## Seed Derivation Contract
 
