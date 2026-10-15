@@ -1,13 +1,13 @@
 ---
 id: T0052
 title: "Register own_action_first_trial as a model study so main is green"
-status: open
-owner: ""
+status: active
+owner: claude-review@caspers-macbook
 needs: []
 writes: [tests/test_repo_layout.py, CONTRIBUTING.md]
 depends: []
 land: pr
-branch: ""
+branch: claude-review/t0052-register-own-action-first-trial-as-a
 updated: 2026-10-15
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-15 03:52Z claude-review@caspers-macbook: created
+- 2026-10-15 03:52Z claude-review@caspers-macbook: claimed
