@@ -47,6 +47,7 @@ class Episode:
     mask: np.ndarray             # [T, 125] bool
     value_feats: np.ndarray      # [T, 416] float32
     action: np.ndarray           # [T] int16, the sampled joint
+    resolved: np.ndarray         # [T, 3] int16, the resolver's actions (target id, -1 pickup/wait, -3 drop)
     logp: np.ndarray             # [T] float32, its log probability under the snapshot
     turn: np.ndarray             # [T] int16
     valid: np.ndarray            # [T] int16, feasible joints
@@ -77,7 +78,7 @@ def run_episode(spec: EpisodeSpec, actor: dict, actor_version: int, commands: di
         for b in bots.values():
             b.close()
         raise EnvironmentFault(f"opponents failed to start: {dead}")
-    rows = {k: [] for k in ("feats", "mask", "value_feats", "action", "logp", "turn", "valid")}
+    rows = {k: [] for k in ("feats", "mask", "value_feats", "action", "resolved", "logp", "turn", "valid")}
     faults, learner_ms = [], []
     session = B.Session(B.load(lib_path))
     try:
@@ -95,7 +96,7 @@ def run_episode(spec: EpisodeSpec, actor: dict, actor_version: int, commands: di
             logp = P.joint_log_probs(actor, obs.feats, obs.joint_mask)
             j = P.sample(logp, rng.random())
             try:
-                line, _actions = session.resolve(j)
+                line, actions = session.resolve(j)
             except B.BridgeError as exc:
                 raise LearnerFault(f"turn {turn}: resolve {j}: {exc}") from exc
             t_reply, moves, _ = B.parse_reply(line)
@@ -124,6 +125,7 @@ def run_episode(spec: EpisodeSpec, actor: dict, actor_version: int, commands: di
             rows["mask"].append(obs.joint_mask)
             rows["value_feats"].append(obs.value_feats)
             rows["action"].append(j)
+            rows["resolved"].append(actions)
             rows["logp"].append(logp[j])
             rows["turn"].append(turn)
             rows["valid"].append(obs.valid)
@@ -142,10 +144,11 @@ def run_episode(spec: EpisodeSpec, actor: dict, actor_version: int, commands: di
                  np.asarray(rows["feats"], np.float32).reshape(T, UNITS, MOVES, PF),
                  np.asarray(rows["mask"], bool).reshape(T, JOINT),
                  np.asarray(rows["value_feats"], np.float32).reshape(T, VF),
-                 np.asarray(rows["action"], np.int16), np.asarray(rows["logp"], np.float32),
+                 np.asarray(rows["action"], np.int16), np.asarray(rows["resolved"], np.int16).reshape(T, 3),
+                 np.asarray(rows["logp"], np.float32),
                  np.asarray(rows["turn"], np.int16), np.asarray(rows["valid"], np.int16), reward)
     ep.record = {"schema": "ctf-meow-rl-episode-1", **spec.record(), "actor_version": actor_version,
-                 "seats": seats, "families": {s: info[s]["family"] for s in spec.opponents},
+                 "seats": seats, "families": [info[s]["family"] for s in spec.opponents],   # one per opponent seat
                  "score": score, "utility": utility(score, spec.seat), "reward": float(reward[-1]),
                  "decisions": T, "terminated": True, "faults": faults,
                  "opponents": {str(i): {k: r[k] for k in ("name", "dead", "faults", "late", "first_ms", "p99_ms", "max_ms")}
@@ -165,4 +168,5 @@ def collect(job) -> dict:
     except EnvironmentFault as exc:
         return {"status": "environment_fault", "index": spec.index, "error": str(exc)}
     return {"status": "ok", "index": spec.index, "record": ep.record,
-            "arrays": {k: getattr(ep, k) for k in ("feats", "mask", "value_feats", "action", "logp", "turn", "valid", "reward")}}
+            "arrays": {k: getattr(ep, k) for k in ("feats", "mask", "value_feats", "action", "resolved", "logp", "turn",
+                                                   "valid", "reward")}}

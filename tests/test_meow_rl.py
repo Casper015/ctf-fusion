@@ -177,9 +177,47 @@ class Storage(unittest.TestCase):
         self.assertEqual(rec["next_index"], 5)
         self.assertTrue((out / "discarded" / "update_000002.npz").is_file())
         self.assertEqual(st.journal()[-1]["event"], "discarded")
+        (out / "batches" / "update_000001.npz.tmp77").write_bytes(b"partial")   # a crash inside atomic_write
+        with open(out / "journal.jsonl", "a") as f:
+            f.write('{"event": "started", "ind')                               # a torn append
+        rec = st.recover(committed_next=3, committed_update=1)
+        self.assertIn("update_000001.npz.tmp77", rec["moved"])
+        self.assertIsNotNone(rec["torn_journal_line"])
         atomic_json(out / "x.json", {"a": 1})
         self.assertEqual(json.loads((out / "x.json").read_text()), {"a": 1})
         self.assertEqual([p.name for p in out.iterdir() if ".tmp" in p.name], [])
+
+
+class Ready:
+    def __init__(self, value):
+        self.value = value
+
+    def ready(self):
+        return True
+
+    def get(self):
+        return self.value
+
+
+class Collection(unittest.TestCase):
+    def test_collection_stops_after_a_fault_and_counts_complete_episodes(self):
+        from training.meow_rl.train import drive  # noqa: PLC0415  (torch-free)
+        pool = Pool({"schema": "ctf-meow-rl-pool-1", "family_cap": 1.0, "bots": [{"name": "X", "family": "x", "path": "x"}]})
+        nxt = iter(range(100))
+        started = []
+
+        def submit(spec):
+            ok = spec.index != 1
+            return Ready({"status": "ok" if ok else "environment_fault", "index": spec.index,
+                          "arrays": {"action": np.zeros(400 if ok else 0)}})
+
+        res, _ = drive(submit, lambda: pool.episode(5, next(nxt), [2]), 10_000, 3, started.extend)
+        self.assertEqual(started, [0, 1, 2])                                  # nothing new after the fault
+        self.assertEqual([r["index"] for r in res], [0, 1, 2])
+        nxt = iter(range(100))
+        res, _ = drive(lambda s: Ready({"status": "ok", "index": s.index, "arrays": {"action": np.zeros(400)}}),
+                       lambda: pool.episode(5, next(nxt), [2]), 1000, 2, lambda i: None)
+        self.assertEqual(len(res), 3)                                         # 1,200 >= 1,000, every start returned
 
 
 class Export(unittest.TestCase):
@@ -356,9 +394,10 @@ class SyntheticCollector:
             spec = next_spec()
             on_start([spec.index])
             feats, mask, action, old, vf, reward = synthetic_batch(actor, 100, seed=spec.index)
-            arrays = {"feats": feats, "mask": mask, "value_feats": vf, "action": action.astype(np.int16), "logp": old,
+            arrays = {"feats": feats, "mask": mask, "value_feats": vf, "action": action.astype(np.int16),
+                      "resolved": np.full((100, 3), -1, np.int16), "logp": old,
                       "turn": np.arange(1, 101, dtype=np.int16), "valid": mask.sum(1).astype(np.int16), "reward": reward}
-            rec = {"index": spec.index, "teams": spec.teams, "families": {o: "f" for o in spec.opponents},
+            rec = {"index": spec.index, "teams": spec.teams, "families": ["f" for _ in spec.opponents],
                    "utility": 0.5, "faults": []}
             out.append({"status": "ok", "index": spec.index, "record": rec, "arrays": arrays})
             n += 100

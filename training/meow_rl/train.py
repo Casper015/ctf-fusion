@@ -88,27 +88,38 @@ class ProcessCollector:
         self.pool.join()
 
     def run(self, next_spec, actor: dict, version: int, target: int, on_start) -> list[dict]:
-        inflight, results, collected = {}, [], 0
-        while True:
-            while len(inflight) < self.workers and collected + len(inflight) * self.mean_len < target:
-                spec = next_spec()
-                on_start([spec.index])
-                job = (spec, actor, version, self.commands, self.info, self.limits, self.root, self.lib_path)
-                inflight[spec.index] = self.pool.apply_async(collect, (job,))
-            if not inflight:
-                break
-            done = [i for i, r in inflight.items() if r.ready()]
-            if not done:
-                time.sleep(0.02)
-                continue
-            for i in done:
-                res = inflight.pop(i).get()
-                results.append(res)
-                if res["status"] == "ok":
-                    n = len(res["arrays"]["action"])
-                    collected += n
-                    self.mean_len += 0.2 * (n - self.mean_len)
-        return sorted(results, key=lambda r: r["index"])
+        def submit(spec):
+            job = (spec, actor, version, self.commands, self.info, self.limits, self.root, self.lib_path)
+            return self.pool.apply_async(collect, (job,))
+        results, self.mean_len = drive(submit, next_spec, target, self.workers, on_start, self.mean_len)
+        return results
+
+
+def drive(submit, next_spec, target: int, workers: int, on_start, mean_len: float = 400.0) -> tuple[list[dict], float]:
+    """Keep `workers` episodes in flight until the finished ones plus the expected in-flight decisions reach `target`;
+    every started episode is awaited and returned (ordered by index). After a faulted episode nothing new starts."""
+    inflight, results, collected, failed = {}, [], 0, False
+    while True:
+        while not failed and len(inflight) < workers and collected + len(inflight) * mean_len < target:
+            spec = next_spec()
+            on_start([spec.index])
+            inflight[spec.index] = submit(spec)
+        if not inflight:
+            break
+        done = [i for i, r in inflight.items() if r.ready()]
+        if not done:
+            time.sleep(0.02)
+            continue
+        for i in done:
+            res = inflight.pop(i).get()
+            results.append(res)
+            if res["status"] == "ok":
+                n = len(res["arrays"]["action"])
+                collected += n
+                mean_len += 0.2 * (n - mean_len)
+            else:
+                failed = True                         # dispatch nothing more; the batch will be discarded
+    return sorted(results, key=lambda r: r["index"]), mean_len
 
 
 def make_batch(results: list[dict], learner, cfg, keep_features: bool) -> tuple[dict, dict, dict]:
@@ -132,19 +143,30 @@ def make_batch(results: list[dict], learner, cfg, keep_features: bool) -> tuple[
         start += n
     batch = {"feats": arr["feats"], "mask": arr["mask"], "action": arr["action"].astype(np.int64),
              "old_logp": stored, "value_feats": arr["value_feats"], "adv": adv, "ret": ret}
-    keep = {"episode": episode, "turn": arr["turn"], "action": arr["action"], "old_logp": stored, "old_value": values,
+    keep = {"episode": episode, "turn": arr["turn"], "action": arr["action"], "resolved": arr["resolved"],
+            "old_logp": stored, "old_value": values,
             "adv": adv, "ret": ret, "reward": arr["reward"], "mask": np.packbits(arr["mask"], axis=1), "valid": arr["valid"]}
     if keep_features:
         keep |= {"feats": arr["feats"], "value_feats": arr["value_feats"]}
     return batch, keep, {"logp_recompute_max_abs": gap, "old_value_mean": float(values.mean())}
 
 
+def opponent_identities(commands: dict, info: dict) -> dict:
+    """What actually runs per pool bot: its source sha256 and the sha256 of the executable it compiled to."""
+    out = {}
+    for name, cmd in sorted(commands.items()):
+        exe = Path(cmd[0])
+        out[name] = dict(info[name], executable_sha256=I.sha256_file(exe) if exe.is_file() and exe.suffix != ".py" else None)
+    return out
+
+
 def run_config(args, profile: dict, pool: Pool, ledger, counts, cfg, rollout: int, budget: int, engine: dict, lib: Path,
-               device_info: dict) -> dict:
+               device_info: dict, opponents: dict) -> dict:
     return {"schema": "ctf-meow-rl-run-1", "task": "T0054/T0055", "arm": args.arm, "identity": I.identity(args.arm),
             "critic_hidden": profile["critic" if args.arm == "large_v" else "small_critic"]["hidden"],
             "profile": profile, "profile_sha256": I.sha256_file(Path(args.profile)), "ppo": cfg.record(),
             "sources": I.sources(), "pool": pool.identity(), "pool_sha256": I.sha256_file(Path(args.pool)),
+            "opponents": opponents,
             "seed_base": args.seed_base, "seed_ledger": ledger, "counts": counts, "limits": list(args.limits),
             "rollout_decisions": rollout, "checkpoint_interval": profile["pilot"]["checkpoint_interval"],
             "optimizer_seed": profile["pilot"]["optimizer_seed"], "budget": budget, "engine": engine,
@@ -175,17 +197,21 @@ def train(argv=None, collector=None, engine: dict | None = None) -> dict:
         cfg.minibatch = args.minibatch
     rollout = args.rollout_decisions or profile["ppo"]["rollout_decisions"]
     pool = Pool.load(Path(args.pool))
+    if pool.cap > pilot["family_share_cap"] and not args.dev:
+        raise SystemExit(f"pool family_cap {pool.cap} exceeds the pilot's {pilot['family_share_cap']} (only --dev runs may)")
     lib = B.build()
     dev = pick_device(args.device)
     device_info = configure(dev, args.tf32)
     store = RunStore(Path(args.out))
     own_collector = collector is None
+    opponents = {}
     if collector is None:
         root = paths.ai_test_root(args.ai_test)
         engine = {"sha256": paths.sha256(paths.engine_path(root)), "commit": paths.git_commit(root)}
         commands, info = pool.commands(root, I.REPO / "build" / "meow_rl" / "bots")
+        opponents = opponent_identities(commands, info)
         collector = ProcessCollector(args.workers, commands, info, args.limits, root, lib)
-    config = run_config(args, profile, pool, ledger, counts, cfg, rollout, budget, engine or {}, lib, device_info)
+    config = run_config(args, profile, pool, ledger, counts, cfg, rollout, budget, engine or {}, lib, device_info, opponents)
 
     torch.manual_seed(pilot["optimizer_seed"])
     critic_hidden = config["critic_hidden"]
@@ -194,7 +220,7 @@ def train(argv=None, collector=None, engine: dict | None = None) -> dict:
     learner = Learner(actor, critic, cfg, dev)
     rng = np.random.default_rng(pilot["optimizer_seed"])
     st = {"decisions": 0, "update": 0, "next_index": 0, "episodes": 0, "checkpoints": [], "families": Counter(),
-          "counts": Counter(), "faults": 0, "history": []}
+          "counts": Counter(), "faults": 0, "history": [], "discarded_episodes": 0, "discarded_decisions": 0}
     old = store.config()
     if args.resume:
         if old is None:
@@ -211,6 +237,10 @@ def train(argv=None, collector=None, engine: dict | None = None) -> dict:
             st["families"], st["counts"] = Counter(st["families"]), Counter(st["counts"])
         rec = store.recover(st["next_index"], st["update"])
         st["next_index"] = rec["next_index"]
+        st["discarded_episodes"] += len(rec["discarded"])        # executed or started, never trained (decisions unknown)
+        last = st.get("last_checkpoint")
+        if last and last["update"] == st["update"]:                # state.pt is exactly that checkpoint's state
+            store.ensure_checkpoint(last["name"])
         store.log("resumed", mode=args.mode, budget=budget, decisions=st["decisions"], recover=rec)
     elif old is not None:
         raise SystemExit(f"{args.out} already holds a run: --resume or a new --out")
@@ -232,6 +262,8 @@ def train(argv=None, collector=None, engine: dict | None = None) -> dict:
                                     lambda idx: store.log("started", indices=idx, update=st["update"]))
             bad = [r for r in results if r["status"] != "ok"]
             if bad:
+                st["discarded_episodes"] += len(results)
+                st["discarded_decisions"] += sum(len(r["arrays"]["action"]) for r in results if r["status"] == "ok")
                 store.log("discarded", indices=[r["index"] for r in results], reason=f"{bad[0]['status']} in batch",
                           errors=[r.get("error") for r in bad])
                 raise SystemExit(f"{bad[0]['status']}: batch discarded (fix the cause before continuing): {bad[0].get('error')}")
@@ -247,7 +279,7 @@ def train(argv=None, collector=None, engine: dict | None = None) -> dict:
             for r in records:
                 st["counts"][str(r["teams"])] += 1
                 st["faults"] += len(r["faults"])
-                for fam in r["families"].values():
+                for fam in r["families"]:
                     st["families"][fam] += 1
             summary = {"update": st["update"], "decisions": st["decisions"], "batch": n, "episodes": len(results),
                        "utility_mean": float(np.mean([r["utility"] for r in records])),
@@ -258,12 +290,14 @@ def train(argv=None, collector=None, engine: dict | None = None) -> dict:
             checks["nonzero_critic_grad"] |= bool(stats["max_critic_grad_norm"])
             store.write_batch(st["update"], keep, {"summary": summary, "episodes": records})
             name = None
-            mark = st["decisions"] // interval * interval
-            if mark and mark not in st["checkpoints"] and st["decisions"] < budget:
+            mark = st["decisions"] // interval * interval              # the first state at or after each mark,
+            if mark and mark not in st["checkpoints"] and st["decisions"] < budget:   # named by its actual count
                 st["checkpoints"].append(mark)
-                name = f"decisions_{mark:010d}.pt"
+                name = f"decisions_{st['decisions']:010d}.pt"
             if st["decisions"] >= budget:
                 name = "final.pt" if args.mode == "full" else "smoke.pt"
+            if name:
+                st["last_checkpoint"] = {"name": name, "update": st["update"]}
             state = {"learner": learner.state_dict(), "rng": rng.bit_generator.state, "torch_rng": torch.get_rng_state(),
                      "counters": st | {"families": dict(st["families"]), "counts": dict(st["counts"])},
                      "config_digest": I.digest({k: v for k, v in config.items() if k not in RESUME_FREE}),
@@ -279,7 +313,8 @@ def train(argv=None, collector=None, engine: dict | None = None) -> dict:
         if own_collector:
             collector.close()
     out = {"decisions": st["decisions"], "updates": st["update"], "episodes": st["episodes"],
-           "families": dict(st["families"]), "counts": dict(st["counts"]), "faults": st["faults"]}
+           "families": dict(st["families"]), "counts": dict(st["counts"]), "faults": st["faults"],
+           "discarded_episodes": st["discarded_episodes"], "discarded_decisions": st["discarded_decisions"]}
     if args.mode == "smoke":
         out |= {"checks": smoke_checks(store, learner, checks), "dev": args.dev}
         from .store import atomic_json  # noqa: PLC0415

@@ -10,15 +10,19 @@ Layout of a run directory (under runs/, never committed):
     state.pt                 the commit point: learner (models + optimizers), RNG states, counters, next episode
     checkpoints/decisions_0000100000.pt   fixed-interval copies of state.pt; checkpoints/final.pt at the budget
 
-An update is committed when state.pt is replaced. On resume, episodes the journal shows as started but not committed
-are recorded as discarded and their indices (seeds) are never reused; batch files of an uncommitted update move to
-discarded/. Opponent processes cannot be restored, so an interrupted collection is discarded, not continued.
+An update is committed when state.pt is replaced; its named checkpoint, if any, is written just before, so a
+committed checkpoint mark always has its file (a crash in between leaves a checkpoint the resumed run rewrites). On
+resume, episodes the journal shows as started but not committed are recorded as discarded and their indices (seeds)
+are never reused; batch files of an uncommitted update and stray temporary files move to discarded/. A torn last
+journal line (a crash during the append) is ignored and reported. Opponent processes cannot be restored, so an
+interrupted collection is discarded, not continued.
 """
 from __future__ import annotations
 
 import io
 import json
 import os
+import re
 import shutil
 import time
 from pathlib import Path
@@ -75,12 +79,18 @@ class RunStore:
             os.fsync(f.fileno())
 
     def journal(self) -> list[dict]:
+        """The journal's events; an unparsable last line (a torn append) is skipped, anything else raises."""
         if not self.journal_path.is_file():
             return []
+        lines = [l for l in self.journal_path.read_text(encoding="utf-8").splitlines() if l.strip()]
         out = []
-        for line in self.journal_path.read_text(encoding="utf-8").splitlines():
-            if line.strip():
+        for i, line in enumerate(lines):
+            try:
                 out.append(json.loads(line))
+            except json.JSONDecodeError:
+                if i != len(lines) - 1:
+                    raise
+                self.torn = line
         return out
 
     def recover(self, committed_next: int, committed_update: int) -> dict:
@@ -90,13 +100,17 @@ class RunStore:
         if lost:
             self.log("discarded", indices=lost, reason="interrupted before the update was committed")
         moved = []
-        for p in sorted((self.out / "batches").glob("update_*")):
-            if int(p.stem.split("_")[1]) > committed_update:
+        for p in sorted((self.out / "batches").iterdir()):
+            m = re.fullmatch(r"update_(\d{6})\.(npz|json)", p.name)
+            if m is None or int(m.group(1)) > committed_update:         # uncommitted or a stray temporary file
                 dest = self.out / "discarded" / p.name
                 dest.parent.mkdir(exist_ok=True)
                 shutil.move(str(p), dest)
                 moved.append(p.name)
-        return {"next_index": max([committed_next, *[i + 1 for i in started]]), "discarded": lost, "moved": moved}
+        for p in [*self.out.glob("*.tmp*"), *(self.out / "checkpoints").glob("*.tmp*")]:
+            p.unlink()
+        return {"next_index": max([committed_next, *[i + 1 for i in started]]), "discarded": lost, "moved": moved,
+                "torn_journal_line": getattr(self, "torn", None)}
 
     # config
     def config(self) -> dict | None:
@@ -122,9 +136,15 @@ class RunStore:
         buf = io.BytesIO()
         torch.save(state, buf)
         data = buf.getvalue()
-        atomic_write(self.out / "state.pt", data)
-        if checkpoint_name:
+        if checkpoint_name:                                        # before the commit point (see the module doc)
             atomic_write(self.out / "checkpoints" / checkpoint_name, data)
+        atomic_write(self.out / "state.pt", data)
+
+    def ensure_checkpoint(self, name: str):
+        """Recreate a committed checkpoint whose copy is missing (from state.pt, which is that very state)."""
+        dest = self.out / "checkpoints" / name
+        if not dest.is_file() and (self.out / "state.pt").is_file():
+            atomic_write(dest, (self.out / "state.pt").read_bytes())
 
     def load_state(self) -> dict | None:
         import torch  # noqa: PLC0415

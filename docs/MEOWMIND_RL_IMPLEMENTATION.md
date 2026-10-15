@@ -24,7 +24,7 @@ The engine is the arena's `engine.py` (`fusion.paths.load_engine`). The learner 
 5. Only then are the opponents' replies collected. They can never reach the learner's observation.
 6. Every reply is decoded and the engine steps once.
 
-A bridge error, an altered reply or an engine refusal of the learner's reply raises `LearnerFault`; an opponent that cannot start raises `EnvironmentFault`. Either way the whole batch is discarded and the run stops for a fix. An opponent that times out or crashes mid-game gets empty orders, as in every match, and is recorded in the episode's `faults` and `opponents`.
+A bridge error, an altered reply or an engine refusal of the learner's reply raises `LearnerFault`; an opponent that cannot start raises `EnvironmentFault`. Either way collection starts no further episode, the whole batch is discarded and the run stops for a fix. The bridge refuses a malformed block (seat, ids, flags, holders or cells out of range) before the reference indexes anything. Each decision stores the sampled movement and the resolver's three actions (`resolved`), so the complete executed order is in the batch files. An opponent that times out or crashes mid-game gets empty orders, as in every match, and is recorded in the episode's `faults` and `opponents`.
 
 ## The actor and its probabilities
 
@@ -32,7 +32,7 @@ Per own unit k and move m, the shared MLP 112 → 64 → 32 → 1 (plain ReLU) s
 
 `z_j = (f(x[0,a]) + f(x[1,b]) + f(x[2,c])) / 1.05`,  `log π(j|o) = z_j − logsumexp over feasible h of z_h`.
 
-The temperature 1.05 is `Planner::policy`'s. With the reference weights (the warm start), each unit's marginal equals the reference actor's probabilities within 2e-5 on the recorded games.
+The temperature 1.05 is `Planner::policy`'s. With the reference weights (the warm start), the per-unit softmax `softmax(f(x[k, ·]) / 1.05)` over feasible moves equals the reference actor's `Planner::policy` probabilities within 2e-5 on the recorded games. The joint policy then conditions on feasibility (no shared destination), so a unit's marginal under the joint softmax can differ sharply from that per-unit value where collisions bind: this is the plan's masked joint actor, not a property of the reference to preserve.
 
 **The mask is the reference's explicit feasibility only:** a dead unit stays, a non-stay move into a wall is infeasible, and two live own units may not share a destination. All-stay is always feasible. The reference's search also dropped moves below probability 0.00005. That rule depends on the policy, so it is **not** in the mask: on the 1,200 recorded turns the greedy warm-start actor picks the reference's own top joint on 1,199. The matched warm-start control of T0056 must use this same contract.
 
@@ -55,7 +55,7 @@ The worker stores the sampled index, its log probability and the mask. The learn
 
 The pool file (schema `ctf-meow-rl-pool-1`; T0055 commits `profiles/meow_rl_training_pool.json`) lists bots with `name`, `family`, `path` (arena-relative or `@repo/`) and optionally a pinned `sha256`. A pinned bot whose file differs is refused.
 
-Each opponent seat draws a family by its share (equal by default), then a member uniformly. A pool whose shares exceed `family_cap` (0.15) is refused, so at least 7 families are needed. The cap holds for the share of all opponent seats, not within a duel. There is no learner self-play.
+Each opponent seat draws a family by its share (equal by default), then a member uniformly. A pool whose shares exceed its `family_cap` is refused, and the trainer refuses a pool whose `family_cap` is above the profile's `family_share_cap` (0.15) unless `--dev`; with equal shares at least 7 families are needed. The cap holds for the share of all opponent seats, not within a duel. There is no learner self-play.
 
 Episode i of seed base S draws everything from sha256 derivations of (S, purpose, i): team count (uniform over 2–15), learner seat, map and flag seeds, opponents and the actor's sampling seed. Worker timing never changes the schedule.
 
@@ -67,8 +67,10 @@ A run directory holds `config.json`, an fsynced `journal.jsonl`, `batches/update
 
 - **Commit point.** An update counts as committed when `state.pt` is replaced. It holds models, optimizers, the minibatch generator, the PyTorch RNG, counters and the next episode index.
 - **Restarts.** On `--resume`, episodes the journal shows as started but not committed are logged as discarded, and their indices (seeds) are never reused. Batch files of an uncommitted update move to `discarded/`. Opponent processes cannot be restored, so an interrupted collection is discarded, not continued.
-- **Matching configuration.** A resumed run must match the stored configuration except mode, budget, device, workers and Python version. A changed source file under `training/meow_rl/` or `tools/cpp/meow_rl/`, a changed profile or pool, or a changed seed base is refused.
-- **Checkpoints.** `checkpoints/decisions_0000100000.pt` and onward at every 100,000 decisions, `smoke.pt` at the smoke budget, `final.pt` at the full budget. The final checkpoint is the predeclared candidate.
+- **Matching configuration.** A resumed run must match the stored configuration except mode, budget, device, workers and Python version. A changed source file under `training/meow_rl/` or `tools/cpp/meow_rl/`, a changed profile or pool, a changed opponent (its source sha256 and the sha256 of the executable it compiled to are both recorded) or a changed seed base is refused.
+- **Checkpoints.** At the first committed update at or after every 100,000-decision mark, named by the actual count (`checkpoints/decisions_0000100800.pt`: updates hold whole episodes, so a mark is passed, not hit exactly); `smoke.pt` at the smoke budget, `final.pt` at the full budget. A checkpoint file is written before `state.pt`, so a committed checkpoint always exists. The final checkpoint is the predeclared candidate.
+- **Robustness.** Recovery ignores a torn last journal line (reported) and moves stray temporary files to `discarded/`.
+- **Budget accounting.** The budget counts trained (committed) learner decisions. Executed but discarded work is counted separately: `discarded_episodes` (every started episode of a discarded batch or interrupted collection) and `discarded_decisions` (where the episode finished before its batch was discarded). Both are in the counters and the smoke report.
 
 ## Integer CPU export
 

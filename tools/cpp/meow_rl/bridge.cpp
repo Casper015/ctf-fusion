@@ -48,6 +48,38 @@ int fail(Session* s, const std::string& what) {
     return -1;
 }
 
+// Everything the reference indexes without checking: seat, ids, teams, flags, holders and cells must be in range.
+std::string invalid(const Game& g) {
+    if (g.teams < 2 || g.teams > 15) return "teams outside 2-15";
+    if (g.me < 0 || g.me >= g.teams) return "seat outside the team range";
+    if (g.size <= 0 || g.size * g.size > 2500 || int(g.map.size()) != g.size) return "bad map size";
+    for (auto& row : g.map)
+        if (int(row.size()) != g.size) return "bad map row";
+    if (int(g.bases.size()) != g.teams || g.spots.empty()) return "bad bases or spots";
+    if (int(g.units.size()) != 3 * g.teams || int(g.score.size()) != g.teams) return "expected 3 units and a score per team";
+    auto cell = [&](int x, int y) { return x >= 0 && y >= 0 && x < g.size && y < g.size; };
+    for (auto& b : g.bases)
+        if (!cell(b.first, b.second)) return "base outside the map";
+    for (auto& s : g.spots)
+        if (!cell(s.first, s.second)) return "spot outside the map";
+    for (int i = 0; i < int(g.units.size()); i++) {
+        auto& u = g.units[i];
+        if (u.id != i || u.team != i / 3) return "unit ids must be 0.. in team order";
+        if (u.x >= 0 && !cell(u.x, u.y)) return "unit outside the map";
+        if (u.flag < -1 || u.flag >= int(g.flags.size())) return "unit carries an unknown flag";
+    }
+    for (int i = 0; i < int(g.flags.size()); i++) {
+        auto& f = g.flags[i];
+        if (f.id != i) return "flag ids must be 0..";
+        if (f.holder < -1 || f.holder >= int(g.units.size())) return "flag held by an unknown unit";
+        if (f.x >= 0 && !cell(f.x, f.y)) return "flag outside the map";
+    }
+    for (auto& e : g.events)
+        if (!e.args.empty() && e.type != "return" && (e.args[0] < 0 || e.args[0] >= int(g.units.size())))
+            return "event for an unknown unit";
+    return "";
+}
+
 // Reads one INIT/TURN block through the reference parser.
 bool read_block(Game& g, const char* text) {
     std::istringstream in(text);
@@ -103,7 +135,7 @@ MR_API int mr_observe(void* handle, const char* text, float* feats, unsigned cha
         if (!read_block(s->g, text)) return fail(s, "block without END");
         Game& g = s->g;
         if (g.teams < 2 || g.size <= 0 || g.map.empty()) return fail(s, "no INIT block before the first TURN");
-        if (int(g.units.size()) != 3 * g.teams) return fail(s, "expected 3 units per team");
+        if (auto why = invalid(g); !why.empty()) return fail(s, "malformed block: " + why);
         if (g.turn <= s->observed_turn) return fail(s, "turns must increase");
         Planner& p = s->planner;
         // Planner::run up to the search, unchanged.

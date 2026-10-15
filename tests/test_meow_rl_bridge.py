@@ -142,6 +142,12 @@ class Bridge(unittest.TestCase):
                 s.resolve(0)                                                    # answered twice
             with self.assertRaises(B.BridgeError):
                 s.observe(blocks[0].split("TURN")[0] + "TURN 1\n")              # truncated block
+        init = blocks[0]
+        for bad in (init.replace("INIT 2 0 ", "INIT 2 2 ", 1),                 # seat outside the teams
+                    init.replace("\nU 3 1 ", "\nU -1 1 ", 1),                # a unit id the reference would index
+                    init.replace("F 0 home", "F 0 carried", 1).replace(" -1 -1\nEVENTS", " 99 -1\nEVENTS", 1)):
+            with B.Session(self.lib) as s, self.assertRaises(B.BridgeError):
+                s.observe(bad)
         for line in ("1 S P S P", "1 Q P S P S P", "x S P S P S P", "1 S Z S P S P"):
             with self.assertRaises(ValueError):
                 B.parse_reply(line)
