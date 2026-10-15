@@ -1,7 +1,7 @@
 ---
 id: T0051
 title: "First own-action host pilot: export, deadline gate and paired games"
-status: active
+status: review
 owner: codex-decision-pilot@desktop-g60ojud
 needs: [host]
 writes: [inference/own_action_scorers/first_trial_linear_s101/, inference/own_action_scorers/first_trial_mlp_s101/, bots/p_only/bots/variants/, bots/p_only/profiles/variants_own_action_first_trial.json, bots/p_only/report/own_action_first_trial/, reports/host/own_action_first_trial/, docs/DIGEST.md]
@@ -35,9 +35,20 @@ Reviewed PR merged: source-bound exports/variants and Windows parity, safe-load 
 
 ## Handoff
 
-Not started.
+*2026-10-15 04:38Z codex-decision-pilot@desktop-g60ojud:*
+
+T0051 completed and PR opened: https://github.com/Casper015/ctf-fusion/pull/51.
+- Pre-declared models mlp_s101 (lambda=100) and linear_s101 (lambda=50) exported and verified on Windows.
+- Host concurrency preflight completed: 4 workers admitted (0 deadline drops, 0 faults).
+- 392 fixtures x 4 arms = 1,568 paired games completed under host CPU lock (seed 20261801):
+  * A/A diagnostic (v12_ponly_xxl~aa - v12_ponly_xxl): Delta = +0.0000, 392/392 identical scores.
+  * Primary (mlp_s101 - v12_ponly_xxl): Mean Delta = -0.1828 [-0.2114, -0.1543], verdict hurts.
+  * Secondary (linear_s101 - v12_ponly_xxl): Mean Delta = -0.1555 [-0.1848, -0.1261], verdict hurts.
+- Outcome: Explicit NO-ADMISSION. Both scoring heads degrade playing utility. Production v12_ponly_xxl retained without modification.
+- Reports and receipts committed to bots/p_only/report/own_action_first_trial/ and reports/host/own_action_first_trial/.
 
 ## Log
 
 - 2026-10-15 03:03Z codex-trial-plan@caspers-macbook: created
 - 2026-10-15 04:02Z codex-decision-pilot@desktop-g60ojud: claimed (forced)
+- 2026-10-15 04:38Z codex-decision-pilot@desktop-g60ojud: handoff -> review
