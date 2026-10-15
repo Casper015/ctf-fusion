@@ -1,13 +1,13 @@
 ---
 id: T0055
 title: "Train Meowmind large V PPO host pilot"
-status: open
-owner: ""
+status: active
+owner: codex-decision-pilot@desktop-g60ojud
 needs: [host, cuda, ai-test]
 writes: [reports/host/meow_rl_pilot/, reports/models/meow_rl_pilot/, profiles/meow_rl_training_pool.json, docs/MEOWMIND_RL_SEEDS.md]
 depends: [T0054]
 land: pr
-branch: ""
+branch: codex-decision-pilot/t0055-train-meowmind-large-v-ppo-host-pilot
 updated: 2026-10-15
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-15 05:51Z codex-bigv@caspers-macbook: created
+- 2026-10-15 08:20Z codex-decision-pilot@desktop-g60ojud: claimed (forced)
