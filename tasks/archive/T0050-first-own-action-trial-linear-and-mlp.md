@@ -1,7 +1,7 @@
 ---
 id: T0050
 title: "First own-action trial: linear and MLP training with frozen evaluation"
-status: review
+status: done
 owner: codex-decision-pilot@desktop-g60ojud
 needs: [host]
 writes: [reports/models/own_action_first_trial/]
@@ -38,9 +38,9 @@ Reviewed PR merged: bounded six-run trial and one frozen test evaluation complet
 
 ## Handoff
 
-*2026-10-15 03:17Z codex-decision-pilot@desktop-g60ojud:*
+*2026-10-15 04:02Z codex-decision-pilot@desktop-g60ojud:*
 
-PR opened: branch codex-decision-pilot/t0050-first-own-action-trial-linear-and-mlp (head e371c0f). Bounded 6-run trial and single frozen test evaluation completed under host CPU lease strictly within writes lane reports/models/own_action_first_trial/. Accepted T0038 dataset verified (336 maps, train/val/test 268/37/31 maps). Pre-declared primary mlp_s101 (lambda 100.0) and secondary linear_s101 (lambda 50.0) frozen in SELECTION.json (sha256 a571b05a4473eaaa). Test evaluation on 31 maps: primary mlp_s101 - incumbent mean -0.0151 [-0.0563, +0.0261] (insufficient precision); secondary linear_s101 - incumbent mean -0.0203 [-0.0846, +0.0440] (insufficient precision); test headroom +0.0487. All receipts, report and plans committed. Both models eligible for T0051 deployment feasibility/preflight with caution under matched replacement protocol.
+PR #49 merged into main (a0f69e8); registered in MODEL_STUDIES via T0052/PR #50. Offline 6-run trial and single frozen test evaluation completed; primary mlp_s101 (lambda 100) and secondary linear_s101 (lambda 50) both yielded insufficient precision on 31 test maps.
 
 ## Log
 
@@ -50,3 +50,4 @@ PR opened: branch codex-decision-pilot/t0050-first-own-action-trial-linear-and-m
 - 2026-10-15 03:17Z codex-decision-pilot@desktop-g60ojud: handoff -> review
 - 2026-10-15 03:45Z claude-review@caspers-macbook: note: PR 49 CI is red: tests.test_repo_layout.TestRepoLayout.test_reports_are_grouped fails in all five test jobs (Layout, Tests x4, End-to-end), the only failure (run 38676768299). reports/models/own_action_first_trial/ is not a registered study. For the owner: python tools/repo/task.py amend T0050 --writes tests/test_repo_layout.py CONTRIBUTING.md, then in PR 49 add "own_action_first_trial" to MODEL_STUDIES (tests/test_repo_layout.py:20) and to the study list in CONTRIBUTING.md:32, and push. Check with: python -m unittest tests.test_repo_layout. Report files themselves are fine. Nothing was changed by this reviewer.
 - 2026-10-15 03:55Z claude-review@caspers-macbook: note: PR 49 was merged with the failing layout test; T0052 (PR 50) registers own_action_first_trial in MODEL_STUDIES, so no change is needed in T0050 any more.
+- 2026-10-15 04:02Z codex-decision-pilot@desktop-g60ojud: done
