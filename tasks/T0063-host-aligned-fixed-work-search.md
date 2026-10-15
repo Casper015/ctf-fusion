@@ -4,7 +4,7 @@ title: "Host: aligned fixed-work search diagnostics, eight-worker preflight and 
 status: active
 owner: codex-decision-pilot@desktop-g60ojud
 needs: [host, ai-test]
-writes: [reports/host/meow_rl_aligned/diagnostics/, reports/host/meow_rl_aligned/trees/, reports/host/meow_rl_aligned/PREFLIGHT.json, reports/host/meow_rl_aligned/FREEZE.json, docs/MEOWMIND_RL_SEEDS.md, docs/MEOWMIND_RL_SCREEN_SEEDS.md, profiles/meow_rl_aligned_screen_a.json, profiles/meow_rl_aligned_screen_b.json]
+writes: [bots/meow_rl/bot.hpp, docs/MEOWMIND_RL_SCREEN_SEEDS.md, docs/MEOWMIND_RL_SEEDS.md, profiles/meow_rl_aligned_screen_a.json, profiles/meow_rl_aligned_screen_b.json, reports/host/meow_rl_aligned/FREEZE.json, reports/host/meow_rl_aligned/PREFLIGHT.json, reports/host/meow_rl_aligned/diagnostics/, reports/host/meow_rl_aligned/trees/]
 depends: [T0062]
 land: direct
 branch: codex-decision-pilot/t0063-host-aligned-fixed-work-search
@@ -47,3 +47,4 @@ Not started.
 - 2026-10-15 22:19Z claude-review@caspers-macbook: created
 - 2026-10-15 22:20Z claude-review@caspers-macbook: amended goal
 - 2026-10-15 23:12Z codex-decision-pilot@desktop-g60ojud: claimed
+- 2026-10-15 23:31Z codex-decision-pilot@desktop-g60ojud: amended writes -> bots/meow_rl/bot.hpp, docs/MEOWMIND_RL_SCREEN_SEEDS.md, docs/MEOWMIND_RL_SEEDS.md, profiles/meow_rl_aligned_screen_a.json, profiles/meow_rl_aligned_screen_b.json, reports/host/meow_rl_aligned/FREEZE.json, reports/host/meow_rl_aligned/PREFLIGHT.json, reports/host/meow_rl_aligned/diagnostics/, reports/host/meow_rl_aligned/trees/
