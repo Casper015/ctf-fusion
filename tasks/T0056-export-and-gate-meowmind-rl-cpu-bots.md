@@ -68,3 +68,4 @@ Then T0057:
 - 2026-10-15 08:13Z claude-review@caspers-macbook: claimed (forced)
 - 2026-10-15 08:13Z claude-review@caspers-macbook: note: Claimed with --force past unfinished T0055 on Casper's explicit instruction (2026-10-15, chat: 'you do t0056 first'). Scope now: the export/bot pipeline, the matched warm-start control (the warm-start actor), the switchable search arm as plumbing, and the screen spec incl. secondary arms vs P3-distilled (meowmind_p_distill_xxl_both) and P2 production (v12_ponly_xxl). The trained candidate plugs in after T0055; no host timing invented.
 - 2026-10-15 09:04Z claude-review@caspers-macbook: handoff -> review
+- 2026-10-15 09:04Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/53 (targets main; carries T0054's session.hpp follow-ups).
