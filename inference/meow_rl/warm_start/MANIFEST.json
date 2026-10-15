@@ -24,9 +24,9 @@
   "margin": 1.1,
   "rows": 400
  },
- "created": "2026-10-15T01:26:44",
+ "code_digest": "6c20a625191cf21f4cc28816691cda6d2ee3ba0174f4a00bc22bff3ab7f8ec18",
  "deployment": {
-  "choice": "greedy joint of the integer actor (ties to the lowest index)",
+  "choice": "sampled actor-direct: one draw from the integer actor's softmax over feasible joints at T = 1.05, common per-turn uniforms (bots/meow_rl/sample.hpp); MEOW_RL_GREEDY=1 builds the greedy diagnostic",
   "search": null
  },
  "files": {

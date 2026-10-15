@@ -98,8 +98,12 @@ class Bots(unittest.TestCase):
         self.assertGreater(m["agreement_held_out"]["actor"]["greedy_agreement"], 0.9)
         header = (self.inf / "ws" / "actor.hpp").read_text()
         self.assertIn(I.digest(m["identity"]), header)
-        again = E.main(["--warm-start", "--name", "ws2", "--out", str(self.tmp / "inf2"), "--variants-dir", str(self.tmp / "v2")])
-        self.assertEqual(again["actor_digest"], m["actor_digest"])
+        E.main(["--warm-start", "--name", "ws", "--out", str(self.tmp / "inf2"), "--variants-dir", str(self.tmp / "v2")])
+        for f in ("actor.hpp", "MANIFEST.json"):                           # byte-reproducible: no time, no machine path
+            self.assertEqual((self.tmp / "inf2" / "ws" / f).read_bytes(), (self.inf / "ws" / f).read_bytes(), f)
+        self.assertIn("sampled", m["deployment"]["choice"])
+        committed = json.loads((REPO / "inference" / "meow_rl" / "warm_start" / "MANIFEST.json").read_text())
+        self.assertEqual(committed["actor_digest"], m["actor_digest"])           # the committed control is this export
         self.assertEqual(m["files"]["actor.hpp"], hashlib.sha256((self.inf / "ws" / "actor.hpp").read_bytes()).hexdigest())
 
     def test_sampled_bot_equals_the_python_pipeline(self):
@@ -118,8 +122,13 @@ class Bots(unittest.TestCase):
     def test_common_uniforms_depend_only_on_the_public_init(self):
         blocks = B.split_stream(stream("n04"))
         a = SM.seed(blocks[0])
-        self.assertEqual(a, SM.seed(blocks[0].replace("TURN 1", "TURN 1", 1)))
-        self.assertNotEqual(a, SM.seed(blocks[0].replace("INIT 4 0 ", "INIT 4 1 ", 1)))
+        turn_part = blocks[0][blocks[0].index("TURN 1"):]
+        moved = blocks[0].replace(turn_part, turn_part.replace("\nU 0 0 6 14 ", "\nU 0 0 7 14 ", 1))
+        self.assertNotEqual(moved, blocks[0])
+        self.assertEqual(a, SM.seed(moved))                                 # turn data (positions, score) never enters
+        self.assertNotEqual(a, SM.seed(blocks[0].replace("INIT 4 0 ", "INIT 4 1 ", 1)))   # the seat does
+        row = blocks[0].split("\n")[3]
+        self.assertNotEqual(a, SM.seed(blocks[0].replace(row, row[:5] + ("#" if row[5] == "." else ".") + row[6:], 1)))
         u = [SM.uniform(a, t) for t in range(1, 401)]
         self.assertTrue(all(0 <= x < 1 for x in u))
         self.assertLess(abs(np.mean(u) - 0.5), 0.05)
@@ -137,7 +146,17 @@ class Bots(unittest.TestCase):
         self.assertEqual(len(got), 10)
         self.assertEqual(got[3], "4 S - S - S -")
         self.assertIn("refused turn 4", err)
-        self.assertEqual(got[:3], self.expected("".join(blocks[:3]), greedy=False))
+        seed, expected = SM.seed(blocks[0]), []                             # the bridge replays the same recovery
+        with B.Session(self.lib) as s:
+            for block in B.split_stream(text):
+                try:
+                    o = s.observe(block)
+                except B.BridgeError:
+                    s.forget_history()
+                    expected.append(None)
+                    continue
+                expected.append(s.resolve(SM.choose(self.q, o.feats, o.joint_mask, seed, o.turn))[0])
+        self.assertEqual([g for g, e in zip(got, expected) if e is not None], [e for e in expected if e is not None])
         for line in got:
             B.parse_reply(line)                                             # every line is a valid reply
         cut, _ = run_bot(self.exe, "".join(blocks[:2]) + blocks[2][: len(blocks[2]) // 2])
@@ -145,6 +164,23 @@ class Bots(unittest.TestCase):
 
 
 class Identities(unittest.TestCase):
+    def test_a_critic_must_match_its_declared_architecture_and_be_finite(self):
+        rng = np.random.default_rng(2)
+        small = [416, 64, 32, 1]
+        W = [rng.standard_normal((o, i)).astype(np.float32) for i, o in zip(small, small[1:])]
+        b = [np.zeros(o, np.float32) for o in small[1:]]
+        E.check_critic(W, b, "small_v")
+        with self.assertRaises(SystemExit):
+            E.check_critic(W, b, "large_v")                                 # a small critic under a large-V identity
+        two = [w.copy() for w in W]
+        two[-1] = rng.standard_normal((2, 32)).astype(np.float32)
+        with self.assertRaises(SystemExit):
+            E.check_critic(two, b[:-1] + [np.zeros(2, np.float32)], "small_v")   # two outputs: the bot reads one
+        bad = [c.copy() for c in b]
+        bad[-1][0] = np.nan
+        with self.assertRaises(SystemExit):
+            E.check_critic(W, bad, "small_v")
+
     def test_mismatched_identities_are_refused(self):
         tmp = Path(tempfile.mkdtemp(prefix="meow-rl-id-"))
         good = I.identity("large_v")

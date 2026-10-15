@@ -9,7 +9,8 @@
 //      greedy joint with MEOW_RL_GREEDY=1 (a diagnostic mode, ties to the lowest index); with MEOW_RL_SEARCH, the
 //      bounded value search of search.hpp, which plays that actor choice whenever it cannot finish in time;
 //   3. Session::resolve: the reference's resolver and reply format.
-// A block the session refuses (malformed input) is answered with every unit staying and waiting, and counted.
+// A block the session refuses (malformed input) is answered with every unit staying and waiting, counted, and the
+// movement history is reset (Session::forget_history): the next turn never compares against stale positions.
 // stderr: the model identity on the first turn, counters on the last (MEOWRL ...).
 #pragma once
 
@@ -83,7 +84,7 @@ inline int run() {
         }
         if (!why.empty()) {
             if (c.refused++ == 0) std::fprintf(stderr, "MEOWRL refused turn %d: %s\n", s.g.turn, why.c_str());
-            s.answered_turn = s.observed_turn;     // a refused block leaves the session's state as it was
+            s.forget_history();
             reply = safe_reply(s.g.turn);
         }
         std::cout << reply << std::endl;
