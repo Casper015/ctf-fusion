@@ -1,0 +1,191 @@
+{
+  "schema": "ctf-fusion-own-action-host-pilot-receipts-2",
+  "task": "T0051",
+  "title": "First own-action host pilot: export, deadline gate and paired games",
+  "agent": "codex-decision-pilot@desktop-g60ojud",
+  "host": "desktop-g60ojud",
+  "timestamp_utc": "2026-10-15T05:00:00Z",
+  "generator": "bots/p_only/tools/analyze.py, bots/p_only/tools/preflight_own_action.py, bots/p_only/tools/screen_runner.py",
+  "encoding_note": "All text hashes are computed on canonical UNIX LF (\\n) byte stream.",
+  "official_limits": {
+    "first_ms": 2000,
+    "turn_ms": 50,
+    "scoring_deadline_ms": 40.0
+  },
+  "preflight": {
+    "script": "bots/p_only/tools/preflight_own_action.py",
+    "script_sha256": "829faa3f08fc8d2dcd524c1257be29f7b138baa49b1eee04b7718a4a83c98fa3",
+    "report": "bots/p_only/report/own_action_first_trial/PREFLIGHT.json",
+    "report_sha256": "ce954306889dec7762c4c0ac8cebc0a21f234c3b7048d2b301d88a01391d9e0f",
+    "admitted_workers": 4,
+    "ladder_tested": [1, 2, 4, 6],
+    "ladder_summary": {
+      "1": { "workers": 1, "games": 16, "faults": 0, "late": 0, "dead": 0, "n15_max_latency_ms": 9.876, "deadline_drops": 0, "pass": true },
+      "2": { "workers": 2, "games": 16, "faults": 0, "late": 0, "dead": 0, "n15_max_latency_ms": 10.326, "deadline_drops": 0, "pass": true },
+      "4": { "workers": 4, "games": 16, "faults": 0, "late": 0, "dead": 0, "n15_max_latency_ms": 10.016, "deadline_drops": 0, "pass": true },
+      "6": { "workers": 6, "games": 16, "faults": 0, "late": 0, "dead": 0, "n15_max_latency_ms": 10.149, "deadline_drops": 2, "pass": false }
+    },
+    "overlap_disclosure": "Preflight ladder used seed 20261801 at counts 2, 5, 10, 15 map 0; 4 of 392 fixtures were played during preflight load testing prior to the 392-fixture paired screen. Sensitivity analysis confirms statistical outcomes are invariant on the 388 strictly preflight-unseen fixtures."
+  },
+  "schedule": {
+    "path": "data/p_only/own_action_first_trial/schedule.json",
+    "sha256": "67a68fd19c0c3fd00e621d239938f500fcd9b7f3fbecdc3ca56b5d8f79c1f411",
+    "schedule_identity": "469de85a9e6903b3af494bda17663f60f108525ef7f8170f0e3a645c66da6968",
+    "seed": 20261801,
+    "total_fixtures": 392,
+    "maps_per_count": 28,
+    "team_counts": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+  },
+  "exports": {
+    "linear_s101": {
+      "rule": { "norm": "zscore", "lambda": 50.0 },
+      "manifest": "inference/own_action_scorers/first_trial_linear_s101/MANIFEST.json",
+      "manifest_sha256": "d1750fa068a0061b227b36e86fa953ea703c848ee3fb53b8cdcb6db22444ca35",
+      "header": "inference/own_action_scorers/first_trial_linear_s101/scorer_model.hpp",
+      "header_sha256": "ff9942d614e2deb2f5f61525b95301bd9198a0444cec2e49d5d6728ec035a71f"
+    },
+    "mlp_s101": {
+      "rule": { "norm": "zscore", "lambda": 100.0 },
+      "manifest": "inference/own_action_scorers/first_trial_mlp_s101/MANIFEST.json",
+      "manifest_sha256": "63b97511d36433fd38bf9e9a4d88102d798a0b04a0d2c5017efebbe7216f4786",
+      "header": "inference/own_action_scorers/first_trial_mlp_s101/scorer_model.hpp",
+      "header_sha256": "5419bb62127e087e2e1fd35abf9490cf0319f70ca804a49e18627ee26b3a968a"
+    }
+  },
+  "binaries": {
+    "v12_ponly_xxl": {
+      "source": "bots/p_only/bots/variants/v12_ponly_xxl.cpp",
+      "bundle": "build/p_only/src/v12_ponly_xxl.cpp",
+      "bundle_sha256": "18040d1a1eee0597115ef33d9dce1f4714369a5ff6ccff887072ead67e1603df",
+      "binary": "build/p_only/bin/v12_ponly_xxl-18040d1a1eee.exe",
+      "binary_sha256": "d8095b80b5bd574a347d8a6fed26d68eff8bc462430f910d6c692ed4543b3e77"
+    },
+    "v12_ponly_xxl_aa": {
+      "source": "bots/p_only/bots/variants/v12_ponly_xxl_aa.cpp",
+      "bundle": "build/p_only/src/v12_ponly_xxl_aa.cpp",
+      "bundle_sha256": "45032da7a7512a4d7dfa9b47a4b3482b7762f0d11d08acd1a51261f24f9d46c5",
+      "binary": "build/p_only/bin/v12_ponly_xxl_aa-45032da7a751.exe",
+      "binary_sha256": "6a11381ff8469175ac33208419bd16f1a7ed892f4a511ad8e9e7912d9bfc6cbb"
+    },
+    "v12_ponly_xxl_first_trial_linear_s101": {
+      "source": "bots/p_only/bots/variants/v12_ponly_xxl_first_trial_linear_s101.cpp",
+      "bundle": "build/p_only/src/v12_ponly_xxl_first_trial_linear_s101.cpp",
+      "bundle_sha256": "f910d07a89a78b860daa35bd2a6f4f5d589eefd95cc795e7bd667dc16b5c8fea",
+      "binary": "build/p_only/bin/v12_ponly_xxl_first_trial_linear_s101-f910d07a89a7.exe",
+      "binary_sha256": "08df6938190cdb18f1d843faae38ac1baff53394f176673d312615c0f0d3baf1"
+    },
+    "v12_ponly_xxl_first_trial_mlp_s101": {
+      "source": "bots/p_only/bots/variants/v12_ponly_xxl_first_trial_mlp_s101.cpp",
+      "bundle": "build/p_only/src/v12_ponly_xxl_first_trial_mlp_s101.cpp",
+      "bundle_sha256": "b4474b0a2d7b67cfab4fb3b578496fafaaa1bbffdce17ed3cbbb5dd339a80fa8",
+      "binary": "build/p_only/bin/v12_ponly_xxl_first_trial_mlp_s101-b4474b0a2d7b.exe",
+      "binary_sha256": "4409462c50121aac961f342c20b9dddd43bffe104b11afc464c1e40fc25a4cee"
+    }
+  },
+  "paired_screen": {
+    "results_path": "data/p_only/own_action_first_trial/results.jsonl",
+    "results_sha256": "104cecaab122967538e99e3942b1a83918c50b6b8d5e0cb68f7b29393e0a6d15",
+    "total_games": 1568,
+    "total_faults": 0,
+    "total_dead_games": 0,
+    "total_late_replies": 0,
+    "denominator_verification": "All 4 arms completed all 392 scheduled fixtures; missing count is 0 for all arms; no fixtures dropped from denominators.",
+    "negligible_margin": 0.002,
+    "arms_evaluated": {
+      "v12_ponly_xxl": { "games": 392, "utility": 0.74574, "faults": 0, "late": 0, "dead": 0, "first_ms_max": 47.2, "p99_ms_worst": 9.682, "max_ms": 11.316 },
+      "v12_ponly_xxl_first_trial_linear_s101": { "games": 392, "utility": 0.59029, "faults": 0, "late": 0, "dead": 0, "first_ms_max": 46.9, "p99_ms_worst": 9.906, "max_ms": 11.519 },
+      "v12_ponly_xxl_first_trial_mlp_s101": { "games": 392, "utility": 0.5629, "faults": 0, "late": 0, "dead": 0, "first_ms_max": 45.5, "p99_ms_worst": 9.916, "max_ms": 12.045 },
+      "v12_ponly_xxl~aa": { "games": 392, "utility": 0.74574, "faults": 0, "late": 0, "dead": 0, "first_ms_max": 49.2, "p99_ms_worst": 9.633, "max_ms": 10.856 }
+    },
+    "statistical_contrasts": {
+      "mlp_s101_vs_control": {
+        "role": "primary",
+        "mean_diff": -0.1828,
+        "ci95": [-0.2114, -0.1543],
+        "verdict": "hurts",
+        "improved_unchanged_degraded": [56, 95, 241],
+        "identical_scores": 0,
+        "fixtures": 392,
+        "preflight_unseen_388_fixtures": {
+          "mean_diff": -0.1817,
+          "ci95": [-0.2104, -0.1530],
+          "verdict": "hurts"
+        },
+        "per_band": {
+          "2": { "mean": -0.3036, "ci95": [-0.4657, -0.1415], "verdict": "hurts" },
+          "3-5": { "mean": -0.1860, "ci95": [-0.2606, -0.1114], "verdict": "hurts" },
+          "6-10": { "mean": -0.1589, "ci95": [-0.2008, -0.1171], "verdict": "hurts" },
+          "11-15": { "mean": -0.1807, "ci95": [-0.2203, -0.1410], "verdict": "hurts" }
+        }
+      },
+      "linear_s101_vs_control": {
+        "role": "secondary",
+        "mean_diff": -0.1555,
+        "ci95_nominal": [-0.1848, -0.1261],
+        "ci975_bonferroni": [-0.1890, -0.1219],
+        "verdict": "hurts",
+        "improved_unchanged_degraded": [69, 103, 220],
+        "identical_scores": 0,
+        "fixtures": 392,
+        "preflight_unseen_388_fixtures": {
+          "mean_diff": -0.1547,
+          "ci975_bonferroni": [-0.1883, -0.1211],
+          "verdict": "hurts"
+        },
+        "per_band": {
+          "2": { "mean": -0.2321, "ci95": [-0.3874, -0.0769], "verdict": "hurts" },
+          "3-5": { "mean": -0.1493, "ci95": [-0.2300, -0.0686], "verdict": "hurts" },
+          "6-10": { "mean": -0.1209, "ci95": [-0.1649, -0.0770], "verdict": "hurts" },
+          "11-15": { "mean": -0.1783, "ci95": [-0.2173, -0.1393], "verdict": "hurts" }
+        }
+      },
+      "aa_diagnostic": {
+        "role": "rerun_noise",
+        "mean_diff": 0.0000,
+        "ci95": [0.0000, 0.0000],
+        "verdict": "not shown",
+        "improved_unchanged_degraded": [0, 392, 0],
+        "identical_scores": 392,
+        "fixtures": 392,
+        "interpretation": "392 of 392 match scores identical under deterministic host referee execution; zero random host execution variance observed."
+      }
+    },
+    "per_count_point_estimates": {
+      "2": { "mlp": -0.3036, "linear": -0.2321, "aa": 0.0000, "fixtures": 28 },
+      "3": { "mlp": -0.0714, "linear": -0.1250, "aa": 0.0000, "fixtures": 28 },
+      "4": { "mlp": -0.1786, "linear": -0.0952, "aa": 0.0000, "fixtures": 28 },
+      "5": { "mlp": -0.3080, "linear": -0.2277, "aa": 0.0000, "fixtures": 28 },
+      "6": { "mlp": -0.1929, "linear": -0.1000, "aa": 0.0000, "fixtures": 28 },
+      "7": { "mlp": -0.2113, "linear": -0.2024, "aa": 0.0000, "fixtures": 28 },
+      "8": { "mlp": -0.1224, "linear": -0.0791, "aa": 0.0000, "fixtures": 28 },
+      "9": { "mlp": -0.1808, "linear": -0.1696, "aa": 0.0000, "fixtures": 28 },
+      "10": { "mlp": -0.0873, "linear": -0.0536, "aa": 0.0000, "fixtures": 28 },
+      "11": { "mlp": -0.2071, "linear": -0.2054, "aa": 0.0000, "fixtures": 28 },
+      "12": { "mlp": -0.0601, "linear": -0.0617, "aa": 0.0000, "fixtures": 28 },
+      "13": { "mlp": -0.2336, "linear": -0.1577, "aa": 0.0000, "fixtures": 28 },
+      "14": { "mlp": -0.2074, "linear": -0.2665, "aa": 0.0000, "fixtures": 28 },
+      "15": { "mlp": -0.1952, "linear": -0.2003, "aa": 0.0000, "fixtures": 28 }
+    }
+  },
+  "durable_backup": {
+    "archive_path": "data/backups/own_action_first_trial_20261015.tar.gz",
+    "archive_sha256": "4a10a9a7ab3b33c7bb90c2d3f9dd366cea12e432b0df25bc6801040286514203",
+    "archive_bytes": 39882654,
+    "files_contained": [
+      "data/p_only/own_action_first_trial/schedule.json",
+      "data/p_only/own_action_first_trial/identities.json",
+      "data/p_only/own_action_first_trial/results.jsonl",
+      "build/p_only/manifest.json",
+      "build/p_only/bin/v12_ponly_xxl-18040d1a1eee.exe",
+      "build/p_only/bin/v12_ponly_xxl_aa-45032da7a751.exe",
+      "build/p_only/bin/v12_ponly_xxl_first_trial_linear_s101-f910d07a89a7.exe",
+      "build/p_only/bin/v12_ponly_xxl_first_trial_mlp_s101-b4474b0a2d7b.exe"
+    ],
+    "restore_verification_pass": true
+  },
+  "admission_decision": {
+    "status": "REJECTED_NO_ADMISSION",
+    "rationale": "Both candidate own-action scoring heads (MLP and linear) statistically significantly hurt matched playing utility relative to unchanged v12_ponly_xxl (-0.1828 and -0.1555 utility degradation across all team bands). Control arm v12_ponly_xxl remains unchanged as production baseline. No learned candidates admitted to main.",
+    "production_affected": false
+  }
+}
