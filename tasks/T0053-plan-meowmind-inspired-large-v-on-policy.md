@@ -1,13 +1,13 @@
 ---
 id: T0053
 title: "Plan Meowmind inspired large V on-policy RL"
-status: open
-owner: ""
+status: active
+owner: codex-bigv@caspers-macbook
 needs: []
 writes: [docs/RL_PLAN.md, docs/MEOWMIND_RL_PLAN.md, profiles/meowmind_rl_pilot.json]
 depends: []
 land: direct
-branch: ""
+branch: codex-bigv/t0053-plan-meowmind-inspired-large-v-on-policy
 updated: 2026-10-15
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-15 05:46Z codex-bigv@caspers-macbook: created
+- 2026-10-15 05:46Z codex-bigv@caspers-macbook: claimed
