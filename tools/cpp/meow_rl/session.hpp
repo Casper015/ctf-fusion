@@ -10,6 +10,7 @@
 //     units on one destination);
 //   * the frozen attack/pickup resolver (Planner::shots with the reference's defaults) and the reply format.
 #pragma once
+#include <algorithm>
 #include <cstring>
 #include <string>
 #include <vector>
@@ -171,7 +172,8 @@ struct Session {
     // previous cell -1: features 13-14 read 0 and Planner::adapt skips every unit next turn) and the turn counts
     // as answered. Opponent beliefs (evidence) are kept. The deployed bot calls this; the bridge exposes it.
     void forget_history() {
-        planner.previous.assign(g.units.size(), -1);
+        // Keep the trusted length (set at initialization): a refused block's own unit count is not trusted.
+        std::fill(planner.previous.begin(), planner.previous.end(), -1);
         answered_turn = observed_turn;
     }
 
