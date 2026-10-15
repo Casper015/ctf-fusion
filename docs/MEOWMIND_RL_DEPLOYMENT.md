@@ -31,7 +31,9 @@ The uniform for turn t depends only on the public INIT (teams, seat, size, turns
 
 `python bots/meow_rl/export.py --warm-start --name warm_start` exports the reference actor, the starting point of PPO, through exactly the same path as a trained actor: same bot, features, resolver, opponent model, integer format and calibration. The control and candidate bundles differ only in their actor header, so the primary contrast isolates RL.
 
-The committed control `inference/meow_rl/warm_start/` agrees with its FP32 actor on 97.4% of greedy joints on the held-out recorded games. Mean |Δ log π| is 0.29 (the format's precision limit, [MEOWMIND_RL_IMPLEMENTATION.md](MEOWMIND_RL_IMPLEMENTATION.md#integer-cpu-export)).
+The committed control `inference/meow_rl/warm_start/` agrees with its FP32 actor on 97.9% of greedy joints on the held-out recorded games (the format's precision limit, [MEOWMIND_RL_IMPLEMENTATION.md](MEOWMIND_RL_IMPLEMENTATION.md#integer-cpu-export)).
+
+**The export is the same on every platform.** The calibrated activation ranges are computed in float64 and rounded up to 8 significant bits (`quant.range_of`). Last-bit differences in the statistics, such as BLAS summation order or compiler FMA in the features, therefore never change the integers. The test regenerates the committed control and requires the identical digest on every CI platform.
 
 ## Exporting a trained candidate (after T0055)
 
@@ -43,7 +45,13 @@ python bots/meow_rl/export.py --checkpoint runs/meow_rl/large_v_s101/checkpoints
 - **Refusals.** The export refuses:
   - a checkpoint whose identity differs from this code: actor and critic architecture, feature schemas, temperature 1.05, reward units, resolver, reference sha256;
   - a checkpoint whose NumPy actor snapshot differs from its PyTorch actor.
-- **Calibration** uses the run's saved features. T0055 must run with `--keep-features` for that. Without it, the recorded 4-team game is used, which is fine for plumbing but too narrow for a trained export.
+- **Calibration** uses the run's saved features (`--keep-features`). T0055's runs did not keep them. For those, `bots/meow_rl/calibrate.py` plays a few fresh games with the frozen actor through the trainer's own collector, on a seed reserved for calibration, and writes the same `update_*.npz` layout with a receipt:
+
+  ```bash
+  python bots/meow_rl/calibrate.py --checkpoint runs/meow_rl/large_v_s101/checkpoints/final.pt --pool profiles/meow_rl_training_pool.json --seed-base <reserved> --seed-ledger docs/MEOWMIND_RL_SEEDS.md --episodes 40 --workers 6 --out data/meow_rl_calibration/large_v_s101
+  ```
+
+  Then pass `--calibration-batches data/meow_rl_calibration/large_v_s101` to the export. Without any of this, the recorded 4-team game is used, which is fine for plumbing but too narrow for a trained export.
 - **Manifest.** It records the agreement with FP32 on the held-out 2- and 15-team recorded games: greedy agreement, log-probability error, saturations and the critic's value error. A low agreement is a reason to fine-tune the actor against the format (the repository's QAT path) as a separate, recorded step before screening.
 - Then add the new `meow_rl_<name>` entry to `variants.json`.
 

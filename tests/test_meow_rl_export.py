@@ -283,6 +283,34 @@ class Search(unittest.TestCase):
         np.testing.assert_array_equal(np.array([int(v) for v in out]), FQ.forward_raw(q["net"], Q.quantize_input(rows))[:, 0])
 
 
+@unittest.skipUnless(CXX and __import__("os").environ.get("AI_TEST_ROOT"), "needs a compiler and AI_TEST_ROOT (an arena)")
+class Calibration(unittest.TestCase):
+    def test_calibration_games_feed_the_export(self):
+        """bots/meow_rl/calibrate.py: fresh games of a frozen actor -> update_*.npz -> export --calibration-batches."""
+        import importlib.util  # noqa: PLC0415
+        from fusion.paths import ai_test_root  # noqa: PLC0415
+        if not (ai_test_root() / "ctf/workspace/baseline.cpp").is_file():
+            self.skipTest("this arena layout has no ctf/workspace/baseline.cpp")
+        tmp = Path(tempfile.mkdtemp(prefix="meow-rl-calib-"))
+        np.savez(tmp / "actor.npz", **B.reference_weights(B.load(), "policy"))
+        (tmp / "id.json").write_text(json.dumps(I.identity("large_v")))
+        (tmp / "pool.json").write_text(json.dumps({"schema": "ctf-meow-rl-pool-1", "family_cap": 1.0, "bots": [
+            {"name": "Baseline", "family": "baseline", "path": "ctf/workspace/baseline.cpp"}]}))
+        spec = importlib.util.spec_from_file_location("meow_rl_calibrate", REPO / "bots" / "meow_rl" / "calibrate.py")
+        C = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(C)
+        rec = C.main(["--actor-npz", str(tmp / "actor.npz"), "--identity-json", str(tmp / "id.json"), "--pool", str(tmp / "pool.json"),
+                      "--seed-base", "20990302", "--dev", "--episodes", "2", "--workers", "2", "--counts", "2", "--out", str(tmp / "cal")])
+        self.assertEqual((rec["episodes"], rec["decisions"], rec["faults"]), (2, 800, 0))
+        self.assertEqual(sorted(rec["files"]), ["update_000000.npz", "update_000001.npz"])
+        with self.assertRaises(SystemExit):                                 # never mixed into a used directory
+            C.main(["--actor-npz", str(tmp / "actor.npz"), "--identity-json", str(tmp / "id.json"), "--pool", str(tmp / "pool.json"),
+                    "--seed-base", "20990302", "--dev", "--episodes", "1", "--out", str(tmp / "cal")])
+        m = E.main(["--actor-npz", str(tmp / "actor.npz"), "--identity-json", str(tmp / "id.json"), "--name", "c",
+                    "--calibration-batches", str(tmp / "cal"), "--out", str(tmp / "inf"), "--variants-dir", str(tmp / "v")])
+        self.assertEqual(m["calibration"]["rows"], 800)
+
+
 class Specification(unittest.TestCase):
     def test_variants_and_screen_spec_agree(self):
         variants = json.loads((REPO / "bots" / "meow_rl" / "variants.json").read_text())["variants"]

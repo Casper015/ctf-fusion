@@ -118,7 +118,7 @@ def check_critic(W, b, arm: str) -> None:
 
 
 def quantize_critic(W, b, calibration: np.ndarray, margin: float = Q.MARGIN) -> dict:
-    ranges = [np.maximum(a.max(axis=0) * margin, Q.FLOOR) for a in critic_forward(W, b, calibration, hidden=True)]
+    ranges = [Q.range_of(a.max(axis=0), margin) for a in critic_forward(W, b, calibration, hidden=True)]
     Wf, bf, prev = [], [], None
     for i, (w, c) in enumerate(zip(W, b)):
         w, c = w.astype(np.float64), c.astype(np.float64)
@@ -284,7 +284,11 @@ def main(argv=None) -> dict:
         defines = f"#define FUSION_MAX_WIDTH {CRITIC_WIDTH}\n" + defines
     variant = Path(a.variants_dir) / f"{a.name}.cpp"
     variant.parent.mkdir(parents=True, exist_ok=True)
-    rel = lambda p: Path(os.path.relpath(p, variant.parent)).as_posix()  # noqa: E731
+    def rel(p: Path) -> str:
+        try:                                         # relative where possible; Windows cannot relate two drives
+            return Path(os.path.relpath(p, variant.parent)).as_posix()
+        except ValueError:
+            return Path(p).resolve().as_posix()
     critic = f'#include "{rel(out / "critic.hpp")}"\n' if a.critic else ""
     what = ("matched control: the reference actor (warm start), actor-direct" if a.warm_start
             else f"trained actor{' + bounded value search' if a.search else ', actor-direct'}")

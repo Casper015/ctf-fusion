@@ -1,14 +1,14 @@
 {
- "actor_digest": "d95b6e54799b72bb32fc77624a57ea1e3cae7848eb80cc29e6016b9399cebb72",
+ "actor_digest": "60e7daf6a2a01b2fd63d5b68064054014fce2acb38597181965e5f625fc68f38",
  "agreement_held_out": {
   "actor": {
-   "greedy_agreement": 0.97375,
-   "max_abs_logp_error": 2.972331399875003,
-   "max_abs_prob_error": 0.2938581824237789,
-   "mean_abs_logp_error": 0.29257939969304253,
+   "greedy_agreement": 0.97875,
+   "max_abs_logp_error": 3.3515995732856183,
+   "max_abs_prob_error": 0.2307138365537888,
+   "mean_abs_logp_error": 0.29903752925312527,
    "observations": 800,
    "saturated": [
-    768,
+    760,
     17
    ]
   },
@@ -24,13 +24,13 @@
   "margin": 1.1,
   "rows": 400
  },
- "code_digest": "6c20a625191cf21f4cc28816691cda6d2ee3ba0174f4a00bc22bff3ab7f8ec18",
+ "code_digest": "44e0aa6d1a401ad98c355e781c892671088a85530ddb7994889f44f648bdce7d",
  "deployment": {
   "choice": "sampled actor-direct: one draw from the integer actor's softmax over feasible joints at T = 1.05, common per-turn uniforms (bots/meow_rl/sample.hpp); MEOW_RL_GREEDY=1 builds the greedy diagnostic",
   "search": null
  },
  "files": {
-  "actor.hpp": "76c43106c20d252449c84c33ce93e83032d1c1943fd226a1a15678f1e8a57870"
+  "actor.hpp": "fd17d6a7b1703b82820756b224f3258de549d3ea310acc348e179a4c6292c693"
  },
  "format": {
   "actor": "meow_rl_reference16_v1",
