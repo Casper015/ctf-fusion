@@ -1,4 +1,14 @@
-# Decision learning on top of the frozen P and search
+# RL experiments: current direction and historical decision-learning plan
+
+## Current priority: Meowmind-inspired on-policy PPO (2026-10-14)
+
+Casper authorized a new actor/critic experiment with a substantially larger V. The executable work plan is [MEOWMIND_RL_PLAN.md](MEOWMIND_RL_PLAN.md); its declarative settings are [meowmind_rl_pilot.json](../profiles/meowmind_rl_pilot.json). Build the missing live-rollout/PPO trainer first, then run a bounded host pilot with a 2,001,921-parameter critic and a small-critic control. This is new work, not a revival of T0012/T0014. No training process is implied by publication of the plan.
+
+T0051 reported substantial harm from the offline scorer in repeated deployment. Preserve that outcome and the incumbent production bot. The new experiment learns from full games controlled by the evolving actor. It does not relabel old branch outcomes as on-policy RL and does not assume larger V guarantees strength. Stage A trains actor-direct play with a frozen mathematical resolver; Stage B separately validates V-guided search and CPU latency.
+
+Everything below is the historical T0033/T0034 design and its implementation record, retained for provenance. Its proposed next-step sections no longer set the current execution priority.
+
+---
 
 This plan was first written for T0033 (2026-10-11). It was revised for T0034 (2026-10-12) after Casper retired the unstarted V pilots. T0034 is code only. **No real training, host measurement, new game, continuation batch, model export or strength improvement happened in it.** The code is tested on small fixtures: real recorded prefixes with synthetic outcomes.
 

@@ -1,0 +1,90 @@
+{
+  "schema": "ctf-meowmind-rl-plan-1",
+  "status": "specification_requires_trainer",
+  "plan": "docs/MEOWMIND_RL_PLAN.md",
+  "actor": {
+    "hidden": [
+      64,
+      32
+    ],
+    "input_per_move": 112,
+    "joint_actions": 125,
+    "warm_start": "original_meowmind_actor",
+    "action_resolver": "frozen_original"
+  },
+  "opponent_predictor": "frozen_original_meowmind_with_causal_online_belief",
+  "critic": {
+    "features": 416,
+    "hidden": [
+      1024,
+      1024,
+      512
+    ],
+    "output": 1,
+    "parameters": 2001921,
+    "initialization": "fresh",
+    "units": "terminal_2_pairwise_utility_minus_1"
+  },
+  "small_critic": {
+    "hidden": [
+      64,
+      32
+    ],
+    "parameters": 28801
+  },
+  "ppo": {
+    "gamma": 1.0,
+    "gae_lambda": 0.95,
+    "clip": 0.1,
+    "actor_lr": 0.0001,
+    "critic_lr": 0.0003,
+    "value_loss_coefficient": 0.5,
+    "entropy_coefficient": 0.01,
+    "max_grad_norm": 0.5,
+    "epochs_per_update": 4,
+    "target_kl": 0.01,
+    "minibatch": 1024,
+    "rollout_decisions": 8192,
+    "value_clipping": false
+  },
+  "pilot": {
+    "optimizer_seed": 101,
+    "smoke_decisions_included_in_total": 20000,
+    "decisions_per_arm": 1000000,
+    "arms": [
+      "large_v",
+      "small_v"
+    ],
+    "checkpoint_interval": 100000,
+    "primary_checkpoint": "final",
+    "game_seeds": "allocate_fresh_in_ledger_before_run",
+    "team_counts": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "family_share_cap": 0.15,
+    "self_play": false,
+    "potential_shaping": false
+  },
+  "deployment": {
+    "stage_a": "actor_plus_frozen_resolver",
+    "stage_b": "separate_value_guided_search_experiment",
+    "device": "cpu",
+    "first_turn_ms": 2000,
+    "later_turn_ms": 50
+  },
+  "training_device": "cuda",
+  "host": "desktop-g60ojud"
+}
