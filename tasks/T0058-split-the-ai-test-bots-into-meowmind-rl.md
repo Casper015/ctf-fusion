@@ -1,7 +1,7 @@
 ---
 id: T0058
 title: "Split the AI_Test bots into Meowmind RL training and held-out test lineages"
-status: active
+status: review
 owner: claude-review@caspers-macbook
 needs: []
 writes: [profiles/meow_rl_training_pool_v2.json, docs/MEOWMIND_RL_POOL_SPLIT.md, tests/test_meow_rl_pool_split.py]
@@ -21,10 +21,13 @@ Pool v2, split doc and test merged via PR; the host training task with pool v2 i
 
 ## Handoff
 
-Not started.
+*2026-10-15 09:51Z claude-review@caspers-macbook:*
+
+PR https://github.com/Casper015/ctf-fusion/pull/55: profiles/meow_rl_training_pool_v2.json (50 bots, 9 lineage families at 11.1%, pinned from AI_Test 3bab99c; 44 pins verified on caspers-macbook), docs/MEOWMIND_RL_POOL_SPLIT.md, tests/test_meow_rl_pool_split.py. Held out: Fable, MiMo, Kimi, GLM, Player2, Player4, Player6. Next: merge; T0059 (host) re-verifies pins on its AI_Test checkout and trains. Not checked: the host checkout's bytes, the six judge copies.
 
 ## Log
 
 - 2026-10-15 09:49Z claude-review@caspers-macbook: created
 - 2026-10-15 09:49Z claude-review@caspers-macbook: claimed
 - 2026-10-15 09:51Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/55
+- 2026-10-15 09:51Z claude-review@caspers-macbook: handoff -> review
