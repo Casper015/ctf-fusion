@@ -29,7 +29,7 @@ The rules for working in `ctf-fusion`: where a file goes, what is committed, how
 | Work on the P-only bots | `bots/p_only/` | Self-contained: its own `tools/`, `tests/`, `report/`. |
 | A unit or contract test | `tests/` | One `test_<area>.py` per area. |
 | Offline gate report of one model | `reports/models/<tier>/` | Written by `training.evaluate_offline`. |
-| A controlled comparison of models (a study) | `reports/models/<study>/` | Register the folder in `MODEL_STUDIES` (`tests/test_repo_layout.py`): `v_pilot`, `p_features` ([FEATURE_FAMILIES.md](docs/FEATURE_FAMILIES.md)), `v_capacity_5xl` ([V_CAPACITY_5XL.md](docs/V_CAPACITY_5XL.md)). |
+| A controlled comparison of models (a study) | `reports/models/<study>/` | Register the folder in `MODEL_STUDIES` (`tests/test_repo_layout.py`): `v_pilot`, `p_features` ([FEATURE_FAMILIES.md](docs/FEATURE_FAMILIES.md)), `v_capacity_5xl` ([V_CAPACITY_5XL.md](docs/V_CAPACITY_5XL.md)), `own_action_first_trial` ([OWN_ACTION_RUNTIME.md](docs/OWN_ACTION_RUNTIME.md)). |
 | A host measurement | `reports/host/` | Name ends in the host: `capacity_<HOST>.json`. |
 | A match-result summary | `reports/eval/` | |
 | A written review or audit | `reports/reviews/` | One file per review; put the commit hash it pins in the name. |
