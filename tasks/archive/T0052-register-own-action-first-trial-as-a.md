@@ -1,7 +1,7 @@
 ---
 id: T0052
 title: "Register own_action_first_trial as a model study so main is green"
-status: active
+status: done
 owner: claude-review@caspers-macbook
 needs: []
 writes: [tests/test_repo_layout.py, CONTRIBUTING.md]
@@ -21,10 +21,13 @@ PR merged; main CI green on test_repo_layout.
 
 ## Handoff
 
-Not started.
+*2026-10-15 04:01Z claude-review@caspers-macbook:*
+
+PR 50 merged (4c15169f): own_action_first_trial registered in MODEL_STUDIES and CONTRIBUTING.md; fixes test_reports_are_grouped on main.
 
 ## Log
 
 - 2026-10-15 03:52Z claude-review@caspers-macbook: created
 - 2026-10-15 03:52Z claude-review@caspers-macbook: claimed
 - 2026-10-15 03:55Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/50 opened; layout test and core suite (326, 44 skipped) pass on macOS.
+- 2026-10-15 04:01Z claude-review@caspers-macbook: done
