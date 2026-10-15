@@ -4,7 +4,7 @@ title: "Implement Meowmind on-policy PPO training"
 status: active
 owner: claude-review@caspers-macbook
 needs: []
-writes: [training/meow_rl/, tools/cpp/meow_rl/, tests/test_meow_rl.py, tests/test_meow_rl_bridge.py, docs/MEOWMIND_RL_IMPLEMENTATION.md]
+writes: [".github/workflows/ci.yml", docs/MEOWMIND_RL_IMPLEMENTATION.md, tests/test_meow_rl.py, tests/test_meow_rl_bridge.py, tools/cpp/meow_rl/, training/meow_rl/]
 depends: [T0053]
 land: pr
 branch: claude-review/t0054-implement-meowmind-on-policy-ppo
@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-15 05:50Z codex-bigv@caspers-macbook: created
 - 2026-10-15 06:04Z claude-review@caspers-macbook: claimed
+- 2026-10-15 06:19Z claude-review@caspers-macbook: amended writes -> .github/workflows/ci.yml, docs/MEOWMIND_RL_IMPLEMENTATION.md, tests/test_meow_rl.py, tests/test_meow_rl_bridge.py, tools/cpp/meow_rl/, training/meow_rl/
