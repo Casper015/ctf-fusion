@@ -71,7 +71,7 @@ class Scoring(unittest.TestCase):
         return out
 
     def build(self, name, defines, scorer: Path | None = None, expect_ok=True):
-        exe = self.tmp / name
+        exe = self.tmp / (name + (".exe" if os.name == "nt" else ""))   # g++ on Windows appends .exe to -o
         cmd = [CXX, "-std=c++20", "-O2", *INCLUDES, "-DCARRIER_V12", "-DPONLY_FAMILIES", *defines,
                *(["-include", str(scorer / X.HEADER)] if scorer else []), str(TESTS / "replay_test.cpp"), "-o", str(exe)]
         r = subprocess.run(cmd, capture_output=True, text=True)
