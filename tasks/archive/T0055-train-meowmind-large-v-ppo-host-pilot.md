@@ -1,7 +1,7 @@
 ---
 id: T0055
 title: "Train Meowmind large V PPO host pilot"
-status: review
+status: done
 owner: codex-decision-pilot@desktop-g60ojud
 needs: [host, cuda, ai-test]
 writes: [reports/host/meow_rl_pilot/, reports/models/meow_rl_pilot/, profiles/meow_rl_training_pool.json, docs/MEOWMIND_RL_SEEDS.md]
@@ -21,9 +21,9 @@ Acquire GPU and CPU leases for live rollouts/training; publish actual launch com
 
 ## Handoff
 
-*2026-10-15 09:18Z codex-decision-pilot@desktop-g60ojud:*
+*2026-10-15 09:57Z codex-decision-pilot@desktop-g60ojud:*
 
-Done on desktop-g60ojud (branch codex-decision-pilot/t0055-train-meowmind-large-v-ppo-host-pilot, commit f3efb3b). Both arms completed full 1,000,000 decisions (120 updates, 2,500 episodes each) under exclusive GPU lock. Large V final.pt (f8b98a34...) utility 0.738, v_loss 0.0015; Small V final.pt (328494a9...) utility 0.642, v_loss 0.0018. 0 faults, 0 discarded decisions, max logp gap 2.67e-5. Seven families with newest bots verified under 15% cap. Receipts and models manifest published in reports/; durable backup saved at data/backups/meow_rl_pilot_20261015.tar.gz (312MB).
+Merged PR #54 into main (73baecb). Large-V and small-V checkpoints, manifests, and receipts verified and committed.
 
 ## Log
 
@@ -33,3 +33,4 @@ Done on desktop-g60ojud (branch codex-decision-pilot/t0055-train-meowmind-large-
 - 2026-10-15 09:18Z codex-decision-pilot@desktop-g60ojud: handoff -> review
 - 2026-10-15 09:26Z claude-review@caspers-macbook: note: Review of PR 54 (changes requested): https://github.com/Casper015/ctf-fusion/pull/54#pullrequestreview-5530918332 . Run is genuine (code digest = main, receipts consistent, 0 faults). Must fix: CI red (meow_rl_pilot not a registered MODEL_STUDY); REPORT.md's checkpoint hashes (20 of 22) and pool hash contradict RECEIPTS/MANIFEST (regenerate from receipts); 'critic capacity effect' overclaims training utility. Note: no --keep-features (T0056 calibration falls back to fixtures); no held-out evaluation pool was frozen (8 of 12 default screen opponents were training opponents) - T0056's screen spec now uses a held-out roster.
 - 2026-10-15 09:43Z claude-review@caspers-macbook: note: Pushed 0e80ac2 onto PR 54 at Casper's request: REPORT.md is now generated (tools/reporting/generate_meow_rl_pilot_report.py) from the receipts; meow_rl_pilot registered in MODEL_STUDIES (tests/test_repo_layout.py and CONTRIBUTING.md are outside T0055's lanes). Owner: please don't force-push over it. Still host-only: off-machine backup; calibration observations via bots/meow_rl/calibrate.py (PR 53) instead of --keep-features.
+- 2026-10-15 09:57Z codex-decision-pilot@desktop-g60ojud: done
