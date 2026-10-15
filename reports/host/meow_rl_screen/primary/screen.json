@@ -1,0 +1,225 @@
+{
+ "schedule": "8624b3ba1b81773d2a9a784fef92101b983a6188811815c89fa6a6c8554574f4",
+ "seed": 20261951,
+ "fixtures": 392,
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "incomplete": {},
+ "stale_rows": {},
+ "arms": {
+  "meow_rl_large_v_s101": {
+   "games": 392,
+   "binary_sha256": "5fee7b97818986bedc13a0e6f0a390e181979fde3628c6318a407ebdbcc1a827",
+   "utility": 0.78698,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 51.7,
+   "p99_ms_median": 0.738,
+   "p99_ms_worst": 2.657,
+   "max_ms": 4.551
+  },
+  "meow_rl_warm_start": {
+   "games": 392,
+   "binary_sha256": "a3b5e8e9f941b546b16f787d2a8c2f156c130c9014c507d21445cf17f3af93bc",
+   "utility": 0.75514,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 49.5,
+   "p99_ms_median": 0.739,
+   "p99_ms_worst": 2.893,
+   "max_ms": 4.873
+  },
+  "meow_rl_large_v_s101~aa": {
+   "games": 392,
+   "binary_sha256": "5fee7b97818986bedc13a0e6f0a390e181979fde3628c6318a407ebdbcc1a827",
+   "utility": 0.78698,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "first_ms_max": 62.4,
+   "p99_ms_median": 0.731,
+   "p99_ms_worst": 3.097,
+   "max_ms": 7.358
+  }
+ },
+ "comparisons": {
+  "meow_rl_large_v_s101 - meow_rl_warm_start": {
+   "overall": {
+    "mean": 0.03184,
+    "ci95": [
+     0.00795,
+     0.05573
+    ],
+    "se": 0.01219,
+    "fixtures": 392,
+    "verdict": "helps"
+   },
+   "bands": {
+    "2": {
+     "mean": -0.01786,
+     "ci95": [
+      -0.09727,
+      0.06156
+     ],
+     "se": 0.04052,
+     "fixtures": 28,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": 0.01935,
+     "ci95": [
+      -0.05514,
+      0.09383
+     ],
+     "se": 0.038,
+     "fixtures": 84,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": 0.03344,
+     "ci95": [
+      -0.00065,
+      0.06753
+     ],
+     "se": 0.01739,
+     "fixtures": 140,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": 0.04768,
+     "ci95": [
+      0.01509,
+      0.08026
+     ],
+     "se": 0.01662,
+     "fixtures": 140,
+     "verdict": "helps"
+    }
+   },
+   "per_count": {
+    "2": -0.01786,
+    "3": 0.00893,
+    "4": 0.07143,
+    "5": -0.02232,
+    "6": 0.11071,
+    "7": 0.01786,
+    "8": -0.00255,
+    "9": 0.01339,
+    "10": 0.02778,
+    "11": 0.03571,
+    "12": 0.07468,
+    "13": 0.00446,
+    "14": 0.06868,
+    "15": 0.05485
+   },
+   "improved": 144,
+   "unchanged": 124,
+   "degraded": 124,
+   "identical_scores": 0,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  }
+ },
+ "rerun_noise": {
+  "meow_rl_large_v_s101~aa - meow_rl_large_v_s101": {
+   "overall": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "se": 0.0,
+    "fixtures": 392,
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 28,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 84,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 140,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 140,
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.0,
+    "4": 0.0,
+    "5": 0.0,
+    "6": 0.0,
+    "7": 0.0,
+    "8": 0.0,
+    "9": 0.0,
+    "10": 0.0,
+    "11": 0.0,
+    "12": 0.0,
+    "13": 0.0,
+    "14": 0.0,
+    "15": 0.0
+   },
+   "improved": 0,
+   "unchanged": 392,
+   "degraded": 0,
+   "identical_scores": 392,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  }
+ },
+ "network_calls": {},
+ "identities": {
+  "meow_rl_large_v_s101": "9f52842c3baf690ba52b0d2c61c2c302f58a204ec8e6943c4a9540afbbe88ac1",
+  "meow_rl_warm_start": "dd0a3a683ebc285b0d065ceecc4e8a3bfd37b9f9ae98f7874638417b1584f48e",
+  "meow_rl_large_v_s101~aa": "9f52842c3baf690ba52b0d2c61c2c302f58a204ec8e6943c4a9540afbbe88ac1"
+ }
+}

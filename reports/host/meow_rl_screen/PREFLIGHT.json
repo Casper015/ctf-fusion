@@ -1,0 +1,131 @@
+{
+  "schema": "ctf-meow-rl-host-preflight-1",
+  "task": "T0057",
+  "seed": 20261950,
+  "limits": [
+    2.0,
+    0.05
+  ],
+  "admitted_workers": 6,
+  "search_deadline_ms": 30,
+  "workers_tested": [
+    1,
+    2,
+    4,
+    6
+  ],
+  "results_by_worker": {
+    "1": {
+      "workers": 1,
+      "wall_s": 9.9,
+      "passed": true,
+      "total_late": 0,
+      "total_dead": 0,
+      "total_faults": 0,
+      "max_ms_overall": 12.914,
+      "max_ms_15": 12.914,
+      "arms": {
+        "meow_rl_large_v_s101": {
+          "late": 0,
+          "max_ms": 1.423,
+          "p99_max": 1.274,
+          "refused": 0,
+          "search_used": 0,
+          "search_fallback": 0
+        },
+        "meow_rl_large_v_s101_search": {
+          "late": 0,
+          "max_ms": 12.914,
+          "p99_max": 11.923,
+          "refused": 0,
+          "search_used": 0,
+          "search_fallback": 0
+        }
+      }
+    },
+    "2": {
+      "workers": 2,
+      "wall_s": 6.3,
+      "passed": true,
+      "total_late": 0,
+      "total_dead": 0,
+      "total_faults": 0,
+      "max_ms_overall": 13.963,
+      "max_ms_15": 13.963,
+      "arms": {
+        "meow_rl_large_v_s101": {
+          "late": 0,
+          "max_ms": 1.369,
+          "p99_max": 1.222,
+          "refused": 0,
+          "search_used": 0,
+          "search_fallback": 0
+        },
+        "meow_rl_large_v_s101_search": {
+          "late": 0,
+          "max_ms": 13.963,
+          "p99_max": 11.307,
+          "refused": 0,
+          "search_used": 0,
+          "search_fallback": 0
+        }
+      }
+    },
+    "4": {
+      "workers": 4,
+      "wall_s": 4.6,
+      "passed": true,
+      "total_late": 0,
+      "total_dead": 0,
+      "total_faults": 0,
+      "max_ms_overall": 12.893,
+      "max_ms_15": 12.893,
+      "arms": {
+        "meow_rl_large_v_s101": {
+          "late": 0,
+          "max_ms": 1.334,
+          "p99_max": 1.314,
+          "refused": 0,
+          "search_used": 0,
+          "search_fallback": 0
+        },
+        "meow_rl_large_v_s101_search": {
+          "late": 0,
+          "max_ms": 12.893,
+          "p99_max": 12.524,
+          "refused": 0,
+          "search_used": 0,
+          "search_fallback": 0
+        }
+      }
+    },
+    "6": {
+      "workers": 6,
+      "wall_s": 4.4,
+      "passed": true,
+      "total_late": 0,
+      "total_dead": 0,
+      "total_faults": 0,
+      "max_ms_overall": 13.992,
+      "max_ms_15": 13.992,
+      "arms": {
+        "meow_rl_large_v_s101": {
+          "late": 0,
+          "max_ms": 1.331,
+          "p99_max": 1.299,
+          "refused": 0,
+          "search_used": 0,
+          "search_fallback": 0
+        },
+        "meow_rl_large_v_s101_search": {
+          "late": 0,
+          "max_ms": 13.992,
+          "p99_max": 13.777,
+          "refused": 0,
+          "search_used": 0,
+          "search_fallback": 0
+        }
+      }
+    }
+  }
+}
