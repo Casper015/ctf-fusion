@@ -1,7 +1,7 @@
 ---
 id: T0038
 title: "Audit expanded decision pilot and build source-bound training dataset"
-status: active
+status: done
 owner: codex-t38-review@desktop-g60ojud
 needs: [host]
 writes: [bots/p_only/report/decision_dataset/, reports/eval/decision_data_quality/]
@@ -29,9 +29,19 @@ Reviewed audit/report PR merged: independent source-linked audit and the version
 
 ## Handoff
 
-*2026-10-15 00:34Z codex-data-audit@desktop-g60ojud:*
+*2026-10-15 01:50Z codex-t38-review@desktop-g60ojud:*
 
-Independent audit of the 336 host matches (134,400 turns) and 5,268 continuations under seed 20261701 completed with 0 prefix and 0 live continuation faults. Authoritative versioned decision dataset built under data/decision/host_pilot_dataset/ (train: 268 maps, 1,048 candidates; val: 37 maps, 148 candidates; test: 31 maps, 121 candidates; 0 dropped roots). Noise diagnostics show train between-action net variance 0.01041 > within-action noise 0.00729; out-of-sample repeat headroom train +0.0525 [0.0345, 0.0706], val +0.0895 [0.0176, 0.1614]. Quality report verdict GO for small linear/MLP own-action model training. Delivery and receipts submitted in PR https://github.com/Casper015/ctf-fusion/pull/46.
+Completed and independently accepted. Implementation by codex-data-audit@desktop-g60ojud; final review and supplemental acceptance by codex-t38-review@desktop-g60ojud. PR https://github.com/Casper015/ctf-fusion/pull/46 merged as 7cd75b2b0d07d49ac8cca458cfe5fb9ae798f1ab; exact head 711a73addfce8dc18356ac23a7f7fc05f229fe21 passed all nine verification CI jobs (release skipped as expected).
+
+Deliverables: bots/p_only/report/decision_dataset/ and reports/eval/decision_data_quality/. DATA_AUDIT.json, FINAL_ACCEPTANCE.json, CHECKS.json, the executed read-only acceptance source, precise-summary generator, and REPRODUCE.md preserve the audit and reproduction evidence. User copies and exact-head CI are in outputs/T0038/ under the host work root.
+
+Accepted the exact completed T0037 corpus: plan 8a4a0417ae7d765cf54a2b9b705b0bd79a6e3bd36b1ba18c66876c1e223cadb5, seed 20261701 already consumed, 336 maps/roots, 1317 candidates, 5268 continuations, zero drops and zero all-phase faults. Final independent checks bind 53 actual frozen binaries, engine, 2107200 saved trajectory blocks, per-repeat raw scores and input protocol, canonical JSON prefix bindings, and all full-prefix native NPZ features/canonical actions. All 18972 normalized prefix order mismatches remain as replay-memory diagnostics.
+
+Existing authoritative ctf-fusion-decision-2 dataset: data/decision/host_pilot_dataset/{train,val,test}/decision.npz with 268/37/31 maps and 1048/148/121 candidates. SHA256 train 70441e0197382c630b2f64f230e54722ae031bb184e5a73e3874e08b00b877bc; val 74b630efa4e80bd2f947c45a816751124b06c155bc6e05533d88adb0255b5ace; test 1b9a0dd6719c27d98e621248dda06c841df0b54a61ea3edb5f8d5d8541cce598. Final review did not rebuild this dataset or replay any successful game/continuation.
+
+Precise equal-count independent-repeat headroom: train +0.05252749281939906 [0.03447802561563207, 0.07057696002316605]; validation +0.08953179299333147 [0.01763937086498979, 0.16142421512167315]. The summary precision correction changes no raw/NPZ bytes or recommendation. GO for a later small linear/MLP own-action trial, not an admission of a trained policy or strength gain. Retain selected-frozen-identity scope (original full-manifest baseline unavailable), flag-selector fallback/limited requested coverage, replay-memory effects and only 31 independent test maps. No test-outcome tuning, training, deployment, model changes or production-default changes started.
+
+Local publication checks: initial core 324 tests had 300 pass/23 skip and one archived-link failure resolved by incorporating the already merged main fix; subsequent layout/board suite 27 passed. Local Windows P-only 56 tests had 52 pass/3 skip and one unchanged test_decision_scoring.py:216 filename assertion: g++ successfully creates .exe while the test checks an unsuffixed path. A minimal compiler filename probe confirms the behavior; raw logs are preserved. Final exact-head CI, including P-only and Windows core, passed. No extra code lanes were edited to mask this platform assertion. No follow-up training or old queue is automatically resumed.
 
 ## Log
 
@@ -42,3 +52,4 @@ Independent audit of the 336 host matches (134,400 turns) and 5,268 continuation
 - 2026-10-15 00:34Z codex-data-audit@desktop-g60ojud: handoff -> review
 - 2026-10-15 01:21Z codex-t38-review@desktop-g60ojud: claimed (forced)
 - 2026-10-15 01:26Z codex-t38-review@desktop-g60ojud: note: Final independent raw/NPZ acceptance passed: 53 actual binaries, 336 roots, 5268 continuations, 2107200 stored trajectory blocks, all-phase faults zero. Publication-only precision refresh regenerates summary receipts from existing hash-pinned train/val NPZs; detailed noise and recommendations unchanged. No successful games replayed, dataset rebuilt, training or deployment started. Final review fix and exact-head CI pending on PR46.
+- 2026-10-15 01:50Z codex-t38-review@desktop-g60ojud: done
