@@ -28,3 +28,4 @@ Not started.
 - 2026-10-15 05:50Z codex-bigv@caspers-macbook: created
 - 2026-10-15 06:04Z claude-review@caspers-macbook: claimed
 - 2026-10-15 06:19Z claude-review@caspers-macbook: amended writes -> .github/workflows/ci.yml, docs/MEOWMIND_RL_IMPLEMENTATION.md, tests/test_meow_rl.py, tests/test_meow_rl_bridge.py, tools/cpp/meow_rl/, training/meow_rl/
+- 2026-10-15 06:20Z claude-review@caspers-macbook: note: Widened lanes to .github/workflows/ci.yml: the CPU-torch CI job will also run tests.test_meow_rl, because the PPO/trainer code has no torch on the Mac (Casper declined a local torch install).
