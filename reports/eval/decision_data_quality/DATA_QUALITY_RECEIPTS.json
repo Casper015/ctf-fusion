@@ -82,17 +82,17 @@
   "diagnostics": {
     "train": {
       "noise_roots": 260,
-      "within_action_variance": 0.0072884615384615385,
-      "between_action_variance_raw": 0.012234088981451368,
-      "between_action_variance_net": 0.010411973596835983,
-      "paired_gap_variance": 0.01620247657257913,
-      "implied_covariance": -0.000547960309191317,
-      "replay_mean_diff": 0.01068800923236372,
-      "replay_sd_diff": 0.10492804533036665,
+      "within_action_variance": 0.007288086880691,
+      "between_action_variance_raw": 0.012228704929290853,
+      "between_action_variance_net": 0.010406683209118103,
+      "paired_gap_variance": 0.016203163795406966,
+      "implied_covariance": -0.0005536213003222417,
+      "replay_mean_diff": 0.010730880075562908,
+      "replay_sd_diff": 0.10490292694038857,
       "headroom": {
-        "mean": 0.05252813133608754,
-        "lo": 0.03445839255286576,
-        "hi": 0.07059787011930932,
+        "mean": 0.05252749281939906,
+        "lo": 0.03447802561563207,
+        "hi": 0.07057696002316605,
         "clusters": 260,
         "verdict": "benefit",
         "roots": 260,
@@ -101,7 +101,7 @@
     },
     "val": {
       "noise_roots": 37,
-      "within_action_variance": 0.005579954954954955,
+      "within_action_variance": 0.005578922201891247,
       "between_action_variance_raw": 0.017289773264027964,
       "between_action_variance_net": 0.01589504271355515,
       "paired_gap_variance": 0.011914214958225346,
@@ -164,5 +164,12 @@
       "maps=500 switch_share=0.5": 0.01067103816831032
     }
   },
-  "preliminary_bot_eval_note": "Preliminary smoke checks (such as single-match or multi-bot runs) demonstrate functional compilation and protocol execution, but do not constitute formal proof of distillation dominance or official production admission. Formal admission requires rigorous paired A/A and multi-team controls under frozen benchmark protocols."
+  "preliminary_bot_eval_note": "Preliminary smoke checks (such as single-match or multi-bot runs) demonstrate functional compilation and protocol execution, but do not constitute formal proof of distillation dominance or official production admission. Formal admission requires rigorous paired A/A and multi-team controls under frozen benchmark protocols.",
+  "generation": {
+    "script": "bots/p_only/report/decision_dataset/generate_acceptance.py",
+    "source_sha256": "d735d6dbf5aa8050f46401647310699ab10fcc323dd83905b2e043a3b9868a1f",
+    "inputs": "hash-pinned existing train/val NPZs; verified noise.json; no test outcomes used for diagnostics",
+    "headroom_weighting": "equal team-count weights; select candidate on even repeat IDs, evaluate on odd IDs",
+    "precision_correction": "Full-precision summary fields refreshed from actual saved inputs; recommendation unchanged."
+  }
 }

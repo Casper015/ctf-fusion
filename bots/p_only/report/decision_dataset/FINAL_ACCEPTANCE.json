@@ -1,0 +1,31 @@
+{
+  "success": true,
+  "utc": "2026-10-15T01:15:47.872219+00:00",
+  "reviewed_head": "2d91c1825f94011a0b5c1a4da480294e8246a549",
+  "plan_identity": "8a4a0417ae7d765cf54a2b9b705b0bd79a6e3bd36b1ba18c66876c1e223cadb5",
+  "actual_frozen_binaries_verified": 53,
+  "engine_sha256": "07e43f6210c640d87a9161193a71c394fde157f816af004d37a68ecc1e36a14a",
+  "matches": 336,
+  "match_turns": 134400,
+  "roots": 336,
+  "continuations": 5268,
+  "trajectory_turn_blocks": 2107200,
+  "raw_branch_metadata_score_repeat_input_linkage": true,
+  "played_prefix_and_opponent_root_and_live_reply_protocol": true,
+  "npz_scores_and_repeat_id_exact": true,
+  "npz_native_full_prefix_root_records_and_canonical_actions_exact": true,
+  "all_phase_faults": 0,
+  "prefix_order_mismatches_retained": 18972,
+  "npz_sha256": {
+    "train": "70441e0197382c630b2f64f230e54722ae031bb184e5a73e3874e08b00b877bc",
+    "val": "74b630efa4e80bd2f947c45a816751124b06c155bc6e05533d88adb0255b5ace",
+    "test": "1b9a0dd6719c27d98e621248dda06c841df0b54a61ea3edb5f8d5d8541cce598"
+  },
+  "published_checksum_receipt_exact": true,
+  "trajectory_receipts_digest": "24123b7865f24bf6767d6b997a0cf4b4941ed9e342520e2a0f36218608217af4",
+  "scope": "supplementary raw/dataset/source acceptance; no bot games or dataset rebuild. No training/deployment/strength admission.",
+  "canonical_json_prefix_bindings_verified": 336,
+  "acceptance_source_sha256": "680d56c008d2127467d2b8de1efb997214dbf0bb1f82a82671f01229c77d9a23",
+  "reviewer": "codex-t38-review@desktop-g60ojud",
+  "review_scope": "Existing corpus and NPZ input bytes at original PR46 head; publication-only precision correction changes no dataset/raw bytes"
+}

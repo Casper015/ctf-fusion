@@ -17,7 +17,7 @@ This report presents an independent, read-only audit of the 336-map Windows host
 - **Match & Continuation Faults: 0.** Every one of the 336 matches and 5,268 continuations completed without match faults, missing reply slots, or continuation faults (prefix replay 0, root discarded 0, live continuation 0).
 - **Trajectory Files & Matrix Completeness: 100% Verified.** All 5,268 individual continuation trajectory files on disk were checked; their SHA-256 digests match branch records bit-exactly. The candidate $\times$ repeat matrix is complete ($K \times 4$ across all 336 roots: 327 roots with $K=4$, 9 roots with $K=1$).
 - **Exact Utility Recomputation: 100% Agreement.** Pairwise utilities recomputed independently from raw final team score vectors agree with stored match utilities and branch outcomes within $10^{-9}$ numerical tolerance.
-- **Shortlist Scores & Real $K$: Verified.** All 336 roots carry valid `ctf-fusion-shortlist-scores-1` payloads with real finite floating-point logit scores for every candidate in order. No future information leaks into candidate or root features.
+- **Shortlist Scores & Real $K$: Verified.** All 336 roots carry valid `ctf-fusion-shortlist-scores-1` payloads with finite carrier planner scores for every candidate in order. No future information leaks into candidate or root features.
 - **Causal Feature Extraction & Canonicalization: Bit-Exact.** Causal root features extracted from full recorded prefixes (`INIT + TURN 1..t`) match native engine extractions. Zero parse failures, zero illegal moves, zero out-of-cap targets, and zero feature collisions between distinct canonical actions.
 - **Opponent Weights & Carrier Identity: Verified.** The carrier binary (`v12_ponly_xxl_dlog`), carrier source file, and all 12 opponent model weight headers in `inference/models_xxl/` were independently hashed and match admitted frozen receipts.
 - **Compiled Dataset Alignment: Verified.** The authoritative dataset compiled at `data/decision/host_pilot_dataset/` was independently checked against raw matches and branches: root IDs, map seeds, shortlist orders, carrier scores, utilities, and zero fault arrays match with zero discrepancy.
@@ -75,7 +75,7 @@ The designated log-only carrier `v12_ponly_xxl_dlog` (binary SHA256 `981a1e3c580
 - **Shortlist Orders & Scores:**
   - Candidate 0 is on-policy reply: `normalize_line(match.replies[turn-1][seat]) == cands[0]`.
   - All candidate orders are normalized, distinct, and match candidate lines in `row["candidates"]`.
-  - Scores are real finite floating-point logit scores.
+  - Scores are finite carrier planner scores.
   - Candidate distribution: 327 roots with $K=4$ ($1,308$ candidates) and 9 roots with $K=1$ ($9$ candidates) = $1,317$ total candidates.
 
 ---
