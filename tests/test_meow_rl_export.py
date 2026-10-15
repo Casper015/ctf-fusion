@@ -305,6 +305,22 @@ class Specification(unittest.TestCase):
         self.assertEqual(spec["primary"]["games"], 1176)
         self.assertNotEqual(spec["primary"]["work_dir"], spec["secondary"]["work_dir"])
         m = spec["secondary"]["multiplicity"]
+        # held-out opponents: real pool bots, never training opponents or their related lineages
+        from fusion.paths import load_pool  # noqa: PLC0415
+        pool = {b["name"]: b for b in load_pool()["bots"]}
+        opp = spec["opponents"]
+        held = set(opp["reference"])
+        self.assertTrue(held <= set(pool), held - set(pool))
+        self.assertFalse(held & set(opp["related_excluded"]))
+        self.assertEqual(len({pool[n]["family"] for n in held}), len(held))   # one bot per family
+        training = {"Sol", "Astra", "Opus", "Sonnet", "DeepSeek", "Qwen", "Meowmind", "Meowmind_Distill_P3", "Player5", "Baseline"}
+        tp = REPO / opp["training_pool"]
+        if tp.is_file():                                                    # T0055's frozen pool, once committed
+            training = {b["name"] for b in json.loads(tp.read_text())["bots"]}
+            self.assertFalse({pool[n]["path"] for n in held} & {b["path"] for b in json.loads(tp.read_text())["bots"]})
+        self.assertFalse(held & training)
+        for block in ("primary", "secondary"):
+            self.assertEqual(spec[block]["reference"], opp["reference"])
         self.assertEqual(m["family"], len(spec["secondary"]["comparisons"]))
         z = statistics.NormalDist().inv_cdf(1 - m["alpha"] / m["family"] / 2)
         self.assertAlmostEqual(z, m["z"], places=3)

@@ -69,6 +69,12 @@ On the Mac, with a 28,801-parameter stand-in critic, the 15-team recorded game a
 
 Two separately frozen schedules, each a `run_screen.py` config once T0057 fills a fresh seed (reserved in `docs/MEOWMIND_RL_SCREEN_SEEDS.md` before the first game) and its frozen worker count.
 
+**Opponents are held out (plan section 5).** T0055 trained against `profiles/meow_rl_training_pool.json`: Sol, Astra, Opus, Sonnet, DeepSeek, Qwen, Meowmind, Meowmind + P3-distilled, Player5 and Baseline. That pool holds 8 of the 12 bots of the default screen roster (`roster.strength.REFERENCE`). Both screens therefore draw their opponents (`reference`) from six bots of separate families that never appeared in training:
+- Fable, MiMo, Kimi and GLM;
+- Player2_v005 and Player4.
+
+Related lineages are excluded too: Astra_Full, Control_Hybrid and the Player5_Omega/R3 bots. The test checks that the roster is disjoint from the training pool. Meowmind and Meowmind + P3-distilled remain secondary *arms* (they take our seat and are compared), never opponents.
+
 | Schedule | Fixtures | Arms | Games | Endpoint |
 |---|---:|---|---:|---|
 | Primary | 392 (28 × counts 2–15) | L = `meow_rl_large_v_s101`, W = `meow_rl_warm_start`, L~aa | 1,176 | L − W, equal-count paired utility, 95% map-cluster interval, margin 0 |
