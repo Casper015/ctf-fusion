@@ -58,6 +58,7 @@ struct Counters {
 inline std::string safe_reply(int turn) { return std::to_string(turn) + " S - S - S -"; }
 
 inline int run() {
+    std::setvbuf(stderr, nullptr, _IONBF, 0);
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
     meow_rl::Session s;
@@ -130,6 +131,7 @@ inline int run() {
         std::fprintf(stderr, "MEOWRL turns %ld refused %ld search_used %ld search_fallback %ld leaves %ld\n", c.turns,
                      c.refused, c.search_used, c.search_fallback, c.leaves);
 #endif
+        std::fflush(stderr);
         std::cout << reply << std::endl;
     }
     return 0;

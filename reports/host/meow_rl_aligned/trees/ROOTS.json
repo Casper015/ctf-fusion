@@ -1,0 +1,2211 @@
+{
+ "schema": "ctf-meow-rl-aligned-roots-1",
+ "generator": "bots/meow_rl/aligned/trees.py select",
+ "seed": "meow_rl_aligned_roots_v1",
+ "requested": 1024,
+ "selected": 1024,
+ "per_game_cap": 6,
+ "shortage_by_count": {
+  "2": 0,
+  "3": 0,
+  "4": 0,
+  "5": 0,
+  "6": 0,
+  "7": 0,
+  "8": 0,
+  "9": 0,
+  "10": 0,
+  "11": 0,
+  "12": 0,
+  "13": 0,
+  "14": 0,
+  "15": 0
+ },
+ "candidates": 89376,
+ "strata": {
+  "teams": {
+   "2": 74,
+   "3": 74,
+   "4": 73,
+   "5": 73,
+   "6": 73,
+   "7": 73,
+   "8": 73,
+   "9": 73,
+   "10": 73,
+   "11": 73,
+   "12": 73,
+   "13": 73,
+   "14": 73,
+   "15": 73
+  },
+  "phase": {
+   "0": 350,
+   "1": 338,
+   "2": 336
+  },
+  "carrier": 504,
+  "combat": 504,
+  "low_hp": 504,
+  "respawn": 352,
+  "signature": {
+   "0": 84,
+   "1": 84,
+   "2": 84,
+   "3": 84,
+   "4": 84,
+   "5": 84,
+   "6": 84,
+   "7": 84,
+   "8": 58,
+   "9": 42,
+   "10": 42,
+   "11": 42,
+   "12": 42,
+   "13": 42,
+   "14": 42,
+   "15": 42
+  }
+ },
+ "matches": {
+  "roots-s20261911-n02-g000": {
+   "turns": [
+    56,
+    214,
+    327,
+    359,
+    361,
+    373
+   ],
+   "record_sha256": "c111ba7ec42b5f1a216641d772d7b0de7584560eb93fb8375673c7fb8ce0bfbb"
+  },
+  "roots-s20261911-n02-g001": {
+   "turns": [
+    39,
+    61,
+    186,
+    251,
+    336
+   ],
+   "record_sha256": "a92715a5fd48980907cb4e3e72c76179214d9ef77f850f783cc857a5bbd16882"
+  },
+  "roots-s20261911-n02-g002": {
+   "turns": [
+    121,
+    141,
+    150,
+    162,
+    361
+   ],
+   "record_sha256": "d84d7d91db322509eedc1c185304b97dbef43fedb1e4de14910fa6764cd4f85a"
+  },
+  "roots-s20261911-n02-g003": {
+   "turns": [
+    9,
+    93,
+    183,
+    220,
+    222,
+    318
+   ],
+   "record_sha256": "f035a1f5a90940637ae972f8c4f9ae26e78da76d017b6d493850363b1f26110a"
+  },
+  "roots-s20261911-n02-g004": {
+   "turns": [
+    5,
+    196,
+    225
+   ],
+   "record_sha256": "028113b9486c742ac7af75fa96ce50ee34508466d10f133e15112b3b3d74aa35"
+  },
+  "roots-s20261911-n02-g005": {
+   "turns": [
+    231,
+    250,
+    289
+   ],
+   "record_sha256": "9529137fe475fb18b91d48631cb5d0f579ff92a60ac7393e420df7fa5b77f328"
+  },
+  "roots-s20261911-n02-g006": {
+   "turns": [
+    77,
+    246,
+    319
+   ],
+   "record_sha256": "db5051f4ea9b11f8e3ee1b32b6bb39d1e247081e0d4c95a1581d8ec2659154c9"
+  },
+  "roots-s20261911-n02-g007": {
+   "turns": [
+    11,
+    24,
+    231,
+    299
+   ],
+   "record_sha256": "817315b249b269d61fd8b3bb159e47b946727e09a2a7b2b35782cd9900ef1be8"
+  },
+  "roots-s20261911-n02-g008": {
+   "turns": [
+    11,
+    215,
+    225,
+    290,
+    318,
+    336
+   ],
+   "record_sha256": "4afc86b6e866646cfade4b8cdc7e65a533b5ce2dcf7f050b52bf3f53e36d4162"
+  },
+  "roots-s20261911-n02-g009": {
+   "turns": [
+    13,
+    299,
+    309,
+    356,
+    362
+   ],
+   "record_sha256": "9f8c0c00106a760ecc19e50c7303d903ad49646df31c1d1f227221c9686756bc"
+  },
+  "roots-s20261911-n02-g010": {
+   "turns": [
+    9,
+    50,
+    117,
+    180,
+    222,
+    330
+   ],
+   "record_sha256": "d51cfd2bb2caa25ef15b0b6a4d95a510107045e045b25b9c03eb3f776f56c4cc"
+  },
+  "roots-s20261911-n02-g011": {
+   "turns": [
+    11,
+    40,
+    44,
+    73,
+    164,
+    255
+   ],
+   "record_sha256": "b57a3d886e58ac5af8008d10254cd101d708eba596b4b85c96ac9141b2c626b3"
+  },
+  "roots-s20261911-n02-g012": {
+   "turns": [
+    15,
+    169,
+    184,
+    332
+   ],
+   "record_sha256": "9d12530aaa12bb43e19f2310b817c3268e53569c525e30c26605ce5c929ac37a"
+  },
+  "roots-s20261911-n02-g013": {
+   "turns": [
+    307,
+    367,
+    396
+   ],
+   "record_sha256": "c8754ad3571705e6a8588029e5ebb46bf266e9ff4b36b27253c2af185e6ddc66"
+  },
+  "roots-s20261911-n02-g014": {
+   "turns": [
+    22,
+    217,
+    306,
+    366
+   ],
+   "record_sha256": "27427414f47a5606faf5380fd70b7f9246089ed206f2f74b0a58da8dad1f3eb0"
+  },
+  "roots-s20261911-n02-g015": {
+   "turns": [
+    11,
+    17,
+    97,
+    133,
+    203
+   ],
+   "record_sha256": "fcee67c67b260dca67d31134c71d1be074a3600ad2a7dabea32c1bd0310deedd"
+  },
+  "roots-s20261911-n03-g000": {
+   "turns": [
+    27,
+    37,
+    157,
+    187,
+    264,
+    281
+   ],
+   "record_sha256": "94e33626dba5835a8f87a987cf1c83d6c80aa4c84caf73c079b552873ec61668"
+  },
+  "roots-s20261911-n03-g001": {
+   "turns": [
+    15,
+    16,
+    102,
+    120,
+    140,
+    371
+   ],
+   "record_sha256": "eb44e6703b76286f36071127826891e49b2a9e4764137e6efb80d09b627401ef"
+  },
+  "roots-s20261911-n03-g002": {
+   "turns": [
+    210,
+    322,
+    345,
+    400
+   ],
+   "record_sha256": "6c375d92ee7652fde8323709940dd4871e71262d170fcf678cb8c73b842bcbdb"
+  },
+  "roots-s20261911-n03-g003": {
+   "turns": [
+    42,
+    286,
+    338,
+    350,
+    356
+   ],
+   "record_sha256": "c9a00e6f3a9e55f1bb074cb0d784ae296eba5c6f412b4cc774446d79bc986bd9"
+  },
+  "roots-s20261911-n03-g004": {
+   "turns": [
+    87,
+    157,
+    181,
+    196,
+    326
+   ],
+   "record_sha256": "4f1fd34570fe81b8fed3cb9c7276c03380eecb80611509ac30793cb928a4cccf"
+  },
+  "roots-s20261911-n03-g005": {
+   "turns": [
+    49,
+    210,
+    357
+   ],
+   "record_sha256": "c7de701899dc50201a08c7692f55e04bf3592ff56e1e0c8ef30fef7eb7d4cdba"
+  },
+  "roots-s20261911-n03-g006": {
+   "turns": [
+    30,
+    46,
+    185,
+    223,
+    226,
+    350
+   ],
+   "record_sha256": "4119f192e6f885077d61242d86cf1e19e159fbe8050febbbbdafe7f9b44a3237"
+  },
+  "roots-s20261911-n03-g007": {
+   "turns": [
+    106,
+    171,
+    177,
+    219,
+    298,
+    373
+   ],
+   "record_sha256": "414ceb230102959bd91e28dd62a5625fe04b11ed2a34e668b9366a3e3f56eb1c"
+  },
+  "roots-s20261911-n03-g008": {
+   "turns": [
+    182,
+    272,
+    293,
+    332,
+    355,
+    398
+   ],
+   "record_sha256": "ad040fb9f7c9cf3b602c3ba419d4d65d92bfed741a6653df295351cee5105838"
+  },
+  "roots-s20261911-n03-g009": {
+   "turns": [
+    18,
+    85,
+    213,
+    243,
+    249,
+    283
+   ],
+   "record_sha256": "7a44872109fbbe711b88f96504849f7d2f4a067cd53ef731398c2001d47333a7"
+  },
+  "roots-s20261911-n03-g010": {
+   "turns": [
+    49,
+    57,
+    209,
+    398
+   ],
+   "record_sha256": "103f73434e54eabe5d5dd149365f9ca2851d3c9bffbea38328d3d393f579bc70"
+  },
+  "roots-s20261911-n03-g011": {
+   "turns": [
+    9,
+    22,
+    134,
+    248
+   ],
+   "record_sha256": "1dfc24f2d3f650a34be441148a7f67df42c35b3b770285489b4c73b944e65c51"
+  },
+  "roots-s20261911-n03-g012": {
+   "turns": [
+    91,
+    246,
+    255
+   ],
+   "record_sha256": "e0fd2eec9a4dedf8031e4b100f725bb20644d04c99ee061e8f671e1814ad5c86"
+  },
+  "roots-s20261911-n03-g013": {
+   "turns": [
+    10,
+    113,
+    272,
+    380
+   ],
+   "record_sha256": "27e81d1fc98ae1954c636a9914d3d8c170924708367f08c99680b2e7f2eecdb9"
+  },
+  "roots-s20261911-n03-g014": {
+   "turns": [
+    37,
+    289
+   ],
+   "record_sha256": "f2440e829e1ca00f84f62e0a3f1279887bc7481fdc5057457fee8509e5be17eb"
+  },
+  "roots-s20261911-n03-g015": {
+   "turns": [
+    23,
+    69,
+    88,
+    189
+   ],
+   "record_sha256": "c5648e1eb9949f6a57cefb4fa17fa8d37a08a4eb9fb3579806b48e75cbce9f6e"
+  },
+  "roots-s20261911-n04-g000": {
+   "turns": [
+    45,
+    239,
+    290,
+    335,
+    372
+   ],
+   "record_sha256": "6f6f47d12931b6ac6406b2655d72ca95c54b78bf451ff5a15185ac747229296a"
+  },
+  "roots-s20261911-n04-g001": {
+   "turns": [
+    78,
+    80,
+    85,
+    88,
+    91,
+    100
+   ],
+   "record_sha256": "57051474df1e3ce9d83dfa760b2bf68302b8ac61c4435ffab91146dc54748242"
+  },
+  "roots-s20261911-n04-g002": {
+   "turns": [
+    385
+   ],
+   "record_sha256": "620fcd065cbe92e180762c72aaeb8cc665d3386a76c5713c19446e786a22eae5"
+  },
+  "roots-s20261911-n04-g003": {
+   "turns": [
+    79,
+    89,
+    103,
+    131,
+    145,
+    182
+   ],
+   "record_sha256": "f9042616c838c5fa464b65cb9c1ec8287097c774306828e9f743750829421a15"
+  },
+  "roots-s20261911-n04-g004": {
+   "turns": [
+    21,
+    30,
+    145,
+    214,
+    280,
+    398
+   ],
+   "record_sha256": "ee0358f0ac72e5e379fdfa05ee9c0a4c0a3034681ac0eaf06bbb28a28a6fba5a"
+  },
+  "roots-s20261911-n04-g005": {
+   "turns": [
+    106,
+    190,
+    380
+   ],
+   "record_sha256": "2e28e0fb78af4d4314c46a728efc3e707d73ee7c458a28a1d49f77088ab87e7f"
+  },
+  "roots-s20261911-n04-g006": {
+   "turns": [
+    17,
+    154,
+    167,
+    393,
+    396
+   ],
+   "record_sha256": "7932eb5c54aaf8917d925201fd41a99b063cdb521d8d8859e9a6b1d4eb281169"
+  },
+  "roots-s20261911-n04-g007": {
+   "turns": [
+    197,
+    259
+   ],
+   "record_sha256": "3ccd94671d9d7106cd0483fd187aa0f316978f096812fb01ae622065b657f986"
+  },
+  "roots-s20261911-n04-g008": {
+   "turns": [
+    152,
+    172,
+    199,
+    201,
+    202,
+    214
+   ],
+   "record_sha256": "0a70e804141337014b22831fd15a6171103cc1e19ec20fefe80b976f665789a3"
+  },
+  "roots-s20261911-n04-g009": {
+   "turns": [
+    28,
+    64,
+    65,
+    114,
+    216,
+    338
+   ],
+   "record_sha256": "b47ffbcf0d0f3847500072fc3961ef08e6eaf0ed4462ddf7c1a32483b92da509"
+  },
+  "roots-s20261911-n04-g010": {
+   "turns": [
+    7,
+    120,
+    174,
+    196,
+    293,
+    304
+   ],
+   "record_sha256": "a7921252553eec40dfd7fa6079dcf530d107b367f35ca69646fcf4287c800b18"
+  },
+  "roots-s20261911-n04-g011": {
+   "turns": [
+    17,
+    106,
+    283,
+    351,
+    369
+   ],
+   "record_sha256": "f07c4ff923d2a9c5891c99c5576d4099569ca178e00594c688807463178164d5"
+  },
+  "roots-s20261911-n04-g012": {
+   "turns": [
+    269,
+    317
+   ],
+   "record_sha256": "d06f8331ecc9ca2a10196c6ad5162b374108643f31893889917ba2d371319aef"
+  },
+  "roots-s20261911-n04-g013": {
+   "turns": [
+    12,
+    199,
+    231,
+    302,
+    346,
+    399
+   ],
+   "record_sha256": "215a97edc2c4ed01a73e60809f4f05559946bbae4f41b8e7ff038c0b8ce0aef7"
+  },
+  "roots-s20261911-n04-g014": {
+   "turns": [
+    173,
+    181,
+    273,
+    296,
+    317,
+    323
+   ],
+   "record_sha256": "bca5414f2dcbcf7ace355a6e9645895f9e13c989e9c98e21576be70c21dc1f71"
+  },
+  "roots-s20261911-n04-g015": {
+   "turns": [
+    13,
+    250
+   ],
+   "record_sha256": "551922717f772de8c0d1da64d6e038893bc4c07399ca6ca1c75d1f5ee5bd6e20"
+  },
+  "roots-s20261911-n05-g000": {
+   "turns": [
+    97,
+    203,
+    220,
+    300,
+    305,
+    384
+   ],
+   "record_sha256": "0f0c12ad89dd244726f4c8cf36160d3d89ea682357969b8c28e286d4eedbde9a"
+  },
+  "roots-s20261911-n05-g001": {
+   "turns": [
+    61,
+    109,
+    151,
+    154,
+    237
+   ],
+   "record_sha256": "399b5a01f8dac6b1bb2c57c5e128a96182a783b85e0e9dbeeb1a36b09dfcfec8"
+  },
+  "roots-s20261911-n05-g002": {
+   "turns": [
+    126,
+    176,
+    197,
+    270,
+    374
+   ],
+   "record_sha256": "e2c82e82e297518c401a099adfdfe359a921f11f86f9b192c620838cde1ef05a"
+  },
+  "roots-s20261911-n05-g003": {
+   "turns": [
+    50,
+    66,
+    89,
+    338,
+    340,
+    391
+   ],
+   "record_sha256": "5dfb1d7a15a105d5742bf63a7fa53a2f8f59e5d5a025f7fbb4da9e61732d0807"
+  },
+  "roots-s20261911-n05-g004": {
+   "turns": [
+    138,
+    264,
+    363,
+    370
+   ],
+   "record_sha256": "d49da2e32fcf3b37cfb8fb0a0999d36ec493b3ebbef3ef071a0e254d3963980c"
+  },
+  "roots-s20261911-n05-g005": {
+   "turns": [
+    73,
+    287,
+    324,
+    350
+   ],
+   "record_sha256": "328a0afe57b3be6413cf28270aa4349099dfe7760beba389309b44b4c98b838f"
+  },
+  "roots-s20261911-n05-g006": {
+   "turns": [
+    20,
+    55,
+    72,
+    95,
+    202,
+    395
+   ],
+   "record_sha256": "2a6ef0e60fbe24f9e68f8805c4e171dbeb6b0b86e1a949a1c1653afb26dc11be"
+  },
+  "roots-s20261911-n05-g007": {
+   "turns": [
+    54,
+    263,
+    317,
+    375
+   ],
+   "record_sha256": "8163cd945cd046c31a2b0f0e43ced705f0d93788107958c5637d80f0255db920"
+  },
+  "roots-s20261911-n05-g008": {
+   "turns": [
+    94,
+    209,
+    248
+   ],
+   "record_sha256": "91838cde5bbfe8489367ec5ae91949590847b94dd8c9e0fcc7135e844649cf96"
+  },
+  "roots-s20261911-n05-g009": {
+   "turns": [
+    51,
+    55,
+    75,
+    198,
+    201,
+    281
+   ],
+   "record_sha256": "08fddc02b1efd6fc7ae1ab57b125cb6d15f602a613fb938e0a5e4a95de2cfba5"
+  },
+  "roots-s20261911-n05-g010": {
+   "turns": [
+    9,
+    41,
+    133,
+    172
+   ],
+   "record_sha256": "6334ff164b8060a358ed72e3a0a20e9444c1421d4d0ce6e95324295ba2e631b7"
+  },
+  "roots-s20261911-n05-g011": {
+   "turns": [
+    178,
+    286,
+    299,
+    390
+   ],
+   "record_sha256": "f9ca848d61bbfcd8919fc987c603170550d2bcde28ba27fb21a97f4358a3c199"
+  },
+  "roots-s20261911-n05-g012": {
+   "turns": [
+    8,
+    177,
+    235,
+    260,
+    283,
+    335
+   ],
+   "record_sha256": "bbb1f46afc7d785ccad9c3ad3d4f902537121a98c9ef8c9f3f5425f578ebf46a"
+  },
+  "roots-s20261911-n05-g013": {
+   "turns": [
+    20,
+    157,
+    326
+   ],
+   "record_sha256": "bf8fad5a78b1e739df95fe5a2c8b8f5e04ec072c12a25de90b96f408e2c43807"
+  },
+  "roots-s20261911-n05-g014": {
+   "turns": [
+    50,
+    55,
+    140,
+    150
+   ],
+   "record_sha256": "fd33fa43d76d93b9976d42af78cef0b1caa61316bc5a06e81c1a4f966577aeb9"
+  },
+  "roots-s20261911-n05-g015": {
+   "turns": [
+    35,
+    143,
+    379
+   ],
+   "record_sha256": "714f5ce0b59e0c5697a109d8abd55c9f031052b7433db6286793767eedffd93e"
+  },
+  "roots-s20261911-n06-g000": {
+   "turns": [
+    4,
+    10,
+    52,
+    58,
+    201,
+    215
+   ],
+   "record_sha256": "b18dc05e71cf34749103703309748400b882a40409f35c5844aca0d2cbb3b41b"
+  },
+  "roots-s20261911-n06-g001": {
+   "turns": [
+    26,
+    318,
+    368
+   ],
+   "record_sha256": "bf2ab2910840e72f42f063f90d9c4548dd3a8396b03eee0018eddeae8e9baaab"
+  },
+  "roots-s20261911-n06-g002": {
+   "turns": [
+    56,
+    129,
+    152,
+    379
+   ],
+   "record_sha256": "c25d0cfb8b94439e72a9e1273cbc502c73954c431047a95754228a35ad1a42fe"
+  },
+  "roots-s20261911-n06-g003": {
+   "turns": [
+    32,
+    84,
+    131,
+    288,
+    374
+   ],
+   "record_sha256": "4a914bf04f618e0ddf3252c9fb63edaa816ff705b7ab0b13a71ff4d7a9ca8052"
+  },
+  "roots-s20261911-n06-g004": {
+   "turns": [
+    260,
+    294
+   ],
+   "record_sha256": "42edd59d562d85fa20c6ec8e096d8ff5a08d202886624dafc863ae5f199e0245"
+  },
+  "roots-s20261911-n06-g005": {
+   "turns": [
+    61,
+    62,
+    105,
+    212,
+    214,
+    223
+   ],
+   "record_sha256": "4087d49095e21bbb2dd710c8359289c11ef2b83c3d7417493ad29c8542be5fa0"
+  },
+  "roots-s20261911-n06-g006": {
+   "turns": [
+    176,
+    218,
+    252,
+    349,
+    358,
+    371
+   ],
+   "record_sha256": "7e4a14e4074c1f2ccf2e464945c774a1dec1250a20d16ef77ff7b5185b7b1660"
+  },
+  "roots-s20261911-n06-g007": {
+   "turns": [
+    77,
+    168,
+    324,
+    329
+   ],
+   "record_sha256": "714168e16be59ff3ac9f4fba009f1b28a47f3c82b6b0e521975411bfa4919909"
+  },
+  "roots-s20261911-n06-g008": {
+   "turns": [
+    171,
+    196,
+    253,
+    331,
+    348,
+    350
+   ],
+   "record_sha256": "e06bd97e788d99dacba36aa8c16c4185908dfd37054e6e3032ca0518ab48b05f"
+  },
+  "roots-s20261911-n06-g010": {
+   "turns": [
+    65,
+    146,
+    299,
+    306,
+    334,
+    398
+   ],
+   "record_sha256": "cd4d3834fdaa9db21ce4e020c116493e15bcd9515b70a4b8761f06213c925f72"
+  },
+  "roots-s20261911-n06-g011": {
+   "turns": [
+    41,
+    123,
+    219,
+    365,
+    396
+   ],
+   "record_sha256": "fb2f88761c67ee1b4167370be063bcbeb8e1e7c2c9036c3474d34c61e060598f"
+  },
+  "roots-s20261911-n06-g012": {
+   "turns": [
+    249,
+    283,
+    300,
+    317
+   ],
+   "record_sha256": "902e13093d27c5cfaac260b53b6a6324f1a5519dcc36294f1d80c7f066648a58"
+  },
+  "roots-s20261911-n06-g013": {
+   "turns": [
+    68,
+    126,
+    170,
+    216
+   ],
+   "record_sha256": "51b626e6213188b311bd30a0f290e35d49c21cad0339fa3e19942e06e6dc4478"
+  },
+  "roots-s20261911-n06-g014": {
+   "turns": [
+    30,
+    80,
+    101,
+    139,
+    201,
+    261
+   ],
+   "record_sha256": "e551d8112be490bb51a315f4612ec12d09cb56e17f377fc9b181e9c5d33d5481"
+  },
+  "roots-s20261911-n06-g015": {
+   "turns": [
+    14,
+    49,
+    97,
+    149,
+    195,
+    288
+   ],
+   "record_sha256": "30b2e97347152188103e9bb173372b26f88cb2db367adabc239620ed8cbd3d18"
+  },
+  "roots-s20261911-n07-g000": {
+   "turns": [
+    223,
+    312,
+    317,
+    374,
+    388
+   ],
+   "record_sha256": "80c00a5e02ad449887851cb160907bfac3bce1c718efd4eb65b5644f31296725"
+  },
+  "roots-s20261911-n07-g001": {
+   "turns": [
+    353
+   ],
+   "record_sha256": "6874b0a87d310735b66e3ebc4ef037f11100eaf9912a3a59100ea842e61843cc"
+  },
+  "roots-s20261911-n07-g002": {
+   "turns": [
+    36,
+    42,
+    60,
+    165,
+    288
+   ],
+   "record_sha256": "e84a3eae74246569be569a4f85f9a5de71f81f9608f7c43684970e93e7a3665a"
+  },
+  "roots-s20261911-n07-g003": {
+   "turns": [
+    48,
+    51,
+    188,
+    253,
+    262,
+    308
+   ],
+   "record_sha256": "619afa0059c7281f7c5aec786b48f7ab38bf86c61ec9321bbef0eadf35f04eb8"
+  },
+  "roots-s20261911-n07-g004": {
+   "turns": [
+    34,
+    147,
+    150
+   ],
+   "record_sha256": "abd6ebd4f61008eaab69b6f3064cec629b0908760ae5bca2bd0aba1b332fd87c"
+  },
+  "roots-s20261911-n07-g005": {
+   "turns": [
+    9,
+    41,
+    117,
+    302,
+    341
+   ],
+   "record_sha256": "9fc6eabe424a61930f283d9eb2d53d2292ab36a4446544c27de8e978a2bd4027"
+  },
+  "roots-s20261911-n07-g006": {
+   "turns": [
+    98,
+    212,
+    331,
+    355,
+    381
+   ],
+   "record_sha256": "16c5a3fd2187d26e3bd3f85317d4c77608490ec6896531ab127a11cddf1ca7cd"
+  },
+  "roots-s20261911-n07-g007": {
+   "turns": [
+    10,
+    33,
+    131,
+    142,
+    258,
+    289
+   ],
+   "record_sha256": "22f5a19be68e67db8f62441bb29b98b0e07a78ffdb820e08131035f96814e8bb"
+  },
+  "roots-s20261911-n07-g008": {
+   "turns": [
+    63,
+    130,
+    167,
+    213,
+    282,
+    339
+   ],
+   "record_sha256": "2da3ca44b66af149030a350fb84da8814c1745a8a914585bd34e0570c50fcd15"
+  },
+  "roots-s20261911-n07-g009": {
+   "turns": [
+    23,
+    91
+   ],
+   "record_sha256": "cf0246228a8abe3e8da7fcd825c791c4ecc4295f7df826ce8cf89b63a5017d27"
+  },
+  "roots-s20261911-n07-g010": {
+   "turns": [
+    31,
+    200,
+    206,
+    226,
+    368
+   ],
+   "record_sha256": "47aebd6ec8c053c15f41a5c43e34516e21f9175ecffa7b32608a15e577d8779c"
+  },
+  "roots-s20261911-n07-g011": {
+   "turns": [
+    15,
+    136,
+    146,
+    386
+   ],
+   "record_sha256": "33c99bff4a7414ac4e559ae5f9c0c155e78218cfb926a5cffdf388924b11c374"
+  },
+  "roots-s20261911-n07-g012": {
+   "turns": [
+    126,
+    154,
+    254,
+    357
+   ],
+   "record_sha256": "aa317d85766663af29698bfc958c83477d881c19bbca28e92457b861e582a852"
+  },
+  "roots-s20261911-n07-g013": {
+   "turns": [
+    39,
+    112,
+    204,
+    279
+   ],
+   "record_sha256": "f351ad9163a9324bfe1400f587715192948b8b23ce863c743cc1366449342021"
+  },
+  "roots-s20261911-n07-g014": {
+   "turns": [
+    116,
+    152,
+    157,
+    197,
+    308,
+    332
+   ],
+   "record_sha256": "32164ed056416e030cdddeee06f3b086e76e02fc826363d6c003b68336e72b11"
+  },
+  "roots-s20261911-n07-g015": {
+   "turns": [
+    29,
+    111,
+    219,
+    269,
+    311,
+    397
+   ],
+   "record_sha256": "8a3a2b0f92caf6e1bb18b5d1f89767752e32250086a5056c43318f0fb06282f0"
+  },
+  "roots-s20261911-n08-g000": {
+   "turns": [
+    25,
+    113,
+    137,
+    292,
+    306,
+    312
+   ],
+   "record_sha256": "94460fe123785f76a78eb0621d75802804717bade7ddf2edcfa64cd3dea14428"
+  },
+  "roots-s20261911-n08-g001": {
+   "turns": [
+    152
+   ],
+   "record_sha256": "63a78b5e9918f36321cf4f8ca06fa33a63642f2049f1d6567531fbf62211e800"
+  },
+  "roots-s20261911-n08-g002": {
+   "turns": [
+    61,
+    181,
+    183,
+    358
+   ],
+   "record_sha256": "4b2b6b74862462feb196b3e9eb756c8b4fcbe3f0c69523c312a83a34a14e7d68"
+  },
+  "roots-s20261911-n08-g003": {
+   "turns": [
+    262,
+    309
+   ],
+   "record_sha256": "84d1af61d345f3b1f48376c72fe95637962cae9df98547b58e209b0e56924e63"
+  },
+  "roots-s20261911-n08-g004": {
+   "turns": [
+    33,
+    45,
+    94,
+    148,
+    158,
+    196
+   ],
+   "record_sha256": "dcf50850dfbdd9df34d5c31ca989e318e92536b106ff5d7ec23b5bf81e0399e3"
+  },
+  "roots-s20261911-n08-g005": {
+   "turns": [
+    146
+   ],
+   "record_sha256": "a6587e208a331c2b6864762136e70e90e1ae6613f8390a3a7c3227008bb52b12"
+  },
+  "roots-s20261911-n08-g006": {
+   "turns": [
+    117,
+    141,
+    167,
+    396
+   ],
+   "record_sha256": "38531ef0b0cd3d34cddab39607a0906edd495bb6a5e9e8e030301a62d55eb5e6"
+  },
+  "roots-s20261911-n08-g007": {
+   "turns": [
+    153,
+    161,
+    212,
+    230,
+    327,
+    369
+   ],
+   "record_sha256": "a7b27c018866ffbe9a56d4ca7cbb4bd382229ed4356cf0023e63061ebd3b5633"
+  },
+  "roots-s20261911-n08-g008": {
+   "turns": [
+    28,
+    46,
+    124,
+    370,
+    380
+   ],
+   "record_sha256": "6b18180fc08954465b02da581a40a25bbfd3eade05bd7f9eb34a081eba726e3e"
+  },
+  "roots-s20261911-n08-g009": {
+   "turns": [
+    55,
+    300,
+    330,
+    389,
+    391
+   ],
+   "record_sha256": "00b3fee17f77ae9f03a96040c132bee7a3a8cadea87e0bba68b64a2104984487"
+  },
+  "roots-s20261911-n08-g010": {
+   "turns": [
+    34,
+    53,
+    167,
+    226,
+    256,
+    376
+   ],
+   "record_sha256": "0140f91d02ab3f2e67b1f05ce2de9c13299ab45aac646a3aa422efc901796451"
+  },
+  "roots-s20261911-n08-g011": {
+   "turns": [
+    41,
+    110,
+    247,
+    338,
+    340
+   ],
+   "record_sha256": "b1693fd1dd48f3c3dfdc5431be7ba3a4a9f3b3fcac08726ec76626517715c299"
+  },
+  "roots-s20261911-n08-g012": {
+   "turns": [
+    12,
+    184,
+    267,
+    316,
+    349,
+    395
+   ],
+   "record_sha256": "dbec269eaf9f7b47c52fb70550c6e20a9f3da227b5122043f2769bc3ecfb037a"
+  },
+  "roots-s20261911-n08-g013": {
+   "turns": [
+    56,
+    121,
+    131,
+    162,
+    267,
+    360
+   ],
+   "record_sha256": "4b6c44b74928497db9772926c4e4321b4f8253557e220e5adc6d74e5386e2e71"
+  },
+  "roots-s20261911-n08-g014": {
+   "turns": [
+    15,
+    32,
+    125,
+    350
+   ],
+   "record_sha256": "31740d88fa0e73ef344aec79503f3b61984aad29efee4885ff804880c009a4a5"
+  },
+  "roots-s20261911-n08-g015": {
+   "turns": [
+    7,
+    59,
+    61,
+    188,
+    215,
+    262
+   ],
+   "record_sha256": "17f9d9672f9e6688231f5f9a844363ce32a704f394730090d729c2f078220afb"
+  },
+  "roots-s20261911-n09-g000": {
+   "turns": [
+    98,
+    133,
+    156,
+    317,
+    378
+   ],
+   "record_sha256": "7f7c5517cd41f30a53dabb20317b64d7fdd5f9c0c9e0d49ace52231067ff91a0"
+  },
+  "roots-s20261911-n09-g001": {
+   "turns": [
+    248,
+    260,
+    302,
+    316,
+    324
+   ],
+   "record_sha256": "e6c619ac8c0ea189ea61e64852b32367228612bfcfe1bc088c0df4371da094ea"
+  },
+  "roots-s20261911-n09-g002": {
+   "turns": [
+    11,
+    66,
+    258,
+    372,
+    379,
+    385
+   ],
+   "record_sha256": "5e6e61a1a80c5b2583bffb8ca5e4a4e01494db5e8b6ce4e66fe628791fdfbff5"
+  },
+  "roots-s20261911-n09-g003": {
+   "turns": [
+    87,
+    217,
+    242,
+    318
+   ],
+   "record_sha256": "6082fbfc8e4fd23372ceb0f71a608f3b7d6860ebce470586c9c2215659380b73"
+  },
+  "roots-s20261911-n09-g004": {
+   "turns": [
+    27,
+    71,
+    77,
+    109,
+    156,
+    169
+   ],
+   "record_sha256": "9cdd9f6d94b043e17e2fe6c761fe38d5be4e0031c972a65be054905eef526840"
+  },
+  "roots-s20261911-n09-g005": {
+   "turns": [
+    114,
+    164,
+    212,
+    244,
+    388
+   ],
+   "record_sha256": "adcc5f676d95e3c6a149853a2e19d93d6fa31b17d0b46f1f011ea95c31705a5a"
+  },
+  "roots-s20261911-n09-g006": {
+   "turns": [
+    302,
+    378
+   ],
+   "record_sha256": "1ff4cc173136b5bc7d1e1fa473359466cd523664135d089629b69858947addd0"
+  },
+  "roots-s20261911-n09-g007": {
+   "turns": [
+    84,
+    115,
+    141,
+    248,
+    329,
+    362
+   ],
+   "record_sha256": "88c621c474bbbe9968a9fd5326dbd422ab9506bba2860074e029dd1784333826"
+  },
+  "roots-s20261911-n09-g008": {
+   "turns": [
+    38,
+    172,
+    186,
+    311,
+    351,
+    360
+   ],
+   "record_sha256": "27d2e26324b83601337a47189369d5041606b8a28ac10af2890bd67d3811078c"
+  },
+  "roots-s20261911-n09-g009": {
+   "turns": [
+    38,
+    105,
+    236,
+    282,
+    378
+   ],
+   "record_sha256": "44a7b041f46e24afc3507bb1270f8d1f0f4788eaaf91af4dbf0f43b0210e3b53"
+  },
+  "roots-s20261911-n09-g010": {
+   "turns": [
+    32,
+    49,
+    76,
+    99,
+    101,
+    219
+   ],
+   "record_sha256": "07912f3f4e00e7f2055353f3323ea1427257022d3fb959aa082057dcad94ecac"
+  },
+  "roots-s20261911-n09-g011": {
+   "turns": [
+    379
+   ],
+   "record_sha256": "c101c134cccd71912c21db168926fe414f90a285fdb7e1617fa088255ff76b0d"
+  },
+  "roots-s20261911-n09-g012": {
+   "turns": [
+    143,
+    196,
+    261,
+    400
+   ],
+   "record_sha256": "158d72774bb7d17e060a62bb87441b2509e3e02eb1789a724b1a1b21d1075f71"
+  },
+  "roots-s20261911-n09-g013": {
+   "turns": [
+    208,
+    300,
+    328
+   ],
+   "record_sha256": "544a3fee1c5e8123184161f6a1aeacf4be74f214df30b4982cd2e43ed55616b9"
+  },
+  "roots-s20261911-n09-g014": {
+   "turns": [
+    128,
+    146,
+    254
+   ],
+   "record_sha256": "a5df3b1e25933c13b92f247e6d92f460cfe9697c2f26e8ab31dc1a82bbb19ef4"
+  },
+  "roots-s20261911-n09-g015": {
+   "turns": [
+    9,
+    29,
+    49,
+    117,
+    175,
+    344
+   ],
+   "record_sha256": "30b4c01824a29948204646d8b968b4ccad9e911fa469351866c8a93279870f65"
+  },
+  "roots-s20261911-n10-g000": {
+   "turns": [
+    67,
+    101,
+    178,
+    181,
+    205,
+    294
+   ],
+   "record_sha256": "b6241a40319724cd6b2a98084e998faaff9e392cec8ee7319667185bd1c9b07c"
+  },
+  "roots-s20261911-n10-g001": {
+   "turns": [
+    65,
+    250,
+    272,
+    358,
+    396
+   ],
+   "record_sha256": "ef8171f21898c0734be09eab2aef6b6f6655861149d6247daaa5c775a1e6f4c4"
+  },
+  "roots-s20261911-n10-g002": {
+   "turns": [
+    39,
+    195,
+    211,
+    262,
+    277
+   ],
+   "record_sha256": "e5f11221223e76828cff6bce4ec62d3d6c5b3b9b8e7387afd4cf6840dc5392f1"
+  },
+  "roots-s20261911-n10-g003": {
+   "turns": [
+    131,
+    201,
+    281,
+    344,
+    349,
+    358
+   ],
+   "record_sha256": "313bb0f50be2678079edb7a862e02715a188f49d32f96c8b9e543e993a42156f"
+  },
+  "roots-s20261911-n10-g004": {
+   "turns": [
+    139,
+    168,
+    198,
+    348
+   ],
+   "record_sha256": "5fc89ef2b0c1e342b86e37403527e51b9928fd53cceb32c94b6f3b2adee33e38"
+  },
+  "roots-s20261911-n10-g005": {
+   "turns": [
+    130,
+    399
+   ],
+   "record_sha256": "433b219448e36610a792ffcf935a31c77206e56a40c81b2ef477716a9c9efa10"
+  },
+  "roots-s20261911-n10-g006": {
+   "turns": [
+    160,
+    163,
+    192,
+    283,
+    323,
+    331
+   ],
+   "record_sha256": "b1009c696b6ecba4e82687aed03144bbc625ed6119d694afc8a856b866b2c6e0"
+  },
+  "roots-s20261911-n10-g007": {
+   "turns": [
+    270,
+    342
+   ],
+   "record_sha256": "0c853c361212e7cc469cfb1f1ec8bea6b48adb5601205d05df44e4d1b2be52d6"
+  },
+  "roots-s20261911-n10-g008": {
+   "turns": [
+    36,
+    85,
+    95,
+    152,
+    229,
+    373
+   ],
+   "record_sha256": "67536fc8c41bef8701576707d6ed893b94eeaa2e717a92f58e200fd2e838f7d9"
+  },
+  "roots-s20261911-n10-g009": {
+   "turns": [
+    44,
+    80,
+    89,
+    196,
+    228,
+    318
+   ],
+   "record_sha256": "eec782fc4da8c61a0328e77baf06f4daa6341889ee1015a676f6fa5f0ce5d47f"
+  },
+  "roots-s20261911-n10-g010": {
+   "turns": [
+    31,
+    154,
+    165,
+    308,
+    352,
+    374
+   ],
+   "record_sha256": "6d6dced787da8f64df2f269a17cb0673daefd9cb6d35d386186d48aac988ab36"
+  },
+  "roots-s20261911-n10-g011": {
+   "turns": [
+    80
+   ],
+   "record_sha256": "7571d5699ae46b9120d1a386e83e657b866436c3074b490a7212f360fc53c4b9"
+  },
+  "roots-s20261911-n10-g012": {
+   "turns": [
+    19,
+    66,
+    125,
+    128,
+    199,
+    263
+   ],
+   "record_sha256": "11b7db82a4b06498ab39d9653f6500c2a11d206c66c4e72706fbe9312f798537"
+  },
+  "roots-s20261911-n10-g013": {
+   "turns": [
+    24,
+    54,
+    116,
+    281,
+    346
+   ],
+   "record_sha256": "8e1505802f910a395a21b867f04cde2cb63a73252d1ad66da54acf94d1ea40d7"
+  },
+  "roots-s20261911-n10-g014": {
+   "turns": [
+    11,
+    251
+   ],
+   "record_sha256": "095aad1eb45c6819c9a721ff2640fe49ac3d3913cdeb1e5c3c8da0ba872240a1"
+  },
+  "roots-s20261911-n10-g015": {
+   "turns": [
+    68,
+    77,
+    104,
+    219,
+    353
+   ],
+   "record_sha256": "28f063ecaf7f96777884ddef5be0d83f974f7616644f5b012c35edc1206bfe49"
+  },
+  "roots-s20261911-n11-g000": {
+   "turns": [
+    43,
+    100,
+    215,
+    219,
+    254,
+    382
+   ],
+   "record_sha256": "27e6714c178a446ea5bb5a3a81d98cd1ead25065c681f5d7f4aa16faea91c85b"
+  },
+  "roots-s20261911-n11-g001": {
+   "turns": [
+    64,
+    65,
+    88,
+    292,
+    323
+   ],
+   "record_sha256": "49eba0731a447a6d947117ab859cd88de529165b467d56851966dc6f5e21e200"
+  },
+  "roots-s20261911-n11-g002": {
+   "turns": [
+    54,
+    66,
+    105,
+    137,
+    170,
+    194
+   ],
+   "record_sha256": "aaee77449bbba576f1946de58324cb19f6de061f3a23a1578a27145321cad5d7"
+  },
+  "roots-s20261911-n11-g003": {
+   "turns": [
+    3,
+    77,
+    102,
+    326,
+    349,
+    376
+   ],
+   "record_sha256": "11ab82fa6557ba90b3d3c48563499d61cf7d6f744802d8b16b06af35b465dba5"
+  },
+  "roots-s20261911-n11-g004": {
+   "turns": [
+    26,
+    64,
+    65,
+    164,
+    165
+   ],
+   "record_sha256": "337019379d0136f46536ff31c3d0912cfc9a963ab9edf76f47accc0fff13f48e"
+  },
+  "roots-s20261911-n11-g005": {
+   "turns": [
+    58,
+    293
+   ],
+   "record_sha256": "6f910e051fade690ff21a9444503a3020ce145351062adc353c9569f1d848636"
+  },
+  "roots-s20261911-n11-g006": {
+   "turns": [
+    8,
+    152,
+    182,
+    236,
+    347,
+    389
+   ],
+   "record_sha256": "c8d8c3b9d40f0bec6c96568fdb7b30806337ed01e130d1c768eb5a2ed168df4f"
+  },
+  "roots-s20261911-n11-g007": {
+   "turns": [
+    13,
+    59,
+    64,
+    176,
+    310,
+    324
+   ],
+   "record_sha256": "daa6016269a2716faa65089b11146c4d181ca71c599199f5416fadc04f80e626"
+  },
+  "roots-s20261911-n11-g008": {
+   "turns": [
+    205,
+    206,
+    215,
+    242,
+    367,
+    374
+   ],
+   "record_sha256": "3aa273e7f446c51e212537bde0b9e14e046507f3ad2d9e47f3fc2cbb705155ea"
+  },
+  "roots-s20261911-n11-g009": {
+   "turns": [
+    124,
+    273
+   ],
+   "record_sha256": "6cd4144278e7e5359d90ad53a69c5bea4c3882d8e712c1c2d4846de9f8841725"
+  },
+  "roots-s20261911-n11-g010": {
+   "turns": [
+    63,
+    176,
+    294
+   ],
+   "record_sha256": "fc9d8d78e513b36a09be7d0460d184bea628569d4e9a8d448dcd040356d111c2"
+  },
+  "roots-s20261911-n11-g011": {
+   "turns": [
+    173,
+    198
+   ],
+   "record_sha256": "b439a42a230c5296c5f83c843c357323df7921e6dfbaf586615a5ef75a07efd1"
+  },
+  "roots-s20261911-n11-g012": {
+   "turns": [
+    50,
+    200,
+    215,
+    312,
+    388,
+    396
+   ],
+   "record_sha256": "9ae84870ca74ee15b2cc1c43e20adfd8b149501ae33eae1886f8e5c6b2af4d8d"
+  },
+  "roots-s20261911-n11-g013": {
+   "turns": [
+    212,
+    302
+   ],
+   "record_sha256": "3b74f9f16557191229ddfe8608af5bbb1ea87b1e2999aae2a3ce6c77f81a346c"
+  },
+  "roots-s20261911-n11-g014": {
+   "turns": [
+    29,
+    65,
+    184,
+    336
+   ],
+   "record_sha256": "7bd06dbf4795591cc5a7a30dfb5dc68b190b7fbe41682c3452f3f7352cf061af"
+  },
+  "roots-s20261911-n11-g015": {
+   "turns": [
+    34,
+    241,
+    317,
+    349,
+    352,
+    397
+   ],
+   "record_sha256": "b80c6990c445f0435733c72317849c9c6f2c4cad35e9bc4229bdedda9de7c12c"
+  },
+  "roots-s20261911-n12-g000": {
+   "turns": [
+    110,
+    249,
+    294,
+    315
+   ],
+   "record_sha256": "af2385352a2ef808b0b8ec76efdba4e1fddeed6ecd0b9d16095804fd27eb2b68"
+  },
+  "roots-s20261911-n12-g001": {
+   "turns": [
+    88,
+    108,
+    159,
+    327
+   ],
+   "record_sha256": "99e4eb6cc7582a3c87c509adec45d8464b346d0986ddf3f4facce2c92fa9fde9"
+  },
+  "roots-s20261911-n12-g002": {
+   "turns": [
+    32,
+    64,
+    253,
+    267,
+    359,
+    363
+   ],
+   "record_sha256": "6639ce09aa8a56dad73f3ec6b70a7d1f1fcb5f9453f313749482e9734eaeb212"
+  },
+  "roots-s20261911-n12-g003": {
+   "turns": [
+    35,
+    117,
+    150,
+    221,
+    259,
+    317
+   ],
+   "record_sha256": "e35e2dec8f4a982ee5eecc949c67f6cd9f50fe4673f1a206388f79deddbac7e3"
+  },
+  "roots-s20261911-n12-g004": {
+   "turns": [
+    45,
+    78,
+    128,
+    206,
+    293,
+    358
+   ],
+   "record_sha256": "9ca10319190b3452a30d79a6f0626894304bd23bfd5d2c3bde304a222727f248"
+  },
+  "roots-s20261911-n12-g005": {
+   "turns": [
+    127,
+    179,
+    331
+   ],
+   "record_sha256": "f1f2002458ec246f5514eeca2d09ff5bbed51ab33e8aff4e89df07cd36cf6f4b"
+  },
+  "roots-s20261911-n12-g006": {
+   "turns": [
+    70,
+    101,
+    238,
+    360,
+    380,
+    383
+   ],
+   "record_sha256": "7454df6b3136e9ac3d5496849b99dfcfc06fb5f632628d848a1bc41e29bd3fb8"
+  },
+  "roots-s20261911-n12-g007": {
+   "turns": [
+    116,
+    143
+   ],
+   "record_sha256": "487559eb0289f31a8fd47d4287d0eb1e96425a21562cea09bcf609f3c6fce7c1"
+  },
+  "roots-s20261911-n12-g008": {
+   "turns": [
+    31,
+    36,
+    144,
+    228,
+    245,
+    253
+   ],
+   "record_sha256": "8fafdcf7583b9e5b277d8e1d3ef6654de10d14d993accfa27b64037a106dbf7e"
+  },
+  "roots-s20261911-n12-g009": {
+   "turns": [
+    157,
+    214,
+    357
+   ],
+   "record_sha256": "c001e3e180107f1cb82b9fe0753c2bee650c16504643ef83b41de6b8152bac84"
+  },
+  "roots-s20261911-n12-g010": {
+   "turns": [
+    87,
+    211,
+    227,
+    318,
+    358,
+    389
+   ],
+   "record_sha256": "afc440e16d9fdb155d9d7264e51d733714e936418bb1c02a66bf581c50fccbd7"
+  },
+  "roots-s20261911-n12-g011": {
+   "turns": [
+    85,
+    99,
+    233,
+    316
+   ],
+   "record_sha256": "bce27f2c78fea2d52b48318b9892f211032bc760a41f7e239cbb7523f6547852"
+  },
+  "roots-s20261911-n12-g012": {
+   "turns": [
+    53,
+    113,
+    327
+   ],
+   "record_sha256": "e7b629598cbff7957bf136b13c4dc8e5b6fe99f007c8edda9b690c6fc63edb15"
+  },
+  "roots-s20261911-n12-g013": {
+   "turns": [
+    3,
+    95,
+    104,
+    204,
+    309,
+    318
+   ],
+   "record_sha256": "3247d9f548d6702d06247710e0521488948684f8c181d88e133b7c54b43177c8"
+  },
+  "roots-s20261911-n12-g014": {
+   "turns": [
+    137,
+    325
+   ],
+   "record_sha256": "4685fdc7e2834e5d96afff66efc78d7de2e970eba12a35804c09960a7f9e2942"
+  },
+  "roots-s20261911-n12-g015": {
+   "turns": [
+    77,
+    184,
+    251,
+    264,
+    275,
+    306
+   ],
+   "record_sha256": "5a01d0e6fb383ef42e75e5ee437fa9d9f69b978c8f0c655d94721a9af70d0141"
+  },
+  "roots-s20261911-n13-g000": {
+   "turns": [
+    29,
+    133,
+    182,
+    192,
+    204,
+    265
+   ],
+   "record_sha256": "b7fc188112b66768c1a8edda0161665793828c8108ee9031c0d6d6c50867fc5c"
+  },
+  "roots-s20261911-n13-g001": {
+   "turns": [
+    49,
+    95,
+    139,
+    216,
+    333,
+    352
+   ],
+   "record_sha256": "f4205886e7b092a921f966a453b59d08c3f21fef0f112373c22021deaf446eba"
+  },
+  "roots-s20261911-n13-g002": {
+   "turns": [
+    72,
+    96,
+    133,
+    243,
+    363,
+    386
+   ],
+   "record_sha256": "48f4747898bc482dd0e78ec3b27083898d0c37ba30f3c51c33943cf5853599cc"
+  },
+  "roots-s20261911-n13-g003": {
+   "turns": [
+    162,
+    168,
+    207,
+    347,
+    377,
+    381
+   ],
+   "record_sha256": "b30a650c9922ef0093908a36d8af0c68fcdbfbc34a09229c1789fd52e7b87f1a"
+  },
+  "roots-s20261911-n13-g004": {
+   "turns": [
+    46,
+    65,
+    133,
+    204,
+    344,
+    395
+   ],
+   "record_sha256": "46286387d0c4d1f7d1f1d57cd3c4801a4ce3a7a5eebde540b757603af7a86dd0"
+  },
+  "roots-s20261911-n13-g005": {
+   "turns": [
+    57,
+    105,
+    125,
+    264,
+    305,
+    349
+   ],
+   "record_sha256": "0d80196967c9a205101af5e7f195d55effd7a7f5163ac7fe9f25cb8102fd0d80"
+  },
+  "roots-s20261911-n13-g006": {
+   "turns": [
+    218,
+    294
+   ],
+   "record_sha256": "4f9206dc013a4d417e86c928f0f7b49ee9ba0b3f9efbffa11b9865e336200205"
+  },
+  "roots-s20261911-n13-g007": {
+   "turns": [
+    15,
+    68,
+    290
+   ],
+   "record_sha256": "92b492719a433afbc8d53754d6188b0831765a81317f6c1720df297d4df80242"
+  },
+  "roots-s20261911-n13-g008": {
+   "turns": [
+    170,
+    241,
+    308
+   ],
+   "record_sha256": "bff0995ed7aa28889080bebb93e4ab20cb44fdcac4752a0aa6f0c66bde88bfb2"
+  },
+  "roots-s20261911-n13-g009": {
+   "turns": [
+    127,
+    196,
+    212,
+    344
+   ],
+   "record_sha256": "0e9bba314ca151b9a3f875b586f74f3a56cbce09e67ebe9e8c201e2bdc9e28bb"
+  },
+  "roots-s20261911-n13-g010": {
+   "turns": [
+    50,
+    274,
+    312,
+    394
+   ],
+   "record_sha256": "68f0f66ba2319d10128789f7963e2230a45450f4d3c8f3246908fe1f56716276"
+  },
+  "roots-s20261911-n13-g011": {
+   "turns": [
+    147,
+    366
+   ],
+   "record_sha256": "ead1d03f04f7c9b5bcea3285a777361d4a86fb8382c9e3657306d5bac32e27cf"
+  },
+  "roots-s20261911-n13-g012": {
+   "turns": [
+    49,
+    185,
+    232
+   ],
+   "record_sha256": "281c71bfd70cb9598896e1c1211e5af939a41283ee299b3752944917bda58c33"
+  },
+  "roots-s20261911-n13-g013": {
+   "turns": [
+    15,
+    27,
+    30,
+    176,
+    260,
+    299
+   ],
+   "record_sha256": "b4e38be651396961c449acb28a83a36d0d788f2baa737e61d97ce9b225694926"
+  },
+  "roots-s20261911-n13-g014": {
+   "turns": [
+    46,
+    105,
+    167,
+    291
+   ],
+   "record_sha256": "e61b7748a58261f6ebb1cad5dcae4640cdb395baca71c69ebecab9bc27aa1f63"
+  },
+  "roots-s20261911-n13-g015": {
+   "turns": [
+    88,
+    100,
+    154,
+    320,
+    363,
+    390
+   ],
+   "record_sha256": "1df0bd1244bf53048447f40b3838574b584111a33e2386afdb8947863a4aff6d"
+  },
+  "roots-s20261911-n14-g000": {
+   "turns": [
+    9,
+    10,
+    289
+   ],
+   "record_sha256": "18bc3570668ed01d9367556be697ca27c1b6bd441c5657b1cc8f8a1d1ebbe625"
+  },
+  "roots-s20261911-n14-g001": {
+   "turns": [
+    10,
+    38,
+    96,
+    129,
+    373,
+    385
+   ],
+   "record_sha256": "c695b9fbac937d4553c0709578d233d0b073b6e52c5f8d26b7f2c59e9e37d40f"
+  },
+  "roots-s20261911-n14-g002": {
+   "turns": [
+    95,
+    212,
+    221,
+    224,
+    315
+   ],
+   "record_sha256": "26b2f5cef01827f30b1138ca9dbdddb90438425757759360cc1a328477e24846"
+  },
+  "roots-s20261911-n14-g003": {
+   "turns": [
+    267,
+    268
+   ],
+   "record_sha256": "fc2e341631327e34315d0afcf861e6f9ea2f9d8e5cb47de45dea335e0ad1b567"
+  },
+  "roots-s20261911-n14-g004": {
+   "turns": [
+    70,
+    146,
+    390
+   ],
+   "record_sha256": "b774e6463a072a48f9ff66556630b50aa78917f13423e9205f1accc9f7b2d9c7"
+  },
+  "roots-s20261911-n14-g005": {
+   "turns": [
+    37,
+    180,
+    253,
+    302
+   ],
+   "record_sha256": "90e094bca59189dcbcd5717db3885c690e45c9ece8d851b8efb64fcc88f9b2d3"
+  },
+  "roots-s20261911-n14-g006": {
+   "turns": [
+    73,
+    120,
+    220,
+    355
+   ],
+   "record_sha256": "d2efe8bfcbc3e105259916ae2e620281cab2a2a19833adf4ad210f7867c5bc83"
+  },
+  "roots-s20261911-n14-g007": {
+   "turns": [
+    25,
+    70,
+    94,
+    129,
+    160,
+    230
+   ],
+   "record_sha256": "de72994ed7f8d9d0e647b45d7bc76b699f0b32f014daf68f3dc63ba3af410bbc"
+  },
+  "roots-s20261911-n14-g008": {
+   "turns": [
+    127,
+    137,
+    187,
+    249,
+    388
+   ],
+   "record_sha256": "5344bfc3e10a5d56b2187aa5442bb7660c9ac15cda4f690585f00fb5eef47640"
+  },
+  "roots-s20261911-n14-g009": {
+   "turns": [
+    71,
+    165,
+    185,
+    342,
+    346,
+    379
+   ],
+   "record_sha256": "a91c68e20eaede49ec9dcbb3c8c00f6185f6f1cdd4f17b630b7a8587ae2728d0"
+  },
+  "roots-s20261911-n14-g010": {
+   "turns": [
+    100,
+    137,
+    147,
+    219,
+    344,
+    354
+   ],
+   "record_sha256": "b12478ca1b05bb1a982c84c6894adaa9fb1c010a6a2d2351b53fe3bf6935aa1b"
+  },
+  "roots-s20261911-n14-g011": {
+   "turns": [
+    18,
+    169,
+    218
+   ],
+   "record_sha256": "b640015cff2e31637c48e512d60c4b974b97d785051120c92a649affd0f8d95f"
+  },
+  "roots-s20261911-n14-g012": {
+   "turns": [
+    181,
+    268,
+    308,
+    391,
+    392
+   ],
+   "record_sha256": "6fff82dcb8fce2b7a20196a035646866a6113070c725c8165e9a4f0dd8f1c05e"
+  },
+  "roots-s20261911-n14-g013": {
+   "turns": [
+    53,
+    79,
+    193,
+    200,
+    206,
+    342
+   ],
+   "record_sha256": "bb4ed5b87d3a51c8d408212981254f04dcf5a1f541ab5307c688bb6be5638199"
+  },
+  "roots-s20261911-n14-g014": {
+   "turns": [
+    36,
+    75,
+    122,
+    390,
+    400
+   ],
+   "record_sha256": "82e15258bad186a44c4f928c35a4e3e69437bf2d995136381728ab62d9216122"
+  },
+  "roots-s20261911-n14-g015": {
+   "turns": [
+    57,
+    172,
+    270,
+    332
+   ],
+   "record_sha256": "0f4265ca2efc00a8f0b06f6b2f5302834483d999de0177fa5308d66681915e41"
+  },
+  "roots-s20261911-n15-g000": {
+   "turns": [
+    11,
+    15,
+    44,
+    50,
+    199,
+    261
+   ],
+   "record_sha256": "482961d886114d644e29b8991f1ccd44ca1a9f65447f8a6924db56b2a0ee4313"
+  },
+  "roots-s20261911-n15-g001": {
+   "turns": [
+    77,
+    245,
+    279,
+    281,
+    292,
+    341
+   ],
+   "record_sha256": "21568c9ace170ab47cafc065e1fd1ac0e38a47f4dd1e3fc69947ffab03bcbbdf"
+  },
+  "roots-s20261911-n15-g002": {
+   "turns": [
+    17,
+    94,
+    224,
+    232
+   ],
+   "record_sha256": "c7134eefcdde56db1032832c23cd67febe799bd2335e55b264a89ef36c4cbe3e"
+  },
+  "roots-s20261911-n15-g003": {
+   "turns": [
+    76,
+    293,
+    315,
+    400
+   ],
+   "record_sha256": "1aed59e9d482db2b53900c5f8212d87cf5f5bcd0e972eb596cee4811a6061cf5"
+  },
+  "roots-s20261911-n15-g004": {
+   "turns": [
+    99,
+    139,
+    263,
+    272,
+    361
+   ],
+   "record_sha256": "c5f337e980625e1bf017c941e44daf1c40e16ea1f6e5f6af1d331eedfcef00ca"
+  },
+  "roots-s20261911-n15-g005": {
+   "turns": [
+    66,
+    139,
+    213,
+    219
+   ],
+   "record_sha256": "f598e1bce466bb964ed63b823cb6f68f911393a15e79a2c2a6e3b8b6c2d8fbf0"
+  },
+  "roots-s20261911-n15-g006": {
+   "turns": [
+    51,
+    73,
+    83,
+    139,
+    165,
+    184
+   ],
+   "record_sha256": "768f87806f7cd4c9fa87450bbd4d4045b8ff56a556f141cb00463ac37d33c6c1"
+  },
+  "roots-s20261911-n15-g007": {
+   "turns": [
+    139,
+    175,
+    249,
+    390
+   ],
+   "record_sha256": "3d7a685d72da90067ea07e939e7cd203f6d54cadc690c8a4029fae783bf106e6"
+  },
+  "roots-s20261911-n15-g008": {
+   "turns": [
+    39,
+    82,
+    104,
+    139,
+    179,
+    263
+   ],
+   "record_sha256": "26603a9282c18c1786604e535924476d971c76ba44677c3f211a86f03014b9dc"
+  },
+  "roots-s20261911-n15-g009": {
+   "turns": [
+    9,
+    117,
+    289,
+    353,
+    355
+   ],
+   "record_sha256": "f11a42515c9d76d3b97f7ad8d9339ccf558b61d8c69d860fc3b909ddba6fab14"
+  },
+  "roots-s20261911-n15-g010": {
+   "turns": [
+    25,
+    35,
+    160,
+    266,
+    328
+   ],
+   "record_sha256": "cf85733998d91afa500c9f63b6836562ac22ff2d9b741ef31603ed1adb0552fb"
+  },
+  "roots-s20261911-n15-g011": {
+   "turns": [
+    57,
+    243,
+    368,
+    380,
+    391
+   ],
+   "record_sha256": "7a201a676b51fa8b500b37b305eec37778614a11ba5ffa2589727e69c70aa619"
+  },
+  "roots-s20261911-n15-g012": {
+   "turns": [
+    59,
+    280,
+    312,
+    349,
+    388
+   ],
+   "record_sha256": "0c817ee48ec98f13a7ad9032054969e2381e1fe20f52876cb76e330146cc214b"
+  },
+  "roots-s20261911-n15-g013": {
+   "turns": [
+    24,
+    400
+   ],
+   "record_sha256": "f1bb3d9e42fdc6dcface53d3afde0eaad6c71d751784065cffec7bbd7ccbd7d6"
+  },
+  "roots-s20261911-n15-g014": {
+   "turns": [
+    231
+   ],
+   "record_sha256": "b9054462815650f49566b324e62a4c39783a9d52f3a904d9430e19a49a5fa0eb"
+  },
+  "roots-s20261911-n15-g015": {
+   "turns": [
+    108,
+    127,
+    160,
+    347,
+    360
+   ],
+   "record_sha256": "f05675d2f2c36d9daa02da855b477143da725fbb36e9ef06b9488568e748ddde"
+  }
+ }
+}
