@@ -141,11 +141,14 @@ class Bots(unittest.TestCase):
     def test_malformed_input_gets_the_safe_reply(self):
         blocks = B.split_stream(stream("n02"))
         bad = blocks[3].replace("\nU 3 1 ", "\nU -1 1 ", 1)                # a unit id the reference would index
-        text = "".join(blocks[:3]) + bad + "".join(blocks[4:10])
+        empty = blocks[6].replace("\nUNITS 6\n", "\nUNITS 0\n", 1)       # a unit count the history must not adopt
+        self.assertNotEqual(empty, blocks[6])
+        text = "".join(blocks[:3]) + bad + "".join(blocks[4:6]) + empty + "".join(blocks[7:10])
         got, err = run_bot(self.exe, text)
         self.assertEqual(len(got), 10)
         self.assertEqual(got[3], "4 S - S - S -")
         self.assertIn("refused turn 4", err)
+        self.assertEqual(got[6], "7 S - S - S -")
         seed, expected = SM.seed(blocks[0]), []                             # the bridge replays the same recovery
         with B.Session(self.lib) as s:
             for block in B.split_stream(text):
