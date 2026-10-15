@@ -13,7 +13,7 @@ updated: 2026-10-12
 
 ## Goal
 
-Do larger P models help more for opponents near our units? Offline first (held-out records on the host). Build a tiered arm only if the gains concentrate near us. Spec: [bots/p_only/TASK.md](../bots/p_only/TASK.md), Phase 3.
+Do larger P models help more for opponents near our units? Offline first (held-out records on the host). Build a tiered arm only if the gains concentrate near us. Spec: [bots/p_only/TASK.md](../../bots/p_only/TASK.md), Phase 3.
 
 ## Done when
 

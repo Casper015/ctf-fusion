@@ -13,7 +13,7 @@ updated: 2026-10-10
 
 ## Goal
 
-Does V help when P is held fixed? Stage 2 of [bots/p_only/EXPERIMENTS.md](../bots/p_only/EXPERIMENTS.md): P-XL and P-XXL, each with the same V-M off and on (mixed model sets `inference/models_pxl_vm/`, `models_pxxl_vm/`). 2,240 games, seed 20261108.
+Does V help when P is held fixed? Stage 2 of [bots/p_only/EXPERIMENTS.md](../../bots/p_only/EXPERIMENTS.md): P-XL and P-XXL, each with the same V-M off and on (mixed model sets `inference/models_pxl_vm/`, `models_pxxl_vm/`). 2,240 games, seed 20261108.
 
 ## Done when
 
