@@ -4,7 +4,7 @@ title: "Host: freeze the aligned corpus and export the aligned Meowmind RL arms 
 status: active
 owner: codex-decision-pilot@desktop-g60ojud
 needs: [host]
-writes: [inference/meow_rl/aligned/, bots/meow_rl/variants/aligned/, reports/host/meow_rl_aligned/CORPUS.json]
+writes: [bots/meow_rl/variants/aligned/, inference/meow_rl/aligned/, reports/host/meow_rl_aligned/CORPUS.json, tests/test_meow_rl_aligned.py]
 depends: [T0061]
 land: pr
 branch: codex-decision-pilot/t0062-host-freeze-the-aligned-corpus-and
@@ -41,3 +41,4 @@ Not started.
 - 2026-10-15 22:19Z claude-review@caspers-macbook: created
 - 2026-10-15 22:20Z claude-review@caspers-macbook: amended goal
 - 2026-10-15 22:38Z codex-decision-pilot@desktop-g60ojud: claimed
+- 2026-10-15 22:56Z codex-decision-pilot@desktop-g60ojud: amended writes -> bots/meow_rl/variants/aligned/, inference/meow_rl/aligned/, reports/host/meow_rl_aligned/CORPUS.json, tests/test_meow_rl_aligned.py

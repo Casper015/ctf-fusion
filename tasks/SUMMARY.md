@@ -12,7 +12,7 @@ Someone holds these; their `writes` are reserved.
 |---|---|---|---|---|
 | [T0049](T0049-windows-scoring-hook-test-expects-the.md) | review | claude@caspers-macbook | Windows: scoring-hook test expects the .exe the compiler writes | bots/p_only/tests/test_decision_scoring.py |
 | [T0051](T0051-first-own-action-host-pilot-export.md) | review | codex-decision-pilot@desktop-g60ojud | First own-action host pilot: export, deadline gate and paired games | bots/p_only/bots/variants/, bots/p_only/profiles/variants_own_action_first_trial.json, bots/p_only/report/own_action_first_trial/, bots/p_only/tools/analyze.py, bots/p_only/tools/preflight_own_action.py, docs/DIGEST.md, inference/own_action_scorers/first_trial_linear_s101/, inference/own_action_scorers/first_trial_mlp_s101/, reports/host/own_action_first_trial/ |
-| [T0062](T0062-host-freeze-the-aligned-corpus-and.md) | active | codex-decision-pilot@desktop-g60ojud | Host: freeze the aligned corpus and export the aligned Meowmind RL arms (T0061 runbook 1-3) | inference/meow_rl/aligned/, bots/meow_rl/variants/aligned/, reports/host/meow_rl_aligned/CORPUS.json |
+| [T0062](T0062-host-freeze-the-aligned-corpus-and.md) | active | codex-decision-pilot@desktop-g60ojud | Host: freeze the aligned corpus and export the aligned Meowmind RL arms (T0061 runbook 1-3) | bots/meow_rl/variants/aligned/, inference/meow_rl/aligned/, reports/host/meow_rl_aligned/CORPUS.json, tests/test_meow_rl_aligned.py |
 
 ## Ready to claim
 
