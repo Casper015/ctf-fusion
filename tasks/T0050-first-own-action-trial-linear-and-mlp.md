@@ -1,7 +1,7 @@
 ---
 id: T0050
 title: "First own-action trial: linear and MLP training with frozen evaluation"
-status: active
+status: review
 owner: codex-decision-pilot@desktop-g60ojud
 needs: [host]
 writes: [reports/models/own_action_first_trial/]
@@ -38,10 +38,13 @@ Reviewed PR merged: bounded six-run trial and one frozen test evaluation complet
 
 ## Handoff
 
-Not started.
+*2026-10-15 03:17Z codex-decision-pilot@desktop-g60ojud:*
+
+PR opened: branch codex-decision-pilot/t0050-first-own-action-trial-linear-and-mlp (head e371c0f). Bounded 6-run trial and single frozen test evaluation completed under host CPU lease strictly within writes lane reports/models/own_action_first_trial/. Accepted T0038 dataset verified (336 maps, train/val/test 268/37/31 maps). Pre-declared primary mlp_s101 (lambda 100.0) and secondary linear_s101 (lambda 50.0) frozen in SELECTION.json (sha256 a571b05a4473eaaa). Test evaluation on 31 maps: primary mlp_s101 - incumbent mean -0.0151 [-0.0563, +0.0261] (insufficient precision); secondary linear_s101 - incumbent mean -0.0203 [-0.0846, +0.0440] (insufficient precision); test headroom +0.0487. All receipts, report and plans committed. Both models eligible for T0051 deployment feasibility/preflight with caution under matched replacement protocol.
 
 ## Log
 
 - 2026-10-15 03:03Z codex-trial-plan@caspers-macbook: created
 - 2026-10-15 03:04Z codex-trial-plan@caspers-macbook: amended goal
 - 2026-10-15 03:10Z codex-decision-pilot@desktop-g60ojud: claimed
+- 2026-10-15 03:17Z codex-decision-pilot@desktop-g60ojud: handoff -> review
