@@ -12,7 +12,7 @@ Someone holds these; their `writes` are reserved.
 |---|---|---|---|---|
 | [T0049](T0049-windows-scoring-hook-test-expects-the.md) | review | claude@caspers-macbook | Windows: scoring-hook test expects the .exe the compiler writes | bots/p_only/tests/test_decision_scoring.py |
 | [T0051](T0051-first-own-action-host-pilot-export.md) | review | codex-decision-pilot@desktop-g60ojud | First own-action host pilot: export, deadline gate and paired games | bots/p_only/bots/variants/, bots/p_only/profiles/variants_own_action_first_trial.json, bots/p_only/report/own_action_first_trial/, bots/p_only/tools/analyze.py, bots/p_only/tools/preflight_own_action.py, docs/DIGEST.md, inference/own_action_scorers/first_trial_linear_s101/, inference/own_action_scorers/first_trial_mlp_s101/, reports/host/own_action_first_trial/ |
-| [T0057](T0057-screen-meowmind-rl-cpu-deployment.md) | active | codex-decision-pilot@desktop-g60ojud | Screen Meowmind RL CPU deployment | reports/host/meow_rl_screen/, docs/MEOWMIND_RL_SCREEN_SEEDS.md |
+| [T0057](T0057-screen-meowmind-rl-cpu-deployment.md) | active | codex-decision-pilot@desktop-g60ojud | Screen Meowmind RL CPU deployment | bots/p_only/tools/preflight_meow_rl.py, docs/MEOWMIND_RL_SCREEN_SEEDS.md, profiles/meow_rl_screen_primary.json, profiles/meow_rl_screen_secondary.json, reports/host/meow_rl_screen/ |
 | [T0059](T0059-train-meowmind-ppo-on-training-pool-v2.md) | review | codex-decision-pilot@desktop-g60ojud | Train Meowmind PPO on training pool v2 (AI_Test lineages) | reports/host/meow_rl_pool2/, reports/models/meow_rl_pool2/, docs/MEOWMIND_RL_SEEDS.md, profiles/meow_rl_training_pool_v2.json, tests/test_repo_layout.py, CONTRIBUTING.md, tools/reporting/generate_meow_rl_pool2_report.py |
 
 ## Ready to claim

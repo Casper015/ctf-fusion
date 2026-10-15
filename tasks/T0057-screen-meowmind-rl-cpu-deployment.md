@@ -4,7 +4,7 @@ title: "Screen Meowmind RL CPU deployment"
 status: active
 owner: codex-decision-pilot@desktop-g60ojud
 needs: [host, ai-test]
-writes: [reports/host/meow_rl_screen/, docs/MEOWMIND_RL_SCREEN_SEEDS.md]
+writes: [bots/p_only/tools/preflight_meow_rl.py, docs/MEOWMIND_RL_SCREEN_SEEDS.md, profiles/meow_rl_screen_primary.json, profiles/meow_rl_screen_secondary.json, reports/host/meow_rl_screen/]
 depends: [T0056]
 land: direct
 branch: codex-decision-pilot/t0057-screen-meowmind-rl-cpu-deployment
@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-15 05:51Z codex-bigv@caspers-macbook: created
 - 2026-10-15 12:06Z codex-decision-pilot@desktop-g60ojud: claimed
+- 2026-10-15 12:35Z codex-decision-pilot@desktop-g60ojud: amended writes -> bots/p_only/tools/preflight_meow_rl.py, docs/MEOWMIND_RL_SCREEN_SEEDS.md, profiles/meow_rl_screen_primary.json, profiles/meow_rl_screen_secondary.json, reports/host/meow_rl_screen/
