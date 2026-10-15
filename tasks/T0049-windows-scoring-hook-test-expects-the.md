@@ -1,7 +1,7 @@
 ---
 id: T0049
 title: "Windows: scoring-hook test expects the .exe the compiler writes"
-status: active
+status: review
 owner: claude@caspers-macbook
 needs: []
 writes: [bots/p_only/tests/test_decision_scoring.py]
@@ -21,9 +21,12 @@ PR merged; the test passes on macOS and names .exe binaries on Windows.
 
 ## Handoff
 
-Not started.
+*2026-10-15 02:05Z claude@caspers-macbook:*
+
+PR #48: test binaries named with .exe on Windows (g++ appends it); 6 scoring tests pass on macOS; not run on Windows here.
 
 ## Log
 
 - 2026-10-15 02:04Z claude@caspers-macbook: created
 - 2026-10-15 02:04Z claude@caspers-macbook: claimed
+- 2026-10-15 02:05Z claude@caspers-macbook: handoff -> review
