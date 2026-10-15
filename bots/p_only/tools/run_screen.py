@@ -21,6 +21,11 @@ Steps (re-run the same command after an interruption; finished games are kept):
                search and value counters, completeness; rows of another identity
                are stale
 
+A config may also freeze the worker count ("workers_exact": true refuses --workers with another value) and bind the
+screen to a passed preflight ("preflight": a receipt path): every arm's built binary must then have the sha256 the
+receipt measured at that worker count, so a rebuild or another concurrency can never enter the formal games (T0061).
+A config whose seed is still null is a specification, not a runnable screen.
+
 Results (small JSON and Markdown, meant to be committed) land in report_dir with
 RUN.json (config, commits, host, wall time per step); raw results and match logs
 stay in work_dir. The analysis exits with status 2 when a fixture is missing for
@@ -55,6 +60,18 @@ def step(name: str, args: list[str], timings: dict, check: bool = True) -> int:
     return r.returncode
 
 
+def check_preflight(path: Path, manifest: dict, arms: list[str], workers: int) -> None:
+    """Refuse unless the receipt passed at exactly `workers` and measured every arm's current binary."""
+    receipt = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not receipt.get("passed") or receipt.get("workers") != workers:
+        raise SystemExit(f"{path}: the preflight did not pass at {workers} workers")
+    measured = receipt.get("variants", {})
+    for arm in arms:
+        got = manifest[arm]["binary_sha256"]
+        if measured.get(arm, {}).get("binary_sha256") != got:
+            raise SystemExit(f"{arm}: binary {got[:12]} is not the one the preflight {path} measured")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--config", default=str(REPO / "bots" / "p_only" / "profiles" / "screen.json"))
@@ -65,6 +82,10 @@ def main(argv=None):
     ap.add_argument("--dry-run", action="store_true", help="build, schedule, identities and job order; play nothing")
     a = ap.parse_args(argv)
     cfg = json.loads(Path(a.config).read_text(encoding="utf-8"))
+    if not a.smoke and cfg.get("seed") is None:
+        raise SystemExit(f"{a.config} has no seed yet: reserve one in its ledger and freeze it before any game")
+    if cfg.get("workers_exact") and a.workers and a.workers != cfg["workers"]:
+        raise SystemExit(f"{a.config} freezes {cfg['workers']} workers; --workers {a.workers} is refused")
     root = ai_test_root(a.ai_test)
     os.environ["AI_TEST_ROOT"] = str(root)
     work, report = REPO / cfg["work_dir"], REPO / cfg["report_dir"]
@@ -98,6 +119,8 @@ def main(argv=None):
         missing = [x for x in arms + aa if x not in manifest]
         if missing:
             raise SystemExit(f"not built: {missing}")
+        if cfg.get("preflight") and not a.smoke:
+            check_preflight(REPO / cfg["preflight"], manifest, arms + aa, cfg["workers"])
         run = [str(REPO / "bots" / "p_only" / "tools" / "screen_runner.py"), "--schedule", str(sched), "--manifest", str(manifest_path),
                "--arms", *arms, "--results", str(results), "--workers", str(a.workers or cfg["workers"]),
                "--first-ms", str(cfg["first_ms"]), "--turn-ms", str(turn_ms), "--ai-test", str(root)]

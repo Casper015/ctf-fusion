@@ -1,0 +1,27 @@
+{
+ "_comment": "The aligned Meowmind RL exports of task T0061 (docs/MEOWMIND_RL_ALIGNED.md). Frozen before any export or game: the actors and their committed checkpoint pins, the one export configuration, the search source and the three critic backends, the experiment-specific variant names (none reuses a historical name) and the per-backend search settings. tools/meow_rl_aligned/export.py reads this file and refuses a checkpoint whose bytes differ from its pin. Search settings change only before the eight-worker preflight that validates them, and a change needs a fresh preflight.",
+ "schema": "ctf-meow-rl-aligned-1",
+ "corpus": {"generator": "tools/meow_rl_aligned/corpus.py", "batches": ["runs/meow_rl_pool2/large_v_s101/batches", "runs/meow_rl_pool2/small_v_s101/batches"], "rows": 16000},
+ "export": {"actor_format": "meow_rl_reference16_v1", "margin": 1.1, "range_bits": 8, "input_bits": 12, "input_max": 16384, "rounding": "floor(x + 1/2)", "calibration": "all calibration.npz rows (16,000 decisions x 15 unit-moves for the actor, 16,000 value rows for the critics)", "validation": "diagnostic.npz (disjoint map groups)"},
+ "actors": {
+  "warm": {"kind": "warm_start", "what": "the reference Meowmind actor, no PPO update", "reference_sha256": "cc7b730c"},
+  "p1_large": {"kind": "checkpoint", "task": "T0055", "pool": "profiles/meow_rl_training_pool.json", "arm": "large_v", "path": "runs/meow_rl/large_v_s101/checkpoints/final.pt", "sha256": "f8b98a3445ba7d58396375cd9b3bce0278e9bf6a11e1a45a1e87a8650e3a3ddb", "manifest": "reports/models/meow_rl_pilot/MANIFEST.json"},
+  "p2_large": {"kind": "checkpoint", "task": "T0059", "pool": "profiles/meow_rl_training_pool_v2.json", "arm": "large_v", "path": "runs/meow_rl_pool2/large_v_s101/checkpoints/final.pt", "sha256": "331ad7838c33440ff654a7e5539114c697fd3f63d99055e1d2f201170fba1051", "manifest": "reports/models/meow_rl_pool2/MANIFEST.json"},
+  "p2_small": {"kind": "checkpoint", "task": "T0059", "pool": "profiles/meow_rl_training_pool_v2.json", "arm": "small_v", "path": "runs/meow_rl_pool2/small_v_s101/checkpoints/final.pt", "sha256": "54acc3301a6d7c17db09a8360cdf39088c753471565054fc8ef9d5592a7aeaca", "manifest": "reports/models/meow_rl_pool2/MANIFEST.json"}
+ },
+ "search_source": "p2_large",
+ "critics": {"fp32": "F", "reference16": "R", "wideact16": "H"},
+ "search": {
+  "version": 2, "candidates": 4, "samples": 2, "deadline_ms": 30, "first_ms": 1500, "safety_pct": 150,
+  "prior_us": {"fp32": {"trajectory": 6000, "critic": 4000}, "reference16": {"trajectory": 3000, "critic": 1500}, "wideact16": {"trajectory": 4000, "critic": 2500}}
+ },
+ "variants": {
+  "meow_rl_aligned_warm": {"actor": "warm", "role": "Schedule A: the aligned warm start (actor-direct)"},
+  "meow_rl_aligned_p1_large": {"actor": "p1_large", "role": "Schedule A: T0055 pool-1 large-V-trained actor (actor-direct)"},
+  "meow_rl_aligned_p2_large": {"actor": "p2_large", "role": "Schedule A primary candidate and Schedule B arm D: T0059 pool-v2 large-V-trained actor (actor-direct)"},
+  "meow_rl_aligned_p2_small": {"actor": "p2_small", "role": "Schedule A: T0059 pool-v2 small-V-trained actor (actor-direct, the capacity ablation)"},
+  "meow_rl_aligned_p2_large_fp32": {"actor": "p2_large", "critic": "fp32", "role": "Schedule B arm F: D's actor + search v2 with the checkpoint's FP32 critic"},
+  "meow_rl_aligned_p2_large_r16": {"actor": "p2_large", "critic": "reference16", "role": "Schedule B arm R: D's actor + search v2 with the reference16 critic"},
+  "meow_rl_aligned_p2_large_w16": {"actor": "p2_large", "critic": "wideact16", "role": "Schedule B arm H: D's actor + search v2 with the WideAct16 critic"}
+ }
+}
