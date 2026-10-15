@@ -46,7 +46,9 @@ def build(out_dir: Path = BUILD) -> Path:
         raise RuntimeError("no C++ compiler found (install g++/clang++ or w64devkit, or set CXX)")
     flags = build_flags()
     h = hashlib.sha256()
-    for part in (BRIDGE_SOURCE.read_bytes(), REFERENCE.read_bytes(), " ".join(flags).encode(), cxx.encode()):
+    headers = sorted(BRIDGE_SOURCE.parent.glob("*.hpp"))            # session.hpp and the rest of tools/cpp/meow_rl
+    for part in (BRIDGE_SOURCE.read_bytes(), *(p.read_bytes() for p in headers), REFERENCE.read_bytes(),
+                 " ".join(flags).encode(), cxx.encode()):
         h.update(part)
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -79,6 +81,7 @@ def load(path: Path | None = None) -> ctypes.CDLL:
            "mr_observe": ([ctypes.c_void_p, ctypes.c_char_p, f32, u8, u8, f32, f32, i32], ctypes.c_int),
            "mr_resolve": ([ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_int, i32], ctypes.c_int),
            "mr_scalar_features": ([ctypes.c_void_p, f32], ctypes.c_int),
+           "mr_forget": ([ctypes.c_void_p], ctypes.c_int),
            "mr_weights": ([ctypes.c_char_p, f32, ctypes.c_int], ctypes.c_int)}
     for name, (args, res) in sig.items():
         fn = getattr(lib, name)
@@ -176,6 +179,10 @@ class Session:
         actions = np.zeros(3, np.int32)
         self._check(self.lib.mr_resolve(self.handle, int(joint), buf, len(buf), _ptr(actions, ctypes.c_int)))
         return buf.value.decode(), [int(a) for a in actions]
+
+    def forget_history(self):
+        """After a refused block: reset the movement history, as the deployed bot does (session.hpp)."""
+        self._check(self.lib.mr_forget(self.handle))
 
     def scalar_features(self) -> np.ndarray:
         out = np.zeros((UNITS, MOVES, PF), np.float32)

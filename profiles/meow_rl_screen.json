@@ -1,0 +1,175 @@
+{
+ "_comment": "Meowmind RL deployment screens (T0056 specifies, T0057 runs on the host; docs/MEOWMIND_RL_DEPLOYMENT.md). Two separately frozen schedules. Each block is a bots/p_only/tools/run_screen.py config once T0057 fills its seed: fresh, reserved in docs/MEOWMIND_RL_SCREEN_SEEDS.md before the first game, never a consumed or training seed, and different for the two blocks. Arms are the build names in bots/meow_rl/variants.json. The candidates (L, S, Q) exist only after T0055's predeclared final checkpoints are exported with bots/meow_rl/export.py; no checkpoint is chosen after any game. Deployment: sampled actor-direct (bots/meow_rl/sample.hpp, common per-turn uniforms across arms). Workers and the search deadline are frozen by T0057's preflight before measurement; a run must not continue past its fixed fixtures or stop early on a favorable result.",
+ "status": "specification: seeds and workers are allocated on the host by T0057",
+ "candidates": {
+  "meow_rl_large_v_s101": {
+   "checkpoint": "runs/meow_rl/large_v_s101/checkpoints/final.pt",
+   "export": "python bots/meow_rl/export.py --checkpoint runs/meow_rl/large_v_s101/checkpoints/final.pt --name large_v_s101 --calibration-batches runs/meow_rl/large_v_s101/batches"
+  },
+  "meow_rl_small_v_s101": {
+   "checkpoint": "runs/meow_rl/small_v_s101/checkpoints/final.pt",
+   "export": "python bots/meow_rl/export.py --checkpoint runs/meow_rl/small_v_s101/checkpoints/final.pt --name small_v_s101 --calibration-batches runs/meow_rl/small_v_s101/batches"
+  },
+  "meow_rl_large_v_s101_search": {
+   "checkpoint": "runs/meow_rl/large_v_s101/checkpoints/final.pt",
+   "export": "python bots/meow_rl/export.py --checkpoint runs/meow_rl/large_v_s101/checkpoints/final.pt --name large_v_s101_search --critic --search --calibration-batches runs/meow_rl/large_v_s101/batches"
+  }
+ },
+ "primary": {
+  "_comment": "Isolates RL: the trained actor against its identical untrained warm start (same bot, resolver, opponent model, features and integer format; only the actor weights differ), plus an A/A copy of the candidate. Endpoint: equal-count mean paired utility difference meow_rl_large_v_s101 - meow_rl_warm_start over all 392 fixtures, 95% map-cluster interval (bots/p_only/tools/analyze.py), margin 0: an interval containing 0 is 'not shown'. A/A: score-vector agreement and its utility difference are diagnostics, not evidence of zero bias.",
+  "seed": null,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 28,
+  "workers": null,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "variants": "bots/meow_rl/variants.json",
+  "arms": [
+   "meow_rl_large_v_s101",
+   "meow_rl_warm_start"
+  ],
+  "aa": [
+   "meow_rl_large_v_s101"
+  ],
+  "comparisons": [
+   [
+    "meow_rl_large_v_s101",
+    "meow_rl_warm_start"
+   ]
+  ],
+  "fixtures": 392,
+  "games": 1176,
+  "margin": 0.0,
+  "work_dir": "data/meow_rl_screen/primary",
+  "report_dir": "reports/host/meow_rl_screen/primary",
+  "reference": [
+   "Fable",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player4"
+  ]
+ },
+ "secondary": {
+  "_comment": "Product and architecture questions, a separate frozen schedule on fresh maps (never the primary's). Six prespecified overall contrasts, one family, Bonferroni: each judged on a two-sided 1 - 0.05/6 interval (z = 2.638, from the analyze.py estimate and standard error); bands and per-count rows are descriptive. L = large-V-trained actor, S = small-V-trained actor (both sampled actor-direct), Q = L's actor with the bounded value search of the large V (Q~aa its A/A copy). 'meowmind_p3_distill_xxl - meowmind_p3_xxl' is the in-game test of distillation (T0032's 8XL teacher) on one carrier: if it is not shown, a larger P2 teacher has no game evidence behind it either. Whole-bot comparisons (different carriers) answer product questions, not mechanisms.",
+  "seed": null,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 28,
+  "workers": null,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "variants": "bots/meow_rl/variants.json",
+  "arms": [
+   "meow_rl_large_v_s101",
+   "meowmind",
+   "v12_ponly_xxl",
+   "meowmind_p3_distill_xxl",
+   "meowmind_p3_xxl",
+   "meow_rl_small_v_s101",
+   "meow_rl_large_v_s101_search"
+  ],
+  "aa": [
+   "meow_rl_large_v_s101_search"
+  ],
+  "comparisons": [
+   [
+    "meow_rl_large_v_s101",
+    "meowmind"
+   ],
+   [
+    "meow_rl_large_v_s101",
+    "v12_ponly_xxl"
+   ],
+   [
+    "meow_rl_large_v_s101",
+    "meowmind_p3_distill_xxl"
+   ],
+   [
+    "meow_rl_large_v_s101",
+    "meow_rl_small_v_s101"
+   ],
+   [
+    "meow_rl_large_v_s101_search",
+    "meow_rl_large_v_s101"
+   ],
+   [
+    "meowmind_p3_distill_xxl",
+    "meowmind_p3_xxl"
+   ]
+  ],
+  "fixtures": 392,
+  "games": 3136,
+  "multiplicity": {
+   "method": "bonferroni",
+   "family": 6,
+   "alpha": 0.05,
+   "z": 2.638
+  },
+  "margin": 0.0,
+  "work_dir": "data/meow_rl_screen/secondary",
+  "report_dir": "reports/host/meow_rl_screen/secondary",
+  "reference": [
+   "Fable",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player4"
+  ]
+ },
+ "opponents": {
+  "_comment": "Held-out evaluation roster (plan section 5; docs/MEOWMIND_RL_POOL_SPLIT.md, T0058): the screens' opponents are never training opponents or their lineages. T0055 trained against profiles/meow_rl_training_pool.json, which holds 8 of the 12 default-roster bots (roster.strength.REFERENCE), and training pool v2 adds the AI_Test lineages (Astra variants, the Player5 lineage incl. Player2_v005, Control_Hybrid/Omega, C-series/R3 and S1/S2 controls, Player1, Player3). The roster is the held-out lineages that profiles/pool.json lists: Fable, MiMo, Kimi, GLM and Player4 (Player2 and Player6, also held out, are not in profiles/pool.json). Each fixture draws its opponents from this list (roster.strength.schedule), repeating bots in larger games.",
+  "reference": [
+   "Fable",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player4"
+  ],
+  "related_excluded": [
+   "Player2_v005",
+   "Astra_Full",
+   "Control_Hybrid",
+   "Player5_Omega",
+   "Player5_Omega_LIT",
+   "R3_CFL_conditional",
+   "Noise",
+   "Random"
+  ],
+  "training_pools": [
+   "profiles/meow_rl_training_pool.json",
+   "profiles/meow_rl_training_pool_v2.json"
+  ]
+ }
+}

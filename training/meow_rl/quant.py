@@ -42,11 +42,23 @@ def quantize_input(feats) -> np.ndarray:
     return np.clip(np.floor(x * (1 << IN_BITS) + 0.5), -IN_MAX, IN_MAX).astype(np.int64)
 
 
+RANGE_BITS = 8                           # calibrated ranges are rounded up to 8 significant bits (range_of)
+
+
 def activations(w: dict, feats) -> list[np.ndarray]:
-    """FP32 hidden activations of feats [..., 112] (the calibration statistics)."""
-    x = np.asarray(feats, np.float32).reshape(-1, w["w0"].shape[1])
-    h0 = np.maximum(0.0, x @ w["w0"].T + w["b0"])
-    return [h0, np.maximum(0.0, h0 @ w["w1"].T + w["b1"])]
+    """Hidden activations of feats [..., 112] in float64 (the calibration statistics)."""
+    x = np.asarray(feats, np.float32).astype(np.float64).reshape(-1, w["w0"].shape[1])
+    h0 = np.maximum(0.0, x @ w["w0"].astype(np.float64).T + w["b0"].astype(np.float64))
+    return [h0, np.maximum(0.0, h0 @ w["w1"].astype(np.float64).T + w["b1"].astype(np.float64))]
+
+
+def range_of(peak: np.ndarray, margin: float) -> np.ndarray:
+    """A neuron's range: margin x its calibrated peak, at least FLOOR, rounded up to RANGE_BITS significant bits.
+    The rounding makes the export independent of the last bits of the statistics (BLAS summation order, compiler FMA
+    in the features), so the same inputs give the same integers on every platform."""
+    r = np.maximum(np.asarray(peak, np.float64) * margin, FLOOR)
+    step = np.exp2(np.floor(np.log2(r)) - RANGE_BITS)
+    return np.ceil(r / step) * step
 
 
 def fold(w: dict, ranges: list[np.ndarray]) -> types.SimpleNamespace:
@@ -63,7 +75,7 @@ def quantize(actor: dict, calibration: np.ndarray, margin: float = MARGIN) -> di
     calibration = np.asarray(calibration, np.float32)
     if calibration.size == 0:
         raise ValueError("calibration observations are required")
-    ranges = [np.maximum(a.max(axis=0) * margin, FLOOR) for a in activations(w, calibration)]
+    ranges = [range_of(a.max(axis=0), margin) for a in activations(w, calibration)]
     net = FQ.quantize(fold(w, ranges), np.full(w["w0"].shape[1], float(1 << IN_BITS)),
                       np.full(w["w0"].shape[1], -IN_MAX), np.full(w["w0"].shape[1], IN_MAX))
     FQ.check_widths(net, "meow_rl actor")
