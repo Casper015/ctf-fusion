@@ -1,13 +1,13 @@
 ---
 id: T0058
 title: "Split the AI_Test bots into Meowmind RL training and held-out test lineages"
-status: open
-owner: ""
+status: active
+owner: claude-review@caspers-macbook
 needs: []
 writes: [profiles/meow_rl_training_pool_v2.json, docs/MEOWMIND_RL_POOL_SPLIT.md, tests/test_meow_rl_pool_split.py]
 depends: []
 land: pr
-branch: ""
+branch: claude-review/t0058-split-the-ai-test-bots-into-meowmind-rl
 updated: 2026-10-15
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-15 09:49Z claude-review@caspers-macbook: created
+- 2026-10-15 09:49Z claude-review@caspers-macbook: claimed
