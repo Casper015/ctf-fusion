@@ -132,6 +132,14 @@ MR_API int mr_resolve(void* handle, int joint, char* out, int cap, int* actions)
     }
 }
 
+// After a refused block: Session::forget_history, as the deployed bot does.
+MR_API int mr_forget(void* handle) {
+    auto* h = static_cast<Handle*>(handle);
+    if (!h) return -1;
+    h->session.forget_history();
+    return 0;
+}
+
 // Test only: the reference's scalar per-move features of the observed turn (Session::scalar_features).
 MR_API int mr_scalar_features(void* handle, float* feats) {
     auto* h = static_cast<Handle*>(handle);
