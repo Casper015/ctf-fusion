@@ -452,7 +452,7 @@ Never reuse a seed for a new comparison. Pick one that is not in this table, and
 | 20261301–20261364 | 64 showcase games of the newest P-only bots on the Mac (2026-10-11), 2–15 teams; nine are in the replay viewer. Not evidence |
 | 20261501 | T0037 historical Colab pilot: training only, 306 whole matches at counts 2–10, no branch labels; preserved separately, never host evidence |
 | 20261701 | T0037 Windows decision pilot: training only, reserved after fresh board/ledger and 1,985 retained metadata files; 336 maps, counts 2-15, 24 each, four repeats per actual candidate |
-| 20261801 | T0051 First own-action host pilot: evaluation only, reserved before games; 392 fresh maps (28 per count 2-15), 4 arms, max 1568 games |
+| 20261801 | T0051 First own-action host pilot: evaluation, 392 maps (28 per count 2-15), 4 arms, 1568 games; recorded with the results, no earlier reservation commit. The preflight also used this seed, so maps m00000 at counts 2, 5, 10, 15 were played before the screen |
 | (unchosen) | Confirmation (T0006): chosen only after the finalists are frozen |
 
 ## Known defects in the records

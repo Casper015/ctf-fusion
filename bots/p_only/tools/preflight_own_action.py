@@ -3,6 +3,14 @@
 Tests the 4 arms across a concurrency ladder (1, 2, 4, 6 workers) and representative load
 (counts 2, 5, 10, 15) under official limits (2000 ms initialization, 50 ms subsequent replies).
 Retains first/regular-turn p50/p99/max latencies, late/dead/fault records, and DSCORE stderr counters.
+
+A level passes only with no dead process, late reply, fault, DSCORE deadline drop or invalid fallback, a DSCORE
+line from every scoring arm, and an n=15 maximum reply under 48 ms. The admitted concurrency is the largest level of
+an unbroken run of passing levels from the smallest; when the smallest level fails nothing is admitted (0) and the
+script exits 1. Run it, and commit its receipt, before the screen: a later run reproduces a decision, it does not
+make one. --seed is required and must be a seed reserved for the preflight in docs/DIGEST.md, never the screen's
+evaluation seed (roster.strength.schedule derives maps from (seed, count, map), so the same seed replays the
+screen's first map of each count).
 """
 from __future__ import annotations
 
@@ -90,7 +98,8 @@ def run_job(job):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--seed", type=int, default=20261801, help="Preflight schedule seed")
+    parser.add_argument("--seed", type=int, required=True,
+                        help="preflight schedule seed: reserved for the preflight in docs/DIGEST.md, never the evaluation seed")
     parser.add_argument("--workers", nargs="+", type=int, default=[1, 2, 4, 6], help="Concurrency ladder to test")
     parser.add_argument("--dry-run", action="store_true", help="Print plan and exit")
     args = parser.parse_args()
@@ -200,15 +209,15 @@ def main():
               f"n15_p99={n15_p99}ms n15_max={n15_max}ms deadline_hits={total_deadline_hits} "
               f"SAFE_PASS={worker_summary['safe_pass']}", flush=True)
     
-    # Determine safe admitted concurrency: max consecutive passing concurrency in ladder
-    admitted_workers = 1
-    for w in [1, 2, 4, 6]:
-        if w in results_by_worker and results_by_worker[w]["safe_pass"]:
-            admitted_workers = w
-        else:
+    # Admitted concurrency: the largest level of the unbroken passing run from the smallest; none passing admits 0
+    admitted_workers = 0
+    for w in sorted(results_by_worker):
+        if not results_by_worker[w]["safe_pass"]:
             break
+        admitted_workers = w
     
-    print(f"\n[PREFLIGHT DECISION] Admitted concurrency: {admitted_workers} workers", flush=True)
+    print(f"\n[PREFLIGHT DECISION] Admitted concurrency: {admitted_workers} workers"
+          + ("" if admitted_workers else " (no safe configuration: stop, do not run the screen)"), flush=True)
     
     receipt = {
         "schema": "ctf-fusion-host-preflight-1",
@@ -216,6 +225,7 @@ def main():
         "timestamp_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "host": "desktop-g60ojud",
         "generator": "bots/p_only/tools/preflight_own_action.py",
+        "seed": seed,
         "official_limits": {"first_ms": 2000, "turn_ms": 50},
         "admitted_workers": admitted_workers,
         "concurrency_ladder": {
@@ -229,9 +239,13 @@ def main():
     
     out1 = REPO / "bots" / "p_only" / "report" / "own_action_first_trial" / "PREFLIGHT.json"
     out2 = REPO / "reports" / "host" / "own_action_first_trial" / "PREFLIGHT.json"
-    out1.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8", newline="\n")
-    out2.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8", newline="\n")
+    for out in (out1, out2):                                        # atomic: a crash never leaves half a receipt
+        tmp = out.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(receipt, indent=2) + "\n", encoding="utf-8", newline="\n")
+        os.replace(tmp, out)
     print(f"Preflight receipts written to {out1} and {out2}")
+    if not admitted_workers:
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()

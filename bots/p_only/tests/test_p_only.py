@@ -159,6 +159,28 @@ class Analyze(unittest.TestCase):
         r = analyze.contrast([(w, rows[a]) for w, a in terms], fixtures, [3])
         self.assertAlmostEqual(r["overall"]["mean"], 0.25)
 
+    def test_missing_fixture_is_never_imputed(self):
+        fixtures = {f"f{i}": {"teams": 2} for i in range(4)}
+        a = {f: {"utility": 0.5, "score": [1]} for f in fixtures}
+        b = {f: {"utility": 0.5, "score": [1]} for f in ("f0", "f1")}   # the comparator misses two fixtures
+        for x, y in ((a, b), (b, a)):
+            r = analyze.paired(x, y, fixtures, [2])
+            self.assertEqual((r["fixtures"], r["scheduled"], r["missing"]), (2, 4, 2))
+            self.assertAlmostEqual(r["overall"]["mean"], 0.0)            # equal arms never look better or worse
+            self.assertEqual(r["overall"]["verdict"], "incomplete")
+        self.assertIsNone(analyze.paired(a, {}, fixtures, [2])["overall"])
+
+    def test_margin_and_exclusions(self):
+        fixtures = {f"f{i}": {"teams": 2} for i in range(4)}
+        a = {f: {"utility": 0.5 + d, "score": [0]} for f, d in zip(fixtures, (0.001, 0.0012, 0.0008, 0.001))}
+        b = {f: {"utility": 0.5, "score": [0]} for f in fixtures}
+        self.assertEqual(analyze.paired(a, b, fixtures, [2])["overall"]["verdict"], "helps")
+        r = analyze.paired(a, b, fixtures, [2], margin=0.002)
+        self.assertEqual(r["overall"]["verdict"], "not shown")          # inside the negligible margin
+        self.assertEqual((r["improved"], r["unchanged"], r["degraded"]), (0, 4, 0))
+        r = analyze.paired(a, b, fixtures, [2], exclude={"f3"})
+        self.assertEqual((r["fixtures"], r["scheduled"], r["missing"]), (3, 3, 0))
+
 
 @unittest.skipUnless(CXX, "no C++ compiler")
 class Replay(unittest.TestCase):

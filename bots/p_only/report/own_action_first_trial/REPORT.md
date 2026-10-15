@@ -4,7 +4,7 @@
 **Agent:** `codex-decision-pilot@desktop-g60ojud`  
 **Host Machine:** `desktop-g60ojud` (Windows)  
 **Date:** 2026-10-15  
-**Generator:** `bots/p_only/tools/analyze.py, bots/p_only/tools/preflight_own_action.py, bots/p_only/tools/screen_runner.py`  
+**Generator:** none: this report is a hand-written summary. Its figures come from `screen.json`/`SCREEN.md` (`bots/p_only/tools/analyze.py`) and `PREFLIGHT.json` (`bots/p_only/tools/preflight_own_action.py`); the 388-fixture sensitivity and the Bonferroni interval below are computed by hand and are not yet in a generated file.  
 **Frozen Schedule:** `data/p_only/own_action_first_trial/schedule.json` (Seed: 20261801, 392 fixtures, 14 team counts)  
 **Deliverables Directories:** `bots/p_only/report/own_action_first_trial/`, `reports/host/own_action_first_trial/`  
 **Encoding Note:** All file hashes are computed on canonical UNIX LF (`\n`) byte streams.  
@@ -22,9 +22,10 @@ This report documents the completion of task **T0051**: the first end-to-end dep
 - **Concurrency & Deadline Preflight:**
   - Preflight script located in `bots/p_only/tools/preflight_own_action.py`.
   - Conducted concurrency ladder (1, 2, 4, 6 workers) under official limits (2,000 ms init / 50 ms turn) and $n=15$ stress load with strict code gating.
-  - At 6 workers, 2 deadline drops occurred where scoring fell back to carrier heuristic rank due to approaching the internal 40 ms scoring budget.
+  - At 6 workers, 2 deadline drops occurred where scoring fell back to the carrier's reply. Regular replies stayed near 10 ms against the 40 ms scoring deadline, so these drops can only have come from first turns (first replies reach 45-49 ms).
   - At 4 workers, peak latency was 10.02 ms, with 0 deadline drops, 0 late replies, and 0 faults.
-  - **Admitted host concurrency:** **4 workers** (strictly gated by code).
+  - **Admitted host concurrency:** **4 workers**. The committed ladder is a re-run at 04:59Z, after the screen (handed off 04:38Z); it reproduces the 4-worker choice with the strict gate. The ladder actually run before the screen (04:17Z, first commit of this PR) also recorded 4 workers, but the script committed with it would have admitted 6, so how 4 was chosen before measurement is not recorded by code.
+  - The screen's rows do not retain DSCORE counters, so whether the 4-worker screen itself had scoring deadline fallbacks (most likely on first turns) is not known.
 - **Matched Replacement Paired Pilot (1,568 Games):**
   - Evaluated 4 arms across 392 independent fixtures (1,568 total games) under exclusive host CPU lock:
     1. `v12_ponly_xxl` (unchanged baseline control)
@@ -35,12 +36,12 @@ This report documents the completion of task **T0051**: the first end-to-end dep
   - Maximum turn reply across all games: **12.05 ms** (well within 50 ms limit).
   - Denominator verification: all 392 fixtures were completed by all 4 arms without any drops or faults.
 - **Empirical Findings:**
-  - **A/A Diagnostic:** Mean difference $\Delta = +0.0000$ $[+0.0000, +0.0000]$, **392 of 392 identical final scores**. Under deterministic referee conditions, zero random host execution variance was observed.
+  - **A/A Diagnostic:** Mean difference $\Delta = +0.0000$ $[+0.0000, +0.0000]$, **392 of 392 identical final scores**: re-running the control binary added no noise on this host. This says nothing about measurement effects specific to the candidates.
   - **Primary Endpoint (`mlp_s101 - v12_ponly_xxl`):** Mean $\Delta = -0.1828$, 95% Map-Clustered CI $[-0.2114, -0.1543]$. Verdict: **`hurts`** relative to the negligible margin $\pm 0.002$ (56 improved / 95 unchanged / 241 degraded).
   - **Secondary Endpoint (`linear_s101 - v12_ponly_xxl`):** Mean $\Delta = -0.1555$, Nominal 95% CI $[-0.1848, -0.1261]$, Bonferroni-corrected 97.5% CI $[-0.1890, -0.1219]$. Verdict: **`hurts`** (69 improved / 103 unchanged / 220 degraded).
-  - **Individual Count Analysis:** Mean delta is negative across each of the 14 individual team counts (2 through 15).
+  - **Individual Count Analysis:** The mean delta is negative at each of the 14 team counts (2 through 15). These are point estimates; no per-count intervals are reported.
 - **Formal Outcome:** **Explicit NO-ADMISSION**.
-  - Both learned scoring heads statistically significantly degrade playing strength relative to the unguided $v12$ baseline across all player counts.
+  - Both learned scoring heads hurt utility relative to the unchanged $v12$ baseline, overall and in each of the four count bands (2, 3-5, 6-10, 11-15), with 95% intervals below $-0.002$. No claim is made for individual counts.
   - Baseline `v12_ponly_xxl` remains completely unchanged as the production incumbent. Neither candidate is admitted.
 
 ---
@@ -48,7 +49,7 @@ This report documents the completion of task **T0051**: the first end-to-end dep
 ## 2. Task Dependency & Claim Context
 
 - **Dependency Readiness:** T0051 specifies dependencies on T0050, T0049, T0044, and T0045. T0049 (Windows scoring-hook test .exe fix) was verified on the host and merged into `main` via PR #48 (`cdab287`). T0050 was completed and merged via PR #49 (`a0f69e8`) and PR #50 (`4c15169`).
-- **Authorization:** Execution of T0050 and T0051 was explicitly authorized by the user prompt, with all work conducted on an isolated worktree (`ctf-fusion.worktrees/T0051`) and delivered via PR #51 without direct pushes to `main`.
+- **Authorization:** T0051 was claimed with `claim --force` while T0049 was still `review` on the board (its PR #48 had merged as `cdab287`). Casper asked for T0051 to start in a Claude session on caspers-macbook on 2026-10-15 ("pr 50 merge we can start t0051"); that request is recorded in T0051's log. The work was done in an isolated worktree (`ctf-fusion.worktrees/T0051`) and delivered via PR #51 without direct pushes to `main`.
 
 ---
 
@@ -70,7 +71,7 @@ Candidates from T0050 (`reports/models/own_action_first_trial/SELECTION.json`) w
 
 ## 4. Host Concurrency and Deadline Preflight
 
-The official preflight script is located in `bots/p_only/tools/preflight_own_action.py`. It evaluated 1, 2, 4, and 6 workers across team counts 2, 5, 10, and 15 under 2,000 ms initialization and 50 ms subsequent reply deadlines:
+The official preflight script is located in `bots/p_only/tools/preflight_own_action.py`. `RECEIPTS.json` hashes the version at `b427b1f` that produced `PREFLIGHT.json`; later edits make `--seed` required, admit 0 workers (and exit 1) when the smallest level fails, and write receipts atomically, without changing the pass rule. It evaluated 1, 2, 4, and 6 workers across team counts 2, 5, 10, and 15 under 2,000 ms initialization and 50 ms subsequent reply deadlines:
 
 | Workers | Games | Faults | Late Replies | Dead Procs | $n=15$ Max Latency | $n=15$ p99 Latency | DSCORE Deadline Drops | Status |
 |---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -80,7 +81,7 @@ The official preflight script is located in `bots/p_only/tools/preflight_own_act
 | 6 | 16 | 0 | 0 | 0 | 10.15 ms | 9.27 ms | 2 | Rejected (Drop > 0) |
 
 - **Strict Code Gating:** A worker level passes if and only if `dead == 0`, `late == 0`, `faults == 0`, `deadline_drops == 0`, `invalid == 0`, and `n15_max < 48.0 ms`. At 6 workers, 2 deadline drops occurred, failing the strict gate. Concurrency was strictly admitted and frozen at **4 workers**.
-- **Preflight Seed Overlap Disclosure:** The preflight ladder generated 4 fixtures (`n02, n05, n10, n15 m00000`) derived from seed `20261801` to test host timing under realistic maps. Consequently, 388 fixtures in the screen were strictly unseen prior to measurement, while 4 fixtures were shared with preflight. As shown in Section 6, the statistical conclusions on the 388 strictly preflight-unseen fixtures are virtually identical to the 392-fixture set ($\Delta = -0.1817$ vs $-0.1828$), confirming zero sensitivity. For future tasks, reserving a dedicated separate seed for preflight is recommended.
+- **Preflight Seed Overlap Disclosure:** The preflight ladder generated 4 fixtures (`n02, n05, n10, n15 m00000`) derived from seed `20261801` to test host timing under realistic maps. Consequently, 4 of the 392 screen fixtures had already been played in the preflight before measurement (and again in the 04:59Z re-run); 388 were unseen. On the 388 unseen fixtures the means move by about 0.001 ($\Delta = -0.1817$ vs $-0.1828$; Section 6), so the conclusion does not depend on them. `preflight_own_action.py` now requires `--seed`, which must be a seed reserved for the preflight, never the evaluation seed.
 
 ---
 
@@ -122,6 +123,8 @@ Intervals: Map-clustered confidence intervals, team counts weighted equally, neg
 
 ### Sensitivity: Excluding 4 Preflight Fixtures ($M=388$)
 
+Computed on the host from the raw results; no generated file in this PR contains these numbers. To regenerate: rerun `bots/p_only/tools/analyze.py` with `--margin 0.002 --exclude-fixtures s20261801-n02-m00000 s20261801-n05-m00000 s20261801-n10-m00000 s20261801-n15-m00000`.
+
 - **Primary MLP:** Mean $\Delta = -0.1817$, 95% CI $[-0.2104, -0.1530]$, verdict: **`hurts`**.
 - **Secondary Linear (Bonferroni 97.5%):** Mean $\Delta = -0.1547$, 97.5% CI $[-0.1883, -0.1211]$, verdict: **`hurts`**.
 - **A/A Diagnostic:** Mean $\Delta = +0.0000$, 388/388 identical match scores.
@@ -154,7 +157,7 @@ Intervals: Map-clustered confidence intervals, team counts weighted equally, neg
    - In full multi-turn game play, the scorer alters the incumbent bot's candidate ranking on approximately 57% (Linear) to 64% (MLP) of scored decision points.
    - We hypothesize that altering incumbent actions based on 1-step offline rollout gain surrogates introduces trajectory distribution shift: subsequent game states diverge from the data-generating rollout distribution, compounding small decision errors over full game horizons.
 2. **Re-run Noise and Reproducibility:**
-   - Under deterministic host referee execution, the A/A control produced identical final match scores on 392 of 392 fixtures. This confirms that the observed utility drop is not host measurement noise, but reflects the true empirical outcome of the altered candidate policy under this screen's reference field.
+   - The A/A control produced identical final match scores on 392 of 392 fixtures, so re-running the control binary adds no noise on this host. It does not rule out measurement effects specific to the candidates; the size and consistency of the drop, not the A/A result, is the evidence that the candidates are worse under this screen's reference field.
 3. **Strict Experimental Discipline:**
    - No post-hoc sweep or alternative lambda values were tried online. The pre-declared primary and secondary models were tested once and reported honestly.
 
@@ -162,7 +165,7 @@ Intervals: Map-clustered confidence intervals, team counts weighted equally, neg
 
 ## 8. Durable Local Backup Receipts
 
-Per repository rules, raw logs, game results, and binary files are gitignored. To ensure durability, an atomic compressed backup was created and verified with a bit-exact restore test:
+Per repository rules, raw logs, game results, and binary files are gitignored. A compressed backup was created and verified with a bit-exact restore test. It sits on the same disk as the raw data, so it does not survive loss of that disk or machine: an off-machine copy is still needed. It does not contain the per-turn match logs.
 
 - **Backup Archive:** `data/backups/own_action_first_trial_20261015.tar.gz`
 - **Archive Size:** 39,882,654 bytes (38.0 MB)
