@@ -1,13 +1,13 @@
 ---
 id: T0048
 title: "Add the original meowmind source next to its P3 hybrids"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [bots/meowmind_p/]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0048-add-the-original-meowmind-source-next-to
 updated: 2026-10-15
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-15 00:59Z claude@caspers-macbook: created
+- 2026-10-15 00:59Z claude@caspers-macbook: claimed
