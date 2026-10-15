@@ -1,0 +1,82 @@
+{
+ "actor_digest": "5aa93320b927bab6fafdcda4ea4fe0b230c829e81fa7034d8a7406eeb5f81a52",
+ "agreement_diagnostic": {
+  "greedy_agreement": 0.9565625,
+  "kl_max": 0.16431915283941428,
+  "kl_mean": 0.007112320881121523,
+  "max_abs_logp_error": 2.2526717264880602,
+  "mean_abs_logp_error": 0.2910534391696962,
+  "observations": 16000,
+  "rows_per_layer": 240000,
+  "sampled_agreement": 0.9350625,
+  "saturated": [
+   11,
+   8
+  ],
+  "tv_max": 0.2343919680681102,
+  "tv_mean": 0.034303391959185164,
+  "tv_p99": 0.1449046932631545,
+  "uniforms_per_decision": 4
+ },
+ "calibration": {
+  "margin": 1.1,
+  "rows": 16000,
+  "unit_move_rows": 240000
+ },
+ "files": {
+  "actor.hpp": "2244b9947f92cd2f6f7e56d6ba2741db5516562f75d2e60c2142f107f7aba7bd"
+ },
+ "identity": {
+  "actor": "meow_actor_112_64_32_1_joint125_t105_v1",
+  "actor_weights": "trained",
+  "critic": "meow_public416_mlp_1024_1024_512_v1",
+  "policy_features": "meow_policy112_v1",
+  "reference_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
+  "resolver": "meowmind_reference_shots_frozen_v1",
+  "reward_units": "terminal_2_pairwise_utility_minus_1",
+  "temperature": 1.05,
+  "value_features": "meow_public416_v1"
+ },
+ "identity_digest": "4993f0476d8f97218f352e2ab9cb515bd0753f93138ae70e126b9edb1590ed6d",
+ "layers": [
+  {
+   "bound": 585753384,
+   "exp": 24,
+   "shift": 17
+  },
+  {
+   "bound": 10518464,
+   "exp": 19,
+   "shift": 12
+  },
+  {
+   "bound": 23108836,
+   "exp": 16,
+   "shift": 9
+  }
+ ],
+ "native": {
+  "simd0": {
+   "draws_equal": true,
+   "greedy_equal": true,
+   "kernel": "scalar",
+   "path": "actor aligned_p1_large simd 0 kernel scalar rows 16000",
+   "rows": 16000,
+   "scores_equal": true
+  },
+  "simd1": {
+   "draws_equal": true,
+   "greedy_equal": true,
+   "kernel": "avx2",
+   "path": "actor aligned_p1_large simd 1 kernel avx2 rows 16000",
+   "rows": 16000,
+   "scores_equal": true
+  }
+ },
+ "source": {
+  "kind": "checkpoint",
+  "manifest": "reports/models/meow_rl_pilot/MANIFEST.json",
+  "path": "runs/meow_rl/large_v_s101/checkpoints/final.pt",
+  "sha256": "f8b98a3445ba7d58396375cd9b3bce0278e9bf6a11e1a45a1e87a8650e3a3ddb"
+ }
+}
