@@ -1,13 +1,13 @@
 ---
 id: T0060
 title: "Fix T0057's screen evidence gaps: multiplicity, search telemetry, preflight receipts, all-seat faults"
-status: open
-owner: ""
+status: active
+owner: claude-review@caspers-macbook
 needs: []
 writes: [bots/p_only/tools/analyze.py, bots/p_only/tools/run_screen.py, bots/p_only/tools/preflight_meow_rl.py, bots/meow_rl/bot.hpp, roster/strength.py, bots/p_only/tests/test_p_only.py, tests/test_meow_rl_export.py, tools/reporting/generate_meow_rl_screen_multiplicity.py, reports/host/meow_rl_screen/secondary/MULTIPLICITY.md, docs/MEOWMIND_RL_DEPLOYMENT.md]
 depends: []
 land: pr
-branch: ""
+branch: claude-review/t0060-fix-t0057-s-screen-evidence-gaps
 updated: 2026-10-15
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-15 18:05Z claude-review@caspers-macbook: created
+- 2026-10-15 18:05Z claude-review@caspers-macbook: claimed
