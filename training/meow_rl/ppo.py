@@ -114,7 +114,7 @@ class Learner:
                         raise FloatingPointError("a stored action has zero probability under its stored mask")
                     d = new - t["old_logp"][idx].float()
                     rho = d.exp()
-                    kl = float((rho - 1 - d).mean())
+                    kl = float((rho - 1 - d).mean().detach())
                     if kl > cfg.target_kl:
                         kl_stop = {"epoch": epoch, "minibatch_start": start, "approx_kl": kl}
                     else:

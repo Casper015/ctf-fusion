@@ -301,7 +301,9 @@ class TorchLearner(unittest.TestCase):
     def setUp(self):
         from training.meow_rl.nets import Actor, Critic  # noqa: PLC0415
         from training.meow_rl.ppo import Learner, PPOConfig  # noqa: PLC0415
+        from training.meow_rl.train import LOGP_TOLERANCE  # noqa: PLC0415
         self.Actor, self.Critic, self.Learner, self.PPOConfig = Actor, Critic, Learner, PPOConfig
+        self.T_LOGP = LOGP_TOLERANCE
         torch.manual_seed(0)
         self.w = random_actor(11, scale=0.3)
 
@@ -324,10 +326,12 @@ class TorchLearner(unittest.TestCase):
     def test_numpy_and_torch_actors_agree_and_the_first_ratio_is_one(self):
         lr = self.learner()
         feats, mask = random_obs(50, 12)
-        np.testing.assert_allclose(lr.log_probs(feats, mask)[mask], P.joint_log_probs(self.w, feats, mask)[mask], atol=1e-5)
+        # float32 summation order differs between NumPy and PyTorch: the trainer's own recompute check (1e-4) applies
+        np.testing.assert_allclose(lr.log_probs(feats, mask)[mask], P.joint_log_probs(self.w, feats, mask)[mask],
+                                   atol=self.T_LOGP, rtol=0)
         b = self.batch(lr)
         again = lr.log_probs(b["feats"], b["mask"])[np.arange(len(b["action"])), b["action"]]
-        np.testing.assert_allclose(np.exp(again - b["old_logp"]), 1.0, atol=1e-5)
+        np.testing.assert_allclose(np.exp(again - b["old_logp"]), 1.0, atol=self.T_LOGP)
         np.testing.assert_array_equal(lr.actor.numpy()["w0"], self.w["w0"])
 
     def test_critic_sizes(self):
