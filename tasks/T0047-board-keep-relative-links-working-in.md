@@ -1,13 +1,13 @@
 ---
 id: T0047
 title: "Board: keep relative links working in archived task files"
-status: open
-owner: ""
+status: active
+owner: claude@caspers-macbook
 needs: []
 writes: [tools/repo/task.py, tests/test_task_board.py]
 depends: []
 land: pr
-branch: ""
+branch: claude/t0047-board-keep-relative-links-working-in
 updated: 2026-10-15
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-15 00:10Z claude@caspers-macbook: created
+- 2026-10-15 00:10Z claude@caspers-macbook: claimed
