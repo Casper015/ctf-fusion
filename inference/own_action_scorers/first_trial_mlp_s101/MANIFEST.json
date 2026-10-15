@@ -1,0 +1,52 @@
+{
+ "schema": "ctf-fusion-own-action-scorer-export-1",
+ "generator": "training/export_decision_scorer.py",
+ "kind": "own_action_scorer",
+ "model": "mlp",
+ "hidden": [
+  64,
+  16
+ ],
+ "features": {
+  "family": "own-action-1",
+  "version": "own-action-1",
+  "digest": "9ed719f238cd5d70",
+  "layout_version": 3
+ },
+ "root_dim": 150,
+ "cand_dim": 144,
+ "run": {
+  "path": "runs\\own_action_first_trial\\mlp_s101",
+  "config_sha256": "f8f48ee146cc0b6ca3391f4e14d4b49cf4c2ee0f0aed02e63ffa68b4afebc4fd",
+  "model_sha256": "ff01c27e73ce4bb54738a5e68086d523135c8d2ee684063d33d6e8580108ca26"
+ },
+ "rule": {
+  "lambda": 100.0,
+  "norm": "zscore",
+  "selection_sha256": "a571b05a4473eaaa7a26ebb93372d5dd785ed1ca48bfd6e357537b392936233d",
+  "selection": "reports\\models\\own_action_first_trial\\SELECTION.json",
+  "model_name": "mlp_s101"
+ },
+ "carrier": {
+  "config_sha256": "f0cea701efafd583b9b7a2029149ceaad84b4f3872982ee1c350769660a7636d",
+  "variant": "v12_ponly_xxl_dlog",
+  "status": "admitted",
+  "p_family": "p2",
+  "p_models": "inference/models_xxl",
+  "value": 0,
+  "binary_sha256": [
+   "981a1e3c580021c6b5879e3ca3feb6de44642db4272aba25e5c97be22bac45b3"
+  ]
+ },
+ "dataset": {
+  "path": "data\\decision\\host_pilot_dataset",
+  "index_sha256": "d3a19bd3de638118b60f367ed1eed68fb02a86b95e1978b50f3bf76b5a1ae0b3",
+  "train_sha256": "70441e0197382c630b2f64f230e54722ae031bb184e5a73e3874e08b00b877bc",
+  "val_sha256": "74b630efa4e80bd2f947c45a816751124b06c155bc6e05533d88adb0255b5ace",
+  "authoritative": true,
+  "exploratory_reasons": []
+ },
+ "quantization": "none (float32 weights, double accumulation)",
+ "header": "scorer_model.hpp",
+ "header_sha256": "5419bb62127e087e2e1fd35abf9490cf0319f70ca804a49e18627ee26b3a968a"
+}

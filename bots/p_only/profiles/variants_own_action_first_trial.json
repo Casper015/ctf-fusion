@@ -1,0 +1,37 @@
+{
+  "_comment": "First own-action host pilot variants (task T0051): v12_ponly_xxl unchanged control, byte-identical A/A copy, and the two pre-declared frozen own-action scorers (linear_s101 and mlp_s101). Build: python bots/p_only/tools/build.py --variants bots/p_only/profiles/variants_own_action_first_trial.json",
+  "variants": [
+    {
+      "name": "v12_ponly_xxl",
+      "carrier": "v12",
+      "role": "control",
+      "tier": "XXL",
+      "value_tier": null,
+      "source": "bots/p_only/bots/variants/v12_ponly_xxl.cpp"
+    },
+    {
+      "name": "v12_ponly_xxl_aa",
+      "carrier": "v12",
+      "role": "control_aa",
+      "tier": "XXL",
+      "value_tier": null,
+      "source": "bots/p_only/bots/variants/v12_ponly_xxl_aa.cpp"
+    },
+    {
+      "name": "v12_ponly_xxl_first_trial_linear_s101",
+      "carrier": "v12",
+      "role": "candidate_linear",
+      "tier": "XXL",
+      "value_tier": null,
+      "source": "bots/p_only/bots/variants/v12_ponly_xxl_first_trial_linear_s101.cpp"
+    },
+    {
+      "name": "v12_ponly_xxl_first_trial_mlp_s101",
+      "carrier": "v12",
+      "role": "candidate_mlp",
+      "tier": "XXL",
+      "value_tier": null,
+      "source": "bots/p_only/bots/variants/v12_ponly_xxl_first_trial_mlp_s101.cpp"
+    }
+  ]
+}
