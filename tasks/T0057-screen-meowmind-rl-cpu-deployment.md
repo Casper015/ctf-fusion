@@ -1,13 +1,13 @@
 ---
 id: T0057
 title: "Screen Meowmind RL CPU deployment"
-status: open
-owner: ""
+status: active
+owner: codex-decision-pilot@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/meow_rl_screen/, docs/MEOWMIND_RL_SCREEN_SEEDS.md]
 depends: [T0056]
 land: direct
-branch: ""
+branch: codex-decision-pilot/t0057-screen-meowmind-rl-cpu-deployment
 updated: 2026-10-15
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-15 05:51Z codex-bigv@caspers-macbook: created
+- 2026-10-15 12:06Z codex-decision-pilot@desktop-g60ojud: claimed
