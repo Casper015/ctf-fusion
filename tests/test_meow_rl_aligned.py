@@ -393,6 +393,12 @@ class Gates(unittest.TestCase):
             fz.write_text(json.dumps({"schedules": {"a": {"profile": str(p), "profile_sha256": RS.sha256_file(p),
                                                           "schedule_sha256": RS.sha256_file(sched)}}}))
             RS.check_freeze(fz, p, frozen_cfg, sched)
+            fzd = json.loads(fz.read_text())
+            fzd["schedules"]["a"]["arms"] = {"x": {"binary_sha256": "aa"}}
+            fz.write_text(json.dumps(fzd))
+            RS.check_freeze(fz, p, frozen_cfg, sched, {"x": {"binary_sha256": "aa"}})
+            with self.assertRaisesRegex(SystemExit, "not the one frozen"):                 # rebuilt after the freeze
+                RS.check_freeze(fz, p, frozen_cfg, sched, {"x": {"binary_sha256": "bb"}})
             p.write_text(json.dumps(frozen_cfg | {"margin": 0.01}))                 # the profile changed after the freeze
             with self.assertRaisesRegex(SystemExit, "changed after"):
                 RS.check_freeze(fz, p, frozen_cfg, sched)
@@ -438,6 +444,8 @@ class Gates(unittest.TestCase):
         part["comparisons"]["meow_rl_aligned_p2_large - meow_rl_aligned_warm"]["overall"] = None
         self.assertEqual(RP.judge(cfg, part)["families"]["primary"]["rows"][0]["verdict"], "incomplete")
         self.assertEqual(RP.judge(cfg, screen | {"incomplete": ["f1"]})["families"]["primary"]["rows"][0]["verdict"], "incomplete")
+        empty_aa = RP.judge(cfg, screen | {"rerun_noise": {"x - x~aa": {"overall": None, "fixtures": 0}}})
+        self.assertIsNone(empty_aa["rerun_noise"]["x - x~aa"]["mean_pp"])
 
 
 if __name__ == "__main__":

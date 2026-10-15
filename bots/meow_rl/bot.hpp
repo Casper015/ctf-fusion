@@ -94,6 +94,7 @@ inline int run() {
             if (r.used) c.search_used++, joint = r.joint;
             else c.search_fallback++;
 #elif MEOW_RL_SEARCH == 2
+            search.reply_us = max_resolve_us;
             auto r = search.choose(s, obs, sc, joint, seed, started);
             c.leaves += r.leaves, c.trajectories += r.trajectories;
             c.refuse_trajectory += r.refused == 1, c.refuse_critic += r.refused == 2, c.refuse_late += r.refused == 3;

@@ -166,7 +166,7 @@ v2 keeps v1's two-ply rule unchanged:
   4. before the critic call, one critic call;
   5. after the evaluation, the deadline itself.
 
-  A trajectory refused part-way still records what it spent. The reply is resolved after the search, and its cost is measured too (`max_resolve_us`).
+  A trajectory refused part-way still records what it spent. The reply is resolved after the search; every admission also reserves the reply's estimated cost (max of `MEOW_RL_SEARCH_REPLY_US` and the largest resolve measured, × safety), so the fallback reply always fits after admitted work.
 
   An estimate is max(prior, the largest cost seen this game) × 150%. The priors per backend are in `aligned.json`. Any refusal discards the whole search and plays the actor's choice, which is already computed; a partial comparison is never used. This is an empirical gate, not a real-time proof: the eight-worker preflight shows whether any reply was late. The MEOWRL counter line adds:
   - trajectories;
@@ -221,7 +221,7 @@ The gate runs **exactly eight concurrent game workers**: not eight threads per b
 - it refuses a config whose seed is null;
 - it refuses a `--workers` override when the config freezes `workers_exact`;
 - it refuses an arm whose binary is not the one the receipt measured;
-- with `freeze`, it refuses unless the config file and its schedule are byte-identical to what the freeze recorded, and the schedule carries the config's seed, counts, map budget and roster.
+- with `freeze`, it refuses unless the config file, its schedule, every arm's binary, the preflight receipt and every opponent's source and executable are exactly what the freeze recorded, and the schedule carries the config's seed, counts, map budget and roster.
 
 ## 7. Schedules A and B
 

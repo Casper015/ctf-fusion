@@ -53,7 +53,9 @@ def judge(cfg: dict, screen: dict) -> dict:
                          "fixtures": overall.get("fixtures"), "missing_fixtures": c.get("missing")})
         out["families"][fam] = {"method": spec["method"], "alpha": spec["alpha"], "k": len(comps), "z": z, "rows": rows}
     for name, c in screen.get("rerun_noise", {}).items():
-        out["rerun_noise"][name] = {"mean_pp": 100 * c["overall"]["mean"], "identical_scores": c.get("identical_scores"),
+        overall = (c or {}).get("overall") or {}
+        mean = overall.get("mean")
+        out["rerun_noise"][name] = {"mean_pp": None if mean is None else 100 * mean, "identical_scores": c.get("identical_scores"),
                                     "fixtures": c.get("fixtures")}
     return out
 
@@ -86,7 +88,8 @@ def main() -> dict:
                                  f"{row['verdict']}{note} |")
             lines.append("")
         if r["rerun_noise"]:
-            lines += ["Re-run (A/A): " + "; ".join(f"`{n}` {v['mean_pp']:+.2f} pp, identical score vectors {v['identical_scores']} of "
+            lines += ["Re-run (A/A): " + "; ".join(f"`{n}` " + ("no pairs" if v["mean_pp"] is None else f"{v['mean_pp']:+.2f} pp")
+                                                  + f", identical score vectors {v['identical_scores']} of "
                                                   f"{v['fixtures']}" for n, v in r["rerun_noise"].items())
                       + ". Identical replays support repeatability on these fixtures; they do not remove sampling uncertainty.", ""]
     OUT.mkdir(parents=True, exist_ok=True)

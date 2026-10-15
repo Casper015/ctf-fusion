@@ -125,7 +125,7 @@ int main(int argc, char** argv) {
                             at = offset++;
                             h = fnv(h, leaf.feats.data(), sizeof(float) * leaf.feats.size());
                         }
-                        int flags[2] = {int(leaf.terminal), leaf.plies};
+                        int flags[5] = {int(ri), smp, int(at), int(leaf.terminal), leaf.plies};   // the leaf's place, then its kind
                         h = fnv(h, flags, sizeof flags);
                         h = fnv(h, &leaf.reward, sizeof leaf.reward);
                         h = fnv(h, &leaf.cont, sizeof leaf.cont);

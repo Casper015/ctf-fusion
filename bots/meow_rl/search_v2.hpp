@@ -28,8 +28,9 @@
 //    An estimate is max(prior, the largest cost measured so far in this game) x MEOW_RL_SEARCH_SAFETY_PCT / 100; the
 //    priors (MEOW_RL_SEARCH_SETUP_US, _TRAJ_US, _EXPAND_US, _CRITIC_US) are per-variant settings frozen by the
 //    eight-worker preflight, which records the worst costs it saw (a trajectory refused part-way still records what
-//    it spent). The reply is resolved after the search (Session::resolve, the reference's resolver for one joint); its
-//    cost is measured too (bot.hpp max_resolve_us) and is part of the turn the preflight times. Any refusal discards the whole search and
+//    it spent). The reply is resolved after the search (Session::resolve, the reference's resolver for one joint):
+//    every admission also reserves its estimate, max(MEOW_RL_SEARCH_REPLY_US, the largest resolve the bot measured,
+//    Search::reply_us) x safety, so the fallback reply still fits after any admitted work. Any refusal discards the whole search and
 //    plays the actor's choice (already computed, so the fallback is always ready); a partial comparison is never used.
 //    This is an empirical gate, not a real-time proof: the preflight is what shows that no reply was late.
 // Counters (bot.hpp's MEOWRL line): trajectories evaluated, refusals per stage, the largest setup, trajectory,
@@ -66,6 +67,9 @@
 #endif
 #ifndef MEOW_RL_SEARCH_EXPAND_US
 #define MEOW_RL_SEARCH_EXPAND_US 2000
+#endif
+#ifndef MEOW_RL_SEARCH_REPLY_US
+#define MEOW_RL_SEARCH_REPLY_US 500
 #endif
 #ifndef MEOW_RL_SEARCH_SAFETY_PCT
 #define MEOW_RL_SEARCH_SAFETY_PCT 150
@@ -213,6 +217,7 @@ struct Result {
 
 struct Search {
     long max_setup_us = 0, max_traj_us = 0, max_expand_us = 0, max_critic_us = 0, max_search_us = 0;   // largest costs this game
+    long reply_us = 0;   // the largest reply resolution so far (set by the bot before each search)
 
     static long us(std::chrono::steady_clock::duration d) {
         return long(std::chrono::duration_cast<std::chrono::microseconds>(d).count());
@@ -225,7 +230,8 @@ struct Search {
         Result r;
         auto t_begin = clock::now();
         auto deadline = started + std::chrono::milliseconds(s.g.turn == 1 ? MEOW_RL_SEARCH_FIRST_MS : MEOW_RL_SEARCH_DEADLINE_MS);
-        auto admit = [&](long cost_us) { return clock::now() + std::chrono::microseconds(cost_us) <= deadline; };
+        const long reply_reserve = estimate(MEOW_RL_SEARCH_REPLY_US, reply_us);
+        auto admit = [&](long cost_us) { return clock::now() + std::chrono::microseconds(cost_us + reply_reserve) <= deadline; };
         auto finish = [&](Result res) {
             max_search_us = std::max(max_search_us, us(clock::now() - t_begin));
             return res;

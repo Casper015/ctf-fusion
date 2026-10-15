@@ -68,8 +68,9 @@ def sha256_file(path: Path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
-def check_freeze(path: Path, config: Path, cfg: dict, sched: Path) -> None:
-    """Refuse unless this config and its schedule are exactly what the freeze recorded."""
+def check_freeze(path: Path, config: Path, cfg: dict, sched: Path, manifest: dict | None = None, root: Path | None = None) -> None:
+    """Refuse unless this config, its schedule, its arms' binaries, the preflight receipt and the opponents' executables
+    are exactly what the freeze recorded."""
     if not Path(path).is_file():
         raise SystemExit(f"{config} names the freeze {path}, which does not exist: freeze before any game")
     frozen = json.loads(Path(path).read_text(encoding="utf-8"))
@@ -84,6 +85,22 @@ def check_freeze(path: Path, config: Path, cfg: dict, sched: Path) -> None:
     names = [r["name"] for r in s["reference"]]
     if (s["seed"], s["team_counts"], s["maps_per_count"], names) != (cfg["seed"], cfg["teams"], cfg["maps_per_count"], cfg["reference"]):
         raise SystemExit(f"{sched} does not match the config's seed, counts, map budget or roster")
+    pre = frozen.get("preflight", {})
+    if cfg.get("preflight") and pre.get("sha256") and sha256_file(REPO / cfg["preflight"]) != pre["sha256"]:
+        raise SystemExit(f"{cfg['preflight']} is not the preflight receipt the freeze bound")
+    for arm, ids in (entry.get("arms") or {}).items():
+        if manifest is not None and manifest.get(arm, {}).get("binary_sha256") != ids["binary_sha256"]:
+            raise SystemExit(f"{arm}: the built binary is not the one frozen")
+    if root is not None:
+        from fusion import runner  # noqa: PLC0415
+        from fusion.paths import bot_path, load_pool  # noqa: PLC0415
+        pool = {e["name"]: e for e in load_pool()["bots"]}
+        for row in frozen.get("roster_audit", {}).get("roster", []):
+            src = bot_path(pool[row["name"]], root)
+            cmd = runner.command_for(src, REPO / "build" / "roster")
+            exe = Path(cmd[-1]) if src.suffix.lower() == ".py" else Path(cmd[0])
+            if sha256_file(src) != row["source_sha256"] or sha256_file(exe) != row["executable_sha256"]:
+                raise SystemExit(f"opponent {row['name']}: its source or executable is not the one the freeze audited")
 
 
 def check_preflight(path: Path, manifest: dict, arms: list[str], workers: int) -> None:
@@ -137,7 +154,7 @@ def main(argv=None):
         step("build", build + [*arms], timings)
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))["variants"]
         if cfg.get("freeze") and not a.smoke:
-            check_freeze(REPO / cfg["freeze"], Path(a.config), cfg, sched)
+            check_freeze(REPO / cfg["freeze"], Path(a.config), cfg, sched, manifest, root)
         if not sched.exists():
             sched_cmd = ["-m", "roster.strength", "schedule", "--maps-per-count", str(maps), "--teams", *map(str, teams),
                          "--seed", str(cfg["seed"]), "--out", str(sched)]
