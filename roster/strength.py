@@ -93,11 +93,14 @@ def play_one(job) -> dict:
     match = play((fixture, commands, info, root, limits))
     score = match["result"]["score"]
     me = match["bots"][fx["seat"]]
+    others = [b for i, b in enumerate(match["bots"]) if i != fx["seat"]]
     if keep:
         matchlog.save(Path(keep) / f"n{fx['teams']:02d}" / f"{fixture.match_id}.json.gz", match)
     return {"candidate": cand["id"], "source_sha256": cand["source_sha256"], "fixture_id": fx["fixture_id"],
             "teams": fx["teams"], "map_seed": fx["map_seed"], "seat": fx["seat"], "score": score,
             "utility": utility(score, fx["seat"]), "faults": me["faults"], "dead": me["dead"], "late": me["late"],
+            "opponent_faults": sum(b["faults"] for b in others), "opponent_dead": sum(1 for b in others if b["dead"]),
+            "opponent_late": sum(b.get("late") or 0 for b in others),
             "first_ms": me["first_ms"], "p99_ms": me["p99_ms"], "max_ms": me["max_ms"],
             "engine_sha256": match["engine_sha256"], "schedule": cand.get("schedule"),
             "live": trajectory.seat_outcomes(match, fx["seat"])}

@@ -138,6 +138,17 @@ class Bots(unittest.TestCase):
         self.assertIn(SM.draw(self.q, f, mask, 0.0), (0, 7))
         self.assertEqual(SM.draw(self.q, f, mask, np.nextafter(1.0, 0)), 7)
 
+    def test_counters_are_printed_every_turn(self):
+        """A runner keeps only the stderr tail and may stop the bot right after its last reply (T0057 lost the
+        counters that way): the cumulative line comes every turn, so the tail always holds a recent one. (stdout and
+        stderr are separate streams; the source writes the counter line before the reply.)"""
+        text = "".join(B.split_stream(stream("n02"))[:12])
+        _, err = run_bot(self.exe, text)
+        lines = [l for l in err.splitlines() if l.startswith("MEOWRL turns")]
+        self.assertEqual(len(lines), 12)
+        self.assertEqual([int(l.split()[2]) for l in lines], list(range(1, 13)))
+        self.assertIn("search_used 0 search_fallback 0", lines[-1])
+
     def test_malformed_input_gets_the_safe_reply(self):
         blocks = B.split_stream(stream("n02"))
         bad = blocks[3].replace("\nU 3 1 ", "\nU -1 1 ", 1)                # a unit id the reference would index
@@ -320,6 +331,23 @@ class Calibration(unittest.TestCase):
         m = E.main(["--actor-npz", str(tmp / "actor.npz"), "--identity-json", str(tmp / "id.json"), "--name", "c",
                     "--calibration-batches", str(tmp / "cal"), "--out", str(tmp / "inf"), "--variants-dir", str(tmp / "v")])
         self.assertEqual(m["calibration"]["rows"], 800)
+
+
+class ScreenReports(unittest.TestCase):
+    def test_the_committed_multiplicity_report_is_generated(self):
+        import importlib.util  # noqa: PLC0415
+        target = REPO / "reports" / "host" / "meow_rl_screen" / "secondary" / "MULTIPLICITY.md"
+        if not target.is_file():
+            self.skipTest("no secondary screen committed")
+        committed = target.read_bytes()
+        spec = importlib.util.spec_from_file_location("mult", REPO / "tools" / "reporting" / "generate_meow_rl_screen_multiplicity.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        try:
+            self.assertEqual(mod.main().read_bytes(), committed)
+        finally:
+            target.write_bytes(committed)
+        self.assertIn("Changed by the predeclared rule: `meow_rl_large_v_s101 - v12_ponly_xxl`.", committed.decode())
 
 
 class Specification(unittest.TestCase):

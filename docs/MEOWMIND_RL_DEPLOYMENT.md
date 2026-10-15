@@ -19,7 +19,7 @@ Per turn, the bot:
 2. chooses the joint movement;
 3. runs `Session::resolve`.
 
-A block the session refuses (malformed input) is answered with every unit staying and waiting, and is counted. stderr carries the model identity on turn 1 and the counters (`MEOWRL turns … refused … search_used … search_fallback … leaves …`) on the last turn.
+A block the session refuses (malformed input) is answered with every unit staying and waiting, and is counted. stderr carries the model identity on turn 1 and, every turn before the reply, the cumulative counters (`MEOWRL turns … refused … search_used … search_fallback … leaves …`). A runner keeps only the stderr tail and may stop the bot right after its last reply, so a once-at-the-end line can be lost.
 
 **Deployed choice: sampled actor-direct.** PPO optimizes the sampled policy, so the predeclared deployment draws from the integer actor's softmax over feasible joints at T = 1.05. The draw is one inverse-CDF uniform.
 
@@ -101,6 +101,30 @@ The secondary contrasts:
 | `meowmind_p3_distill_xxl` − `meowmind_p3_xxl` | Does distillation from the 8XL teacher help in games (same carrier)? |
 
 Whole-bot comparisons across carriers answer product questions, not mechanisms. The analyzer (`bots/p_only/tools/analyze.py`) reports 95% intervals; the Bonferroni intervals are computed from its estimate and standard error. A missing arm makes its comparisons "incomplete", never zero-filled.
+
+## Screen results (T0057) and their corrections (T0060)
+
+T0057 ran both screens on desktop-g60ojud (`reports/host/meow_rl_screen/`): 1,176 primary and 3,136 secondary games, seeds 20261951 and 20261952, against the held-out roster, 6 workers.
+
+- **Primary.** `meow_rl_large_v_s101 − meow_rl_warm_start` = **+0.0318 [+0.0080, +0.0557]: helps.** RL improved the actor over its own warm start against opponents it never trained on, mostly at 11–15 teams (+0.048). A/A: 392 of 392 identical score vectors.
+- **Secondary, under its predeclared Bonferroni rule** (`reports/host/meow_rl_screen/secondary/MULTIPLICITY.md`, generated from the committed `screen.json`). T0057's `SCREEN.md` shows 95% intervals, because `analyze.py` then had no multiplicity option.
+
+  | Contrast | Mean | Verdict |
+  |---|---:|---|
+  | RL − unchanged Meowmind | −0.030 | hurts |
+  | RL − P2 production (`v12_ponly_xxl`) | −0.030 | **not shown** (95% said hurts) |
+  | RL − Meowmind + P3 distilled | −0.068 | hurts |
+  | large V − small V | +0.033 | helps |
+  | search arm − actor-direct | −0.148 | hurts |
+  | P3 distilled − P3 XXL | −0.005 | not shown |
+
+**What T0060 fixed for the next screen:**
+- `analyze.py --multiplicity bonferroni`, and `run_screen.py` forwards a config's `multiplicity` (and `margin`). A comparison of an arm that is not analyzed is now an error, not a silent skip.
+- The bot prints its cumulative `MEOWRL` counters every turn, before the reply. T0057's counters were lost, because the runner stops the bot right after its last reply. `analyze.py` reports them with their coverage.
+- The preflight fails a level on missing counters and on any seat's fault, records per-game details, timestamps and the arms' bundle and binary hashes, and reads the search deadline from the bundled source.
+- `roster.strength` rows carry opponent faults, late replies and deaths, which `analyze.py` totals per arm.
+
+The search arm's loss remains unexplained by telemetry, because T0057 has no counters. A likely contributor: the INT16 large critic's mean absolute value error is 0.21 on the −1…+1 scale (`inference/meow_rl/large_v_s101_search/MANIFEST.json`).
 
 ## Should we train a P2 8XL or 10XL teacher and distill it to XXL?
 

@@ -38,6 +38,7 @@ import gzip
 import json
 import math
 import re
+import statistics
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -48,6 +49,8 @@ sys.path.insert(0, str(REPO))
 from roster.strength import schedule_identity  # noqa: E402
 
 AA = "~aa"
+Z95 = 1.959963984540054
+MEOWRL = re.compile(r"MEOWRL turns (\d+) refused (\d+) search_used (\d+) search_fallback (\d+) leaves (\d+)")
 BANDS = {"2": (2, 2), "3-5": (3, 5), "6-10": (6, 10), "11-15": (11, 15)}
 COUNTER = re.compile(r"PONLY builds (\d+) teams (\d+) act (\d+) target (\d+) fallback (\d+)(?: inconsistent (\d+) skipped (\d+))?")
 LINE = re.compile(r"^(SEARCH|VALUE|PLY2|PORTFOLIO|VBUDGET) (.*)$")
@@ -75,7 +78,8 @@ def parse_contrast(spec: str) -> tuple[str, list[tuple[int, str]]]:
     return name.strip(), terms
 
 
-def contrast(terms: list[tuple[int, dict]], fixtures: dict, teams: list[int], margin: float = 0.0, exclude: set[str] | None = None) -> dict:
+def contrast(terms: list[tuple[int, dict]], fixtures: dict, teams: list[int], margin: float = 0.0, exclude: set[str] | None = None,
+             z: float = Z95) -> dict:
     """Per fixture sum_i w_i * u_i over the scheduled fixtures every arm played (A - B for two terms). A missing
     observation is never imputed: the fixture is counted in "missing" and the verdicts read "incomplete"."""
     per = defaultdict(list)
@@ -99,11 +103,16 @@ def contrast(terms: list[tuple[int, dict]], fixtures: dict, teams: list[int], ma
                 var += sum((x - m) ** 2 for x in per[c]) / (n - 1) / n
         mean = sum(means) / len(counts)
         se = math.sqrt(var) / len(counts)
-        lo, hi = mean - 1.96 * se, mean + 1.96 * se
         n = sum(len(per[c]) for c in counts)
-        verdict = "incomplete" if missing else "helps" if lo > margin else "hurts" if hi < -margin else "not shown"
-        return {"mean": round(mean, 5), "ci95": [round(lo, 5), round(hi, 5)], "se": round(se, 5), "fixtures": n,
-                "verdict": verdict}
+
+        def verdict(half):
+            lo, hi = mean - half, mean + half
+            return "incomplete" if missing else "helps" if lo > margin else "hurts" if hi < -margin else "not shown"
+        out = {"mean": round(mean, 5), "ci95": [round(mean - Z95 * se, 5), round(mean + Z95 * se, 5)], "se": round(se, 5),
+               "fixtures": n, "verdict": verdict(z * se)}
+        if z != Z95:                                       # a family-wise interval: the verdict follows it
+            out |= {"z": round(z, 4), "ci": [round(mean - z * se, 5), round(mean + z * se, 5)], "verdict_95": verdict(Z95 * se)}
+        return out
     diffs = [x for c in per for x in per[c]]
     out = {"overall": summary(teams), "bands": {b: summary([c for c in teams if lo <= c <= hi]) for b, (lo, hi) in BANDS.items()},
            "per_count": {str(c): round(sum(per[c]) / len(per[c]), 5) for c in teams if per.get(c)},
@@ -112,14 +121,25 @@ def contrast(terms: list[tuple[int, dict]], fixtures: dict, teams: list[int], ma
     return out
 
 
-def paired(rows_a: dict, rows_b: dict, fixtures: dict, teams: list[int], margin: float = 0.0, exclude: set[str] | None = None) -> dict:
+def paired(rows_a: dict, rows_b: dict, fixtures: dict, teams: list[int], margin: float = 0.0, exclude: set[str] | None = None,
+           z: float = Z95) -> dict:
     """Paired difference A - B over the scheduled fixtures both played."""
-    return contrast([(1, rows_a), (-1, rows_b)], fixtures, teams, margin=margin, exclude=exclude)
+    return contrast([(1, rows_a), (-1, rows_b)], fixtures, teams, margin=margin, exclude=exclude, z=z)
+
+
+def family_z(method: str, alpha: float, k: int) -> float:
+    """The two-sided z of each comparison in a family of k: Bonferroni alpha/k, or the plain 1 - alpha level."""
+    if method == "none" or k <= 1:
+        return statistics.NormalDist().inv_cdf(1 - alpha / 2)
+    if method != "bonferroni":
+        raise SystemExit(f"unknown multiplicity method {method!r}")
+    return statistics.NormalDist().inv_cdf(1 - alpha / (2 * k))
 
 
 def counters(matches: Path, arm_keys: dict) -> dict:
     """Network calls per turn of each arm's seat, from kept match logs (PONLY stderr line)."""
     acc = defaultdict(lambda: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])  # 5 counters, turns, inconsistent, skipped, -, -, games
+    meow = defaultdict(lambda: defaultdict(int))     # MEOWRL: the last cumulative line per game, and its coverage
     extra = defaultdict(lambda: defaultdict(float))  # SEARCH and VALUE lines: summed counters, plus turns
     for p in matches.rglob("*.json.gz"):
         key = p.name.split("-")[-1].split(".")[0]
@@ -132,6 +152,18 @@ def counters(matches: Path, arm_keys: dict) -> dict:
                 continue
             a = acc[arm]
             a[10] += 1
+            last = None
+            for line in bot.get("stderr_tail", []):
+                mr = MEOWRL.search(line)
+                if mr:
+                    last = mr
+            mw = meow[arm]
+            mw["games"] += 1
+            mw["game_turns"] += len(m.get("blocks", []))          # every game played, counted or not
+            if last:
+                mw["games_with_counters"] += 1
+                for i, k in enumerate(("turns", "refused", "search_used", "search_fallback", "leaves")):
+                    mw[k] += int(last.group(i + 1))
             for line in bot.get("stderr_tail", []):
                 c = COUNTER.search(line)
                 if c:
@@ -152,6 +184,11 @@ def counters(matches: Path, arm_keys: dict) -> dict:
     out = {}
     for arm, a in acc.items():
         row = {}
+        mw = meow.get(arm, {})
+        if mw.get("games_with_counters") or arm.startswith("meow_rl"):   # bots/meow_rl arms always: zero coverage shows
+            row["meowrl"] = {k: int(mw[k]) for k in ("games", "games_with_counters", "turns", "game_turns", "refused",
+                                                      "search_used", "search_fallback", "leaves")}
+            row["meowrl"]["turn_coverage"] = round(mw["turns"] / mw["game_turns"], 4) if mw["game_turns"] else None
         if a[5]:
             row.update({"turns": a[5], "views_per_turn": round(a[0] / a[5], 2), "team_encodes_per_turn": round(a[1] / a[5], 2),
                         "act_heads_per_turn": round(a[2] / a[5], 2), "target_heads_per_turn": round(a[3] / a[5], 2),
@@ -212,9 +249,11 @@ def counters(matches: Path, arm_keys: dict) -> dict:
 
 
 def fmt_ci(s):
+    """Mean, the interval the verdict uses (family-wise when set) and the verdict."""
     if not s:
         return "n/a", "n/a", ""
-    return f"{s['mean']:+.4f}", f"[{s['ci95'][0]:+.4f}, {s['ci95'][1]:+.4f}]", s["verdict"]
+    lo, hi = s.get("ci", s["ci95"])
+    return f"{s['mean']:+.4f}", f"[{lo:+.4f}, {hi:+.4f}]", s["verdict"]
 
 
 def main(argv=None):
@@ -230,6 +269,9 @@ def main(argv=None):
     ap.add_argument("--matches", help="kept match logs (network call counters)")
     ap.add_argument("--margin", type=float, default=0.0, help="negligible effect margin (e.g. 0.002)")
     ap.add_argument("--exclude-fixtures", nargs="*", default=[], help="fixture_ids to exclude (e.g. preflight fixtures)")
+    ap.add_argument("--multiplicity", choices=["none", "bonferroni"], default="none",
+                    help="family-wise intervals for the --compare/--contrast comparisons (re-run noise rows stay at 95%%)")
+    ap.add_argument("--family-alpha", type=float, default=0.05)
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
     sched = json.loads(Path(a.schedule).read_text(encoding="utf-8"))
@@ -265,20 +307,29 @@ def main(argv=None):
                         "utility": round(sum(means) / len(means), 5) if means else None,
                         "faults": sum(r["faults"] for r in rs), "dead_games": sum(1 for r in rs if r.get("dead")),
                         "late_replies": sum(r.get("late") or 0 for r in rs),
+                        "opponent_faults": (sum(r["opponent_faults"] for r in rs) if all("opponent_faults" in r for r in rs)
+                                            else None),
+                        "opponent_dead": (sum(r["opponent_dead"] for r in rs) if all("opponent_dead" in r for r in rs) else None),
+                        "opponent_late": (sum(r["opponent_late"] for r in rs) if all("opponent_late" in r for r in rs) else None),
                         "first_ms_max": max((r["first_ms"] for r in rs if r.get("first_ms") is not None), default=None),
                         "p99_ms_median": p99[len(p99) // 2] if p99 else None,
                         "p99_ms_worst": p99[-1] if p99 else None,
                         "max_ms": max((r["max_ms"] for r in rs if r.get("max_ms") is not None), default=None)}
     comparisons = {}
     excl = set(a.exclude_fixtures)
+    k = len(a.compare) + len(a.contrast)
+    z = family_z(a.multiplicity, a.family_alpha, k)
+    family = {"method": a.multiplicity, "alpha": a.family_alpha, "comparisons": k, "z": round(z, 4)}
     for spec in a.compare:
         x, _, y = spec.partition(":")
-        if x in rows and y in rows:
-            comparisons[f"{x} - {y}"] = paired(rows[x], rows[y], fixtures, teams, margin=a.margin, exclude=excl)
+        if x not in rows or y not in rows:
+            raise SystemExit(f"--compare {spec}: {x if x not in rows else y} is not among --arms")   # never skipped silently
+        comparisons[f"{x} - {y}"] = paired(rows[x], rows[y], fixtures, teams, margin=a.margin, exclude=excl, z=z)
     for spec in a.contrast:
         name, terms = parse_contrast(spec)
-        if all(arm in rows for _, arm in terms):
-            comparisons[name] = contrast([(w, rows[arm]) for w, arm in terms], fixtures, teams, margin=a.margin, exclude=excl)
+        if not all(arm in rows for _, arm in terms):
+            raise SystemExit(f"--contrast {spec}: an arm is not among --arms")
+        comparisons[name] = contrast([(w, rows[arm]) for w, arm in terms], fixtures, teams, margin=a.margin, exclude=excl, z=z)
     noise = {f"{x}{AA} - {x}": paired(rows[x + AA], rows[x], fixtures, teams, margin=a.margin, exclude=excl) for x in a.aa if x in rows}
     calls = {}
     if a.matches and Path(a.matches).is_dir():
@@ -290,6 +341,7 @@ def main(argv=None):
     out.mkdir(parents=True, exist_ok=True)
     result = {"schedule": sid, "seed": sched.get("seed"), "fixtures": len(fixtures), "team_counts": teams,
               "incomplete": incomplete, "stale_rows": dict(stale), "arms": per_arm, "comparisons": comparisons,
+              "multiplicity": family,
               "rerun_noise": noise, "network_calls": calls,
               "identities": {arm: ids[arm]["digest"] for arm in arms if ids and arm in ids}}
     (out / "screen.json").write_text(json.dumps(result, indent=1) + "\n", encoding="utf-8", newline="\n")
@@ -297,16 +349,22 @@ def main(argv=None):
     md = [f"# P-only paired screen{' (INCOMPLETE)' if incomplete else ''}", "",
           f"Schedule `{sid}`, seed {sched.get('seed')}, {len(fixtures)} fixtures over team counts {teams[0]}-{teams[-1]} "
           f"({len(fixtures) // max(1, len(teams))} maps per count). Utility: share of the other teams beaten (ties half). "
-          "Intervals: 95%, map groups per count, counts weighted equally. improved/unchanged/degraded count fixtures by "
+          f"Intervals: {'95%' if abs(z - Z95) <= 1e-9 else f'z = {family['z']} for the comparisons, 95% for re-run noise'}, "
+          "map groups per count, counts weighted equally. improved/unchanged/degraded count fixtures by "
           "the sign of the paired difference; they are not wins.", ""]
     if incomplete:
         md += ["**Missing fixtures:** " + ", ".join(f"{k} {v}" for k, v in incomplete.items()), ""]
+    if abs(z - Z95) > 1e-9:
+        md += [f"**Comparison intervals:** {family['method']} over the {family['comparisons']} comparisons (alpha "
+               f"{family['alpha']}): their intervals and verdicts use z = {family['z']} (the 95% interval and verdict are in "
+               "screen.json as ci95 and verdict_95). Re-run noise rows use 95%.", ""]
     if a.margin or excl:
         md += [f"Negligible margin +-{a.margin}; fixtures excluded from every comparison: "
                f"{', '.join(sorted(excl)) if excl else 'none'}.", ""]
     if stale:
         md += ["Stale rows ignored (another identity, binary or schedule): " + ", ".join(f"{k} {v}" for k, v in stale.items()), ""]
-    md += ["## Paired differences", "", "| Comparison | Band | Mean | 95% interval | Verdict | Fixtures |", "|---|---|---:|---|---|---:|"]
+    level = "Interval" + (f" (z = {family['z']})" if abs(z - Z95) > 1e-9 else " (95%)")
+    md += ["## Paired differences", "", f"| Comparison | Band | Mean | {level} | Verdict | Fixtures |", "|---|---|---:|---|---|---:|"]
     for name, c in list(comparisons.items()) + list(noise.items()):
         for band, s in [("all", c["overall"])] + list(c["bands"].items()):
             m, ci, v = fmt_ci(s)
@@ -314,11 +372,21 @@ def main(argv=None):
         md.append(f"| {name} | improved / unchanged / degraded | {c['improved']} / {c['unchanged']} / {c['degraded']} | "
                   f"identical scores {c['identical_scores']} of {c['fixtures']}"
                   + (f"; missing {c['missing']} of {c['scheduled']} scheduled" if c["missing"] else "") + " | | |")
-    md += ["", "## Arms", "", "| Arm | Games | Utility | Faults | Dead | Late | First reply max ms | p99 median ms | p99 worst game ms | Max reply ms | Binary |",
-           "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
+    md += ["", "## Arms", "", "| Arm | Games | Utility | Faults | Dead | Late | Opponent faults | Opponent late | Opponent dead | First reply max ms | p99 median ms | p99 worst game ms | Max reply ms | Binary |",
+           "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
+    na = lambda v: "n/a" if v is None else v  # noqa: E731  (rows older than all-seat accounting carry no opponent fields)
     for arm, s in per_arm.items():
         md.append(f"| {arm} | {s['games']} | {s['utility'] if s['utility'] is not None else 'n/a'} | {s['faults']} | {s['dead_games']} | "
-                  f"{s['late_replies']} | {s['first_ms_max']} | {s['p99_ms_median']} | {s['p99_ms_worst']} | {s['max_ms']} | `{s['binary_sha256'][:12]}` |")
+                  f"{s['late_replies']} | {na(s['opponent_faults'])} | {na(s['opponent_late'])} | {na(s['opponent_dead'])} | {s['first_ms_max']} | "
+                  f"{s['p99_ms_median']} | {s['p99_ms_worst']} | {s['max_ms']} | `{s['binary_sha256'][:12]}` |")
+    meow = {arm: c["meowrl"] for arm, c in calls.items() if c.get("meowrl")}
+    if meow:
+        md += ["", "## Meowmind RL counters (our seat, the last cumulative MEOWRL line per game)", "",
+               "| Arm | Games | With counters | Turns counted / played | Refused | Search used | Search fallback | Leaves |",
+               "|---|---:|---:|---:|---:|---:|---:|---:|"]
+        for arm, c in meow.items():
+            md.append(f"| {arm} | {c['games']} | {c['games_with_counters']} | {c['turns']} / {c['game_turns']} | {c['refused']} | "
+                      f"{c['search_used']} | {c['search_fallback']} | {c['leaves']} |")
     if calls:
         md += ["", "## Network calls per turn and search samples (our seat)", "",
                "| Arm | Turns | Views | Team encodes | Act heads | Target heads | Fallbacks | Inconsistent | Flag-return states | Expectimax calls | Samples per call |",
