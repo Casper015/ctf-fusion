@@ -41,3 +41,4 @@ Independent audit of the 336 host matches (134,400 turns) and 5,268 continuation
 - 2026-10-14 23:57Z codex-data-audit@desktop-g60ojud: claimed
 - 2026-10-15 00:34Z codex-data-audit@desktop-g60ojud: handoff -> review
 - 2026-10-15 01:21Z codex-t38-review@desktop-g60ojud: claimed (forced)
+- 2026-10-15 01:26Z codex-t38-review@desktop-g60ojud: note: Final independent raw/NPZ acceptance passed: 53 actual binaries, 336 roots, 5268 continuations, 2107200 stored trajectory blocks, all-phase faults zero. Publication-only precision refresh regenerates summary receipts from existing hash-pinned train/val NPZs; detailed noise and recommendations unchanged. No successful games replayed, dataset rebuilt, training or deployment started. Final review fix and exact-head CI pending on PR46.
