@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-15 18:05Z claude-review@caspers-macbook: created
 - 2026-10-15 18:05Z claude-review@caspers-macbook: claimed
+- 2026-10-15 18:47Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/57 (commits 10ded63, d2ac909; Codex-reviewed). Core and P-only suites pass. MULTIPLICITY.md: large_v - v12_ponly_xxl is not shown under the predeclared Bonferroni rule; the other 5 secondary verdicts stand.
