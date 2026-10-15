@@ -187,6 +187,10 @@ class Storage(unittest.TestCase):
         again = RunStore(out).recover(committed_next=10, committed_update=1)
         self.assertIsNone(again["torn_journal_line"])
         self.assertEqual((again["discarded_episodes"], again["discarded_decisions"]), (3, 400))
+        text = (out / "journal.jsonl").read_text()
+        (out / "journal.jsonl").write_text(text.rstrip("\n"))                 # a complete record, newline torn off
+        st.log("discarded", indices=[10], decisions=0, reason="test")
+        self.assertEqual(RunStore(out).recover(committed_next=11, committed_update=1)["discarded_episodes"], 4)
         atomic_json(out / "x.json", {"a": 1})
         self.assertEqual(json.loads((out / "x.json").read_text()), {"a": 1})
         self.assertEqual([p.name for p in out.iterdir() if ".tmp" in p.name], [])

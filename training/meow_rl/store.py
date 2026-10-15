@@ -73,8 +73,13 @@ class RunStore:
     # journal
     def log(self, event: str, **fields):
         line = json.dumps({"event": event, "time": time.strftime("%Y-%m-%dT%H:%M:%S"), **fields}, sort_keys=True)
+        sep = ""
+        if self.journal_path.is_file() and self.journal_path.stat().st_size:
+            with open(self.journal_path, "rb") as f:
+                f.seek(-1, os.SEEK_END)
+                sep = "" if f.read(1) == b"\n" else "\n"            # a record whose newline was torn off
         with open(self.journal_path, "a", encoding="utf-8") as f:
-            f.write(line + "\n")
+            f.write(sep + line + "\n")
             f.flush()
             os.fsync(f.fileno())
 
