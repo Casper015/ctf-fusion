@@ -1,0 +1,22 @@
+{
+  "schema": "ctf-decision-dataset-checks-1",
+  "task": "T0038",
+  "auditor": "codex-data-audit@desktop-g60ojud",
+  "timestamp_utc": "2026-10-15T00:09:00Z",
+  "file_hashes": {
+    "bots/p_only/report/decision_dataset/DATA_AUDIT.json": "129f543a457b2d17e19abc1b37b1b4923630dadc9e6804b0f815b22407977c1c",
+    "bots/p_only/report/decision_dataset/MANIFEST_METADATA_ADAPTER.json": "3e233874c273540b2ad71f89875e309c0e4cd98ce6b643b0278c5e08bf683add",
+    "bots/p_only/report/decision_dataset/manifest.json": "88a27d6b03131d3b7293bf8854c4c233dff27000a13d01e2fe7b0a1c7b9606c6",
+    "bots/p_only/report/decision_dataset/identities.json": "262b6309f1e36c5f2c7782ab8229ea66ac8f75f8ca2955feaf4574cc4d76bd0d",
+    "bots/p_only/report/decision_dataset/carrier_config.json": "e762bac24cec8ea1d14684601faa9a961108474d68dcb5caecd63ed354e4b96f",
+    "bots/p_only/report/decision_dataset/audit_pilot.py": "79b1c6211612ee7cb2ef4a44b8df1b7522e76bbe187e93034dfe20c3228cf359",
+    "bots/p_only/report/decision_dataset/REPRODUCE.md": "feed60aeb8b5ea484460206bd326c2f696d0cf0f250267fbfa139c7c53915c0b",
+    "reports/eval/decision_data_quality/DATA_QUALITY_REPORT.md": "45bbf62bbaea64b0fa6371430f2f191a242f71e700041d8827875ee493bef461",
+    "reports/eval/decision_data_quality/DATA_QUALITY_RECEIPTS.json": "222dd48958eba4034876ad66c4cc78c8f014e881245c6d07ebe019c528d9c6f6",
+    "reports/eval/decision_data_quality/noise.json": "a4e9ad5bf926c3abc26dfaeacf220bf6d105efe31284cabbe69490930983dbb2",
+    "reports/eval/decision_data_quality/noise.md": "3ceaf6a60d6c2df010ae472609d0e8449d09ad83e3528a0f7d379c3c80d0ba8b"
+  },
+  "audit_passed": true,
+  "authoritative_build_passed": true,
+  "diagnostics_passed": true
+}

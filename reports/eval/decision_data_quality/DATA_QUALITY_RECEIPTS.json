@@ -1,0 +1,160 @@
+{
+  "schema": "ctf-decision-data-quality-1",
+  "timestamp_utc": "2026-10-15T00:08:00Z",
+  "auditor": "codex-data-audit@desktop-g60ojud",
+  "machine": "DESKTOP-G60OJUD",
+  "verdict": "GO",
+  "recommendation": "Proceed to small linear/MLP own-action scorer training task. The net between-action signal is positive and substantial, exceeding within-action noise, and independent split-repeat headroom confirms significant exploitable gain (+0.0525 train, +0.0895 val). Flag context underrepresentation (10/56 requests) must be handled explicitly without claiming balanced flag-targeted selection.",
+  "corpus": {
+    "seed": 20261701,
+    "matches": 336,
+    "team_counts": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "maps_per_count": 24,
+    "turns_per_match": 400,
+    "total_reply_slots": 1142400,
+    "match_faults": 0,
+    "roots": 336,
+    "candidates": 1317,
+    "continuations": 5268,
+    "continuation_faults": {
+      "prefix": 0,
+      "root_computed": 0,
+      "continuation": 0
+    },
+    "k_distribution": {
+      "4": 327,
+      "1": 9
+    },
+    "repeats_per_candidate": 4
+  },
+  "dataset": {
+    "version": "ctf-fusion-decision-2",
+    "authoritative": true,
+    "carrier_variant": "v12_ponly_xxl_dlog",
+    "carrier_sha256": "981a1e3c580021c6b5879e3ca3feb6de44642db4272aba25e5c97be22bac45b3",
+    "splits": {
+      "train": {
+        "sha256": "70441e0197382c630b2f64f230e54722ae031bb184e5a73e3874e08b00b877bc",
+        "roots": 268,
+        "candidates": 1048,
+        "maps": 268
+      },
+      "val": {
+        "sha256": "74b630efa4e80bd2f947c45a816751124b06c155bc6e05533d88adb0255b5ace",
+        "roots": 37,
+        "candidates": 148,
+        "maps": 37
+      },
+      "test": {
+        "sha256": "1b9a0dd6719c27d98e621248dda06c841df0b54a61ea3edb5f8d5d8541cce598",
+        "roots": 31,
+        "candidates": 121,
+        "maps": 31
+      }
+    },
+    "digests": {
+      "version": "ctf-fusion-decision-source-1",
+      "branches_sha256": "d4b13e1c172caebfbe0b0822fb3ec95cf4f9c81680cb70e1994583cee5b3c38b",
+      "matches_sha256": "65d979158d2bb8d19db1184c1f3895e5c1e7c9ce157c83b2318ae7879eb643cf",
+      "branch_files": 336,
+      "match_files": 336,
+      "root_content_manifest_sha256": "d1a3e89a14354f8e416f93950a3045d9b2a033d4a95530974b99654d86ca35ea"
+    }
+  },
+  "signal_and_noise": {
+    "train": {
+      "within_action_variance": 0.007288086880691,
+      "between_action_variance_raw": 0.012228704929290853,
+      "between_action_variance_net": 0.010406683209118103,
+      "paired_gap_variance": 0.016203163795406966,
+      "implied_covariance": -0.0005536213003222417,
+      "replay_mean_diff": 0.010730880075562908,
+      "replay_sd_diff": 0.10490292694038857,
+      "headroom": {
+        "mean": 0.05252749281939906,
+        "lo": 0.03447802561563207,
+        "hi": 0.07057696002316605,
+        "clusters": 260,
+        "verdict": "benefit",
+        "roots": 260,
+        "z": 1.96
+      }
+    },
+    "val": {
+      "within_action_variance": 0.005578922201891247,
+      "between_action_variance_raw": 0.017289773264027964,
+      "between_action_variance_net": 0.01589504271355515,
+      "paired_gap_variance": 0.011914214958225346,
+      "implied_covariance": 2.5611574756873208e-05,
+      "replay_mean_diff": 0.008936465186465183,
+      "replay_sd_diff": 0.08113411548297429,
+      "headroom": {
+        "mean": 0.08953179299333147,
+        "lo": 0.01763937086498979,
+        "hi": 0.16142421512167315,
+        "clusters": 37,
+        "verdict": "benefit",
+        "roots": 37,
+        "z": 1.96
+      }
+    }
+  },
+  "flag_protocol_defect": {
+    "defect_description": "Historical collector tested for status 'ground'; actual protocol uses 'home' and 'dropped'. All 56 flag requested roots fell back during collection.",
+    "corrected_observable_contexts": {
+      "carrier": 117,
+      "flag": 52,
+      "contact": 240,
+      "defense": 88,
+      "interception": 132,
+      "quiet": 54
+    },
+    "requested_target_hits": {
+      "carrier": 56,
+      "flag": 10,
+      "contact": 56,
+      "interception": 56,
+      "defense": 51,
+      "quiet": 50
+    },
+    "requested_target_hit_rates": {
+      "carrier": 1.0,
+      "flag": 0.17857142857142858,
+      "contact": 1.0,
+      "interception": 1.0,
+      "defense": 0.9107142857142857,
+      "quiet": 0.8928571428571429
+    }
+  },
+  "power_planning": {
+    "status": "planning approximation (map-level variance of an always-switch rule; not a test result)",
+    "maps": 260,
+    "s2_map": 0.014524369335399958,
+    "mde": {
+      "maps=300 switch_share=0.1": 0.006160926759006733,
+      "maps=300 switch_share=0.25": 0.009741280527970287,
+      "maps=300 switch_share=0.5": 0.013776251037536522,
+      "maps=400 switch_share=0.1": 0.00533551908415516,
+      "maps=400 switch_share=0.25": 0.008436196402612957,
+      "maps=400 switch_share=0.5": 0.011930583367418358,
+      "maps=500 switch_share=0.1": 0.004772233346967344,
+      "maps=500 switch_share=0.25": 0.007545563451112701,
+      "maps=500 switch_share=0.5": 0.01067103816831032
+    }
+  }
+}

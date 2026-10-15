@@ -1,0 +1,46 @@
+{
+  "schema": "ctf-fusion-carrier-config-1",
+  "status": "admitted",
+  "variant": "v12_ponly_xxl_dlog",
+  "binary_sha256": "981a1e3c580021c6b5879e3ca3feb6de44642db4272aba25e5c97be22bac45b3",
+  "bundle_sha256": "c4d520b89ba81686b94739cec5fd46760ed76347279448a1168fcb5eab4e6b3d",
+  "opponent_policy": {
+    "family": "p2",
+    "models": "inference/models_xxl",
+    "files": {
+      "inference/models_xxl/registry.hpp": "434d513d9dc4b6215dfcd9d3809d9320176e5480b34b04d351c570bcc4bc8556",
+      "inference/models_xxl/weights_general.hpp": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844",
+      "inference/models_xxl/weights_n02.hpp": "b11461dd6e507336dc204db39a2fe1ebf5c3f562adf48174fb5d2289261e2f2b",
+      "inference/models_xxl/weights_n03.hpp": "545d630caa4e26df05e4ddf0ce67d597a0eb178a7da8b87e50b4af025b953fc8",
+      "inference/models_xxl/weights_n04.hpp": "6092deb722c890c8baedf8561256c3682e9716cd83d929298c3363a682287f11",
+      "inference/models_xxl/weights_n05.hpp": "cd9f1205989483ed8a5260f8ed29e6424186460d9a7dbfd07ff168e3e5f94071",
+      "inference/models_xxl/weights_n06.hpp": "4c122583bace5ef720fa62efd4cdc75937bce97aaee2c57064b680f96da21bdb",
+      "inference/models_xxl/weights_n07.hpp": "e43f03457d4fcd874ccc8aec3245322a7b652dadcc96b54177f1b12dcd9a2455",
+      "inference/models_xxl/weights_n08.hpp": "e3d5580788ae7e710dc8137f38a0f9774768b920f2910b84d09b96d73ec63141",
+      "inference/models_xxl/weights_n10.hpp": "ce74bcea3358e3bdc8acc6960f475cdb8bcc6bac1c78ef9f7faaea6affab4525",
+      "inference/models_xxl/weights_n12.hpp": "592266dfe0776730f77e5e4d2c5dd6f218829db06e1991f9b32c63e9322b0609",
+      "inference/models_xxl/weights_n15.hpp": "91504bb081983c78153942ced1e6bee5f98ec347fa012fa82f8759202a7a1675"
+    },
+    "calibration": "temperatures folded into the exported headers listed in files"
+  },
+  "value": {
+    "enabled": false,
+    "tier": null
+  },
+  "search": {
+    "source": "bots/p_only/bots/variants/v12_ponly_xxl_dlog.cpp",
+    "source_sha256": "98b4e2f0f6d24be5e17b08a39d4f8d67b97bc4af5a686cffdfb8281c1e8d9e78",
+    "inputs_sha256": "43322a8b8ca27111c445551736ccaab0bec53af5cc0185cfd4bb63ecd3f4535d",
+    "fixed_samples": 0
+  },
+  "budget": {
+    "first_ms": 2000,
+    "turn_ms": 50
+  },
+  "collection": {
+    "manifest": "bots/p_only/report/decision_dataset/manifest.json",
+    "manifest_sha256": "88a27d6b03131d3b7293bf8854c4c233dff27000a13d01e2fe7b0a1c7b9606c6",
+    "identities": "bots/p_only/report/decision_dataset/identities.json",
+    "identities_sha256": "262b6309f1e36c5f2c7782ab8229ea66ac8f75f8ca2955feaf4574cc4d76bd0d"
+  }
+}

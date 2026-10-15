@@ -1,0 +1,108 @@
+{
+  "schema": "ctf-decision-data-audit-1",
+  "audited_utc": "2026-10-14T23:45:00Z",
+  "auditor": "codex-data-audit@desktop-g60ojud",
+  "machine": "DESKTOP-G60OJUD",
+  "source_alignment_status": "passed",
+  "source_alignment_note": "Independent T0038 source-bound audit passed on 336 matches, 336 branch roots, 5,268 continuations. All match and continuation-phase faults 0, utilities exactly recomputed, prefix causal features validated.",
+  "exact_schedule_and_root_key_coverage": true,
+  "map_splits_disjoint": true,
+  "frozen_identity_verified": true,
+  "match_faults": 0,
+  "continuation_phase_faults": {
+    "prefix": 0,
+    "root": 0,
+    "continuation": 0
+  },
+  "total_matches": 336,
+  "total_roots": 336,
+  "total_continuations": 5268,
+  "collected_k": {
+    "4": 327,
+    "1": 9
+  },
+  "match_counts": {
+    "2": 24,
+    "3": 24,
+    "4": 24,
+    "5": 24,
+    "6": 24,
+    "7": 24,
+    "8": 24,
+    "9": 24,
+    "10": 24,
+    "11": 24,
+    "12": 24,
+    "13": 24,
+    "14": 24,
+    "15": 24
+  },
+  "decision_source": {
+    "version": "ctf-fusion-decision-source-1",
+    "branches_sha256": "d4b13e1c172caebfbe0b0822fb3ec95cf4f9c81680cb70e1994583cee5b3c38b",
+    "matches_sha256": "65d979158d2bb8d19db1184c1f3895e5c1e7c9ce157c83b2318ae7879eb643cf",
+    "branch_files": 336,
+    "match_files": 336,
+    "root_content_manifest_sha256": "d1a3e89a14354f8e416f93950a3045d9b2a033d4a95530974b99654d86ca35ea"
+  },
+  "root_content_manifest_sha256": "d1a3e89a14354f8e416f93950a3045d9b2a033d4a95530974b99654d86ca35ea",
+  "flag_protocol_defect": {
+    "defect_description": "Historical collector tested for status 'ground'; actual protocol uses 'home' and 'dropped'. All 56 flag requested roots fell back during collection.",
+    "corrected_observable_contexts": {
+      "carrier": 117,
+      "flag": 52,
+      "contact": 240,
+      "defense": 88,
+      "interception": 132,
+      "quiet": 54
+    },
+    "requested_target_hits": {
+      "carrier": 56,
+      "flag": 10,
+      "contact": 56,
+      "interception": 56,
+      "defense": 51,
+      "quiet": 50
+    },
+    "requested_target_hit_rates": {
+      "carrier": 1.0,
+      "flag": 0.17857142857142858,
+      "contact": 1.0,
+      "interception": 1.0,
+      "defense": 0.9107142857142857,
+      "quiet": 0.8928571428571429
+    }
+  },
+  "rank_npz": {
+    "train": {
+      "roots": 268,
+      "candidates": 1048,
+      "maps": 268,
+      "resolved_roots": 187,
+      "all_uncertain_roots": 81,
+      "source_row_alignment_verified": true,
+      "internal_consistency_verified": true,
+      "sha256": "70441e0197382c630b2f64f230e54722ae031bb184e5a73e3874e08b00b877bc"
+    },
+    "val": {
+      "roots": 37,
+      "candidates": 148,
+      "maps": 37,
+      "resolved_roots": 28,
+      "all_uncertain_roots": 9,
+      "source_row_alignment_verified": true,
+      "internal_consistency_verified": true,
+      "sha256": "74b630efa4e80bd2f947c45a816751124b06c155bc6e05533d88adb0255b5ace"
+    },
+    "test": {
+      "roots": 31,
+      "candidates": 121,
+      "maps": 31,
+      "resolved_roots": 21,
+      "all_uncertain_roots": 10,
+      "source_row_alignment_verified": true,
+      "internal_consistency_verified": true,
+      "sha256": "1b9a0dd6719c27d98e621248dda06c841df0b54a61ea3edb5f8d5d8541cce598"
+    }
+  }
+}
