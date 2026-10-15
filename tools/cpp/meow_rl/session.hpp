@@ -167,6 +167,14 @@ struct Session {
         return "";
     }
 
+    // After a refused block: the movement history is unknown, so it is reset to the episode start (every unit's
+    // previous cell -1: features 13-14 read 0 and Planner::adapt skips every unit next turn) and the turn counts
+    // as answered. Opponent beliefs (evidence) are kept. The deployed bot calls this; the bridge exposes it.
+    void forget_history() {
+        planner.previous.assign(g.units.size(), -1);
+        answered_turn = observed_turn;
+    }
+
     // Test only: the reference's scalar per-move features (learning::Geometry::policy) of the observed turn, before
     // resolve (the batched policyMoves of observe must equal them).
     std::string scalar_features(float* feats) {
