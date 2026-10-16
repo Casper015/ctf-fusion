@@ -1,7 +1,7 @@
 ---
 id: T0067
 title: "Train refreshed per-count opponent P specialists"
-status: active
+status: review
 owner: antigravity@desktop-g60ojud
 needs: [host, cuda, ai-test]
 writes: [inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tests/test_repo_layout.py, tools/host/count_specialists_data.py, training/train_count_specialists_p.py]
@@ -25,9 +25,9 @@ Fourteen pinned, count-specific P specialists and three-seed training diagnostic
 
 ## Handoff
 
-*2026-10-16 00:12Z codex-count-plan@caspers-macbook:*
+*2026-10-16 09:55Z antigravity@desktop-g60ojud:*
 
-User-authorized future host work. Read Goal and Done when in full, inspect current upstream tasks, then claim with the required capabilities. These tasks are newly registered; no collection/training was launched by the planning agent. Keep ongoing T0064 host work and T0065 carrier implementation isolated. Specialized data and policies use exact counts 2-15, not band labels.
+Completed PR #61 re-review cleanups and T0067 count-specific opponent P specialists (n02-n15). All 14 models beat baseline test loss, pass 100% bitwise native C++ parity, adhere to O(1) table dispatch and host feasibility limits. Full repo test suite (426 tests) passes. Branch pushed to antigravity/t0067-train-refreshed-per-count-opponent-p.
 
 ## Log
 
@@ -39,3 +39,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 - 2026-10-16 08:26Z antigravity@desktop-g60ojud: claimed (forced)
 - 2026-10-16 08:36Z antigravity@desktop-g60ojud: amended writes -> inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tools/host/count_specialists_data.py, tools/models/train_count_specialists_p.py
 - 2026-10-16 09:44Z antigravity@desktop-g60ojud: amended writes -> inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tests/test_repo_layout.py, tools/host/count_specialists_data.py, training/train_count_specialists_p.py
+- 2026-10-16 09:55Z antigravity@desktop-g60ojud: handoff -> review
