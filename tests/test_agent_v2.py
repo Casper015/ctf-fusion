@@ -250,7 +250,7 @@ class Bot(unittest.TestCase):
         blocks = stream("n04").split("END\n")
         blocks[10] = blocks[10].replace(" home ", " sideways ", 1) if " home " in blocks[10] else blocks[10].replace("SCORE", "SCORE 9", 1)
         lines, err = self.play(self.direct, "END\n".join(blocks))
-        self.assertEqual(lines[10].split()[1:], ["S", "-", "S", "-", "S", "-"])
+        self.assertEqual(lines[10].split(), ["11", "S", "-", "S", "-", "S", "-"])     # the refused turn's own number
         self.assertEqual(lines[11].split()[0], "12")
         self.assertIn("refused 1", err.strip().splitlines()[-1])
 

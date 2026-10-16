@@ -42,6 +42,8 @@ def agent_v2_config(base_config, init_path: Path):
         cfg["identity"] = AI.identity(args.arm)
         cfg["agent_v2_sources"] = AI.sources()
         cfg["init_actor"] = {"path": str(init_path), "sha256": AI.sha256_file(init_path)}
+        if isinstance(cfg.get("bridge_library"), dict):
+            cfg["bridge_library"]["flags"] = AB.build_flags()            # the agent_v2 build, not the reference bridge's
         return cfg
     return run_config
 

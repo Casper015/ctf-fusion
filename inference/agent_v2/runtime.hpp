@@ -17,6 +17,7 @@
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <cstdlib>
 #include <exception>
 #include <sstream>
 #include <string>
@@ -138,6 +139,8 @@ struct Runtime {
     // Parses one block (INIT + TURN on the first call, then a TURN block) and observes it. "" or why it is refused.
     std::string observe_block(const std::string& text) {
         tel.turns++;
+        if (auto at = text.find("TURN "); at != std::string::npos)      // the safe reply's turn, even if parsing fails
+            last_turn_seen = std::atoi(text.c_str() + at + 5);
         try {
             std::istringstream in(text);
             if (text.rfind("INIT", 0) == 0) {
@@ -152,7 +155,6 @@ struct Runtime {
             fusion::State next;
             if (!fusion::readTurn(in, next)) return "block without TURN";
             s = std::move(next);
-            last_turn_seen = s.turn;
         } catch (const std::exception& e) {
             return std::string("malformed block: ") + e.what();
         }
@@ -173,7 +175,7 @@ struct Runtime {
     // The complete orders of joint `joint` on the real turn (assign_v1 on P's scenario table).
     Tactics resolve(int joint) {
         std::vector<Scenario> table;
-        if (!pred.scenarios(pred.root, s, kResolverScenarios, resolver_salt(seed, s.turn, 1), table)) tel.inconsistent++;
+        if (!pred.scenarios(pred.root, s, hist.parent(), kResolverScenarios, resolver_salt(seed, s.turn, 1), table)) tel.inconsistent++;
         const std::array<int, 3> moves{joint / 25, joint / 5 % 5, joint % 5};
         return resolver.resolve(cache, s, view, cache.st.me, moves, table, splitmix64(seed ^ uint64_t(s.turn) ^ 0xF1A6ull));
     }

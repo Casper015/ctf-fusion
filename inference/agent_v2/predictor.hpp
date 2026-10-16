@@ -67,10 +67,14 @@ struct PredictorP {
     const char* model_id() const { return set ? set->id : "none"; }
     const fusion::PolicyModel* model() const { return set ? set->policy : nullptr; }
 
+    // The identity of a prediction of `s` with history `parent` by this predictor's model.
+    PredictionKey key_of(const fusion::State& s, const fusion::State* parent) const {
+        return {state_key(s), parent ? state_key(*parent) : 0, model()};
+    }
     void predict(const MapCache& c, const fusion::State& s, const fusion::State* parent, Prediction& out) {
         out.view.counters = &counters;
         out.view.build(c.board, s, parent, me, model());
-        out.key = {state_key(s), parent ? state_key(*parent) : 0, model()};
+        out.key = key_of(s, parent);
     }
     // The real turn: raw state and the previous real state.
     void observe(const MapCache& c, const fusion::State& s, const fusion::State* parent) { predict(c, s, parent, root); }
@@ -80,11 +84,12 @@ struct PredictorP {
         predict(c, s, &root.view.state(), out);
     }
 
-    // The resolver's scenario table: K complete opponent order sets drawn from prediction `p` (computed for state
-    // `s`), keyed by `salt` (scenario i uses sample i). Refused, empty, for a state the prediction was not made for.
-    bool scenarios(Prediction& p, const fusion::State& s, int K, uint32_t salt, std::vector<Scenario>& out) {
+    // The resolver's scenario table: K complete opponent order sets drawn from prediction `p` (computed for state `s`
+    // with history `parent`), keyed by `salt` (scenario i uses sample i). Refused, empty, for any other state, history
+    // or model.
+    bool scenarios(Prediction& p, const fusion::State& s, const fusion::State* parent, int K, uint32_t salt, std::vector<Scenario>& out) {
         out.clear();
-        if (p.key.state != state_key(s) || p.key.model != model()) {
+        if (!(p.key == key_of(s, parent))) {
             counters.inconsistent++;
             return false;
         }
@@ -94,9 +99,9 @@ struct PredictorP {
     }
 
     // Movement marginals of every unit of state `s` from prediction `p` (0 for our team and unpredicted teams).
-    bool marginals(const Prediction& p, const fusion::State& s, Marginals& q) {
+    bool marginals(const Prediction& p, const fusion::State& s, const fusion::State* parent, Marginals& q) {
         q.assign(s.units.size(), {});
-        if (p.key.state != state_key(s) || p.key.model != model()) {
+        if (!(p.key == key_of(s, parent))) {
             counters.inconsistent++;
             return false;
         }

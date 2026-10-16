@@ -153,7 +153,7 @@ bool trajectory(R& rt, const Tree& tree, int ri, int smp, Simulator& sim, Leaf& 
         leaf.cont = j2;
     }                                                               // else all stay (the safe fallback)
     std::vector<Scenario> table;
-    rt.pred.scenarios(branch, next, kBranchScenarios, uint32_t(stream(tree.T, kBranchResolver, smp)), table);
+    rt.pred.scenarios(branch, next, &s, kBranchScenarios, uint32_t(stream(tree.T, kBranchResolver, smp)), table);
     leaf.cont_orders = rt.resolver.resolve(rt.cache, next, view, me, cont, table, stream(tree.T, kBranchRefresh, smp)).orders;
     std::vector<fusion::Order> orders2;
     PredictorP::opponent_orders(branch, me, smp, uint32_t(stream(tree.T, kOpp2, smp)), orders2);

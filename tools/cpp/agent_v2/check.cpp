@@ -74,7 +74,7 @@ int check_resolver(const char* path) {
             continue;
         }
         std::vector<agent_v2::Scenario> table;
-        rt.pred.scenarios(rt.pred.root, rt.s, agent_v2::kResolverScenarios, agent_v2::resolver_salt(rt.seed, rt.s.turn, 1), table);
+        rt.pred.scenarios(rt.pred.root, rt.s, rt.hist.parent(), agent_v2::kResolverScenarios, agent_v2::resolver_salt(rt.seed, rt.s.turn, 1), table);
         const int me = rt.cache.st.me;
         for (int j = 0; j < 125; j += 3 + rt.s.turn % 4) {
             if (!rt.obs.joint_mask[j]) continue;
@@ -115,6 +115,7 @@ int check_p(const char* path) {
         }
         const auto& v = rt.pred.root.view;
         const int U = int(rt.s.units.size());
+        if (agent_v2::state_key(v.state()) != agent_v2::state_key(rt.s)) return fail("P was not given the raw state");
         for (int t = 0; t < rt.cache.st.teams; t++) {
             if (t == rt.cache.st.me) {
                 if (v.has(t)) return fail("our own team was predicted");
@@ -134,7 +135,7 @@ int check_p(const char* path) {
             }
         }
         std::vector<agent_v2::Scenario> table;
-        if (!rt.pred.scenarios(rt.pred.root, rt.s, 4, 7, table) || int(table.size()) != 4) return fail("scenario table refused");
+        if (!rt.pred.scenarios(rt.pred.root, rt.s, rt.hist.parent(), 4, 7, table) || int(table.size()) != 4) return fail("scenario table refused");
         for (auto& sc : table) {
             if (int(sc.size()) != U) return fail("scenario not complete");
             for (int uid = 0; uid < U; uid++)
@@ -145,8 +146,10 @@ int check_p(const char* path) {
         if (have_other) {                               // cache identity: the root prediction is not the previous state's
             agent_v2::Marginals q;
             const long long before = rt.pred.counters.inconsistent;
-            if (rt.pred.marginals(rt.pred.root, other, q) || rt.pred.counters.inconsistent != before + 1)
+            if (rt.pred.marginals(rt.pred.root, other, rt.hist.parent(), q) || rt.pred.counters.inconsistent != before + 1)
                 return fail("a prediction was served for another state");
+            if (rt.pred.marginals(rt.pred.root, rt.s, nullptr, q) || rt.pred.counters.inconsistent != before + 2)
+                return fail("a prediction was served for another history");
         }
         other = rt.s, have_other = true;
         rt.answer(0);
@@ -175,8 +178,8 @@ int check_isolation(const char* path) {
         if (def_a.target != def_b.target || def_a.score != def_b.score) return fail("default orders differ");
         a.search.choose(a, sc, joint, far);
         agent_v2::Marginals qa, qb;
-        a.pred.marginals(a.pred.root, a.s, qa);
-        b.pred.marginals(b.pred.root, b.s, qb);
+        a.pred.marginals(a.pred.root, a.s, a.hist.parent(), qa);
+        b.pred.marginals(b.pred.root, b.s, b.hist.parent(), qb);
         if (qa != qb) return fail("search changed the root prediction");
         const auto again = a.resolve(joint);
         if (again.target != def_a.target || again.score != def_a.score) return fail("search changed the default order");
