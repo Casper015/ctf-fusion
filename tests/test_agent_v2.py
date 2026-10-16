@@ -337,13 +337,15 @@ class CountSpecialistsBank(unittest.TestCase):
         self.assertEqual(self.play(exe, game)[0], self.play(self.direct, game)[0])
 
     def test_two_banks_at_once_are_refused(self):
-        r = build_check(self.tmp / f"both{runner.EXE}", ["-DFUSION_TIER_CSP=1", "-DFUSION_TIER_PXXL_VM=1", "-DFUSION_MAX_WIDTH=2048"])
+        r = build_check(self.tmp / f"both{runner.EXE}", ["-fsyntax-only", "-DFUSION_TIER_CSP=1", "-DFUSION_TIER_PXXL_VM=1",
+                                                          "-DFUSION_MAX_WIDTH=2048"])
         self.assertNotEqual(r.returncode, 0)
         self.assertIn("define exactly one FUSION_TIER_*", r.stderr)
 
     def test_a_narrow_build_is_refused(self):
-        r = build_check(self.tmp / f"narrow{runner.EXE}", ["-DFUSION_TIER_CSP=1", "-DFUSION_MAX_WIDTH=1024"])
+        r = build_check(self.tmp / f"narrow{runner.EXE}", ["-fsyntax-only", "-DFUSION_TIER_CSP=1", "-DFUSION_MAX_WIDTH=1024"])
         self.assertNotEqual(r.returncode, 0)
+        self.assertIn("exceeds kMaxWidth", r.stderr)
 
     def test_the_variant_is_registered_and_not_a_production_default(self):
         reg = json.loads((REPO / "bots" / "agent_v2" / "variants.json").read_text())
