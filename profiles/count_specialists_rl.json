@@ -1,0 +1,22 @@
+{
+ "schema": "ctf-count-specialists-rl-1",
+ "task": "T0068",
+ "carrier": "agent_v2_v1",
+ "p_bank": "count_specialists_p",
+ "arm": "large_v",
+ "pool": "profiles/meow_rl_training_pool_v2.json",
+ "seed_ledger": "docs/COUNT_SPECIALISTS_RL_SEEDS.md",
+ "init_actor": "data/count_specialists_rl/init_actor.npz",
+ "workers": 8,
+ "limits": [2.0, 0.05],
+ "device": "cuda",
+ "optimizer_seed": 101,
+ "budget": {
+  "specialized_per_count": 100000,
+  "specialized_aggregate": 1400000,
+  "general_control_total": 1400000,
+  "total_learner_decisions": 2800000,
+  "smoke_decisions": 20000
+ },
+ "counts": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+}

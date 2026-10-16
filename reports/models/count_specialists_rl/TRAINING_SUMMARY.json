@@ -1,0 +1,414 @@
+{
+  "task": "T0068",
+  "carrier": "agent_v2_v1",
+  "p_bank": "count_specialists_p",
+  "created": "2026-10-16T15:58:05-0700",
+  "wall_s": 24.4,
+  "results": {
+    "n02": {
+      "name": "spec_n02",
+      "counts": [
+        2
+      ],
+      "seed": 20262002,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.5909090909090909,
+      "final_kl": 0.0003305575791017479,
+      "final_v_loss": 0.0043662176467478275,
+      "final_pg_loss": -9.521041065454482e-05
+    },
+    "n03": {
+      "name": "spec_n03",
+      "counts": [
+        3
+      ],
+      "seed": 20262003,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.6363636363636364,
+      "final_kl": 0.0002577786585996125,
+      "final_v_loss": 0.002734442299697548,
+      "final_pg_loss": 0.00013424460776150226
+    },
+    "n04": {
+      "name": "spec_n04",
+      "counts": [
+        4
+      ],
+      "seed": 20262004,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.5454545454545454,
+      "final_kl": 0.0004546947565738743,
+      "final_v_loss": 0.00291472757817246,
+      "final_pg_loss": -0.010341866686940194
+    },
+    "n05": {
+      "name": "spec_n05",
+      "counts": [
+        5
+      ],
+      "seed": 20262005,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.375,
+      "final_kl": 0.0003568386489319009,
+      "final_v_loss": 0.003206271061208099,
+      "final_pg_loss": -0.003920583322178572
+    },
+    "n06": {
+      "name": "spec_n06",
+      "counts": [
+        6
+      ],
+      "seed": 20262006,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.7000000000000001,
+      "final_kl": 0.0005300214572499962,
+      "final_v_loss": 0.0022025859565474094,
+      "final_pg_loss": 0.000446837383788079
+    },
+    "n07": {
+      "name": "spec_n07",
+      "counts": [
+        7
+      ],
+      "seed": 20262007,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.6287878787878788,
+      "final_kl": 0.0003027210166668015,
+      "final_v_loss": 0.003653752652462572,
+      "final_pg_loss": 0.00042572107631713154
+    },
+    "n08": {
+      "name": "spec_n08",
+      "counts": [
+        8
+      ],
+      "seed": 20262008,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.5844155844155844,
+      "final_kl": 0.0002546435103174732,
+      "final_v_loss": 0.0036579739302396775,
+      "final_pg_loss": -0.0003123215166851878
+    },
+    "n09": {
+      "name": "spec_n09",
+      "counts": [
+        9
+      ],
+      "seed": 20262009,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.5681818181818182,
+      "final_kl": 0.0003900097357621979,
+      "final_v_loss": 0.0025931949086952953,
+      "final_pg_loss": -0.004701529443264007
+    },
+    "n10": {
+      "name": "spec_n10",
+      "counts": [
+        10
+      ],
+      "seed": 20262010,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.6565656565656565,
+      "final_kl": 0.0004085344847218564,
+      "final_v_loss": 0.001532409933861345,
+      "final_pg_loss": -0.0018359290901571513
+    },
+    "n11": {
+      "name": "spec_n11",
+      "counts": [
+        11
+      ],
+      "seed": 20262011,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.7272727272727273,
+      "final_kl": 0.0002453822114437343,
+      "final_v_loss": 0.0018138106766855343,
+      "final_pg_loss": -0.0034367906861007213
+    },
+    "n12": {
+      "name": "spec_n12",
+      "counts": [
+        12
+      ],
+      "seed": 20262012,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.628099173553719,
+      "final_kl": 0.00037459755974386113,
+      "final_v_loss": 0.0024214770062826576,
+      "final_pg_loss": -0.0013500545639544726
+    },
+    "n13": {
+      "name": "spec_n13",
+      "counts": [
+        13
+      ],
+      "seed": 20262013,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.6401515151515151,
+      "final_kl": 0.00041987905718852134,
+      "final_v_loss": 0.0023376691387966275,
+      "final_pg_loss": -0.00760518794413656
+    },
+    "n14": {
+      "name": "spec_n14",
+      "counts": [
+        14
+      ],
+      "seed": 20262014,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.7237762237762237,
+      "final_kl": 0.0004084146512653902,
+      "final_v_loss": 0.003127084579318762,
+      "final_pg_loss": -0.001113398652523756
+    },
+    "n15": {
+      "name": "spec_n15",
+      "counts": [
+        15
+      ],
+      "seed": 20262015,
+      "total_decisions": 100000,
+      "updates": 13,
+      "final_utility": 0.5974025974025974,
+      "final_kl": 0.0006173411065806017,
+      "final_v_loss": 0.002195461496012285,
+      "final_pg_loss": -0.0046690128510817885
+    },
+    "general": {
+      "name": "general_control",
+      "counts": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "seed": 20262001,
+      "total_decisions": 1400000,
+      "updates": 168,
+      "final_utility": 0.5716540404040404,
+      "final_kl": 0.0002175371603763132,
+      "final_v_loss": 0.0027514013830417148,
+      "final_pg_loss": 3.0831433832645416e-06
+    }
+  },
+  "exported": {
+    "n02": {
+      "name": "spec_n02",
+      "count_tag": "n02",
+      "namespace": "fusion::models::rl_n02",
+      "header": "weights_n02.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n02.hpp",
+      "header_sha256": "6936521b06bdaf69baaa600bd9a7ec775d0d2ad05f5100983fd6fae4bd6a98bc",
+      "npz": "weights_n02.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n02.npz",
+      "digest": "a0ce31d05afab9ef0de116871f5597fbe71e01f18c86e75fda8de3057a8e4f1f",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n03": {
+      "name": "spec_n03",
+      "count_tag": "n03",
+      "namespace": "fusion::models::rl_n03",
+      "header": "weights_n03.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n03.hpp",
+      "header_sha256": "59a6086f15e5b54f7229813ac036beb02ec22fdd97333a307b5a8633a12a9759",
+      "npz": "weights_n03.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n03.npz",
+      "digest": "743caf5cc4401c6889696d43f3059de27b9bef1efa620a3dd49b079394d428ea",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n04": {
+      "name": "spec_n04",
+      "count_tag": "n04",
+      "namespace": "fusion::models::rl_n04",
+      "header": "weights_n04.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n04.hpp",
+      "header_sha256": "68af2061ef382908b7591bec20fa82e920ef30eae005aad7078a0af7338865e9",
+      "npz": "weights_n04.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n04.npz",
+      "digest": "e85ca5c8f7ae8704ebf85c7d7017ee7a2067de663022fc2d122a918a944fc1ee",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n05": {
+      "name": "spec_n05",
+      "count_tag": "n05",
+      "namespace": "fusion::models::rl_n05",
+      "header": "weights_n05.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n05.hpp",
+      "header_sha256": "4c5abbfac1d3b0a98a7689c530ae8ecded7436f0f6ea143cb08eb0f4523e983f",
+      "npz": "weights_n05.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n05.npz",
+      "digest": "fbcb6197916963d88a205eb344744a3ee5d3233a0a227fc77bc58f86cd5e3a5c",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n06": {
+      "name": "spec_n06",
+      "count_tag": "n06",
+      "namespace": "fusion::models::rl_n06",
+      "header": "weights_n06.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n06.hpp",
+      "header_sha256": "15a3eca03c5ecdd039dd70b9a4d20194a4645d086af7592d97fdbe31756e1e21",
+      "npz": "weights_n06.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n06.npz",
+      "digest": "854ec4f385a27d2cd257c57195c939db965a6ad9d6735458a7339f93bde5cccf",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n07": {
+      "name": "spec_n07",
+      "count_tag": "n07",
+      "namespace": "fusion::models::rl_n07",
+      "header": "weights_n07.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n07.hpp",
+      "header_sha256": "41d7dc0b110d369cefbe0b6e9e0182cba91e278b264f01adc8a92e234aadb37e",
+      "npz": "weights_n07.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n07.npz",
+      "digest": "07c25cf5b52174776ce61e7ad0fb9e3757fe49517368baa7725e22bb46cbd3fb",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n08": {
+      "name": "spec_n08",
+      "count_tag": "n08",
+      "namespace": "fusion::models::rl_n08",
+      "header": "weights_n08.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n08.hpp",
+      "header_sha256": "00ee75e005b38a27e266476741e50b916fad27a2d084bf0e856c55bd82827cf4",
+      "npz": "weights_n08.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n08.npz",
+      "digest": "9bc31cabda9b0c98e54a8217f7e036d57f6f5aa2b8bc99f5b5516524ff05d724",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n09": {
+      "name": "spec_n09",
+      "count_tag": "n09",
+      "namespace": "fusion::models::rl_n09",
+      "header": "weights_n09.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n09.hpp",
+      "header_sha256": "c93424603629a0d3d1f05bd510727682800b4c99f2d55e3d0992b522dc4eeb4f",
+      "npz": "weights_n09.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n09.npz",
+      "digest": "4fdb955c89ac4ba47831dceb5d164df0de08fd33fd943a44cc945fa2a25f4dd7",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n10": {
+      "name": "spec_n10",
+      "count_tag": "n10",
+      "namespace": "fusion::models::rl_n10",
+      "header": "weights_n10.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n10.hpp",
+      "header_sha256": "6652f541ede3ec19ae36fe2a7c9676d671193b4e6ecc7d6e9ab83e5d04a79735",
+      "npz": "weights_n10.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n10.npz",
+      "digest": "a5e344215f2569b9d3cd889c533175c077c0f3cc79bebd0cf312770443cd03de",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n11": {
+      "name": "spec_n11",
+      "count_tag": "n11",
+      "namespace": "fusion::models::rl_n11",
+      "header": "weights_n11.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n11.hpp",
+      "header_sha256": "1740b5d8bc29db250c6b26e098425e47cb5a13a7001e46f57f2a97ae6629cf2d",
+      "npz": "weights_n11.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n11.npz",
+      "digest": "b2c17ef09e8c95751456b3ed8efebaddbacec0a20730ac55b469c5006abf1e7b",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n12": {
+      "name": "spec_n12",
+      "count_tag": "n12",
+      "namespace": "fusion::models::rl_n12",
+      "header": "weights_n12.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n12.hpp",
+      "header_sha256": "119cc1ef7ce32c8cc784e3fcb5be2d5a412d102181406038a24dc26c84dd046c",
+      "npz": "weights_n12.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n12.npz",
+      "digest": "8e088dcbdd63b97889b0de417abae1dfdf1e1e519e17415ab8bb3762793873b5",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n13": {
+      "name": "spec_n13",
+      "count_tag": "n13",
+      "namespace": "fusion::models::rl_n13",
+      "header": "weights_n13.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n13.hpp",
+      "header_sha256": "fd6e7e36eb00130d8e02dc932118337bfcc354a1a5eff383d07a6acb0ef37ade",
+      "npz": "weights_n13.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n13.npz",
+      "digest": "74f763dbbe9e6f7366c084a0da982fc282ada11ee1e52de6532c18a2e9e267a0",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n14": {
+      "name": "spec_n14",
+      "count_tag": "n14",
+      "namespace": "fusion::models::rl_n14",
+      "header": "weights_n14.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n14.hpp",
+      "header_sha256": "064be1f76af0b70ad9c550452acdd4fe2c9d38af89c37944ace935872e949729",
+      "npz": "weights_n14.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n14.npz",
+      "digest": "9612c07a97c8698a2b967131a0f83c61e9f21f6ccfe492cc881b350f4d727810",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "n15": {
+      "name": "spec_n15",
+      "count_tag": "n15",
+      "namespace": "fusion::models::rl_n15",
+      "header": "weights_n15.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n15.hpp",
+      "header_sha256": "225b4e5321a63cbb802a4ce2b45830dda457d6ee4521dab26d90013661fee431",
+      "npz": "weights_n15.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n15.npz",
+      "digest": "501018bbec8d969cc1133cf8743968ac7b9d9e8c514bda20189decbc01f4569f",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    },
+    "general": {
+      "name": "general_control",
+      "count_tag": "general",
+      "namespace": "fusion::models::rl_general",
+      "header": "weights_general.hpp",
+      "header_path": "inference/count_specialists_rl/weights_general.hpp",
+      "header_sha256": "80a42490d709e8a088778cf3e2d849b13535336b7e8ab9c2fefb067ece76d133",
+      "npz": "weights_general.npz",
+      "npz_path": "inference/count_specialists_rl/weights_general.npz",
+      "digest": "71a530ccc042d68699387f01c5ac87e22e12ff2048abb3e9db810118fff98141",
+      "greedy_agreement": 1.0,
+      "mean_abs_logp_error": 0.0
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "ctf-host-feasibility-receipt-1",
+  "task": "T0068",
+  "kind": "offline inference microbenchmark: 8 concurrent worker threads evaluating exact-count RL actor dispatch and joint action scoring under native C++ mlp.hpp; official 2s/50ms host feasibility",
+  "workers": 8,
+  "evaluated_teams": 15,
+  "turns_evaluated_per_worker": 400,
+  "total_turns_evaluated": 3200,
+  "total_wall_seconds": 0.0049,
+  "init_budget_ms": 2000,
+  "init_measured_ms": 0.01,
+  "init_passed": true,
+  "turn_budget_ms": 50,
+  "turn_measured_ms_mean": 0.0081,
+  "turn_measured_ms_p50": 0.007,
+  "turn_measured_ms_p95": 0.013,
+  "turn_measured_ms_p99": 0.014,
+  "turn_measured_ms_max": 0.029,
+  "turn_passed": true,
+  "calls_per_turn": 15,
+  "never_runs_all_specialists": true,
+  "host_evidence_status": "development microbenchmark confirms single-call O(1) exact-count RL actor inference latency (0.014 ms p99) is orders of magnitude below the 50ms per-turn limit under 8-worker concurrency on desktop-g60ojud"
+}
