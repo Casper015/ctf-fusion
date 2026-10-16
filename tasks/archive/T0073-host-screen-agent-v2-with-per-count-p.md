@@ -1,7 +1,7 @@
 ---
 id: T0073
 title: "Host: screen agent_v2 with per-count P bank vs XXL P"
-status: active
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/agent_v2_csp/, profiles/agent_v2_csp_screen.json, docs/MEOWMIND_RL_SCREEN_SEEDS.md]
@@ -34,10 +34,13 @@ Seeds reserved before play; PREFLIGHT receipt (passed at 8 workers, or a blocked
 
 ## Handoff
 
-Not started.
+*2026-10-16 20:09Z antigravity@desktop-g60ojud:*
+
+Seeds reserved (20261960 preflight, 20261961 screen). 8-worker preflight passed at 11.7s wall time with 0 faults and <9.4ms steady reply. Paired screen of 1,176 games completed at 132.3s wall time: overall difference -0.0116 [-0.0315, +0.0082] (not shown); A/A identical on 392/392 fixtures. Per task specification: offline P loss improvement does not yield in-game playing benefit, so the 8XL distillation path (T0074) is dropped/blocked, clearing the runway for T0068.
 
 ## Log
 
 - 2026-10-16 19:31Z claude-review@caspers-macbook: created
 - 2026-10-16 19:47Z antigravity@desktop-g60ojud: claimed
 - 2026-10-16 20:08Z antigravity@desktop-g60ojud: note: eight-worker preflight pass; paired screen of 1,176 games complete; verdict not shown (-0.0116 [-0.0315, +0.0082]); A/A identical scores 392/392
+- 2026-10-16 20:09Z antigravity@desktop-g60ojud: done
