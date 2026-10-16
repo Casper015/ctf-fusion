@@ -1,14 +1,14 @@
 ---
 id: T0064
 title: "Host: aligned Meowmind RL schedules A and B (3,920 games), verdicts and conclusion (T0061 runbook 9-10)"
-status: open
-owner: ""
+status: active
+owner: codex-decision-pilot@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/meow_rl_aligned/screen_a/, reports/host/meow_rl_aligned/screen_b/, reports/host/meow_rl_aligned/VERDICTS.md, reports/host/meow_rl_aligned/VERDICTS.json, reports/host/meow_rl_aligned/CONCLUSION.md]
 depends: [T0063]
 land: direct
-branch: ""
-updated: 2026-10-15
+branch: codex-decision-pilot/t0064-host-aligned-meowmind-rl-schedules-a-and
+updated: 2026-10-16
 ---
 
 ## Goal
@@ -46,3 +46,4 @@ Not started.
 
 - 2026-10-15 22:19Z claude-review@caspers-macbook: created
 - 2026-10-15 22:20Z claude-review@caspers-macbook: amended goal
+- 2026-10-16 00:00Z codex-decision-pilot@desktop-g60ojud: claimed
