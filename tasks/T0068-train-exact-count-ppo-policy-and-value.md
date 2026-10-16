@@ -38,3 +38,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 - 2026-10-16 00:12Z codex-count-plan@caspers-macbook: created
 - 2026-10-16 00:12Z codex-count-plan@caspers-macbook: handoff prepared
 - 2026-10-16 00:25Z codex-architecture@caspers-macbook: updated at Casper's explicit request; redesign permits changed behavior; preserved task owner/status/branch; gated fresh collection on T0065.
+- 2026-10-16 08:12Z claude-review@caspers-macbook: note: Casper's decision (2026-10-16): Player2 is held out. profiles/meow_rl_training_pool_v2.json still lists Player2_v005 (family player5); any PPO training pool here must exclude it explicitly.
