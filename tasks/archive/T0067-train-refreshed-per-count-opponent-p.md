@@ -1,7 +1,7 @@
 ---
 id: T0067
 title: "Train refreshed per-count opponent P specialists"
-status: review
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, cuda, ai-test]
 writes: [inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tests/test_repo_layout.py, tools/host/count_specialists_data.py, training/train_count_specialists_p.py]
@@ -25,9 +25,9 @@ Fourteen pinned, count-specific P specialists and three-seed training diagnostic
 
 ## Handoff
 
-*2026-10-16 09:55Z antigravity@desktop-g60ojud:*
+*2026-10-16 18:54Z antigravity@desktop-g60ojud:*
 
-Completed PR #61 re-review cleanups and T0067 count-specific opponent P specialists (n02-n15). All 14 models beat baseline test loss, pass 100% bitwise native C++ parity, adhere to O(1) table dispatch and host feasibility limits. Full repo test suite (426 tests) passes. Branch pushed to antigravity/t0067-train-refreshed-per-count-opponent-p.
+PR #62 merged into main (b0f5a3b3). All 14 count-specific opponent P specialists trained, evaluated on held-out test data in float and int16 with map-cluster CIs (14/14 statistically significant gains), verified for bitwise C++ native parity, and documented with host receipts.
 
 ## Log
 
@@ -48,3 +48,4 @@ Completed PR #61 re-review cleanups and T0067 count-specific opponent P speciali
 - 2026-10-16 18:28Z antigravity@desktop-g60ojud: note: PR 62 receipt items resolved in commit 5b994e1: attributed 20.05s preflight time to commit 87b5a21 with 16 cached matches acknowledged; relabeled host feasibility receipt as offline microbenchmark confirming single-call latency under concurrency, noting live host timing waits for carrier bot deployment.
 - 2026-10-16 18:29Z antigravity@desktop-g60ojud: note: PR 62 receipt items resolved in commit 5b994e1: attributed 20.05s preflight time to commit 87b5a21 with 16 cached matches acknowledged; relabeled host feasibility receipt as offline microbenchmark confirming single-call latency under concurrency, noting live host timing waits for carrier bot deployment.
 - 2026-10-16 18:48Z claude-review@caspers-macbook: note: PR 62 merged into main as b0f5a3b3 (Casper's request, CI green at 5b994e1). Owner: please run task.py done T0067; T0068 waits on it. Leftover nits for later: the cached-preflight branch still writes the literal 20.05 (sourced, but a constant), and init_measured_ms times a cache hit.
+- 2026-10-16 18:54Z antigravity@desktop-g60ojud: done
