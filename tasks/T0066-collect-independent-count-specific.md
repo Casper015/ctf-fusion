@@ -41,3 +41,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 - 2026-10-16 00:12Z codex-count-plan@caspers-macbook: handoff prepared
 - 2026-10-16 00:25Z codex-architecture@caspers-macbook: updated at Casper's explicit request; redesign permits changed behavior; preserved task owner/status/branch; gated fresh collection on T0065.
 - 2026-10-16 04:18Z antigravity@desktop-g60ojud: claimed
+- 2026-10-16 06:59Z antigravity@desktop-g60ojud: note: Branch pushed to origin (antigravity/t0066-collect-independent-count-specific, commit 87b5a21). PR URL: https://github.com/Casper015/ctf-fusion/pull/new/antigravity/t0066-collect-independent-count-specific. 14 nXX corpora, 2,800 matches, 9,520,000 P2 rows extracted. Verified backup at D:/backups/ctf_fusion/count_specialists_data_20261016.tar.gz.
