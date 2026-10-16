@@ -25,8 +25,11 @@ Fourteen pinned, count-specific P specialists and three-seed training diagnostic
 
 ## Handoff
 
-Not started.
+*2026-10-16 00:12Z codex-count-plan@caspers-macbook:*
+
+User-authorized future host work. Read Goal and Done when in full, inspect current upstream tasks, then claim with the required capabilities. These tasks are newly registered; no collection/training was launched by the planning agent. Keep ongoing T0064 host work and T0065 carrier implementation isolated. Specialized data and policies use exact counts 2-15, not band labels.
 
 ## Log
 
 - 2026-10-16 00:12Z codex-count-plan@caspers-macbook: created
+- 2026-10-16 00:12Z codex-count-plan@caspers-macbook: handoff prepared
