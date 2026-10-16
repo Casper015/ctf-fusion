@@ -1,13 +1,13 @@
 ---
 id: T0071
 title: "Train 8XL count-specific opponent P teacher models and audit data sufficiency"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: [host, cuda, ai-test]
 writes: [reports/models/count_specialists_8xl/, training/train_count_specialists_8xl.py, tests/test_repo_layout.py]
 depends: []
 land: pr
-branch: ""
+branch: antigravity/t0071-train-8xl-count-specific-opponent-p
 updated: 2026-10-16
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-16 18:49Z antigravity@desktop-g60ojud: created
+- 2026-10-16 18:50Z antigravity@desktop-g60ojud: claimed
