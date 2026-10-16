@@ -91,14 +91,14 @@
    "primary": "agent_v2_p2xxl_direct - meow_rl_aligned_p2_large"
   },
   {
-   "name": "search on the new carrier",
+   "name": "search on the new carrier (deferred)",
    "arms": [
     "agent_v2_p2xxl_direct",
-    "agent_v2_p2xxl_search_r16",
     "agent_v2_p2xxl_search_w16",
     "agent_v2_p2xxl_search_fp32"
    ],
-   "question": "only after T0064's verdicts and fixed-work diagnostics on agent_v2 trees; equal-time packages, one Bonferroni family"
+   "question": "only after the search deficit T0064 measured is diagnosed (real-engine continuations, fixed-work trees on agent_v2); reference16 is excluded (T0064: -14.76 pp vs direct, -10.10 vs WideAct16)",
+   "rule": "equal-time packages, one Bonferroni family, fresh seeds"
   }
  ],
  "host_gate": {
@@ -119,5 +119,9 @@
   "actor": "meow_policy112_v1",
   "critic": "meow_public416_v1"
  },
- "simulator": "fusion::step (inference/sim.hpp) + lawful refresh sampling (inference/agent_v2/simulate.hpp)"
+ "simulator": "fusion::step (inference/sim.hpp) + lawful refresh sampling (inference/agent_v2/simulate.hpp)",
+ "production_default": "agent_v2_p2xxl_direct (actor-direct). T0064 (reports/host/meow_rl_aligned/VERDICTS.md): on the meow_rl carrier the aligned p2_large actor helps against its warm start (+3.84 pp [+1.66, +6.01]) while search hurts with every critic (fp32 -3.91, w16 -4.66, r16 -14.76 pp); search stays an unscreened experiment here until its deficit is diagnosed",
+ "variants_note": {
+  "agent_v2_p2xxl_search_r16": "diagnostic only (contract tests and fixed-work replay); not a screening arm"
+ }
 }

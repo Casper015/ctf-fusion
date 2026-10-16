@@ -154,8 +154,16 @@ With the same actor, movement is unchanged on the recorded streams. Tactical rep
 ## Variants
 
 All variants use the T0059 pool-v2 large-V actor (aligned reference16 export) and P2 XXL, and every name is new:
-- `agent_v2_p2xxl_direct`: actor-direct.
-- `agent_v2_p2xxl_search_{r16,w16,fp32}`: experimental search, one per critic backend.
+- `agent_v2_p2xxl_direct`: actor-direct, **the production default**.
+- `agent_v2_p2xxl_search_{w16,fp32}`: experimental search, one per critic backend.
+- `agent_v2_p2xxl_search_r16`: diagnostic only.
+
+T0064 ([VERDICTS.md](../reports/host/meow_rl_aligned/VERDICTS.md)) measured, on the meow_rl carrier:
+- the aligned p2_large actor helps against its warm start (+3.84 points [+1.66, +6.01]);
+- search hurts with every critic: FP32 −3.91, WideAct16 −4.66, reference16 −14.76 points against direct play;
+- WideAct16 recovers +10.10 points over reference16.
+
+So search stays an unscreened experiment on agent_v2 until that deficit is diagnosed, and reference16 is not a search candidate.
 
 Build with `python bots/p_only/tools/build.py --variants bots/agent_v2/variants.json`. Pins and settings are in [`profiles/agent_v2.json`](../profiles/agent_v2.json).
 
@@ -167,7 +175,7 @@ Each step is a separate frozen host task with exactly 8 workers, 2 s/50 ms full 
    - Build on Windows and run the test suites there.
    - Run an eight-worker preflight of the four variants: counts 2/5/8/15, 16 maps each, all-seat faults, counter coverage, first-reply startup.
    - Run a paired screen of `agent_v2_p2xxl_direct` against `meow_rl_aligned_p2_large`. This is a carrier comparison: several things change at once (P, resolver, simulator), so it is not a single-factor mechanism result.
-2. **Search on agent_v2,** only after T0064's verdicts and fixed-work diagnostics on agent_v2 trees. Run equal-time packages with one Bonferroni family.
+2. **Search on agent_v2,** only after the search deficit T0064 measured is diagnosed: real-engine continuations, and fixed-work trees on agent_v2 (`check tree`). Then compare WideAct16 or FP32 against direct as equal-time packages, in one Bonferroni family.
 3. **Fresh PPO on the frozen carrier** (`python -m training.agent_v2.train --init-actor <actor .npz> ...`).
    - New run identity and fresh data; never resume an old run.
    - Old actors can initialize; old critics only after revalidation.

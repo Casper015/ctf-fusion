@@ -201,8 +201,8 @@ class Bot(unittest.TestCase):
         cls.tmp = Path(tempfile.mkdtemp(prefix="agent-v2-bot-"))
         v = REPO / "bots" / "agent_v2" / "variants"
         cls.direct = bundle_and_build(v / "agent_v2_p2xxl_direct.cpp", cls.tmp / "direct")
-        cls.search = bundle_and_build(v / "agent_v2_p2xxl_search_r16.cpp", cls.tmp / "search")
-        cls.search0 = bundle_and_build(v / "agent_v2_p2xxl_search_r16.cpp", cls.tmp / "search0",
+        cls.search = bundle_and_build(v / "agent_v2_p2xxl_search_w16.cpp", cls.tmp / "search")
+        cls.search0 = bundle_and_build(v / "agent_v2_p2xxl_search_w16.cpp", cls.tmp / "search0",
                                        ["-DAGENT_V2_SEARCH_DEADLINE_MS=0", "-DAGENT_V2_SEARCH_FIRST_MS=0"])
 
     def play(self, exe: Path, text: str) -> tuple[list[str], str]:
@@ -264,7 +264,7 @@ class Bot(unittest.TestCase):
         lines, err = self.play(self.search, stream("n04"))
         c = dict(zip(err.strip().splitlines()[-1].split()[1::2], err.strip().splitlines()[-1].split()[2::2]))
         self.assertEqual(int(c["search_used"]) + int(c["search_fallback"]), 400)
-        self.assertEqual(c["critic"], "reference16")
+        self.assertEqual(c["critic"], "wideact16")
 
 
 class Profile(unittest.TestCase):
