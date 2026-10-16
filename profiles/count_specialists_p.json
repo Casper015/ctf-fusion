@@ -1,0 +1,278 @@
+{
+ "schema": "ctf-count-specialists-p-profile-1",
+ "task": "T0067",
+ "title": "Refreshed per-count opponent P specialists (exact counts 2..15)",
+ "policy_family": "p2",
+ "capacity": "XXL",
+ "max_epochs": 8,
+ "optimizer": {
+  "algorithm": "Adam",
+  "lr": 0.001,
+  "weight_decay": 0.0001
+ },
+ "schedule": {
+  "batch": 1024,
+  "lr": 0.001,
+  "lr_schedule": "constant",
+  "weight_decay": 0.0001,
+  "label_smoothing": 0.01,
+  "act_weight": 0.5,
+  "target_weight": 0.5,
+  "max_epochs": 8,
+  "loop": "PolicyTrainer.train_epoch called directly; training.common.fit (cosine schedule, plateau handling) not used",
+  "selection": "per seed, the epoch with the lowest validation total loss; seed 101 is deployed"
+ },
+ "alpha": {
+  "value": 1.0,
+  "fitted": false,
+  "why": "pure P (no mixing with the legacy q_H forecast), as a pure-P carrier such as agent_v2 uses it; the XXL models fitted 0.977-0.992, and a bot that mixes with q_H must fit alpha first"
+ },
+ "registry": {
+  "path": "inference/count_specialists_p/registry.hpp",
+  "sha256": "09741ed18f24afb463c4d9410de02da3add5ee1621a034954f6b593ad582d275"
+ },
+ "routing": {
+  "dispatch_mechanism": "forTeams(teams) O(1) table lookup",
+  "rule": "Exact global team count selected from INIT; never runs all 14 specialists per decision"
+ },
+ "models": {
+  "2": {
+   "model": "n02",
+   "namespace": "fusion::models::csp_n02",
+   "weights_header": "inference/count_specialists_p/weights_n02.hpp",
+   "weights_header_sha256": "cf6d78bebf91ab51eb1a0732fadc9b17a80e74d21fdc177c76764218e07f7957",
+   "weights_npz": "inference/count_specialists_p/weights_n02.npz",
+   "weights_npz_sha256": "7973fff62edaa769a3674346b5e96dc59f791c3a4b56715cfd5055844652d268",
+   "warm_start": "inference/models_xxl/weights_n02.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "3": {
+   "model": "n03",
+   "namespace": "fusion::models::csp_n03",
+   "weights_header": "inference/count_specialists_p/weights_n03.hpp",
+   "weights_header_sha256": "a1e6f7b576b045846c54377a61708b338539292d27327eb17d9b087fd3d93c34",
+   "weights_npz": "inference/count_specialists_p/weights_n03.npz",
+   "weights_npz_sha256": "7a5666729cd249f4cd508db898b924149a578f99bb75dd8a8b1f703c13bb6b20",
+   "warm_start": "inference/models_xxl/weights_n03.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "4": {
+   "model": "n04",
+   "namespace": "fusion::models::csp_n04",
+   "weights_header": "inference/count_specialists_p/weights_n04.hpp",
+   "weights_header_sha256": "b0be263922e067e3381aebfc982b0199fd42fb2dfbf84f2ff15e6cef67804071",
+   "weights_npz": "inference/count_specialists_p/weights_n04.npz",
+   "weights_npz_sha256": "0b88b1099fccb73bbec3b1efa80a9d9613fa1eff94137a4687014c39c09fe77e",
+   "warm_start": "inference/models_xxl/weights_n04.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "5": {
+   "model": "n05",
+   "namespace": "fusion::models::csp_n05",
+   "weights_header": "inference/count_specialists_p/weights_n05.hpp",
+   "weights_header_sha256": "a9f79adf73bdd1cfeefbbab8007ffe994eafab7a9c4f37b36e3d6757883eab1c",
+   "weights_npz": "inference/count_specialists_p/weights_n05.npz",
+   "weights_npz_sha256": "5e3964188004c9f885b4aeec6cc2e28e2b093ca29520e68520bf998ffd78b9c0",
+   "warm_start": "inference/models_xxl/weights_n05.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "6": {
+   "model": "n06",
+   "namespace": "fusion::models::csp_n06",
+   "weights_header": "inference/count_specialists_p/weights_n06.hpp",
+   "weights_header_sha256": "939d85d48a2f916cd38c7cc64daa9470c1a69b63ae9579287144628bb09fed73",
+   "weights_npz": "inference/count_specialists_p/weights_n06.npz",
+   "weights_npz_sha256": "966f71b57f5a6d9c83a083a07c50bbee543a222294555ae890699e35195ee2c0",
+   "warm_start": "inference/models_xxl/weights_n06.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "7": {
+   "model": "n07",
+   "namespace": "fusion::models::csp_n07",
+   "weights_header": "inference/count_specialists_p/weights_n07.hpp",
+   "weights_header_sha256": "e1bdef28f9ae56d8e25d91fbf8b60a525f4479b8693d0638868c8d26ea5ce0ee",
+   "weights_npz": "inference/count_specialists_p/weights_n07.npz",
+   "weights_npz_sha256": "d4fd0789b6f9a0b6222737795ddbbadcc86c32977f578c86063afe4dee140541",
+   "warm_start": "inference/models_xxl/weights_n07.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "8": {
+   "model": "n08",
+   "namespace": "fusion::models::csp_n08",
+   "weights_header": "inference/count_specialists_p/weights_n08.hpp",
+   "weights_header_sha256": "be03bb203c298307057d2deffc25fade78dd3c6df0b2eefaf6af5288bd426e5e",
+   "weights_npz": "inference/count_specialists_p/weights_n08.npz",
+   "weights_npz_sha256": "36e234302a1814d919226003b44380358e8585efe1a93de1c30ef82985bf4334",
+   "warm_start": "inference/models_xxl/weights_n08.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "9": {
+   "model": "n09",
+   "namespace": "fusion::models::csp_n09",
+   "weights_header": "inference/count_specialists_p/weights_n09.hpp",
+   "weights_header_sha256": "53b8c3bec91e1527416a01c717ca5cc47213f2dff7f60dc8c9ac1c461e45d553",
+   "weights_npz": "inference/count_specialists_p/weights_n09.npz",
+   "weights_npz_sha256": "09e58f3d1b26b2e15ef3909691578b99389bce24273b5a1bd7d184106ea076c3",
+   "warm_start": "inference/models_xxl/weights_general.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "10": {
+   "model": "n10",
+   "namespace": "fusion::models::csp_n10",
+   "weights_header": "inference/count_specialists_p/weights_n10.hpp",
+   "weights_header_sha256": "92bb216af5b3aa82100212d69a47021514aa4bd3a81b2cbcae7c4c3af2d7cbe9",
+   "weights_npz": "inference/count_specialists_p/weights_n10.npz",
+   "weights_npz_sha256": "bd1f704a0f29ef185cfb1b092266bb6b520c4024601ca57ad14fed4da4a5b6fb",
+   "warm_start": "inference/models_xxl/weights_n10.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "11": {
+   "model": "n11",
+   "namespace": "fusion::models::csp_n11",
+   "weights_header": "inference/count_specialists_p/weights_n11.hpp",
+   "weights_header_sha256": "20a1d25ff735ec8c8e18d76226e0e12817c0cac06d5c46fdbf21a0a60448e452",
+   "weights_npz": "inference/count_specialists_p/weights_n11.npz",
+   "weights_npz_sha256": "8696a3cf2151e26fe3474bf7fb572810b1ae154cf6ecfa1b992280b95e29ad2a",
+   "warm_start": "inference/models_xxl/weights_general.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "12": {
+   "model": "n12",
+   "namespace": "fusion::models::csp_n12",
+   "weights_header": "inference/count_specialists_p/weights_n12.hpp",
+   "weights_header_sha256": "cec886f79095b0101b940ea55c7c897a5c6cb29514b5ba431979e4ef398b9a81",
+   "weights_npz": "inference/count_specialists_p/weights_n12.npz",
+   "weights_npz_sha256": "a8d20836cb72787ee554b036def298f75ad22143cf6c447c8cf59232069e5f51",
+   "warm_start": "inference/models_xxl/weights_n12.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "13": {
+   "model": "n13",
+   "namespace": "fusion::models::csp_n13",
+   "weights_header": "inference/count_specialists_p/weights_n13.hpp",
+   "weights_header_sha256": "25c5ddc5080c61b95d3e03c8668a22a5bc3fe11c459462ccd8b2757210fb1c81",
+   "weights_npz": "inference/count_specialists_p/weights_n13.npz",
+   "weights_npz_sha256": "99140d50763217999b319da78fcc8a7cfc88e5624f4458dee0239210e4141edf",
+   "warm_start": "inference/models_xxl/weights_general.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "14": {
+   "model": "n14",
+   "namespace": "fusion::models::csp_n14",
+   "weights_header": "inference/count_specialists_p/weights_n14.hpp",
+   "weights_header_sha256": "3d797db5408f4bc73d41c500b157e3e868f22c3fa7e4e1f611edca617c885ef5",
+   "weights_npz": "inference/count_specialists_p/weights_n14.npz",
+   "weights_npz_sha256": "53b38c7a809487b7fcdb5588329990b3a2959c6fabb30dac186f882c7b3d318e",
+   "warm_start": "inference/models_xxl/weights_general.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "15": {
+   "model": "n15",
+   "namespace": "fusion::models::csp_n15",
+   "weights_header": "inference/count_specialists_p/weights_n15.hpp",
+   "weights_header_sha256": "7c410f7fcd678f7c6234c06627249a9eb3432b138c9590089fb5da4f63ce0d2a",
+   "weights_npz": "inference/count_specialists_p/weights_n15.npz",
+   "weights_npz_sha256": "c41824b4a6f7a472c2357a5347a88e09770c114fde843b19d592fa5733b5a244",
+   "warm_start": "inference/models_xxl/weights_n15.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  }
+ }
+}
