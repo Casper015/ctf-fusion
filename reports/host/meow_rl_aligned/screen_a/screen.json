@@ -1,0 +1,582 @@
+{
+ "schedule": "c7ab9ca4dfff5db5a5d5000ae36f65e7fdcf850d367910b20907a2c4a34c2301",
+ "seed": 20261954,
+ "fixtures": 392,
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "incomplete": {},
+ "stale_rows": {},
+ "arms": {
+  "meow_rl_aligned_p2_large": {
+   "games": 392,
+   "binary_sha256": "d76921a1967510ec0f361e20e79649bb458daf12f1366b81a88c7bda755227fc",
+   "utility": 0.78471,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 75.2,
+   "p99_ms_median": 0.947,
+   "p99_ms_worst": 4.335,
+   "max_ms": 7.328
+  },
+  "meow_rl_aligned_warm": {
+   "games": 392,
+   "binary_sha256": "4538f0d302bd2684ef4b3b7e1542237f7d862a03447a3646d160c132da9d822c",
+   "utility": 0.74633,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 67.8,
+   "p99_ms_median": 0.938,
+   "p99_ms_worst": 4.124,
+   "max_ms": 15.811
+  },
+  "meow_rl_aligned_p1_large": {
+   "games": 392,
+   "binary_sha256": "1ac91250e5ab3fa12db719551b61d4b09b69e46e2270da7cfdeb1cce95593c59",
+   "utility": 0.77301,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 107.3,
+   "p99_ms_median": 0.95,
+   "p99_ms_worst": 3.885,
+   "max_ms": 31.804
+  },
+  "meow_rl_aligned_p2_small": {
+   "games": 392,
+   "binary_sha256": "59d8aade3d63aaf7f6c9b8ef27585982c722e4b52c2f27df2c5b4c9830a18716",
+   "utility": 0.79058,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 92.3,
+   "p99_ms_median": 0.919,
+   "p99_ms_worst": 4.625,
+   "max_ms": 16.167
+  },
+  "meow_rl_aligned_p2_large~aa": {
+   "games": 392,
+   "binary_sha256": "d76921a1967510ec0f361e20e79649bb458daf12f1366b81a88c7bda755227fc",
+   "utility": 0.78471,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 99.9,
+   "p99_ms_median": 0.92,
+   "p99_ms_worst": 3.882,
+   "max_ms": 15.035
+  }
+ },
+ "comparisons": {
+  "meow_rl_aligned_p2_large - meow_rl_aligned_warm": {
+   "overall": {
+    "mean": 0.03838,
+    "ci95": [
+     0.01662,
+     0.06014
+    ],
+    "se": 0.0111,
+    "fixtures": 392,
+    "verdict": "helps",
+    "z": 1.96,
+    "ci": [
+     0.01662,
+     0.06014
+    ],
+    "verdict_95": "helps"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.03571,
+     "ci95": [
+      -0.03428,
+      0.10571
+     ],
+     "se": 0.03571,
+     "fixtures": 28,
+     "verdict": "not shown",
+     "z": 1.96,
+     "ci": [
+      -0.03428,
+      0.10571
+     ],
+     "verdict_95": "not shown"
+    },
+    "3-5": {
+     "mean": 0.06002,
+     "ci95": [
+      -0.00034,
+      0.12038
+     ],
+     "se": 0.0308,
+     "fixtures": 84,
+     "verdict": "not shown",
+     "z": 1.96,
+     "ci": [
+      -0.00034,
+      0.12038
+     ],
+     "verdict_95": "not shown"
+    },
+    "6-10": {
+     "mean": 0.02894,
+     "ci95": [
+      -0.0069,
+      0.06478
+     ],
+     "se": 0.01829,
+     "fixtures": 140,
+     "verdict": "not shown",
+     "z": 1.96,
+     "ci": [
+      -0.0069,
+      0.06478
+     ],
+     "verdict_95": "not shown"
+    },
+    "11-15": {
+     "mean": 0.03537,
+     "ci95": [
+      0.00503,
+      0.06571
+     ],
+     "se": 0.01548,
+     "fixtures": 140,
+     "verdict": "helps",
+     "z": 1.96,
+     "ci": [
+      0.00503,
+      0.06571
+     ],
+     "verdict_95": "helps"
+    }
+   },
+   "per_count": {
+    "2": 0.03571,
+    "3": 0.0,
+    "4": 0.05952,
+    "5": 0.12054,
+    "6": -0.01071,
+    "7": 0.02083,
+    "8": 0.01531,
+    "9": 0.0558,
+    "10": 0.06349,
+    "11": 0.02857,
+    "12": 0.00974,
+    "13": 0.01637,
+    "14": 0.08516,
+    "15": 0.03699
+   },
+   "improved": 156,
+   "unchanged": 128,
+   "degraded": 108,
+   "identical_scores": 0,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  },
+  "meow_rl_aligned_p2_large - meow_rl_aligned_p1_large": {
+   "overall": {
+    "mean": 0.0117,
+    "ci95": [
+     -0.00772,
+     0.03112
+    ],
+    "se": 0.00991,
+    "fixtures": 392,
+    "verdict": "not shown",
+    "z": 1.96,
+    "ci": [
+     -0.00772,
+     0.03112
+    ],
+    "verdict_95": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 28,
+     "verdict": "not shown",
+     "z": 1.96,
+     "ci": [
+      0.0,
+      0.0
+     ],
+     "verdict_95": "not shown"
+    },
+    "3-5": {
+     "mean": 0.04067,
+     "ci95": [
+      -0.01126,
+      0.09261
+     ],
+     "se": 0.0265,
+     "fixtures": 84,
+     "verdict": "not shown",
+     "z": 1.96,
+     "ci": [
+      -0.01126,
+      0.09261
+     ],
+     "verdict_95": "not shown"
+    },
+    "6-10": {
+     "mean": -0.00473,
+     "ci95": [
+      -0.04102,
+      0.03156
+     ],
+     "se": 0.01852,
+     "fixtures": 140,
+     "verdict": "not shown",
+     "z": 1.96,
+     "ci": [
+      -0.04102,
+      0.03156
+     ],
+     "verdict_95": "not shown"
+    },
+    "11-15": {
+     "mean": 0.01309,
+     "ci95": [
+      -0.01277,
+      0.03895
+     ],
+     "se": 0.01319,
+     "fixtures": 140,
+     "verdict": "not shown",
+     "z": 1.96,
+     "ci": [
+      -0.01277,
+      0.03895
+     ],
+     "verdict_95": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.04464,
+    "4": 0.04167,
+    "5": 0.03571,
+    "6": -0.06786,
+    "7": -0.0119,
+    "8": 0.00255,
+    "9": 0.01786,
+    "10": 0.03571,
+    "11": -0.00179,
+    "12": 0.00487,
+    "13": 0.01488,
+    "14": 0.05769,
+    "15": -0.0102
+   },
+   "improved": 139,
+   "unchanged": 130,
+   "degraded": 123,
+   "identical_scores": 0,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  },
+  "meow_rl_aligned_p2_large - meow_rl_aligned_p2_small": {
+   "overall": {
+    "mean": -0.00587,
+    "ci95": [
+     -0.02541,
+     0.01367
+    ],
+    "se": 0.00997,
+    "fixtures": 392,
+    "verdict": "not shown",
+    "z": 1.96,
+    "ci": [
+     -0.02541,
+     0.01367
+    ],
+    "verdict_95": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.03571,
+     "ci95": [
+      -0.03428,
+      0.10571
+     ],
+     "se": 0.03571,
+     "fixtures": 28,
+     "verdict": "not shown",
+     "z": 1.96,
+     "ci": [
+      -0.03428,
+      0.10571
+     ],
+     "verdict_95": "not shown"
+    },
+    "3-5": {
+     "mean": 0.01339,
+     "ci95": [
+      -0.0367,
+      0.06349
+     ],
+     "se": 0.02556,
+     "fixtures": 84,
+     "verdict": "not shown",
+     "z": 1.96,
+     "ci": [
+      -0.0367,
+      0.06349
+     ],
+     "verdict_95": "not shown"
+    },
+    "6-10": {
+     "mean": -0.0246,
+     "ci95": [
+      -0.06021,
+      0.01101
+     ],
+     "se": 0.01817,
+     "fixtures": 140,
+     "verdict": "not shown",
+     "z": 1.96,
+     "ci": [
+      -0.06021,
+      0.01101
+     ],
+     "verdict_95": "not shown"
+    },
+    "11-15": {
+     "mean": -0.00701,
+     "ci95": [
+      -0.03202,
+      0.01799
+     ],
+     "se": 0.01276,
+     "fixtures": 140,
+     "verdict": "not shown",
+     "z": 1.96,
+     "ci": [
+      -0.03202,
+      0.01799
+     ],
+     "verdict_95": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.03571,
+    "3": -0.02679,
+    "4": 0.10714,
+    "5": -0.04018,
+    "6": 0.01786,
+    "7": 0.0,
+    "8": -0.01786,
+    "9": -0.07143,
+    "10": -0.05159,
+    "11": -0.02679,
+    "12": 0.01461,
+    "13": -0.0119,
+    "14": 0.02473,
+    "15": -0.03571
+   },
+   "improved": 119,
+   "unchanged": 128,
+   "degraded": 145,
+   "identical_scores": 1,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  }
+ },
+ "multiplicity": {
+  "method": "none",
+  "alpha": 0.05,
+  "comparisons": 3,
+  "z": 1.96
+ },
+ "rerun_noise": {
+  "meow_rl_aligned_p2_large~aa - meow_rl_aligned_p2_large": {
+   "overall": {
+    "mean": 0.0,
+    "ci95": [
+     0.0,
+     0.0
+    ],
+    "se": 0.0,
+    "fixtures": 392,
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 28,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 84,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 140,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 140,
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.0,
+    "4": 0.0,
+    "5": 0.0,
+    "6": 0.0,
+    "7": 0.0,
+    "8": 0.0,
+    "9": 0.0,
+    "10": 0.0,
+    "11": 0.0,
+    "12": 0.0,
+    "13": 0.0,
+    "14": 0.0,
+    "15": 0.0
+   },
+   "improved": 0,
+   "unchanged": 392,
+   "degraded": 0,
+   "identical_scores": 392,
+   "fixtures": 392,
+   "scheduled": 392,
+   "missing": 0
+  }
+ },
+ "network_calls": {
+  "meow_rl_aligned_p2_large": {
+   "meowrl": {
+    "games": 392,
+    "games_with_counters": 392,
+    "turns": 156800,
+    "game_turns": 156800,
+    "refused": 0,
+    "search_used": 0,
+    "search_fallback": 0,
+    "leaves": 0,
+    "turn_coverage": 1.0
+   }
+  },
+  "meow_rl_aligned_warm": {
+   "meowrl": {
+    "games": 392,
+    "games_with_counters": 392,
+    "turns": 156800,
+    "game_turns": 156800,
+    "refused": 0,
+    "search_used": 0,
+    "search_fallback": 0,
+    "leaves": 0,
+    "turn_coverage": 1.0
+   }
+  },
+  "meow_rl_aligned_p2_large~aa": {
+   "meowrl": {
+    "games": 392,
+    "games_with_counters": 392,
+    "turns": 156800,
+    "game_turns": 156800,
+    "refused": 0,
+    "search_used": 0,
+    "search_fallback": 0,
+    "leaves": 0,
+    "turn_coverage": 1.0
+   }
+  },
+  "meow_rl_aligned_p2_small": {
+   "meowrl": {
+    "games": 392,
+    "games_with_counters": 392,
+    "turns": 156800,
+    "game_turns": 156800,
+    "refused": 0,
+    "search_used": 0,
+    "search_fallback": 0,
+    "leaves": 0,
+    "turn_coverage": 1.0
+   }
+  },
+  "meow_rl_aligned_p1_large": {
+   "meowrl": {
+    "games": 392,
+    "games_with_counters": 392,
+    "turns": 156800,
+    "game_turns": 156800,
+    "refused": 0,
+    "search_used": 0,
+    "search_fallback": 0,
+    "leaves": 0,
+    "turn_coverage": 1.0
+   }
+  }
+ },
+ "identities": {
+  "meow_rl_aligned_p2_large": "00aba866b8cd79d1c55d4112088b9b2fdb18572e525e3fba94af02a2f31557f7",
+  "meow_rl_aligned_warm": "474d95c4a42255eacd1ebf433114d7a1fb84ca7831b83f113d3f696a5daa35cc",
+  "meow_rl_aligned_p1_large": "f664c24b0eb05828e2c237a5425c1370f819f0e6073f3689551a0cf7b8ebf099",
+  "meow_rl_aligned_p2_small": "909854bde8141995449e533060a2008b0a5564aa97b8913a030bdab6ecb6caa5",
+  "meow_rl_aligned_p2_large~aa": "00aba866b8cd79d1c55d4112088b9b2fdb18572e525e3fba94af02a2f31557f7"
+ }
+}
