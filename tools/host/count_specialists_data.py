@@ -281,12 +281,13 @@ def run_preflight() -> int:
             out_p = REPO / "build" / "preflight_matches" / f"{fx.match_id}.json.gz"
             jobs.append((fx, commands, info, root, LIMITS, str(out_p)))
 
+    cached = sum(Path(job[-1]).exists() for job in jobs)
     t0 = time.time()
     with ProcessPoolExecutor(max_workers=WORKERS) as ex:
         matches = list(ex.map(run_single_match, jobs))
     elapsed = round(time.time() - t0, 2)
-    # The true match-playing wall time under 8 workers is 23.33s; preserve it even when reading cached matches
-    wall_s = 23.33 if elapsed < 1.0 else elapsed
+    # Only a run that played every match measures the eight-worker wall time; a cached replay measures nothing.
+    wall_s = elapsed if cached == 0 else None
 
     total_faults = sum(len(m.get("faults", [])) for m in matches)
     total_turns = sum(len(m.get("blocks", [])) for m in matches)
@@ -374,6 +375,7 @@ def run_preflight() -> int:
         "valid_label_rate": valid_rate,
         "extraction_shape": list(rec.shape),
         "wall_seconds": wall_s,
+        "matches_from_cache": cached,
         "engine_sha256": info["__engine__"],
         "ai_test_commit": info["__commit__"],
         "parity": parity_receipt["model_inference_parity"],
@@ -383,7 +385,7 @@ def run_preflight() -> int:
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     (REPORT_DIR / "PREFLIGHT.json").write_text(json.dumps(receipt, indent=1) + "\n", encoding="utf-8")
     (REPORT_DIR / "PARITY_RECEIPT.json").write_text(json.dumps(parity_receipt, indent=1) + "\n", encoding="utf-8")
-    print(f"[preflight] {'PASSED' if passed else 'FAILED'} in {wall_s}s (faults: {total_faults}, turns: {total_turns}, parity mismatches: {mismatches}).", flush=True)
+    print(f"[preflight] {'PASSED' if passed else 'FAILED'} in {'unmeasured (cached)' if wall_s is None else f'{wall_s}s'} (faults: {total_faults}, turns: {total_turns}, parity mismatches: {mismatches}).", flush=True)
     return 0 if passed else 1
 
 
@@ -837,11 +839,21 @@ def generate_report():
     fixtures = []
     if fixtures_file.exists():
         fixtures = [json.loads(line) for line in fixtures_file.read_text(encoding="utf-8").splitlines() if line.strip()]
-    n_fixtures = len(fixtures) if fixtures else 2800
+    if not fixtures:
+        raise SystemExit(f"{fixtures_file} is missing: run --regenerate first")
+    n_fixtures = len(fixtures)
+    seats_by_bot = Counter(s["name"] for fx in fixtures for s in fx["seats"])
+    total_seats = sum(seats_by_bot.values())
+    matches_with = lambda name: sum(1 for fx in fixtures if any(s["name"] == name for s in fx["seats"]))  # noqa: E731
+    m_matches, mp3_matches, p2_matches = matches_with("Meowmind"), matches_with("Meowmind_Distill_P3"), matches_with("Player2_v005")
 
-    m_matches = sum(1 for fx in fixtures if any(s["name"] == "Meowmind" for s in fx["seats"]))
-    mp3_matches = sum(1 for fx in fixtures if any(s["name"] == "Meowmind_Distill_P3" for s in fx["seats"]))
-    p2_matches = sum(1 for fx in fixtures if any(s["name"] == "Player2_v005" for s in fx["seats"]))
+    # Family balance, computed from the fixtures and the pool (never typed in).
+    _, pool_names, pool_families = load_pool()
+    pool_by_family = Counter(pool_families.values())
+    seats_by_family = Counter()
+    for name, n in seats_by_bot.items():
+        seats_by_family[pool_families.get(name, "unknown")] += n
+    shown = lambda v, fmt="{}": "not measured" if v is None else fmt.format(v)  # noqa: E731
 
     par_inf = parity.get("model_inference_parity", parity)
     schema_info = native.schema()
@@ -864,7 +876,9 @@ def generate_report():
         "## 1. Collector Preflight & Parity Receipt",
         "",
         f"- **Preflight Matches Played:** {pre.get('matches_played', 16)} across counts [2, 5, 8, 15] (4 matches per count).",
-        f"- **Preflight Wall Time:** {pre.get('wall_seconds', 23.33)} seconds under 8 worker processes.",
+        f"- **Preflight Wall Time:** {shown(pre.get('wall_seconds'), '{} seconds')} under 8 worker processes"
+        + (f" ({pre['matches_from_cache']} of {pre.get('matches_played')} matches read from cache, so this run measured no time)."
+           if pre.get("matches_from_cache") else "."),
         f"- **Preflight Faults:** **{pre.get('total_faults', 0)}** total faults.",
         f"- **Preflight Valid Label Rate:** **{pre.get('valid_label_rate', 1.0):.2%}** ({pre.get('total_turns', 6400)} turns extracted).",
         f"- **P2 Feature Schema Digest:** `{par_inf.get('feature_schema_digest', 'unknown')}` (record width: {par_inf.get('feature_record_width', 923)}).",
@@ -878,27 +892,23 @@ def generate_report():
         "",
         "## 2. Opponent Sampling & Lineage Balance",
         "",
-        f"Total opponents in roster: **{opps.get('total_opponents', 50)}** bots. Total seats played: **{opps.get('total_seats_played', 23800):,}** seats.",
+        f"Opponents in the roster: **{len(pool_names)}** bots; **{len(seats_by_bot)}** played. Total seats played: **{total_seats:,}**.",
         "",
         "### Key Lineages Breakdown",
         "| Lineage / Bot | Declared Family in Pool | Total Seats Played | Share of All Seats | Present in Matches | Status / Notes |",
         "|---|:---:|---:|---:|---:|---|",
     ]
 
-    key_lins = opps.get("key_lineages", {})
-    m_info = key_lins.get("Meowmind", {})
-    mp3_info = key_lins.get("Meowmind_Distill_P3", {})
-    p2_info = key_lins.get("Player2_v005", {})
+    def lineage_row(name: str, label: str, matches: int, note: str) -> str:
+        seats = seats_by_bot[name]
+        return (f"| {label} | `{pool_families.get(name, 'unknown')}` | {seats:,} | {seats / total_seats:.2%} | "
+                f"{matches:,} / {n_fixtures:,} ({matches / n_fixtures:.2%}) | {note} |")
 
-    report_lines.append(
-        f"| `Meowmind` (original 374) | `meowmind` | {m_info.get('total_seats', m_matches):,} | {m_info.get('share', m_matches / 23800):.2%} | {m_matches:,} / {n_fixtures:,} ({m_matches / n_fixtures:.2%}) | Target opponent modeled directly |"
-    )
-    report_lines.append(
-        f"| `Meowmind_Distill_P3` | `meowmind` | {mp3_info.get('total_seats', mp3_matches):,} | {mp3_info.get('share', mp3_matches / 23800):.2%} | {mp3_matches:,} / {n_fixtures:,} ({mp3_matches / n_fixtures:.2%}) | Distilled variant modeled directly |"
-    )
-    report_lines.append(
-        f"| `Player2_v005` | `{p2_info.get('pool_v2_declared_family', 'player5')}` | {p2_info.get('total_seats', p2_matches):,} | {p2_info.get('share', p2_matches / 23800):.2%} | {p2_matches:,} / {n_fixtures:,} ({p2_matches / n_fixtures:.2%}) | Approved training bot per docs/MEOWMIND_RL_POOL_SPLIT.md |"
-    )
+    report_lines += [
+        lineage_row("Meowmind", "`Meowmind` (original 374)", m_matches, "Target opponent modeled directly"),
+        lineage_row("Meowmind_Distill_P3", "`Meowmind_Distill_P3`", mp3_matches, "Distilled variant modeled directly"),
+        lineage_row("Player2_v005", "`Player2_v005`", p2_matches, "Approved training bot per docs/MEOWMIND_RL_POOL_SPLIT.md"),
+    ]
 
     report_lines += [
         "",
@@ -909,14 +919,14 @@ def generate_report():
         "",
         "## 3. Family Balance & Sampling Dynamics",
         "",
-        "Opponent selection uses `sample_seats` which samples candidate bots uniformly with a per-match cap of `max(1, teams // 3)` per family.",
-        "In `profiles/meow_rl_training_pool_v2.json`, `player5` comprises 35 of 50 bots (70%) and `gpt` comprises 6 of 50 bots (12%).",
-        "Due to uniform candidate bot sampling subject to the per-match family cap, their realized overall seat shares are:",
-        "- **`player5`:** 7,186 seats (30.19%) — strictly constrained by the per-match `teams // 3` ceiling despite being 70% of roster candidates.",
-        "- **`gpt`:** 5,880 seats (24.71%).",
-        "- **`claude`:** 2,407 seats (10.11%).",
-        "- **`meowmind`:** 2,341 seats (9.84%).",
-        "- **Remaining families (`player1`, `qwen`, `baseline`, `deepseek`, `player3`):** ~5.0% each.",
+        "Opponent selection uses `sample_seats`, which samples candidate bots uniformly with a per-match cap of `max(1, teams // 3)` seats per family. "
+        "This does not give each family an equal share: the pool's own contract (`family_cap` and equal family shares, "
+        "`profiles/meow_rl_training_pool_v2.json`) is not what the collector implemented, and the realized shares below are a deviation from it.",
+        "",
+        "| Family | Bots in pool | Share of pool | Seats played | Share of seats |",
+        "|---|---:|---:|---:|---:|",
+        *[f"| `{fam}` | {pool_by_family[fam]} | {pool_by_family[fam] / len(pool_names):.1%} | {n:,} | {n / total_seats:.2%} |"
+          for fam, n in seats_by_family.most_common()],
         "",
         "Full per-opponent seat counts across all 14 team counts are recorded in [`reports/host/count_specialists_data/OPPONENTS.json`](OPPONENTS.json).",
         "",
