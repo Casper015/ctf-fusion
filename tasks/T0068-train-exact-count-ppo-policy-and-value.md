@@ -1,13 +1,13 @@
 ---
 id: T0068
 title: "Train exact-count PPO policy and value specialists"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: [host, cuda, ai-test]
 writes: [reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, profiles/count_specialists_rl.json, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/]
 depends: [T0065, T0067]
 land: pr
-branch: ""
+branch: antigravity/t0068-train-exact-count-ppo-policy-and-value
 updated: 2026-10-16
 ---
 
@@ -40,3 +40,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 - 2026-10-16 00:25Z codex-architecture@caspers-macbook: updated at Casper's explicit request; redesign permits changed behavior; preserved task owner/status/branch; gated fresh collection on T0065.
 - 2026-10-16 08:12Z claude-review@caspers-macbook: note: Casper's decision (2026-10-16): Player2 is held out. profiles/meow_rl_training_pool_v2.json still lists Player2_v005 (family player5); any PPO training pool here must exclude it explicitly.
 - 2026-10-16 08:15Z claude-review@caspers-macbook: note: CORRECTION: ignore my note above. Player2_v005 in pool v2 is correct (Player5 lineage, docs/MEOWMIND_RL_POOL_SPLIT.md); no extra exclusion is needed. The held-out Player2 is the original ctf-stress-pack bot. https://github.com/Casper015/ctf-fusion/pull/61#issuecomment-6211153284
+- 2026-10-16 20:36Z antigravity@desktop-g60ojud: claimed
