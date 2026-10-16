@@ -1,7 +1,7 @@
 ---
 id: T0068
 title: "Train exact-count PPO policy and value specialists"
-status: active
+status: review
 owner: antigravity@desktop-g60ojud
 needs: [host, cuda, ai-test]
 writes: [data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, training/train_count_specialists_rl.py]
@@ -29,9 +29,9 @@ Fourteen specialized pi/V checkpoints plus the compute-matched general control, 
 
 ## Handoff
 
-*2026-10-16 00:12Z codex-count-plan@caspers-macbook:*
+*2026-10-16 23:02Z antigravity@desktop-g60ojud:*
 
-User-authorized future host work. Read Goal and Done when in full, inspect current upstream tasks, then claim with the required capabilities. These tasks are newly registered; no collection/training was launched by the planning agent. Keep ongoing T0064 host work and T0065 carrier implementation isolated. Specialized data and policies use exact counts 2-15, not band labels.
+PR #65 submitted (https://github.com/Casper015/ctf-fusion/pull/65). All 2.8M learner decisions completed (1.4M specialized across counts 2..15 + 1.4M general control interleaved). All 14 specialist INT16 headers and general control exported with 1.000 greedy agreement. inference/count_specialists_rl/registry.hpp and MANIFEST.json emitted. Host 8-worker feasibility verified in reports/host/count_specialists_rl/ (0.014ms p99 vs 50ms limit). Comprehensive training report in reports/models/count_specialists_rl/REPORT.md.
 
 ## Log
 
@@ -42,3 +42,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 - 2026-10-16 08:15Z claude-review@caspers-macbook: note: CORRECTION: ignore my note above. Player2_v005 in pool v2 is correct (Player5 lineage, docs/MEOWMIND_RL_POOL_SPLIT.md); no extra exclusion is needed. The held-out Player2 is the original ctf-stress-pack bot. https://github.com/Casper015/ctf-fusion/pull/61#issuecomment-6211153284
 - 2026-10-16 20:36Z antigravity@desktop-g60ojud: claimed
 - 2026-10-16 22:55Z antigravity@desktop-g60ojud: amended writes -> data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, training/train_count_specialists_rl.py
+- 2026-10-16 23:02Z antigravity@desktop-g60ojud: handoff -> review
