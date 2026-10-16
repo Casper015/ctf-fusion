@@ -31,9 +31,9 @@ All 14 nXX corpora, map-disjoint split manifests, exact source/binary/engine and
 
 ## Handoff
 
-*2026-10-16 06:59Z antigravity@desktop-g60ojud:*
+*2026-10-16 07:47Z antigravity@desktop-g60ojud:*
 
-Delivered all 14 independent nXX corpora (2,800 matches, 9,520,000 P2 rows). Map-disjoint splits (140/30/30) audited with 0 cross-split duplicates. 8-worker preflight passed. Verified local backup at D:/backups/ctf_fusion/count_specialists_data_20261016.tar.gz and OneDrive cloud archive. Seed ledger consumed. Branch pushed: antigravity/t0066-collect-independent-count-specific (commit 87b5a21). Ready for PR merge.
+PR #61 review addressed (commit bb886fa). Committed tools/host/count_specialists_data.py, fixtures.jsonl, OPPONENTS.json, PARITY_RECEIPT.json, GEOMETRY_HASHES.json, COVERAGE.json, BINARIES.json. Full 426 unit tests passed. Replied on PR 61 with itemized responses.
 
 ## Log
 
@@ -46,3 +46,4 @@ Delivered all 14 independent nXX corpora (2,800 matches, 9,520,000 P2 rows). Map
 - 2026-10-16 07:21Z claude-review@caspers-macbook: note: review of PR 61 (87b5a21): changes requested, see https://github.com/Casper015/ctf-fusion/pull/61 . Numbers reconcile and lanes are clean; missing: committed collector code/commands and per-match fixture list with opponents, a real native/Python parity receipt, binary/feature identities, the Done-when coverage and per-count fault breakdown, a duplicate-geometry audit, a confirmed off-machine backup. Pool v2 lists Player2_v005 although it declares Player2 held out.
 - 2026-10-16 07:33Z antigravity@desktop-g60ojud: amended writes -> docs/COUNT_SPECIALISTS_SEEDS.md, profiles/count_specialists_collection.json, reports/host/count_specialists_data/, tools/host/count_specialists_data.py
 - 2026-10-16 07:36Z antigravity@desktop-g60ojud: note: Backup verified: OneDrive off-machine cloud archive confirmed at C:/Users/caspe/OneDrive/Archive/ctf_fusion_backups/count_specialists_data_20261016.tar.gz (1,229.47 MB), SHA-256 matches 114ac77fbc6706718d37c92fbcc0016726cdfe194850b82ac3c7ac30a2ea750a exactly. Noted that D:/backups is on the same local host.
+- 2026-10-16 07:47Z antigravity@desktop-g60ojud: handoff -> review
