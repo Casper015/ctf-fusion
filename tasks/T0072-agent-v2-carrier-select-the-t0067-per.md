@@ -1,13 +1,13 @@
 ---
 id: T0072
 title: "agent_v2 carrier: select the T0067 per-count P bank (FUSION_TIER_CSP)"
-status: open
-owner: ""
+status: active
+owner: claude-csp@caspers-macbook
 needs: []
 writes: [bots/agent_v2/, inference/agent_v2/, tools/cpp/agent_v2/, training/agent_v2/, tests/test_agent_v2.py, tests/test_agent_v2_training.py, docs/AGENT_V2.md]
 depends: []
 land: pr
-branch: ""
+branch: claude-csp/t0072-agent-v2-carrier-select-the-t0067-per
 updated: 2026-10-16
 ---
 
@@ -28,3 +28,4 @@ Not started.
 - 2026-10-16 18:52Z claude-csp@caspers-macbook: created
 - 2026-10-16 18:52Z claude-csp@caspers-macbook: amended depends -> none
 - 2026-10-16 18:52Z claude-csp@caspers-macbook: note: dropped depends T0067: its PR 62 is merged into main (b0f5a3b), so inference/count_specialists_p/ is on main; T0067 only awaits its board done mark
+- 2026-10-16 18:52Z claude-csp@caspers-macbook: claimed
