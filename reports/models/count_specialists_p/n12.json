@@ -241,5 +241,34 @@
     }
    ]
   }
+ },
+ "quantized_specialist_test": {
+  "total_loss": 2.0463,
+  "joint_nll": 1.9641,
+  "act_nll": 0.1136,
+  "target_nll": 0.0509,
+  "joint_top1": 0.4344,
+  "joint_top5": 0.7878,
+  "act_acc": 0.7017,
+  "target_acc": 0.1903
+ },
+ "quantized_baseline_test": {
+  "total_loss": 2.1025,
+  "joint_nll": 2.0155,
+  "act_nll": 0.1224,
+  "target_nll": 0.0516,
+  "joint_top1": 0.4246,
+  "joint_top5": 0.7789,
+  "act_acc": 0.6962,
+  "target_acc": 0.1901
+ },
+ "quantized_test_ci": {
+  "mean_diff": -0.05619,
+  "ci_95": [
+   -0.06127,
+   -0.05111
+  ],
+  "clusters": 30,
+  "verdict": "lower"
  }
 }

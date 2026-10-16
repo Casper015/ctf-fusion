@@ -14,7 +14,7 @@
 ## 1. Collector Preflight & Parity Receipt
 
 - **Preflight Matches Played:** 16 across counts [2, 5, 8, 15] (4 matches per count).
-- **Preflight Wall Time:** 23.33 seconds under 8 worker processes.
+- **Preflight Wall Time:** 20.05 seconds under 8 worker processes.
 - **Preflight Faults:** **0** total faults.
 - **Preflight Valid Label Rate:** **100.00%** (6400 turns extracted).
 - **P2 Feature Schema Digest:** `2384477635bab87d` (record width: 923).
@@ -27,7 +27,7 @@
 
 ## 2. Opponent Sampling & Lineage Balance
 
-Total opponents in roster: **50** bots. Total seats played: **23,800** seats.
+Opponents in the roster: **50** bots; **50** played. Total seats played: **23,800**.
 
 ### Key Lineages Breakdown
 | Lineage / Bot | Declared Family in Pool | Total Seats Played | Share of All Seats | Present in Matches | Status / Notes |
@@ -43,14 +43,19 @@ Total opponents in roster: **50** bots. Total seats played: **23,800** seats.
 
 ## 3. Family Balance & Sampling Dynamics
 
-Opponent selection uses `sample_seats` which samples candidate bots uniformly with a per-match cap of `max(1, teams // 3)` per family.
-In `profiles/meow_rl_training_pool_v2.json`, `player5` comprises 35 of 50 bots (70%) and `gpt` comprises 6 of 50 bots (12%).
-Due to uniform candidate bot sampling subject to the per-match family cap, their realized overall seat shares are:
-- **`player5`:** 7,186 seats (30.19%) — strictly constrained by the per-match `teams // 3` ceiling despite being 70% of roster candidates.
-- **`gpt`:** 5,880 seats (24.71%).
-- **`claude`:** 2,407 seats (10.11%).
-- **`meowmind`:** 2,341 seats (9.84%).
-- **Remaining families (`player1`, `qwen`, `baseline`, `deepseek`, `player3`):** ~5.0% each.
+Opponent selection uses `sample_seats`, which samples candidate bots uniformly with a per-match cap of `max(1, teams // 3)` seats per family. This does not give each family an equal share: the pool's own contract (`family_cap` and equal family shares, `profiles/meow_rl_training_pool_v2.json`) is not what the collector implemented, and the realized shares below are a deviation from it.
+
+| Family | Bots in pool | Share of pool | Seats played | Share of seats |
+|---|---:|---:|---:|---:|
+| `player5` | 35 | 70.0% | 7,186 | 30.19% |
+| `gpt` | 6 | 12.0% | 5,880 | 24.71% |
+| `claude` | 2 | 4.0% | 2,407 | 10.11% |
+| `meowmind` | 2 | 4.0% | 2,341 | 9.84% |
+| `player1` | 1 | 2.0% | 1,232 | 5.18% |
+| `qwen` | 1 | 2.0% | 1,212 | 5.09% |
+| `baseline` | 1 | 2.0% | 1,196 | 5.03% |
+| `deepseek` | 1 | 2.0% | 1,190 | 5.00% |
+| `player3` | 1 | 2.0% | 1,156 | 4.86% |
 
 Full per-opponent seat counts across all 14 team counts are recorded in [`reports/host/count_specialists_data/OPPONENTS.json`](OPPONENTS.json).
 
