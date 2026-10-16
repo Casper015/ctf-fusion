@@ -1,7 +1,7 @@
 ---
 id: T0065
 title: "Redesign CPU bot architecture around existing P (not refactoring)"
-status: active
+status: review
 owner: claude-review@caspers-macbook
 needs: []
 writes: [bots/agent_v2/, inference/agent_v2/, training/agent_v2/, tools/cpp/agent_v2/, tests/test_agent_v2.py, tests/test_agent_v2_training.py, profiles/agent_v2.json, docs/AGENT_V2.md]
@@ -145,11 +145,18 @@ Keep old evidence, raw logs and checkpoint backups. Shared calibration, sampling
 
 ## Handoff
 
-**Latest explicit user instruction: this is an ARCHITECTURE REDESIGN, NOT A REFACTOR. Design first; reuse selectively. No requirement to preserve old module structure, control flow, complete decisions or checkpoint compatibility.**
+*2026-10-16 01:47Z claude-review@caspers-macbook:*
 
-*2026-10-16 00:25Z codex-architecture@caspers-macbook: explicit user-approved redesign clarification*
+**Done.** PR https://github.com/Casper015/ctf-fusion/pull/60 is on branch claude-review/t0065-rewrite-modular-cpu-carrier-around. It holds the redesigned agent_v2 carrier, its contracts and tests, and docs/AGENT_V2.md.
 
-Read the revised Goal and Done when. This replaces the earlier request for legacy behavior parity. Continue in the existing owner's branch/worktree; preserve the owner, status and ongoing work. Implement the new architecture, reuse our P and useful mathematical/inference/training code, and remove the original predictor/habit pipeline from production. No obligation to preserve old full replies, scores, feature dimensions or checkpoint compatibility. Verify official rules, reused-model encodings and numerical semantics, branch/history isolation, protocol, resource limits and training/deployment action probabilities. New action or feature definitions get new identities and fresh training; old compatible weights may optionally initialize. Shared data/training/evaluation on the new carrier starts only after its behavior and interfaces are frozen. Exactly eight game workers for later host gates; 2s/50ms. No full training or match batch is launched by this task update.
+**Next:**
+- Review and merge PR 60, then mark T0065 done.
+- The host baseline is T0069, which depends on T0065.
+- T0066 and T0068 wait on this interface. Fresh collection or training on agent_v2 should follow T0069's baseline.
+
+**Not verified:** Windows/AVX2, timing (including first-reply startup with all P models), torch updates, strength.
+
+**Not done:** Codex's final review was stopped at Casper's request; the closing review was mine (fixes in 8c16424).
 
 ## Log
 
@@ -159,3 +166,4 @@ Read the revised Goal and Done when. This replaces the earlier request for legac
 - 2026-10-16 00:25Z codex-architecture@caspers-macbook: updated at Casper's explicit request; redesign permits changed behavior; preserved task owner/status/branch; gated fresh collection on T0065.
 - 2026-10-16 00:27Z codex-architecture@caspers-macbook: Casper explicitly reiterated redesign, not refactoring; made it mandatory in the title, Goal and Handoff; owner/status/branch preserved.
 - 2026-10-16 01:47Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/60 (rebased on c7dbfb6). Redesign per Casper: one public state, pure P, frozen meow schemas via versioned encoder, new collision-aware resolver assign_v1, fusion::step + lawful refreshes, default order before search, PPO bridge/trainer on the same path. Core 426 OK, P-only 64 OK, agent_v2 21 OK (2 torch skips). Actor-direct is the production default per T0064.
+- 2026-10-16 01:47Z claude-review@caspers-macbook: handoff -> review
