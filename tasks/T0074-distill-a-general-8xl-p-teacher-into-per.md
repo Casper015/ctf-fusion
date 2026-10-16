@@ -1,8 +1,8 @@
 ---
 id: T0074
 title: "Distill a general 8XL P teacher into per-count XXL students"
-status: open
-owner: ""
+status: blocked
+owner: antigravity@desktop-g60ojud
 needs: [host, cuda, ai-test]
 writes: [training/distill_count_specialists.py, reports/models/count_specialists_distill/, inference/count_specialists_distill/, profiles/count_specialists_distill.json, tests/test_repo_layout.py]
 depends: [T0073]
@@ -31,8 +31,11 @@ Teacher trained and gated (or stopped with the gate result); 14 students and 14 
 
 ## Handoff
 
-Not started.
+*2026-10-16 20:10Z antigravity@desktop-g60ojud:*
+
+T0073 paired carrier screen returned not shown (overall mean diff -0.0116 [-0.0315, +0.0082], 1,176 games). Per T0074 gate rule, better offline P loss is not the bottleneck in games, so 8XL distillation is blocked pending Casper's explicit decision.
 
 ## Log
 
 - 2026-10-16 19:37Z claude-review@caspers-macbook: created
+- 2026-10-16 20:10Z antigravity@desktop-g60ojud: handoff -> blocked
