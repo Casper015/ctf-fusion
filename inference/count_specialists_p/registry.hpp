@@ -37,20 +37,20 @@ inline const ModelSet* forTeams(int teams) {
     static const ModelSet table[16] = {
         {nullptr, nullptr, nullptr, 0.0, 0},
         {nullptr, nullptr, nullptr, 0.0, 0},
-        {"n02", &n02::kPolicy, &n02::kValue, n02::kAlpha[2], n02::kAdapter},  // 2 teams
-        {"n03", &n03::kPolicy, &n03::kValue, n03::kAlpha[3], n03::kAdapter},  // 3 teams
-        {"n04", &n04::kPolicy, &n04::kValue, n04::kAlpha[4], n04::kAdapter},  // 4 teams
-        {"n05", &n05::kPolicy, &n05::kValue, n05::kAlpha[5], n05::kAdapter},  // 5 teams
-        {"n06", &n06::kPolicy, &n06::kValue, n06::kAlpha[6], n06::kAdapter},  // 6 teams
-        {"n07", &n07::kPolicy, &n07::kValue, n07::kAlpha[7], n07::kAdapter},  // 7 teams
-        {"n08", &n08::kPolicy, &n08::kValue, n08::kAlpha[8], n08::kAdapter},  // 8 teams
-        {"n09", &n09::kPolicy, &n09::kValue, n09::kAlpha[9], n09::kAdapter},  // 9 teams
-        {"n10", &n10::kPolicy, &n10::kValue, n10::kAlpha[10], n10::kAdapter},  // 10 teams
-        {"n11", &n11::kPolicy, &n11::kValue, n11::kAlpha[11], n11::kAdapter},  // 11 teams
-        {"n12", &n12::kPolicy, &n12::kValue, n12::kAlpha[12], n12::kAdapter},  // 12 teams
-        {"n13", &n13::kPolicy, &n13::kValue, n13::kAlpha[13], n13::kAdapter},  // 13 teams
-        {"n14", &n14::kPolicy, &n14::kValue, n14::kAlpha[14], n14::kAdapter},  // 14 teams
-        {"n15", &n15::kPolicy, &n15::kValue, n15::kAlpha[15], n15::kAdapter},  // 15 teams
+        {"n02", &csp_n02::kPolicy, &csp_n02::kValue, csp_n02::kAlpha[2], csp_n02::kAdapter},  // 2 teams
+        {"n03", &csp_n03::kPolicy, &csp_n03::kValue, csp_n03::kAlpha[3], csp_n03::kAdapter},  // 3 teams
+        {"n04", &csp_n04::kPolicy, &csp_n04::kValue, csp_n04::kAlpha[4], csp_n04::kAdapter},  // 4 teams
+        {"n05", &csp_n05::kPolicy, &csp_n05::kValue, csp_n05::kAlpha[5], csp_n05::kAdapter},  // 5 teams
+        {"n06", &csp_n06::kPolicy, &csp_n06::kValue, csp_n06::kAlpha[6], csp_n06::kAdapter},  // 6 teams
+        {"n07", &csp_n07::kPolicy, &csp_n07::kValue, csp_n07::kAlpha[7], csp_n07::kAdapter},  // 7 teams
+        {"n08", &csp_n08::kPolicy, &csp_n08::kValue, csp_n08::kAlpha[8], csp_n08::kAdapter},  // 8 teams
+        {"n09", &csp_n09::kPolicy, &csp_n09::kValue, csp_n09::kAlpha[9], csp_n09::kAdapter},  // 9 teams
+        {"n10", &csp_n10::kPolicy, &csp_n10::kValue, csp_n10::kAlpha[10], csp_n10::kAdapter},  // 10 teams
+        {"n11", &csp_n11::kPolicy, &csp_n11::kValue, csp_n11::kAlpha[11], csp_n11::kAdapter},  // 11 teams
+        {"n12", &csp_n12::kPolicy, &csp_n12::kValue, csp_n12::kAlpha[12], csp_n12::kAdapter},  // 12 teams
+        {"n13", &csp_n13::kPolicy, &csp_n13::kValue, csp_n13::kAlpha[13], csp_n13::kAdapter},  // 13 teams
+        {"n14", &csp_n14::kPolicy, &csp_n14::kValue, csp_n14::kAlpha[14], csp_n14::kAdapter},  // 14 teams
+        {"n15", &csp_n15::kPolicy, &csp_n15::kValue, csp_n15::kAlpha[15], csp_n15::kAdapter},  // 15 teams
     };
     return (teams >= 2 && teams <= 15 && table[teams].policy) ? &table[teams] : nullptr;
 }

@@ -22,23 +22,22 @@ import os
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 
 import numpy as np
-import torch
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
-from fusion import families, matchlog, native, quant
+from fusion import families, matchlog, native, quant, runner
 from fusion.capacity import buffer_width, preset
 from fusion.labels import STRATA
 from fusion.mixture import fit_temperature
 from fusion.models import JOINT, PolicyNet, QuantizedTier, ValueNet
 from fusion.paths import sha256
 from fusion.schema import Layout, layout as feature_layout
-from fusion.torch_backend import PolicyTrainer, pick_device
 from training.export_weights import _array, _emit_nets, header, input_specs, widest
 
 COUNTS = list(range(2, 16))
@@ -51,6 +50,16 @@ WEIGHT_DECAY = 1e-4
 SMOOTHING = 0.01
 ACT_WEIGHT = 0.5
 TARGET_WEIGHT = 0.5
+# Schedule actually used: PolicyTrainer.train_epoch is called directly for MAX_EPOCHS at a constant LR, which bypasses
+# training.common.fit's cosine schedule and plateau handling; each seed keeps its minimum-validation-loss epoch.
+SCHEDULE = {"batch": BATCH_SIZE, "lr": LR, "lr_schedule": "constant", "weight_decay": WEIGHT_DECAY, "label_smoothing": SMOOTHING,
+            "act_weight": ACT_WEIGHT, "target_weight": TARGET_WEIGHT, "max_epochs": MAX_EPOCHS,
+            "loop": "PolicyTrainer.train_epoch called directly; training.common.fit (cosine schedule, plateau handling) not used",
+            "selection": "per seed, the epoch with the lowest validation total loss; seed 101 is deployed"}
+# kAlpha mixes q_theta with the legacy q_H forecast (inference/adapter.hpp). It was not fitted for these specialists:
+# 1.0 is pure P, which is how a pure-P carrier such as agent_v2 uses them. The XXL models fitted 0.977-0.992; a bot that
+# mixes with q_H must fit alpha for these specialists before using them.
+ALPHA = 1.0
 
 SHARDS_DIR = REPO / "data" / "count_specialists_data" / "shards"
 RAW_DIR = REPO / "data" / "count_specialists_data" / "raw"
@@ -246,6 +255,7 @@ def calibrate_temperatures(model: PolicyNet, layout: Layout, val_data: dict):
 
 
 def train_specialist(count: int, layout: Layout, dev) -> dict:
+    from fusion.torch_backend import PolicyTrainer  # noqa: PLC0415 (torch only for training)
     print(f"\n=======================================================", flush=True)
     print(f"[*] Training Count Specialist n{count:02d} (P2 XXL on CUDA)", flush=True)
     print(f"=======================================================", flush=True)
@@ -365,73 +375,73 @@ def train_specialist(count: int, layout: Layout, dev) -> dict:
     }
 
 
+def namespace_id(count: int) -> str:
+    """C++ id of a specialist: its namespace fusion::models::<id> and include guard FUSION_MODEL_<ID>_HPP.
+
+    Distinct from inference/models_xxl/weights_nXX.hpp (namespace fusion::models::nXX, guard FUSION_MODEL_NXX_HPP),
+    so a bot can include both banks; with the same guard the second bank's headers would be silently skipped."""
+    return f"csp_n{count:02d}"
+
+
 def export_all_models(trained_results: list[dict], layout: Layout):
-    print("\n[export] Quantizing models and generating standalone C++ headers...", flush=True)
+    """Quantize each trained specialist into its npz and receipt, then write the bank from those files."""
+    print("\n[export] Quantizing models...", flush=True)
     OUT_INFERENCE_DIR.mkdir(parents=True, exist_ok=True)
     OUT_REPORTS_MODELS_DIR.mkdir(parents=True, exist_ok=True)
+    spec = input_specs(layout, "p2")
+    for res in trained_results:
+        model_id = f"n{res['count']:02d}"
+        beta = res["model"].beta
+        nets = {
+            "mover": quant.quantize(res["model"].mover, *spec["mover"], out_mult=beta["joint"]),
+            "squad": quant.quantize(res["model"].squad, *spec["squad"], out_mult=beta["joint"]),
+            "act": quant.quantize(res["model"].act, *spec["act"], out_mult=beta["act"]),
+            "target": quant.quantize(res["model"].target, *spec["target"], out_mult=beta["target"]),
+            "value": quant.unflatten(dict(np.load(res["warm_npz"])), "value"),  # the paired XXL value network, unchanged
+        }
+        flat = {}
+        for n, q in nets.items():
+            quant.check_widths(q, n, limit=2048)
+            flat |= quant.flatten(q, n)
+        np.savez_compressed(OUT_INFERENCE_DIR / f"weights_{model_id}.npz", **flat)
+        (OUT_REPORTS_MODELS_DIR / f"{model_id}.json").write_text(json.dumps(res["receipt"], indent=1) + "\n", encoding="utf-8")
+    write_bank(layout)
 
-    manifest_entries = {}
+
+def write_bank(layout: Layout, counts: list[int] = COUNTS):
+    """Headers, registry.hpp and MANIFEST.json, generated from the committed npz files and training receipts.
+
+    Needs neither the training data nor torch (--reexport), so the generated files and their hashes can always be
+    rebuilt from what is committed. The npz files are inputs here and are never rewritten."""
     spec_version = layout.schema["spec_version"]
     schema_dig = hashlib.sha256(json.dumps(layout.schema, sort_keys=True).encode()).hexdigest()[:16]
     p2_dig = families.digest(layout.schema, "p2")
-
-    for res in trained_results:
-        count = res["count"]
-        model = res["model"]
-        warm_npz = res["warm_npz"]
-        receipt = res["receipt"]
-        model_id = f"n{count:02d}"
-
-        # Load paired XXL value network
-        q_val = quant.unflatten(dict(np.load(warm_npz)), "value")
-        spec = input_specs(layout, "p2")
-        beta = model.beta
-
-        nets = {
-            "mover": quant.quantize(model.mover, *spec["mover"], out_mult=beta["joint"]),
-            "squad": quant.quantize(model.squad, *spec["squad"], out_mult=beta["joint"]),
-            "act": quant.quantize(model.act, *spec["act"], out_mult=beta["act"]),
-            "target": quant.quantize(model.target, *spec["target"], out_mult=beta["target"]),
-            "value": q_val,
-        }
-
-        for n, q in nets.items():
-            quant.check_widths(q, n, limit=2048)
-
-        flat = {}
-        for n, q in nets.items():
-            flat |= quant.flatten(q, n)
-
+    manifest_entries = {}
+    for count in counts:
+        model_id, ns = f"n{count:02d}", namespace_id(count)
+        receipt = json.loads((OUT_REPORTS_MODELS_DIR / f"{model_id}.json").read_text(encoding="utf-8"))
         npz_out = OUT_INFERENCE_DIR / f"weights_{model_id}.npz"
-        np.savez_compressed(npz_out, **flat)
-
-        sources = {
-            "policy": f"count_specialist_{model_id}",
-            "value": f"xxl_paired_{receipt['warm_start']}",
-        }
-        hdr_text = header(
-            model=model_id,
+        flat = dict(np.load(npz_out))
+        nets = {n: quant.unflatten(flat, n) for n in ("mover", "squad", "act", "target", "value")}
+        hdr_out = OUT_INFERENCE_DIR / f"weights_{model_id}.hpp"
+        hdr_out.write_text(header(
+            model=ns,
             nets=nets,
-            alpha={count: 1.0},
-            sources=sources,
+            alpha={count: ALPHA},
+            sources={"policy": f"count_specialist_{model_id}", "value": f"xxl_paired_{receipt['warm_start']}"},
             adapter="joint-v2",
             spec_version=spec_version,
             generator="training/train_count_specialists_p.py",
             policy_family="p2",
             value_family="v2",
-        )
-        hdr_out = OUT_INFERENCE_DIR / f"weights_{model_id}.hpp"
-        hdr_out.write_text(hdr_text, encoding="utf-8")
-
-        # Save per-model training receipt
-        (OUT_REPORTS_MODELS_DIR / f"{model_id}.json").write_text(json.dumps(receipt, indent=1) + "\n", encoding="utf-8")
-
+        ), encoding="utf-8")
         manifest_entries[model_id] = {
             "model": model_id,
+            "namespace": f"fusion::models::{ns}",
             "count": count,
-            "header": f"weights_{model_id}.hpp",
+            "header": hdr_out.name,
             "header_sha256": sha256(hdr_out),
-            "npz": f"weights_{model_id}.npz",
+            "npz": npz_out.name,
             "npz_sha256": sha256(npz_out),
             "weights_digest": quant.digest(flat),
             "required_buffer_width": 2048,
@@ -442,19 +452,17 @@ def export_all_models(trained_results: list[dict], layout: Layout):
             "selected_epoch": receipt["selected_epoch"],
             "test_joint_nll": receipt["specialist_test"]["joint_nll"],
             "test_top1_acc": receipt["specialist_test"]["joint_top1"],
+            "test_metrics_scope": "calibrated float PolicyNet before int16 export",
         }
-        print(f"  Exported {model_id}: header ({hdr_out.stat().st_size / 1024 / 1024:.2f} MB), npz ({npz_out.stat().st_size / 1024 / 1024:.2f} MB)", flush=True)
+        print(f"  Wrote {hdr_out.name} ({hdr_out.stat().st_size / 1024 / 1024:.2f} MB), namespace fusion::models::{ns}", flush=True)
 
-    # Emit registry.hpp
     reg_rows = []
     for t in range(16):
-        if 2 <= t <= 15:
-            m_id = f"n{t:02d}"
-            reg_rows.append(f'        {{"{m_id}", &{m_id}::kPolicy, &{m_id}::kValue, {m_id}::kAlpha[{t}], {m_id}::kAdapter}},  // {t} teams')
+        if t in counts:
+            ns = namespace_id(t)
+            reg_rows.append(f'        {{"n{t:02d}", &{ns}::kPolicy, &{ns}::kValue, {ns}::kAlpha[{t}], {ns}::kAdapter}},  // {t} teams')
         else:
             reg_rows.append("        {nullptr, nullptr, nullptr, 0.0, 0},")
-
-    includes = [f'#include "weights_n{c:02d}.hpp"' for c in COUNTS]
     reg_text = "\n".join([
         "// Generated by training/train_count_specialists_p.py. Do not edit.",
         "// Specialized dispatch: exact team count 2..15 selects dedicated count specialist in O(1).",
@@ -464,7 +472,7 @@ def export_all_models(trained_results: list[dict], layout: Layout):
         "#ifndef FUSION_MAX_WIDTH",
         "#define FUSION_MAX_WIDTH 2048",
         "#endif",
-        *includes,
+        *[f'#include "weights_n{c:02d}.hpp"' for c in counts],
         "",
         "namespace fusion::models::count_specialists_p {",
         "",
@@ -491,18 +499,47 @@ def export_all_models(trained_results: list[dict], layout: Layout):
     ])
     reg_out = OUT_INFERENCE_DIR / "registry.hpp"
     reg_out.write_text(reg_text, encoding="utf-8")
-    print(f"[export] Wrote {reg_out}", flush=True)
-
     manifest_receipt = {
         "schema": "ctf-count-specialists-p-manifest-1",
         "task": "T0067",
         "total_models": len(manifest_entries),
-        "registry": "registry.hpp",
+        "registry": reg_out.name,
         "registry_sha256": sha256(reg_out),
         "models": manifest_entries,
     }
     (OUT_INFERENCE_DIR / "MANIFEST.json").write_text(json.dumps(manifest_receipt, indent=1) + "\n", encoding="utf-8")
-    print(f"[export] Wrote {OUT_INFERENCE_DIR / 'MANIFEST.json'}", flush=True)
+    print(f"[export] Wrote {reg_out} and MANIFEST.json", flush=True)
+    write_profile(manifest_receipt)
+    check_coexistence(counts)
+
+
+def check_coexistence(counts: list[int]):
+    """Compile one program that includes the deployed XXL registry and this bank; each count must reach different weights."""
+    cxx = runner.find_compiler()
+    if not cxx:
+        print("[coexist] no C++ compiler: skipped", flush=True)
+        return
+    rows = "\n".join(f"    ok &= fusion::models::count_specialists_p::forTeams({c})->policy != &fusion::models::n{c:02d}::kPolicy;"
+                     for c in counts if (MODELS_XXL_DIR / f"weights_n{c:02d}.hpp").exists())
+    src = "\n".join([
+        '#include "models_xxl/registry.hpp"',
+        '#include "count_specialists_p/registry.hpp"',
+        "int main() {",
+        "    bool ok = true;",
+        rows,
+        "    for (int t = 2; t <= 15; t++) ok &= fusion::models::count_specialists_p::forTeams(t) != nullptr;",
+        "    return ok ? 0 : 1;",
+        "}",
+        "",
+    ])
+    with tempfile.TemporaryDirectory(prefix="csp-coexist-") as tmp:
+        cpp, exe = Path(tmp) / "coexist.cpp", Path(tmp) / f"coexist{runner.EXE}"
+        cpp.write_text(src, encoding="utf-8")
+        subprocess.run([cxx, "-std=c++20", "-O0", "-w", f"-I{REPO / 'inference'}", str(cpp), "-o", str(exe)],
+                       check=True, capture_output=True)
+        if subprocess.run([str(exe)]).returncode != 0:
+            raise SystemExit("[coexist] the specialists and the XXL bank resolve to the same weights")
+    print("[coexist] models_xxl and count_specialists_p compile together and keep distinct weights", flush=True)
 
 
 def verify_all_parities(counts: list[int], layout: Layout) -> list[dict]:
@@ -521,7 +558,7 @@ def verify_all_parities(counts: list[int], layout: Layout) -> list[dict]:
         q = QuantizedTier(dict(np.load(npz_p)))
         py_out = q.raw(rec, layout)
 
-        parity_bin = native.infer_check(hdr_p, f"fusion::models::{model_id}")
+        parity_bin = native.infer_check(hdr_p, f"fusion::models::{namespace_id(count)}")
         cpp_out = native.run_infer_check(parity_bin, stream, len(rec))
 
         diff = np.abs(py_out - cpp_out)
@@ -551,7 +588,7 @@ def benchmark_host_feasibility(counts: list[int], layout: Layout) -> dict:
 
     # Measure model init time
     t0 = time.time()
-    parity_bin = native.infer_check(weights_hdr, f"fusion::models::{model_id}")
+    parity_bin = native.infer_check(weights_hdr, f"fusion::models::{namespace_id(target_count)}")
     init_ms = round((time.time() - t0) * 1000, 2)
 
     # Measure per-turn inference on match
@@ -569,6 +606,8 @@ def benchmark_host_feasibility(counts: list[int], layout: Layout) -> dict:
     receipt = {
         "schema": "ctf-host-feasibility-receipt-1",
         "task": "T0067",
+        "kind": "development microbenchmark: one offline infer_check run on one seat stream, binary already built; "
+                "not a bot reply, not eight workers, not under lock cpu; host feasibility needs that run",
         "evaluated_teams": target_count,
         "turns_evaluated": turns,
         "rows_evaluated": len(rec),
@@ -588,14 +627,18 @@ def benchmark_host_feasibility(counts: list[int], layout: Layout) -> dict:
     return receipt
 
 
-def write_profile():
+def write_profile(manifest: dict):
     models_dict = {}
     for c in COUNTS:
         m_id = f"n{c:02d}"
+        entry = manifest["models"][m_id]
         models_dict[str(c)] = {
             "model": m_id,
-            "weights_header": f"weights_{m_id}.hpp",
-            "weights_npz": f"weights_{m_id}.npz",
+            "namespace": entry["namespace"],
+            "weights_header": f"inference/count_specialists_p/{entry['header']}",
+            "weights_header_sha256": entry["header_sha256"],
+            "weights_npz": f"inference/count_specialists_p/{entry['npz']}",
+            "weights_npz_sha256": entry["npz_sha256"],
             "warm_start": f"inference/models_xxl/weights_{m_id}.npz" if (MODELS_XXL_DIR / f"weights_{m_id}.npz").exists() else "inference/models_xxl/weights_general.npz",
             "optimizer_seeds": SEEDS,
             "primary_seed": PRIMARY_SEED,
@@ -611,6 +654,11 @@ def write_profile():
         "capacity": "XXL",
         "max_epochs": MAX_EPOCHS,
         "optimizer": {"algorithm": "Adam", "lr": LR, "weight_decay": WEIGHT_DECAY},
+        "schedule": SCHEDULE,
+        "alpha": {"value": ALPHA, "fitted": False,
+                  "why": "pure P (no mixing with the legacy q_H forecast), as a pure-P carrier such as agent_v2 uses it; "
+                         "the XXL models fitted 0.977-0.992, and a bot that mixes with q_H must fit alpha first"},
+        "registry": {"path": "inference/count_specialists_p/registry.hpp", "sha256": manifest["registry_sha256"]},
         "routing": {
             "dispatch_mechanism": "forTeams(teams) O(1) table lookup",
             "rule": "Exact global team count selected from INIT; never runs all 14 specialists per decision",
@@ -743,20 +791,26 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--counts", type=int, nargs="+", default=COUNTS, help="Team counts to train (default: 2..15)")
     ap.add_argument("--device", default="cuda", help="PyTorch training device")
+    ap.add_argument("--reexport", action="store_true",
+                    help="Rebuild headers, registry.hpp, MANIFEST.json and the profile from the committed npz files and receipts "
+                         "(no data, no torch, no training)")
     args = ap.parse_args()
+    layout = feature_layout()
+    if args.reexport:
+        write_bank(layout)
+        return 0
 
+    import torch  # noqa: PLC0415 (only training needs torch)
+    from fusion.torch_backend import pick_device  # noqa: PLC0415
     dev = pick_device(args.device)
     print(f"[*] Starting T0067 Count Specialists Training on {dev} ({torch.cuda.get_device_name(dev) if dev.type == 'cuda' else 'CPU'})", flush=True)
 
-    layout = feature_layout()
     trained_results = []
-
     for c in args.counts:
         res = train_specialist(c, layout, dev)
         trained_results.append(res)
 
     export_all_models(trained_results, layout)
-    write_profile()
     parity_results = verify_all_parities(args.counts, layout)
     feasibility = benchmark_host_feasibility(args.counts, layout)
     generate_host_report(trained_results, parity_results, feasibility)
