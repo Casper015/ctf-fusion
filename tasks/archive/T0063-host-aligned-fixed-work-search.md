@@ -1,14 +1,14 @@
 ---
 id: T0063
 title: "Host: aligned fixed-work search diagnostics, eight-worker preflight and freeze (T0061 runbook 4-8)"
-status: active
+status: done
 owner: codex-decision-pilot@desktop-g60ojud
 needs: [host, ai-test]
 writes: [bots/meow_rl/bot.hpp, docs/MEOWMIND_RL_SCREEN_SEEDS.md, docs/MEOWMIND_RL_SEEDS.md, profiles/meow_rl_aligned_screen_a.json, profiles/meow_rl_aligned_screen_b.json, reports/host/meow_rl_aligned/FREEZE.json, reports/host/meow_rl_aligned/PREFLIGHT.json, reports/host/meow_rl_aligned/diagnostics/, reports/host/meow_rl_aligned/trees/, tests/test_meow_rl_aligned.py]
 depends: [T0062]
 land: direct
 branch: codex-decision-pilot/t0063-host-aligned-fixed-work-search
-updated: 2026-10-15
+updated: 2026-10-16
 ---
 
 ## Goal
@@ -40,7 +40,9 @@ DIAGNOSTICS.{json,md}, PREFLIGHT.json (passed at 8 workers, or a blocked handoff
 
 ## Handoff
 
-Not started.
+*2026-10-16 00:00Z codex-decision-pilot@desktop-g60ojud:*
+
+Aligned search diagnostics completed (1024 fixed trees, 8112 leaves; R 7-bit quantization caused 66.5% top-action degradation and 42.1% discordance, H WideAct16 restored 97.3% agreement and 0.0000 regret). Windows stderr pipe buffering resolved in bot.hpp. Eight-worker preflight passed (448 games, seed 20261956, 0 faults/timeouts). Freeze passed with 0 roster audit hits, freezing seeds 20261954 and 20261955 into schedules A and B.
 
 ## Log
 
@@ -50,3 +52,4 @@ Not started.
 - 2026-10-15 23:31Z codex-decision-pilot@desktop-g60ojud: amended writes -> bots/meow_rl/bot.hpp, docs/MEOWMIND_RL_SCREEN_SEEDS.md, docs/MEOWMIND_RL_SEEDS.md, profiles/meow_rl_aligned_screen_a.json, profiles/meow_rl_aligned_screen_b.json, reports/host/meow_rl_aligned/FREEZE.json, reports/host/meow_rl_aligned/PREFLIGHT.json, reports/host/meow_rl_aligned/diagnostics/, reports/host/meow_rl_aligned/trees/
 - 2026-10-15 23:51Z codex-decision-pilot@desktop-g60ojud: amended writes -> bots/meow_rl/bot.hpp, docs/MEOWMIND_RL_SCREEN_SEEDS.md, docs/MEOWMIND_RL_SEEDS.md, profiles/meow_rl_aligned_screen_a.json, profiles/meow_rl_aligned_screen_b.json, reports/host/meow_rl_aligned/FREEZE.json, reports/host/meow_rl_aligned/PREFLIGHT.json, reports/host/meow_rl_aligned/diagnostics/, reports/host/meow_rl_aligned/trees/, tests/test_meow_rl_aligned.py
 - 2026-10-15 23:59Z codex-decision-pilot@desktop-g60ojud: landed: 76557d36db on main, 14 file(s)
+- 2026-10-16 00:00Z codex-decision-pilot@desktop-g60ojud: done
