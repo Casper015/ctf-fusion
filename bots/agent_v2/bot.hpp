@@ -61,6 +61,7 @@ inline bool read_block(std::string& block) {
 }
 
 inline int run() {
+    std::setvbuf(stderr, nullptr, _IONBF, 0);
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
     static AgentV2Runtime rt;
@@ -90,6 +91,7 @@ inline int run() {
         std::fprintf(stderr, "AGENTV2 turns %ld refused %ld inconsistent %ld search_used %ld search_fallback %ld leaves %ld\n",
                      rt.tel.turns, rt.tel.refused, rt.tel.inconsistent, rt.tel.search_used, rt.tel.search_fallback, rt.tel.leaves);
 #endif
+        std::fflush(stderr);
         std::cout << reply << std::endl;
     }
     return 0;

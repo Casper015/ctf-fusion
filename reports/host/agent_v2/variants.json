@@ -1,0 +1,14 @@
+{
+ "variants": [
+  {
+   "name": "agent_v2_p2xxl_direct",
+   "role": "actor-direct: the T0059 pool-v2 large-V actor (aligned export), our P2 XXL opponent model, the extracted resolver",
+   "source": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp"
+  },
+  {
+   "name": "meow_rl_aligned_p2_large",
+   "role": "Schedule A primary candidate and Schedule B arm D: T0059 pool-v2 large-V-trained actor (actor-direct)",
+   "source": "bots/meow_rl/variants/aligned/meow_rl_aligned_p2_large.cpp"
+  }
+ ]
+}

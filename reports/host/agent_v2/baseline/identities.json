@@ -1,0 +1,53 @@
+{
+ "agent_v2_p2xxl_direct": {
+  "digest": "88051ae93bad2b0e80ed302cd128d6238bae8e982eff98675c8035067c83ef8e",
+  "components": {
+   "variant": "agent_v2_p2xxl_direct",
+   "bundle_sha256": "ecd7b2098b1e65c5e02904786561712f75ce229ab8c3374be66be806fca2a723",
+   "binary_sha256": "0c6b1f2e86d1c57d12fb6e22acce3297ba065b59269d628b91f4a20904c475dc",
+   "inputs_sha256": "e80a5a2a37bbd99ae06b6e616ca411800ee0c355fd2da8d3d82606a45c91886e",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "3767576bcc0c712611a6334bb62d160f016c21a069d2388213301c6eb4c2da24",
+   "schedule": "b54ad55e2673bd3155dfefec898b28bd4ac146fa69243cf98a445bc769d829fa",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ },
+ "meow_rl_aligned_p2_large": {
+  "digest": "be44fc2e79f1967d023bf20e667a6f157a2516685b637c0d7c907798605b9638",
+  "components": {
+   "variant": "meow_rl_aligned_p2_large",
+   "bundle_sha256": "0de074c5a1c2021391aafe68b01e839a07b2cbdb6ee6a85eeebc1809038bca7a",
+   "binary_sha256": "d76921a1967510ec0f361e20e79649bb458daf12f1366b81a88c7bda755227fc",
+   "inputs_sha256": "449d8eea6668c73c4c1f7d4eb41049f24aa0ada1588a3851c4d819f19f8ba965",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "3767576bcc0c712611a6334bb62d160f016c21a069d2388213301c6eb4c2da24",
+   "schedule": "b54ad55e2673bd3155dfefec898b28bd4ac146fa69243cf98a445bc769d829fa",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ },
+ "agent_v2_p2xxl_direct~aa": {
+  "digest": "88051ae93bad2b0e80ed302cd128d6238bae8e982eff98675c8035067c83ef8e",
+  "components": {
+   "variant": "agent_v2_p2xxl_direct",
+   "bundle_sha256": "ecd7b2098b1e65c5e02904786561712f75ce229ab8c3374be66be806fca2a723",
+   "binary_sha256": "0c6b1f2e86d1c57d12fb6e22acce3297ba065b59269d628b91f4a20904c475dc",
+   "inputs_sha256": "e80a5a2a37bbd99ae06b6e616ca411800ee0c355fd2da8d3d82606a45c91886e",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "3767576bcc0c712611a6334bb62d160f016c21a069d2388213301c6eb4c2da24",
+   "schedule": "b54ad55e2673bd3155dfefec898b28bd4ac146fa69243cf98a445bc769d829fa",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ }
+}
