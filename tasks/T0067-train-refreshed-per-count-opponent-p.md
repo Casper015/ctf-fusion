@@ -4,7 +4,7 @@ title: "Train refreshed per-count opponent P specialists"
 status: active
 owner: antigravity@desktop-g60ojud
 needs: [host, cuda, ai-test]
-writes: [inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tools/host/count_specialists_data.py, tools/models/train_count_specialists_p.py]
+writes: [inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tests/test_repo_layout.py, tools/host/count_specialists_data.py, training/train_count_specialists_p.py]
 depends: [T0066]
 land: pr
 branch: antigravity/t0067-train-refreshed-per-count-opponent-p
@@ -38,3 +38,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 - 2026-10-16 08:26Z antigravity@desktop-g60ojud: amended writes -> inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tools/host/count_specialists_data.py
 - 2026-10-16 08:26Z antigravity@desktop-g60ojud: claimed (forced)
 - 2026-10-16 08:36Z antigravity@desktop-g60ojud: amended writes -> inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tools/host/count_specialists_data.py, tools/models/train_count_specialists_p.py
+- 2026-10-16 09:44Z antigravity@desktop-g60ojud: amended writes -> inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tests/test_repo_layout.py, tools/host/count_specialists_data.py, training/train_count_specialists_p.py
