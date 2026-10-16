@@ -1,0 +1,25 @@
+{
+ "_comment": "The agent_v2 variants (task T0065, docs/AGENT_V2.md). Build: python bots/p_only/tools/build.py --variants bots/agent_v2/variants.json. New names only; the meow_rl, p_only and meowmind variants are untouched controls.",
+ "variants": [
+  {
+   "name": "agent_v2_p2xxl_direct",
+   "role": "actor-direct: the T0059 pool-v2 large-V actor (aligned export), our P2 XXL opponent model, the extracted resolver",
+   "source": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp"
+  },
+  {
+   "name": "agent_v2_p2xxl_search_r16",
+   "role": "experimental: + bounded two-ply search with the reference16 critic; P for every prediction",
+   "source": "bots/agent_v2/variants/agent_v2_p2xxl_search_r16.cpp"
+  },
+  {
+   "name": "agent_v2_p2xxl_search_w16",
+   "role": "experimental: + bounded two-ply search with the WideAct16 critic",
+   "source": "bots/agent_v2/variants/agent_v2_p2xxl_search_w16.cpp"
+  },
+  {
+   "name": "agent_v2_p2xxl_search_fp32",
+   "role": "experimental: + bounded two-ply search with the checkpoint's FP32 critic",
+   "source": "bots/agent_v2/variants/agent_v2_p2xxl_search_fp32.cpp"
+  }
+ ]
+}
