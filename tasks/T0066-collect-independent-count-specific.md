@@ -4,7 +4,7 @@ title: "Collect independent count-specific opponent datasets"
 status: review
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
-writes: [profiles/count_specialists_collection.json, reports/host/count_specialists_data/, docs/COUNT_SPECIALISTS_SEEDS.md]
+writes: [docs/COUNT_SPECIALISTS_SEEDS.md, profiles/count_specialists_collection.json, reports/host/count_specialists_data/, tools/host/count_specialists_data.py]
 depends: [T0064, T0065]
 land: pr
 branch: antigravity/t0066-collect-independent-count-specific
@@ -44,3 +44,4 @@ Delivered all 14 independent nXX corpora (2,800 matches, 9,520,000 P2 rows). Map
 - 2026-10-16 06:59Z antigravity@desktop-g60ojud: note: Branch pushed to origin (antigravity/t0066-collect-independent-count-specific, commit 87b5a21). PR URL: https://github.com/Casper015/ctf-fusion/pull/new/antigravity/t0066-collect-independent-count-specific. 14 nXX corpora, 2,800 matches, 9,520,000 P2 rows extracted. Verified backup at D:/backups/ctf_fusion/count_specialists_data_20261016.tar.gz.
 - 2026-10-16 06:59Z antigravity@desktop-g60ojud: handoff -> review
 - 2026-10-16 07:21Z claude-review@caspers-macbook: note: review of PR 61 (87b5a21): changes requested, see https://github.com/Casper015/ctf-fusion/pull/61 . Numbers reconcile and lanes are clean; missing: committed collector code/commands and per-match fixture list with opponents, a real native/Python parity receipt, binary/feature identities, the Done-when coverage and per-count fault breakdown, a duplicate-geometry audit, a confirmed off-machine backup. Pool v2 lists Player2_v005 although it declares Player2 held out.
+- 2026-10-16 07:33Z antigravity@desktop-g60ojud: amended writes -> docs/COUNT_SPECIALISTS_SEEDS.md, profiles/count_specialists_collection.json, reports/host/count_specialists_data/, tools/host/count_specialists_data.py
