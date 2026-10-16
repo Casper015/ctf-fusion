@@ -29,3 +29,4 @@ Not started.
 - 2026-10-16 18:52Z claude-csp@caspers-macbook: amended depends -> none
 - 2026-10-16 18:52Z claude-csp@caspers-macbook: note: dropped depends T0067: its PR 62 is merged into main (b0f5a3b), so inference/count_specialists_p/ is on main; T0067 only awaits its board done mark
 - 2026-10-16 18:52Z claude-csp@caspers-macbook: claimed
+- 2026-10-16 19:06Z claude-csp@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/64 open: FUSION_TIER_CSP + --p-bank count_specialists_p; T0068 selects the bank with it, no carrier edits
