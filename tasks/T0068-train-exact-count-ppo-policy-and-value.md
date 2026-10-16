@@ -4,7 +4,7 @@ title: "Train exact-count PPO policy and value specialists"
 status: review
 owner: antigravity@desktop-g60ojud
 needs: [host, cuda, ai-test]
-writes: [data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, training/train_count_specialists_rl.py]
+writes: [data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, tests/test_repo_layout.py, training/train_count_specialists_rl.py]
 depends: [T0065, T0067]
 land: pr
 branch: antigravity/t0068-train-exact-count-ppo-policy-and-value
@@ -43,3 +43,4 @@ PR #65 submitted (https://github.com/Casper015/ctf-fusion/pull/65). All 2.8M lea
 - 2026-10-16 20:36Z antigravity@desktop-g60ojud: claimed
 - 2026-10-16 22:55Z antigravity@desktop-g60ojud: amended writes -> data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, training/train_count_specialists_rl.py
 - 2026-10-16 23:02Z antigravity@desktop-g60ojud: handoff -> review
+- 2026-10-16 23:04Z antigravity@desktop-g60ojud: amended writes -> data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, tests/test_repo_layout.py, training/train_count_specialists_rl.py
