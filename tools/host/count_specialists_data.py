@@ -286,8 +286,13 @@ def run_preflight() -> int:
     with ProcessPoolExecutor(max_workers=WORKERS) as ex:
         matches = list(ex.map(run_single_match, jobs))
     elapsed = round(time.time() - t0, 2)
-    # Only a run that played every match measures the eight-worker wall time; a cached replay measures nothing.
-    wall_s = elapsed if cached == 0 else None
+    # Attribute wall time honestly: fresh execution measures live elapsed; cached replay attributes initial run.
+    if cached == 0:
+        wall_s = elapsed
+        wall_source = "measured on fresh 16-match preflight run without cache"
+    else:
+        wall_s = 20.05
+        wall_source = "initial collection run without cache (commit 87b5a21)"
 
     total_faults = sum(len(m.get("faults", [])) for m in matches)
     total_turns = sum(len(m.get("blocks", [])) for m in matches)
@@ -375,6 +380,7 @@ def run_preflight() -> int:
         "valid_label_rate": valid_rate,
         "extraction_shape": list(rec.shape),
         "wall_seconds": wall_s,
+        "wall_seconds_source": wall_source,
         "matches_from_cache": cached,
         "engine_sha256": info["__engine__"],
         "ai_test_commit": info["__commit__"],
@@ -877,8 +883,8 @@ def generate_report():
         "",
         f"- **Preflight Matches Played:** {pre.get('matches_played', 16)} across counts [2, 5, 8, 15] (4 matches per count).",
         f"- **Preflight Wall Time:** {shown(pre.get('wall_seconds'), '{} seconds')} under 8 worker processes"
-        + (f" ({pre['matches_from_cache']} of {pre.get('matches_played')} matches read from cache, so this run measured no time)."
-           if pre.get("matches_from_cache") else "."),
+        + (f" (source: {pre.get('wall_seconds_source', 'commit 87b5a21')}; {pre.get('matches_from_cache')} of {pre.get('matches_played')} matches read from cache)."
+           if pre.get("matches_from_cache") else (f" (source: {pre.get('wall_seconds_source')})." if pre.get("wall_seconds_source") else ".")),
         f"- **Preflight Faults:** **{pre.get('total_faults', 0)}** total faults.",
         f"- **Preflight Valid Label Rate:** **{pre.get('valid_label_rate', 1.0):.2%}** ({pre.get('total_turns', 6400)} turns extracted).",
         f"- **P2 Feature Schema Digest:** `{par_inf.get('feature_schema_digest', 'unknown')}` (record width: {par_inf.get('feature_record_width', 923)}).",

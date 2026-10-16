@@ -14,7 +14,7 @@
 ## 1. Collector Preflight & Parity Receipt
 
 - **Preflight Matches Played:** 16 across counts [2, 5, 8, 15] (4 matches per count).
-- **Preflight Wall Time:** 20.05 seconds under 8 worker processes.
+- **Preflight Wall Time:** 20.05 seconds under 8 worker processes (source: initial collection run without cache (commit 87b5a21); 16 of 16 matches read from cache).
 - **Preflight Faults:** **0** total faults.
 - **Preflight Valid Label Rate:** **100.00%** (6400 turns extracted).
 - **P2 Feature Schema Digest:** `2384477635bab87d` (record width: 923).

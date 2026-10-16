@@ -12,7 +12,8 @@
   923
  ],
  "wall_seconds": 20.05,
- "matches_from_cache": 0,
+ "wall_seconds_source": "initial collection run without cache (commit 87b5a21)",
+ "matches_from_cache": 16,
  "engine_sha256": "07e43f6210c640d87a9161193a71c394fde157f816af004d37a68ecc1e36a14a",
  "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
  "parity": {

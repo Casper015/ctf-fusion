@@ -1,7 +1,7 @@
 {
  "schema": "ctf-host-feasibility-receipt-1",
  "task": "T0067",
- "kind": "host 15-team eight-worker concurrent benchmark under lock cpu",
+ "kind": "offline inference microbenchmark: 8 concurrent processes evaluating one recorded 15-team game stream with native.run_infer_check; not live game play, not bot replies; live host timing waits for carrier bot deployment",
  "workers": 8,
  "evaluated_teams": 15,
  "turns_evaluated_per_worker": 400,
@@ -17,5 +17,6 @@
  "turn_measured_ms_max": 1.217,
  "turn_passed": true,
  "calls_per_turn": 1,
- "never_runs_all_specialists": true
+ "never_runs_all_specialists": true,
+ "host_evidence_status": "development microbenchmark only: confirms single-call O(1) inference latency << 50ms per turn under 8-process concurrency; official 2s/50ms host evidence will be gathered when the first carrier bot (T0065/agent_v2) deploys this bank"
 }

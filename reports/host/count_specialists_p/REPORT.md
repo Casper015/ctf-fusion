@@ -109,12 +109,16 @@ All 14 exported headers in `inference/count_specialists_p/` were compiled via `n
 
 ---
 
-## 6. Host Feasibility Receipt (8-Worker Concurrent Host Benchmark)
+## 6. Host Feasibility Receipt (Offline Inference Microbenchmark)
 
-- **Benchmark Kind:** `host 15-team eight-worker concurrent benchmark under lock cpu`
-- **Concurrent Workers:** **8** under task CPU lease.
+> [!NOTE]
+> **Scope & Evidence Limitation:** This receipt is an offline inference microbenchmark running 8 concurrent worker processes over a recorded 15-team game stream (`native.run_infer_check`). It evaluates model compute latency and table routing under concurrency, but does not represent live bot game play with bot replies or under the engine turn lock. Full host timing evidence will be gathered when the first carrier bot (T0065 / `agent_v2`) deploys this bank in live play.
+
+- **Benchmark Kind:** `offline inference microbenchmark: 8 concurrent processes evaluating one recorded 15-team game stream with native.run_infer_check; not live game play, not bot replies; live host timing waits for carrier bot deployment`
+- **Host Evidence Status:** development microbenchmark only: confirms single-call O(1) inference latency << 50ms per turn under 8-process concurrency; official 2s/50ms host evidence will be gathered when the first carrier bot (T0065/agent_v2) deploys this bank
+- **Concurrent Workers:** **8** concurrent worker processes.
 - **Teams Evaluated:** **15** teams.
-- **Initialization Latency (15 teams):** `28.74 ms` (limit: `2,000 ms`). **PASSED**.
+- **Initialization Latency (15 teams):** `28.74 ms` (limit: `2,000 ms`). **PASSED** (cache hit on pre-compiled check binary).
 - **Per-Turn Inference Latency (Mean):** `1.191 ms` (limit: `50 ms`). **PASSED**.
 - **Per-Turn Inference Latency (P99):** `1.217 ms`.
 - **Per-Turn Inference Latency (Max):** `1.217 ms`.
