@@ -4,7 +4,7 @@
     python bots/agent_v2/extract.py --check    # exit 1 if the committed header is not exactly what this generates
 
 The reference is another author's bot (bots/meowmind_p/README.md: "The source carries no license notice"), published
-here unmodified at sha256 cc7b730c... . The agent_v2 carrier is a redesign (docs/AGENT_V2.md): its public state, rules,
+here unmodified at sha256 cc7b730c... (verbatim here except that its CRLF line ends become LF). The agent_v2 carrier is a redesign (docs/AGENT_V2.md): its public state, rules,
 predictor, resolver, simulator and search are its own. It keeps only what the frozen actor and value inputs it serves
 (feature schemas meow_policy112_v1 and meow_public416_v1, the inputs the existing PPO actors and critics were trained
 on) require, copied VERBATIM so they compute exactly what those models saw, inside namespace agent_v2::mm:
@@ -32,7 +32,9 @@ def generate() -> str:
     data = REFERENCE.read_bytes()
     if hashlib.sha256(data).hexdigest() != REFERENCE_SHA256:
         raise SystemExit(f"{REFERENCE} is not the pinned reference (sha256 {REFERENCE_SHA256})")
-    lines = data.decode("utf-8").split("\n")
+    # The reference keeps its original CRLF line ends (-text); the repository stores every other file with LF
+    # (.gitattributes eol=lf), so the copy is verbatim except for line ends, which are normalized to LF.
+    lines = data.decode("utf-8").replace("\r\n", "\n").split("\n")
     parts = []
     for lo, hi in RANGES:
         parts.append(f"// ---- reference lines {lo}-{hi}, verbatim ----")
@@ -75,7 +77,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     text = generate()
     if a.check:
-        ok = OUT.is_file() and OUT.read_bytes() == text.encode("utf-8")   # bytes: the reference keeps its own line ends
+        ok = OUT.is_file() and OUT.read_bytes() == text.encode("utf-8")
         print("meowmind_features.hpp is the verbatim extract" if ok else "meowmind_features.hpp differs: regenerate it")
         return 0 if ok else 1
     OUT.parent.mkdir(parents=True, exist_ok=True)
