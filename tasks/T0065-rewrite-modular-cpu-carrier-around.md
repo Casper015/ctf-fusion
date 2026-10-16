@@ -1,14 +1,14 @@
 ---
 id: T0065
 title: "Rewrite modular CPU carrier around existing P"
-status: open
-owner: ""
+status: active
+owner: claude-review@caspers-macbook
 needs: []
 writes: [bots/agent_v2/, inference/agent_v2/, training/agent_v2/, tools/cpp/agent_v2/, tests/test_agent_v2.py, tests/test_agent_v2_training.py, profiles/agent_v2.json, docs/AGENT_V2.md]
 depends: [T0061]
 land: pr
-branch: ""
-updated: 2026-10-15
+branch: claude-review/t0065-rewrite-modular-cpu-carrier-around
+updated: 2026-10-16
 ---
 
 ## Goal
@@ -146,3 +146,4 @@ Planning and source audit completed; implementation has not started. Read this t
 
 - 2026-10-15 23:03Z codex-architecture@caspers-macbook: created
 - 2026-10-15 23:04Z codex-architecture@caspers-macbook: handoff prepared
+- 2026-10-16 00:08Z claude-review@caspers-macbook: claimed
