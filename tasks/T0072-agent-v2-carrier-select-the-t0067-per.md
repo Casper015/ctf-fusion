@@ -5,7 +5,7 @@ status: open
 owner: ""
 needs: []
 writes: [bots/agent_v2/, inference/agent_v2/, tools/cpp/agent_v2/, training/agent_v2/, tests/test_agent_v2.py, tests/test_agent_v2_training.py, docs/AGENT_V2.md]
-depends: [T0067]
+depends: []
 land: pr
 branch: ""
 updated: 2026-10-16
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-16 18:52Z claude-csp@caspers-macbook: created
+- 2026-10-16 18:52Z claude-csp@caspers-macbook: amended depends -> none
