@@ -121,6 +121,7 @@ The Meowmind reference is another author's bot. Casper published it unmodified, 
 - **What is stored:** the trainer's actor samples a joint and the bridge executes exactly that joint. So PPO stores the probability of the executed movement joint; the rest of the action is the resolver's deterministic function of it.
 - **No search in training:** the bridge never searches, so a search-selected joint is never a PPO sample.
 - **Run identity:** `training.agent_v2.identity` keeps meow_rl's model contracts, so compatible weights can initialize a run. It adds the carrier, action schema, resolver, predictor and source digest, so a changed P or resolver is a new run and `--resume` across carriers is refused.
+- **P bank:** `--p-bank` selects P's model bank (`training.agent_v2.identity.BANKS`; see [P banks](#p-banks)). The bridge build, its flags, the source digest and the predictor identity (bank, tier, width, registry and manifest hashes, every model's header hash) follow it, so a run never resumes on another bank.
 
 **Intentional differences from the Meowmind carrier.**
 - Opponent forecasts come from our P, not the expert mixture or habit updates.
@@ -153,10 +154,11 @@ With the same actor, movement is unchanged on the recorded streams. Tactical rep
 
 ## Variants
 
-All variants use the T0059 pool-v2 large-V actor (aligned reference16 export) and P2 XXL, and every name is new:
+All variants use the T0059 pool-v2 large-V actor (aligned reference16 export), and every name is new. The `p2xxl` variants use P2 XXL:
 - `agent_v2_p2xxl_direct`: actor-direct, **the production default**.
 - `agent_v2_p2xxl_search_{w16,fp32}`: experimental search, one per critic backend.
 - `agent_v2_p2xxl_search_r16`: diagnostic only.
+- `agent_v2_csp_direct` (T0072): actor-direct with T0067's per-count P specialists instead of P2 XXL; the same actor and resolver. Not a production default and not screened.
 
 T0064 ([VERDICTS.md](../reports/host/meow_rl_aligned/VERDICTS.md)) measured, on the meow_rl carrier:
 - the aligned p2_large actor helps against its warm start (+3.84 points [+1.66, +6.01]);
@@ -166,6 +168,21 @@ T0064 ([VERDICTS.md](../reports/host/meow_rl_aligned/VERDICTS.md)) measured, on 
 So search stays an unscreened experiment on agent_v2 until that deficit is diagnosed, and reference16 is not a search candidate.
 
 Build with `python bots/p_only/tools/build.py --variants bots/agent_v2/variants.json`. Pins and settings are in [`profiles/agent_v2.json`](../profiles/agent_v2.json).
+
+## P banks
+
+`inference/agent_v2/p_bank.hpp` is the one place that turns a variant's `FUSION_TIER_*` into P's model registry; the bot, the PPO bridge and the contract checks all reach it through the predictor, and defining two tiers is a compile error.
+
+| Bank (`--p-bank`) | Tier | Width | Models | Model ids |
+|---|---|---|---|---|
+| `models_pxxl_vm` (default) | `FUSION_TIER_PXXL_VM` | 1024 | P2 XXL: dedicated n02–n08, n10, n12, n15; general at 9, 11, 13, 14 | `n02` … `general` |
+| `count_specialists_p` | `FUSION_TIER_CSP` | 2048 | T0067: one specialist per exact team count 2–15 (`inference/count_specialists_p`, namespaces `csp_nXX`) | `csp_n02` … `csp_n15` |
+
+- The specialists' registry ids (`n02` …) are also the XXL banks' ids, so the carrier prefixes them: `model_id()`, the bot's first stderr line, `mr_predictor` and `check p` say `csp_n04`. `mr_p_bank` names the bank a bridge library was built with, and `training.agent_v2.bridge.load(path, p_bank)` refuses a library of another bank.
+- The CSP paired value networks are 2048 wide, so a CSP build sets `FUSION_MAX_WIDTH 2048` before the first inference header; the weight headers refuse a narrower build. The width sizes scratch buffers only: the P2 XXL direct variant built at 2048 replies identically to its 1024 build on the 4-team stream.
+- `check bank` lists the model each team count 2–15 dispatches to.
+- Training on the specialists (T0068): `python -m training.agent_v2.train --init-actor <actor .npz> --p-bank count_specialists_p ...`. No carrier code changes are needed.
+- Mac validation (T0072): the CSP variant bundles to one 61 MB file, replays the 2-, 4- and 15-team streams with complete valid orders and nothing refused or inconsistent, and its bridge replies equal the bundled bot's on all 1,200 turns. Nothing about timing, the 2,000 ms first reply with the 2048-wide bank, or strength is verified.
 
 ## Next: host baseline, then learning
 

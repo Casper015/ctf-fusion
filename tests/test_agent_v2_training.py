@@ -105,6 +105,57 @@ class Bridge(unittest.TestCase):
         np.testing.assert_array_equal(again.resolved, ep.resolved)                # resolved orders are deterministic
 
 
+@unittest.skipUnless(CXX, "no C++ compiler")
+class CountSpecialistsBridge(unittest.TestCase):
+    """The bridge built for T0067's per-count P specialists (p_bank count_specialists_p, FUSION_TIER_CSP)."""
+    BANK = "count_specialists_p"
+
+    @classmethod
+    def setUpClass(cls):
+        from training.agent_v2 import bridge as AB  # noqa: PLC0415
+        cls.AB = AB
+        cls.libpath = AB.build(p_bank=cls.BANK)
+        cls.lib = AB.load(cls.libpath, cls.BANK)
+        cls.tmp = Path(tempfile.mkdtemp(prefix="agent-v2-csp-train-"))
+        sys.path.insert(0, str(REPO / "bots" / "p_only" / "tools"))
+        from bundle import bundle  # noqa: PLC0415
+        text, _ = bundle(REPO / "bots" / "agent_v2" / "variants" / "agent_v2_csp_direct.cpp")
+        src = cls.tmp / "bot.cpp"
+        src.write_text(text, encoding="utf-8")
+        cls.bot = cls.tmp / f"bot{runner.EXE}"
+        subprocess.run([CXX, "-std=c++20", "-O2", "-w", *(["-static"] if runner.WINDOWS else []), str(src), "-o", str(cls.bot)],
+                       check=True, capture_output=True)
+
+    def test_the_library_names_its_bank_and_each_count_specialist(self):
+        import ctypes  # noqa: PLC0415
+        self.assertEqual(self.AB.bank_of(self.lib), self.BANK)
+        self.assertNotEqual(self.libpath, self.AB.build())                         # another library than the default bank's
+        self.lib.mr_predictor.restype = ctypes.c_char_p
+        for g in ("n02", "n04", "n15"):
+            with MB.Session(self.lib) as s:
+                s.observe(MB.split_stream(stream(g))[0])
+                self.assertEqual(self.lib.mr_predictor(ctypes.c_void_p(s.handle)), f"csp_{g}".encode())
+
+    def test_a_library_of_another_bank_is_refused(self):
+        with self.assertRaises(RuntimeError):
+            self.AB.load(self.libpath, "models_pxxl_vm")
+        with self.assertRaises(RuntimeError):
+            self.AB.load(self.AB.build(), self.BANK)
+
+    def test_training_executes_exactly_the_deployed_decision_path(self):
+        for g in ("n02", "n04", "n15"):
+            text = stream(g)
+            bot = subprocess.run([str(self.bot)], input=text, capture_output=True, text=True, check=True).stdout.splitlines()
+            self.assertEqual(len(bot), 400, g)
+            with MB.Session(self.lib) as s:
+                for block, line in zip(MB.split_stream(text), bot):
+                    o = s.observe(block)
+                    t = line.split()
+                    j = "SUDLR".index(t[1]) * 25 + "SUDLR".index(t[3]) * 5 + "SUDLR".index(t[5])
+                    self.assertTrue(o.joint_mask[j])
+                    self.assertEqual(s.resolve(j)[0], line, (g, o.turn))
+
+
 class Identity(unittest.TestCase):
     def test_a_new_carrier_identity_with_unchanged_model_contracts(self):
         from training.agent_v2 import identity as AI  # noqa: PLC0415
@@ -118,6 +169,29 @@ class Identity(unittest.TestCase):
         self.assertEqual(a["predictor"]["kind"], "P")
         self.assertTrue(a["predictor"]["models"])
         self.assertIn("inference/agent_v2/resolver.hpp", AI.sources()["files"])
+        self.assertIn("inference/agent_v2/p_bank.hpp", AI.sources()["files"])
+        self.assertEqual((a["predictor"]["bank"], a["predictor"]["tier"]), ("models_pxxl_vm", "FUSION_TIER_PXXL_VM"))
+
+    def test_the_count_specialists_bank_is_its_own_identity(self):
+        from training.agent_v2 import bridge as AB  # noqa: PLC0415
+        from training.agent_v2 import identity as AI  # noqa: PLC0415
+        a, c = AI.identity("large_v"), AI.identity("large_v", "count_specialists_p")
+        self.assertNotEqual(a, c)                                                 # a --resume across banks is refused
+        self.assertEqual({k: v for k, v in a.items() if k != "predictor"}, {k: v for k, v in c.items() if k != "predictor"})
+        p = c["predictor"]
+        self.assertEqual((p["bank"], p["tier"], p["max_width"]), ("count_specialists_p", "FUSION_TIER_CSP", 2048))
+        self.assertEqual(p["registry"], "inference/count_specialists_p")
+        self.assertEqual(sorted(p["models"]), [f"n{n:02d}" for n in range(2, 16)])
+        self.assertTrue(all(len(h) == 64 for h in p["models"].values()))
+        files = AI.sources("count_specialists_p")["files"]
+        self.assertIn("inference/count_specialists_p/weights_n09.hpp", files)
+        self.assertFalse(any(f.startswith("inference/models_pxxl_vm/") for f in files))
+        flags = AB.build_flags(p_bank="count_specialists_p")
+        self.assertIn("-DFUSION_TIER_CSP=1", flags)
+        self.assertIn("-DFUSION_MAX_WIDTH=2048", flags)
+        self.assertEqual([f for f in AB.build_flags() if f.startswith("-DFUSION")], ["-DFUSION_MAX_WIDTH=1024", "-DFUSION_TIER_PXXL_VM=1"])
+        with self.assertRaises(ValueError):
+            AI.identity("large_v", "models_xxl")                               # only the listed banks
 
     def test_the_trainer_substitutions_are_explicit_and_undone(self):
         from training.agent_v2 import train as AT  # noqa: PLC0415
@@ -135,6 +209,12 @@ class Identity(unittest.TestCase):
             self.assertEqual(cfg["task"], "T0065")
             self.assertEqual(cfg["identity"]["carrier"], "agent_v2_v1")
             self.assertNotEqual(cfg["identity"], MI.identity("large_v"))          # --resume of an old run is refused
+            self.assertEqual(cfg["identity"]["predictor"]["bank"], "models_pxxl_vm")
+        self.assertEqual((T.B.build, T.B.reference_weights, T.run_config), saved)
+        with AT.substituted(npz, lib=tmp / "fake.dylib", p_bank="count_specialists_p"):
+            cfg = AT.agent_v2_config(base, npz, "count_specialists_p")(type("A", (), {"arm": "large_v"}))
+            self.assertEqual(cfg["identity"]["predictor"]["bank"], "count_specialists_p")
+            self.assertIn("inference/count_specialists_p/registry.hpp", cfg["agent_v2_sources"]["files"])
         self.assertEqual((T.B.build, T.B.reference_weights, T.run_config), saved)
 
 
@@ -168,6 +248,16 @@ class Trainer(unittest.TestCase):
         self.assertEqual(json.loads((out / "config.json").read_text())["identity"]["carrier"], "agent_v2_v1")
         r = self.AT.train(self.args(out, "full", 800, ["--resume"]), collector=self.Collector(), engine={"sha256": "test"}, lib=self.lib)
         self.assertEqual(r["decisions"], 800)
+
+    def test_a_run_never_resumes_on_another_p_bank(self):
+        from training.agent_v2 import bridge as AB  # noqa: PLC0415
+        out = self.dir / "csp"
+        csp = AB.build(p_bank="count_specialists_p")
+        self.AT.train([*self.args(out), "--p-bank", "count_specialists_p"], collector=self.Collector(), engine={"sha256": "test"},
+                      lib=csp)
+        self.assertEqual(json.loads((out / "config.json").read_text())["identity"]["predictor"]["bank"], "count_specialists_p")
+        with self.assertRaises(SystemExit):
+            self.AT.train(self.args(out, "full", 800, ["--resume"]), collector=self.Collector(), engine={"sha256": "test"}, lib=self.lib)
 
     def test_an_old_carrier_run_is_never_resumed(self):
         out = self.dir / "old"

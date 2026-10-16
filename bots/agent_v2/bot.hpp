@@ -1,7 +1,8 @@
 // The agent_v2 CPU bot (task T0065, docs/AGENT_V2.md): our opponent model P, the PPO actor, the mathematical resolver
 // assign_v1 and, optionally, the bounded value search, on one engine-mirrored public state.
 //
-// A variant (bots/agent_v2/variants/<name>.cpp) defines FUSION_MAX_WIDTH and its FUSION_TIER_* (P's model registry),
+// A variant (bots/agent_v2/variants/<name>.cpp) defines FUSION_MAX_WIDTH and its FUSION_TIER_* (P's model registry,
+// inference/agent_v2/p_bank.hpp; FUSION_TIER_CSP: T0067's per-count specialists, FUSION_MAX_WIDTH 2048),
 // includes its actor header (namespace meow_rl_model) and, for AGENT_V2_SEARCH=1, a critic header (namespace
 // meow_rl_critic), then this file. AGENT_V2_GREEDY=1 plays the actor's greedy joint (a diagnostic, not the deployment).
 // The bot reads each block as text (up to its END line), so a malformed block is refused and answered with the safe
@@ -20,21 +21,6 @@
 #define AGENT_V2_GREEDY 0
 #endif
 
-#if defined(FUSION_TIER_M)
-#include "models_m/registry.hpp"
-#elif defined(FUSION_TIER_L)
-#include "models_l/registry.hpp"
-#elif defined(FUSION_TIER_XL)
-#include "models_xl/registry.hpp"
-#elif defined(FUSION_TIER_XXL)
-#include "models_xxl/registry.hpp"
-#elif defined(FUSION_TIER_PXL_VM)
-#include "models_pxl_vm/registry.hpp"
-#elif defined(FUSION_TIER_PXXL_VM)
-#include "models_pxxl_vm/registry.hpp"
-#else
-#error "an agent_v2 variant selects our opponent model registry with FUSION_TIER_*"
-#endif
 
 #include "../../inference/agent_v2/runtime.hpp"
 #if AGENT_V2_SEARCH

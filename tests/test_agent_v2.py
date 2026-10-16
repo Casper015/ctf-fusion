@@ -45,6 +45,35 @@ def bundle_and_build(variant: Path, exe: Path, defines=()) -> Path:
     return out
 
 
+def build_check(exe: Path, defines=("-DFUSION_TIER_PXXL_VM=1",)) -> subprocess.CompletedProcess:
+    return subprocess.run([CXX, *FLAGS, "-I", str(REPO / "inference"), "-I", str(REPO / "tools" / "cpp" / "meow_rl"), *defines,
+                           f'-DACTOR_HEADER="{(ACTORS / "actor.hpp").as_posix()}"',
+                           f'-DCRITIC_HEADER="{(ACTORS / "critic_reference16.hpp").as_posix()}"',
+                           str(REPO / "tools" / "cpp" / "agent_v2" / "check.cpp"), "-o", str(exe)], capture_output=True, text=True)
+
+
+def assert_valid_replies(tc: unittest.TestCase, game: str, text: str, lines: list[str], err: str):
+    """Complete valid orders on every turn, nothing refused or inconsistent (the carrier's reply contract)."""
+    tc.assertEqual(len(lines), 400, game)
+    states = [b for b in text.split("END\n") if "TURN" in b]
+    me = int(text.split()[2])
+    for turn, (line, block) in enumerate(zip(lines, states), 1):
+        tok = line.split()
+        tc.assertEqual((len(tok), tok[0]), (7, str(turn)), line)
+        units = {int(u.split()[1]): u.split() for u in block.split("\n") if u.startswith("U ")}
+        for k in range(3):
+            mv, act = tok[1 + 2 * k], tok[2 + 2 * k]
+            tc.assertIn(mv, "SUDLR")
+            carrying = int(units[3 * me + k][6]) >= 0
+            if carrying:
+                tc.assertEqual(act, "-", (game, turn, k))                     # carriers wait
+            else:
+                tc.assertTrue(act == "P" or (act.isdigit() and int(act) // 3 != me), (game, turn, act))
+            tc.assertNotEqual(act, "X")                                        # assign_v1 never drops
+    tc.assertIn("refused 0 inconsistent 0", err.strip().splitlines()[-1])
+    tc.assertIn("actions agent_v2_actions_v1 resolver assign_v1/dp_v1", err)
+
+
 def engine_root() -> Path | None:
     try:
         from fusion.paths import ai_test_root  # noqa: PLC0415
@@ -71,10 +100,7 @@ class Contracts(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp(prefix="agent-v2-"))
         cls.check = cls.tmp / f"check{runner.EXE}"
-        subprocess.run([CXX, *FLAGS, "-I", str(REPO / "inference"), "-I", str(REPO / "tools" / "cpp" / "meow_rl"),
-                        "-DFUSION_TIER_PXXL_VM=1", f'-DACTOR_HEADER="{(ACTORS / "actor.hpp").as_posix()}"',
-                        f'-DCRITIC_HEADER="{(ACTORS / "critic_reference16.hpp").as_posix()}"',
-                        str(REPO / "tools" / "cpp" / "agent_v2" / "check.cpp"), "-o", str(cls.check)], check=True, capture_output=True)
+        build_check(cls.check).check_returncode()
         cls.streams = {}
         for g in GAMES:
             p = cls.tmp / f"{g}.txt"
@@ -96,6 +122,12 @@ class Contracts(unittest.TestCase):
         for g, p in self.streams.items():
             out = self.run_check("p", p)
             self.assertIn(f"model {g}", out)                                    # the dedicated model of that team count
+
+    def test_the_default_bank_is_p2_xxl(self):
+        out = self.run_check("bank")
+        self.assertIn("ok bank models_pxxl_vm models 2:n02 ", out)
+        self.assertIn(" 9:general ", out)                                       # P2 XXL has no dedicated n09
+        self.assertIn(" 15:n15 distinct 11", out)
 
     def test_search_branches_never_write_back(self):
         for g, p in self.streams.items():
@@ -223,24 +255,8 @@ class Bot(unittest.TestCase):
         for g in GAMES:
             text = stream(g)
             lines, err = self.play(self.direct, text)
-            self.assertEqual(len(lines), 400, g)
-            states = [b for b in text.split("END\n") if "TURN" in b]
-            for turn, (line, block) in enumerate(zip(lines, states), 1):
-                tok = line.split()
-                self.assertEqual((len(tok), tok[0]), (7, str(turn)), line)
-                me = int(text.split()[2])
-                units = {int(u.split()[1]): u.split() for u in block.split("\n") if u.startswith("U ")}
-                for k in range(3):
-                    mv, act = tok[1 + 2 * k], tok[2 + 2 * k]
-                    self.assertIn(mv, "SUDLR")
-                    carrying = int(units[3 * me + k][6]) >= 0
-                    if carrying:
-                        self.assertEqual(act, "-", (g, turn, k))              # carriers wait
-                    else:
-                        self.assertTrue(act == "P" or (act.isdigit() and int(act) // 3 != me), (g, turn, act))
-                    self.assertNotEqual(act, "X")                              # assign_v1 never drops
-            self.assertIn("refused 0 inconsistent 0", err.strip().splitlines()[-1])
-            self.assertIn("actions agent_v2_actions_v1 resolver assign_v1/dp_v1", err)
+            assert_valid_replies(self, g, text, lines, err)
+            self.assertIn(f"predictor P model {g} ", err)
 
     def test_a_run_is_reproducible(self):
         text = stream("n04")
@@ -265,6 +281,76 @@ class Bot(unittest.TestCase):
         c = dict(zip(err.strip().splitlines()[-1].split()[1::2], err.strip().splitlines()[-1].split()[2::2]))
         self.assertEqual(int(c["search_used"]) + int(c["search_fallback"]), 400)
         self.assertEqual(c["critic"], "wideact16")
+
+
+@unittest.skipUnless(CXX, "no C++ compiler")
+class CountSpecialistsBank(unittest.TestCase):
+    """FUSION_TIER_CSP: T0067's per-count opponent P specialists (inference/count_specialists_p) in the carrier."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp(prefix="agent-v2-csp-"))
+        cls.check = cls.tmp / f"check{runner.EXE}"
+        build_check(cls.check, ["-DFUSION_TIER_CSP=1", "-DFUSION_MAX_WIDTH=2048"]).check_returncode()
+        v = REPO / "bots" / "agent_v2" / "variants"
+        cls.csp = bundle_and_build(v / "agent_v2_csp_direct.cpp", cls.tmp / "csp")
+        cls.direct = bundle_and_build(v / "agent_v2_p2xxl_direct.cpp", cls.tmp / "direct")
+
+    def play(self, exe: Path, text: str) -> tuple[list[str], str]:
+        r = subprocess.run([str(exe)], input=text, capture_output=True, text=True, timeout=900)
+        self.assertEqual(r.returncode, 0, r.stderr[-500:])
+        return r.stdout.splitlines(), r.stderr
+
+    def test_every_team_count_has_its_own_specialist(self):
+        out = subprocess.run([str(self.check), "bank"], capture_output=True, text=True, check=True).stdout
+        want = " ".join(f"{n}:csp_n{n:02d}" for n in range(2, 16))
+        self.assertEqual(out.strip(), f"ok bank count_specialists_p models {want} distinct 14")
+
+    def test_opponent_model_contracts_and_cache_identity(self):
+        for g in GAMES:
+            p = self.tmp / f"{g}.txt"
+            p.write_text(stream(g), encoding="utf-8")
+            out = subprocess.run([str(self.check), "p", str(p)], capture_output=True, text=True, timeout=1200).stdout
+            self.assertTrue(out.startswith("ok"), out)
+            self.assertIn(f"model csp_{g}", out)
+
+    def test_the_variant_replays_without_refusals(self):
+        replies = {}
+        for g in GAMES:
+            text = stream(g)
+            lines, err = self.play(self.csp, text)
+            assert_valid_replies(self, g, text, lines, err)
+            self.assertIn(f"predictor P model csp_{g} ", err)                  # the bank is named, never a bare n02
+            self.assertIn("actor aligned_p2_large ", err)                      # the same actor as agent_v2_p2xxl_direct
+            replies[g] = lines
+        self.assertEqual(self.play(self.csp, stream("n04"))[0], replies["n04"])  # reproducible
+
+    def test_the_wider_buffers_do_not_change_the_actor_or_resolver(self):
+        from bundle import bundle  # noqa: PLC0415
+        text, _ = bundle(REPO / "bots" / "agent_v2" / "variants" / "agent_v2_p2xxl_direct.cpp")
+        self.assertIn("#define FUSION_MAX_WIDTH 1024", text)
+        src = self.tmp / "direct2048.cpp"
+        src.write_text(text.replace("#define FUSION_MAX_WIDTH 1024", "#define FUSION_MAX_WIDTH 2048", 1), encoding="utf-8")
+        exe = self.tmp / f"direct2048{runner.EXE}"
+        subprocess.run([CXX, *FLAGS, *(["-static"] if runner.WINDOWS else []), str(src), "-o", str(exe)], check=True, capture_output=True)
+        game = stream("n04")
+        self.assertEqual(self.play(exe, game)[0], self.play(self.direct, game)[0])
+
+    def test_two_banks_at_once_are_refused(self):
+        r = build_check(self.tmp / f"both{runner.EXE}", ["-DFUSION_TIER_CSP=1", "-DFUSION_TIER_PXXL_VM=1", "-DFUSION_MAX_WIDTH=2048"])
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("define exactly one FUSION_TIER_*", r.stderr)
+
+    def test_a_narrow_build_is_refused(self):
+        r = build_check(self.tmp / f"narrow{runner.EXE}", ["-DFUSION_TIER_CSP=1", "-DFUSION_MAX_WIDTH=1024"])
+        self.assertNotEqual(r.returncode, 0)
+
+    def test_the_variant_is_registered_and_not_a_production_default(self):
+        reg = json.loads((REPO / "bots" / "agent_v2" / "variants.json").read_text())
+        v = {x["name"]: x for x in reg["variants"]}["agent_v2_csp_direct"]
+        self.assertEqual(v["source"], "bots/agent_v2/variants/agent_v2_csp_direct.cpp")
+        prof = json.loads((REPO / "profiles" / "agent_v2.json").read_text())
+        self.assertNotIn("agent_v2_csp_direct", json.dumps(prof))
 
 
 class Profile(unittest.TestCase):
