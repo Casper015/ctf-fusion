@@ -17,32 +17,35 @@
   "train": {
    "turns": 56000,
    "rows": 840000,
-   "carrier_rows": 606750,
    "valid_labels": 839789,
+   "team_carrier_turns": 217481,
+   "unit_carrier_turns": 237385,
    "stratum_quiet": 61202,
+   "stratum_flag": 344598,
    "stratum_contact": 252655,
-   "stratum_respawn": 181545,
-   "stratum_flag": 344598
+   "stratum_respawn": 181545
   },
   "val": {
    "turns": 12000,
    "rows": 180000,
-   "carrier_rows": 130585,
    "valid_labels": 179974,
+   "team_carrier_turns": 46891,
+   "unit_carrier_turns": 51411,
    "stratum_quiet": 13140,
+   "stratum_flag": 74036,
    "stratum_contact": 54471,
-   "stratum_respawn": 38353,
-   "stratum_flag": 74036
+   "stratum_respawn": 38353
   },
   "test": {
    "turns": 12000,
    "rows": 180000,
-   "carrier_rows": 130554,
    "valid_labels": 179956,
+   "team_carrier_turns": 46478,
+   "unit_carrier_turns": 50917,
    "stratum_quiet": 12975,
+   "stratum_flag": 73748,
    "stratum_contact": 54665,
-   "stratum_respawn": 38612,
-   "stratum_flag": 73748
+   "stratum_respawn": 38612
   }
  },
  "faults_total": 281,
@@ -69,7 +72,8 @@
    "split": "train",
    "turns": 56000,
    "rows": 840000,
-   "carrier_rows": 237385,
+   "team_carrier_turns": 54306,
+   "unit_carrier_turns": 237385,
    "hp": {
     "mean_hp": 57.29,
     "active_100_hp_pct": 45.38,
@@ -98,7 +102,8 @@
    "split": "val",
    "turns": 12000,
    "rows": 180000,
-   "carrier_rows": 51411,
+   "team_carrier_turns": 11641,
+   "unit_carrier_turns": 51411,
    "hp": {
     "mean_hp": 57.81,
     "active_100_hp_pct": 46.06,
@@ -127,7 +132,8 @@
    "split": "test",
    "turns": 12000,
    "rows": 180000,
-   "carrier_rows": 50917,
+   "team_carrier_turns": 11645,
+   "unit_carrier_turns": 50917,
    "hp": {
     "mean_hp": 57.58,
     "active_100_hp_pct": 45.65,

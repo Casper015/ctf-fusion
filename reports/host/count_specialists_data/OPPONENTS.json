@@ -9,23 +9,23 @@
    "share": 0.04887,
    "source_path": "@repo/bots/meowmind_p/meowmind-ctf-374-20261011.cpp",
    "source_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
-   "binary_sha256": null
+   "binary_sha256": "08046af49a252f7bf2b690178ed04ba1b90f46c97bd4e12b495862b72b5218c9"
   },
   "Meowmind_Distill_P3": {
    "total_seats": 1178,
    "share": 0.0495,
    "source_path": "@repo/bots/meowmind_p/meowmind_p_distill_xxl_both.cpp",
    "source_sha256": "680ccd22501f99c59c0f4ee7cab1d170d1b1aa1078eecf563fc17d26785e3e14",
-   "binary_sha256": null
+   "binary_sha256": "f8f365cf21ef22c79885cccb18108f4ce1b18420985e28cff235c55cae303ee5"
   },
   "Player2_v005": {
    "total_seats": 207,
    "share": 0.0087,
    "source_path": "ctf-benchmark-v3/track1_10k_suite/bots/B2_Player2_v005.cpp",
    "source_sha256": "5e80d9a725c64fb09ecc024e80c8564e02bffbd72093629e513cc481d31adc8d",
-   "binary_sha256": null,
+   "binary_sha256": "31f257bab05c093e3d09eef84f4a746069199f1694262a26003c71e7ad012346",
    "pool_v2_declared_family": "player5",
-   "contradiction_statement": "Player2_v005 is included in profiles/meow_rl_training_pool_v2.json under family 'player5' despite the pool file text declaring the Player2 lineage held out. The collector sampled strictly according to this approved pool without editing the pool file."
+   "lineage_note": "Player2_v005 is Player5 lineage (compiled from ref-player5.cpp) and an approved training bot per docs/MEOWMIND_RL_POOL_SPLIT.md. The held-out Player2 is the original ctf-stress-pack bot."
   }
  },
  "roster": {
@@ -34,7 +34,7 @@
    "declared_family_in_pool": "gpt",
    "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6-astra.cpp",
    "source_sha256": "b872902d6ccdf5cbdb91b0cf8a377622a7489eff74702ac1e67983ea1ff25740",
-   "binary_sha256": null,
+   "binary_sha256": "ae03baa80955c6e5bb1539346c6a130daed40b341d35b69641fcb5ea5a80aa32",
    "total_seats_played": 959,
    "seats_share": 0.04029,
    "seats_by_count": {
@@ -159,7 +159,7 @@
    "declared_family_in_pool": "baseline",
    "path": "ctf-stress-pack/bots/baseline.cpp",
    "source_sha256": "b8733ef9cfbdd6c22e94f8b6e389ad4f655117c80dedf1d87fb50de277e2cb42",
-   "binary_sha256": null,
+   "binary_sha256": "a3718da028e5f1906c1bf8a3a8f99ce0519de322ea1b549cef17d7898296f4a5",
    "total_seats_played": 1196,
    "seats_share": 0.05025,
    "seats_by_count": {
@@ -709,7 +709,7 @@
    "declared_family_in_pool": "player5",
    "path": "ctf-benchmark-v3/track1_10k_suite/bots/B0_Control_Hybrid.cpp",
    "source_sha256": "98a9568798eee04d425c4907747fe2479c68e44c1a721bde42bef3b1070ac88d",
-   "binary_sha256": null,
+   "binary_sha256": "abb29aa4af6baa3caf140b4dcbcee3c2c4616ed383cedc40866583dbf96e6699",
    "total_seats_played": 184,
    "seats_share": 0.00773,
    "seats_by_count": {
@@ -759,7 +759,7 @@
    "declared_family_in_pool": "deepseek",
    "path": "ctf-arena/Player7/judge/ctf/bots/deepseek-v4.1-flash.cpp",
    "source_sha256": "e9d6cdf256b3a505772a16ceec4b8b2aa9ef59ae2713b9a86dd5138e41c23825",
-   "binary_sha256": null,
+   "binary_sha256": "ae43d2f0c5178877581330f548cf6cc47986cfdf4edf644455cf863dfedb1b97",
    "total_seats_played": 1190,
    "seats_share": 0.05,
    "seats_by_count": {
@@ -784,7 +784,7 @@
    "declared_family_in_pool": "meowmind",
    "path": "@repo/bots/meowmind_p/meowmind-ctf-374-20261011.cpp",
    "source_sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc",
-   "binary_sha256": null,
+   "binary_sha256": "08046af49a252f7bf2b690178ed04ba1b90f46c97bd4e12b495862b72b5218c9",
    "total_seats_played": 1163,
    "seats_share": 0.04887,
    "seats_by_count": {
@@ -809,7 +809,7 @@
    "declared_family_in_pool": "meowmind",
    "path": "@repo/bots/meowmind_p/meowmind_p_distill_xxl_both.cpp",
    "source_sha256": "680ccd22501f99c59c0f4ee7cab1d170d1b1aa1078eecf563fc17d26785e3e14",
-   "binary_sha256": null,
+   "binary_sha256": "f8f365cf21ef22c79885cccb18108f4ce1b18420985e28cff235c55cae303ee5",
    "total_seats_played": 1178,
    "seats_share": 0.0495,
    "seats_by_count": {
@@ -834,7 +834,7 @@
    "declared_family_in_pool": "claude",
    "path": "ctf-arena/Player7/judge/ctf/bots/opus-5.5.cpp",
    "source_sha256": "dff096e5a2a5b3b50d0117a11979167cc9a74e153002c15f960d88add10d9d6b",
-   "binary_sha256": null,
+   "binary_sha256": "aa35fbd533cb435bc30eec79bb06d54f507416bd08dccfc6867910ddc4cb1ff9",
    "total_seats_played": 1198,
    "seats_share": 0.05034,
    "seats_by_count": {
@@ -884,7 +884,7 @@
    "declared_family_in_pool": "player5",
    "path": "ctf-benchmark-v3/track1_10k_suite/bots/B2_Player2_v005.cpp",
    "source_sha256": "5e80d9a725c64fb09ecc024e80c8564e02bffbd72093629e513cc481d31adc8d",
-   "binary_sha256": null,
+   "binary_sha256": "31f257bab05c093e3d09eef84f4a746069199f1694262a26003c71e7ad012346",
    "total_seats_played": 207,
    "seats_share": 0.0087,
    "seats_by_count": {
@@ -959,7 +959,7 @@
    "declared_family_in_pool": "player5",
    "path": "ctf-benchmark-v3/track1_10k_suite/bots/B1_Player5_Omega_r3.cpp",
    "source_sha256": "b8c6562057a3b27643e2c9f69480df8b2df0bbea2200509e14aec69e84e1a44b",
-   "binary_sha256": null,
+   "binary_sha256": "609d94af2e1c77962be6995f3bd08336d067b5c3a1daaf4adbde0866e8e8bae0",
    "total_seats_played": 204,
    "seats_share": 0.00857,
    "seats_by_count": {
@@ -984,7 +984,7 @@
    "declared_family_in_pool": "qwen",
    "path": "ctf-arena/Player7/judge/ctf/bots/qwen-3.8-max.cpp",
    "source_sha256": "f59ac303ed511ddb0400cac93b3b386661410f1b2655ba5016d404486bd90410",
-   "binary_sha256": null,
+   "binary_sha256": "997ec2627e9f432934451b074ad1708e407d0324e25808371735b81c2002e9dd",
    "total_seats_played": 1212,
    "seats_share": 0.05092,
    "seats_by_count": {
@@ -1234,7 +1234,7 @@
    "declared_family_in_pool": "gpt",
    "path": "ctf-arena/Player7/judge/ctf/bots/gpt-6.1-sol.cpp",
    "source_sha256": "993a4a9d62b871714f5fc2194347e284014ae49fd69dfbddea55246e7b71d2de",
-   "binary_sha256": null,
+   "binary_sha256": "6999587eacff1594ef6ab7ac9818f83dad312de472eac2ea74fe57fa254608ad",
    "total_seats_played": 1012,
    "seats_share": 0.04252,
    "seats_by_count": {
@@ -1259,7 +1259,7 @@
    "declared_family_in_pool": "claude",
    "path": "ctf-arena/Player7/judge/ctf/bots/sonnet-5.5.cpp",
    "source_sha256": "4074da29f0da9d0f21717ed0d1f44d158ef6c7ca7f5d95f91ada76327ead2fc6",
-   "binary_sha256": null,
+   "binary_sha256": "74e8960c67503d9e18587a50b4a230bc411aaa5d750dccc908b8d7aee1e66f4c",
    "total_seats_played": 1209,
    "seats_share": 0.0508,
    "seats_by_count": {

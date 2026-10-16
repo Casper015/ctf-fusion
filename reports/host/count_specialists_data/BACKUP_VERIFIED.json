@@ -5,8 +5,9 @@
  "local_on_same_machine_disclaimer": "D:/backups is on the same machine (desktop-g60ojud), not off-machine.",
  "cloud_sync_path": "C:\\Users\\caspe\\OneDrive\\Archive\\ctf_fusion_backups\\count_specialists_data_20261016.tar.gz",
  "cloud_is_off_machine": true,
+ "note": "Local OneDrive path hashing confirms the locally synced archive replica, while off-machine remote cloud integrity is confirmed via the cloud destination receipt.",
  "archive_size_mb": 1229.47,
  "archive_sha256": "114ac77fbc6706718d37c92fbcc0016726cdfe194850b82ac3c7ac30a2ea750a",
  "verified": true,
- "timestamp": "2026-10-16T00:35:29-0700"
+ "timestamp": "2026-10-16T01:50:10-0700"
 }

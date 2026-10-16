@@ -17,8 +17,9 @@
   "train": {
    "turns": 56000,
    "rows": 392000,
-   "carrier_rows": 307780,
    "valid_labels": 392000,
+   "team_carrier_turns": 101732,
+   "unit_carrier_turns": 108455,
    "stratum_quiet": 51584,
    "stratum_flag": 148506,
    "stratum_contact": 106693,
@@ -27,8 +28,9 @@
   "val": {
    "turns": 12000,
    "rows": 84000,
-   "carrier_rows": 65825,
    "valid_labels": 84000,
+   "team_carrier_turns": 21694,
+   "unit_carrier_turns": 23288,
    "stratum_quiet": 10749,
    "stratum_flag": 31759,
    "stratum_contact": 22629,
@@ -37,8 +39,9 @@
   "test": {
    "turns": 12000,
    "rows": 84000,
-   "carrier_rows": 65981,
    "valid_labels": 84000,
+   "team_carrier_turns": 22093,
+   "unit_carrier_turns": 23633,
    "stratum_quiet": 11047,
    "stratum_flag": 31980,
    "stratum_contact": 23273,
@@ -61,7 +64,8 @@
    "split": "train",
    "turns": 56000,
    "rows": 392000,
-   "carrier_rows": 108455,
+   "team_carrier_turns": 51130,
+   "unit_carrier_turns": 108455,
    "hp": {
     "mean_hp": 63.55,
     "active_100_hp_pct": 51.12,
@@ -90,7 +94,8 @@
    "split": "val",
    "turns": 12000,
    "rows": 84000,
-   "carrier_rows": 23288,
+   "team_carrier_turns": 11031,
+   "unit_carrier_turns": 23288,
    "hp": {
     "mean_hp": 63.59,
     "active_100_hp_pct": 51.3,
@@ -119,7 +124,8 @@
    "split": "test",
    "turns": 12000,
    "rows": 84000,
-   "carrier_rows": 23633,
+   "team_carrier_turns": 11059,
+   "unit_carrier_turns": 23633,
    "hp": {
     "mean_hp": 63.33,
     "active_100_hp_pct": 50.76,

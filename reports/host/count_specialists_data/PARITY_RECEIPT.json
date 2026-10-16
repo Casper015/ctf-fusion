@@ -1,17 +1,32 @@
 {
- "schema": "ctf-native-python-parity-1",
- "fixture": "preflight-n02-m000",
- "seat": 0,
- "rows_compared": 800,
- "total_possible_preflight_rows": 48000,
- "subsampling_rationale": "Seat 0 of preflight-n02-m000 (turns 1..400 x 2 teams = 800 rows) evaluated for exact bitwise parity without redundant repeated evaluation of all 48,000 seat-turn combinations.",
- "max_abs_difference": 0,
- "mismatch_count": 0,
- "all_integer_accumulators_equal": true,
- "feature_record_width": 923,
- "feature_schema_digest": "2384477635bab87d",
- "p2_family_digest": "213481118d8a6263",
- "model": "fusion::models::general (p2/v2 XXL)",
- "header_sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844",
- "npz_sha256": "8244a1427bcb7cd6f67fb477a0c20dceb6f9c9e84f98140f039ef3302eda798d"
+ "schema": "ctf-native-python-parity-2",
+ "task": "T0066",
+ "model_inference_parity": {
+  "scope": "C++ native.run_infer_check runtime vs Python QuantizedTier.raw emulation",
+  "fixture": "preflight-n02-m000",
+  "seat": 0,
+  "rows_compared": 800,
+  "total_possible_preflight_rows": 48000,
+  "subsampling_rationale": "Seat 0 of preflight-n02-m000 (turns 1..400 x 2 teams = 800 rows) evaluated for exact bitwise parity without redundant repeated evaluation of all 48,000 seat-turn combinations.",
+  "max_abs_difference": 0,
+  "mismatch_count": 0,
+  "all_integer_accumulators_equal": true,
+  "feature_record_width": 923,
+  "feature_schema_digest": "2384477635bab87d",
+  "p2_family_digest": "213481118d8a6263",
+  "model": "fusion::models::general (p2/v2 XXL)",
+  "header_sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844",
+  "npz_sha256": "8244a1427bcb7cd6f67fb477a0c20dceb6f9c9e84f98140f039ef3302eda798d"
+ },
+ "feature_extraction_parity": {
+  "scope": "Stored shard feature matrix vs fresh native.extract() from raw match seat stream",
+  "raw_match": "data/count_specialists_data/raw/n02/n02-s20262002-m0000.json.gz",
+  "shard_file": "data/count_specialists_data/shards/n02/train/shard_0000.npz",
+  "seat": 0,
+  "rows_compared": 800,
+  "max_abs_difference": 0,
+  "mismatch_count": 0,
+  "all_features_identical": true
+ },
+ "overall_parity_verified": true
 }
