@@ -1,7 +1,7 @@
 ---
 id: T0066
 title: "Collect independent count-specific opponent datasets"
-status: active
+status: review
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [profiles/count_specialists_collection.json, reports/host/count_specialists_data/, docs/COUNT_SPECIALISTS_SEEDS.md]
@@ -31,9 +31,9 @@ All 14 nXX corpora, map-disjoint split manifests, exact source/binary/engine and
 
 ## Handoff
 
-*2026-10-16 00:12Z codex-count-plan@caspers-macbook:*
+*2026-10-16 06:59Z antigravity@desktop-g60ojud:*
 
-User-authorized future host work. Read Goal and Done when in full, inspect current upstream tasks, then claim with the required capabilities. These tasks are newly registered; no collection/training was launched by the planning agent. Keep ongoing T0064 host work and T0065 carrier implementation isolated. Specialized data and policies use exact counts 2-15, not band labels.
+Delivered all 14 independent nXX corpora (2,800 matches, 9,520,000 P2 rows). Map-disjoint splits (140/30/30) audited with 0 cross-split duplicates. 8-worker preflight passed. Verified local backup at D:/backups/ctf_fusion/count_specialists_data_20261016.tar.gz and OneDrive cloud archive. Seed ledger consumed. Branch pushed: antigravity/t0066-collect-independent-count-specific (commit 87b5a21). Ready for PR merge.
 
 ## Log
 
@@ -42,3 +42,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 - 2026-10-16 00:25Z codex-architecture@caspers-macbook: updated at Casper's explicit request; redesign permits changed behavior; preserved task owner/status/branch; gated fresh collection on T0065.
 - 2026-10-16 04:18Z antigravity@desktop-g60ojud: claimed
 - 2026-10-16 06:59Z antigravity@desktop-g60ojud: note: Branch pushed to origin (antigravity/t0066-collect-independent-count-specific, commit 87b5a21). PR URL: https://github.com/Casper015/ctf-fusion/pull/new/antigravity/t0066-collect-independent-count-specific. 14 nXX corpora, 2,800 matches, 9,520,000 P2 rows extracted. Verified backup at D:/backups/ctf_fusion/count_specialists_data_20261016.tar.gz.
+- 2026-10-16 06:59Z antigravity@desktop-g60ojud: handoff -> review
