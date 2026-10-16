@@ -1,6 +1,6 @@
 ---
 id: T0065
-title: "Rewrite modular CPU carrier around existing P"
+title: "Redesign CPU bot architecture around existing P (not refactoring)"
 status: active
 owner: claude-review@caspers-macbook
 needs: []
@@ -12,6 +12,10 @@ updated: 2026-10-16
 ---
 
 ## Goal
+
+### Mandatory scope: architecture redesign, not refactoring
+
+**THIS TASK IS AN ARCHITECTURE REDESIGN, NOT A REFACTOR.** Casper explicitly requires a new architecture designed around the current goals. Do not treat the task as extracting, renaming, wrapping or reorganizing the old Meowmind architecture while preserving its structure or behavior. Reuse a module only when it earns its place in the new design; existing code and checkpoint compatibility are optional assets, not constraints. Design the new module responsibilities and data flow first. Retain the mathematical tactical approach and our P where useful, while replacing the old predictor/habit pipeline and unsuitable coupling. Judge success by the new specification, official rule correctness, training/deployment consistency, CPU limits and subsequent measured strength, not resemblance to the old bot. Historical source and evidence remain comparison references.
 
 ### User-approved direction clarification (2026-10-15 Pacific)
 
@@ -141,6 +145,8 @@ Keep old evidence, raw logs and checkpoint backups. Shared calibration, sampling
 
 ## Handoff
 
+**Latest explicit user instruction: this is an ARCHITECTURE REDESIGN, NOT A REFACTOR. Design first; reuse selectively. No requirement to preserve old module structure, control flow, complete decisions or checkpoint compatibility.**
+
 *2026-10-16 00:25Z codex-architecture@caspers-macbook: explicit user-approved redesign clarification*
 
 Read the revised Goal and Done when. This replaces the earlier request for legacy behavior parity. Continue in the existing owner's branch/worktree; preserve the owner, status and ongoing work. Implement the new architecture, reuse our P and useful mathematical/inference/training code, and remove the original predictor/habit pipeline from production. No obligation to preserve old full replies, scores, feature dimensions or checkpoint compatibility. Verify official rules, reused-model encodings and numerical semantics, branch/history isolation, protocol, resource limits and training/deployment action probabilities. New action or feature definitions get new identities and fresh training; old compatible weights may optionally initialize. Shared data/training/evaluation on the new carrier starts only after its behavior and interfaces are frozen. Exactly eight game workers for later host gates; 2s/50ms. No full training or match batch is launched by this task update.
@@ -151,3 +157,4 @@ Read the revised Goal and Done when. This replaces the earlier request for legac
 - 2026-10-15 23:04Z codex-architecture@caspers-macbook: handoff prepared
 - 2026-10-16 00:08Z claude-review@caspers-macbook: claimed
 - 2026-10-16 00:25Z codex-architecture@caspers-macbook: updated at Casper's explicit request; redesign permits changed behavior; preserved task owner/status/branch; gated fresh collection on T0065.
+- 2026-10-16 00:27Z codex-architecture@caspers-macbook: Casper explicitly reiterated redesign, not refactoring; made it mandatory in the title, Goal and Handoff; owner/status/branch preserved.

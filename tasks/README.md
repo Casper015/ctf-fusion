@@ -22,7 +22,7 @@ python tools/repo/task.py show T0002    # one task: goal, done-when, handoff, lo
 | [T0049](T0049-windows-scoring-hook-test-expects-the.md) | review | claude@caspers-macbook | Windows: scoring-hook test expects the .exe the compiler writes |
 | [T0051](T0051-first-own-action-host-pilot-export.md) | review | codex-decision-pilot@desktop-g60ojud | First own-action host pilot: export, deadline gate and paired games |
 | [T0064](T0064-host-aligned-meowmind-rl-schedules-a-and.md) | active | codex-decision-pilot@desktop-g60ojud | Host: aligned Meowmind RL schedules A and B (3,920 games), verdicts and conclusion (T0061 runbook 9-10) |
-| [T0065](T0065-rewrite-modular-cpu-carrier-around.md) | active | claude-review@caspers-macbook | Rewrite modular CPU carrier around existing P |
+| [T0065](T0065-rewrite-modular-cpu-carrier-around.md) | active | claude-review@caspers-macbook | Redesign CPU bot architecture around existing P (not refactoring) |
 
 ### Ready to claim
 
