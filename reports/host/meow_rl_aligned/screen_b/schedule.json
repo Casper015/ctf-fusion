@@ -1,0 +1,6519 @@
+{
+ "schema": "ctf-strength-screen-2-schedule",
+ "created": "2026-10-15T16:34:19",
+ "seed": 20261955,
+ "maps_per_count": 28,
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "reference": [
+  {
+   "name": "Fable",
+   "path": "ctf-arena/Player7/judge/ctf/bots/fable-5.1.cpp",
+   "source_sha256": "ceac309c9d2e67339e329ee3445374edd21a99206f6a0e5a683f45d12e746c04"
+  },
+  {
+   "name": "MiMo",
+   "path": "ctf-arena/Player7/judge/ctf/bots/mimo-v2.6-pro.cpp",
+   "source_sha256": "b341be1843cb7c9441d1d98e95d14c4d5f48c9f99dc54e4dc97383d31a660f85"
+  },
+  {
+   "name": "Kimi",
+   "path": "ctf-arena/Player7/judge/ctf/bots/kimi-k3.cpp",
+   "source_sha256": "222ed4c2d8f89b72e060e654fad0134cb3ee214ee8ace5ecc3d37f461b872f5b"
+  },
+  {
+   "name": "GLM",
+   "path": "ctf-arena/Player7/judge/ctf/bots/glm-5.3.cpp",
+   "source_sha256": "664fe97b751409ef40e6f3ff202ea76e0d12c37181216353d6e59af22fe3e55e"
+  },
+  {
+   "name": "Player4",
+   "path": "ctf-stress-pack/bots/Player4.cpp",
+   "source_sha256": "2058f78e5979a51f40dcb7dac4ee66e22f8ab816176822e3388caa6732f1453a"
+  }
+ ],
+ "fixtures": [
+  {
+   "fixture_id": "s20261955-n02-m00000",
+   "teams": 2,
+   "map_seed": 557768301,
+   "flag_seed": 8818642500698113862,
+   "seat": 0,
+   "opponents": [
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00001",
+   "teams": 2,
+   "map_seed": 752719797,
+   "flag_seed": 3063870569408849661,
+   "seat": 1,
+   "opponents": [
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00002",
+   "teams": 2,
+   "map_seed": 1138729940,
+   "flag_seed": 1924103048934750493,
+   "seat": 0,
+   "opponents": [
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00003",
+   "teams": 2,
+   "map_seed": 1467903710,
+   "flag_seed": 7679899546537481841,
+   "seat": 1,
+   "opponents": [
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00004",
+   "teams": 2,
+   "map_seed": 1250080008,
+   "flag_seed": 2469372908867879538,
+   "seat": 0,
+   "opponents": [
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00005",
+   "teams": 2,
+   "map_seed": 430906383,
+   "flag_seed": 8890522583813448779,
+   "seat": 1,
+   "opponents": [
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00006",
+   "teams": 2,
+   "map_seed": 1044371760,
+   "flag_seed": 4328125107084183883,
+   "seat": 0,
+   "opponents": [
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00007",
+   "teams": 2,
+   "map_seed": 46504377,
+   "flag_seed": 5547343798751104667,
+   "seat": 1,
+   "opponents": [
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00008",
+   "teams": 2,
+   "map_seed": 976693710,
+   "flag_seed": 542114823841207069,
+   "seat": 0,
+   "opponents": [
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00009",
+   "teams": 2,
+   "map_seed": 2118637772,
+   "flag_seed": 6370783053645500979,
+   "seat": 1,
+   "opponents": [
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00010",
+   "teams": 2,
+   "map_seed": 516198289,
+   "flag_seed": 1175760039520653027,
+   "seat": 0,
+   "opponents": [
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00011",
+   "teams": 2,
+   "map_seed": 749411287,
+   "flag_seed": 8540173697071459364,
+   "seat": 1,
+   "opponents": [
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00012",
+   "teams": 2,
+   "map_seed": 1550924342,
+   "flag_seed": 7829450357363060059,
+   "seat": 0,
+   "opponents": [
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00013",
+   "teams": 2,
+   "map_seed": 1835470362,
+   "flag_seed": 6141800178088613444,
+   "seat": 1,
+   "opponents": [
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00014",
+   "teams": 2,
+   "map_seed": 107480972,
+   "flag_seed": 5615232377561346011,
+   "seat": 0,
+   "opponents": [
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00015",
+   "teams": 2,
+   "map_seed": 203174911,
+   "flag_seed": 4840334094034275109,
+   "seat": 1,
+   "opponents": [
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00016",
+   "teams": 2,
+   "map_seed": 596821654,
+   "flag_seed": 4053748446726862109,
+   "seat": 0,
+   "opponents": [
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00017",
+   "teams": 2,
+   "map_seed": 1098641636,
+   "flag_seed": 2590130271232031373,
+   "seat": 1,
+   "opponents": [
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00018",
+   "teams": 2,
+   "map_seed": 1951692348,
+   "flag_seed": 2953173977122465084,
+   "seat": 0,
+   "opponents": [
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00019",
+   "teams": 2,
+   "map_seed": 1722516279,
+   "flag_seed": 5949338945879392999,
+   "seat": 1,
+   "opponents": [
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00020",
+   "teams": 2,
+   "map_seed": 1958794989,
+   "flag_seed": 6727651996239172992,
+   "seat": 0,
+   "opponents": [
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00021",
+   "teams": 2,
+   "map_seed": 1549578846,
+   "flag_seed": 5615463208181256054,
+   "seat": 1,
+   "opponents": [
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00022",
+   "teams": 2,
+   "map_seed": 588218723,
+   "flag_seed": 4787369650952068501,
+   "seat": 0,
+   "opponents": [
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00023",
+   "teams": 2,
+   "map_seed": 1712890810,
+   "flag_seed": 3329667766074466369,
+   "seat": 1,
+   "opponents": [
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00024",
+   "teams": 2,
+   "map_seed": 479895219,
+   "flag_seed": 859436012576883652,
+   "seat": 0,
+   "opponents": [
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00025",
+   "teams": 2,
+   "map_seed": 955747510,
+   "flag_seed": 6914997830199253014,
+   "seat": 1,
+   "opponents": [
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00026",
+   "teams": 2,
+   "map_seed": 75134081,
+   "flag_seed": 6658796331006988978,
+   "seat": 0,
+   "opponents": [
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n02-m00027",
+   "teams": 2,
+   "map_seed": 229444743,
+   "flag_seed": 672199199950144704,
+   "seat": 1,
+   "opponents": [
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00000",
+   "teams": 3,
+   "map_seed": 702555066,
+   "flag_seed": 5059970608292888348,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00001",
+   "teams": 3,
+   "map_seed": 1713341628,
+   "flag_seed": 5867408588626789908,
+   "seat": 0,
+   "opponents": [
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00002",
+   "teams": 3,
+   "map_seed": 1197164309,
+   "flag_seed": 4242142456632832383,
+   "seat": 1,
+   "opponents": [
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00003",
+   "teams": 3,
+   "map_seed": 1443173604,
+   "flag_seed": 345856867737231131,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00004",
+   "teams": 3,
+   "map_seed": 1997978405,
+   "flag_seed": 4658739162596137554,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00005",
+   "teams": 3,
+   "map_seed": 547801050,
+   "flag_seed": 3652640899196264555,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00006",
+   "teams": 3,
+   "map_seed": 777287747,
+   "flag_seed": 4386702146950876082,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00007",
+   "teams": 3,
+   "map_seed": 488289667,
+   "flag_seed": 1532422037016102831,
+   "seat": 0,
+   "opponents": [
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00008",
+   "teams": 3,
+   "map_seed": 202438112,
+   "flag_seed": 9148265725027740001,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00009",
+   "teams": 3,
+   "map_seed": 181613916,
+   "flag_seed": 6397718409088935837,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00010",
+   "teams": 3,
+   "map_seed": 1905590011,
+   "flag_seed": 2777196588975719265,
+   "seat": 0,
+   "opponents": [
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00011",
+   "teams": 3,
+   "map_seed": 2139117400,
+   "flag_seed": 8930704478817691192,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00012",
+   "teams": 3,
+   "map_seed": 1904075680,
+   "flag_seed": 7705444077444382619,
+   "seat": 2,
+   "opponents": [
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00013",
+   "teams": 3,
+   "map_seed": 757005472,
+   "flag_seed": 7994560209490300206,
+   "seat": 0,
+   "opponents": [
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00014",
+   "teams": 3,
+   "map_seed": 1783564107,
+   "flag_seed": 6311901927516929124,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00015",
+   "teams": 3,
+   "map_seed": 785631390,
+   "flag_seed": 9147678182513480088,
+   "seat": 2,
+   "opponents": [
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00016",
+   "teams": 3,
+   "map_seed": 887633844,
+   "flag_seed": 282221747997546183,
+   "seat": 0,
+   "opponents": [
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00017",
+   "teams": 3,
+   "map_seed": 1854403217,
+   "flag_seed": 1379809369116851933,
+   "seat": 1,
+   "opponents": [
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00018",
+   "teams": 3,
+   "map_seed": 2052723554,
+   "flag_seed": 3502645293570773390,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00019",
+   "teams": 3,
+   "map_seed": 1514657375,
+   "flag_seed": 6306313485805596200,
+   "seat": 0,
+   "opponents": [
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00020",
+   "teams": 3,
+   "map_seed": 5212785,
+   "flag_seed": 6442380083835133433,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00021",
+   "teams": 3,
+   "map_seed": 1880204554,
+   "flag_seed": 5924621468375412890,
+   "seat": 2,
+   "opponents": [
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00022",
+   "teams": 3,
+   "map_seed": 165028355,
+   "flag_seed": 7314606441276873601,
+   "seat": 0,
+   "opponents": [
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00023",
+   "teams": 3,
+   "map_seed": 2026092874,
+   "flag_seed": 2567148540332755806,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00024",
+   "teams": 3,
+   "map_seed": 1455983699,
+   "flag_seed": 7155314910132376151,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00025",
+   "teams": 3,
+   "map_seed": 1959387176,
+   "flag_seed": 2037056538108464082,
+   "seat": 0,
+   "opponents": [
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00026",
+   "teams": 3,
+   "map_seed": 1839658195,
+   "flag_seed": 881502450404304977,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n03-m00027",
+   "teams": 3,
+   "map_seed": 1506904693,
+   "flag_seed": 6306294770952917410,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00000",
+   "teams": 4,
+   "map_seed": 1223137225,
+   "flag_seed": 6946862202189560663,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00001",
+   "teams": 4,
+   "map_seed": 2029165574,
+   "flag_seed": 7465397550122871383,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00002",
+   "teams": 4,
+   "map_seed": 180795066,
+   "flag_seed": 2077961983043086381,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00003",
+   "teams": 4,
+   "map_seed": 1241802904,
+   "flag_seed": 4756359900740237071,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00004",
+   "teams": 4,
+   "map_seed": 572189258,
+   "flag_seed": 8121927205688138619,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00005",
+   "teams": 4,
+   "map_seed": 520010056,
+   "flag_seed": 988951675520301287,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00006",
+   "teams": 4,
+   "map_seed": 1637740783,
+   "flag_seed": 6474182499266438556,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00007",
+   "teams": 4,
+   "map_seed": 1872520280,
+   "flag_seed": 4705904057786063956,
+   "seat": 0,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00008",
+   "teams": 4,
+   "map_seed": 1675363156,
+   "flag_seed": 1639260955653037421,
+   "seat": 2,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00009",
+   "teams": 4,
+   "map_seed": 1735733987,
+   "flag_seed": 8036632860195464530,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00010",
+   "teams": 4,
+   "map_seed": 901196299,
+   "flag_seed": 8238436756332893191,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00011",
+   "teams": 4,
+   "map_seed": 684303462,
+   "flag_seed": 6247690101180350690,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00012",
+   "teams": 4,
+   "map_seed": 1903561741,
+   "flag_seed": 1545350597536385223,
+   "seat": 2,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00013",
+   "teams": 4,
+   "map_seed": 330947852,
+   "flag_seed": 1457246425272630273,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00014",
+   "teams": 4,
+   "map_seed": 176812274,
+   "flag_seed": 5744595858371461291,
+   "seat": 3,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00015",
+   "teams": 4,
+   "map_seed": 1381313893,
+   "flag_seed": 6323313396482361787,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00016",
+   "teams": 4,
+   "map_seed": 141412920,
+   "flag_seed": 8313747020853050019,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00017",
+   "teams": 4,
+   "map_seed": 201124661,
+   "flag_seed": 8357355075689392925,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00018",
+   "teams": 4,
+   "map_seed": 600187825,
+   "flag_seed": 609969459950771660,
+   "seat": 3,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00019",
+   "teams": 4,
+   "map_seed": 376395828,
+   "flag_seed": 4004912270342278161,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00020",
+   "teams": 4,
+   "map_seed": 87323571,
+   "flag_seed": 7394309541511505721,
+   "seat": 2,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00021",
+   "teams": 4,
+   "map_seed": 1845405758,
+   "flag_seed": 2508622741657009991,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00022",
+   "teams": 4,
+   "map_seed": 1181742608,
+   "flag_seed": 6192762723281207292,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00023",
+   "teams": 4,
+   "map_seed": 40390079,
+   "flag_seed": 8336255882650153213,
+   "seat": 0,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00024",
+   "teams": 4,
+   "map_seed": 1547537712,
+   "flag_seed": 8081369511174823869,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00025",
+   "teams": 4,
+   "map_seed": 478426397,
+   "flag_seed": 344036402813602795,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00026",
+   "teams": 4,
+   "map_seed": 96636550,
+   "flag_seed": 4445822645128463247,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n04-m00027",
+   "teams": 4,
+   "map_seed": 791003444,
+   "flag_seed": 4313831412930671847,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00000",
+   "teams": 5,
+   "map_seed": 1401748106,
+   "flag_seed": 953271049569575291,
+   "seat": 1,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00001",
+   "teams": 5,
+   "map_seed": 1949424718,
+   "flag_seed": 4586549054060264246,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00002",
+   "teams": 5,
+   "map_seed": 1020384909,
+   "flag_seed": 1899975268791345467,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00003",
+   "teams": 5,
+   "map_seed": 361218436,
+   "flag_seed": 1869048146808038687,
+   "seat": 0,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00004",
+   "teams": 5,
+   "map_seed": 239776853,
+   "flag_seed": 7702088439266160046,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00005",
+   "teams": 5,
+   "map_seed": 254145732,
+   "flag_seed": 94795000497393319,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00006",
+   "teams": 5,
+   "map_seed": 1939487684,
+   "flag_seed": 1426977633807157524,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00007",
+   "teams": 5,
+   "map_seed": 433364038,
+   "flag_seed": 3725649440337252860,
+   "seat": 2,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00008",
+   "teams": 5,
+   "map_seed": 1602727201,
+   "flag_seed": 7747762118297553728,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00009",
+   "teams": 5,
+   "map_seed": 2012733309,
+   "flag_seed": 7181006671224255048,
+   "seat": 4,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00010",
+   "teams": 5,
+   "map_seed": 1305607760,
+   "flag_seed": 4979078690623115259,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00011",
+   "teams": 5,
+   "map_seed": 1378121835,
+   "flag_seed": 6948923324438305416,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00012",
+   "teams": 5,
+   "map_seed": 329635028,
+   "flag_seed": 3377930517814057441,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00013",
+   "teams": 5,
+   "map_seed": 897450180,
+   "flag_seed": 8314649612720486626,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00014",
+   "teams": 5,
+   "map_seed": 606657191,
+   "flag_seed": 5847793063325908408,
+   "seat": 4,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00015",
+   "teams": 5,
+   "map_seed": 2048639298,
+   "flag_seed": 5220220212908606365,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00016",
+   "teams": 5,
+   "map_seed": 1675341723,
+   "flag_seed": 102229222275257861,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00017",
+   "teams": 5,
+   "map_seed": 545764731,
+   "flag_seed": 7591198956716659136,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00018",
+   "teams": 5,
+   "map_seed": 644963668,
+   "flag_seed": 336327380035355252,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00019",
+   "teams": 5,
+   "map_seed": 239602908,
+   "flag_seed": 7893840389172555895,
+   "seat": 4,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00020",
+   "teams": 5,
+   "map_seed": 1142011680,
+   "flag_seed": 6815698574150983484,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00021",
+   "teams": 5,
+   "map_seed": 278741240,
+   "flag_seed": 1028688616259817160,
+   "seat": 3,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00022",
+   "teams": 5,
+   "map_seed": 548979875,
+   "flag_seed": 7551230882500505184,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00023",
+   "teams": 5,
+   "map_seed": 1549000659,
+   "flag_seed": 6804114623613802906,
+   "seat": 0,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00024",
+   "teams": 5,
+   "map_seed": 290266111,
+   "flag_seed": 5444383918230393275,
+   "seat": 4,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00025",
+   "teams": 5,
+   "map_seed": 1480231768,
+   "flag_seed": 3322292615064015953,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00026",
+   "teams": 5,
+   "map_seed": 273316580,
+   "flag_seed": 1158483167211763465,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n05-m00027",
+   "teams": 5,
+   "map_seed": 1340454290,
+   "flag_seed": 4685212472558520301,
+   "seat": 2,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00000",
+   "teams": 6,
+   "map_seed": 1878286247,
+   "flag_seed": 521795650635421265,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00001",
+   "teams": 6,
+   "map_seed": 2115734554,
+   "flag_seed": 6751719599547921523,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00002",
+   "teams": 6,
+   "map_seed": 334426646,
+   "flag_seed": 4494693905897611391,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00003",
+   "teams": 6,
+   "map_seed": 1756867613,
+   "flag_seed": 8212121564742442113,
+   "seat": 4,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00004",
+   "teams": 6,
+   "map_seed": 1932780829,
+   "flag_seed": 3590194959265332553,
+   "seat": 2,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00005",
+   "teams": 6,
+   "map_seed": 1449806385,
+   "flag_seed": 1468390005637818633,
+   "seat": 5,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00006",
+   "teams": 6,
+   "map_seed": 1947138803,
+   "flag_seed": 3929210152857730346,
+   "seat": 0,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00007",
+   "teams": 6,
+   "map_seed": 462056132,
+   "flag_seed": 2168775107657836871,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00008",
+   "teams": 6,
+   "map_seed": 2008839744,
+   "flag_seed": 8553041264306980113,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00009",
+   "teams": 6,
+   "map_seed": 636289792,
+   "flag_seed": 598984736733153184,
+   "seat": 4,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00010",
+   "teams": 6,
+   "map_seed": 796347498,
+   "flag_seed": 2711502883057164808,
+   "seat": 2,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00011",
+   "teams": 6,
+   "map_seed": 921506664,
+   "flag_seed": 8884871721933202074,
+   "seat": 5,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00012",
+   "teams": 6,
+   "map_seed": 1052596787,
+   "flag_seed": 8112354361318811923,
+   "seat": 0,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00013",
+   "teams": 6,
+   "map_seed": 662243743,
+   "flag_seed": 7668051364984561073,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00014",
+   "teams": 6,
+   "map_seed": 1109360884,
+   "flag_seed": 1084496951379564021,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00015",
+   "teams": 6,
+   "map_seed": 1130729773,
+   "flag_seed": 7676461886970245690,
+   "seat": 4,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00016",
+   "teams": 6,
+   "map_seed": 1585060893,
+   "flag_seed": 2627440796508948243,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00017",
+   "teams": 6,
+   "map_seed": 390600960,
+   "flag_seed": 8605111376519059539,
+   "seat": 5,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00018",
+   "teams": 6,
+   "map_seed": 276445143,
+   "flag_seed": 3125496333418488305,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00019",
+   "teams": 6,
+   "map_seed": 1880659090,
+   "flag_seed": 7817809775491701442,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00020",
+   "teams": 6,
+   "map_seed": 1718751676,
+   "flag_seed": 7198344184482776871,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00021",
+   "teams": 6,
+   "map_seed": 63470528,
+   "flag_seed": 67619476333693017,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00022",
+   "teams": 6,
+   "map_seed": 161749366,
+   "flag_seed": 6659466551048299724,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00023",
+   "teams": 6,
+   "map_seed": 696320393,
+   "flag_seed": 3718713407967074332,
+   "seat": 5,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00024",
+   "teams": 6,
+   "map_seed": 1624138704,
+   "flag_seed": 3421539353907887349,
+   "seat": 0,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00025",
+   "teams": 6,
+   "map_seed": 927614896,
+   "flag_seed": 4841868876017704669,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00026",
+   "teams": 6,
+   "map_seed": 1125549061,
+   "flag_seed": 3503844265368834216,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n06-m00027",
+   "teams": 6,
+   "map_seed": 1449745372,
+   "flag_seed": 1203439840785288840,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00000",
+   "teams": 7,
+   "map_seed": 1851711557,
+   "flag_seed": 7453599492762415173,
+   "seat": 6,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00001",
+   "teams": 7,
+   "map_seed": 1514018012,
+   "flag_seed": 5371482969748179314,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00002",
+   "teams": 7,
+   "map_seed": 1251164720,
+   "flag_seed": 1939340336722199856,
+   "seat": 2,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00003",
+   "teams": 7,
+   "map_seed": 1363424863,
+   "flag_seed": 1204667349570082215,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00004",
+   "teams": 7,
+   "map_seed": 651976034,
+   "flag_seed": 8514466026615278931,
+   "seat": 5,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00005",
+   "teams": 7,
+   "map_seed": 1159811176,
+   "flag_seed": 1923068182310492649,
+   "seat": 4,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00006",
+   "teams": 7,
+   "map_seed": 500166313,
+   "flag_seed": 8251175857478975438,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00007",
+   "teams": 7,
+   "map_seed": 1269441738,
+   "flag_seed": 8070244188524300530,
+   "seat": 6,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00008",
+   "teams": 7,
+   "map_seed": 2134005002,
+   "flag_seed": 3558500846660888469,
+   "seat": 3,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00009",
+   "teams": 7,
+   "map_seed": 1777965564,
+   "flag_seed": 3939242311340418927,
+   "seat": 2,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00010",
+   "teams": 7,
+   "map_seed": 31343377,
+   "flag_seed": 7925710363842104166,
+   "seat": 0,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00011",
+   "teams": 7,
+   "map_seed": 1803696257,
+   "flag_seed": 2073294915491055213,
+   "seat": 5,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00012",
+   "teams": 7,
+   "map_seed": 929222286,
+   "flag_seed": 1301607206003367771,
+   "seat": 4,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00013",
+   "teams": 7,
+   "map_seed": 7956267,
+   "flag_seed": 2440320158767241673,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00014",
+   "teams": 7,
+   "map_seed": 1504605714,
+   "flag_seed": 1311533144537000772,
+   "seat": 6,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00015",
+   "teams": 7,
+   "map_seed": 114769694,
+   "flag_seed": 437555238556949322,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00016",
+   "teams": 7,
+   "map_seed": 141978285,
+   "flag_seed": 7740171973220947647,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00017",
+   "teams": 7,
+   "map_seed": 1071557325,
+   "flag_seed": 6074354172801479437,
+   "seat": 0,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00018",
+   "teams": 7,
+   "map_seed": 1124043983,
+   "flag_seed": 3137569111301625740,
+   "seat": 5,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00019",
+   "teams": 7,
+   "map_seed": 1714584820,
+   "flag_seed": 719751872305337345,
+   "seat": 4,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00020",
+   "teams": 7,
+   "map_seed": 1239426830,
+   "flag_seed": 8197359783226013796,
+   "seat": 1,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00021",
+   "teams": 7,
+   "map_seed": 613011149,
+   "flag_seed": 9150750282440392254,
+   "seat": 6,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00022",
+   "teams": 7,
+   "map_seed": 2042064476,
+   "flag_seed": 5812122195777356082,
+   "seat": 3,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00023",
+   "teams": 7,
+   "map_seed": 1725648767,
+   "flag_seed": 4181270287340049607,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00024",
+   "teams": 7,
+   "map_seed": 623215663,
+   "flag_seed": 7316298080405597640,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00025",
+   "teams": 7,
+   "map_seed": 492187808,
+   "flag_seed": 5728790606598062067,
+   "seat": 5,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00026",
+   "teams": 7,
+   "map_seed": 945905628,
+   "flag_seed": 5581021130240390981,
+   "seat": 4,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n07-m00027",
+   "teams": 7,
+   "map_seed": 1803108255,
+   "flag_seed": 8485038256485897432,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00000",
+   "teams": 8,
+   "map_seed": 329285244,
+   "flag_seed": 8113529632401218673,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00001",
+   "teams": 8,
+   "map_seed": 447388641,
+   "flag_seed": 7395719705002241942,
+   "seat": 5,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00002",
+   "teams": 8,
+   "map_seed": 788191434,
+   "flag_seed": 7378371372423965918,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00003",
+   "teams": 8,
+   "map_seed": 1193350856,
+   "flag_seed": 8442060047297198866,
+   "seat": 6,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00004",
+   "teams": 8,
+   "map_seed": 1353623264,
+   "flag_seed": 8549564234136418904,
+   "seat": 7,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00005",
+   "teams": 8,
+   "map_seed": 839238098,
+   "flag_seed": 2749305391689451353,
+   "seat": 2,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00006",
+   "teams": 8,
+   "map_seed": 366778455,
+   "flag_seed": 6089571908851130554,
+   "seat": 3,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00007",
+   "teams": 8,
+   "map_seed": 363419042,
+   "flag_seed": 1414922541302289120,
+   "seat": 0,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00008",
+   "teams": 8,
+   "map_seed": 790647166,
+   "flag_seed": 7000954787088294346,
+   "seat": 4,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00009",
+   "teams": 8,
+   "map_seed": 1731652052,
+   "flag_seed": 3612533886702474087,
+   "seat": 5,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00010",
+   "teams": 8,
+   "map_seed": 885153057,
+   "flag_seed": 118437694552212931,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00011",
+   "teams": 8,
+   "map_seed": 922698935,
+   "flag_seed": 6338702424528015774,
+   "seat": 6,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00012",
+   "teams": 8,
+   "map_seed": 1078268690,
+   "flag_seed": 7428230387408083951,
+   "seat": 7,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00013",
+   "teams": 8,
+   "map_seed": 580958952,
+   "flag_seed": 2186845430381725720,
+   "seat": 2,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00014",
+   "teams": 8,
+   "map_seed": 1991289259,
+   "flag_seed": 3108092824447675992,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00015",
+   "teams": 8,
+   "map_seed": 1146998245,
+   "flag_seed": 8248153553411819329,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00016",
+   "teams": 8,
+   "map_seed": 418441549,
+   "flag_seed": 4119994431613185213,
+   "seat": 4,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00017",
+   "teams": 8,
+   "map_seed": 484336233,
+   "flag_seed": 6089072043511854715,
+   "seat": 5,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00018",
+   "teams": 8,
+   "map_seed": 64114229,
+   "flag_seed": 3247155220747551710,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00019",
+   "teams": 8,
+   "map_seed": 1319992083,
+   "flag_seed": 1455917684300640840,
+   "seat": 6,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00020",
+   "teams": 8,
+   "map_seed": 1816682250,
+   "flag_seed": 4471253011329053002,
+   "seat": 7,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00021",
+   "teams": 8,
+   "map_seed": 539052494,
+   "flag_seed": 9075315164798984881,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00022",
+   "teams": 8,
+   "map_seed": 654509609,
+   "flag_seed": 5430502287100621290,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00023",
+   "teams": 8,
+   "map_seed": 952136831,
+   "flag_seed": 4364820319332928832,
+   "seat": 0,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00024",
+   "teams": 8,
+   "map_seed": 1111937346,
+   "flag_seed": 8344198805964838356,
+   "seat": 4,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00025",
+   "teams": 8,
+   "map_seed": 1698558992,
+   "flag_seed": 8277470946995511031,
+   "seat": 5,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00026",
+   "teams": 8,
+   "map_seed": 1444883563,
+   "flag_seed": 7316925826030074073,
+   "seat": 1,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n08-m00027",
+   "teams": 8,
+   "map_seed": 2147392902,
+   "flag_seed": 7725530415572035947,
+   "seat": 6,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00000",
+   "teams": 9,
+   "map_seed": 1365968572,
+   "flag_seed": 8775269251573542876,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00001",
+   "teams": 9,
+   "map_seed": 1425521516,
+   "flag_seed": 8966549662897163370,
+   "seat": 0,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00002",
+   "teams": 9,
+   "map_seed": 1471322715,
+   "flag_seed": 5790747704933721697,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00003",
+   "teams": 9,
+   "map_seed": 1944940662,
+   "flag_seed": 1569936393617328824,
+   "seat": 5,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00004",
+   "teams": 9,
+   "map_seed": 1549235583,
+   "flag_seed": 5356119566873683167,
+   "seat": 4,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00005",
+   "teams": 9,
+   "map_seed": 1846723790,
+   "flag_seed": 7926305477910227016,
+   "seat": 6,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00006",
+   "teams": 9,
+   "map_seed": 335841308,
+   "flag_seed": 8984324562720392966,
+   "seat": 2,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00007",
+   "teams": 9,
+   "map_seed": 908444372,
+   "flag_seed": 4024502313339403785,
+   "seat": 7,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00008",
+   "teams": 9,
+   "map_seed": 1216508177,
+   "flag_seed": 5706945989703051226,
+   "seat": 8,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00009",
+   "teams": 9,
+   "map_seed": 541353147,
+   "flag_seed": 331928995522539908,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00010",
+   "teams": 9,
+   "map_seed": 514247939,
+   "flag_seed": 3143545378057788998,
+   "seat": 0,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00011",
+   "teams": 9,
+   "map_seed": 2057963376,
+   "flag_seed": 1447077255896346765,
+   "seat": 1,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00012",
+   "teams": 9,
+   "map_seed": 2049983739,
+   "flag_seed": 5765734646790079288,
+   "seat": 5,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00013",
+   "teams": 9,
+   "map_seed": 127512092,
+   "flag_seed": 6504873608910951468,
+   "seat": 4,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00014",
+   "teams": 9,
+   "map_seed": 1632987504,
+   "flag_seed": 8257976970267748695,
+   "seat": 6,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00015",
+   "teams": 9,
+   "map_seed": 1966102038,
+   "flag_seed": 8234009998161529465,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00016",
+   "teams": 9,
+   "map_seed": 634247704,
+   "flag_seed": 3391345815646392462,
+   "seat": 7,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00017",
+   "teams": 9,
+   "map_seed": 552577670,
+   "flag_seed": 5997219436535432951,
+   "seat": 8,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00018",
+   "teams": 9,
+   "map_seed": 717246832,
+   "flag_seed": 6506798292644265163,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00019",
+   "teams": 9,
+   "map_seed": 564297408,
+   "flag_seed": 3528583616751481162,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00020",
+   "teams": 9,
+   "map_seed": 262022052,
+   "flag_seed": 3130405140474152151,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00021",
+   "teams": 9,
+   "map_seed": 844054478,
+   "flag_seed": 7021644175430875716,
+   "seat": 5,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00022",
+   "teams": 9,
+   "map_seed": 231002164,
+   "flag_seed": 6547915551558627685,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00023",
+   "teams": 9,
+   "map_seed": 1087019432,
+   "flag_seed": 6448743572231304372,
+   "seat": 6,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00024",
+   "teams": 9,
+   "map_seed": 1311861440,
+   "flag_seed": 6964436007759038288,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00025",
+   "teams": 9,
+   "map_seed": 553119029,
+   "flag_seed": 5375366495141850816,
+   "seat": 7,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00026",
+   "teams": 9,
+   "map_seed": 2102860056,
+   "flag_seed": 5741887032448789184,
+   "seat": 8,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n09-m00027",
+   "teams": 9,
+   "map_seed": 2138815090,
+   "flag_seed": 7927279824428037928,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00000",
+   "teams": 10,
+   "map_seed": 2024132010,
+   "flag_seed": 2097473674340204618,
+   "seat": 7,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00001",
+   "teams": 10,
+   "map_seed": 239952721,
+   "flag_seed": 100746528951708793,
+   "seat": 9,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00002",
+   "teams": 10,
+   "map_seed": 2005547874,
+   "flag_seed": 2214952629823272888,
+   "seat": 8,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00003",
+   "teams": 10,
+   "map_seed": 106150445,
+   "flag_seed": 7188332398842665180,
+   "seat": 4,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00004",
+   "teams": 10,
+   "map_seed": 1537961419,
+   "flag_seed": 5749857859440420653,
+   "seat": 3,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00005",
+   "teams": 10,
+   "map_seed": 540636460,
+   "flag_seed": 4140739046906899478,
+   "seat": 6,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00006",
+   "teams": 10,
+   "map_seed": 559167012,
+   "flag_seed": 5687259416562140886,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00007",
+   "teams": 10,
+   "map_seed": 1157671464,
+   "flag_seed": 2298985450254736985,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00008",
+   "teams": 10,
+   "map_seed": 1429201690,
+   "flag_seed": 880585481324528924,
+   "seat": 1,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00009",
+   "teams": 10,
+   "map_seed": 1612474714,
+   "flag_seed": 5429556456326661667,
+   "seat": 5,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00010",
+   "teams": 10,
+   "map_seed": 1466218695,
+   "flag_seed": 1480738192231990132,
+   "seat": 7,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00011",
+   "teams": 10,
+   "map_seed": 650998195,
+   "flag_seed": 2361462371439831061,
+   "seat": 9,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00012",
+   "teams": 10,
+   "map_seed": 1206791802,
+   "flag_seed": 1659523236925056106,
+   "seat": 8,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00013",
+   "teams": 10,
+   "map_seed": 390696334,
+   "flag_seed": 8308110653876533116,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00014",
+   "teams": 10,
+   "map_seed": 2122169433,
+   "flag_seed": 4247261166552501471,
+   "seat": 3,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00015",
+   "teams": 10,
+   "map_seed": 999628362,
+   "flag_seed": 3708978707469004104,
+   "seat": 6,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00016",
+   "teams": 10,
+   "map_seed": 1141517005,
+   "flag_seed": 6135818198850915238,
+   "seat": 0,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00017",
+   "teams": 10,
+   "map_seed": 982202346,
+   "flag_seed": 5321593124389449014,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00018",
+   "teams": 10,
+   "map_seed": 718983137,
+   "flag_seed": 1162776478501762091,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00019",
+   "teams": 10,
+   "map_seed": 2072225727,
+   "flag_seed": 1026975484027884499,
+   "seat": 5,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00020",
+   "teams": 10,
+   "map_seed": 1514794290,
+   "flag_seed": 9104917393521104033,
+   "seat": 7,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00021",
+   "teams": 10,
+   "map_seed": 644543298,
+   "flag_seed": 5156573670744964845,
+   "seat": 9,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00022",
+   "teams": 10,
+   "map_seed": 1688729119,
+   "flag_seed": 3060269326591182468,
+   "seat": 8,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00023",
+   "teams": 10,
+   "map_seed": 199493331,
+   "flag_seed": 6186733757951353067,
+   "seat": 4,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00024",
+   "teams": 10,
+   "map_seed": 1503431405,
+   "flag_seed": 8023557862871810638,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00025",
+   "teams": 10,
+   "map_seed": 1673176871,
+   "flag_seed": 5628764772848112136,
+   "seat": 6,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00026",
+   "teams": 10,
+   "map_seed": 1893520765,
+   "flag_seed": 4309903986127720927,
+   "seat": 0,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n10-m00027",
+   "teams": 10,
+   "map_seed": 1887880745,
+   "flag_seed": 1116025860861794642,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00000",
+   "teams": 11,
+   "map_seed": 1539620981,
+   "flag_seed": 8839271806157982194,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00001",
+   "teams": 11,
+   "map_seed": 1403171659,
+   "flag_seed": 5537166993997998605,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00002",
+   "teams": 11,
+   "map_seed": 573978367,
+   "flag_seed": 4027578115282900629,
+   "seat": 2,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00003",
+   "teams": 11,
+   "map_seed": 75308313,
+   "flag_seed": 4460140425275781586,
+   "seat": 9,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00004",
+   "teams": 11,
+   "map_seed": 1952580961,
+   "flag_seed": 1543414008475326084,
+   "seat": 4,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00005",
+   "teams": 11,
+   "map_seed": 1135580510,
+   "flag_seed": 4971139182360753574,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00006",
+   "teams": 11,
+   "map_seed": 2036404696,
+   "flag_seed": 5879901219486519141,
+   "seat": 7,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00007",
+   "teams": 11,
+   "map_seed": 298766124,
+   "flag_seed": 8821443682963735619,
+   "seat": 8,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00008",
+   "teams": 11,
+   "map_seed": 74191148,
+   "flag_seed": 8208797706833444336,
+   "seat": 5,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00009",
+   "teams": 11,
+   "map_seed": 1013844804,
+   "flag_seed": 6714338920135971620,
+   "seat": 10,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00010",
+   "teams": 11,
+   "map_seed": 1617120149,
+   "flag_seed": 1934245693056887539,
+   "seat": 6,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00011",
+   "teams": 11,
+   "map_seed": 1497336034,
+   "flag_seed": 6406115293079184424,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00012",
+   "teams": 11,
+   "map_seed": 1003923883,
+   "flag_seed": 6590292351674420205,
+   "seat": 3,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00013",
+   "teams": 11,
+   "map_seed": 2096417018,
+   "flag_seed": 3261492934279309541,
+   "seat": 2,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00014",
+   "teams": 11,
+   "map_seed": 722466304,
+   "flag_seed": 5913447374011497339,
+   "seat": 9,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00015",
+   "teams": 11,
+   "map_seed": 466981244,
+   "flag_seed": 726644394006562617,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00016",
+   "teams": 11,
+   "map_seed": 428154131,
+   "flag_seed": 291672474479679547,
+   "seat": 0,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00017",
+   "teams": 11,
+   "map_seed": 1639258971,
+   "flag_seed": 6601377842803040395,
+   "seat": 7,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00018",
+   "teams": 11,
+   "map_seed": 834724444,
+   "flag_seed": 333613529213337077,
+   "seat": 8,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00019",
+   "teams": 11,
+   "map_seed": 1333518541,
+   "flag_seed": 1408910406272152015,
+   "seat": 5,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00020",
+   "teams": 11,
+   "map_seed": 1498068039,
+   "flag_seed": 2157304018565000242,
+   "seat": 10,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00021",
+   "teams": 11,
+   "map_seed": 1039523861,
+   "flag_seed": 1529116632550838039,
+   "seat": 6,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00022",
+   "teams": 11,
+   "map_seed": 427656791,
+   "flag_seed": 9095439127584293247,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00023",
+   "teams": 11,
+   "map_seed": 1682930656,
+   "flag_seed": 5287360764979777067,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00024",
+   "teams": 11,
+   "map_seed": 1377160199,
+   "flag_seed": 4588595047409765711,
+   "seat": 2,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00025",
+   "teams": 11,
+   "map_seed": 1100022192,
+   "flag_seed": 4032222078902912075,
+   "seat": 9,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00026",
+   "teams": 11,
+   "map_seed": 8086977,
+   "flag_seed": 818351906765760322,
+   "seat": 4,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n11-m00027",
+   "teams": 11,
+   "map_seed": 1291169138,
+   "flag_seed": 7003814873988014645,
+   "seat": 0,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00000",
+   "teams": 12,
+   "map_seed": 547010229,
+   "flag_seed": 4296617992729788732,
+   "seat": 7,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00001",
+   "teams": 12,
+   "map_seed": 322512600,
+   "flag_seed": 909832249295105743,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00002",
+   "teams": 12,
+   "map_seed": 1151603696,
+   "flag_seed": 1199203599895202895,
+   "seat": 4,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00003",
+   "teams": 12,
+   "map_seed": 26830458,
+   "flag_seed": 7413369424774451455,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00004",
+   "teams": 12,
+   "map_seed": 1573227360,
+   "flag_seed": 8365412318970554952,
+   "seat": 6,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00005",
+   "teams": 12,
+   "map_seed": 1403445588,
+   "flag_seed": 7642455522026323526,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00006",
+   "teams": 12,
+   "map_seed": 1054846817,
+   "flag_seed": 5733803177665506039,
+   "seat": 9,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00007",
+   "teams": 12,
+   "map_seed": 2058568234,
+   "flag_seed": 8356524838660910485,
+   "seat": 11,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00008",
+   "teams": 12,
+   "map_seed": 243797471,
+   "flag_seed": 8647959111662099760,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00009",
+   "teams": 12,
+   "map_seed": 983302225,
+   "flag_seed": 7567755828593499107,
+   "seat": 8,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00010",
+   "teams": 12,
+   "map_seed": 1929602932,
+   "flag_seed": 2632723899960872131,
+   "seat": 10,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00011",
+   "teams": 12,
+   "map_seed": 1313766030,
+   "flag_seed": 5483353987075790821,
+   "seat": 5,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00012",
+   "teams": 12,
+   "map_seed": 1519363152,
+   "flag_seed": 7316437719082170904,
+   "seat": 7,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00013",
+   "teams": 12,
+   "map_seed": 212931329,
+   "flag_seed": 7712847012772752174,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00014",
+   "teams": 12,
+   "map_seed": 1781773832,
+   "flag_seed": 9044014495270572717,
+   "seat": 4,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00015",
+   "teams": 12,
+   "map_seed": 944895446,
+   "flag_seed": 4570899998609365126,
+   "seat": 1,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00016",
+   "teams": 12,
+   "map_seed": 591273928,
+   "flag_seed": 1599212576121897186,
+   "seat": 6,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00017",
+   "teams": 12,
+   "map_seed": 31646040,
+   "flag_seed": 6395152773056813571,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00018",
+   "teams": 12,
+   "map_seed": 148941852,
+   "flag_seed": 3377964637420708961,
+   "seat": 9,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00019",
+   "teams": 12,
+   "map_seed": 1737346867,
+   "flag_seed": 425614942048466408,
+   "seat": 11,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00020",
+   "teams": 12,
+   "map_seed": 1937847594,
+   "flag_seed": 6560558893956358224,
+   "seat": 3,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00021",
+   "teams": 12,
+   "map_seed": 639194125,
+   "flag_seed": 6653505400156878054,
+   "seat": 8,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00022",
+   "teams": 12,
+   "map_seed": 376051005,
+   "flag_seed": 7218706841634528508,
+   "seat": 10,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00023",
+   "teams": 12,
+   "map_seed": 1702536576,
+   "flag_seed": 278567652366804920,
+   "seat": 5,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00024",
+   "teams": 12,
+   "map_seed": 880582187,
+   "flag_seed": 4435062910023147136,
+   "seat": 7,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00025",
+   "teams": 12,
+   "map_seed": 1013696729,
+   "flag_seed": 962230771955832819,
+   "seat": 0,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00026",
+   "teams": 12,
+   "map_seed": 1266777430,
+   "flag_seed": 2603785008822172181,
+   "seat": 4,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n12-m00027",
+   "teams": 12,
+   "map_seed": 523853372,
+   "flag_seed": 7770895488764347467,
+   "seat": 1,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00000",
+   "teams": 13,
+   "map_seed": 1015566360,
+   "flag_seed": 281286728880880646,
+   "seat": 1,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00001",
+   "teams": 13,
+   "map_seed": 1423921399,
+   "flag_seed": 7210607784328655266,
+   "seat": 6,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00002",
+   "teams": 13,
+   "map_seed": 500401,
+   "flag_seed": 5879166501479120579,
+   "seat": 11,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00003",
+   "teams": 13,
+   "map_seed": 307169461,
+   "flag_seed": 3264843724443606615,
+   "seat": 5,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00004",
+   "teams": 13,
+   "map_seed": 2043283070,
+   "flag_seed": 1357315877511090882,
+   "seat": 0,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00005",
+   "teams": 13,
+   "map_seed": 1446334985,
+   "flag_seed": 7868314368351802491,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00006",
+   "teams": 13,
+   "map_seed": 581240096,
+   "flag_seed": 1927060773673692096,
+   "seat": 8,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00007",
+   "teams": 13,
+   "map_seed": 244319380,
+   "flag_seed": 981968096249493192,
+   "seat": 9,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00008",
+   "teams": 13,
+   "map_seed": 96812998,
+   "flag_seed": 8976008558798563243,
+   "seat": 12,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00009",
+   "teams": 13,
+   "map_seed": 1059166592,
+   "flag_seed": 8076070510558648900,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00010",
+   "teams": 13,
+   "map_seed": 27174091,
+   "flag_seed": 3296892732112235437,
+   "seat": 7,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00011",
+   "teams": 13,
+   "map_seed": 891940895,
+   "flag_seed": 1396059758432827282,
+   "seat": 2,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00012",
+   "teams": 13,
+   "map_seed": 236910965,
+   "flag_seed": 1008297532163400120,
+   "seat": 10,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00013",
+   "teams": 13,
+   "map_seed": 852228456,
+   "flag_seed": 3105596714817685981,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00014",
+   "teams": 13,
+   "map_seed": 119979561,
+   "flag_seed": 3902055165335622284,
+   "seat": 6,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00015",
+   "teams": 13,
+   "map_seed": 2077936730,
+   "flag_seed": 5831389462058818387,
+   "seat": 11,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00016",
+   "teams": 13,
+   "map_seed": 1298189931,
+   "flag_seed": 8559079409680852708,
+   "seat": 5,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00017",
+   "teams": 13,
+   "map_seed": 852513003,
+   "flag_seed": 4437748885122596420,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00018",
+   "teams": 13,
+   "map_seed": 926641409,
+   "flag_seed": 5155764042370986219,
+   "seat": 3,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00019",
+   "teams": 13,
+   "map_seed": 1861148802,
+   "flag_seed": 6753283663578232224,
+   "seat": 8,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00020",
+   "teams": 13,
+   "map_seed": 1411386716,
+   "flag_seed": 3023855964859631358,
+   "seat": 9,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00021",
+   "teams": 13,
+   "map_seed": 302613146,
+   "flag_seed": 7547245155087773746,
+   "seat": 12,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00022",
+   "teams": 13,
+   "map_seed": 558348566,
+   "flag_seed": 6498150951232501094,
+   "seat": 4,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00023",
+   "teams": 13,
+   "map_seed": 2068676426,
+   "flag_seed": 5638751473533651656,
+   "seat": 7,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00024",
+   "teams": 13,
+   "map_seed": 1211968063,
+   "flag_seed": 4675947203945745772,
+   "seat": 2,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00025",
+   "teams": 13,
+   "map_seed": 586361665,
+   "flag_seed": 3825995693311320019,
+   "seat": 10,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00026",
+   "teams": 13,
+   "map_seed": 1924551573,
+   "flag_seed": 3474980386589844083,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n13-m00027",
+   "teams": 13,
+   "map_seed": 1921870854,
+   "flag_seed": 6260599678342227032,
+   "seat": 6,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00000",
+   "teams": 14,
+   "map_seed": 987338141,
+   "flag_seed": 2964193229991929611,
+   "seat": 9,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00001",
+   "teams": 14,
+   "map_seed": 316662200,
+   "flag_seed": 8906828281352698976,
+   "seat": 7,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00002",
+   "teams": 14,
+   "map_seed": 183769289,
+   "flag_seed": 6517130926325488466,
+   "seat": 6,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00003",
+   "teams": 14,
+   "map_seed": 1881839731,
+   "flag_seed": 3918181345782455472,
+   "seat": 13,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00004",
+   "teams": 14,
+   "map_seed": 524671481,
+   "flag_seed": 1748671905029716032,
+   "seat": 5,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00005",
+   "teams": 14,
+   "map_seed": 1825257966,
+   "flag_seed": 2863441466352929398,
+   "seat": 3,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00006",
+   "teams": 14,
+   "map_seed": 1834310638,
+   "flag_seed": 3132229008943652933,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00007",
+   "teams": 14,
+   "map_seed": 1319343699,
+   "flag_seed": 9047053638266418473,
+   "seat": 12,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00008",
+   "teams": 14,
+   "map_seed": 905648601,
+   "flag_seed": 5716480117997117280,
+   "seat": 8,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00009",
+   "teams": 14,
+   "map_seed": 1654438139,
+   "flag_seed": 5045259868621835611,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00010",
+   "teams": 14,
+   "map_seed": 1089787840,
+   "flag_seed": 8124245202951781312,
+   "seat": 11,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00011",
+   "teams": 14,
+   "map_seed": 1364518990,
+   "flag_seed": 7092023051757392849,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00012",
+   "teams": 14,
+   "map_seed": 1415341755,
+   "flag_seed": 109491875783660998,
+   "seat": 10,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00013",
+   "teams": 14,
+   "map_seed": 1720767751,
+   "flag_seed": 7736599479089325336,
+   "seat": 1,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00014",
+   "teams": 14,
+   "map_seed": 175490475,
+   "flag_seed": 8061418878889977502,
+   "seat": 9,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00015",
+   "teams": 14,
+   "map_seed": 649617846,
+   "flag_seed": 4419346988290848371,
+   "seat": 7,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00016",
+   "teams": 14,
+   "map_seed": 1002097125,
+   "flag_seed": 8042243278620936195,
+   "seat": 6,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00017",
+   "teams": 14,
+   "map_seed": 1716293735,
+   "flag_seed": 4398849216760419721,
+   "seat": 13,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00018",
+   "teams": 14,
+   "map_seed": 1219443760,
+   "flag_seed": 342554746515224287,
+   "seat": 5,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00019",
+   "teams": 14,
+   "map_seed": 255150667,
+   "flag_seed": 3295128888513127526,
+   "seat": 3,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00020",
+   "teams": 14,
+   "map_seed": 695753434,
+   "flag_seed": 7185500787747265030,
+   "seat": 2,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00021",
+   "teams": 14,
+   "map_seed": 984143057,
+   "flag_seed": 1952942498347449755,
+   "seat": 12,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00022",
+   "teams": 14,
+   "map_seed": 1865511094,
+   "flag_seed": 8324133687511052990,
+   "seat": 8,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00023",
+   "teams": 14,
+   "map_seed": 245415619,
+   "flag_seed": 8318337004830805058,
+   "seat": 0,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00024",
+   "teams": 14,
+   "map_seed": 1706267350,
+   "flag_seed": 5025319264228902686,
+   "seat": 11,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00025",
+   "teams": 14,
+   "map_seed": 787816314,
+   "flag_seed": 4792000591855865578,
+   "seat": 4,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00026",
+   "teams": 14,
+   "map_seed": 1361196946,
+   "flag_seed": 7323801519818539639,
+   "seat": 10,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n14-m00027",
+   "teams": 14,
+   "map_seed": 1211066968,
+   "flag_seed": 8544522639068040408,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00000",
+   "teams": 15,
+   "map_seed": 1546181623,
+   "flag_seed": 7191265593305191233,
+   "seat": 14,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00001",
+   "teams": 15,
+   "map_seed": 2060800970,
+   "flag_seed": 9188313434822375258,
+   "seat": 2,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00002",
+   "teams": 15,
+   "map_seed": 1364629069,
+   "flag_seed": 5106168406866602739,
+   "seat": 11,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00003",
+   "teams": 15,
+   "map_seed": 510987114,
+   "flag_seed": 1757206548962371483,
+   "seat": 5,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00004",
+   "teams": 15,
+   "map_seed": 1712282659,
+   "flag_seed": 8613822274993508989,
+   "seat": 10,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00005",
+   "teams": 15,
+   "map_seed": 318399255,
+   "flag_seed": 3867391566085496365,
+   "seat": 6,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00006",
+   "teams": 15,
+   "map_seed": 1990186060,
+   "flag_seed": 4775522551954056497,
+   "seat": 8,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00007",
+   "teams": 15,
+   "map_seed": 744404832,
+   "flag_seed": 5680588848465608485,
+   "seat": 12,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00008",
+   "teams": 15,
+   "map_seed": 992742384,
+   "flag_seed": 5531166726863751031,
+   "seat": 7,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00009",
+   "teams": 15,
+   "map_seed": 2044097904,
+   "flag_seed": 8072798065363940141,
+   "seat": 0,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00010",
+   "teams": 15,
+   "map_seed": 460679307,
+   "flag_seed": 5441335699711612742,
+   "seat": 1,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00011",
+   "teams": 15,
+   "map_seed": 379026072,
+   "flag_seed": 7242184342612200042,
+   "seat": 9,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00012",
+   "teams": 15,
+   "map_seed": 1104959419,
+   "flag_seed": 5881678248780977273,
+   "seat": 4,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00013",
+   "teams": 15,
+   "map_seed": 1504346441,
+   "flag_seed": 100576075723243118,
+   "seat": 3,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00014",
+   "teams": 15,
+   "map_seed": 54497240,
+   "flag_seed": 3346961590366927033,
+   "seat": 13,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00015",
+   "teams": 15,
+   "map_seed": 42270037,
+   "flag_seed": 53065701855892213,
+   "seat": 14,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00016",
+   "teams": 15,
+   "map_seed": 578705026,
+   "flag_seed": 1382737544485488166,
+   "seat": 2,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00017",
+   "teams": 15,
+   "map_seed": 1242789626,
+   "flag_seed": 5114353057337635992,
+   "seat": 11,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00018",
+   "teams": 15,
+   "map_seed": 1653722946,
+   "flag_seed": 8568899591876162580,
+   "seat": 5,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00019",
+   "teams": 15,
+   "map_seed": 1332792343,
+   "flag_seed": 5919782633771423395,
+   "seat": 10,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00020",
+   "teams": 15,
+   "map_seed": 1673983991,
+   "flag_seed": 686447346408482017,
+   "seat": 6,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00021",
+   "teams": 15,
+   "map_seed": 889172989,
+   "flag_seed": 5257828319633206936,
+   "seat": 8,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00022",
+   "teams": 15,
+   "map_seed": 1056326388,
+   "flag_seed": 6498195947920781522,
+   "seat": 12,
+   "opponents": [
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00023",
+   "teams": 15,
+   "map_seed": 2040347310,
+   "flag_seed": 7886538409519457879,
+   "seat": 7,
+   "opponents": [
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00024",
+   "teams": 15,
+   "map_seed": 19461153,
+   "flag_seed": 4039412845916737936,
+   "seat": 0,
+   "opponents": [
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00025",
+   "teams": 15,
+   "map_seed": 1286164251,
+   "flag_seed": 3754643834419929740,
+   "seat": 1,
+   "opponents": [
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00026",
+   "teams": 15,
+   "map_seed": 1497290576,
+   "flag_seed": 5409392934463975045,
+   "seat": 9,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  },
+  {
+   "fixture_id": "s20261955-n15-m00027",
+   "teams": 15,
+   "map_seed": 1213673203,
+   "flag_seed": 5844426019953982007,
+   "seat": 4,
+   "opponents": [
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable",
+    "MiMo",
+    "Kimi",
+    "GLM",
+    "Player4",
+    "Fable"
+   ]
+  }
+ ]
+}

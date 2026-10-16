@@ -1,0 +1,137 @@
+{
+ "created": "2026-10-15T17:07:15",
+ "smoke": false,
+ "config": {
+  "_comment": "Schedule A of task T0061 (docs/MEOWMIND_RL_ALIGNED.md): the aligned actor-direct comparison. Every actor is exported against the one frozen corpus with one configuration; the arms differ only in their actor weights. Seed: fresh, reserved in docs/MEOWMIND_RL_SCREEN_SEEDS.md and written here by the freeze (bots/meow_rl/aligned/freeze.py) before any game; never the seed of schedule B, a preflight or any earlier screen. Exactly 8 workers (workers_exact), bound to the passed preflight receipt. Families: the primary at 95%; the two secondary contrasts one Bonferroni family (alpha 0.05, z computed); per-count and band rows are descriptive. Utility differences are reported in percentage points; an interval containing 0 means not shown. No early stopping or extension.",
+  "seed": 20261954,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 28,
+  "workers": 8,
+  "workers_exact": true,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "variants": "bots/meow_rl/variants_aligned.json",
+  "margin": 0.0,
+  "preflight": "reports/host/meow_rl_aligned/PREFLIGHT.json",
+  "reference": [
+   "Fable",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player4"
+  ],
+  "fixtures": 392,
+  "games": 1960,
+  "work_dir": "data/meow_rl_aligned/screen_a",
+  "report_dir": "reports/host/meow_rl_aligned/screen_a",
+  "arms": [
+   "meow_rl_aligned_p2_large",
+   "meow_rl_aligned_warm",
+   "meow_rl_aligned_p1_large",
+   "meow_rl_aligned_p2_small"
+  ],
+  "aa": [
+   "meow_rl_aligned_p2_large"
+  ],
+  "comparisons": [
+   [
+    "meow_rl_aligned_p2_large",
+    "meow_rl_aligned_warm"
+   ],
+   [
+    "meow_rl_aligned_p2_large",
+    "meow_rl_aligned_p1_large"
+   ],
+   [
+    "meow_rl_aligned_p2_large",
+    "meow_rl_aligned_p2_small"
+   ]
+  ],
+  "families": {
+   "primary": {
+    "method": "none",
+    "alpha": 0.05,
+    "comparisons": [
+     [
+      "meow_rl_aligned_p2_large",
+      "meow_rl_aligned_warm"
+     ]
+    ]
+   },
+   "secondary": {
+    "method": "bonferroni",
+    "alpha": 0.05,
+    "comparisons": [
+     [
+      "meow_rl_aligned_p2_large",
+      "meow_rl_aligned_p1_large"
+     ],
+     [
+      "meow_rl_aligned_p2_large",
+      "meow_rl_aligned_p2_small"
+     ]
+    ]
+   }
+  },
+  "freeze": "reports/host/meow_rl_aligned/FREEZE.json"
+ },
+ "effective": {
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 28,
+  "turn_ms": 50,
+  "arms": [
+   "meow_rl_aligned_p2_large",
+   "meow_rl_aligned_warm",
+   "meow_rl_aligned_p1_large",
+   "meow_rl_aligned_p2_small"
+  ],
+  "aa": [
+   "meow_rl_aligned_p2_large"
+  ],
+  "workers": 8
+ },
+ "ctf_fusion_commit": "307c8105e0f3aeacf4c726d72de0157987469b01",
+ "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+ "host": "DESKTOP-G60OJUD",
+ "os": "Windows-10-10.0.19045-SP0",
+ "cpu_count": 32,
+ "python": "3.14.3",
+ "wall_seconds": {
+  "build": 0.2,
+  "run": 208.2,
+  "analyze": 11.8,
+  "total": 220.4
+ },
+ "analysis_status": 0
+}
