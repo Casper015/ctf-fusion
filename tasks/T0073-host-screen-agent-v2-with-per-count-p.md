@@ -1,13 +1,13 @@
 ---
 id: T0073
 title: "Host: screen agent_v2 with per-count P bank vs XXL P"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/agent_v2_csp/, profiles/agent_v2_csp_screen.json, docs/MEOWMIND_RL_SCREEN_SEEDS.md]
 depends: [T0072]
 land: direct
-branch: ""
+branch: antigravity/t0073-host-screen-agent-v2-with-per-count-p
 updated: 2026-10-16
 ---
 
@@ -39,3 +39,4 @@ Not started.
 ## Log
 
 - 2026-10-16 19:31Z claude-review@caspers-macbook: created
+- 2026-10-16 19:47Z antigravity@desktop-g60ojud: claimed
