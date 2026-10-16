@@ -1,0 +1,130 @@
+{
+ "model": "n13",
+ "count": 13,
+ "capacity": "8XL",
+ "parameters": 19042691,
+ "hidden": {
+  "mover": [
+   2048
+  ],
+  "squad": [
+   8192,
+   2048
+  ],
+  "act": [
+   2048
+  ],
+  "target": [
+   256
+  ]
+ },
+ "optimizer_seed": 101,
+ "max_epochs": 8,
+ "selected_epoch": 8,
+ "best_val_loss": 2.3057,
+ "total_elapsed_seconds": 345.22,
+ "epoch_logs": [
+  {
+   "epoch": 1,
+   "train_loss": 2.5828,
+   "val_loss": 2.428,
+   "overfit_gap": -0.1548,
+   "seconds": 35.04,
+   "rows_per_second": 20775,
+   "is_best": true
+  },
+  {
+   "epoch": 2,
+   "train_loss": 2.3975,
+   "val_loss": 2.3654,
+   "overfit_gap": -0.032,
+   "seconds": 32.78,
+   "rows_per_second": 22207,
+   "is_best": true
+  },
+  {
+   "epoch": 3,
+   "train_loss": 2.3579,
+   "val_loss": 2.3496,
+   "overfit_gap": -0.0083,
+   "seconds": 28.92,
+   "rows_per_second": 25171,
+   "is_best": true
+  },
+  {
+   "epoch": 4,
+   "train_loss": 2.3362,
+   "val_loss": 2.3285,
+   "overfit_gap": -0.0077,
+   "seconds": 28.84,
+   "rows_per_second": 25241,
+   "is_best": true
+  },
+  {
+   "epoch": 5,
+   "train_loss": 2.3204,
+   "val_loss": 2.3186,
+   "overfit_gap": -0.0018,
+   "seconds": 28.87,
+   "rows_per_second": 25215,
+   "is_best": true
+  },
+  {
+   "epoch": 6,
+   "train_loss": 2.31,
+   "val_loss": 2.3151,
+   "overfit_gap": 0.0052,
+   "seconds": 26.98,
+   "rows_per_second": 26981,
+   "is_best": true
+  },
+  {
+   "epoch": 7,
+   "train_loss": 2.3018,
+   "val_loss": 2.3156,
+   "overfit_gap": 0.0138,
+   "seconds": 28.55,
+   "rows_per_second": 25497,
+   "is_best": false
+  },
+  {
+   "epoch": 8,
+   "train_loss": 2.2945,
+   "val_loss": 2.3057,
+   "overfit_gap": 0.0113,
+   "seconds": 27.76,
+   "rows_per_second": 26223,
+   "is_best": true
+  }
+ ],
+ "betas": {
+  "joint": 1.0524,
+  "act": 1.0074,
+  "target": 1.0665
+ },
+ "val_metrics": {
+  "total_loss": 2.0946,
+  "joint_nll": 2.0076,
+  "act_nll": 0.1228,
+  "target_nll": 0.0512,
+  "joint_top1": 0.4303,
+  "joint_top5": 0.7806,
+  "act_acc": 0.69,
+  "target_acc": 0.1936
+ },
+ "test_metrics": {
+  "total_loss": 2.0982,
+  "joint_nll": 2.0117,
+  "act_nll": 0.1205,
+  "target_nll": 0.0525,
+  "joint_top1": 0.429,
+  "joint_top5": 0.7777,
+  "act_acc": 0.6905,
+  "target_acc": 0.1951
+ },
+ "xxl_val_loss": 2.0211,
+ "xxl_test_loss": 2.0269,
+ "gain_vs_xxl_test": -0.0713,
+ "overfit_gap_final": -0.1999,
+ "data_sufficient": false
+}
