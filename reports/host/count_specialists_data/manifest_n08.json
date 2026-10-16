@@ -1,0 +1,148 @@
+{
+ "count": 8,
+ "count_key": "n08",
+ "total_matches": 200,
+ "split_matches": {
+  "train": 140,
+  "val": 30,
+  "test": 30
+ },
+ "shard_rows": {
+  "train": 448000,
+  "val": 96000,
+  "test": 96000
+ },
+ "unique_geometries": 200,
+ "split_stats": {
+  "train": {
+   "turns": 56000,
+   "rows": 448000,
+   "carrier_rows": 342412,
+   "valid_labels": 448000,
+   "stratum_quiet": 51026,
+   "stratum_flag": 157766,
+   "stratum_contact": 136567,
+   "stratum_respawn": 102641
+  },
+  "val": {
+   "turns": 12000,
+   "rows": 96000,
+   "carrier_rows": 72662,
+   "valid_labels": 96000,
+   "stratum_quiet": 10760,
+   "stratum_contact": 28752,
+   "stratum_flag": 33599,
+   "stratum_respawn": 22889
+  },
+  "test": {
+   "turns": 12000,
+   "rows": 96000,
+   "carrier_rows": 73325,
+   "valid_labels": 96000,
+   "stratum_quiet": 11017,
+   "stratum_contact": 29036,
+   "stratum_flag": 34459,
+   "stratum_respawn": 21488
+  }
+ },
+ "faults_total": 0,
+ "faults_by_seat": {
+  "seat_0": 0,
+  "seat_1": 0,
+  "seat_2": 0,
+  "seat_3": 0,
+  "seat_4": 0,
+  "seat_5": 0,
+  "seat_6": 0,
+  "seat_7": 0
+ },
+ "coverage_by_split": {
+  "train": {
+   "count": 8,
+   "split": "train",
+   "turns": 56000,
+   "rows": 448000,
+   "carrier_rows": 108414,
+   "hp": {
+    "mean_hp": 61.2,
+    "active_100_hp_pct": 48.89,
+    "active_damaged_hp_pct": 24.98,
+    "dead_hp_pct": 26.13
+   },
+   "pickup_drop": {
+    "pickup_events": 15699,
+    "drop_events": 19
+   },
+   "flag_timing": {
+    "home_turns_pct": 13.68,
+    "carried_turns_pct": 48.4,
+    "dropped_turns_pct": 8.49,
+    "cooldown_turns_pct": 29.43
+   },
+   "spawn_distance_advantage": {
+    "mean_dist_to_center": 40.0,
+    "mean_dist_to_nearest_spot": 10.0,
+    "mean_dist_to_nearest_enemy_base": 14.0
+   },
+   "faults": 0
+  },
+  "val": {
+   "count": 8,
+   "split": "val",
+   "turns": 12000,
+   "rows": 96000,
+   "carrier_rows": 22843,
+   "hp": {
+    "mean_hp": 60.78,
+    "active_100_hp_pct": 48.85,
+    "active_damaged_hp_pct": 24.2,
+    "dead_hp_pct": 26.95
+   },
+   "pickup_drop": {
+    "pickup_events": 3342,
+    "drop_events": 3
+   },
+   "flag_timing": {
+    "home_turns_pct": 14.07,
+    "carried_turns_pct": 47.59,
+    "dropped_turns_pct": 8.49,
+    "cooldown_turns_pct": 29.85
+   },
+   "spawn_distance_advantage": {
+    "mean_dist_to_center": 40.0,
+    "mean_dist_to_nearest_spot": 10.0,
+    "mean_dist_to_nearest_enemy_base": 14.0
+   },
+   "faults": 0
+  },
+  "test": {
+   "count": 8,
+   "split": "test",
+   "turns": 12000,
+   "rows": 96000,
+   "carrier_rows": 23563,
+   "hp": {
+    "mean_hp": 61.5,
+    "active_100_hp_pct": 49.11,
+    "active_damaged_hp_pct": 25.15,
+    "dead_hp_pct": 25.75
+   },
+   "pickup_drop": {
+    "pickup_events": 3402,
+    "drop_events": 1
+   },
+   "flag_timing": {
+    "home_turns_pct": 13.16,
+    "carried_turns_pct": 49.09,
+    "dropped_turns_pct": 8.89,
+    "cooldown_turns_pct": 28.86
+   },
+   "spawn_distance_advantage": {
+    "mean_dist_to_center": 40.0,
+    "mean_dist_to_nearest_spot": 10.0,
+    "mean_dist_to_nearest_enemy_base": 14.0
+   },
+   "faults": 0
+  }
+ }
+}
