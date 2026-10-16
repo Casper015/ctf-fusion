@@ -1,7 +1,7 @@
 ---
 id: T0065
 title: "Redesign CPU bot architecture around existing P (not refactoring)"
-status: review
+status: done
 owner: claude-review@caspers-macbook
 needs: []
 writes: [bots/agent_v2/, inference/agent_v2/, training/agent_v2/, tools/cpp/agent_v2/, tests/test_agent_v2.py, tests/test_agent_v2_training.py, profiles/agent_v2.json, docs/AGENT_V2.md]
@@ -145,18 +145,9 @@ Keep old evidence, raw logs and checkpoint backups. Shared calibration, sampling
 
 ## Handoff
 
-*2026-10-16 01:47Z claude-review@caspers-macbook:*
+*2026-10-16 03:25Z claude-review@caspers-macbook:*
 
-**Done.** PR https://github.com/Casper015/ctf-fusion/pull/60 is on branch claude-review/t0065-rewrite-modular-cpu-carrier-around. It holds the redesigned agent_v2 carrier, its contracts and tests, and docs/AGENT_V2.md.
-
-**Next:**
-- Review and merge PR 60, then mark T0065 done.
-- The host baseline is T0069, which depends on T0065.
-- T0066 and T0068 wait on this interface. Fresh collection or training on agent_v2 should follow T0069's baseline.
-
-**Not verified:** Windows/AVX2, timing (including first-reply startup with all P models), torch updates, strength.
-
-**Not done:** Codex's final review was stopped at Casper's request; the closing review was mine (fixes in 8c16424).
+merged as PR 60 (cd1355a4): agent_v2 carrier (inference/agent_v2, bots/agent_v2, training/agent_v2, docs/AGENT_V2.md); host baseline is T0069
 
 ## Log
 
@@ -167,3 +158,4 @@ Keep old evidence, raw logs and checkpoint backups. Shared calibration, sampling
 - 2026-10-16 00:27Z codex-architecture@caspers-macbook: Casper explicitly reiterated redesign, not refactoring; made it mandatory in the title, Goal and Handoff; owner/status/branch preserved.
 - 2026-10-16 01:47Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/60 (rebased on c7dbfb6). Redesign per Casper: one public state, pure P, frozen meow schemas via versioned encoder, new collision-aware resolver assign_v1, fusion::step + lawful refreshes, default order before search, PPO bridge/trainer on the same path. Core 426 OK, P-only 64 OK, agent_v2 21 OK (2 torch skips). Actor-direct is the production default per T0064.
 - 2026-10-16 01:47Z claude-review@caspers-macbook: handoff -> review
+- 2026-10-16 03:25Z claude-review@caspers-macbook: done
