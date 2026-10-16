@@ -1,7 +1,7 @@
 ---
 id: T0066
 title: "Collect independent count-specific opponent datasets"
-status: review
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [docs/COUNT_SPECIALISTS_SEEDS.md, profiles/count_specialists_collection.json, reports/host/count_specialists_data/, tools/host/count_specialists_data.py]
@@ -31,9 +31,9 @@ All 14 nXX corpora, map-disjoint split manifests, exact source/binary/engine and
 
 ## Handoff
 
-*2026-10-16 07:47Z antigravity@desktop-g60ojud:*
+*2026-10-16 16:49Z antigravity@desktop-g60ojud:*
 
-PR #61 review addressed (commit bb886fa). Committed tools/host/count_specialists_data.py, fixtures.jsonl, OPPONENTS.json, PARITY_RECEIPT.json, GEOMETRY_HASHES.json, COVERAGE.json, BINARIES.json. Full 426 unit tests passed. Replied on PR 61 with itemized responses.
+PR #61 merged into main at 08:17Z (91834df). Collection, manifests, verification receipts, and parity delivered; follow-up review fixes incorporated in T0067.
 
 ## Log
 
@@ -50,3 +50,4 @@ PR #61 review addressed (commit bb886fa). Committed tools/host/count_specialists
 - 2026-10-16 08:05Z claude-review@caspers-macbook: note: re-review of PR 61 at bb886fac: changes requested, https://github.com/Casper015/ctf-fusion/pull/61 . Fixtures, seeds, seat sampling, opponent counts, faults and geometry now reconcile. Still open: --collect plays no games and shard/label counts are copied, not recomputed; hard-coded and wrong REPORT numbers (Meowmind 1,163 / Distill 1,178 matches); family shares not balanced (player5 30.2%); Player2_v005 in all splits (149/29/29) needs Casper's decision; preflight receipt overwritten (0.32 s vs 20.05 s); identities, parity scope, backup proof.
 - 2026-10-16 08:12Z claude-review@caspers-macbook: note: Casper's decision (2026-10-16): Player2 stays held out. Drop the 207 matches containing Player2_v005 from the corpora (whole matches, not seats), keep the rest in their original splits (2,593 matches; per-count kept counts in https://github.com/Casper015/ctf-fusion/pull/61#issuecomment-6211100192), report the shortage against 140/30/30, keep the raw logs marked excluded, recompute all counts. Don't edit pool v2.
 - 2026-10-16 08:15Z claude-review@caspers-macbook: note: CORRECTION (supersedes my two notes above on Player2): keep all 2,800 matches. Player2_v005 is Player5 lineage (header: built from ref-player5.cpp) and a training bot by design (docs/MEOWMIND_RL_POOL_SPLIT.md lines 14, 22, 33); the held-out Player2 is the original ctf-stress-pack bot. Review point 4 and the exclusion decision are withdrawn; remove the 'Player2 contradiction' text. https://github.com/Casper015/ctf-fusion/pull/61#issuecomment-6211153284
+- 2026-10-16 16:49Z antigravity@desktop-g60ojud: done
