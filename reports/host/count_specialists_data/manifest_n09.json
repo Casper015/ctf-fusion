@@ -44,5 +44,106 @@
    "stratum_flag": 43154,
    "stratum_respawn": 24348
   }
+ },
+ "faults_total": 0,
+ "faults_by_seat": {
+  "seat_0": 0,
+  "seat_1": 0,
+  "seat_2": 0,
+  "seat_3": 0,
+  "seat_4": 0,
+  "seat_5": 0,
+  "seat_6": 0,
+  "seat_7": 0,
+  "seat_8": 0
+ },
+ "coverage_by_split": {
+  "train": {
+   "count": 9,
+   "split": "train",
+   "turns": 56000,
+   "rows": 504000,
+   "carrier_rows": 135130,
+   "hp": {
+    "mean_hp": 58.41,
+    "active_100_hp_pct": 46.23,
+    "active_damaged_hp_pct": 24.52,
+    "dead_hp_pct": 29.25
+   },
+   "pickup_drop": {
+    "pickup_events": 20417,
+    "drop_events": 21
+   },
+   "flag_timing": {
+    "home_turns_pct": 14.44,
+    "carried_turns_pct": 48.26,
+    "dropped_turns_pct": 10.04,
+    "cooldown_turns_pct": 27.26
+   },
+   "spawn_distance_advantage": {
+    "mean_dist_to_center": 39.0,
+    "mean_dist_to_nearest_spot": 10.0,
+    "mean_dist_to_nearest_enemy_base": 11.56
+   },
+   "faults": 0
+  },
+  "val": {
+   "count": 9,
+   "split": "val",
+   "turns": 12000,
+   "rows": 108000,
+   "carrier_rows": 28875,
+   "hp": {
+    "mean_hp": 58.3,
+    "active_100_hp_pct": 45.95,
+    "active_damaged_hp_pct": 24.91,
+    "dead_hp_pct": 29.15
+   },
+   "pickup_drop": {
+    "pickup_events": 4433,
+    "drop_events": 9
+   },
+   "flag_timing": {
+    "home_turns_pct": 14.03,
+    "carried_turns_pct": 48.12,
+    "dropped_turns_pct": 9.92,
+    "cooldown_turns_pct": 27.93
+   },
+   "spawn_distance_advantage": {
+    "mean_dist_to_center": 39.0,
+    "mean_dist_to_nearest_spot": 10.0,
+    "mean_dist_to_nearest_enemy_base": 11.56
+   },
+   "faults": 0
+  },
+  "test": {
+   "count": 9,
+   "split": "test",
+   "turns": 12000,
+   "rows": 108000,
+   "carrier_rows": 28531,
+   "hp": {
+    "mean_hp": 58.37,
+    "active_100_hp_pct": 46.27,
+    "active_damaged_hp_pct": 24.59,
+    "dead_hp_pct": 29.14
+   },
+   "pickup_drop": {
+    "pickup_events": 4462,
+    "drop_events": 6
+   },
+   "flag_timing": {
+    "home_turns_pct": 14.43,
+    "carried_turns_pct": 47.55,
+    "dropped_turns_pct": 10.16,
+    "cooldown_turns_pct": 27.86
+   },
+   "spawn_distance_advantage": {
+    "mean_dist_to_center": 39.0,
+    "mean_dist_to_nearest_spot": 10.0,
+    "mean_dist_to_nearest_enemy_base": 11.56
+   },
+   "faults": 0
+  }
  }
 }

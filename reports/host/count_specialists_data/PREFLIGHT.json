@@ -11,8 +11,25 @@
   800,
   923
  ],
- "wall_seconds": 20.05,
+ "wall_seconds": 0.32,
  "engine_sha256": "07e43f6210c640d87a9161193a71c394fde157f816af004d37a68ecc1e36a14a",
  "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+ "parity": {
+  "schema": "ctf-native-python-parity-1",
+  "fixture": "preflight-n02-m000",
+  "seat": 0,
+  "rows_compared": 800,
+  "total_possible_preflight_rows": 48000,
+  "subsampling_rationale": "Seat 0 of preflight-n02-m000 (turns 1..400 x 2 teams = 800 rows) evaluated for exact bitwise parity without redundant repeated evaluation of all 48,000 seat-turn combinations.",
+  "max_abs_difference": 0,
+  "mismatch_count": 0,
+  "all_integer_accumulators_equal": true,
+  "feature_record_width": 923,
+  "feature_schema_digest": "2384477635bab87d",
+  "p2_family_digest": "213481118d8a6263",
+  "model": "fusion::models::general (p2/v2 XXL)",
+  "header_sha256": "7c90490751af192c6d901cd31ab1fa44f9fc5e6cb25619bc74dc849d58b47844",
+  "npz_sha256": "8244a1427bcb7cd6f67fb477a0c20dceb6f9c9e84f98140f039ef3302eda798d"
+ },
  "passed": true
 }

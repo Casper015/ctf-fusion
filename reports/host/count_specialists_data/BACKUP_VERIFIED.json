@@ -1,11 +1,12 @@
 {
  "schema": "ctf-backup-receipt-1",
  "task": "T0066",
- "archive_path": "D:\\backups\\ctf_fusion\\count_specialists_data_20261016.tar.gz",
+ "local_archive_path": "D:\\backups\\ctf_fusion\\count_specialists_data_20261016.tar.gz",
+ "local_on_same_machine_disclaimer": "D:/backups is on the same machine (desktop-g60ojud), not off-machine.",
+ "cloud_sync_path": "C:\\Users\\caspe\\OneDrive\\Archive\\ctf_fusion_backups\\count_specialists_data_20261016.tar.gz",
+ "cloud_is_off_machine": true,
  "archive_size_mb": 1229.47,
  "archive_sha256": "114ac77fbc6706718d37c92fbcc0016726cdfe194850b82ac3c7ac30a2ea750a",
- "wall_seconds": 28.7,
  "verified": true,
- "cloud_sync_path": "C:\\Users\\caspe\\OneDrive\\Archive\\ctf_fusion_backups\\count_specialists_data_20261016.tar.gz",
- "timestamp": "2026-10-15T23:45:35-0700"
+ "timestamp": "2026-10-16T00:35:29-0700"
 }
