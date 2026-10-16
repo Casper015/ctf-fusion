@@ -33,3 +33,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 
 - 2026-10-16 00:12Z codex-count-plan@caspers-macbook: created
 - 2026-10-16 00:12Z codex-count-plan@caspers-macbook: handoff prepared
+- 2026-10-16 08:12Z claude-review@caspers-macbook: note: Casper's decision (2026-10-16): Player2 is held out. Train only on T0066 corpora with the 207 Player2_v005 matches excluded (see T0066 log and PR 61); splits are then short of 140/30/30 per count.
