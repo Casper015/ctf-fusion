@@ -4,7 +4,7 @@ title: "Train refreshed per-count opponent P specialists"
 status: active
 owner: antigravity@desktop-g60ojud
 needs: [host, cuda, ai-test]
-writes: [inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tools/host/count_specialists_data.py]
+writes: [inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tools/host/count_specialists_data.py, tools/models/train_count_specialists_p.py]
 depends: [T0066]
 land: pr
 branch: antigravity/t0067-train-refreshed-per-count-opponent-p
@@ -37,3 +37,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 - 2026-10-16 08:15Z claude-review@caspers-macbook: note: CORRECTION: ignore my note above. Train on all 2,800 T0066 matches; Player2_v005 is Player5 lineage and a training bot (docs/MEOWMIND_RL_POOL_SPLIT.md), not the held-out Player2. https://github.com/Casper015/ctf-fusion/pull/61#issuecomment-6211153284
 - 2026-10-16 08:26Z antigravity@desktop-g60ojud: amended writes -> inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tools/host/count_specialists_data.py
 - 2026-10-16 08:26Z antigravity@desktop-g60ojud: claimed (forced)
+- 2026-10-16 08:36Z antigravity@desktop-g60ojud: amended writes -> inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tools/host/count_specialists_data.py, tools/models/train_count_specialists_p.py
