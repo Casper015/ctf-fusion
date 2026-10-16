@@ -15,8 +15,10 @@ No reserved seed in this file may be reused for training, calibration, or across
 | 20261955 | aligned_screen_b | 392 (28/count) | 1,960 | Aligned Schedule B: D, F, R, H, A/A | Consumed |
 | 20261956 | aligned_preflight | 64 (16/count x 4) | 448 | Fresh eight-worker gate across 7 aligned variants with unbuffered stderr | Consumed |
 | 20261957 | agent_v2_preflight | 64 (16/count x 4) | 128 | Eight-worker gate: failed on buffered stderr | Consumed |
-| 20261958 | agent_v2_baseline | 392 (28/count) | 1,176 | Paired carrier screen: agent_v2_p2xxl_direct vs meow_rl_aligned_p2_large + A/A (T0069) | Reserved |
-| 20261959 | agent_v2_preflight | 64 (16/count x 4) | 128 | Fresh eight-worker gate: agent_v2_p2xxl_direct + search_w16 with unbuffered stderr | Reserved |
+| 20261958 | agent_v2_baseline | 392 (28/count) | 1,176 | Paired carrier screen: agent_v2_p2xxl_direct vs meow_rl_aligned_p2_large + A/A (T0069) | Consumed |
+| 20261959 | agent_v2_preflight | 64 (16/count x 4) | 128 | Fresh eight-worker gate: agent_v2_p2xxl_direct + search_w16 with unbuffered stderr | Consumed |
+| 20261960 | agent_v2_csp_preflight | 64 (16/count x 4) | 128 | Eight-worker gate under lock cpu: agent_v2_csp_direct + agent_v2_p2xxl_direct (counts 2/5/8/15, T0073) | Consumed |
+| 20261961 | agent_v2_csp_screen | 392 (28/count) | 1,176 | Paired screen: agent_v2_csp_direct vs agent_v2_p2xxl_direct + A/A (T0073) | Consumed |
 
 ## Schedule Derivation Contract
 

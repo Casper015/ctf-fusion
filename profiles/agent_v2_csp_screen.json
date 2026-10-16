@@ -1,0 +1,50 @@
+{
+ "_comment": "Paired host screen of task T0073: agent_v2 with the T0067 per-count P bank (agent_v2_csp_direct, FUSION_TIER_CSP) minus agent_v2 with the deployed XXL P (agent_v2_p2xxl_direct). Both actor-direct with identical large-V actor. Fresh seed 20261961, exactly 8 workers, 2,000 ms first and 50 ms later replies. 28 maps per count across counts 2-15 (392 fixtures, 1,176 games total including A/A copy).",
+ "seed": 20261961,
+ "teams": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+ "maps_per_count": 28,
+ "workers": 8,
+ "workers_exact": true,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "keep_matches": true,
+ "variants": "reports/host/agent_v2_csp/variants.json",
+ "margin": 0.0,
+ "preflight": "reports/host/agent_v2_csp/PREFLIGHT.json",
+ "reference": [
+  "Fable",
+  "MiMo",
+  "Kimi",
+  "GLM",
+  "Player4"
+ ],
+ "fixtures": 392,
+ "games": 1176,
+ "work_dir": "data/host/agent_v2_csp/screen",
+ "report_dir": "reports/host/agent_v2_csp/screen",
+ "arms": [
+  "agent_v2_csp_direct",
+  "agent_v2_p2xxl_direct"
+ ],
+ "aa": [
+  "agent_v2_csp_direct"
+ ],
+ "comparisons": [
+  [
+   "agent_v2_csp_direct",
+   "agent_v2_p2xxl_direct"
+  ]
+ ],
+ "families": {
+  "primary": {
+   "method": "none",
+   "alpha": 0.05,
+   "comparisons": [
+    [
+     "agent_v2_csp_direct",
+     "agent_v2_p2xxl_direct"
+    ]
+   ]
+  }
+ }
+}

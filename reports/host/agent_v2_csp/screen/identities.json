@@ -1,0 +1,53 @@
+{
+ "agent_v2_csp_direct": {
+  "digest": "c4a2a943fc2a293209c4d3067a069abc9795d832f5bbfa48e5b02f00041982d0",
+  "components": {
+   "variant": "agent_v2_csp_direct",
+   "bundle_sha256": "94f58a7dc1bea978a10fd93b5cf578a9b5b75e74d9ba23859c63566755f7688b",
+   "binary_sha256": "83b80ff99b41600a9ed3f0537a28b77e6abdc2b2e67197f07c672d422b580763",
+   "inputs_sha256": "81928d540a71e6ac9ce050e3ab02a4390e6955b20a02113fc6827c633f9c1ff1",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "3767576bcc0c712611a6334bb62d160f016c21a069d2388213301c6eb4c2da24",
+   "schedule": "b30654ae120f289ddc180c82203f436a09bab536000f80713eef3d48708b48fd",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ },
+ "agent_v2_p2xxl_direct": {
+  "digest": "07dc717b65a9bbe81a90aee4e58470b47d68a5dde0d83798f136d0e098437779",
+  "components": {
+   "variant": "agent_v2_p2xxl_direct",
+   "bundle_sha256": "483ba5905f79546a50420821d695c38631b55df03331e258985130cc2fe458c0",
+   "binary_sha256": "119c7f76b972dc348a92c47d835eb66a5d1e08aa96313b1e59fe2da356fb4ac2",
+   "inputs_sha256": "55cc42480b0a274908717f78fe56904231e833815b5c648cac043c734e196ec7",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "3767576bcc0c712611a6334bb62d160f016c21a069d2388213301c6eb4c2da24",
+   "schedule": "b30654ae120f289ddc180c82203f436a09bab536000f80713eef3d48708b48fd",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ },
+ "agent_v2_csp_direct~aa": {
+  "digest": "c4a2a943fc2a293209c4d3067a069abc9795d832f5bbfa48e5b02f00041982d0",
+  "components": {
+   "variant": "agent_v2_csp_direct",
+   "bundle_sha256": "94f58a7dc1bea978a10fd93b5cf578a9b5b75e74d9ba23859c63566755f7688b",
+   "binary_sha256": "83b80ff99b41600a9ed3f0537a28b77e6abdc2b2e67197f07c672d422b580763",
+   "inputs_sha256": "81928d540a71e6ac9ce050e3ab02a4390e6955b20a02113fc6827c633f9c1ff1",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "3767576bcc0c712611a6334bb62d160f016c21a069d2388213301c6eb4c2da24",
+   "schedule": "b30654ae120f289ddc180c82203f436a09bab536000f80713eef3d48708b48fd",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ }
+}

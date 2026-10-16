@@ -86,7 +86,7 @@ class Extract(unittest.TestCase):
     def test_the_frozen_feature_code_is_a_verbatim_extract(self):
         r = subprocess.run([sys.executable, str(REPO / "bots" / "agent_v2" / "extract.py"), "--check"], capture_output=True, text=True)
         self.assertEqual(r.returncode, 0, r.stdout)
-        text = (REPO / "inference" / "agent_v2" / "meowmind_features.hpp").read_text()
+        text = (REPO / "inference" / "agent_v2" / "meowmind_features.hpp").read_text(encoding="utf-8")
         self.assertIn("no license notice", text)
         for absent in ("struct Planner", "struct World", "bool read_turn", "workingExperts", "enemyOrders"):
             self.assertNotIn(absent, text)
