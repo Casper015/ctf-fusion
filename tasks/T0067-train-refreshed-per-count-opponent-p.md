@@ -4,7 +4,7 @@ title: "Train refreshed per-count opponent P specialists"
 status: open
 owner: ""
 needs: [host, cuda, ai-test]
-writes: [reports/models/count_specialists_p/, reports/host/count_specialists_p/, inference/count_specialists_p/, profiles/count_specialists_p.json]
+writes: [inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tools/host/count_specialists_data.py]
 depends: [T0066]
 land: pr
 branch: ""
@@ -35,3 +35,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 - 2026-10-16 00:12Z codex-count-plan@caspers-macbook: handoff prepared
 - 2026-10-16 08:12Z claude-review@caspers-macbook: note: Casper's decision (2026-10-16): Player2 is held out. Train only on T0066 corpora with the 207 Player2_v005 matches excluded (see T0066 log and PR 61); splits are then short of 140/30/30 per count.
 - 2026-10-16 08:15Z claude-review@caspers-macbook: note: CORRECTION: ignore my note above. Train on all 2,800 T0066 matches; Player2_v005 is Player5 lineage and a training bot (docs/MEOWMIND_RL_POOL_SPLIT.md), not the held-out Player2. https://github.com/Casper015/ctf-fusion/pull/61#issuecomment-6211153284
+- 2026-10-16 08:26Z antigravity@desktop-g60ojud: amended writes -> inference/count_specialists_p/, profiles/count_specialists_p.json, reports/host/count_specialists_data/, reports/host/count_specialists_p/, reports/models/count_specialists_p/, tools/host/count_specialists_data.py
