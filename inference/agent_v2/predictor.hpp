@@ -8,6 +8,8 @@
 // with the model registry the variant includes (FUSION_TIER_*; fusion::models::forTeams). P2 XXL
 // (inference/models_pxxl_vm: dedicated n02-n08, n10, n12, n15; general at 9, 11, 13, 14) is the first reference
 // candidate, not a chosen best. No mixture with a hand-written forecast is applied (ponly::View ignores alpha).
+// FUSION_TIER_CSP selects T0067's per-count specialists instead (inference/count_specialists_p, one per exact team
+// count 2-15); p_bank.hpp is the one place that maps the tier to its registry (p_bank::forTeams, kPBank).
 //
 // Inputs, exactly as P was trained: the raw State (never a prepared one: P distinguishes a dead unit about to respawn)
 // and the previous REAL State as history (previous cells, attacks). Teams are predicted independently; within a team
@@ -20,9 +22,11 @@
 #pragma once
 #include <array>
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include "core.hpp"
+#include "p_bank.hpp"
 #include "resolver.hpp"
 #include "../../bots/p_only/include/ponly.hpp"
 
@@ -57,14 +61,16 @@ struct PredictorP {
     static constexpr const char* kKind = "P";
     ponly::Counters counters;
     Prediction root;
-    const fusion::models::ModelSet* set = nullptr;
+    const p_bank::ModelSet* set = nullptr;
+    std::string id;                                                  // kPModelPrefix + the registry id
     int me = -1;
 
     void begin(const MapCache& c) {
-        set = fusion::models::forTeams(c.st.teams);
+        set = p_bank::forTeams(c.st.teams);
+        id = set ? std::string(kPModelPrefix) + set->id : "none";
         me = c.st.me;
     }
-    const char* model_id() const { return set ? set->id : "none"; }
+    const char* model_id() const { return id.empty() ? "none" : id.c_str(); }
     const fusion::PolicyModel* model() const { return set ? set->policy : nullptr; }
 
     // The identity of a prediction of `s` with history `parent` by this predictor's model.

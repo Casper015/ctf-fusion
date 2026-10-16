@@ -17,15 +17,6 @@
 #include <exception>
 #include <string>
 
-#if defined(FUSION_TIER_XXL)
-#include "models_xxl/registry.hpp"
-#elif defined(FUSION_TIER_PXL_VM)
-#include "models_pxl_vm/registry.hpp"
-#elif defined(FUSION_TIER_PXXL_VM)
-#include "models_pxxl_vm/registry.hpp"
-#else
-#error "the agent_v2 bridge selects our opponent model registry with FUSION_TIER_*"
-#endif
 #include ACTOR_HEADER
 #include "../../../inference/agent_v2/runtime.hpp"
 
@@ -74,6 +65,9 @@ MR_API const char* mr_predictor(void* handle) {
     auto* h = static_cast<Handle*>(handle);
     return h ? h->rt.pred.model_id() : "";
 }
+
+// The opponent model bank compiled in (models_pxxl_vm, count_specialists_p, ...; not part of ABI 1).
+MR_API const char* mr_p_bank() { return agent_v2::kPBank; }
 
 MR_API int mr_observe(void* handle, const char* text, float* feats, unsigned char* unit_legal, unsigned char* joint_mask,
                       float* value_feats, float* ref_prob, int* info) {

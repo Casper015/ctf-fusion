@@ -1,6 +1,7 @@
 // Contract checks of the agent_v2 carrier (task T0065; tests/test_agent_v2.py runs them).
 //
 //   build: c++ -std=c++20 -O2 -I inference -I tools/cpp/meow_rl -DFUSION_TIER_PXXL_VM=1
+//          (or -DFUSION_TIER_CSP=1 -DFUSION_MAX_WIDTH=2048: T0067's per-count specialists)
 //          -DACTOR_HEADER='"<actor.hpp>"' -DCRITIC_HEADER='"<critic.hpp>"' tools/cpp/agent_v2/check.cpp
 //   check resolver <stream.txt>   on every turn of a recorded seat stream and several feasible joints: assign_v1 with
 //                                 its candidate pruning == the unpruned brute force over every target tuple, and the
@@ -14,6 +15,8 @@
 //                                 the search one's root prediction, history and default order equal the other's
 //   check tree <stream.txt> <turn>...  the fixed-work tree of each turn (no deadline): one JSON line per turn on stdout
 //                                 and the leaves' 416 float32 value features in $AGENT_V2_TREE_LEAVES
+//   check bank                    the compiled-in P bank (inference/agent_v2/p_bank.hpp) serves every team count 2-15:
+//                                 "ok bank <bank> models <count>:<model id> ... distinct <n>" (n: distinct policy models)
 //   check step                    stdin: a block (INIT + TURN), a refresh seed, one "move act target" line per unit,
 //                                 then optionally "spots" and one "x y" per flag (-1 -1: not returning); stdout: the
 //                                 successor (turn, score, units, flags, attacks) through Simulator / fusion::step
@@ -31,7 +34,6 @@
 #include <sstream>
 #include <string>
 
-#include "models_pxxl_vm/registry.hpp"
 #include ACTOR_HEADER
 #include CRITIC_HEADER
 #include "../../../inference/agent_v2/runtime.hpp"
@@ -294,15 +296,32 @@ int check_step() {
     return 0;
 }
 
+int check_bank() {
+    std::set<const fusion::PolicyModel*> distinct;
+    std::string line = std::string("ok bank ") + agent_v2::kPBank + " models";
+    for (int teams = 2; teams <= 15; teams++) {
+        const auto* set = agent_v2::p_bank::forTeams(teams);
+        if (!set || !set->policy) {
+            std::printf("no model for %d teams in bank %s\n", teams, agent_v2::kPBank);
+            return 1;
+        }
+        distinct.insert(set->policy);
+        line += " " + std::to_string(teams) + ":" + agent_v2::kPModelPrefix + set->id;
+    }
+    std::printf("%s distinct %d\n", line.c_str(), int(distinct.size()));
+    return 0;
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
     const std::string mode = argc > 1 ? argv[1] : "";
     if (mode == "step") return check_step();
+    if (mode == "bank") return check_bank();
     if (mode == "resolver" && argc > 2) return check_resolver(argv[2]);
     if (mode == "p" && argc > 2) return check_p(argv[2]);
     if (mode == "isolation" && argc > 2) return check_isolation(argv[2]);
     if (mode == "tree" && argc > 2) return check_tree(argv[2], argc - 3, argv + 3);
-    std::fprintf(stderr, "usage: check resolver|p|isolation <stream.txt> | check tree <stream.txt> <turn>... | check step\n");
+    std::fprintf(stderr, "usage: check resolver|p|isolation <stream.txt> | check tree <stream.txt> <turn>... | check step|bank\n");
     return 2;
 }
