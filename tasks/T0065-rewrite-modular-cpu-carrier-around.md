@@ -13,13 +13,17 @@ updated: 2026-10-16
 
 ## Goal
 
-Build a simple, modular CPU carrier that reuses ctf-fusion's learned opponent P, existing PPO actors/critics, mathematical tactical assignment and measured inference kernels. This is a user-requested architecture rewrite for future learning experiments, not a CNN project. First deliver tested code and a migration contract; host training and strength runs follow separate frozen tasks.
+### User-approved direction clarification (2026-10-15 Pacific)
+
+Casper explicitly clarified: this is an architecture redesign, not a behavior-preserving refactor. The new carrier is NOT required to reproduce the original bot's full replies, action choices, tactical scores, feature schemas or search trajectory. These requirements supersede the earlier migration-parity wording. Preserve game semantics, causal inputs, compatible reused-model contracts, numerical correctness and training/deployment consistency. Keep the mathematical tactical layer and MLP direction; replace the old opponent expert/habit system with our P. Preserve legacy artifacts as external controls. The incumbent task owner/branch/status and current code work remain assigned; reconcile implementation with this clarification without resetting work.
+
+Build a simple, modular CPU carrier that reuses ctf-fusion's learned opponent P, existing PPO actors/critics, mathematical tactical assignment and measured inference kernels. This is a user-requested architecture rewrite for future learning experiments, not a CNN project. First deliver a tested redesigned carrier and an explicit new behavior/training contract; host training and strength runs follow separate frozen tasks.
 
 ### Intent and current evidence
 
 Casper requested this task on 2026-10-15 (America/Los_Angeles). Retain the mathematical layer and the MLP direction. Replace the original Meowmind opponent predictor and its hand-written online expert/habit updater in the NEW carrier with our existing P. Preserve the original source, existing bots, checkpoint artifacts and completed evidence as controls.
 
-Planning snapshot: main 58de8cf, PR #58 merged; T0062 is producing aligned exports and T0063/T0064 will diagnose and screen them. Read their latest status before working. This task is not a replacement for those experiments, does not alter their frozen inputs and must not borrow their test seeds. Code work can start independently; consume their conclusions before selecting a critic backend or enabling new search for deployment.
+Historical planning snapshot was main 58de8cf. Read the latest T0062-T0064 status; completed old-carrier results are historical controls and diagnostics, not a behavioral specification for the redesign. Preserve their frozen inputs and consumed seeds. New-carrier precision, training and search choices require validation on the new carrier.
 
 The previous T0057 search had negative utility; a rewritten search is experimental until evaluated. A mathematical DP is exact for its configured local score, not for winning the game. Existing learned P files are reusable artifacts, not proof that every P size or family is a good choice for this carrier.
 
@@ -53,17 +57,17 @@ Two modes share the same state, P, actor and resolver: actor-direct (V used duri
 
 | Existing asset | Decision |
 |---|---|
-| `inference/policy.hpp`, `policy_p3.hpp`, their feature encoders and pinned P2/P3 model registries | Reuse through an explicit adapter. P2 XXL is the initial reference adapter; existing P3 and distilled P3 remain named alternatives, not assumed winners. No new P training here. |
+| `inference/policy.hpp`, `policy_p3.hpp`, their feature encoders and pinned P2/P3 model registries | Reuse through an explicit adapter. P2 XXL is a concrete reusable reference, not a mandatory final choice; existing P3 and distilled P3 remain named alternatives, not assumed winners. No new P training here. |
 | P's joint 125-move distribution, move marginals, action and target heads | Use marginals for the resolver and joint/conditional distributions for enemy scenarios. Retain squad coordination instead of independently sampling three movement marginals. |
 | `training/meow_rl/` PPO, GAE, actors/critics, storage, pool/seed handling | Reuse tested logic. Add a new environment/bridge adapter and run identity without silently changing an old run's code or resume contract. |
 | Warm-start, T0055 and T0059 actor/V checkpoints | Preserve and load only with exact compatible features, units and hashes. They are initialization/reference artifacts after a behavior change, not automatically admitted policies. |
-| Meowmind geometry, prepared-state conventions, 112 actor features and 416 V features | Extract the required implementation with attribution and parity tests. Keep the schemas exact during the first migration. A shared public state does not mean forcing P and pi/V into one feature vector. |
-| `Planner::shots` 8-subset DP | Extract into a resolver taking explicit state, moves and opponent move marginals. Keep the original coefficients and tie order for the first comparison. |
+| Meowmind geometry, prepared-state conventions, 112 actor features and 416 V features | Reuse useful geometry and feature code with attribution. Actor/V feature schemas may change when justified by the new design; version them and reject incompatible weights. Reused frozen P inputs must still satisfy their original encoder contracts. A shared public state does not mean forcing P and pi/V into one feature vector. |
+| `Planner::shots` 8-subset DP | Extract into a resolver taking explicit state, moves and opponent move marginals. Retain the mathematical assignment approach. Original coefficients and tie order are an available reference configuration, not an acceptance constraint on the new design. Document/freeze any scoring changes and never label them engine rules. |
 | Official rules and existing simulators | Retain authoritative semantics. Reuse or repair one simulation module after parity checks; do not write a new learned world model. |
 | `inference/mlp.hpp`, `mlp_float.hpp`, `mlp_wide.hpp`; aligned export/calibration | Reuse numerical implementations and integrity checks. Choose production precision from evidence, not format names. |
 | Search v2 common random numbers, staged budgets, fixed-tree harness and telemetry | Reuse as optional planning machinery, parameterized on the new predictor/resolver/state interfaces. It must never call the original predictor behind those interfaces. |
 | Existing screen, all-seat fault accounting, exact-eight-worker preflight and frozen schedules | Reuse tooling; register new variants and fresh schedules for this carrier. Do not mutate T0062-T0064 inputs. |
-| Original Meowmind learned enemy experts, heuristic expert mixture, evidence arrays and hand-tuned habit updates | Remove from the new production carrier once P replacement is complete. Allow the old implementation only in isolated migration tests/reference builds. |
+| Original Meowmind learned enemy experts, heuristic expert mixture, evidence arrays and hand-tuned habit updates | Remove from the new production carrier once P replacement is complete. Keep the old implementation in historical reference builds; a legacy-predictor adapter is optional and must not delay or constrain the new runtime. |
 | Original Meowmind own-policy inference inside opponent prediction | Remove duplicate evaluations from the new path. The current actor provides our behavior; any own-team marginal needed by an enemy action resolver must come from a documented current-policy forecast. |
 | Original hand-potential V/reward, old deep-beam control flow, monolithic renamed-main include | Exclude from the new production carrier. Preserve historical implementations for tests/attribution. Use reward units consistent with the trained V. |
 | Failed offline own-action scorer, new CNN/Transformer, new giant teacher, full autoregressive attack policy | Exclude from this task. They do not solve the migration contract. |
@@ -82,9 +86,9 @@ Reuse per-team P outputs within exactly the same state/history. Root predictions
 
 ### Resolver and action contract
 
-The resolver consumes a joint move and opponent movement marginals, then returns complete own-team actions. Retain range/line-of-sight calculations, effective-hit/kill terms, pickup opportunity costs, subset assignment, tie-breaking and eligibility exactly for parity. Move fixed coefficients into one named configuration whose default equals the original constants.
+The resolver consumes a joint move and opponent movement marginals, then returns complete own-team actions. Keep exact engine range/line-of-sight, action eligibility and settlement semantics. The subset assignment and its scoring are tactical choices: reuse or improve them under a documented new configuration. Original constants may remain as an optional reference profile, but legacy score/tie-order equivalence is not required.
 
-Be precise about current limits: the resolver normally returns attack targets or pickup/wait; it does not currently generate voluntary drops. Merely exposing the X token is not a learned drop policy. Preserve that behavior initially. Do not conflate existing self-collision avoidance with an engine rule; the actor's feasible mask is a policy restriction and must be documented as such.
+Be precise about current limits: the resolver normally returns attack targets or pickup/wait; it does not currently generate voluntary drops. Merely exposing the X token is not a learned drop policy. Adding a legal drop candidate is optional, not a prerequisite; specify any change explicitly and validate it rather than claiming the existing DP already supports drops. Do not conflate existing self-collision avoidance with an engine rule; the actor's feasible mask is a policy restriction and must be documented as such.
 
 Complete candidate orders, not just movement keys, are passed to the simulator. Preserve exact flag semantics: attacks happen before pickup, pickup before voluntary drop, and drop before capture. A carrier cannot drop and fire in one turn, and a newly voluntarily dropped flag cannot be picked up in that same pickup phase. Cover these with engine-based fixtures before adding any later drop experiment.
 
@@ -98,9 +102,9 @@ Reuse map geometry and deterministic rule calculations. Check simulated transiti
 
 ### Implementation sequence and attribution of changes
 
-1. Inventory exact source/model paths and licenses/attribution; write `docs/AGENT_V2.md` with an architecture diagram and concrete interface contracts. Freeze migration fixtures and model identities.
-2. Extract shared state/features, actor and resolver into the new runtime. A test-only old-predictor adapter must reproduce the legacy actor-direct behavior on full recorded prefixes. Preserve numerical and tie-order equivalence; explain every mismatch before proceeding.
-3. Replace that adapter with our pinned P2 reference. First compare P outputs against its existing implementation on identical states/history, then validate full orders. Wire P action/target conditionals into optional enemy scenario generation. Keep actor weights and resolver coefficients fixed; this is the first behavior-changing arm.
+1. Inventory exact source/model paths and licenses/attribution; write `docs/AGENT_V2.md` with an architecture diagram and concrete interface contracts. Freeze rule/contract fixtures and model identities; old-bot complete-order agreement is not an acceptance gate.
+2. Implement the new public state/history, geometry/features, actor and mathematical resolver around the target design. Validate against official engine rules and the new interface specification. Local equivalence tests are required only for implementations explicitly reused unchanged. Do not build a legacy adapter solely to reproduce old complete decisions.
+3. Integrate a pinned existing P through the new predictor interface. Reused P must match its own encoder/inference implementation on identical inputs, independently of old bot decisions. Wire joint movement and action/target conditionals into the new resolver/scenario generation. The first new carrier may intentionally differ in several design choices; document them and establish a new baseline rather than forcing a one-change migration.
 4. Connect optional V/search through the same state and prediction interfaces. Use fixed work before equal-time gates. Keep branch state and randomness explicit. Preserve a complete actor-direct order before expensive search; record partial-work refusal and fallback.
 5. Add an environment/bridge adapter for future PPO on the new carrier. It must execute the same P/resolver as the native deployment path. Reuse existing GAE/PPO/checkpoint code and build identity checks. Validate finite synthetic updates and log-probability recomputation without launching a full training run.
 6. Deliver the single-file bundler/export configuration and a concrete host handoff with new variant names, commands, pinned models and required evaluation contrasts. Create dependent host validation/adaptation tasks through task.py when the code and relevant T0063/T0064 evidence are available; do not silently start matches or training as part of this code task.
@@ -109,9 +113,9 @@ No production source may include the entire original Meowmind .cpp with main ren
 
 ### Subsequent learning, specified here but not bundled into the rewrite
 
-- Compare legacy-predictor parity carrier versus our-P carrier with frozen actor/V and identical resolver settings. Both actor-direct and search need measured CPU feasibility; do not assume our P is cheaper.
-- Once an opponent P is selected from evidence, freeze it and collect fresh PPO trajectories on the new runtime. Old actor weights can warm-start; old V weights can initialize only if feature/reward schemas match, and must be revalidated. Do not resume an old run while changing the environment silently.
-- A small zero-initialized joint movement residual is the first optional actor extension: sum of existing per-unit scores plus delta(state, joint move). This is a separate ablation with its own identity, not part of structural parity. Reuse the concept of the P squad head, not opponent P weights as an own actor without training.
+- First establish a rule-correct, reproducible new-carrier baseline. Compare its complete bot against historical bots as external strength controls, without requiring matching actions. Isolate individual new design changes in later ablations where useful. Both actor-direct and search need measured CPU feasibility; do not assume our P is cheaper.
+- Once an opponent P is selected from evidence, freeze it and collect fresh PPO trajectories on the new runtime. Old actor/V weights are optional warm starts only when input/output/normalization/reward contracts match; otherwise initialize new networks and train fresh. Do not reduce the new design to fit old checkpoints. Do not resume an old run while changing the environment silently.
+- A small zero-initialized joint movement residual is the first optional actor extension: sum of existing per-unit scores plus delta(state, joint move). This is a separate ablation with its own identity, not required to preserve any legacy behavior. Reuse the concept of the P squad head, not opponent P weights as an own actor without training.
 - Resolver coefficient selection and a drop/keep head remain conditional follow-ups after real-engine tactical diagnostics show headroom. A few discrete profiles are sufficient for a first experiment; Gaussian coefficients and full autoregressive actions are not required.
 - CNNs and new teacher sweeps remain out of scope.
 
@@ -121,29 +125,29 @@ Final deployment is pure CPU, first turn 2 seconds and all later full replies 50
 
 Every future official host match/preflight uses exactly EIGHT game workers under the CPU lease, with GPU training stopped. Freeze variants and settings before results; failure at eight stays failure, never silently reduce to six. Future CUDA training uses its own task and leases. No host timing claims from development machines.
 
-Keep old evidence, raw logs and checkpoint backups. Shared calibration, sampling policy, model-family identities, data lineage, all-seat failures, search counters, actual work, paired map-cluster intervals and multiplicity stay explicit. Unchanged test predictions establish parity, not strength. Changed predictions establish neither improvement nor harm without matched evaluation.
-
+Keep old evidence, raw logs and checkpoint backups. Shared calibration, sampling policy, model-family identities, data lineage, all-seat failures, search counters, actual work, paired map-cluster intervals and multiplicity stay explicit. Local numerical equivalence checks support safe reuse, not strength. Changed complete decisions are expected and establish neither improvement nor harm without matched new-carrier evaluation.
 
 ## Done when
 
 - A source-backed reuse/extract/remove inventory and architecture diagram in docs/AGENT_V2.md, including P versus own actor roles, legacy reference scope and the next learning tasks.
 - A new single-file CPU carrier built from modular attributed code; actor-direct and optional search share one predictor/resolver path. No production dependency on the original expert mixture/habit updater or renamed-main monolith.
-- Reused P model/encoder parity, actor/value feature parity, migration behavior parity under the legacy test adapter, deterministic mathematical resolver parity and complete-action protocol tests.
+- Correct P/model interfaces and numerical equivalence for code explicitly reused unchanged; versioned new actor/V inputs and actions; mathematical resolver tests against its NEW declared scoring/assignment rules; complete-action protocol tests. NO legacy full-action, reply, old scoring or tie-order parity gate.
 - Explicit causal-history, branch-isolation, target-slot, probabilities/marginals, cache identity and state-timing tests; simulator parity with the pinned official engine and lawful hidden flag randomness.
 - Future PPO adapter matches deployment behavior and stored/recomputed movement-action log probabilities; synthetic update/resume contracts pass. A changed P/resolver creates a new run identity.
 - Search precision adapters, fixed-work replay and deadline/fallback counters are usable; tests do not label development timing as host evidence.
 - Exact model/config hashes and new variant names, required core and relevant P-only tests, and a PR covering the declared lanes. No old checkpoint, artifact, frozen schedule or production default overwritten.
 - Host validation/adaptation follow-ups specify exactly eight workers, 2s/50ms full-turn limits, fresh seeds, paired controls and fixed budgets before execution. This task closes on reviewed code/spec delivery, not an invented strength gain or an unperformed training run.
-
+- Acceptance is a correct, reproducible new carrier and tested learning interface. Establish new-carrier baselines before formal fresh training/collection. Historical bot scores are comparison controls, not inherited strength guarantees; compatible old checkpoints are optional initialization.
 
 ## Handoff
 
-*2026-10-15 23:04Z codex-architecture@caspers-macbook:*
+*2026-10-16 00:25Z codex-architecture@caspers-macbook: explicit user-approved redesign clarification*
 
-Planning and source audit completed; implementation has not started. Read this task in full, then claim T0065 and use task.py start to obtain an isolated worktree. Current P2/P3 inference already exposes joint movement, marginals, action types and attack-target slots; preserve those interfaces instead of building a new predictor. Start with the inventory and legacy parity extraction, then replace the predictor. T0062-T0064 remain independent and their frozen artifacts must not change. The new runtime code can start now; host selection/training is a subsequent task, informed by the aligned results. No CNN, full autoregressive rewrite, new teacher run, or match batch was requested for this code task.
+Read the revised Goal and Done when. This replaces the earlier request for legacy behavior parity. Continue in the existing owner's branch/worktree; preserve the owner, status and ongoing work. Implement the new architecture, reuse our P and useful mathematical/inference/training code, and remove the original predictor/habit pipeline from production. No obligation to preserve old full replies, scores, feature dimensions or checkpoint compatibility. Verify official rules, reused-model encodings and numerical semantics, branch/history isolation, protocol, resource limits and training/deployment action probabilities. New action or feature definitions get new identities and fresh training; old compatible weights may optionally initialize. Shared data/training/evaluation on the new carrier starts only after its behavior and interfaces are frozen. Exactly eight game workers for later host gates; 2s/50ms. No full training or match batch is launched by this task update.
 
 ## Log
 
 - 2026-10-15 23:03Z codex-architecture@caspers-macbook: created
 - 2026-10-15 23:04Z codex-architecture@caspers-macbook: handoff prepared
 - 2026-10-16 00:08Z claude-review@caspers-macbook: claimed
+- 2026-10-16 00:25Z codex-architecture@caspers-macbook: updated at Casper's explicit request; redesign permits changed behavior; preserved task owner/status/branch; gated fresh collection on T0065.

@@ -39,7 +39,7 @@ python tools/repo/task.py show T0002    # one task: goal, done-when, handoff, lo
 |---|---|---|---|
 | [T0002](T0002-p-only-stage-1-capacity-and-sampling.md) | host | T0001 | P-only stage 1: capacity and sampling screen at two plies |
 | [T0006](T0006-p-only-phase-5-tune-v-freeze-finalists.md) | host | T0005 | P-only phase 5: freeze the finalists and confirm them |
-| [T0066](T0066-collect-independent-count-specific.md) | host, ai-test | T0064 | Collect independent count-specific opponent datasets |
+| [T0066](T0066-collect-independent-count-specific.md) | host, ai-test | T0064, T0065 | Collect independent count-specific opponent datasets |
 | [T0067](T0067-train-refreshed-per-count-opponent-p.md) | host, cuda, ai-test | T0066 | Train refreshed per-count opponent P specialists |
 | [T0068](T0068-train-exact-count-ppo-policy-and-value.md) | host, cuda, ai-test | T0065, T0067 | Train exact-count PPO policy and value specialists |
 

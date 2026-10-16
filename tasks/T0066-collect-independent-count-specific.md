@@ -5,13 +5,17 @@ status: open
 owner: ""
 needs: [host, ai-test]
 writes: [profiles/count_specialists_collection.json, reports/host/count_specialists_data/, docs/COUNT_SPECIALISTS_SEEDS.md]
-depends: [T0064]
+depends: [T0064, T0065]
 land: pr
 branch: ""
 updated: 2026-10-16
 ---
 
 ## Goal
+
+### New-carrier collection gate (user clarification, 2026-10-15 Pacific)
+
+Formal new collection waits until T0065 freezes the redesigned public state/history, P feature extraction and data interfaces, and T0064 releases the host. An opponent-P-only dataset need not depend on our actor architecture, but no unverified new-carrier observation encoder may silently contaminate its labels. Data protocol design, coverage and per-count sampling design can be prepared first. The existing per-count budget is a future bounded pilot specification, not a request to start it now. Do not reuse old static logs as new-policy PPO data.
 
 Casper authorized fresh data and specialized models for each team count. Collect separate n02 through n15 datasets; do not collapse them into the earlier five bands. Existing P already supports count-specific routing: this refresh is about independent data coverage and training, not inventing that feature.
 
@@ -35,3 +39,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 
 - 2026-10-16 00:12Z codex-count-plan@caspers-macbook: created
 - 2026-10-16 00:12Z codex-count-plan@caspers-macbook: handoff prepared
+- 2026-10-16 00:25Z codex-architecture@caspers-macbook: updated at Casper's explicit request; redesign permits changed behavior; preserved task owner/status/branch; gated fresh collection on T0065.
