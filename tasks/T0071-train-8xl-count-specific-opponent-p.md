@@ -1,7 +1,7 @@
 ---
 id: T0071
 title: "Train 8XL count-specific opponent P teacher models and audit data sufficiency"
-status: active
+status: review
 owner: antigravity@desktop-g60ojud
 needs: [host, cuda, ai-test]
 writes: [reports/models/count_specialists_8xl/, training/train_count_specialists_8xl.py, tests/test_repo_layout.py]
@@ -21,9 +21,12 @@ All 14 8XL models trained, calibrated, evaluated on held-out test data, and docu
 
 ## Handoff
 
-Not started.
+*2026-10-16 18:52Z antigravity@desktop-g60ojud:*
+
+PR https://github.com/Casper015/ctf-fusion/pull/63 opened from branch antigravity/t0071-train-8xl-count-specific-opponent-p. All 14 8XL count-specific opponent P teacher models (19.04M params) trained on CUDA, calibrated, evaluated on held-out test data, and audited for data sufficiency in reports/models/count_specialists_8xl/REPORT.md.
 
 ## Log
 
 - 2026-10-16 18:49Z antigravity@desktop-g60ojud: created
 - 2026-10-16 18:50Z antigravity@desktop-g60ojud: claimed
+- 2026-10-16 18:52Z antigravity@desktop-g60ojud: handoff -> review
