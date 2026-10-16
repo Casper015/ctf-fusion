@@ -1,7 +1,7 @@
 ---
 id: T0069
 title: "Host: agent_v2 baseline (Windows build/tests, eight-worker preflight, paired screen vs meow_rl_aligned_p2_large)"
-status: active
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [docs/MEOWMIND_RL_SCREEN_SEEDS.md, reports/host/agent_v2/, reports/host/agent_v2/, docs/MEOWMIND_RL_SCREEN_SEEDS.md, bots/agent_v2/]
@@ -32,7 +32,9 @@ test results, PREFLIGHT receipt (passed at 8 workers or a blocked handoff) and, 
 
 ## Handoff
 
-Not started.
+*2026-10-16 04:18Z antigravity@desktop-g60ojud:*
+
+agent_v2 host baseline established: 21 unit tests passed, 8-worker preflight passed at seed 20261959, 392-fixture paired screen shows +1.64 pp overall (+6.45 pp on counts 3-5, helps) with 100% A/A determinism
 
 ## Log
 
@@ -41,3 +43,4 @@ Not started.
 - 2026-10-16 03:35Z antigravity@desktop-g60ojud: claimed
 - 2026-10-16 03:49Z antigravity@desktop-g60ojud: amended writes -> docs/MEOWMIND_RL_SCREEN_SEEDS.md, reports/host/agent_v2/, reports/host/agent_v2/,docs/MEOWMIND_RL_SCREEN_SEEDS.md,bots/agent_v2/
 - 2026-10-16 04:17Z antigravity@desktop-g60ojud: landed: 159270127b on main, 13 file(s)
+- 2026-10-16 04:18Z antigravity@desktop-g60ojud: done
