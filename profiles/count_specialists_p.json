@@ -1,0 +1,215 @@
+{
+ "schema": "ctf-count-specialists-p-profile-1",
+ "task": "T0067",
+ "title": "Refreshed per-count opponent P specialists (exact counts 2..15)",
+ "policy_family": "p2",
+ "capacity": "XXL",
+ "max_epochs": 8,
+ "optimizer": {
+  "algorithm": "Adam",
+  "lr": 0.001,
+  "weight_decay": 0.0001
+ },
+ "routing": {
+  "dispatch_mechanism": "forTeams(teams) O(1) table lookup",
+  "rule": "Exact global team count selected from INIT; never runs all 14 specialists per decision"
+ },
+ "models": {
+  "2": {
+   "model": "n02",
+   "weights_header": "weights_n02.hpp",
+   "weights_npz": "weights_n02.npz",
+   "warm_start": "inference/models_xxl/weights_n02.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "3": {
+   "model": "n03",
+   "weights_header": "weights_n03.hpp",
+   "weights_npz": "weights_n03.npz",
+   "warm_start": "inference/models_xxl/weights_n03.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "4": {
+   "model": "n04",
+   "weights_header": "weights_n04.hpp",
+   "weights_npz": "weights_n04.npz",
+   "warm_start": "inference/models_xxl/weights_n04.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "5": {
+   "model": "n05",
+   "weights_header": "weights_n05.hpp",
+   "weights_npz": "weights_n05.npz",
+   "warm_start": "inference/models_xxl/weights_n05.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "6": {
+   "model": "n06",
+   "weights_header": "weights_n06.hpp",
+   "weights_npz": "weights_n06.npz",
+   "warm_start": "inference/models_xxl/weights_n06.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "7": {
+   "model": "n07",
+   "weights_header": "weights_n07.hpp",
+   "weights_npz": "weights_n07.npz",
+   "warm_start": "inference/models_xxl/weights_n07.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "8": {
+   "model": "n08",
+   "weights_header": "weights_n08.hpp",
+   "weights_npz": "weights_n08.npz",
+   "warm_start": "inference/models_xxl/weights_n08.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "9": {
+   "model": "n09",
+   "weights_header": "weights_n09.hpp",
+   "weights_npz": "weights_n09.npz",
+   "warm_start": "inference/models_xxl/weights_general.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "10": {
+   "model": "n10",
+   "weights_header": "weights_n10.hpp",
+   "weights_npz": "weights_n10.npz",
+   "warm_start": "inference/models_xxl/weights_n10.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "11": {
+   "model": "n11",
+   "weights_header": "weights_n11.hpp",
+   "weights_npz": "weights_n11.npz",
+   "warm_start": "inference/models_xxl/weights_general.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "12": {
+   "model": "n12",
+   "weights_header": "weights_n12.hpp",
+   "weights_npz": "weights_n12.npz",
+   "warm_start": "inference/models_xxl/weights_n12.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "13": {
+   "model": "n13",
+   "weights_header": "weights_n13.hpp",
+   "weights_npz": "weights_n13.npz",
+   "warm_start": "inference/models_xxl/weights_general.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "14": {
+   "model": "n14",
+   "weights_header": "weights_n14.hpp",
+   "weights_npz": "weights_n14.npz",
+   "warm_start": "inference/models_xxl/weights_general.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  },
+  "15": {
+   "model": "n15",
+   "weights_header": "weights_n15.hpp",
+   "weights_npz": "weights_n15.npz",
+   "warm_start": "inference/models_xxl/weights_n15.npz",
+   "optimizer_seeds": [
+    101,
+    102,
+    103
+   ],
+   "primary_seed": 101,
+   "capacity": "XXL",
+   "family": "p2"
+  }
+ }
+}

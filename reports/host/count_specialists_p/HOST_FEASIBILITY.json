@@ -1,0 +1,15 @@
+{
+ "schema": "ctf-host-feasibility-receipt-1",
+ "task": "T0067",
+ "evaluated_teams": 15,
+ "turns_evaluated": 400,
+ "rows_evaluated": 6000,
+ "init_budget_ms": 2000,
+ "init_measured_ms": 35.39,
+ "init_passed": true,
+ "turn_budget_ms": 50,
+ "turn_measured_ms": 0.838,
+ "turn_passed": true,
+ "calls_per_turn": 1,
+ "never_runs_all_specialists": true
+}
