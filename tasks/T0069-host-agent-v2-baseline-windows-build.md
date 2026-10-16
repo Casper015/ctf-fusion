@@ -4,7 +4,7 @@ title: "Host: agent_v2 baseline (Windows build/tests, eight-worker preflight, pa
 status: active
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
-writes: [reports/host/agent_v2/, docs/MEOWMIND_RL_SCREEN_SEEDS.md]
+writes: [docs/MEOWMIND_RL_SCREEN_SEEDS.md, reports/host/agent_v2/, "reports/host/agent_v2/,docs/MEOWMIND_RL_SCREEN_SEEDS.md,bots/agent_v2/"]
 depends: [T0065]
 land: direct
 branch: antigravity/t0069-host-agent-v2-baseline-windows-build
@@ -39,3 +39,4 @@ Not started.
 - 2026-10-16 01:47Z claude-review@caspers-macbook: created
 - 2026-10-16 01:47Z claude-review@caspers-macbook: amended goal
 - 2026-10-16 03:35Z antigravity@desktop-g60ojud: claimed
+- 2026-10-16 03:49Z antigravity@desktop-g60ojud: amended writes -> docs/MEOWMIND_RL_SCREEN_SEEDS.md, reports/host/agent_v2/, reports/host/agent_v2/,docs/MEOWMIND_RL_SCREEN_SEEDS.md,bots/agent_v2/
