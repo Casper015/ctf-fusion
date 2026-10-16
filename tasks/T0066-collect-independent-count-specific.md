@@ -1,13 +1,13 @@
 ---
 id: T0066
 title: "Collect independent count-specific opponent datasets"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [profiles/count_specialists_collection.json, reports/host/count_specialists_data/, docs/COUNT_SPECIALISTS_SEEDS.md]
 depends: [T0064, T0065]
 land: pr
-branch: ""
+branch: antigravity/t0066-collect-independent-count-specific
 updated: 2026-10-16
 ---
 
@@ -40,3 +40,4 @@ User-authorized future host work. Read Goal and Done when in full, inspect curre
 - 2026-10-16 00:12Z codex-count-plan@caspers-macbook: created
 - 2026-10-16 00:12Z codex-count-plan@caspers-macbook: handoff prepared
 - 2026-10-16 00:25Z codex-architecture@caspers-macbook: updated at Casper's explicit request; redesign permits changed behavior; preserved task owner/status/branch; gated fresh collection on T0065.
+- 2026-10-16 04:18Z antigravity@desktop-g60ojud: claimed
