@@ -1,0 +1,123 @@
+{
+ "_comment": "The agent_v2 carrier (task T0065, docs/AGENT_V2.md): frozen identities of its first variants and the host evaluations that must follow. Code and specification only: no game, preflight or training has used this profile. Seeds are null until the host task reserves fresh ones in their ledgers before any game; every official run uses exactly 8 game workers under the CPU lease, 2,000 ms first and 50 ms later full replies, the held-out roster, paired fixtures and fixed budgets frozen before play.",
+ "schema": "ctf-agent-v2-1",
+ "task": "T0065",
+ "carrier": "agent_v2_v1",
+ "actor": {
+  "header": "inference/meow_rl/aligned/p2_large/actor.hpp",
+  "sha256": "5462db3232f342f290564ed649c15b29dd20dcc32e4c1a7097c54bc216f7ec8e",
+  "source": "T0059 pool-v2 large-V actor, aligned reference16 export (T0062)"
+ },
+ "critics": {
+  "reference16": {
+   "header": "inference/meow_rl/aligned/p2_large/critic_reference16.hpp",
+   "sha256": "329e9779bb04f49f5f073cface425ed8e5ee5aafd71694ba704e5523100c69eb"
+  },
+  "wideact16": {
+   "header": "inference/meow_rl/aligned/p2_large/critic_wideact16.hpp",
+   "sha256": "32172555373160e8910b6bcaca2b24017ad1c13b727c8cc24655eb5fd87f0a82"
+  },
+  "fp32": {
+   "header": "inference/meow_rl/aligned/p2_large/critic_fp32.hpp",
+   "sha256": "a0694ff7e474ebe5236035b7ed26307af329b03c1a093866f4257c3bc41707e2"
+  }
+ },
+ "predictor": {
+  "kind": "P (opponent model)",
+  "tier": "FUSION_TIER_PXXL_VM",
+  "registry": "inference/models_pxxl_vm/registry.hpp",
+  "manifest_sha256": "6a5d24a4b5b072f30062e290457b044e09022a194edcc325c952c6962b2530ba",
+  "headers": {
+   "general": "4a3044c14f0983686a173a0a3ece1ac59b50252dbaeecda79406330fddd8d1d1",
+   "n02": "39ba7d4c1b186eded47774dbf4ccd6cbc48def199fc859455ea6a2e5c51fdcb5",
+   "n03": "ffc4e388cdcb49d02cd42c1e6d4d46c07c24bcfb47e26f65d427965c644434d2",
+   "n04": "7f6c1bc30c46c71f8e2883b6f6c672867b1a2a405cfd032a24c4c2c7c8a729f3",
+   "n05": "7824c1d5b945557fcd99d70bdd4049ef5eb26056ecece90b058147925a7709ff",
+   "n06": "8ae640133aef2222d125f86ada348bb35c5f40fa5bb43855cc3f1348fec2b8e3",
+   "n07": "1545a6ddf59857bd64d4b6b014009c629fd1e38037cf4c35fe9650c5ecb18c6c",
+   "n08": "7fb7f88d43a1695a0481fc2b9341bbb38fb5ec3cadc30a282b2aa18a88f4b207",
+   "n10": "02ab30b6dedf3b50fea278ee383d2a70a493a73b406c7df6b235da8793f4f935",
+   "n12": "73e845b2259f9402c4f6f79ed0ebe3a4cbb438545cf0dc62ce53340e0b4a3451",
+   "n15": "4d3d714aa88ab4a75528f899ebbdaafafbfe01dc6822d6566b9ad0485f52f6f2"
+  },
+  "dispatch": "dedicated n02-n08, n10, n12, n15; general at 9, 11, 13, 14",
+  "mixture": "none"
+ },
+ "resolver": {
+  "rule": "assign_v1",
+  "profile": "dp_v1",
+  "scenarios": 8,
+  "coefficients": {
+   "hit": 0.045,
+   "kill": 0.2,
+   "carrier_kill": 0.65,
+   "pickup_capture": 1.2,
+   "pickup": 0.32
+  },
+  "declared_in": "inference/agent_v2/resolver.hpp",
+  "drops": "never (not part of assign_v1)"
+ },
+ "search": {
+  "candidates": 4,
+  "samples": 2,
+  "branch_scenarios": 4,
+  "deadline_ms": 30,
+  "first_ms": 1500,
+  "safety_pct": 150,
+  "prior_us": {
+   "setup": 3000,
+   "trajectory": 8000,
+   "expand": 6000,
+   "critic": 2000,
+   "reply": 1000
+  },
+  "status": "experimental: no setting is validated until an eight-worker preflight passes"
+ },
+ "variants": {
+  "agent_v2_p2xxl_direct": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp",
+  "agent_v2_p2xxl_search_r16": "bots/agent_v2/variants/agent_v2_p2xxl_search_r16.cpp",
+  "agent_v2_p2xxl_search_w16": "bots/agent_v2/variants/agent_v2_p2xxl_search_w16.cpp",
+  "agent_v2_p2xxl_search_fp32": "bots/agent_v2/variants/agent_v2_p2xxl_search_fp32.cpp"
+ },
+ "required_host_evaluations": [
+  {
+   "name": "new-carrier baseline, actor-direct",
+   "arms": [
+    "agent_v2_p2xxl_direct",
+    "meow_rl_aligned_p2_large"
+   ],
+   "question": "the redesigned carrier against the deployed actor-direct bot with the same actor",
+   "caveat": "a carrier comparison: P, resolver and simulator change together; not a single-factor mechanism result",
+   "primary": "agent_v2_p2xxl_direct - meow_rl_aligned_p2_large"
+  },
+  {
+   "name": "search on the new carrier",
+   "arms": [
+    "agent_v2_p2xxl_direct",
+    "agent_v2_p2xxl_search_r16",
+    "agent_v2_p2xxl_search_w16",
+    "agent_v2_p2xxl_search_fp32"
+   ],
+   "question": "only after T0064's verdicts and fixed-work diagnostics on agent_v2 trees; equal-time packages, one Bonferroni family"
+  }
+ ],
+ "host_gate": {
+  "workers": 8,
+  "limits_ms": [
+   2000,
+   50
+  ],
+  "preflight": "bots/meow_rl/aligned/preflight.py pattern: counts 2/5/8/15, 16 maps each, every variant, all-seat faults, counter coverage",
+  "seeds": {
+   "preflight": null,
+   "screen": null
+  },
+  "startup": "every served team count's P model is linked into one binary: measure the 2,000 ms first reply at 15 teams"
+ },
+ "action_schema": "agent_v2_actions_v1",
+ "features": {
+  "actor": "meow_policy112_v1",
+  "critic": "meow_public416_v1"
+ },
+ "simulator": "fusion::step (inference/sim.hpp) + lawful refresh sampling (inference/agent_v2/simulate.hpp)"
+}
