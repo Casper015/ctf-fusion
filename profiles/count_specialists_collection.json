@@ -1,0 +1,34 @@
+{
+ "_comment": "Count specialists independent opponent dataset collection (task T0066, docs/COUNT_SPECIALISTS_SEEDS.md). Exactly 8 workers under task CPU lease, official 2,000 ms first / 50 ms later limits. 200 fresh maps per count across counts 2-15 (2,800 matches total). Approved training pool excludes held-out testing models. Splits: 140 train / 30 val / 30 test map groups per count.",
+ "schema": "ctf-count-specialists-collection-1",
+ "task": "T0066",
+ "counts": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+ "maps_per_count": 200,
+ "total_matches": 2800,
+ "split": {
+  "train": 140,
+  "val": 30,
+  "test": 30
+ },
+ "workers": 8,
+ "workers_exact": true,
+ "limits_ms": [2000, 50],
+ "pool_profile": "profiles/meow_rl_training_pool_v2.json",
+ "held_out_lineages": [
+  "Fable",
+  "MiMo",
+  "Kimi",
+  "GLM",
+  "Player2",
+  "Player4",
+  "Player6"
+ ],
+ "seeds_ledger": "docs/COUNT_SPECIALISTS_SEEDS.md",
+ "base_seed_offset": 20262000,
+ "preflight_seed": 20262099,
+ "output_dirs": {
+  "raw": "data/count_specialists_data/raw",
+  "shards": "data/count_specialists_data/shards",
+  "reports": "reports/host/count_specialists_data"
+ }
+}

@@ -1,0 +1,18 @@
+{
+ "schema": "ctf-collector-preflight-1",
+ "task": "T0066",
+ "seed": 20262099,
+ "workers": 8,
+ "matches_played": 16,
+ "total_turns": 6400,
+ "total_faults": 0,
+ "valid_label_rate": 1.0,
+ "extraction_shape": [
+  800,
+  923
+ ],
+ "wall_seconds": 20.05,
+ "engine_sha256": "07e43f6210c640d87a9161193a71c394fde157f816af004d37a68ecc1e36a14a",
+ "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+ "passed": true
+}

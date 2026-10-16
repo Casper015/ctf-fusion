@@ -1,0 +1,703 @@
+{
+ "schema": "ctf-count-specialists-corpora-1",
+ "task": "T0066",
+ "matches_total": 2800,
+ "counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "maps_per_count": 200,
+ "workers": 8,
+ "wall_seconds": 3374.8,
+ "all_seat_faults": 536,
+ "duplicate_geometries_crossing_splits": [],
+ "summary_by_count": {
+  "n02": {
+   "count": 2,
+   "count_key": "n02",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 112000,
+    "val": 24000,
+    "test": 24000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 112000,
+     "carrier_rows": 79665,
+     "valid_labels": 112000,
+     "stratum_quiet": 5672,
+     "stratum_flag": 53552,
+     "stratum_contact": 29551,
+     "stratum_respawn": 23225
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 24000,
+     "carrier_rows": 17256,
+     "valid_labels": 24000,
+     "stratum_quiet": 1241,
+     "stratum_flag": 11408,
+     "stratum_contact": 6461,
+     "stratum_respawn": 4890
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 24000,
+     "carrier_rows": 16875,
+     "valid_labels": 24000,
+     "stratum_quiet": 1155,
+     "stratum_flag": 11624,
+     "stratum_contact": 6576,
+     "stratum_respawn": 4645
+    }
+   }
+  },
+  "n03": {
+   "count": 3,
+   "count_key": "n03",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 168000,
+    "val": 36000,
+    "test": 36000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 168000,
+     "carrier_rows": 137377,
+     "valid_labels": 168000,
+     "stratum_quiet": 29312,
+     "stratum_flag": 63051,
+     "stratum_contact": 39803,
+     "stratum_respawn": 35834
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 36000,
+     "carrier_rows": 29154,
+     "valid_labels": 36000,
+     "stratum_quiet": 6037,
+     "stratum_flag": 13270,
+     "stratum_contact": 8502,
+     "stratum_respawn": 8191
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 36000,
+     "carrier_rows": 29224,
+     "valid_labels": 36000,
+     "stratum_quiet": 6211,
+     "stratum_flag": 13482,
+     "stratum_contact": 8531,
+     "stratum_respawn": 7776
+    }
+   }
+  },
+  "n04": {
+   "count": 4,
+   "count_key": "n04",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 224000,
+    "val": 48000,
+    "test": 48000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 224000,
+     "carrier_rows": 175306,
+     "valid_labels": 224000,
+     "stratum_quiet": 36754,
+     "stratum_flag": 69773,
+     "stratum_contact": 64539,
+     "stratum_respawn": 52934
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 48000,
+     "carrier_rows": 37783,
+     "valid_labels": 48000,
+     "stratum_quiet": 8151,
+     "stratum_flag": 14885,
+     "stratum_contact": 13502,
+     "stratum_respawn": 11462
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 48000,
+     "carrier_rows": 37604,
+     "valid_labels": 48000,
+     "stratum_quiet": 7776,
+     "stratum_flag": 15026,
+     "stratum_contact": 13332,
+     "stratum_respawn": 11866
+    }
+   }
+  },
+  "n05": {
+   "count": 5,
+   "count_key": "n05",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 280000,
+    "val": 60000,
+    "test": 60000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 280000,
+     "carrier_rows": 205297,
+     "valid_labels": 280000,
+     "stratum_quiet": 23016,
+     "stratum_flag": 111115,
+     "stratum_contact": 84566,
+     "stratum_respawn": 61303
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 60000,
+     "carrier_rows": 43257,
+     "valid_labels": 60000,
+     "stratum_quiet": 4525,
+     "stratum_flag": 24250,
+     "stratum_contact": 17388,
+     "stratum_respawn": 13837
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 60000,
+     "carrier_rows": 44044,
+     "valid_labels": 60000,
+     "stratum_quiet": 4798,
+     "stratum_flag": 23940,
+     "stratum_contact": 18406,
+     "stratum_respawn": 12856
+    }
+   }
+  },
+  "n06": {
+   "count": 6,
+   "count_key": "n06",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 336000,
+    "val": 72000,
+    "test": 72000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 336000,
+     "carrier_rows": 269717,
+     "valid_labels": 336000,
+     "stratum_quiet": 56216,
+     "stratum_flag": 111397,
+     "stratum_contact": 92105,
+     "stratum_respawn": 76282
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 72000,
+     "carrier_rows": 57505,
+     "valid_labels": 72000,
+     "stratum_quiet": 11466,
+     "stratum_flag": 23869,
+     "stratum_contact": 19820,
+     "stratum_respawn": 16845
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 72000,
+     "carrier_rows": 57192,
+     "valid_labels": 72000,
+     "stratum_quiet": 11713,
+     "stratum_flag": 23741,
+     "stratum_contact": 19353,
+     "stratum_respawn": 17193
+    }
+   }
+  },
+  "n07": {
+   "count": 7,
+   "count_key": "n07",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 392000,
+    "val": 84000,
+    "test": 84000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 392000,
+     "carrier_rows": 307780,
+     "valid_labels": 392000,
+     "stratum_quiet": 51584,
+     "stratum_flag": 148506,
+     "stratum_contact": 106693,
+     "stratum_respawn": 85217
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 84000,
+     "carrier_rows": 65825,
+     "valid_labels": 84000,
+     "stratum_quiet": 10749,
+     "stratum_flag": 31759,
+     "stratum_contact": 22629,
+     "stratum_respawn": 18863
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 84000,
+     "carrier_rows": 65981,
+     "valid_labels": 84000,
+     "stratum_quiet": 11047,
+     "stratum_flag": 31980,
+     "stratum_contact": 23273,
+     "stratum_respawn": 17700
+    }
+   }
+  },
+  "n08": {
+   "count": 8,
+   "count_key": "n08",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 448000,
+    "val": 96000,
+    "test": 96000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 448000,
+     "carrier_rows": 342412,
+     "valid_labels": 448000,
+     "stratum_quiet": 51026,
+     "stratum_flag": 157766,
+     "stratum_contact": 136567,
+     "stratum_respawn": 102641
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 96000,
+     "carrier_rows": 72662,
+     "valid_labels": 96000,
+     "stratum_quiet": 10760,
+     "stratum_contact": 28752,
+     "stratum_flag": 33599,
+     "stratum_respawn": 22889
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 96000,
+     "carrier_rows": 73325,
+     "valid_labels": 96000,
+     "stratum_quiet": 11017,
+     "stratum_contact": 29036,
+     "stratum_flag": 34459,
+     "stratum_respawn": 21488
+    }
+   }
+  },
+  "n09": {
+   "count": 9,
+   "count_key": "n09",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 504000,
+    "val": 108000,
+    "test": 108000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 504000,
+     "carrier_rows": 371008,
+     "valid_labels": 504000,
+     "stratum_quiet": 43184,
+     "stratum_contact": 147207,
+     "stratum_flag": 200677,
+     "stratum_respawn": 112932
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 108000,
+     "carrier_rows": 79700,
+     "valid_labels": 108000,
+     "stratum_quiet": 9455,
+     "stratum_contact": 31686,
+     "stratum_flag": 42797,
+     "stratum_respawn": 24062
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 108000,
+     "carrier_rows": 79617,
+     "valid_labels": 108000,
+     "stratum_quiet": 9289,
+     "stratum_contact": 31209,
+     "stratum_flag": 43154,
+     "stratum_respawn": 24348
+    }
+   }
+  },
+  "n10": {
+   "count": 10,
+   "count_key": "n10",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 560000,
+    "val": 120000,
+    "test": 120000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 560000,
+     "carrier_rows": 405319,
+     "valid_labels": 560000,
+     "stratum_quiet": 43872,
+     "stratum_contact": 174965,
+     "stratum_respawn": 129705,
+     "stratum_flag": 211458
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 120000,
+     "carrier_rows": 87496,
+     "valid_labels": 120000,
+     "stratum_quiet": 9647,
+     "stratum_contact": 37158,
+     "stratum_flag": 45575,
+     "stratum_respawn": 27620
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 120000,
+     "carrier_rows": 86807,
+     "valid_labels": 120000,
+     "stratum_quiet": 9777,
+     "stratum_contact": 37286,
+     "stratum_flag": 45298,
+     "stratum_respawn": 27639
+    }
+   }
+  },
+  "n11": {
+   "count": 11,
+   "count_key": "n11",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 616000,
+    "val": 132000,
+    "test": 132000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 616000,
+     "carrier_rows": 474975,
+     "valid_labels": 615999,
+     "stratum_quiet": 69967,
+     "stratum_contact": 171893,
+     "stratum_flag": 243752,
+     "stratum_respawn": 130388
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 132000,
+     "carrier_rows": 101746,
+     "valid_labels": 132000,
+     "stratum_quiet": 14731,
+     "stratum_contact": 37352,
+     "stratum_respawn": 27754,
+     "stratum_flag": 52163
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 132000,
+     "carrier_rows": 101098,
+     "valid_labels": 132000,
+     "stratum_quiet": 14658,
+     "stratum_contact": 36147,
+     "stratum_flag": 52148,
+     "stratum_respawn": 29047
+    }
+   }
+  },
+  "n12": {
+   "count": 12,
+   "count_key": "n12",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 672000,
+    "val": 144000,
+    "test": 144000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 672000,
+     "carrier_rows": 506269,
+     "valid_labels": 671981,
+     "stratum_quiet": 69182,
+     "stratum_contact": 196173,
+     "stratum_flag": 254888,
+     "stratum_respawn": 151757
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 144000,
+     "carrier_rows": 107856,
+     "valid_labels": 143992,
+     "stratum_quiet": 14299,
+     "stratum_contact": 42422,
+     "stratum_flag": 54705,
+     "stratum_respawn": 32574
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 144000,
+     "carrier_rows": 108350,
+     "valid_labels": 143994,
+     "stratum_quiet": 14731,
+     "stratum_contact": 42531,
+     "stratum_flag": 54466,
+     "stratum_respawn": 32272
+    }
+   }
+  },
+  "n13": {
+   "count": 13,
+   "count_key": "n13",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 728000,
+    "val": 156000,
+    "test": 156000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 728000,
+     "carrier_rows": 543523,
+     "valid_labels": 727946,
+     "stratum_quiet": 66166,
+     "stratum_contact": 211703,
+     "stratum_flag": 292636,
+     "stratum_respawn": 157495
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 156000,
+     "carrier_rows": 116246,
+     "valid_labels": 155985,
+     "stratum_quiet": 14186,
+     "stratum_contact": 45117,
+     "stratum_flag": 62439,
+     "stratum_respawn": 34258
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 156000,
+     "carrier_rows": 116176,
+     "valid_labels": 155980,
+     "stratum_quiet": 13660,
+     "stratum_contact": 45683,
+     "stratum_flag": 62757,
+     "stratum_respawn": 33900
+    }
+   }
+  },
+  "n14": {
+   "count": 14,
+   "count_key": "n14",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 784000,
+    "val": 168000,
+    "test": 168000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 784000,
+     "carrier_rows": 574349,
+     "valid_labels": 783905,
+     "stratum_quiet": 64818,
+     "stratum_contact": 242329,
+     "stratum_respawn": 172469,
+     "stratum_flag": 304384
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 168000,
+     "carrier_rows": 123980,
+     "valid_labels": 167988,
+     "stratum_quiet": 14034,
+     "stratum_contact": 51933,
+     "stratum_respawn": 36866,
+     "stratum_flag": 65167
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 168000,
+     "carrier_rows": 123074,
+     "valid_labels": 167975,
+     "stratum_quiet": 13935,
+     "stratum_contact": 51347,
+     "stratum_respawn": 37381,
+     "stratum_flag": 65337
+    }
+   }
+  },
+  "n15": {
+   "count": 15,
+   "count_key": "n15",
+   "total_matches": 200,
+   "split_matches": {
+    "train": 140,
+    "val": 30,
+    "test": 30
+   },
+   "shard_rows": {
+    "train": 840000,
+    "val": 180000,
+    "test": 180000
+   },
+   "unique_geometries": 200,
+   "split_stats": {
+    "train": {
+     "turns": 56000,
+     "rows": 840000,
+     "carrier_rows": 606750,
+     "valid_labels": 839789,
+     "stratum_quiet": 61202,
+     "stratum_contact": 252655,
+     "stratum_respawn": 181545,
+     "stratum_flag": 344598
+    },
+    "val": {
+     "turns": 12000,
+     "rows": 180000,
+     "carrier_rows": 130585,
+     "valid_labels": 179974,
+     "stratum_quiet": 13140,
+     "stratum_contact": 54471,
+     "stratum_respawn": 38353,
+     "stratum_flag": 74036
+    },
+    "test": {
+     "turns": 12000,
+     "rows": 180000,
+     "carrier_rows": 130554,
+     "valid_labels": 179956,
+     "stratum_quiet": 12975,
+     "stratum_contact": 54665,
+     "stratum_respawn": 38612,
+     "stratum_flag": 73748
+    }
+   }
+  }
+ },
+ "engine_sha256": "07e43f6210c640d87a9161193a71c394fde157f816af004d37a68ecc1e36a14a",
+ "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+ "git_commit": "fbee1d664eec88565fda041d1444f37749c96ba2"
+}

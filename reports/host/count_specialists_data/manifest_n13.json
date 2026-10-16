@@ -1,0 +1,48 @@
+{
+ "count": 13,
+ "count_key": "n13",
+ "total_matches": 200,
+ "split_matches": {
+  "train": 140,
+  "val": 30,
+  "test": 30
+ },
+ "shard_rows": {
+  "train": 728000,
+  "val": 156000,
+  "test": 156000
+ },
+ "unique_geometries": 200,
+ "split_stats": {
+  "train": {
+   "turns": 56000,
+   "rows": 728000,
+   "carrier_rows": 543523,
+   "valid_labels": 727946,
+   "stratum_quiet": 66166,
+   "stratum_contact": 211703,
+   "stratum_flag": 292636,
+   "stratum_respawn": 157495
+  },
+  "val": {
+   "turns": 12000,
+   "rows": 156000,
+   "carrier_rows": 116246,
+   "valid_labels": 155985,
+   "stratum_quiet": 14186,
+   "stratum_contact": 45117,
+   "stratum_flag": 62439,
+   "stratum_respawn": 34258
+  },
+  "test": {
+   "turns": 12000,
+   "rows": 156000,
+   "carrier_rows": 116176,
+   "valid_labels": 155980,
+   "stratum_quiet": 13660,
+   "stratum_contact": 45683,
+   "stratum_flag": 62757,
+   "stratum_respawn": 33900
+  }
+ }
+}
