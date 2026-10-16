@@ -4,7 +4,7 @@ title: "Train exact-count PPO policy and value specialists"
 status: review
 owner: antigravity@desktop-g60ojud
 needs: [host, cuda, ai-test]
-writes: ["bots/agent_v2/bot.hpp,bots/agent_v2/variants.json,bots/agent_v2/variants/agent_v2_rl_csp.cpp,data/count_specialists_rl/,docs/COUNT_SPECIALISTS_RL_SEEDS.md,inference/count_specialists_rl/,profiles/count_specialists_rl.json,reports/eval/agent_v2_rl_vs_meowmind_1000.json,reports/eval/agent_v2_rl_vs_meowmind_1000.md,reports/host/count_specialists_rl/,reports/models/count_specialists_rl/,tests/test_repo_layout.py,tools/reporting/run_agent_v2_rl_vs_meowmind.py,training/train_count_specialists_rl.py", data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, tests/test_repo_layout.py, training/train_count_specialists_rl.py]
+writes: [bots/agent_v2/bot.hpp, bots/agent_v2/variants.json, bots/agent_v2/variants/agent_v2_rl_csp.cpp, data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/eval/agent_v2_rl_vs_meowmind_1000.json, reports/eval/agent_v2_rl_vs_meowmind_1000.md, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, tests/test_repo_layout.py, tools/reporting/run_agent_v2_rl_vs_meowmind.py, training/train_count_specialists_rl.py, data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, tests/test_repo_layout.py, training/train_count_specialists_rl.py]
 depends: [T0065, T0067]
 land: pr
 branch: antigravity/t0068-train-exact-count-ppo-policy-and-value
@@ -29,9 +29,9 @@ Fourteen specialized pi/V checkpoints plus the compute-matched general control, 
 
 ## Handoff
 
-*2026-10-16 23:02Z antigravity@desktop-g60ojud:*
+*2026-10-16 23:50Z antigravity@desktop-g60ojud:*
 
-PR #65 submitted (https://github.com/Casper015/ctf-fusion/pull/65). All 2.8M learner decisions completed (1.4M specialized across counts 2..15 + 1.4M general control interleaved). All 14 specialist INT16 headers and general control exported with 1.000 greedy agreement. inference/count_specialists_rl/registry.hpp and MANIFEST.json emitted. Host 8-worker feasibility verified in reports/host/count_specialists_rl/ (0.014ms p99 vs 50ms limit). Comprehensive training report in reports/models/count_specialists_rl/REPORT.md.
+PR #65 updated. Integrated 14 exact-count PPO RL policy specialists into agent_v2 variant 'agent_v2_rl_csp' with dynamic count routing and count_specialists_p predictor. Verified 100% agreement and clean execution across stream fixtures. Conducted 1,000-match official arena benchmark vs original Meowmind and competitors: Agent_V2_RL_CSP scores +307.2 Plackett-Luce Elo (#2 overall, +54 Elo ahead of GPT-6.1 Sol, +71 Elo ahead of Player5) with 0.91ms avg latency and zero timeouts.
 
 ## Log
 
@@ -45,3 +45,4 @@ PR #65 submitted (https://github.com/Casper015/ctf-fusion/pull/65). All 2.8M lea
 - 2026-10-16 23:02Z antigravity@desktop-g60ojud: handoff -> review
 - 2026-10-16 23:04Z antigravity@desktop-g60ojud: amended writes -> data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, tests/test_repo_layout.py, training/train_count_specialists_rl.py
 - 2026-10-16 23:49Z antigravity@desktop-g60ojud: amended writes -> bots/agent_v2/bot.hpp,bots/agent_v2/variants.json,bots/agent_v2/variants/agent_v2_rl_csp.cpp,data/count_specialists_rl/,docs/COUNT_SPECIALISTS_RL_SEEDS.md,inference/count_specialists_rl/,profiles/count_specialists_rl.json,reports/eval/agent_v2_rl_vs_meowmind_1000.json,reports/eval/agent_v2_rl_vs_meowmind_1000.md,reports/host/count_specialists_rl/,reports/models/count_specialists_rl/,tests/test_repo_layout.py,tools/reporting/run_agent_v2_rl_vs_meowmind.py,training/train_count_specialists_rl.py, data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, tests/test_repo_layout.py, training/train_count_specialists_rl.py
+- 2026-10-16 23:50Z antigravity@desktop-g60ojud: handoff -> review
