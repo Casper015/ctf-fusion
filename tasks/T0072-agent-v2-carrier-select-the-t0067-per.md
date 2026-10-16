@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-16 18:52Z claude-csp@caspers-macbook: created
 - 2026-10-16 18:52Z claude-csp@caspers-macbook: amended depends -> none
+- 2026-10-16 18:52Z claude-csp@caspers-macbook: note: dropped depends T0067: its PR 62 is merged into main (b0f5a3b), so inference/count_specialists_p/ is on main; T0067 only awaits its board done mark
