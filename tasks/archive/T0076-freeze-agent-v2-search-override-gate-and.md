@@ -1,7 +1,7 @@
 ---
 id: T0076
 title: "Freeze agent_v2 search override gate and wider fixed-work diagnostics"
-status: review
+status: done
 owner: claude-t76@caspers-macbook
 needs: []
 writes: [inference/agent_v2/search.hpp, bots/agent_v2/search_gate/, tools/cpp/agent_v2/check.cpp, tools/screens/search_gate_offline/, tests/test_agent_v2_search_gate.py, docs/AGENT_V2_SEARCH_GATE.md, docs/SEARCH_GATE_DIAGNOSTIC_SEEDS.md]
@@ -21,32 +21,9 @@ PR merged with reproducible diagnostic receipts, the frozen tau and breadth, gat
 
 ## Handoff
 
-*2026-10-17 05:28Z claude-t76@caspers-macbook:*
+*2026-10-17 05:39Z claude-t76@caspers-macbook:*
 
-In review: PR https://github.com/Casper015/ctf-fusion/pull/67 (branch claude-t76/t0076-freeze-agent-v2-search-override-gate-and).
-
-Done:
-- 885fda2: gate (`gated_choice`, AGENT_V2_SEARCH_TAU, default 0 = old behaviour for finite means), plus the pre-registered rule in docs/AGENT_V2_SEARCH_GATE.md section 1, written before any margin was computed. Seed 20262120 reserved in docs/SEARCH_GATE_DIAGNOSTIC_SEEDS.md.
-- fb273c9, 01a6abe: `check gate` / `check gatetree`, tools/screens/search_gate_offline/{run,analyze}.py, bots/agent_v2/search_gate/bot.hpp, tests/test_agent_v2_search_gate.py. Codex review fixes: a non-finite mean anywhere keeps the actor; sums are sequential, like Search::choose; isolation is checked at both breadths.
-- a08a415: frozen W = 8 candidates x 4 scenarios, tau 0.002.
-  - selection on n02 + n15 (every seat); validation on n04 passed: C 0.754 [0.718, 0.788], G > 0;
-  - eps 2.9e-7; parity bit-exact; isolation ok;
-  - receipts in bots/agent_v2/search_gate/diagnostics/ (TREES sha256 57edea1a...).
-- Variants agent_v2_p2xxl_gw8x4_fp32 (tau 0.002) and agent_v2_p2xxl_uw8x4_fp32 (tau 0); bots/agent_v2/search_gate/variants.json includes D.
-
-Tests:
-- tests/test_agent_v2_search_gate.py: 12 ok.
-- tests/test_agent_v2.py: 21 ok, before merging main.
-- The full discover after merging main was stopped by request; CI covers it.
-
-Reproduce: `python3 tools/screens/search_gate_offline/run.py --jobs 8 && python3 tools/screens/search_gate_offline/analyze.py`. The analyze step reproduces byte-identically.
-
-Not shown / uncertain:
-- This is numerical self-consistency under the search's own simulator, P and critic. It says nothing about winning.
-- The corpus is 3 games, and the bootstrap resamples states, so the intervals are optimistic.
-- The gate is mild: 68% of roots are still overridden, against 78% ungated.
-
-RISK for T0079: admission settings are unchanged. Each trajectory must be admitted before 16.5 ms of the 30 ms deadline, and the worst-seen cost never decays. On the Mac (not evidence) most 8x4 trees were incomplete, and almost none at 15 teams. If the host is similar, GW and UW play D's order. T0079's preflight must report search_used per arm and count. An agent_v2 search admission calibration task on the host may be needed first.
+Merged PR 67 as b3be3451c3 at Casper's request, with 6 CI jobs still pending (main CI checked after the merge). Frozen: 8 candidates x 4 scenarios, tau 0.002 (pre-registered rule, docs/AGENT_V2_SEARCH_GATE.md); n04 validation passed (C 0.754 [0.718, 0.788], G > 0); host variants agent_v2_p2xxl_gw8x4_fp32 / uw8x4_fp32 in bots/agent_v2/search_gate/. Self-consistency only, not strength. Risk for T0079: on the Mac most 8x4 trees did not complete (almost none at 15 teams), so its preflight must count completed trees per count. Closed by claude-review on behalf of the deleted claude-t76 session.
 
 ## Log
 
@@ -54,3 +31,4 @@ RISK for T0079: admission settings are unchanged. Each trajectory must be admitt
 - 2026-10-17 04:21Z claude-t76@caspers-macbook: claimed
 - 2026-10-17 05:28Z claude-t76@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/67: frozen W 8x4, tau 0.002; validation passed; GW/UW variants
 - 2026-10-17 05:28Z claude-t76@caspers-macbook: handoff -> review
+- 2026-10-17 05:39Z claude-t76@caspers-macbook: done
