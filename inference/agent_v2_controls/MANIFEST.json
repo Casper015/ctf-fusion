@@ -1,0 +1,60 @@
+{
+ "schema": "ctf-agent-v2-controls-init-1",
+ "task": "T0075",
+ "generator": "tools/screens/next_controls/export_init_actor.py",
+ "created": "2026-10-16T22:57:34-0700",
+ "source": {
+  "path": "data/count_specialists_rl/init_actor.npz",
+  "sha256": "34c7de9ab13772b72c460ba7003f9bd13f67622bca6831d5e688964bf9f60d95",
+  "origin": "task T0068, runs/count_specialists_rl/general_control/config.json, commit c44bb2d"
+ },
+ "calibration": {
+  "path": "data/count_specialists_rl/calibration.npz",
+  "sha256": "aee2f7e6439e8df3e02054021985f8cc47c911361b9b35981c7f6c23b7d8c5c4",
+  "rows": 224000,
+  "used_rows": 50000,
+  "observations": 750000,
+  "margin": 1.1
+ },
+ "reproduction": {
+  "model": "general",
+  "npz_sha256": "819c0cfaea4182154ba7a2a0e9b66be780f6a8867e9d25364fcb1f83cab9f368",
+  "digest": "21cf1cfe17cbb25b90c17c9cc7bcee29c65df68b95fcd3fa5e5e5f5def4ecf1c",
+  "committed_digest": "21cf1cfe17cbb25b90c17c9cc7bcee29c65df68b95fcd3fa5e5e5f5def4ecf1c",
+  "agreement": {
+   "greedy_agreement": 0.956,
+   "mean_abs_logp_error": 0.30577546374981934,
+   "max_abs_logp_error": 2.450832626063818,
+   "max_abs_prob_error": 0.22711913384136628,
+   "saturated": [
+    0,
+    0
+   ],
+   "eval_observations": 2000
+  },
+  "equal": true
+ },
+ "model": {
+  "name": "init_actor",
+  "namespace": "fusion::models::rl_init",
+  "header_path": "inference/agent_v2_controls/init_actor.hpp",
+  "header_sha256": "6875a6f2d920a58b3cf5b5a836dfd55a2748de5b45549d14d809332fabd8d059",
+  "npz_path": "inference/agent_v2_controls/init_actor.npz",
+  "npz_sha256": "34c7de9ab13772b72c460ba7003f9bd13f67622bca6831d5e688964bf9f60d95",
+  "scheme": "meow_rl_reference16_v1",
+  "in_bits": 12,
+  "temperature": 1.05,
+  "out_exp": 16,
+  "digest": "b931241fc98f3df2e377eea44be8bd281e7053bc14da98156293bf282a75dec0",
+  "identity": "04da5755d6a17403b0dafbf149f0cc947f31c7d3713835c2a36712374eba037b",
+  "greedy_agreement": 0.9565,
+  "mean_abs_logp_error": 0.334284067603429,
+  "max_abs_logp_error": 2.1655873676818764,
+  "max_abs_prob_error": 0.2486493893642734,
+  "saturated": [
+   0,
+   0
+  ],
+  "eval_observations": 2000
+ }
+}
