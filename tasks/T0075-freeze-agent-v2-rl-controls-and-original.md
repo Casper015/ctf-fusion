@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-17 04:06Z claude-review@caspers-macbook: created
 - 2026-10-17 04:41Z claude-t75@caspers-macbook: claimed
+- 2026-10-17 05:13Z claude-t75@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/66: G, ON/OFF, manifest, preflight adapter and tests done; I awaits the host export of init_actor.npz (sha256 not in T0068's committed records)
