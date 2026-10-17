@@ -28,7 +28,11 @@
 #include "core.hpp"
 #include "p_bank.hpp"
 #include "resolver.hpp"
+#if defined(FUSION_TIER_P3XXL_VM)
+#include "../../bots/p_only/include/ponly_p3.hpp"
+#else
 #include "../../bots/p_only/include/ponly.hpp"
+#endif
 
 namespace agent_v2 {
 
@@ -48,7 +52,7 @@ inline uint64_t state_key(const fusion::State& s) {
 
 struct PredictionKey {
     uint64_t state = 0, parent = 0;
-    const fusion::PolicyModel* model = nullptr;
+    const OpponentPolicy* model = nullptr;
     bool operator==(const PredictionKey& o) const { return state == o.state && parent == o.parent && model == o.model; }
 };
 
@@ -58,7 +62,11 @@ struct Prediction {
 };
 
 struct PredictorP {
+    #if defined(FUSION_TIER_P3XXL_VM)
+    static constexpr const char* kKind = "P3";
+#else
     static constexpr const char* kKind = "P";
+#endif
     ponly::Counters counters;
     Prediction root;
     const p_bank::ModelSet* set = nullptr;
@@ -71,7 +79,7 @@ struct PredictorP {
         me = c.st.me;
     }
     const char* model_id() const { return id.empty() ? "none" : id.c_str(); }
-    const fusion::PolicyModel* model() const { return set ? set->policy : nullptr; }
+    const OpponentPolicy* model() const { return set ? set->policy : nullptr; }
 
     // The identity of a prediction of `s` with history `parent` by this predictor's model.
     PredictionKey key_of(const fusion::State& s, const fusion::State* parent) const {
@@ -79,6 +87,10 @@ struct PredictorP {
     }
     void predict(const MapCache& c, const fusion::State& s, const fusion::State* parent, Prediction& out) {
         out.view.counters = &counters;
+#if defined(FUSION_TIER_P3XXL_VM)
+        // Set INIT rules on every root/branch view before the combat-summary encoder runs.
+        out.view.rules = c.rules;
+#endif
         out.view.build(c.board, s, parent, me, model());
         out.key = key_of(s, parent);
     }

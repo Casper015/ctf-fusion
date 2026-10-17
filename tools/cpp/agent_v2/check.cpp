@@ -429,7 +429,7 @@ int check_step() {
 }
 
 int check_bank() {
-    std::set<const fusion::PolicyModel*> distinct;
+    std::set<const agent_v2::OpponentPolicy*> distinct;
     std::string line = std::string("ok bank ") + agent_v2::kPBank + " models";
     for (int teams = 2; teams <= 15; teams++) {
         const auto* set = agent_v2::p_bank::forTeams(teams);

@@ -25,8 +25,8 @@
     "producer_sha256": "963807a2fce4350a1177d34682c6a142e20e48d2894e5b32d17added4aa5532b"
    },
    "status": "ready",
-   "bundle_sha256": "c379ce7f882c3c5d3dd0c156ffc1bc8ee0080f39a86ed85b5a743b885b5ba9c7",
-   "bundle_bytes": 60719549,
+   "bundle_sha256": "8e4014ff41a49decc233bc98be45acb543c5726026faafd3e6ff6a47b2436094",
+   "bundle_bytes": 60721088,
    "inlined": [
     {
      "path": "bots/agent_v2/controls/agent_v2_rl_general_csp.cpp",
@@ -78,11 +78,11 @@
     },
     {
      "path": "inference/agent_v2/predictor.hpp",
-     "sha256": "cc0688ead61791e10652d9bd35f393b60c20fdf1d8cef37b720d187f3944a446"
+     "sha256": "87d38e5f96ced9f985f1160f4790434045efd9e1573d87aedf30d5d4e3e9ade9"
     },
     {
      "path": "inference/agent_v2/p_bank.hpp",
-     "sha256": "e07f73a2d56145f7d9b9abf23488beaf7a88bc1247f5dd3d1431ba228087de24"
+     "sha256": "b46a98583a5f2d25f18020ca653fd50204ed74893b2b08802c50b88c2a1420a6"
     },
     {
      "path": "inference/count_specialists_p/registry.hpp",
@@ -205,8 +205,8 @@
     "producer_sha256": "c33389375b25906580ac84582ade058dd997ed0aa62d2b3bdcf1fd845d61715d"
    },
    "status": "ready",
-   "bundle_sha256": "d81e61a1f0852ddcad975cad1dd8f590c8c5f16076e355402243072dfea96044",
-   "bundle_bytes": 60719604,
+   "bundle_sha256": "69e08ff431fecd39e16a7e00a5a8d74f899226fd6ff7cd243655ffe7fa4406ce",
+   "bundle_bytes": 60721143,
    "inlined": [
     {
      "path": "bots/agent_v2/controls/agent_v2_rl_init_csp.cpp",
@@ -258,11 +258,11 @@
     },
     {
      "path": "inference/agent_v2/predictor.hpp",
-     "sha256": "cc0688ead61791e10652d9bd35f393b60c20fdf1d8cef37b720d187f3944a446"
+     "sha256": "87d38e5f96ced9f985f1160f4790434045efd9e1573d87aedf30d5d4e3e9ade9"
     },
     {
      "path": "inference/agent_v2/p_bank.hpp",
-     "sha256": "e07f73a2d56145f7d9b9abf23488beaf7a88bc1247f5dd3d1431ba228087de24"
+     "sha256": "b46a98583a5f2d25f18020ca653fd50204ed74893b2b08802c50b88c2a1420a6"
     },
     {
      "path": "inference/count_specialists_p/registry.hpp",
