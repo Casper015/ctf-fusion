@@ -1,0 +1,25 @@
+{
+  "_comment": "Matched P2/P3 predictor experiment. Original T0079 variants and production defaults are unchanged.",
+  "variants": [
+    {
+      "name": "agent_v2_p3exp_p2_direct",
+      "role": "experimental P2 XXL opponent predictor, direct, frozen T0079 actor/critic/resolver/settings",
+      "source": "bots/agent_v2/p3_search/variants/agent_v2_p3exp_p2_direct.cpp"
+    },
+    {
+      "name": "agent_v2_p3exp_p2_gw8x4_fp32",
+      "role": "experimental P2 XXL opponent predictor, gw8x4_fp32, frozen T0079 actor/critic/resolver/settings",
+      "source": "bots/agent_v2/p3_search/variants/agent_v2_p3exp_p2_gw8x4_fp32.cpp"
+    },
+    {
+      "name": "agent_v2_p3exp_p3_direct",
+      "role": "experimental P3 XXL opponent predictor, direct, frozen T0079 actor/critic/resolver/settings",
+      "source": "bots/agent_v2/p3_search/variants/agent_v2_p3exp_p3_direct.cpp"
+    },
+    {
+      "name": "agent_v2_p3exp_p3_gw8x4_fp32",
+      "role": "experimental P3 XXL opponent predictor, gw8x4_fp32, frozen T0079 actor/critic/resolver/settings",
+      "source": "bots/agent_v2/p3_search/variants/agent_v2_p3exp_p3_gw8x4_fp32.cpp"
+    }
+  ]
+}
