@@ -5,7 +5,9 @@
 
 The arms are the two variant lists bots/agent_v2/controls/variants.json (G, I; T0077) and
 bots/meowmind_p/attribution/variants.json (ON, OFF; T0078). A bundle is bots/p_only/tools/bundle.py's text, the file
-bots/p_only/tools/build.py compiles (without PONLY_STATS), so bundle_sha256 equals build.py's manifest entry. The
+bots/p_only/tools/build.py compiles (without PONLY_STATS), with its begin/end markers in POSIX form (canonical()): on
+Windows bundle.py prints them with backslashes, so build.py's bundle_sha256 there differs from this one by exactly the
+separators, and the preflight compares canonical forms. On other platforms the two hashes are equal. The
 Meowmind section records the line diff between the ON and OFF bundles, which must be the NN_SEARCH line alone, and the
 original source's sha256. The init-only arm stays "awaiting_init_export" until export_init_actor.py has written
 inference/agent_v2_controls/init_actor.hpp on the host; nothing about it is filled in before that. No binary hashes:
@@ -17,6 +19,7 @@ import argparse
 import difflib
 import hashlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -31,6 +34,18 @@ MEOWMIND = "bots/meowmind_p/meowmind-ctf-374-20261011.cpp"
 MEOWMIND_SHA256 = "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc"   # bots/meowmind_p/README.md
 RL_MANIFEST = "inference/count_specialists_rl/MANIFEST.json"
 INIT_MANIFEST = "inference/agent_v2_controls/MANIFEST.json"
+
+
+MARKER = re.compile(r"^// \[bundle\] (begin|end) (.*)$", re.M)
+
+
+def canonical(text: str) -> str:
+    """A bundle with its begin/end markers in POSIX form, whatever platform bundled it."""
+    return MARKER.sub(lambda m: f"// [bundle] {m[1]} {m[2].replace(chr(92), '/')}", text)
+
+
+def canonical_sha256(text: str) -> str:
+    return sha256_text(canonical(text))
 
 
 def sha256_file(path: Path) -> str:
@@ -70,6 +85,7 @@ def arm(v: dict, listed_in: str) -> tuple[dict, str | None]:
         if entry["model"] is None:
             return {**entry, "status": "awaiting_init_export"}, None
     text, files = bundle(src)
+    text = canonical(text)
     entry.update({"status": "ready", "bundle_sha256": sha256_text(text), "bundle_bytes": len(text.encode("utf-8")),
                   "inlined": [{"path": rel(f), "sha256": sha256_file(f)} for f in files]})
     return entry, text

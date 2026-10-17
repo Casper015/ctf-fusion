@@ -1,18 +1,21 @@
 """Export T0068's common initialization actor as the INT16 actor of the init-only control (task T0075).
 
     python tools/screens/next_controls/export_init_actor.py --expect-sha256 <sha256 of init_actor.npz> \\
-        --origin "<where the file came from: the T0068 run configs' init_actor record, the producing task/commit>"
+        --expect-calibration-sha256 <sha256 of calibration.npz> \\
+        --origin "<where both came from: the T0068 run configs' init_actor record, the producing task/commit>"
 
 Runs where T0068's data/ is (the host): data/count_specialists_rl/init_actor.npz and data/count_specialists_rl/
-calibration.npz (seed 20262016). It never guesses a provenance: the actor's sha256 must equal --expect-sha256, which
-comes from T0068's own records, not from this file.
+calibration.npz (seed 20262016). It never guesses a provenance: the two files' sha256 must equal --expect-sha256 and
+--expect-calibration-sha256, which come from T0068's own records (its run configs and logs), not from these files.
 
 The export is training/train_count_specialists_rl.py's calibrate_and_export_actor for the general control, step for
 step: the whole calibration corpus subsampled to 50,000 rows with linspace, training.meow_rl.quant.quantize at its
 default margin (scheme meow_rl_reference16_v1, 12 input bits, temperature 1.05, outExp from the format), agreement
 against FP32 on the first 2,000 rows, the same header layout. Before writing anything it re-exports T0068's general
-control (inference/count_specialists_rl/weights_general.npz) the same way and refuses unless the digest equals the
-committed one: that proves the corpus and the procedure are the ones that produced the deployed actors.
+control (inference/count_specialists_rl/weights_general.npz) the same way and refuses unless the digest and every
+agreement figure equal the committed ones (inference/count_specialists_rl/MANIFEST.json). The digest depends only on
+the activation peaks; the agreement figures also depend on the masks and the first 2,000 rows. Together with the
+pinned sha256 this is a consistency check of the corpus and the procedure, not a proof on its own.
 
 Writes inference/agent_v2_controls/init_actor.hpp (namespace fusion::models::rl_init), init_actor.npz (the FP32
 weights, as T0068 commits its own) and MANIFEST.json (sha256s, origin, calibration, agreement, the reproduction check).
@@ -45,6 +48,10 @@ MAX_CALIB_ROWS = 50_000       # calibrate_and_export_actor's default
 EVAL_ROWS = 2000
 NAMESPACE = "fusion::models::rl_init"
 GUARD = "AGENT_V2_CONTROLS_INIT_ACTOR_HPP"
+# MANIFEST.json field -> quant.agreement() key, as calibrate_and_export_actor records them
+AGREEMENT = {"greedy_agreement": "greedy_agreement", "mean_abs_logp_error": "mean_abs_logp_error",
+             "max_abs_logp_error": "max_abs_logp_error", "max_abs_prob_error": "max_abs_prob_error",
+             "saturated": "saturated", "eval_observations": "observations"}
 
 
 def sha256_file(path: Path) -> str:
@@ -99,7 +106,8 @@ def main(argv=None) -> int:
     ap.add_argument("--init-actor", default=str(INIT_ACTOR))
     ap.add_argument("--calibration", default=str(CALIBRATION))
     ap.add_argument("--expect-sha256", required=True, help="init_actor.npz's sha256 from T0068's records")
-    ap.add_argument("--origin", required=True, help="where the file and its sha256 come from (task, run config, commit)")
+    ap.add_argument("--expect-calibration-sha256", required=True, help="calibration.npz's sha256 from T0068's records")
+    ap.add_argument("--origin", required=True, help="where the files and their sha256 come from (task, run config, commit)")
     ap.add_argument("--out", default=str(OUT))
     a = ap.parse_args(argv)
 
@@ -110,6 +118,10 @@ def main(argv=None) -> int:
     init_sha = sha256_file(init_path)
     if init_sha != a.expect_sha256.lower():
         raise SystemExit(f"{init_path} sha256 {init_sha} != expected {a.expect_sha256}: provenance not established")
+    calib_sha = sha256_file(calib_path)
+    if calib_sha != a.expect_calibration_sha256.lower():
+        raise SystemExit(f"{calib_path} sha256 {calib_sha} != expected {a.expect_calibration_sha256}: "
+                         "provenance not established")
     if (out / "init_actor.hpp").exists():
         raise SystemExit(f"{out / 'init_actor.hpp'} exists: an export is never overwritten")
 
@@ -118,10 +130,16 @@ def main(argv=None) -> int:
 
     # The general control, re-exported the same way, must reproduce its committed digest.
     rl = json.loads(RL_MANIFEST.read_text(encoding="utf-8"))["models"]["general"]
-    q_gen, _ = calibrate(load_actor(GENERAL), feats, masks)
+    q_gen, agree_gen = calibrate(load_actor(GENERAL), feats, masks)
     if q_gen["digest"] != rl["digest"]:
         raise SystemExit(f"re-exporting the general control gives digest {q_gen['digest']}, committed {rl['digest']}: "
                          "this corpus or procedure is not the one that produced the deployed actors")
+    reproduced = {k: agree_gen[v] for k, v in AGREEMENT.items()}
+    differs = {k: (reproduced[k], rl[k]) for k in AGREEMENT
+               if not (reproduced[k] == rl[k] or (isinstance(rl[k], float) and abs(reproduced[k] - rl[k]) <= 1e-9))}
+    if differs:
+        raise SystemExit(f"re-exporting the general control reproduces the digest but not its agreement {differs}: "
+                         "the masks or rows differ from the corpus that produced the deployed actors")
 
     actor = load_actor(init_path)
     q, agree = calibrate(actor, feats, masks)
@@ -139,11 +157,11 @@ def main(argv=None) -> int:
         "generator": "tools/screens/next_controls/export_init_actor.py",
         "created": time.strftime("%Y-%m-%dT%H:%M:%S%z"),
         "source": {"path": "data/count_specialists_rl/init_actor.npz", "sha256": init_sha, "origin": a.origin},
-        "calibration": {"path": "data/count_specialists_rl/calibration.npz", "sha256": sha256_file(calib_path),
+        "calibration": {"path": "data/count_specialists_rl/calibration.npz", "sha256": calib_sha,
                         "rows": int(len(feats)), "used_rows": min(MAX_CALIB_ROWS, int(len(feats))),
                         "observations": q["calibration"]["observations"], "margin": q["calibration"]["margin"]},
         "reproduction": {"model": "general", "npz_sha256": sha256_file(GENERAL), "digest": q_gen["digest"],
-                         "committed_digest": rl["digest"], "equal": True},
+                         "committed_digest": rl["digest"], "agreement": reproduced, "equal": True},
         "model": {
             "name": "init_actor", "namespace": NAMESPACE,
             "header_path": hdr.relative_to(REPO).as_posix() if hdr.is_relative_to(REPO) else str(hdr),

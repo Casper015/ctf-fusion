@@ -133,6 +133,7 @@ class Manifest(unittest.TestCase):
         self.assertEqual(len(on), len(off))
         # The bundle carries the original source byte for byte between its markers.
         text, files = bundle(ATTRIBUTION / "meowmind_search_on.cpp")
+        text = M.canonical(text)
         self.assertEqual([M.rel(f) for f in files], ["bots/meowmind_p/attribution/meowmind_search_on.cpp", M.MEOWMIND])
         begin, end = f"// [bundle] begin {M.MEOWMIND}\n", f"\n// [bundle] end {M.MEOWMIND}"
         inner = text[text.index(begin) + len(begin):text.index(end)]

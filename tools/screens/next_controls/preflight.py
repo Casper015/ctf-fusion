@@ -30,6 +30,7 @@ MAPS = 16
 LIMITS = (2.0, 0.050)
 STEADY_MAX_MS, FIRST_MAX_MS = 48.0, 1800.0
 ROSTER = REPO / "profiles" / "meow_rl_screen.json"
+FROZEN = REPO / "tools" / "screens" / "next_controls" / "MANIFEST.json"
 
 
 def _failed_job(job, error: str) -> dict:
@@ -215,6 +216,10 @@ def main(argv=None) -> int:
     from fusion.paths import ai_test_root, bot_path, engine_path, git_commit, load_engine, load_pool, sha256  # noqa: PLC0415
     from roster.strength import schedule  # noqa: PLC0415
 
+    from bundle import sha256_text  # noqa: PLC0415
+    from tools.screens.next_controls.manifest import canonical_sha256  # noqa: PLC0415
+
+    frozen = json.loads(FROZEN.read_text(encoding="utf-8"))["arms"]          # T0075's pins; other arms are not pinned here
     config_path = Path(a.variants_config).resolve()
     config_sha = sha256(config_path)
     specs = load_variants(config_path)
@@ -235,13 +240,21 @@ def main(argv=None) -> int:
         entry = manifest[name]
         if entry.get("source") != spec["source"]:
             raise SystemExit(f"{name}: manifest source differs from variants config; rebuild it")
-        for kind in ("bundle", "binary"):
-            path = REPO / entry[kind]
-            if not path.is_file() or sha256(path) != entry[f"{kind}_sha256"]:
-                raise SystemExit(f"{name}: {kind} missing or differs from manifest; rebuild it")
+        bundle_path, binary_path = REPO / entry["bundle"], REPO / entry["binary"]
+        # build.py hashes the bundle text before writing it (CRLF on Windows): compare text, not bytes.
+        bundle_text = bundle_path.read_text(encoding="utf-8") if bundle_path.is_file() else None
+        if bundle_text is None or sha256_text(bundle_text) != entry["bundle_sha256"]:
+            raise SystemExit(f"{name}: bundle missing or differs from manifest; rebuild it")
+        if not binary_path.is_file() or sha256(binary_path) != entry["binary_sha256"]:
+            raise SystemExit(f"{name}: binary missing or differs from manifest; rebuild it")
+        frozen_arm = frozen.get(name)
+        if frozen_arm is not None and canonical_sha256(bundle_text) != frozen_arm.get("bundle_sha256"):
+            raise SystemExit(f"{name}: bundle is not the one pinned in {FROZEN.relative_to(REPO).as_posix()} "
+                             f"({frozen_arm.get('status')}); this is not the frozen arm")
         variants[name] = {"source": spec["source"], "role": spec.get("role", ""),
                           "telemetry": telemetry.format_for(spec), "bundle": entry["bundle"],
-                          "bundle_sha256": entry["bundle_sha256"], "binary_sha256": entry["binary_sha256"]}
+                          "bundle_sha256": entry["bundle_sha256"], "binary_sha256": entry["binary_sha256"],
+                          "frozen_bundle_sha256": frozen_arm.get("bundle_sha256") if frozen_arm else None}
 
     root = ai_test_root(a.ai_test)
     os.environ["AI_TEST_ROOT"] = str(root)
@@ -305,6 +318,7 @@ def main(argv=None) -> int:
         "roster": roster, "roster_path": ROSTER.relative_to(REPO).as_posix(), "roster_sha256": sha256(ROSTER),
         "variants_config": config_path.relative_to(REPO).as_posix() if config_path.is_relative_to(REPO) else str(config_path),
         "variants_config_sha256": config_sha,
+        "frozen_manifest": FROZEN.relative_to(REPO).as_posix(), "frozen_manifest_sha256": sha256(FROZEN),
         "schedule_fixtures": len(sched["fixtures"]), "reference": sched["reference"],
         "build": {k: built.get(k) for k in ("compiler", "flags", "host")},
         "host_before": before, "host_after": after,
