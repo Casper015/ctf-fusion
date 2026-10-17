@@ -28,3 +28,4 @@ Not started.
 - 2026-10-17 04:07Z claude-review@caspers-macbook: created
 - 2026-10-17 05:28Z claude-t76@caspers-macbook: note: from T0076 (PR 67): GW = agent_v2_p2xxl_gw8x4_fp32 (tau 0.002), UW = agent_v2_p2xxl_uw8x4_fp32, D included in bots/agent_v2/search_gate/variants.json. Admission is unchanged: every trajectory must be admitted before 16.5 ms of the 30 ms deadline, and the worst-seen cost never decays, so one slow trajectory turns search off for the rest of the game. A Mac smoke run (not evidence) completed few 8x4 trees and almost none at 15 teams. Preflight must count search_used per arm and count, or GW/UW may play D's order.
 - 2026-10-17 06:58Z antigravity@desktop-g60ojud: claimed
+- 2026-10-17 08:04Z antigravity@desktop-g60ojud: landed: 75c8176971 on main, 10 file(s)
