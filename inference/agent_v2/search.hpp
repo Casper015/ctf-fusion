@@ -13,8 +13,8 @@
 //   * ply 2: fusion::step; value = terminal 2U - 1 or V(meow_public416_v1 of the leaf), gamma 1;
 //   * choice: the override gate (T0076, docs/AGENT_V2_SEARCH_GATE.md): the best root replaces the actor's joint only
 //     when its scenario mean beats the actor's by more than AGENT_V2_SEARCH_TAU over the same completed scenarios;
-//     ties, a margin <= tau and a NaN keep the actor's order. tau 0 is the ungated choice (the highest mean, ties keep
-//     the earlier root). Common streams per (game seed, turn, scenario).
+//     ties, a margin <= tau and a non-finite mean keep the actor's order. With finite means, tau 0 is the ungated
+//     choice of the search before T0076 (the highest mean, ties keep the earlier root). Common streams per (game seed, turn, scenario).
 // Admission (staged, v2): setup, each trajectory, the ply-2 expansion and the critic are admitted only if their
 // estimate (max(prior, worst seen this game) x safety, plus a reply reserve) fits before the deadline; a refusal keeps
 // the default order, which the runtime resolved before the search started: incomplete work never overrides. Include the critic header
@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <array>
 #include <chrono>
+#include <cmath>
 #include <cstdint>
 #include <vector>
 
@@ -79,8 +80,11 @@ static_assert(kTau >= 0.0, "a negative tau would override the actor on a loss");
 
 // The override gate over one completed tree: mean[0] is the actor's joint, mean[i] root i's mean over the same scenarios.
 // Returns the root to play: the first root with the highest mean if it beats the actor's mean by more than tau, else 0.
+// A non-finite mean anywhere makes the tree invalid: the actor's joint.
 inline int gated_choice(const double* mean, int n, double tau) {
     int best = 0;
+    for (int i = 0; i < n; i++)
+        if (!std::isfinite(mean[i])) return 0;
     for (int i = 1; i < n; i++)
         if (mean[i] > mean[best]) best = i;
     return best != 0 && mean[best] - mean[0] > tau ? best : 0;

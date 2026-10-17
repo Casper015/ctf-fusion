@@ -8,9 +8,9 @@ Background: on the meow_rl carrier, search overrode the actor on 73% of roots, 8
 
 `gated_choice(mean, n, tau)`: `mean[0]` is the actor's joint, `mean[i]` root i's mean value over the same completed scenarios. The best root (the first with the highest mean) replaces the actor only when `mean[best] - mean[0] > tau`.
 
-- A tie, a margin at or below tau, or a NaN keeps the actor's joint.
+- A tie, a margin at or below tau, or a non-finite mean anywhere in the tree keeps the actor's joint.
 - Incomplete work (any admission refusal, a late tree) keeps the actor's joint and its complete order, resolved before the search started.
-- tau = 0 is the ungated choice, identical to the search before T0076.
+- tau = 0 is the ungated choice, identical to the search before T0076 whenever every mean is finite.
 - Build setting: `AGENT_V2_SEARCH_TAU` (default 0). The candidate count and scenario count stay `AGENT_V2_SEARCH_CANDIDATES` / `AGENT_V2_SEARCH_SAMPLES`.
 
 ## 1. The frozen rule (pre-registered)

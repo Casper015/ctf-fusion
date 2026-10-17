@@ -87,6 +87,14 @@ def read_states(path: Path) -> list[dict]:
     return sorted(rows, key=lambda row: (row["game"], row["seat"], row["turn"]))
 
 
+def sequential(values) -> float:
+    """Left-to-right double additions, as Search::choose sums (Python 3.12+ sum() of floats is compensated)."""
+    total = 0.0
+    for v in values:
+        total += v
+    return total
+
+
 def arrays(rows: list[dict], candidates: int, samples: int) -> tuple[np.ndarray, np.ndarray]:
     means = np.full((len(rows), 4, candidates), np.nan, dtype=np.float64)
     reference = np.zeros((len(rows), candidates), dtype=np.float64)
@@ -96,10 +104,10 @@ def arrays(rows: list[dict], candidates: int, samples: int) -> tuple[np.ndarray,
             values = row["by_salt"][salt]["v"]
             for i in range(nr):
                 # Search::choose accumulates in scenario order, in double.
-                means[si, r, i] = sum(float(v) for v in values[i][:samples]) / samples
+                means[si, r, i] = sequential(float(v) for v in values[i][:samples]) / samples
         vref = row["by_salt"][REF]["v"]
         for i in range(nr):
-            reference[si, i] = sum(float(vref[i][s]) - float(vref[0][s]) for s in range(16)) / 16
+            reference[si, i] = sequential(float(vref[i][s]) - float(vref[0][s]) for s in range(16)) / 16
     return means, reference
 
 
@@ -242,7 +250,7 @@ def analyze(rows: list[dict], receipt: dict, trees_hash: str) -> dict:
     actual = {(r["game"], r["seat"], r["turn"]) for r in rows}
     kinds = [r.get("kind") for r in receipt.get("commands", []) if r.get("passed") is True]
     integrity_ok = (receipt.get("passed") is True and all(r.get("passed") is True for r in receipt.get("commands", [])) and
-                    all(kinds.count(kind) >= count for kind, count in (("gate", 1), ("isolation", 3),
+                    all(kinds.count(kind) >= count for kind, count in (("gate", 1), ("isolation", 6),
                                                                      ("parity_wide", 3), ("parity_narrow", 3))))
     hash_ok = receipt.get("trees_sha256") == trees_hash
     coverage = {"expected_states": len(expected), "actual_states": len(actual), "missing": len(expected - actual),

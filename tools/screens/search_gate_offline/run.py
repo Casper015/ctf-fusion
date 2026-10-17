@@ -205,9 +205,11 @@ def main() -> int:
                                f"{SALTS[0]}:{samples}"], f"parity_{name}")
                 parity(rec, {"stdout_lines": outputs[id(diag_by_seat[game, 0])]}, turns, roots, samples)
                 records.append(rec)
-            rec = execute([str(binaries["wide"]), "isolation", str(originals[game])], "isolation")
-            rec["passed"] &= len(rec["stdout_lines"]) == 1 and rec["stdout_lines"][0].startswith("ok isolation ")
-            records.append(rec)
+            for name in ("wide", "narrow"):                      # either breadth may be frozen
+                rec = execute([str(binaries[name]), "isolation", str(originals[game])], "isolation")
+                rec["build"] = name
+                rec["passed"] &= len(rec["stdout_lines"]) == 1 and rec["stdout_lines"][0].startswith("ok isolation ")
+                records.append(rec)
             print(f"{game}: parity and isolation {'passed' if all(r['passed'] for r in records) else 'FAILED'}", flush=True)
         if not all(rec["passed"] for rec in records):
             raise RuntimeError("integrity stop: gate/parity/isolation or provenance command failed")
