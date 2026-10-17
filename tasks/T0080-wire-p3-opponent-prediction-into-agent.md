@@ -1,13 +1,13 @@
 ---
 id: T0080
 title: "Wire P3 opponent prediction into agent_v2 search"
-status: open
-owner: ""
+status: active
+owner: codex-p3search@caspers-macbook
 needs: []
 writes: [inference/agent_v2/p_bank.hpp, inference/agent_v2/predictor.hpp, tools/cpp/agent_v2/check.cpp, bots/agent_v2/p3_search/, tests/test_agent_v2_p3.py]
 depends: [T0076]
 land: pr
-branch: ""
+branch: codex-p3search/t0080-wire-p3-opponent-prediction-into-agent
 updated: 2026-10-17
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-17 07:46Z codex-p3search@caspers-macbook: created
+- 2026-10-17 07:46Z codex-p3search@caspers-macbook: claimed
