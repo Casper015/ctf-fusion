@@ -11,10 +11,13 @@
 //     complete orders from the resolver on the branch's own scenario table, the opponents' ply-2 orders from the branch
 //     prediction; nothing of a branch is written back (the root prediction, the history and the real state stay);
 //   * ply 2: fusion::step; value = terminal 2U - 1 or V(meow_public416_v1 of the leaf), gamma 1;
-//   * choice: the highest scenario mean; ties keep the actor's order. Common streams per (game seed, turn, scenario).
+//   * choice: the override gate (T0076, docs/AGENT_V2_SEARCH_GATE.md): the best root replaces the actor's joint only
+//     when its scenario mean beats the actor's by more than AGENT_V2_SEARCH_TAU over the same completed scenarios;
+//     ties, a margin <= tau and a NaN keep the actor's order. tau 0 is the ungated choice (the highest mean, ties keep
+//     the earlier root). Common streams per (game seed, turn, scenario).
 // Admission (staged, v2): setup, each trajectory, the ply-2 expansion and the critic are admitted only if their
 // estimate (max(prior, worst seen this game) x safety, plus a reply reserve) fits before the deadline; a refusal keeps
-// the default order, which the runtime resolved before the search started. Include the critic header
+// the default order, which the runtime resolved before the search started: incomplete work never overrides. Include the critic header
 // (namespace meow_rl_critic) before this file.
 #pragma once
 #include <algorithm>
@@ -59,11 +62,26 @@
 #ifndef AGENT_V2_SEARCH_SAFETY_PCT
 #define AGENT_V2_SEARCH_SAFETY_PCT 150
 #endif
+#ifndef AGENT_V2_SEARCH_TAU
+#define AGENT_V2_SEARCH_TAU 0.0
+#endif
 
 namespace agent_v2 {
 
 constexpr int kCandidates = AGENT_V2_SEARCH_CANDIDATES, kSamples = AGENT_V2_SEARCH_SAMPLES;
 constexpr int kBranchScenarios = AGENT_V2_BRANCH_SCENARIOS;
+constexpr double kTau = AGENT_V2_SEARCH_TAU;
+static_assert(kCandidates >= 1 && kSamples >= 1, "the tree needs a root and a scenario");
+static_assert(kTau >= 0.0, "a negative tau would override the actor on a loss");
+
+// The override gate over one completed tree: mean[0] is the actor's joint, mean[i] root i's mean over the same scenarios.
+// Returns the root to play: the first root with the highest mean if it beats the actor's mean by more than tau, else 0.
+inline int gated_choice(const double* mean, int n, double tau) {
+    int best = 0;
+    for (int i = 1; i < n; i++)
+        if (mean[i] > mean[best]) best = i;
+    return best != 0 && mean[best] - mean[0] > tau ? best : 0;
+}
 
 enum Stream : uint64_t { kOpp1 = 1, kSim1 = 2, kOpp2 = 3, kCont = 4, kSim2 = 5, kBranchResolver = 6, kBranchRefresh = 7 };
 inline uint64_t turn_seed(uint64_t game_seed, int turn) { return splitmix64(game_seed ^ (uint64_t(turn) * 0xD6E8FEB86659FD93ull)); }
@@ -114,9 +132,11 @@ struct Tree {
     std::array<std::vector<fusion::Order>, kSamples> opp;
 };
 
+// salt 0 is the deployed tree; a nonzero salt draws an independent repeat of its scenarios (offline diagnostics only).
 template <class R>
-void setup(R& rt, const int64_t (&sc)[3][5], int actor_choice, Tree& tree) {
+void setup(R& rt, const int64_t (&sc)[3][5], int actor_choice, Tree& tree, uint64_t salt = 0) {
     tree.T = turn_seed(rt.seed, rt.s.turn);
+    if (salt) tree.T = splitmix64(tree.T ^ salt);
     tree.roots = roots(rt.obs, sc, actor_choice);
     tree.root_orders.clear();
     for (int j : tree.roots) tree.root_orders.push_back(rt.resolve(j).orders);
@@ -173,6 +193,7 @@ struct Search {
     Simulator sim;
     long max_setup_us = 0, max_traj_us = 0, max_expand_us = 0, max_critic_us = 0, max_search_us = 0;
     long trajectories = 0, refuse_setup = 0, refuse_trajectory = 0, refuse_expand = 0, refuse_critic = 0, refuse_late = 0;
+    long overrides = 0, gate_kept = 0;   // completed trees: the actor replaced; a better root kept out by the gate (margin <= tau)
 
     static long us(std::chrono::steady_clock::duration d) { return long(std::chrono::duration_cast<std::chrono::microseconds>(d).count()); }
     static long estimate(long prior, long seen) { return std::max(prior, seen) * AGENT_V2_SEARCH_SAFETY_PCT / 100; }
@@ -195,8 +216,7 @@ struct Search {
         Tree tree;
         setup(rt, sc, joint, tree);
         max_setup_us = std::max(max_setup_us, us(clock::now() - t_begin));
-        double best = -1e300;
-        int choice = joint;
+        std::array<double, kCandidates> mean{};
         Leaf leaf;
         for (int ri = 0; ri < int(tree.roots.size()); ri++) {
             double sum = 0;
@@ -230,12 +250,15 @@ struct Search {
                 if (clock::now() > deadline) return fallback(refuse_late);
                 sum += v;
             }
-            const double v = sum / kSamples;
-            if (v > best) best = v, choice = tree.roots[ri];
+            mean[ri] = sum / kSamples;
         }
+        const int n = int(tree.roots.size());
+        const int pick = gated_choice(mean.data(), n, kTau);
+        if (pick) overrides++;
+        else if (gated_choice(mean.data(), n, 0.0)) gate_kept++;
         rt.tel.search_used++;
         max_search_us = std::max(max_search_us, us(clock::now() - t_begin));
-        return choice;
+        return tree.roots[pick];
     }
 };
 #endif
