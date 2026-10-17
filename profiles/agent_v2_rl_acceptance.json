@@ -1,0 +1,47 @@
+{
+ "_comment": "Paired host acceptance screen of task T0077: exact-count RL policy specialists (S = agent_v2_rl_csp) vs compute-matched general control (G = agent_v2_rl_general_csp) vs common initialization baseline (I = agent_v2_rl_init_csp) + A/A copy of S. Fresh seed 20262101, exactly 8 workers, 2,000 ms first and 50 ms steady replies. 96 maps per count across counts 2-15 (1,344 fixtures, 5,376 games total across 4 arms). Primary S-G and supporting G-I form one two-contrast Bonferroni family (alpha=0.05).",
+ "seed": 20262101,
+ "teams": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+ "maps_per_count": 96,
+ "workers": 8,
+ "workers_exact": true,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "keep_matches": true,
+ "variants": "reports/host/agent_v2_rl_acceptance/variants.json",
+ "margin": 0.0,
+ "preflight": "reports/host/agent_v2_rl_acceptance/PREFLIGHT.json",
+ "reference": [
+  "Fable",
+  "MiMo",
+  "Kimi",
+  "GLM",
+  "Player4"
+ ],
+ "fixtures": 1344,
+ "games": 5376,
+ "work_dir": "data/host/agent_v2_rl_acceptance/screen",
+ "report_dir": "reports/host/agent_v2_rl_acceptance/screen",
+ "arms": [
+  "agent_v2_rl_csp",
+  "agent_v2_rl_general_csp",
+  "agent_v2_rl_init_csp"
+ ],
+ "aa": [
+  "agent_v2_rl_csp"
+ ],
+ "comparisons": [
+  [
+   "agent_v2_rl_csp",
+   "agent_v2_rl_general_csp"
+  ],
+  [
+   "agent_v2_rl_general_csp",
+   "agent_v2_rl_init_csp"
+  ]
+ ],
+ "multiplicity": {
+  "method": "bonferroni",
+  "alpha": 0.05
+ }
+}

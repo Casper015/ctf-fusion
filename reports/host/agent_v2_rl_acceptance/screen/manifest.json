@@ -1,0 +1,570 @@
+{
+ "variants": {
+  "agent_v2_rl_general_csp": {
+   "name": "agent_v2_rl_general_csp",
+   "role": "control G: agent_v2_rl_csp with T0068's compute-matched general control (rl_general) on every count; CSP P bank, extracted resolver, actor-direct",
+   "source": "bots/agent_v2/controls/agent_v2_rl_general_csp.cpp",
+   "telemetry": "agent_v2",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\agent_v2_rl_general_csp.cpp",
+   "bundle_sha256": "3b099dbff06e990c05e13d652e38204e5095bdb1ba7e455920487f5e1059e07f",
+   "bundle_bytes": 60719571,
+   "binary": "build\\p_only\\bin\\agent_v2_rl_general_csp-3b099dbff06e.exe",
+   "binary_sha256": "08d1d5602e4fbeac89f53844b925faf5529907e6e32c2bda9c029f7903dc32e3",
+   "compile_seconds": 0.1,
+   "inputs": [
+    {
+     "path": "bots\\agent_v2\\controls\\agent_v2_rl_general_csp.cpp",
+     "sha256": "e5ec704e3f4f3d506c362e2b88f68ccb9be42a0e3e38b852afd0beb9f32c4fcf"
+    },
+    {
+     "path": "inference\\agent_v2_controls\\general_only.hpp",
+     "sha256": "a1de3a5f77c8a062ed7f475c32966b43a9f11bea1e86dec817046b6b14389a6b"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_general.hpp",
+     "sha256": "e3781e703671cd9974857be8afbef69b81bead85046f01a3c7277be6c30ba96c"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "bots\\agent_v2\\bot.hpp",
+     "sha256": "e5e9b1ed8697466ff56cfdc78b8796498eb2c745ad0b2dad875a5c45ebf96670"
+    },
+    {
+     "path": "inference\\agent_v2\\runtime.hpp",
+     "sha256": "b295e0dc465c1e21c459b44a48192840d229e05ee66d6618ee0490645c69e14f"
+    },
+    {
+     "path": "inference\\agent_v2\\core.hpp",
+     "sha256": "f9f8bef99c7e9f35aad5b20e8b1c1a723a18e8e9595c00c15e963fba2b5682a5"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\agent_v2\\features_meow_v1.hpp",
+     "sha256": "f2495d3d57f55dc0ad8b461ab6c7cf558cc7a9a07e968f1246777c06e7e526d8"
+    },
+    {
+     "path": "inference\\agent_v2\\meowmind_features.hpp",
+     "sha256": "f95416504f6f031e8eab5ec688953f8cbf490ca6feb1cd8e256590051bbd915a"
+    },
+    {
+     "path": "inference\\agent_v2\\predictor.hpp",
+     "sha256": "cc0688ead61791e10652d9bd35f393b60c20fdf1d8cef37b720d187f3944a446"
+    },
+    {
+     "path": "inference\\agent_v2\\p_bank.hpp",
+     "sha256": "e07f73a2d56145f7d9b9abf23488beaf7a88bc1247f5dd3d1431ba228087de24"
+    },
+    {
+     "path": "inference\\count_specialists_p\\registry.hpp",
+     "sha256": "09741ed18f24afb463c4d9410de02da3add5ee1621a034954f6b593ad582d275"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n02.hpp",
+     "sha256": "cf6d78bebf91ab51eb1a0732fadc9b17a80e74d21fdc177c76764218e07f7957"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n03.hpp",
+     "sha256": "a1e6f7b576b045846c54377a61708b338539292d27327eb17d9b087fd3d93c34"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n04.hpp",
+     "sha256": "b0be263922e067e3381aebfc982b0199fd42fb2dfbf84f2ff15e6cef67804071"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n05.hpp",
+     "sha256": "a9f79adf73bdd1cfeefbbab8007ffe994eafab7a9c4f37b36e3d6757883eab1c"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n06.hpp",
+     "sha256": "939d85d48a2f916cd38c7cc64daa9470c1a69b63ae9579287144628bb09fed73"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n07.hpp",
+     "sha256": "e1bdef28f9ae56d8e25d91fbf8b60a525f4479b8693d0638868c8d26ea5ce0ee"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n08.hpp",
+     "sha256": "be03bb203c298307057d2deffc25fade78dd3c6df0b2eefaf6af5288bd426e5e"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n09.hpp",
+     "sha256": "53b8c3bec91e1527416a01c717ca5cc47213f2dff7f60dc8c9ac1c461e45d553"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n10.hpp",
+     "sha256": "92bb216af5b3aa82100212d69a47021514aa4bd3a81b2cbcae7c4c3af2d7cbe9"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n11.hpp",
+     "sha256": "20a1d25ff735ec8c8e18d76226e0e12817c0cac06d5c46fdbf21a0a60448e452"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n12.hpp",
+     "sha256": "cec886f79095b0101b940ea55c7c897a5c6cb29514b5ba431979e4ef398b9a81"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n13.hpp",
+     "sha256": "25c5ddc5080c61b95d3e03c8668a22a5bc3fe11c459462ccd8b2757210fb1c81"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n14.hpp",
+     "sha256": "3d797db5408f4bc73d41c500b157e3e868f22c3fa7e4e1f611edca617c885ef5"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n15.hpp",
+     "sha256": "7c410f7fcd678f7c6234c06627249a9eb3432b138c9590089fb5da4f63ce0d2a"
+    },
+    {
+     "path": "inference\\agent_v2\\resolver.hpp",
+     "sha256": "ec2a2753820b3bc034029cfffa9b9c04d4c90798fc505dcc12aee35a723d32d0"
+    },
+    {
+     "path": "inference\\agent_v2\\simulate.hpp",
+     "sha256": "7347bc9e01688897b5391d8e9da65c41c9bc86ed0eb6cd128331dde822b142df"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "tools\\cpp\\stream.hpp",
+     "sha256": "40de1a62ff395223cb0e7ec1695d6c88de877a6c13813d9228874765d057bcbb"
+    },
+    {
+     "path": "tools\\cpp\\meow_rl\\actor_int.hpp",
+     "sha256": "18a2fd123def697d816b4e11995cbb39d13aebf2574aa9e7b00e712db5cb79ae"
+    }
+   ]
+  },
+  "agent_v2_rl_init_csp": {
+   "name": "agent_v2_rl_init_csp",
+   "role": "control I: agent_v2_rl_csp with T0068's common initialization actor (rl_init, exported by tools/screens/next_controls/export_init_actor.py) on every count; CSP P bank, extracted resolver, actor-direct",
+   "source": "bots/agent_v2/controls/agent_v2_rl_init_csp.cpp",
+   "telemetry": "agent_v2",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\agent_v2_rl_init_csp.cpp",
+   "bundle_sha256": "aef21f39c26d8ce96f23b566674c9587efdd87c60a8064f1ae75609e7122d0eb",
+   "bundle_bytes": 60719626,
+   "binary": "build\\p_only\\bin\\agent_v2_rl_init_csp-aef21f39c26d.exe",
+   "binary_sha256": "7e4280feda0d101f5cb1f9e19ba232b4d8ecdb68cf8a0c2b7736e3c3ee135d7f",
+   "compile_seconds": 0.1,
+   "inputs": [
+    {
+     "path": "bots\\agent_v2\\controls\\agent_v2_rl_init_csp.cpp",
+     "sha256": "639fa4922d15b86f4cdf439b75b60ef37630edbdb24c5c31155b09d164977767"
+    },
+    {
+     "path": "inference\\agent_v2_controls\\init_only.hpp",
+     "sha256": "5092e4ef453a61bef5c46893b1186d2f26c45bbcacb8b414a6fc277f52ca4571"
+    },
+    {
+     "path": "inference\\agent_v2_controls\\init_actor.hpp",
+     "sha256": "6875a6f2d920a58b3cf5b5a836dfd55a2748de5b45549d14d809332fabd8d059"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "bots\\agent_v2\\bot.hpp",
+     "sha256": "e5e9b1ed8697466ff56cfdc78b8796498eb2c745ad0b2dad875a5c45ebf96670"
+    },
+    {
+     "path": "inference\\agent_v2\\runtime.hpp",
+     "sha256": "b295e0dc465c1e21c459b44a48192840d229e05ee66d6618ee0490645c69e14f"
+    },
+    {
+     "path": "inference\\agent_v2\\core.hpp",
+     "sha256": "f9f8bef99c7e9f35aad5b20e8b1c1a723a18e8e9595c00c15e963fba2b5682a5"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\agent_v2\\features_meow_v1.hpp",
+     "sha256": "f2495d3d57f55dc0ad8b461ab6c7cf558cc7a9a07e968f1246777c06e7e526d8"
+    },
+    {
+     "path": "inference\\agent_v2\\meowmind_features.hpp",
+     "sha256": "f95416504f6f031e8eab5ec688953f8cbf490ca6feb1cd8e256590051bbd915a"
+    },
+    {
+     "path": "inference\\agent_v2\\predictor.hpp",
+     "sha256": "cc0688ead61791e10652d9bd35f393b60c20fdf1d8cef37b720d187f3944a446"
+    },
+    {
+     "path": "inference\\agent_v2\\p_bank.hpp",
+     "sha256": "e07f73a2d56145f7d9b9abf23488beaf7a88bc1247f5dd3d1431ba228087de24"
+    },
+    {
+     "path": "inference\\count_specialists_p\\registry.hpp",
+     "sha256": "09741ed18f24afb463c4d9410de02da3add5ee1621a034954f6b593ad582d275"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n02.hpp",
+     "sha256": "cf6d78bebf91ab51eb1a0732fadc9b17a80e74d21fdc177c76764218e07f7957"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n03.hpp",
+     "sha256": "a1e6f7b576b045846c54377a61708b338539292d27327eb17d9b087fd3d93c34"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n04.hpp",
+     "sha256": "b0be263922e067e3381aebfc982b0199fd42fb2dfbf84f2ff15e6cef67804071"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n05.hpp",
+     "sha256": "a9f79adf73bdd1cfeefbbab8007ffe994eafab7a9c4f37b36e3d6757883eab1c"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n06.hpp",
+     "sha256": "939d85d48a2f916cd38c7cc64daa9470c1a69b63ae9579287144628bb09fed73"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n07.hpp",
+     "sha256": "e1bdef28f9ae56d8e25d91fbf8b60a525f4479b8693d0638868c8d26ea5ce0ee"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n08.hpp",
+     "sha256": "be03bb203c298307057d2deffc25fade78dd3c6df0b2eefaf6af5288bd426e5e"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n09.hpp",
+     "sha256": "53b8c3bec91e1527416a01c717ca5cc47213f2dff7f60dc8c9ac1c461e45d553"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n10.hpp",
+     "sha256": "92bb216af5b3aa82100212d69a47021514aa4bd3a81b2cbcae7c4c3af2d7cbe9"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n11.hpp",
+     "sha256": "20a1d25ff735ec8c8e18d76226e0e12817c0cac06d5c46fdbf21a0a60448e452"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n12.hpp",
+     "sha256": "cec886f79095b0101b940ea55c7c897a5c6cb29514b5ba431979e4ef398b9a81"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n13.hpp",
+     "sha256": "25c5ddc5080c61b95d3e03c8668a22a5bc3fe11c459462ccd8b2757210fb1c81"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n14.hpp",
+     "sha256": "3d797db5408f4bc73d41c500b157e3e868f22c3fa7e4e1f611edca617c885ef5"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n15.hpp",
+     "sha256": "7c410f7fcd678f7c6234c06627249a9eb3432b138c9590089fb5da4f63ce0d2a"
+    },
+    {
+     "path": "inference\\agent_v2\\resolver.hpp",
+     "sha256": "ec2a2753820b3bc034029cfffa9b9c04d4c90798fc505dcc12aee35a723d32d0"
+    },
+    {
+     "path": "inference\\agent_v2\\simulate.hpp",
+     "sha256": "7347bc9e01688897b5391d8e9da65c41c9bc86ed0eb6cd128331dde822b142df"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "tools\\cpp\\stream.hpp",
+     "sha256": "40de1a62ff395223cb0e7ec1695d6c88de877a6c13813d9228874765d057bcbb"
+    },
+    {
+     "path": "tools\\cpp\\meow_rl\\actor_int.hpp",
+     "sha256": "18a2fd123def697d816b4e11995cbb39d13aebf2574aa9e7b00e712db5cb79ae"
+    }
+   ]
+  },
+  "agent_v2_rl_csp": {
+   "name": "agent_v2_rl_csp",
+   "role": "arm S: agent_v2_rl_csp with T0068's 14 exact-count PPO RL policy specialists (inference/count_specialists_rl), T0067's per-count opponent P specialists (inference/count_specialists_p), the extracted resolver",
+   "source": "bots/agent_v2/variants/agent_v2_rl_csp.cpp",
+   "telemetry": "agent_v2",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\agent_v2_rl_csp.cpp",
+   "bundle_sha256": "c5fd9e75ad8f0244e912925fc3f69bcf98f1c85464c3b7019cfbfb6375f292e5",
+   "bundle_bytes": 61434753,
+   "binary": "build\\p_only\\bin\\agent_v2_rl_csp-c5fd9e75ad8f.exe",
+   "binary_sha256": "458f51f068b218cf35f1ee7eecff31b11c8332d6f291a150f7f23e98ad0abeb6",
+   "compile_seconds": 0.1,
+   "inputs": [
+    {
+     "path": "bots\\agent_v2\\variants\\agent_v2_rl_csp.cpp",
+     "sha256": "a31d8925bb7c0e2ef55731992a65d4e8b1c7da03576b5aa123e044c6658a0afb"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\registry.hpp",
+     "sha256": "12f883951cdb25b471ca6bcc3c0f03dbf4aaa5f7d562841ce80e0cc2b49fae49"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n02.hpp",
+     "sha256": "405974dad38d3e01bfb23f2cd5379850a5a34c485ed80c64ede8d476d71162de"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n03.hpp",
+     "sha256": "e8bfdc5c5b4235098885eaeeb2de858203200ada9fa608aeebd6978bb9c2aafc"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n04.hpp",
+     "sha256": "f7579f7b82a6f95be81f70c7d2a246125853579dac6dea1f7e87fc1050ef56aa"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n05.hpp",
+     "sha256": "6f35512e53e798b4d0d7ccb3e9c81ac77070c07cccc1d5a8cfca697905ffcd0d"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n06.hpp",
+     "sha256": "b59155cc03f760abae903e697e0a30775326dd6eada1525b39fab3b349a11b05"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n07.hpp",
+     "sha256": "ba58598196724da3dd118ac4320233ca72f59a17565c670acb80d8348dacd923"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n08.hpp",
+     "sha256": "a106395ddd7a5a9512af7799f7a6bb7bbe29c83026028a1956c9dfd1ab4d4c6a"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n09.hpp",
+     "sha256": "714b90bb410e17dc9c55731f53ddec25c1731182ec02b5b35591c1981679937f"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n10.hpp",
+     "sha256": "46130d0978cbfc3147fc4e1372b4b0114dbd2508db668678eacd2c4783f37bdd"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n11.hpp",
+     "sha256": "adcb3e874ed631ecef5e175b2534f057337adc1fe29c9583c0d10e76306fc58d"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n12.hpp",
+     "sha256": "c5704b1cd26593c71c3e193091c2ca27e084638de24bbbbd83ec198b0852ab54"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n13.hpp",
+     "sha256": "152d2ecb9d90fa504b4be5d633184f3402318f9ec5021160ea4288d95f167f06"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n14.hpp",
+     "sha256": "bcb4987606181e074ed42852ee6e5a1afc14ecb6f847a9fb31ea14b45ceee196"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_n15.hpp",
+     "sha256": "233ea7613014b9c6c758467677293e95dfe0e1c18c2a1297404bc7862cc548e1"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_general.hpp",
+     "sha256": "e3781e703671cd9974857be8afbef69b81bead85046f01a3c7277be6c30ba96c"
+    },
+    {
+     "path": "bots\\agent_v2\\bot.hpp",
+     "sha256": "e5e9b1ed8697466ff56cfdc78b8796498eb2c745ad0b2dad875a5c45ebf96670"
+    },
+    {
+     "path": "inference\\agent_v2\\runtime.hpp",
+     "sha256": "b295e0dc465c1e21c459b44a48192840d229e05ee66d6618ee0490645c69e14f"
+    },
+    {
+     "path": "inference\\agent_v2\\core.hpp",
+     "sha256": "f9f8bef99c7e9f35aad5b20e8b1c1a723a18e8e9595c00c15e963fba2b5682a5"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\agent_v2\\features_meow_v1.hpp",
+     "sha256": "f2495d3d57f55dc0ad8b461ab6c7cf558cc7a9a07e968f1246777c06e7e526d8"
+    },
+    {
+     "path": "inference\\agent_v2\\meowmind_features.hpp",
+     "sha256": "f95416504f6f031e8eab5ec688953f8cbf490ca6feb1cd8e256590051bbd915a"
+    },
+    {
+     "path": "inference\\agent_v2\\predictor.hpp",
+     "sha256": "cc0688ead61791e10652d9bd35f393b60c20fdf1d8cef37b720d187f3944a446"
+    },
+    {
+     "path": "inference\\agent_v2\\p_bank.hpp",
+     "sha256": "e07f73a2d56145f7d9b9abf23488beaf7a88bc1247f5dd3d1431ba228087de24"
+    },
+    {
+     "path": "inference\\count_specialists_p\\registry.hpp",
+     "sha256": "09741ed18f24afb463c4d9410de02da3add5ee1621a034954f6b593ad582d275"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n02.hpp",
+     "sha256": "cf6d78bebf91ab51eb1a0732fadc9b17a80e74d21fdc177c76764218e07f7957"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n03.hpp",
+     "sha256": "a1e6f7b576b045846c54377a61708b338539292d27327eb17d9b087fd3d93c34"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n04.hpp",
+     "sha256": "b0be263922e067e3381aebfc982b0199fd42fb2dfbf84f2ff15e6cef67804071"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n05.hpp",
+     "sha256": "a9f79adf73bdd1cfeefbbab8007ffe994eafab7a9c4f37b36e3d6757883eab1c"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n06.hpp",
+     "sha256": "939d85d48a2f916cd38c7cc64daa9470c1a69b63ae9579287144628bb09fed73"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n07.hpp",
+     "sha256": "e1bdef28f9ae56d8e25d91fbf8b60a525f4479b8693d0638868c8d26ea5ce0ee"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n08.hpp",
+     "sha256": "be03bb203c298307057d2deffc25fade78dd3c6df0b2eefaf6af5288bd426e5e"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n09.hpp",
+     "sha256": "53b8c3bec91e1527416a01c717ca5cc47213f2dff7f60dc8c9ac1c461e45d553"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n10.hpp",
+     "sha256": "92bb216af5b3aa82100212d69a47021514aa4bd3a81b2cbcae7c4c3af2d7cbe9"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n11.hpp",
+     "sha256": "20a1d25ff735ec8c8e18d76226e0e12817c0cac06d5c46fdbf21a0a60448e452"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n12.hpp",
+     "sha256": "cec886f79095b0101b940ea55c7c897a5c6cb29514b5ba431979e4ef398b9a81"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n13.hpp",
+     "sha256": "25c5ddc5080c61b95d3e03c8668a22a5bc3fe11c459462ccd8b2757210fb1c81"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n14.hpp",
+     "sha256": "3d797db5408f4bc73d41c500b157e3e868f22c3fa7e4e1f611edca617c885ef5"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n15.hpp",
+     "sha256": "7c410f7fcd678f7c6234c06627249a9eb3432b138c9590089fb5da4f63ce0d2a"
+    },
+    {
+     "path": "inference\\agent_v2\\resolver.hpp",
+     "sha256": "ec2a2753820b3bc034029cfffa9b9c04d4c90798fc505dcc12aee35a723d32d0"
+    },
+    {
+     "path": "inference\\agent_v2\\simulate.hpp",
+     "sha256": "7347bc9e01688897b5391d8e9da65c41c9bc86ed0eb6cd128331dde822b142df"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "tools\\cpp\\stream.hpp",
+     "sha256": "40de1a62ff395223cb0e7ec1695d6c88de877a6c13813d9228874765d057bcbb"
+    },
+    {
+     "path": "tools\\cpp\\meow_rl\\actor_int.hpp",
+     "sha256": "18a2fd123def697d816b4e11995cbb39d13aebf2574aa9e7b00e712db5cb79ae"
+    }
+   ]
+  }
+ },
+ "compiler": "g++.EXE (GCC) 15.2.0",
+ "flags": [
+  "-std=c++20",
+  "-O2",
+  "-static"
+ ],
+ "host": "DESKTOP-G60OJUD",
+ "platform": "Windows-10-10.0.19045-SP0",
+ "updated": "2026-10-16T23:23:34"
+}

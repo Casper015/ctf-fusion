@@ -1,0 +1,22 @@
+{
+ "variants": [
+  {
+   "name": "agent_v2_rl_csp",
+   "role": "arm S: agent_v2_rl_csp with T0068's 14 exact-count PPO RL policy specialists (inference/count_specialists_rl), T0067's per-count opponent P specialists (inference/count_specialists_p), the extracted resolver",
+   "source": "bots/agent_v2/variants/agent_v2_rl_csp.cpp",
+   "telemetry": "agent_v2"
+  },
+  {
+   "name": "agent_v2_rl_general_csp",
+   "role": "control G: agent_v2_rl_csp with T0068's compute-matched general control (rl_general) on every count; CSP P bank, extracted resolver, actor-direct",
+   "source": "bots/agent_v2/controls/agent_v2_rl_general_csp.cpp",
+   "telemetry": "agent_v2"
+  },
+  {
+   "name": "agent_v2_rl_init_csp",
+   "role": "control I: agent_v2_rl_csp with T0068's common initialization actor (rl_init, exported by tools/screens/next_controls/export_init_actor.py) on every count; CSP P bank, extracted resolver, actor-direct",
+   "source": "bots/agent_v2/controls/agent_v2_rl_init_csp.cpp",
+   "telemetry": "agent_v2"
+  }
+ ]
+}
