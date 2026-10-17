@@ -1,13 +1,13 @@
 ---
 id: T0082
 title: "Freeze production agent_v2 release: single-file bot.cpp, profile, manifest and release report"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [bots/agent_v2/, profiles/agent_v2.json, docs/, reports/release/agent_v2/, tests/]
 depends: [T0077, T0079]
 land: pr
-branch: ""
+branch: antigravity/t0082-freeze-production-agent-v2-release
 updated: 2026-10-17
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-17 08:25Z antigravity@desktop-g60ojud: created
+- 2026-10-17 08:26Z antigravity@desktop-g60ojud: claimed
