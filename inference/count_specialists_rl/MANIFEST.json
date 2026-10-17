@@ -1,0 +1,309 @@
+{
+  "schema": "ctf-count-specialists-rl-manifest-1",
+  "created": "2026-10-16T20:48:23-0700",
+  "registry": "registry.hpp",
+  "registry_path": "inference/count_specialists_rl/registry.hpp",
+  "registry_sha256": "12f883951cdb25b471ca6bcc3c0f03dbf4aaa5f7d562841ce80e0cc2b49fae49",
+  "models": {
+    "n02": {
+      "name": "spec_n02",
+      "count_tag": "n02",
+      "namespace": "fusion::models::rl_n02",
+      "header": "weights_n02.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n02.hpp",
+      "header_sha256": "405974dad38d3e01bfb23f2cd5379850a5a34c485ed80c64ede8d476d71162de",
+      "npz": "weights_n02.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n02.npz",
+      "digest": "80ff85dd7022027ed86bac61800a6956064da2d9db932c6fd55996101a63f900",
+      "greedy_agreement": 0.959,
+      "mean_abs_logp_error": 0.28847088188614883,
+      "max_abs_logp_error": 1.9336914274030548,
+      "max_abs_prob_error": 0.23833819382082966,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n03": {
+      "name": "spec_n03",
+      "count_tag": "n03",
+      "namespace": "fusion::models::rl_n03",
+      "header": "weights_n03.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n03.hpp",
+      "header_sha256": "e8bfdc5c5b4235098885eaeeb2de858203200ada9fa608aeebd6978bb9c2aafc",
+      "npz": "weights_n03.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n03.npz",
+      "digest": "1152498168d0e02068a9703e41827dc3faaf179afc07061f846df19b1abc87e5",
+      "greedy_agreement": 0.9505,
+      "mean_abs_logp_error": 0.30980106542212377,
+      "max_abs_logp_error": 2.552598654611984,
+      "max_abs_prob_error": 0.1756435176225682,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n04": {
+      "name": "spec_n04",
+      "count_tag": "n04",
+      "namespace": "fusion::models::rl_n04",
+      "header": "weights_n04.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n04.hpp",
+      "header_sha256": "f7579f7b82a6f95be81f70c7d2a246125853579dac6dea1f7e87fc1050ef56aa",
+      "npz": "weights_n04.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n04.npz",
+      "digest": "3e2d359e781907c8113a9ec7fe6043ac6bbdfbb0f1cb4e71628d70bd68b5e0c4",
+      "greedy_agreement": 0.9605,
+      "mean_abs_logp_error": 0.2883724206470245,
+      "max_abs_logp_error": 1.8269415222801761,
+      "max_abs_prob_error": 0.1958001175309359,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n05": {
+      "name": "spec_n05",
+      "count_tag": "n05",
+      "namespace": "fusion::models::rl_n05",
+      "header": "weights_n05.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n05.hpp",
+      "header_sha256": "6f35512e53e798b4d0d7ccb3e9c81ac77070c07cccc1d5a8cfca697905ffcd0d",
+      "npz": "weights_n05.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n05.npz",
+      "digest": "2c6e62d0bc69b58272cca9d98b9ef6efd61bd197c9dd2b599c86cda6622d122b",
+      "greedy_agreement": 0.9615,
+      "mean_abs_logp_error": 0.2579293555584375,
+      "max_abs_logp_error": 1.6485802174370061,
+      "max_abs_prob_error": 0.21119313124599914,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n06": {
+      "name": "spec_n06",
+      "count_tag": "n06",
+      "namespace": "fusion::models::rl_n06",
+      "header": "weights_n06.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n06.hpp",
+      "header_sha256": "b59155cc03f760abae903e697e0a30775326dd6eada1525b39fab3b349a11b05",
+      "npz": "weights_n06.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n06.npz",
+      "digest": "984896ab72021b686f89b2932e3fb88b8a067cb088f600a5af5dc735768bc5f4",
+      "greedy_agreement": 0.9615,
+      "mean_abs_logp_error": 0.3036463011199202,
+      "max_abs_logp_error": 2.0109072634113474,
+      "max_abs_prob_error": 0.1944677408481486,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n07": {
+      "name": "spec_n07",
+      "count_tag": "n07",
+      "namespace": "fusion::models::rl_n07",
+      "header": "weights_n07.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n07.hpp",
+      "header_sha256": "ba58598196724da3dd118ac4320233ca72f59a17565c670acb80d8348dacd923",
+      "npz": "weights_n07.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n07.npz",
+      "digest": "890b2986c5517c1f6f4dfe517f2b654e631f9b2f2e041832f04643616c540a43",
+      "greedy_agreement": 0.9615,
+      "mean_abs_logp_error": 0.2951335943250838,
+      "max_abs_logp_error": 1.8370931727794257,
+      "max_abs_prob_error": 0.2000305946624572,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n08": {
+      "name": "spec_n08",
+      "count_tag": "n08",
+      "namespace": "fusion::models::rl_n08",
+      "header": "weights_n08.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n08.hpp",
+      "header_sha256": "a106395ddd7a5a9512af7799f7a6bb7bbe29c83026028a1956c9dfd1ab4d4c6a",
+      "npz": "weights_n08.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n08.npz",
+      "digest": "7396cfa2d812af5e082f79b245d09ae98d63e4d18c44b756d3f08986ff486ed1",
+      "greedy_agreement": 0.97,
+      "mean_abs_logp_error": 0.2757244403991658,
+      "max_abs_logp_error": 1.8850112579252496,
+      "max_abs_prob_error": 0.20176713064759572,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n09": {
+      "name": "spec_n09",
+      "count_tag": "n09",
+      "namespace": "fusion::models::rl_n09",
+      "header": "weights_n09.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n09.hpp",
+      "header_sha256": "714b90bb410e17dc9c55731f53ddec25c1731182ec02b5b35591c1981679937f",
+      "npz": "weights_n09.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n09.npz",
+      "digest": "033d4537f810bd6a2518ac1428df8011c38690adbcd01da55fa1be14ee0ec1b7",
+      "greedy_agreement": 0.9715,
+      "mean_abs_logp_error": 0.28209137763931436,
+      "max_abs_logp_error": 2.2163327108936883,
+      "max_abs_prob_error": 0.2763426562622008,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n10": {
+      "name": "spec_n10",
+      "count_tag": "n10",
+      "namespace": "fusion::models::rl_n10",
+      "header": "weights_n10.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n10.hpp",
+      "header_sha256": "46130d0978cbfc3147fc4e1372b4b0114dbd2508db668678eacd2c4783f37bdd",
+      "npz": "weights_n10.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n10.npz",
+      "digest": "8b3369cc8a545cc3ceba8d9838bb506b784bb8af31fbda2dbacfa6c6d0a9b7cd",
+      "greedy_agreement": 0.969,
+      "mean_abs_logp_error": 0.2583709666101825,
+      "max_abs_logp_error": 1.6191962575043846,
+      "max_abs_prob_error": 0.2257487488335173,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n11": {
+      "name": "spec_n11",
+      "count_tag": "n11",
+      "namespace": "fusion::models::rl_n11",
+      "header": "weights_n11.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n11.hpp",
+      "header_sha256": "adcb3e874ed631ecef5e175b2534f057337adc1fe29c9583c0d10e76306fc58d",
+      "npz": "weights_n11.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n11.npz",
+      "digest": "d17718ba8d3c572d702dffdb7a933469c68297a7617bd28d3abbcc8c04094998",
+      "greedy_agreement": 0.9655,
+      "mean_abs_logp_error": 0.27239115517910517,
+      "max_abs_logp_error": 1.887784068336721,
+      "max_abs_prob_error": 0.16062495824728507,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n12": {
+      "name": "spec_n12",
+      "count_tag": "n12",
+      "namespace": "fusion::models::rl_n12",
+      "header": "weights_n12.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n12.hpp",
+      "header_sha256": "c5704b1cd26593c71c3e193091c2ca27e084638de24bbbbd83ec198b0852ab54",
+      "npz": "weights_n12.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n12.npz",
+      "digest": "8b201f3256247f97dd7a87f517a1a5091a9c740e5ac9fe0712cd7df0c0fd4720",
+      "greedy_agreement": 0.965,
+      "mean_abs_logp_error": 0.26990598496711576,
+      "max_abs_logp_error": 1.6684018360516966,
+      "max_abs_prob_error": 0.2199618297130389,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n13": {
+      "name": "spec_n13",
+      "count_tag": "n13",
+      "namespace": "fusion::models::rl_n13",
+      "header": "weights_n13.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n13.hpp",
+      "header_sha256": "152d2ecb9d90fa504b4be5d633184f3402318f9ec5021160ea4288d95f167f06",
+      "npz": "weights_n13.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n13.npz",
+      "digest": "56037dffebd5275d49e267db51474a1bb2aec54586c77ce68eafcd214016403d",
+      "greedy_agreement": 0.9705,
+      "mean_abs_logp_error": 0.2784554379938861,
+      "max_abs_logp_error": 1.7704171093624659,
+      "max_abs_prob_error": 0.16672218680672785,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n14": {
+      "name": "spec_n14",
+      "count_tag": "n14",
+      "namespace": "fusion::models::rl_n14",
+      "header": "weights_n14.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n14.hpp",
+      "header_sha256": "bcb4987606181e074ed42852ee6e5a1afc14ecb6f847a9fb31ea14b45ceee196",
+      "npz": "weights_n14.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n14.npz",
+      "digest": "6525c493498b110663ff2994ce10febb987939f8bde3da034de918e23e400865",
+      "greedy_agreement": 0.9645,
+      "mean_abs_logp_error": 0.2634212468902282,
+      "max_abs_logp_error": 1.8724072490416646,
+      "max_abs_prob_error": 0.16352933948304893,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "n15": {
+      "name": "spec_n15",
+      "count_tag": "n15",
+      "namespace": "fusion::models::rl_n15",
+      "header": "weights_n15.hpp",
+      "header_path": "inference/count_specialists_rl/weights_n15.hpp",
+      "header_sha256": "233ea7613014b9c6c758467677293e95dfe0e1c18c2a1297404bc7862cc548e1",
+      "npz": "weights_n15.npz",
+      "npz_path": "inference/count_specialists_rl/weights_n15.npz",
+      "digest": "bf8a8655210352a2841941cb1c664c173915ed4489a7083f64f77cfb53de942a",
+      "greedy_agreement": 0.9635,
+      "mean_abs_logp_error": 0.2671270648851034,
+      "max_abs_logp_error": 1.7109862475749757,
+      "max_abs_prob_error": 0.17952697200525664,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    },
+    "general": {
+      "name": "general_control",
+      "count_tag": "general",
+      "namespace": "fusion::models::rl_general",
+      "header": "weights_general.hpp",
+      "header_path": "inference/count_specialists_rl/weights_general.hpp",
+      "header_sha256": "e3781e703671cd9974857be8afbef69b81bead85046f01a3c7277be6c30ba96c",
+      "npz": "weights_general.npz",
+      "npz_path": "inference/count_specialists_rl/weights_general.npz",
+      "digest": "21cf1cfe17cbb25b90c17c9cc7bcee29c65df68b95fcd3fa5e5e5f5def4ecf1c",
+      "greedy_agreement": 0.956,
+      "mean_abs_logp_error": 0.30577546374981934,
+      "max_abs_logp_error": 2.450832626063818,
+      "max_abs_prob_error": 0.22711913384136628,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
+    }
+  }
+}

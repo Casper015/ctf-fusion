@@ -355,6 +355,71 @@ class CountSpecialistsBank(unittest.TestCase):
         self.assertNotIn("agent_v2_csp_direct", json.dumps(prof))
 
 
+@unittest.skipUnless(CXX, "no C++ compiler")
+class CountSpecialistsRL(unittest.TestCase):
+    """T0068's exact-count RL policy specialists in agent_v2_rl_csp."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.tmp = Path(tempfile.mkdtemp(prefix="agent-v2-rl-csp-"))
+        v = REPO / "bots" / "agent_v2" / "variants"
+        cls.variant_src = v / "agent_v2_rl_csp.cpp"
+        cls.binary = bundle_and_build(cls.variant_src, cls.tmp / "rl_csp")
+
+    def play(self, exe: Path, text: str) -> tuple[list[str], str]:
+        r = subprocess.run([str(exe)], input=text, capture_output=True, text=True, timeout=900)
+        self.assertEqual(r.returncode, 0, r.stderr[-500:])
+        return r.stdout.splitlines(), r.stderr
+
+    def test_variant_is_registered_and_not_a_production_default(self):
+        reg = json.loads((REPO / "bots" / "agent_v2" / "variants.json").read_text(encoding="utf-8"))
+        v = {x["name"]: x for x in reg["variants"]}
+        self.assertIn("agent_v2_rl_csp", v)
+        self.assertEqual(v["agent_v2_rl_csp"]["source"], "bots/agent_v2/variants/agent_v2_rl_csp.cpp")
+        prof = json.loads((REPO / "profiles" / "agent_v2.json").read_text(encoding="utf-8"))
+        self.assertNotIn("agent_v2_rl_csp", json.dumps(prof))
+
+    def test_count_specialists_rl_variant_routing_and_out_exp(self):
+        probe_src = self.tmp / "probe_routing.cpp"
+        variant_rel = self.variant_src.relative_to(REPO).as_posix()
+        probe_code = [
+            "#define main test_main_ignored",
+            f'#include "{variant_rel}"',
+            "#undef main",
+            "#include <cassert>",
+            "#include <iostream>",
+            "",
+            "int main() {",
+            "    assert(meow_rl_model::kActor.outExp == 16);",
+            "    for (int n = 2; n <= 15; ++n) {",
+            "        agent_v2_bot::g_active_teams = n;",
+            "        const fusion::Net& net = meow_rl_model::kActor;",
+            "        assert(&net != &fusion::models::rl_general::kActor);",
+            "    }",
+            "    agent_v2_bot::g_active_teams = 0;",
+            "    const fusion::Net& gen = meow_rl_model::kActor;",
+            "    assert(&gen == &fusion::models::rl_general::kActor);",
+            '    std::cout << "OK_ROUTING_REAL_ENTRYPOINT\\n";',
+            "    return 0;",
+            "}",
+        ]
+        probe_src.write_text("\n".join(probe_code), encoding="utf-8")
+        exe = self.tmp / f"probe{runner.EXE}"
+        subprocess.run([CXX, *FLAGS, *(["-static"] if runner.WINDOWS else []),
+                        "-I", str(REPO), "-I", str(REPO / "inference"), "-I", str(REPO / "bots" / "agent_v2"),
+                        str(probe_src), "-o", str(exe)],
+                       check=True, capture_output=True)
+        r = subprocess.run([str(exe)], capture_output=True, text=True, check=True)
+        self.assertIn("OK_ROUTING_REAL_ENTRYPOINT", r.stdout)
+
+    def test_real_variant_binary_on_stream(self):
+        text = stream("n02")
+        lines, err = self.play(self.binary, text)
+        assert_valid_replies(self, "n02", text, lines, err)
+        self.assertIn("predictor P model csp_n02 ", err)
+        self.assertIn("actor count_specialists_rl ", err)
+
+
 class Profile(unittest.TestCase):
     def test_pins_match_the_files_and_names_are_new(self):
         prof = json.loads((REPO / "profiles" / "agent_v2.json").read_text())

@@ -46,6 +46,8 @@ inline bool read_block(std::string& block) {
     return false;
 }
 
+inline int g_active_teams = 0;
+
 inline int run() {
     std::setvbuf(stderr, nullptr, _IONBF, 0);
     std::ios::sync_with_stdio(false);
@@ -54,6 +56,11 @@ inline int run() {
     rt.greedy = AGENT_V2_GREEDY;
     std::string block, why;
     while (read_block(block)) {
+        if (g_active_teams == 0 && block.rfind("INIT", 0) == 0) {
+            const char* p = block.c_str() + 4;
+            while (*p == ' ') p++;
+            g_active_teams = std::atoi(p);
+        }
         const auto started = std::chrono::steady_clock::now();
         const std::string reply = rt.decide(block, started, why);
         if (rt.tel.turns == 1)
