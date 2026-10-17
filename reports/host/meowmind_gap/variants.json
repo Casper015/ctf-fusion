@@ -1,0 +1,23 @@
+{
+ "_comment": "Variants for task T0078 (Meowmind search on/off gap attribution): ON (meowmind_search_on), OFF (meowmind_search_off), and V (agent_v2_p2xxl_direct).",
+ "variants": [
+  {
+   "name": "meowmind_search_on",
+   "role": "ON: original Meowmind with NN_SEARCH=1",
+   "source": "bots/meowmind_p/attribution/meowmind_search_on.cpp",
+   "telemetry": "meowmind"
+  },
+  {
+   "name": "meowmind_search_off",
+   "role": "OFF: original Meowmind with NN_SEARCH=0",
+   "source": "bots/meowmind_p/attribution/meowmind_search_off.cpp",
+   "telemetry": "meowmind"
+  },
+  {
+   "name": "agent_v2_p2xxl_direct",
+   "role": "V: agent_v2_p2xxl_direct, deployed actor-direct default",
+   "source": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp",
+   "telemetry": "agent_v2"
+  }
+ ]
+}

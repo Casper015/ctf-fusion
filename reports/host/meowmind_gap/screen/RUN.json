@@ -1,0 +1,108 @@
+{
+ "created": "2026-10-17T02:46:17",
+ "smoke": false,
+ "config": {
+  "_comment": "Paired host screen for task T0078 (Meowmind search on/off gap attribution): ON (meowmind_search_on) vs OFF (meowmind_search_off) vs V (agent_v2_p2xxl_direct) + A/A copy of ON. Fresh seed 20262111, exactly 8 workers under CPU lock, 2,000 ms first and 50 ms steady replies. 56 maps per count across counts 2-15 (784 fixtures, 3,136 games total across 4 arms). Primary ON-OFF and ON-V form one two-contrast Bonferroni family (alpha=0.05).",
+  "seed": 20262111,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 56,
+  "workers": 8,
+  "workers_exact": true,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "variants": "reports/host/meowmind_gap/variants.json",
+  "margin": 0.0,
+  "preflight": "reports/host/meowmind_gap/PREFLIGHT.json",
+  "reference": [
+   "Fable",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player4"
+  ],
+  "fixtures": 784,
+  "games": 3136,
+  "work_dir": "data/host/meowmind_gap/screen",
+  "report_dir": "reports/host/meowmind_gap/screen",
+  "arms": [
+   "meowmind_search_on",
+   "meowmind_search_off",
+   "agent_v2_p2xxl_direct"
+  ],
+  "aa": [
+   "meowmind_search_on"
+  ],
+  "comparisons": [
+   [
+    "meowmind_search_on",
+    "meowmind_search_off"
+   ],
+   [
+    "meowmind_search_on",
+    "agent_v2_p2xxl_direct"
+   ]
+  ],
+  "multiplicity": {
+   "method": "bonferroni",
+   "alpha": 0.05
+  }
+ },
+ "effective": {
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 56,
+  "turn_ms": 50,
+  "arms": [
+   "meowmind_search_on",
+   "meowmind_search_off",
+   "agent_v2_p2xxl_direct"
+  ],
+  "aa": [
+   "meowmind_search_on"
+  ],
+  "workers": 8
+ },
+ "ctf_fusion_commit": "4bdc4f24d7e75b9c2ba86398b5fcf49fc3f2c4a3",
+ "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+ "host": "DESKTOP-G60OJUD",
+ "os": "Windows-10-10.0.19045-SP0",
+ "cpu_count": 32,
+ "python": "3.14.3",
+ "wall_seconds": {
+  "build": 0.6,
+  "run": 797.6,
+  "analyze": 19.5,
+  "total": 817.7
+ },
+ "analysis_status": 0
+}
