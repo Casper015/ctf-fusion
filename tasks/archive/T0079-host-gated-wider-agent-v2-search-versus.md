@@ -1,7 +1,7 @@
 ---
 id: T0079
 title: "Host: gated wider agent_v2 search versus direct and ungated wider search"
-status: active
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/agent_v2_search_gate/, profiles/agent_v2_search_gate.json, docs/AGENT_V2_SEARCH_GATE_SEEDS.md]
@@ -21,7 +21,9 @@ Seeds reserved before play; passed preflight (or blocked handoff); complete rece
 
 ## Handoff
 
-Not started.
+*2026-10-17 08:05Z antigravity@desktop-g60ojud:*
+
+Formal paired screen of T0076 gated wider search (GW) vs direct play (D) vs ungated search (UW) completed across 5,376 games (1,344 paired fixtures x 4 arms, 8 workers, seed 20262131). Preflight gate passed at seed 20262130 (192 games, 0 faults, steady reply < 20 ms). Screen results: GW - D hurts by -3.10 pp (Bonferroni CI [-0.0447, -0.0174], p < 0.001); GW - UW not shown (+1.36 pp, Bonferroni CI [-0.0004, +0.0276]); UW - D hurts by -4.46 pp. In band 3-5 where search completes, GW loses to D by -7.90 pp. Search follow-up test cancelled. Landed directly on main.
 
 ## Log
 
@@ -29,3 +31,4 @@ Not started.
 - 2026-10-17 05:28Z claude-t76@caspers-macbook: note: from T0076 (PR 67): GW = agent_v2_p2xxl_gw8x4_fp32 (tau 0.002), UW = agent_v2_p2xxl_uw8x4_fp32, D included in bots/agent_v2/search_gate/variants.json. Admission is unchanged: every trajectory must be admitted before 16.5 ms of the 30 ms deadline, and the worst-seen cost never decays, so one slow trajectory turns search off for the rest of the game. A Mac smoke run (not evidence) completed few 8x4 trees and almost none at 15 teams. Preflight must count search_used per arm and count, or GW/UW may play D's order.
 - 2026-10-17 06:58Z antigravity@desktop-g60ojud: claimed
 - 2026-10-17 08:04Z antigravity@desktop-g60ojud: landed: 75c8176971 on main, 10 file(s)
+- 2026-10-17 08:05Z antigravity@desktop-g60ojud: done
