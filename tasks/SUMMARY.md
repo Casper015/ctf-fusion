@@ -15,7 +15,7 @@ Someone holds these; their `writes` are reserved.
 | [T0071](T0071-train-8xl-count-specific-opponent-p.md) | review | antigravity@desktop-g60ojud | Train 8XL count-specific opponent P teacher models and audit data sufficiency | reports/models/count_specialists_8xl/, training/train_count_specialists_8xl.py, tests/test_repo_layout.py |
 | [T0074](T0074-distill-a-general-8xl-p-teacher-into-per.md) | blocked | antigravity@desktop-g60ojud | Distill a general 8XL P teacher into per-count XXL students | training/distill_count_specialists.py, reports/models/count_specialists_distill/, inference/count_specialists_distill/, profiles/count_specialists_distill.json, tests/test_repo_layout.py |
 | [T0079](T0079-host-gated-wider-agent-v2-search-versus.md) | active | antigravity@desktop-g60ojud | Host: gated wider agent_v2 search versus direct and ungated wider search | reports/host/agent_v2_search_gate/, profiles/agent_v2_search_gate.json, docs/AGENT_V2_SEARCH_GATE_SEEDS.md |
-| [T0080](T0080-wire-p3-opponent-prediction-into-agent.md) | active | codex-p3search@caspers-macbook | Wire P3 opponent prediction into agent_v2 search | inference/agent_v2/p_bank.hpp, inference/agent_v2/predictor.hpp, tools/cpp/agent_v2/check.cpp, bots/agent_v2/p3_search/, tests/test_agent_v2_p3.py |
+| [T0080](T0080-wire-p3-opponent-prediction-into-agent.md) | active | codex-p3search@caspers-macbook | Wire P3 opponent prediction into agent_v2 search | bots/agent_v2/p3_search/, inference/agent_v2/p_bank.hpp, inference/agent_v2/predictor.hpp, tests/test_agent_v2_p3.py, tools/cpp/agent_v2/check.cpp, tools/screens/next_controls/MANIFEST.json |
 
 ## Ready to claim
 

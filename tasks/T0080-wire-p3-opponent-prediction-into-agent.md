@@ -4,7 +4,7 @@ title: "Wire P3 opponent prediction into agent_v2 search"
 status: active
 owner: codex-p3search@caspers-macbook
 needs: []
-writes: [inference/agent_v2/p_bank.hpp, inference/agent_v2/predictor.hpp, tools/cpp/agent_v2/check.cpp, bots/agent_v2/p3_search/, tests/test_agent_v2_p3.py]
+writes: [bots/agent_v2/p3_search/, inference/agent_v2/p_bank.hpp, inference/agent_v2/predictor.hpp, tests/test_agent_v2_p3.py, tools/cpp/agent_v2/check.cpp, tools/screens/next_controls/MANIFEST.json]
 depends: [T0076]
 land: pr
 branch: codex-p3search/t0080-wire-p3-opponent-prediction-into-agent
@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-17 07:46Z codex-p3search@caspers-macbook: created
 - 2026-10-17 07:46Z codex-p3search@caspers-macbook: claimed
+- 2026-10-17 07:50Z codex-p3search@caspers-macbook: amended writes -> bots/agent_v2/p3_search/, inference/agent_v2/p_bank.hpp, inference/agent_v2/predictor.hpp, tests/test_agent_v2_p3.py, tools/cpp/agent_v2/check.cpp, tools/screens/next_controls/MANIFEST.json
