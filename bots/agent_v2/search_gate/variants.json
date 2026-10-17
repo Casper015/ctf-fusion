@@ -1,0 +1,16 @@
+{
+ "_comment": "The T0076 search-gate variants (docs/AGENT_V2_SEARCH_GATE.md), with the agent_v2 variants included so one build has T0079's arms D, GW and UW. Build: python bots/p_only/tools/build.py --variants bots/agent_v2/search_gate/variants.json agent_v2_p2xxl_direct agent_v2_p2xxl_gw8x4_fp32 agent_v2_p2xxl_uw8x4_fp32. Not screened; not a production default.",
+ "include": ["bots/agent_v2/variants.json"],
+ "variants": [
+  {
+   "name": "agent_v2_p2xxl_gw8x4_fp32",
+   "role": "experimental (T0079 arm GW): frozen gated-wide search, 8 candidates x 4 scenarios, tau 0.002, FP32 critic, P2 XXL",
+   "source": "bots/agent_v2/search_gate/variants/agent_v2_p2xxl_gw8x4_fp32.cpp"
+  },
+  {
+   "name": "agent_v2_p2xxl_uw8x4_fp32",
+   "role": "experimental (T0079 arm UW): the same tree with tau 0 (ungated)",
+   "source": "bots/agent_v2/search_gate/variants/agent_v2_p2xxl_uw8x4_fp32.cpp"
+  }
+ ]
+}
