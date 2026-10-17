@@ -1,13 +1,13 @@
 ---
 id: T0077
 title: "Host: exact-count RL specialists versus general control and common initialization"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/agent_v2_rl_acceptance/, profiles/agent_v2_rl_acceptance.json, docs/AGENT_V2_RL_ACCEPTANCE_SEEDS.md]
 depends: [T0068, T0075]
 land: direct
-branch: ""
+branch: antigravity/t0077-host-exact-count-rl-specialists-versus
 updated: 2026-10-17
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-17 04:07Z claude-review@caspers-macbook: created
+- 2026-10-17 06:11Z antigravity@desktop-g60ojud: claimed
