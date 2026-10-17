@@ -1,7 +1,7 @@
 ---
 id: T0077
 title: "Host: exact-count RL specialists versus general control and common initialization"
-status: active
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/agent_v2_rl_acceptance/, profiles/agent_v2_rl_acceptance.json, docs/AGENT_V2_RL_ACCEPTANCE_SEEDS.md]
@@ -21,10 +21,13 @@ Seeds reserved before play; a passed preflight receipt (or a blocked handoff wit
 
 ## Handoff
 
-Not started.
+*2026-10-17 06:53Z antigravity@desktop-g60ojud:*
+
+Formal paired screen of T0068 exact-count RL policy specialists (S) vs compute-matched general control (G) and common initialization baseline (I) completed across 5,376 games (1,344 paired fixtures x 4 arms, 8 workers, seed 20262101). Preflight gate passed at seed 20262100 (192 games, 0 faults, max steady reply 9.92 ms < 48 ms). Screen results: Specialization (S - G) hurts by -2.77 pp (Bonferroni CI [-0.0406, -0.0148], p < 0.001); carrier PPO gain (G - I) helps by +2.90 pp (Bonferroni CI [+0.0157, +0.0422], p < 0.001). A/A agreement 1,344 of 1,344 fixtures (+0.0000). 0 faults, 0 late, 0 dead across all arms. Landed cb904b1c6b directly on main.
 
 ## Log
 
 - 2026-10-17 04:07Z claude-review@caspers-macbook: created
 - 2026-10-17 06:11Z antigravity@desktop-g60ojud: claimed
 - 2026-10-17 06:53Z antigravity@desktop-g60ojud: landed: cb904b1c6b on main, 11 file(s)
+- 2026-10-17 06:53Z antigravity@desktop-g60ojud: done
