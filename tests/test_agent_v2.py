@@ -439,6 +439,13 @@ class Profile(unittest.TestCase):
         self.assertEqual(prof["host_gate"]["limits_ms"], [2000, 50])
         self.assertIsNone(prof["host_gate"]["seeds"]["preflight"])
 
+    def test_production_default_and_variants(self):
+        prof = json.loads((REPO / "profiles" / "agent_v2.json").read_text())
+        self.assertTrue(prof["production_default"].startswith("agent_v2_p2xxl_direct"))
+        vars_json = json.loads((REPO / "bots" / "agent_v2" / "variants.json").read_text())
+        self.assertEqual(vars_json["production_default"], "agent_v2_p2xxl_direct")
+        self.assertIn("agent_v2_rl_general_csp", [v["name"] for v in vars_json["variants"]])
+
 
 if __name__ == "__main__":
     unittest.main()
