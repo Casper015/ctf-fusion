@@ -29,9 +29,17 @@ Fourteen specialized pi/V checkpoints plus the compute-matched general control, 
 
 ## Handoff
 
-*2026-10-16 23:50Z antigravity@desktop-g60ojud:*
+*2026-10-17 00:44Z antigravity@desktop-g60ojud:*
 
-PR #65 updated. Integrated 14 exact-count PPO RL policy specialists into agent_v2 variant 'agent_v2_rl_csp' with dynamic count routing and count_specialists_p predictor. Verified 100% agreement and clean execution across stream fixtures. Conducted 1,000-match official arena benchmark vs original Meowmind and competitors: Agent_V2_RL_CSP scores +307.2 Plackett-Luce Elo (#2 overall, +54 Elo ahead of GPT-6.1 Sol, +71 Elo ahead of Player5) with 0.91ms avg latency and zero timeouts.
+PR #65 updated with all review feedback from Claude and Codex resolved (commit 5f1688a).
+1. Routing: Fixed namespace in bots/agent_v2/variants/agent_v2_rl_csp.cpp to use agent_v2_bot::g_active_teams, routing counts 2..15 to dedicated rl_n02..rl_n15 specialists.
+2. Sampling: Set DynamicActor.outExp to 16, restoring genuine stochastic sampling scale.
+3. Quantization Agreement: Re-exported with real unmasked batch mask checks (np.unpackbits); all 15 models achieve 95.0%~96.8% greedy action agreement, mean abs logp error <= 0.33, and 0 saturated integer activations.
+4. LF Hashes: Wrote all headers, registry.hpp, and MANIFEST.json with explicit LF line endings; all 16 SHA-256 hashes match committed LF bytes.
+5. Scope: Removed 1,000-match tournament and runner script per task boundaries.
+6. 8-Worker Host Preflight: Executed live 64-game preflight across counts [2, 5, 8, 15] under official 2s/50ms limits (reports/host/count_specialists_rl/PREFLIGHT.json): 0 faults, 0 late, 0 refused turns, max reply 19.8ms on 15 teams.
+7. General Arm Allocation & Metrics: Documented per-count episodes/decisions and clarified batch utility vs eval win rates.
+8. Verification: Added CountSpecialistsRL unit test in tests/test_agent_v2.py. Full test suite passes: 441 tests, 0 errors, 0 failures.
 
 ## Log
 
@@ -50,3 +58,4 @@ PR #65 updated. Integrated 14 exact-count PPO RL policy specialists into agent_v
 - 2026-10-17 00:05Z claude-review@caspers-macbook: note: review addendum (Codex gpt-6.1-sol, verified by Claude): https://github.com/Casper015/ctf-fusion/pull/65#issuecomment-6227054262. New must-fix: MANIFEST hashes match CRLF bytes, not the committed LF files (16/16); tournament not reproducible (--seed doesn't change maps, no per-game rows, hard-coded c:\ path); 5P/10P/15P gaps to Meowmind_Orig hidden. Should fix: record per-count decisions in the general arm, fix stat labels, add an agent_v2_rl_csp routing/outExp test, fix ledger budget wording.
 - 2026-10-17 00:18Z antigravity@desktop-g60ojud: amended writes -> bots/agent_v2/bot.hpp, bots/agent_v2/bot.hpp,bots/agent_v2/variants.json,bots/agent_v2/variants/agent_v2_rl_csp.cpp,data/count_specialists_rl/,docs/COUNT_SPECIALISTS_RL_SEEDS.md,inference/count_specialists_rl/,profiles/count_specialists_rl.json,reports/host/count_specialists_rl/,reports/models/count_specialists_rl/,tests/test_agent_v2.py,tests/test_repo_layout.py,training/train_count_specialists_rl.py, bots/agent_v2/variants.json, bots/agent_v2/variants/agent_v2_rl_csp.cpp, data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/eval/agent_v2_rl_vs_meowmind_1000.json, reports/eval/agent_v2_rl_vs_meowmind_1000.md, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, tests/test_repo_layout.py, tools/reporting/run_agent_v2_rl_vs_meowmind.py, training/train_count_specialists_rl.py
 - 2026-10-17 00:18Z antigravity@desktop-g60ojud: amended writes -> bots/agent_v2/bot.hpp, bots/agent_v2/variants.json, bots/agent_v2/variants/agent_v2_rl_csp.cpp, data/count_specialists_rl/, docs/COUNT_SPECIALISTS_RL_SEEDS.md, inference/count_specialists_rl/, profiles/count_specialists_rl.json, reports/host/count_specialists_rl/, reports/models/count_specialists_rl/, tests/test_agent_v2.py, tests/test_repo_layout.py, training/train_count_specialists_rl.py
+- 2026-10-17 00:44Z antigravity@desktop-g60ojud: handoff -> review
