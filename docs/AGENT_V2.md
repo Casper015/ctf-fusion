@@ -201,3 +201,17 @@ Each step is a separate frozen host task with exactly 8 workers, 2 s/50 ms full 
    - a zero-initialized joint movement residual;
    - resolver profiles;
    - a drop/keep head, only after tactical diagnostics show headroom, and with its own drop specification and tests.
+
+
+## Production Release (T0082)
+
+The production release configuration of `agent_v2` is frozen in `profiles/agent_v2.json`:
+
+- **Production Default:** `agent_v2_p2xxl_direct` (actor-direct)
+  - Confirmed by T0083 release gate: paired screen of general PPO policy G (`agent_v2_rl_general_csp`) vs current default D (`agent_v2_p2xxl_direct`) was not shown to differ (+0.11 pp, 95% CI [-1.16%, +1.38%], 4,032 games, 8 workers, seed 20262141). Per the pre-declared frozen promotion rule, D remains the production default.
+- **RL Variant:** `agent_v2_rl_general_csp` (actor-direct)
+  - T0077 (seed 20262101): General PPO policy G beat the 14 exact-count specialists S by +2.77 pp (95% CI [-4.06%, -1.48%]) and beat the un-trained initialization I by +2.90 pp (95% CI [+1.57%, +4.22%]).
+  - Matches D in release-gate utility (0.7669 vs 0.7658).
+- **Search vs Direct (T0079, seed 20262131):** 2-ply search actively degrades performance across all counts where it runs (-3.10 pp [-4.47%, -1.74%] overall, -7.90 pp on 3-5 teams). Search is disabled in release.
+- **Predictor:** P2 XXL (`FUSION_TIER_PXXL_VM`) for default D; CSP per-count opponent models (`FUSION_TIER_CSP`, n02-n15) for variant G.
+- **Resolver:** `assign_v1` / `dp_v1` with 8 scenarios.
