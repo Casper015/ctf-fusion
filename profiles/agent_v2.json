@@ -1,5 +1,5 @@
 {
- "_comment": "The agent_v2 carrier (task T0065, docs/AGENT_V2.md): frozen identities of its first variants and the host evaluations that must follow. Code and specification only: no game, preflight or training has used this profile. Seeds are null until the host task reserves fresh ones in their ledgers before any game; every official run uses exactly 8 game workers under the CPU lease, 2,000 ms first and 50 ms later full replies, the held-out roster, paired fixtures and fixed budgets frozen before play.",
+ "_comment": "The agent_v2 carrier (task T0065, docs/AGENT_V2.md): frozen identities of its variants and host evaluations. Production default is agent_v2_p2xxl_direct, confirmed by T0083 release gate where general PPO policy G was not shown to differ from D (+0.11 pp [-1.16%, +1.38%]).",
  "schema": "ctf-agent-v2-1",
  "task": "T0065",
  "carrier": "agent_v2_v1",
@@ -75,6 +75,7 @@
  },
  "variants": {
   "agent_v2_p2xxl_direct": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp",
+  "agent_v2_rl_general_csp": "bots/agent_v2/variants/agent_v2_rl_general_csp.cpp",
   "agent_v2_p2xxl_search_r16": "bots/agent_v2/variants/agent_v2_p2xxl_search_r16.cpp",
   "agent_v2_p2xxl_search_w16": "bots/agent_v2/variants/agent_v2_p2xxl_search_w16.cpp",
   "agent_v2_p2xxl_search_fp32": "bots/agent_v2/variants/agent_v2_p2xxl_search_fp32.cpp"
@@ -120,7 +121,29 @@
   "critic": "meow_public416_v1"
  },
  "simulator": "fusion::step (inference/sim.hpp) + lawful refresh sampling (inference/agent_v2/simulate.hpp)",
- "production_default": "agent_v2_p2xxl_direct (actor-direct). T0064 (reports/host/meow_rl_aligned/VERDICTS.md): on the meow_rl carrier the aligned p2_large actor helps against its warm start (+3.84 pp [+1.66, +6.01]) while search hurts with every critic (fp32 -3.91, w16 -4.66, r16 -14.76 pp); search stays an unscreened experiment here until its deficit is diagnosed",
+ "production_default": "agent_v2_p2xxl_direct (actor-direct). Confirmed by T0083 release gate (reports/host/agent_v2_release_gate/REPORT.md): G - D is not shown (+0.11 pp [-1.16%, +1.38%]), so D remains production default per frozen promotion rule.",
+ "host_screen_evidence": {
+  "T0077": {
+   "seed": 20262101,
+   "games": 5376,
+   "primary_S_minus_G": "-0.0277 [-0.0406, -0.0148] (hurts)",
+   "supporting_G_minus_I": "+0.0290 [+0.0157, +0.0422] (helps)",
+   "verdict": "Specialists S rejected; general policy G confirmed superior to S and I"
+  },
+  "T0079": {
+   "seed": 20262131,
+   "games": 5376,
+   "primary_GW_minus_D": "-0.0310 [-0.0447, -0.0174] (hurts)",
+   "descriptive_UW_minus_D": "-0.0446 [-0.0571, -0.0321] (hurts)",
+   "verdict": "Search conclusively hurts vs direct play; direct inference retained"
+  },
+  "T0083": {
+   "seed": 20262141,
+   "games": 4032,
+   "primary_G_minus_D": "+0.0011 [-0.0116, +0.0138] (not shown)",
+   "verdict": "G does not help vs D; agent_v2_p2xxl_direct remains production default"
+  }
+ },
  "variants_note": {
   "agent_v2_p2xxl_search_r16": "diagnostic only (contract tests and fixed-work replay); not a screening arm"
  }
