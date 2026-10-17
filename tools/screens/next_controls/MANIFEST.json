@@ -188,8 +188,179 @@
    "telemetry": "agent_v2",
    "source": "bots/agent_v2/controls/agent_v2_rl_init_csp.cpp",
    "source_sha256": "639fa4922d15b86f4cdf439b75b60ef37630edbdb24c5c31155b09d164977767",
-   "model": null,
-   "status": "awaiting_init_export"
+   "model": {
+    "name": "init_actor",
+    "namespace": "fusion::models::rl_init",
+    "header": "inference/agent_v2_controls/init_actor.hpp",
+    "header_sha256": "6875a6f2d920a58b3cf5b5a836dfd55a2748de5b45549d14d809332fabd8d059",
+    "npz": "inference/agent_v2_controls/init_actor.npz",
+    "npz_sha256": "34c7de9ab13772b72c460ba7003f9bd13f67622bca6831d5e688964bf9f60d95",
+    "digest": "b931241fc98f3df2e377eea44be8bd281e7053bc14da98156293bf282a75dec0",
+    "source": {
+     "path": "data/count_specialists_rl/init_actor.npz",
+     "sha256": "34c7de9ab13772b72c460ba7003f9bd13f67622bca6831d5e688964bf9f60d95",
+     "origin": "task T0068, runs/count_specialists_rl/general_control/config.json, commit c44bb2d"
+    },
+    "producer": "inference/agent_v2_controls/MANIFEST.json",
+    "producer_sha256": "c33389375b25906580ac84582ade058dd997ed0aa62d2b3bdcf1fd845d61715d"
+   },
+   "status": "ready",
+   "bundle_sha256": "d81e61a1f0852ddcad975cad1dd8f590c8c5f16076e355402243072dfea96044",
+   "bundle_bytes": 60719604,
+   "inlined": [
+    {
+     "path": "bots/agent_v2/controls/agent_v2_rl_init_csp.cpp",
+     "sha256": "639fa4922d15b86f4cdf439b75b60ef37630edbdb24c5c31155b09d164977767"
+    },
+    {
+     "path": "inference/agent_v2_controls/init_only.hpp",
+     "sha256": "5092e4ef453a61bef5c46893b1186d2f26c45bbcacb8b414a6fc277f52ca4571"
+    },
+    {
+     "path": "inference/agent_v2_controls/init_actor.hpp",
+     "sha256": "6875a6f2d920a58b3cf5b5a836dfd55a2748de5b45549d14d809332fabd8d059"
+    },
+    {
+     "path": "inference/mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference/simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "bots/agent_v2/bot.hpp",
+     "sha256": "e5e9b1ed8697466ff56cfdc78b8796498eb2c745ad0b2dad875a5c45ebf96670"
+    },
+    {
+     "path": "inference/agent_v2/runtime.hpp",
+     "sha256": "b295e0dc465c1e21c459b44a48192840d229e05ee66d6618ee0490645c69e14f"
+    },
+    {
+     "path": "inference/agent_v2/core.hpp",
+     "sha256": "f9f8bef99c7e9f35aad5b20e8b1c1a723a18e8e9595c00c15e963fba2b5682a5"
+    },
+    {
+     "path": "inference/sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "inference/state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference/agent_v2/features_meow_v1.hpp",
+     "sha256": "f2495d3d57f55dc0ad8b461ab6c7cf558cc7a9a07e968f1246777c06e7e526d8"
+    },
+    {
+     "path": "inference/agent_v2/meowmind_features.hpp",
+     "sha256": "f95416504f6f031e8eab5ec688953f8cbf490ca6feb1cd8e256590051bbd915a"
+    },
+    {
+     "path": "inference/agent_v2/predictor.hpp",
+     "sha256": "cc0688ead61791e10652d9bd35f393b60c20fdf1d8cef37b720d187f3944a446"
+    },
+    {
+     "path": "inference/agent_v2/p_bank.hpp",
+     "sha256": "e07f73a2d56145f7d9b9abf23488beaf7a88bc1247f5dd3d1431ba228087de24"
+    },
+    {
+     "path": "inference/count_specialists_p/registry.hpp",
+     "sha256": "09741ed18f24afb463c4d9410de02da3add5ee1621a034954f6b593ad582d275"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n02.hpp",
+     "sha256": "cf6d78bebf91ab51eb1a0732fadc9b17a80e74d21fdc177c76764218e07f7957"
+    },
+    {
+     "path": "inference/adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference/policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference/features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference/value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n03.hpp",
+     "sha256": "a1e6f7b576b045846c54377a61708b338539292d27327eb17d9b087fd3d93c34"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n04.hpp",
+     "sha256": "b0be263922e067e3381aebfc982b0199fd42fb2dfbf84f2ff15e6cef67804071"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n05.hpp",
+     "sha256": "a9f79adf73bdd1cfeefbbab8007ffe994eafab7a9c4f37b36e3d6757883eab1c"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n06.hpp",
+     "sha256": "939d85d48a2f916cd38c7cc64daa9470c1a69b63ae9579287144628bb09fed73"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n07.hpp",
+     "sha256": "e1bdef28f9ae56d8e25d91fbf8b60a525f4479b8693d0638868c8d26ea5ce0ee"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n08.hpp",
+     "sha256": "be03bb203c298307057d2deffc25fade78dd3c6df0b2eefaf6af5288bd426e5e"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n09.hpp",
+     "sha256": "53b8c3bec91e1527416a01c717ca5cc47213f2dff7f60dc8c9ac1c461e45d553"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n10.hpp",
+     "sha256": "92bb216af5b3aa82100212d69a47021514aa4bd3a81b2cbcae7c4c3af2d7cbe9"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n11.hpp",
+     "sha256": "20a1d25ff735ec8c8e18d76226e0e12817c0cac06d5c46fdbf21a0a60448e452"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n12.hpp",
+     "sha256": "cec886f79095b0101b940ea55c7c897a5c6cb29514b5ba431979e4ef398b9a81"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n13.hpp",
+     "sha256": "25c5ddc5080c61b95d3e03c8668a22a5bc3fe11c459462ccd8b2757210fb1c81"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n14.hpp",
+     "sha256": "3d797db5408f4bc73d41c500b157e3e868f22c3fa7e4e1f611edca617c885ef5"
+    },
+    {
+     "path": "inference/count_specialists_p/weights_n15.hpp",
+     "sha256": "7c410f7fcd678f7c6234c06627249a9eb3432b138c9590089fb5da4f63ce0d2a"
+    },
+    {
+     "path": "inference/agent_v2/resolver.hpp",
+     "sha256": "ec2a2753820b3bc034029cfffa9b9c04d4c90798fc505dcc12aee35a723d32d0"
+    },
+    {
+     "path": "inference/agent_v2/simulate.hpp",
+     "sha256": "7347bc9e01688897b5391d8e9da65c41c9bc86ed0eb6cd128331dde822b142df"
+    },
+    {
+     "path": "bots/p_only/include/ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "tools/cpp/stream.hpp",
+     "sha256": "40de1a62ff395223cb0e7ec1695d6c88de877a6c13813d9228874765d057bcbb"
+    },
+    {
+     "path": "tools/cpp/meow_rl/actor_int.hpp",
+     "sha256": "18a2fd123def697d816b4e11995cbb39d13aebf2574aa9e7b00e712db5cb79ae"
+    }
+   ]
   },
   "meowmind_search_on": {
    "list": "bots/meowmind_p/attribution/variants.json",
