@@ -1,13 +1,13 @@
 ---
 id: T0078
 title: "Host: original Meowmind search-on/off gap attribution"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/meowmind_gap/, profiles/meowmind_gap.json, docs/MEOWMIND_GAP_SEEDS.md]
 depends: [T0075]
 land: direct
-branch: ""
+branch: antigravity/t0078-host-original-meowmind-search-on-off-gap
 updated: 2026-10-17
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-17 04:07Z claude-review@caspers-macbook: created
+- 2026-10-17 09:29Z antigravity@desktop-g60ojud: claimed
