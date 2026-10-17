@@ -1,0 +1,19 @@
+{
+ "_comment": "T0075's agent_v2 controls for T0077 (bots/agent_v2/controls/README.md). Build: python bots/p_only/tools/build.py --variants bots/agent_v2/controls/variants.json. A dedicated list: bots/agent_v2/variants.json belongs to T0068. Pins: tools/screens/next_controls/MANIFEST.json.",
+ "variants": [
+  {
+   "name": "agent_v2_rl_general_csp",
+   "role": "control G: agent_v2_rl_csp with T0068's compute-matched general control (rl_general) on every count; CSP P bank, extracted resolver, actor-direct",
+   "source": "bots/agent_v2/controls/agent_v2_rl_general_csp.cpp",
+   "telemetry": "agent_v2",
+   "actor": {"header": "inference/count_specialists_rl/weights_general.hpp", "namespace": "fusion::models::rl_general"}
+  },
+  {
+   "name": "agent_v2_rl_init_csp",
+   "role": "control I: agent_v2_rl_csp with T0068's common initialization actor (rl_init, exported by tools/screens/next_controls/export_init_actor.py) on every count; CSP P bank, extracted resolver, actor-direct",
+   "source": "bots/agent_v2/controls/agent_v2_rl_init_csp.cpp",
+   "telemetry": "agent_v2",
+   "actor": {"header": "inference/agent_v2_controls/init_actor.hpp", "namespace": "fusion::models::rl_init"}
+  }
+ ]
+}

@@ -1,0 +1,17 @@
+{
+ "_comment": "T0075's original-Meowmind search attribution arms for T0078 (bots/meowmind_p/attribution/README.md). Build: python bots/p_only/tools/build.py --variants bots/meowmind_p/attribution/variants.json. The wrappers differ only in NN_SEARCH; pins: tools/screens/next_controls/MANIFEST.json.",
+ "variants": [
+  {
+   "name": "meowmind_search_on",
+   "role": "ON: original Meowmind (meowmind-ctf-374-20261011.cpp, unmodified) with NN_SEARCH=1, the source's default",
+   "source": "bots/meowmind_p/attribution/meowmind_search_on.cpp",
+   "telemetry": "meowmind"
+  },
+  {
+   "name": "meowmind_search_off",
+   "role": "OFF: the same source with NN_SEARCH=0 (no root search: the prior-ordered first candidate)",
+   "source": "bots/meowmind_p/attribution/meowmind_search_off.cpp",
+   "telemetry": "meowmind"
+  }
+ ]
+}
