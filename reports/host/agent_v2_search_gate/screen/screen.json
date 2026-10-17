@@ -1,0 +1,393 @@
+{
+ "schedule": "171daa9cde0f9b2b3a12e0d3d15a9da4f4090a309bf80b9ae42588fb6dd4a78a",
+ "seed": 20262131,
+ "fixtures": 1344,
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "incomplete": {},
+ "stale_rows": {},
+ "arms": {
+  "agent_v2_p2xxl_gw8x4_fp32": {
+   "games": 1344,
+   "binary_sha256": "2e1afee953eed76dd4be3ba572cfb349b7e3bcdc07b5e4440959a72ae762ae3c",
+   "utility": 0.75254,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 142.3,
+   "p99_ms_median": 17.722,
+   "p99_ms_worst": 19.941,
+   "max_ms": 26.344
+  },
+  "agent_v2_p2xxl_direct": {
+   "games": 1344,
+   "binary_sha256": "d5329fc7f69ec22dab8a6e1177d8883abdb8ec7e17e66314d9e7ea6b883fe8e7",
+   "utility": 0.78356,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 71.8,
+   "p99_ms_median": 1.074,
+   "p99_ms_worst": 3.801,
+   "max_ms": 5.271
+  },
+  "agent_v2_p2xxl_uw8x4_fp32": {
+   "games": 1344,
+   "binary_sha256": "216b9000796b4166352e463f645a95f993e99259b91bc31ca2236689b009dd44",
+   "utility": 0.73896,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 147.1,
+   "p99_ms_median": 17.754,
+   "p99_ms_worst": 20.428,
+   "max_ms": 29.128
+  },
+  "agent_v2_p2xxl_gw8x4_fp32~aa": {
+   "games": 1344,
+   "binary_sha256": "2e1afee953eed76dd4be3ba572cfb349b7e3bcdc07b5e4440959a72ae762ae3c",
+   "utility": 0.7502,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 143.0,
+   "p99_ms_median": 17.721,
+   "p99_ms_worst": 20.21,
+   "max_ms": 27.888
+  }
+ },
+ "comparisons": {
+  "agent_v2_p2xxl_gw8x4_fp32 - agent_v2_p2xxl_direct": {
+   "overall": {
+    "mean": -0.03102,
+    "ci95": [
+     -0.04297,
+     -0.01907
+    ],
+    "se": 0.0061,
+    "fixtures": 1344,
+    "verdict": "hurts",
+    "z": 2.2414,
+    "ci": [
+     -0.04469,
+     -0.01736
+    ],
+    "verdict_95": "hurts"
+   },
+   "bands": {
+    "2": {
+     "mean": -0.04688,
+     "ci95": [
+      -0.10323,
+      0.00948
+     ],
+     "se": 0.02875,
+     "fixtures": 96,
+     "verdict": "not shown",
+     "z": 2.2414,
+     "ci": [
+      -0.11132,
+      0.01757
+     ],
+     "verdict_95": "not shown"
+    },
+    "3-5": {
+     "mean": -0.07899,
+     "ci95": [
+      -0.11163,
+      -0.04636
+     ],
+     "se": 0.01665,
+     "fixtures": 288,
+     "verdict": "hurts",
+     "z": 2.2414,
+     "ci": [
+      -0.11632,
+      -0.04167
+     ],
+     "verdict_95": "hurts"
+    },
+    "6-10": {
+     "mean": -0.0211,
+     "ci95": [
+      -0.04111,
+      -0.00109
+     ],
+     "se": 0.01021,
+     "fixtures": 480,
+     "verdict": "not shown",
+     "z": 2.2414,
+     "ci": [
+      -0.04398,
+      0.00179
+     ],
+     "verdict_95": "hurts"
+    },
+    "11-15": {
+     "mean": -0.009,
+     "ci95": [
+      -0.02342,
+      0.00543
+     ],
+     "se": 0.00736,
+     "fixtures": 480,
+     "verdict": "not shown",
+     "z": 2.2414,
+     "ci": [
+      -0.02549,
+      0.0075
+     ],
+     "verdict_95": "not shown"
+    }
+   },
+   "per_count": {
+    "2": -0.04688,
+    "3": -0.06771,
+    "4": -0.08333,
+    "5": -0.08594,
+    "6": -0.01979,
+    "7": -0.02691,
+    "8": -0.01711,
+    "9": -0.05208,
+    "10": 0.01042,
+    "11": -0.0099,
+    "12": -0.00379,
+    "13": -0.00911,
+    "14": -0.01362,
+    "15": -0.00856
+   },
+   "improved": 347,
+   "unchanged": 533,
+   "degraded": 464,
+   "identical_scores": 131,
+   "fixtures": 1344,
+   "scheduled": 1344,
+   "missing": 0
+  },
+  "agent_v2_p2xxl_gw8x4_fp32 - agent_v2_p2xxl_uw8x4_fp32": {
+   "overall": {
+    "mean": 0.01358,
+    "ci95": [
+     0.00133,
+     0.02583
+    ],
+    "se": 0.00625,
+    "fixtures": 1344,
+    "verdict": "not shown",
+    "z": 2.2414,
+    "ci": [
+     -0.00043,
+     0.02759
+    ],
+    "verdict_95": "helps"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.07292,
+     "ci95": [
+      0.00488,
+      0.14095
+     ],
+     "se": 0.03471,
+     "fixtures": 96,
+     "verdict": "not shown",
+     "z": 2.2414,
+     "ci": [
+      -0.00489,
+      0.15072
+     ],
+     "verdict_95": "helps"
+    },
+    "3-5": {
+     "mean": 0.04065,
+     "ci95": [
+      0.00476,
+      0.07654
+     ],
+     "se": 0.01831,
+     "fixtures": 288,
+     "verdict": "not shown",
+     "z": 2.2414,
+     "ci": [
+      -0.00039,
+      0.0817
+     ],
+     "verdict_95": "helps"
+    },
+    "6-10": {
+     "mean": -0.00292,
+     "ci95": [
+      -0.02332,
+      0.01749
+     ],
+     "se": 0.01041,
+     "fixtures": 480,
+     "verdict": "not shown",
+     "z": 2.2414,
+     "ci": [
+      -0.02625,
+      0.02042
+     ],
+     "verdict_95": "not shown"
+    },
+    "11-15": {
+     "mean": 0.00196,
+     "ci95": [
+      -0.00858,
+      0.0125
+     ],
+     "se": 0.00538,
+     "fixtures": 480,
+     "verdict": "not shown",
+     "z": 2.2414,
+     "ci": [
+      -0.0101,
+      0.01401
+     ],
+     "verdict_95": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.07292,
+    "3": 0.06771,
+    "4": 0.04514,
+    "5": 0.00911,
+    "6": -0.01354,
+    "7": -0.00521,
+    "8": -0.00074,
+    "9": -0.01823,
+    "10": 0.02315,
+    "11": 0.01146,
+    "12": 0.00947,
+    "13": 0.00694,
+    "14": -0.01362,
+    "15": -0.00446
+   },
+   "improved": 378,
+   "unchanged": 627,
+   "degraded": 339,
+   "identical_scores": 242,
+   "fixtures": 1344,
+   "scheduled": 1344,
+   "missing": 0
+  }
+ },
+ "multiplicity": {
+  "method": "bonferroni",
+  "alpha": 0.05,
+  "comparisons": 2,
+  "z": 2.2414
+ },
+ "rerun_noise": {
+  "agent_v2_p2xxl_gw8x4_fp32~aa - agent_v2_p2xxl_gw8x4_fp32": {
+   "overall": {
+    "mean": -0.00233,
+    "ci95": [
+     -0.01043,
+     0.00576
+    ],
+    "se": 0.00413,
+    "fixtures": 1344,
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 96,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": 0.00521,
+     "ci95": [
+      -0.00822,
+      0.01863
+     ],
+     "se": 0.00685,
+     "fixtures": 288,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": -0.00823,
+     "ci95": [
+      -0.02665,
+      0.0102
+     ],
+     "se": 0.0094,
+     "fixtures": 480,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": -0.00143,
+     "ci95": [
+      -0.0119,
+      0.00903
+     ],
+     "se": 0.00534,
+     "fixtures": 480,
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.0,
+    "4": 0.0,
+    "5": 0.01562,
+    "6": 0.01458,
+    "7": -0.0191,
+    "8": -0.04241,
+    "9": 0.01042,
+    "10": -0.00463,
+    "11": -0.00104,
+    "12": -0.02415,
+    "13": 0.01172,
+    "14": 0.01002,
+    "15": -0.00372
+   },
+   "improved": 265,
+   "unchanged": 812,
+   "degraded": 267,
+   "identical_scores": 613,
+   "fixtures": 1344,
+   "scheduled": 1344,
+   "missing": 0
+  }
+ },
+ "network_calls": {},
+ "identities": {
+  "agent_v2_p2xxl_gw8x4_fp32": "c20d193852ec95470f771e943b1e6b7657af8d1e7e9ae7262610154c42ddfa8f",
+  "agent_v2_p2xxl_direct": "c19d518490e73228181e28d01a88d4e10012b45e8bddcac82c7f8098060b596e",
+  "agent_v2_p2xxl_uw8x4_fp32": "bd882f680965a252c050abab2b5b797634c6b266d14b2ae7e5e6a944293ea26b",
+  "agent_v2_p2xxl_gw8x4_fp32~aa": "c20d193852ec95470f771e943b1e6b7657af8d1e7e9ae7262610154c42ddfa8f"
+ }
+}

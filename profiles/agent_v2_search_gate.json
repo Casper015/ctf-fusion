@@ -1,0 +1,47 @@
+{
+ "_comment": "Paired host screen of task T0079: gated wider search (GW = agent_v2_p2xxl_gw8x4_fp32, tau 0.002) vs direct play (D = agent_v2_p2xxl_direct) vs ungated wider search (UW = agent_v2_p2xxl_uw8x4_fp32, tau 0) + A/A copy of GW. Fresh seed 20262131, exactly 8 workers, 2,000 ms first and 50 ms steady replies. 96 maps per count across counts 2-15 (1,344 fixtures, 5,376 games total across 4 arms). Primary GW-D and supporting GW-UW share one Bonferroni family (alpha=0.05).",
+ "seed": 20262131,
+ "teams": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+ "maps_per_count": 96,
+ "workers": 8,
+ "workers_exact": true,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "keep_matches": true,
+ "variants": "bots/agent_v2/search_gate/variants.json",
+ "margin": 0.0,
+ "preflight": "reports/host/agent_v2_search_gate/PREFLIGHT.json",
+ "reference": [
+  "Fable",
+  "MiMo",
+  "Kimi",
+  "GLM",
+  "Player4"
+ ],
+ "fixtures": 1344,
+ "games": 5376,
+ "work_dir": "data/host/agent_v2_search_gate/screen",
+ "report_dir": "reports/host/agent_v2_search_gate/screen",
+ "arms": [
+  "agent_v2_p2xxl_gw8x4_fp32",
+  "agent_v2_p2xxl_direct",
+  "agent_v2_p2xxl_uw8x4_fp32"
+ ],
+ "aa": [
+  "agent_v2_p2xxl_gw8x4_fp32"
+ ],
+ "comparisons": [
+  [
+   "agent_v2_p2xxl_gw8x4_fp32",
+   "agent_v2_p2xxl_direct"
+  ],
+  [
+   "agent_v2_p2xxl_gw8x4_fp32",
+   "agent_v2_p2xxl_uw8x4_fp32"
+  ]
+ ],
+ "multiplicity": {
+  "method": "bonferroni",
+  "alpha": 0.05
+ }
+}
