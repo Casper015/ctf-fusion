@@ -1,6 +1,6 @@
 // P3 opponent-prediction experiment: only P differs between paired families. No strength admission.
 #define FUSION_MAX_WIDTH 1024
-#define FUSION_TIER_PXXL_VM 1
+#define FUSION_TIER_P2GENERAL_VM 1
 #define AGENT_V2_SEARCH_CANDIDATES 8
 #define AGENT_V2_SEARCH_SAMPLES 4
 #define AGENT_V2_SEARCH_TAU 0.002

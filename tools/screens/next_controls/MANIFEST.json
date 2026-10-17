@@ -25,8 +25,8 @@
     "producer_sha256": "963807a2fce4350a1177d34682c6a142e20e48d2894e5b32d17added4aa5532b"
    },
    "status": "ready",
-   "bundle_sha256": "256e2130af1f927c9b816273d2dc9f763fa023d2c077072e4f83a6963aa2b4e9",
-   "bundle_bytes": 60720633,
+   "bundle_sha256": "8e4014ff41a49decc233bc98be45acb543c5726026faafd3e6ff6a47b2436094",
+   "bundle_bytes": 60721088,
    "inlined": [
     {
      "path": "bots/agent_v2/controls/agent_v2_rl_general_csp.cpp",
@@ -82,7 +82,7 @@
     },
     {
      "path": "inference/agent_v2/p_bank.hpp",
-     "sha256": "b9d9e687bc242af83e9f11636cf32a10e513f03f534caf7129ef716282a7e676"
+     "sha256": "b46a98583a5f2d25f18020ca653fd50204ed74893b2b08802c50b88c2a1420a6"
     },
     {
      "path": "inference/count_specialists_p/registry.hpp",
@@ -205,8 +205,8 @@
     "producer_sha256": "c33389375b25906580ac84582ade058dd997ed0aa62d2b3bdcf1fd845d61715d"
    },
    "status": "ready",
-   "bundle_sha256": "ac1194f96323dee039483b86313cde8745d9d90f1b5d7a6974c878dcc2225358",
-   "bundle_bytes": 60720688,
+   "bundle_sha256": "69e08ff431fecd39e16a7e00a5a8d74f899226fd6ff7cd243655ffe7fa4406ce",
+   "bundle_bytes": 60721143,
    "inlined": [
     {
      "path": "bots/agent_v2/controls/agent_v2_rl_init_csp.cpp",
@@ -262,7 +262,7 @@
     },
     {
      "path": "inference/agent_v2/p_bank.hpp",
-     "sha256": "b9d9e687bc242af83e9f11636cf32a10e513f03f534caf7129ef716282a7e676"
+     "sha256": "b46a98583a5f2d25f18020ca653fd50204ed74893b2b08802c50b88c2a1420a6"
     },
     {
      "path": "inference/count_specialists_p/registry.hpp",

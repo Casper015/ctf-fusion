@@ -4,7 +4,7 @@ This is an experiment replacing the opponent predictor, not a new search algorit
 
 The existing `models_pf_p3xxl_vm` bank serves the general P3 XXL model from T0011. Its 125-way joint movement, P3 combat features, conditional action and attack-target heads run through the generated `ponly_p3.hpp` implementation. Both real-root and successor views receive the current INIT rules before combat encoding. There is no original Meowmind prediction mixture. The bank's paired V is never read: all search variants explicitly include the same aligned FP32 critic as the P2 control.
 
-P2 uses its existing count-specific/general dispatch. P3 uses its general model at all counts. Therefore this tests two existing prediction packages (features, learned weights and routing), not an isolated effect of combat features alone. P3 is not the separately embedded distilled P3 model used by other Meowmind wrappers.
+The main comparison uses **general P2 XXL versus general P3 XXL**, both exported from the T0011 seed-1 feature-family study (`models_pf_p2xxl_vm`, `models_pf_p3xxl_vm`). Both registries serve one general policy at all counts. The older count-routed P2 package remains an external deployment reference through T0079, not the primary P2 control. The family comparison includes different feature inputs, learned weights and calibrated heads; it is not a comparison with the newer CSP specialists. P3 is not the separately embedded distilled P3 model used by other Meowmind wrappers.
 
 ## Variants
 
@@ -12,10 +12,10 @@ P2 uses its existing count-specific/general dispatch. P3 uses its general model 
 
 | Suffix | Predictor | Own actor / critic | Search |
 |---|---|---|---|
-| `p2_direct` | P2 XXL | frozen T0059 aligned actor; no critic use | off |
-| `p3_direct` | P3 XXL | same actor | off |
-| `p2_gw8x4_fp32` | P2 XXL | same actor and aligned FP32 critic | 8 roots, 4 scenarios, tau 0.002 |
-| `p3_gw8x4_fp32` | P3 XXL | same actor and aligned FP32 critic | same |
+| `p2_direct` | general P2 XXL | frozen T0059 aligned actor; no critic use | off |
+| `p3_direct` | general P3 XXL | same actor | off |
+| `p2_gw8x4_fp32` | general P2 XXL | same actor and aligned FP32 critic | 8 roots, 4 scenarios, tau 0.002 |
+| `p3_gw8x4_fp32` | general P3 XXL | same actor and aligned FP32 critic | same |
 
 The full prefix is `agent_v2_p3exp_`. Resolver scores, rule semantics, scenario salts, actor sampling, search admission priors and deadlines are identical. P3 affects predictions used by BOTH the resolver and search: it is never replaced by P2 at deeper plies. This does not yet test the newer G actor or its critic. No existing default or T0079 arm is changed.
 
@@ -24,7 +24,7 @@ python bots/p_only/tools/build.py --variants bots/agent_v2/p3_search/variants.js
 python -m unittest tests.test_agent_v2_p3 -v
 ```
 
-The new bank is selected by `FUSION_TIER_P3XXL_VM`. Multiple model tiers are rejected. `PredictionKey` uses the actual model type and pointer. Identity output is `predictor P3 model p3xxl_general`, not an ambiguous P2 `general`. The existing `training.agent_v2` CLI's bank allowlist is unchanged; P3 PPO training is not part of this experiment.
+The general banks are selected by `FUSION_TIER_P2GENERAL_VM` and `FUSION_TIER_P3XXL_VM`. Multiple model tiers are rejected. `PredictionKey` uses the actual model type and pointer. Identity output distinguishes `predictor P model p2xxl_general` from `predictor P3 model p3xxl_general`. The existing `training.agent_v2` CLI's bank allowlist is unchanged; P3 PPO training is not part of this experiment.
 
 ## Fixed work before equal time
 

@@ -23,15 +23,15 @@ class P3Backend(unittest.TestCase):
         cls.check = cls.tmp / 'check_p3'
         build_check(cls.check, ('-DFUSION_TIER_P3XXL_VM=1',)).check_returncode()
 
-    def test_actual_variants_replay_and_p2_control_matches_existing(self):
-        old = bundle_and_build(REPO/'bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp',self.tmp/'old_p2')
+    def test_actual_general_variants_replay_with_distinct_identities(self):
         for game in GAMES:
             text = stream(game)
             # Prefixes keep unit/flag states from the real recordings and avoid treating this as a strength run.
             text = 'END\n'.join(text.split('END\n')[:8]) + 'END\n'
             p2 = subprocess.run([str(self.exes['p2','direct'])],input=text,text=True,capture_output=True,check=True)
-            old2 = subprocess.run([str(old)],input=text,text=True,capture_output=True,check=True)
-            self.assertEqual(p2.stdout,old2.stdout)
+            self.assertEqual(len(p2.stdout.splitlines()),8)
+            self.assertIn('predictor P model p2xxl_general ',p2.stderr)
+            self.assertIn('refused 0 inconsistent 0',p2.stderr)
             for mode in ['direct','gw8x4_fp32']:
                 r = subprocess.run([str(self.exes['p3',mode])],input=text,text=True,capture_output=True,check=True,timeout=180)
                 self.assertEqual(len(r.stdout.splitlines()),8)
@@ -39,6 +39,14 @@ class P3Backend(unittest.TestCase):
                 self.assertIn('predictor P3 model p3xxl_general ',r.stderr)
                 self.assertIn('refused 0 inconsistent 0',r.stderr)
                 if mode!='direct':self.assertIn('search_used',r.stderr)
+
+    def test_general_p2_routes_one_model_at_every_count(self):
+        exe=self.tmp/'check_p2_general'
+        build_check(exe,('-DFUSION_TIER_P2GENERAL_VM=1',)).check_returncode()
+        r=subprocess.run([str(exe),'bank'],text=True,capture_output=True,check=True)
+        self.assertIn('bank models_pf_p2xxl_vm',r.stdout)
+        self.assertIn('distinct 1',r.stdout)
+        for n in range(2,16):self.assertIn(f'{n}:p2xxl_general',r.stdout)
 
     def test_p3_bank_and_full_contract_streams(self):
         r=subprocess.run([str(self.check),'bank'],text=True,capture_output=True,check=True)
@@ -130,7 +138,7 @@ class Manifest(unittest.TestCase):
         for mode in ['direct','gw8x4_fp32']:
             a=(VARIANTS/f'agent_v2_p3exp_p2_{mode}.cpp').read_text()
             b=(VARIANTS/f'agent_v2_p3exp_p3_{mode}.cpp').read_text()
-            self.assertEqual(a.replace('FUSION_TIER_PXXL_VM','FUSION_TIER_P3XXL_VM'),b)
+            self.assertEqual(a.replace('FUSION_TIER_P2GENERAL_VM','FUSION_TIER_P3XXL_VM'),b)
         self.assertNotIn('p3exp', (REPO/'profiles/agent_v2.json').read_text())
 
 if __name__=='__main__':unittest.main()

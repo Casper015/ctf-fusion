@@ -8,12 +8,13 @@
 //                     are 2048 wide, so FUSION_MAX_WIDTH must be 2048, defined before the first inference header (the
 //                     actor's); the weight headers' static_asserts refuse a narrower build.
 //
+// FUSION_TIER_P2GENERAL_VM selects the matched general P2 XXL from the same feature-family study.
 // FUSION_TIER_P3XXL_VM selects the existing general P3 XXL policy; its paired V is never used by this carrier.
 // kPBank names the bank. kPModelPrefix makes model ids unique across banks: the specialists' registry ids (n02 ...) are
 // the XXL banks' ids too, so their model_id() is csp_n02 ... (the other banks' ids are unchanged).
 #pragma once
 
-#if (defined(FUSION_TIER_M) + defined(FUSION_TIER_L) + defined(FUSION_TIER_XL) + defined(FUSION_TIER_XXL) + defined(FUSION_TIER_PXL_VM) + defined(FUSION_TIER_PXXL_VM) + defined(FUSION_TIER_CSP) + defined(FUSION_TIER_P3XXL_VM)) > 1
+#if (defined(FUSION_TIER_M) + defined(FUSION_TIER_L) + defined(FUSION_TIER_XL) + defined(FUSION_TIER_XXL) + defined(FUSION_TIER_PXL_VM) + defined(FUSION_TIER_PXXL_VM) + defined(FUSION_TIER_CSP) + defined(FUSION_TIER_P3XXL_VM) + defined(FUSION_TIER_P2GENERAL_VM)) > 1
 #error "agent_v2: define exactly one FUSION_TIER_* (the opponent model bank)"
 #endif
 
@@ -33,6 +34,8 @@
 #include "../count_specialists_p/registry.hpp"
 #elif defined(FUSION_TIER_P3XXL_VM)
 #include "../models_pf_p3xxl_vm/registry.hpp"
+#elif defined(FUSION_TIER_P2GENERAL_VM)
+#include "../models_pf_p2xxl_vm/registry.hpp"
 #else
 #error "agent_v2 selects our opponent model registry with FUSION_TIER_*"
 #endif
@@ -55,6 +58,8 @@ static_assert(fusion::kMaxWidth >= p_bank::kRegistryRequiredMaxWidth, "FUSION_TI
 namespace p_bank = fusion::models;
 #if defined(FUSION_TIER_P3XXL_VM)
 inline constexpr const char* kPModelPrefix = "p3xxl_";
+#elif defined(FUSION_TIER_P2GENERAL_VM)
+inline constexpr const char* kPModelPrefix = "p2xxl_";
 #else
 inline constexpr const char* kPModelPrefix = "";
 #endif
@@ -68,6 +73,8 @@ inline constexpr const char* kPBank = "models_xl";
 inline constexpr const char* kPBank = "models_xxl";
 #elif defined(FUSION_TIER_P3XXL_VM)
 inline constexpr const char* kPBank = "models_pf_p3xxl_vm";
+#elif defined(FUSION_TIER_P2GENERAL_VM)
+inline constexpr const char* kPBank = "models_pf_p2xxl_vm";
 #elif defined(FUSION_TIER_PXL_VM)
 inline constexpr const char* kPBank = "models_pxl_vm";
 #else

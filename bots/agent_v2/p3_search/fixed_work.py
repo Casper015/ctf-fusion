@@ -30,7 +30,7 @@ def main(argv=None):
     actor=REPO/'inference/meow_rl/aligned/p2_large/actor.hpp'
     critic=REPO/'inference/meow_rl/aligned/p2_large/critic_fp32.hpp'
     all_trees={}
-    for family,tier in [('p2','FUSION_TIER_PXXL_VM'),('p3','FUSION_TIER_P3XXL_VM')]:
+    for family,tier in [('p2','FUSION_TIER_P2GENERAL_VM'),('p3','FUSION_TIER_P3XXL_VM')]:
         exe=out/f'check_{family}{runner.EXE}'
         flags=['-std=c++20','-O2','-I',str(REPO/'inference'),f'-D{tier}=1',
                '-DAGENT_V2_SEARCH_CANDIDATES=8','-DAGENT_V2_SEARCH_SAMPLES=4',
