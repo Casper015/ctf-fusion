@@ -43,6 +43,9 @@ BASE_RUNS_DIR = REPO / "runs" / "count_specialists_rl"
 REPORTS_MODELS_DIR = REPO / "reports" / "models" / "count_specialists_rl"
 REPORTS_HOST_DIR = REPO / "reports" / "host" / "count_specialists_rl"
 INFERENCE_DIR = REPO / "inference" / "count_specialists_rl"
+CALIB_CORPUS_PATH = REPO / "data" / "count_specialists_rl" / "calibration.npz"
+CALIB_SEED = 20262016
+CALIB_EPISODES_PER_COUNT = 40
 
 
 def sha256_file(path: Path) -> str:
@@ -56,6 +59,75 @@ def seed_for_count(count: int) -> int:
 
 def seed_for_general() -> int:
     return 20262001
+
+
+def collect_calibration_corpus(
+    out_path: Path,
+    seed_base: int = CALIB_SEED,
+    episodes_per_count: int = CALIB_EPISODES_PER_COUNT,
+    workers: int = 8,
+    ai_test: str | None = None,
+) -> Path:
+    from fusion import paths
+    from training.meow_rl.pool import Pool
+    from training.meow_rl.train import ProcessCollector, check_ledger
+
+    check_ledger(seed_base, SEEDS_LEDGER, dev=False)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    if out_path.is_file():
+        print(f"Aligned calibration corpus {out_path} already exists ({sha256_file(out_path)[:12]}).", flush=True)
+        return out_path
+
+    print(f"\nCollecting aligned calibration corpus (seed {seed_base}, {episodes_per_count} eps/count across {len(COUNTS)} counts = {len(COUNTS)*episodes_per_count} eps)...", flush=True)
+    root = paths.ai_test_root(ai_test or os.environ.get("AI_TEST_ROOT") or "c:/Users/caspe/OneDrive/Code/AI_Test")
+    pool = Pool.load(POOL_PATH)
+    commands, info = pool.commands(root, REPO / "build" / "meow_rl" / "bots")
+    lib = AB.build(p_bank="count_specialists_p")
+    collector = ProcessCollector(workers, commands, info, [2.0, 0.05], root, lib)
+
+    plan = [(c, (c - 2) * episodes_per_count + k) for c in COUNTS for k in range(episodes_per_count)]
+    plan_iter = iter(plan)
+    actor_init = dict(np.load(INIT_ACTOR_PATH))
+
+    def make_episode():
+        c, ep_idx = next(plan_iter)
+        return pool.episode(seed_base, ep_idx, [c])
+
+    started = []
+    t0 = time.time()
+    try:
+        results = collector.run(make_episode, actor_init, 0, len(plan) * 400, started.extend)
+    finally:
+        collector.close()
+
+    bad = [r for r in results if r["status"] != "ok"]
+    if bad:
+        raise RuntimeError(f"Calibration collection failed: {bad[0]}")
+
+    all_feats = []
+    all_masks = []
+    all_teams = []
+    for r in results:
+        arr = r["arrays"]
+        all_feats.append(arr["feats"])
+        all_masks.append(arr["mask"])
+        all_teams.append(np.full(len(arr["feats"]), r["record"]["teams"], dtype=np.int32))
+
+    feats_cat = np.concatenate(all_feats, axis=0)
+    masks_cat = np.concatenate(all_masks, axis=0)
+    teams_cat = np.concatenate(all_teams, axis=0)
+
+    tmp_npz = out_path.with_suffix(f".tmp{os.getpid()}.npz")
+    np.savez_compressed(
+        tmp_npz,
+        feats=feats_cat,
+        mask=masks_cat,
+        teams=teams_cat,
+    )
+    os.replace(tmp_npz, out_path)
+    print(f"Saved aligned calibration corpus: {out_path} ({len(feats_cat)} decisions across {len(results)} episodes, {round(time.time() - t0, 1)}s, sha: {sha256_file(out_path)[:12]})", flush=True)
+    return out_path
+
 
 
 def run_training_stage(
@@ -165,6 +237,8 @@ def calibrate_and_export_actor(
     out_header: Path,
     namespace: str,
     guard: str,
+    calib_feats: np.ndarray,
+    calib_masks: np.ndarray,
     max_calib_rows: int = 50_000,
 ) -> dict:
     state_file = run_dir / "state.pt"
@@ -172,49 +246,23 @@ def calibrate_and_export_actor(
     actor_fp32 = st["actor_numpy"]
     identity = st["identity"]
 
-    # Load calibration observations from saved batches
-    batches_dir = run_dir / "batches"
-    batch_files = sorted(batches_dir.glob("update_*.npz"))
-    if not batch_files:
-        raise FileNotFoundError(f"No update_*.npz in {batches_dir}")
-
-    # For general_control (168 batches), sample across updates evenly to cover all counts
-    if len(batch_files) > 15:
-        stride = max(1, len(batch_files) // 15)
-        batch_files = batch_files[::stride][:15]
-
-    feats_list = []
-    masks_list = []
-    for bf in batch_files:
-        with np.load(bf) as z:
-            if "feats" in z:
-                feats_list.append(z["feats"])
-            if "mask" in z:
-                # Batches store packed uint8 masks shape (N, 16); unpack to (N, 125) bool
-                masks_list.append(np.unpackbits(z["mask"], axis=1)[:, :125].astype(bool))
-            elif "joint_mask" in z:
-                masks_list.append(z["joint_mask"])
-
-    all_feats = np.concatenate(feats_list, axis=0)
-    all_masks = np.concatenate(masks_list, axis=0) if masks_list else None
-
-    # Subsample calibration rows
-    if len(all_feats) > max_calib_rows:
-        idx = np.linspace(0, len(all_feats) - 1, max_calib_rows).astype(np.int64)
-        calib_feats = all_feats[idx]
-        calib_masks = all_masks[idx] if all_masks is not None else None
+    # Subsample calibration rows if necessary
+    if len(calib_feats) > max_calib_rows:
+        idx = np.linspace(0, len(calib_feats) - 1, max_calib_rows).astype(np.int64)
+        use_feats = calib_feats[idx]
+        use_masks = calib_masks[idx] if calib_masks is not None else None
     else:
-        calib_feats = all_feats
-        calib_masks = all_masks
+        use_feats = calib_feats
+        use_masks = calib_masks
 
     # Quantize actor
-    q = Q.quantize(actor_fp32, calib_feats.reshape(-1, 112))
+    q = Q.quantize(actor_fp32, use_feats.reshape(-1, 112))
 
     # Agreement check against FP32 on real masked observations
     agree = {}
-    if calib_masks is not None:
-        eval_slice = min(2000, len(calib_feats))
-        agree = Q.agreement(actor_fp32, q, calib_feats[:eval_slice], calib_masks[:eval_slice])
+    if use_masks is not None:
+        eval_slice = min(2000, len(use_feats))
+        agree = Q.agreement(actor_fp32, q, use_feats[:eval_slice], use_masks[:eval_slice])
 
     # Generate header with unique namespace and guard
     from training.export_weights import _array, _emit_nets  # noqa: PLC0415
@@ -372,6 +420,8 @@ def main(argv=None):
     # 3. Export models to inference/count_specialists_rl/
     print(f"\n{'='*70}\nExporting Models & Emitting Registry\n{'='*70}", flush=True)
     INFERENCE_DIR.mkdir(parents=True, exist_ok=True)
+    calib_corpus = collect_calibration_corpus(CALIB_CORPUS_PATH, seed_base=CALIB_SEED, workers=a.workers, ai_test=a.ai_test)
+    calib_data = np.load(calib_corpus)
     exported = {}
 
     for count in a.counts:
@@ -379,6 +429,9 @@ def main(argv=None):
         run_dir = BASE_RUNS_DIR / f"spec_{tag}"
         if (run_dir / "state.pt").is_file():
             hdr = INFERENCE_DIR / f"weights_{tag}.hpp"
+            mask_c = (calib_data["teams"] == count)
+            c_feats = calib_data["feats"][mask_c]
+            c_masks = calib_data["mask"][mask_c]
             exp = calibrate_and_export_actor(
                 name=f"spec_{tag}",
                 count_tag=tag,
@@ -386,9 +439,11 @@ def main(argv=None):
                 out_header=hdr,
                 namespace=f"fusion::models::rl_{tag}",
                 guard=f"COUNT_SPECIALISTS_RL_{tag.upper()}_HPP",
+                calib_feats=c_feats,
+                calib_masks=c_masks,
             )
             exported[tag] = exp
-            print(f"Exported {tag}: {hdr.name} (greedy agreement: {exp['greedy_agreement']:.3f})")
+            print(f"Exported {tag}: {hdr.name} (aligned greedy agreement: {exp['greedy_agreement']:.3f})")
             if tag not in results:
                 st = torch.load(run_dir / "state.pt", map_location="cpu", weights_only=False)
                 counters = st.get("counters", {})
@@ -417,9 +472,11 @@ def main(argv=None):
             out_header=hdr,
             namespace="fusion::models::rl_general",
             guard="COUNT_SPECIALISTS_RL_GENERAL_HPP",
+            calib_feats=calib_data["feats"],
+            calib_masks=calib_data["mask"],
         )
         exported["general"] = exp
-        print(f"Exported general: {hdr.name} (greedy agreement: {exp['greedy_agreement']:.3f})")
+        print(f"Exported general: {hdr.name} (aligned greedy agreement: {exp['greedy_agreement']:.3f})")
         if "general" not in results:
             st = torch.load(gen_dir / "state.pt", map_location="cpu", weights_only=False)
             counters = st.get("counters", {})
