@@ -21,11 +21,11 @@ python bots/p_only/tools/build.py --variants bots/agent_v2/controls/variants.jso
 I plays `data/count_specialists_rl/init_actor.npz`, the actor that T0068's specialized and general arms both started from. `data/` is not committed, and T0068's committed records do not give this file's sha256. So I stays `awaiting_init_export` in [`MANIFEST.json`](../../../tools/screens/next_controls/MANIFEST.json), and its tests skip, until the host runs:
 
 ```bash
-python tools/screens/next_controls/export_init_actor.py --expect-sha256 <sha256 from T0068's run configs> --origin "<task, run config, commit>"
+python tools/screens/next_controls/export_init_actor.py --expect-sha256 <init_actor.npz sha256> --expect-calibration-sha256 <calibration.npz sha256> --origin "<task, run config, commit>"
 python tools/screens/next_controls/manifest.py
 ```
 
-The exporter refuses a file whose sha256 differs from `--expect-sha256`. It then repeats T0068's export of the general control (`training/train_count_specialists_rl.py`, `calibrate_and_export_actor`: the whole calibration corpus `data/count_specialists_rl/calibration.npz`, seed 20262016, subsampled to 50,000 rows, margin 1.1) and refuses unless it reproduces the committed digest. Only after both checks does it export the init actor the same way. It writes `init_actor.hpp`, `init_actor.npz` and `MANIFEST.json` (source sha256 and origin, calibration sha256, agreement) into `inference/agent_v2_controls/`.
+The exporter refuses either file when its sha256 differs from the value given; both values must come from T0068's own records. It then repeats T0068's export of the general control (`training/train_count_specialists_rl.py`, `calibrate_and_export_actor`: the whole calibration corpus `data/count_specialists_rl/calibration.npz`, seed 20262016, subsampled to 50,000 rows, margin 1.1). It refuses unless that reproduces the committed digest and every committed agreement figure: the digest depends only on activation peaks, while the agreement figures also depend on the masks and rows. Only after these checks does it export the init actor the same way. It writes `init_actor.hpp`, `init_actor.npz` and `MANIFEST.json` (source sha256 and origin, calibration sha256, agreement) into `inference/agent_v2_controls/`.
 
 ## Tests
 

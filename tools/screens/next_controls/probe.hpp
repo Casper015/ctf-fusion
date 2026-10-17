@@ -18,6 +18,10 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#ifdef _WIN32
+#include <fcntl.h>
+#include <io.h>
+#endif
 
 #ifndef CONTROL_EXPECTED_ACTOR
 #error "define CONTROL_EXPECTED_ACTOR (the fusion::Net every count routes to)"
@@ -41,6 +45,9 @@ inline int routing() {
 }
 
 inline int dump() {
+#ifdef _WIN32
+    _setmode(_fileno(stdout), _O_BINARY);  // raw records: no CRLF translation
+#endif
     static AgentV2Runtime rt;
     rt.greedy = AGENT_V2_GREEDY;
     std::string block, why;
