@@ -178,13 +178,21 @@ def calibrate_and_export_actor(
     if not batch_files:
         raise FileNotFoundError(f"No update_*.npz in {batches_dir}")
 
+    # For general_control (168 batches), sample across updates evenly to cover all counts
+    if len(batch_files) > 15:
+        stride = max(1, len(batch_files) // 15)
+        batch_files = batch_files[::stride][:15]
+
     feats_list = []
     masks_list = []
     for bf in batch_files:
         with np.load(bf) as z:
             if "feats" in z:
                 feats_list.append(z["feats"])
-            if "joint_mask" in z:
+            if "mask" in z:
+                # Batches store packed uint8 masks shape (N, 16); unpack to (N, 125) bool
+                masks_list.append(np.unpackbits(z["mask"], axis=1)[:, :125].astype(bool))
+            elif "joint_mask" in z:
                 masks_list.append(z["joint_mask"])
 
     all_feats = np.concatenate(feats_list, axis=0)
@@ -202,10 +210,10 @@ def calibrate_and_export_actor(
     # Quantize actor
     q = Q.quantize(actor_fp32, calib_feats.reshape(-1, 112))
 
-    # Agreement check against FP32
+    # Agreement check against FP32 on real masked observations
     agree = {}
     if calib_masks is not None:
-        eval_slice = min(1000, len(calib_feats))
+        eval_slice = min(2000, len(calib_feats))
         agree = Q.agreement(actor_fp32, q, calib_feats[:eval_slice], calib_masks[:eval_slice])
 
     # Generate header with unique namespace and guard
@@ -236,7 +244,8 @@ def calibrate_and_export_actor(
     ])
 
     out_header.parent.mkdir(parents=True, exist_ok=True)
-    out_header.write_text(header_text, encoding="utf-8")
+    with open(out_header, "w", encoding="utf-8", newline="\n") as f:
+        f.write(header_text)
 
     # Also save NPZ weights
     npz_path = out_header.with_suffix(".npz")
@@ -254,6 +263,10 @@ def calibrate_and_export_actor(
         "digest": q["digest"],
         "greedy_agreement": agree.get("greedy_agreement", 1.0),
         "mean_abs_logp_error": agree.get("mean_abs_logp_error", 0.0),
+        "max_abs_logp_error": agree.get("max_abs_logp_error", 0.0),
+        "max_abs_prob_error": agree.get("max_abs_prob_error", 0.0),
+        "saturated": agree.get("saturated", [0, 0]),
+        "eval_observations": agree.get("observations", 0),
     }
 
 
@@ -293,7 +306,8 @@ def emit_registry(inference_dir: Path, exported_models: dict[str, dict]) -> Path
         "}  // namespace count_specialists_rl",
         "",
     ])
-    registry_file.write_text("\n".join(lines), encoding="utf-8")
+    with open(registry_file, "w", encoding="utf-8", newline="\n") as f:
+        f.write("\n".join(lines))
     return registry_file
 
 
@@ -385,6 +399,7 @@ def main(argv=None):
                     "counts": [count],
                     "seed": seed_for_count(count),
                     "total_decisions": counters.get("decisions", a.specialized_decisions) if isinstance(counters, dict) else a.specialized_decisions,
+                    "episodes": counters.get("episodes", 0) if isinstance(counters, dict) else 0,
                     "updates": len(history),
                     "final_utility": last.get("utility_mean", 0.0),
                     "final_kl": last.get("approx_kl", 0.0),
@@ -410,11 +425,15 @@ def main(argv=None):
             counters = st.get("counters", {})
             history = counters.get("history", []) if isinstance(counters, dict) else (counters if isinstance(counters, list) else [])
             last = history[-1] if history else {}
+            per_count_episodes = {f"n{int(k):02d}": v for k, v in sorted(counters.get("counts", {}).items(), key=lambda x: int(x[0]))}
             results["general"] = {
                 "name": "general_control",
                 "counts": COUNTS,
                 "seed": seed_for_general(),
                 "total_decisions": counters.get("decisions", a.general_decisions) if isinstance(counters, dict) else a.general_decisions,
+                "episodes": counters.get("episodes", 0) if isinstance(counters, dict) else 0,
+                "per_count_episodes": per_count_episodes,
+                "per_count_decisions_est": {k: v * 400 for k, v in per_count_episodes.items()},
                 "updates": len(history),
                 "final_utility": last.get("utility_mean", 0.0),
                 "final_kl": last.get("approx_kl", 0.0),
@@ -435,7 +454,8 @@ def main(argv=None):
         "models": exported,
     }
     manifest_path = INFERENCE_DIR / "MANIFEST.json"
-    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    with open(manifest_path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(json.dumps(manifest, indent=2) + "\n")
     print(f"Wrote manifest: {manifest_path}")
 
     # Write training report under reports/models/count_specialists_rl/
@@ -449,7 +469,8 @@ def main(argv=None):
         "results": results,
         "exported": exported,
     }
-    (REPORTS_MODELS_DIR / "TRAINING_SUMMARY.json").write_text(json.dumps(rep_summary, indent=2) + "\n", encoding="utf-8")
+    with open(REPORTS_MODELS_DIR / "TRAINING_SUMMARY.json", "w", encoding="utf-8", newline="\n") as f:
+        f.write(json.dumps(rep_summary, indent=2) + "\n")
     print(f"Wrote report: {REPORTS_MODELS_DIR / 'TRAINING_SUMMARY.json'}")
     print(f"\nAll operations finished in {round(time.time() - t_start, 1)}s")
 

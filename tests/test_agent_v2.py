@@ -355,6 +355,62 @@ class CountSpecialistsBank(unittest.TestCase):
         self.assertNotIn("agent_v2_csp_direct", json.dumps(prof))
 
 
+@unittest.skipUnless(CXX, "no C++ compiler")
+class CountSpecialistsRL(unittest.TestCase):
+    """T0068's exact-count RL policy specialists in agent_v2_rl_csp."""
+
+    def test_variant_is_registered_and_not_a_production_default(self):
+        reg = json.loads((REPO / "bots" / "agent_v2" / "variants.json").read_text(encoding="utf-8"))
+        v = {x["name"]: x for x in reg["variants"]}
+        self.assertIn("agent_v2_rl_csp", v)
+        self.assertEqual(v["agent_v2_rl_csp"]["source"], "bots/agent_v2/variants/agent_v2_rl_csp.cpp")
+        prof = json.loads((REPO / "profiles" / "agent_v2.json").read_text(encoding="utf-8"))
+        self.assertNotIn("agent_v2_rl_csp", json.dumps(prof))
+
+    def test_count_specialists_rl_variant_routing_and_out_exp(self):
+        tmp = Path(tempfile.mkdtemp(prefix="agent-v2-rl-csp-"))
+        probe_src = tmp / "probe_routing.cpp"
+        probe_code = [
+            "#include <cassert>",
+            "#include <iostream>",
+            '#include "inference/count_specialists_rl/registry.hpp"',
+            "",
+            "namespace agent_v2_bot {",
+            "inline int g_active_teams = 0;",
+            "}",
+            "",
+            "namespace meow_rl_model {",
+            "struct DynamicActor {",
+            "    int outExp = 16;",
+            "    operator const fusion::Net&() const {",
+            "        return count_specialists_rl::get_actor(agent_v2_bot::g_active_teams);",
+            "    }",
+            "};",
+            "inline constexpr DynamicActor kActor{};",
+            "}",
+            "",
+            "int main() {",
+            "    assert(meow_rl_model::kActor.outExp == 16);",
+            "    for (int n = 2; n <= 15; ++n) {",
+            "        agent_v2_bot::g_active_teams = n;",
+            "        const fusion::Net& net = meow_rl_model::kActor;",
+            "        assert(&net != &fusion::models::rl_general::kActor);",
+            "    }",
+            "    agent_v2_bot::g_active_teams = 0;",
+            "    const fusion::Net& gen = meow_rl_model::kActor;",
+            "    assert(&gen == &fusion::models::rl_general::kActor);",
+            '    std::cout << "OK_ROUTING_16\\n";',
+            "    return 0;",
+            "}",
+        ]
+        probe_src.write_text("\n".join(probe_code), encoding="utf-8")
+        exe = tmp / f"probe{runner.EXE}"
+        subprocess.run([CXX, *FLAGS, "-I", str(REPO), "-I", str(REPO / "inference"), str(probe_src), "-o", str(exe)],
+                       check=True, capture_output=True)
+        r = subprocess.run([str(exe)], capture_output=True, text=True, check=True)
+        self.assertIn("OK_ROUTING_16", r.stdout)
+
+
 class Profile(unittest.TestCase):
     def test_pins_match_the_files_and_names_are_new(self):
         prof = json.loads((REPO / "profiles" / "agent_v2.json").read_text())

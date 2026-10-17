@@ -7,7 +7,9 @@
 #include "../../../inference/count_specialists_rl/registry.hpp"
 #include "../../../inference/mlp.hpp"
 
-inline int g_active_teams = 0;
+namespace agent_v2_bot {
+extern int g_active_teams;
+}
 
 namespace meow_rl_model {
 inline constexpr const char* kName = "count_specialists_rl";
@@ -17,9 +19,9 @@ inline constexpr int kInBits = 12;
 inline constexpr double kTemperature = 1.05;
 
 struct DynamicActor {
-    int outExp = 6;
+    int outExp = 16;
     operator const fusion::Net&() const {
-        return count_specialists_rl::get_actor(g_active_teams);
+        return count_specialists_rl::get_actor(agent_v2_bot::g_active_teams);
     }
 };
 inline constexpr DynamicActor kActor{};

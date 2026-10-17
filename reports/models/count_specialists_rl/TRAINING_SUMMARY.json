@@ -2,8 +2,8 @@
   "task": "T0068",
   "carrier": "agent_v2_v1",
   "p_bank": "count_specialists_p",
-  "created": "2026-10-16T15:58:05-0700",
-  "wall_s": 24.4,
+  "created": "2026-10-16T17:24:05-0700",
+  "wall_s": 29.4,
   "results": {
     "n02": {
       "name": "spec_n02",
@@ -12,6 +12,7 @@
       ],
       "seed": 20262002,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.5909090909090909,
       "final_kl": 0.0003305575791017479,
@@ -25,6 +26,7 @@
       ],
       "seed": 20262003,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.6363636363636364,
       "final_kl": 0.0002577786585996125,
@@ -38,6 +40,7 @@
       ],
       "seed": 20262004,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.5454545454545454,
       "final_kl": 0.0004546947565738743,
@@ -51,6 +54,7 @@
       ],
       "seed": 20262005,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.375,
       "final_kl": 0.0003568386489319009,
@@ -64,6 +68,7 @@
       ],
       "seed": 20262006,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.7000000000000001,
       "final_kl": 0.0005300214572499962,
@@ -77,6 +82,7 @@
       ],
       "seed": 20262007,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.6287878787878788,
       "final_kl": 0.0003027210166668015,
@@ -90,6 +96,7 @@
       ],
       "seed": 20262008,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.5844155844155844,
       "final_kl": 0.0002546435103174732,
@@ -103,6 +110,7 @@
       ],
       "seed": 20262009,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.5681818181818182,
       "final_kl": 0.0003900097357621979,
@@ -116,6 +124,7 @@
       ],
       "seed": 20262010,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.6565656565656565,
       "final_kl": 0.0004085344847218564,
@@ -129,6 +138,7 @@
       ],
       "seed": 20262011,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.7272727272727273,
       "final_kl": 0.0002453822114437343,
@@ -142,6 +152,7 @@
       ],
       "seed": 20262012,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.628099173553719,
       "final_kl": 0.00037459755974386113,
@@ -155,6 +166,7 @@
       ],
       "seed": 20262013,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.6401515151515151,
       "final_kl": 0.00041987905718852134,
@@ -168,6 +180,7 @@
       ],
       "seed": 20262014,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.7237762237762237,
       "final_kl": 0.0004084146512653902,
@@ -181,6 +194,7 @@
       ],
       "seed": 20262015,
       "total_decisions": 100000,
+      "episodes": 250,
       "updates": 13,
       "final_utility": 0.5974025974025974,
       "final_kl": 0.0006173411065806017,
@@ -207,6 +221,39 @@
       ],
       "seed": 20262001,
       "total_decisions": 1400000,
+      "episodes": 3500,
+      "per_count_episodes": {
+        "n02": 249,
+        "n03": 246,
+        "n04": 256,
+        "n05": 251,
+        "n06": 279,
+        "n07": 240,
+        "n08": 265,
+        "n09": 259,
+        "n10": 239,
+        "n11": 222,
+        "n12": 236,
+        "n13": 254,
+        "n14": 252,
+        "n15": 252
+      },
+      "per_count_decisions_est": {
+        "n02": 99600,
+        "n03": 98400,
+        "n04": 102400,
+        "n05": 100400,
+        "n06": 111600,
+        "n07": 96000,
+        "n08": 106000,
+        "n09": 103600,
+        "n10": 95600,
+        "n11": 88800,
+        "n12": 94400,
+        "n13": 101600,
+        "n14": 100800,
+        "n15": 100800
+      },
       "updates": 168,
       "final_utility": 0.5716540404040404,
       "final_kl": 0.0002175371603763132,
@@ -221,12 +268,19 @@
       "namespace": "fusion::models::rl_n02",
       "header": "weights_n02.hpp",
       "header_path": "inference/count_specialists_rl/weights_n02.hpp",
-      "header_sha256": "6936521b06bdaf69baaa600bd9a7ec775d0d2ad05f5100983fd6fae4bd6a98bc",
+      "header_sha256": "5b3e5644c066983dd6863b2226a794f068a3a5d646ebbbd680ba47352505705e",
       "npz": "weights_n02.npz",
       "npz_path": "inference/count_specialists_rl/weights_n02.npz",
       "digest": "a0ce31d05afab9ef0de116871f5597fbe71e01f18c86e75fda8de3057a8e4f1f",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.954,
+      "mean_abs_logp_error": 0.2986905315246036,
+      "max_abs_logp_error": 2.0100008323849856,
+      "max_abs_prob_error": 0.29033973364086674,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n03": {
       "name": "spec_n03",
@@ -234,12 +288,19 @@
       "namespace": "fusion::models::rl_n03",
       "header": "weights_n03.hpp",
       "header_path": "inference/count_specialists_rl/weights_n03.hpp",
-      "header_sha256": "59a6086f15e5b54f7229813ac036beb02ec22fdd97333a307b5a8633a12a9759",
+      "header_sha256": "79e4ab70297920499085ad50b8495ca1535ca04a6c7db07e37dc3257619ef142",
       "npz": "weights_n03.npz",
       "npz_path": "inference/count_specialists_rl/weights_n03.npz",
       "digest": "743caf5cc4401c6889696d43f3059de27b9bef1efa620a3dd49b079394d428ea",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.95,
+      "mean_abs_logp_error": 0.3280728294001687,
+      "max_abs_logp_error": 2.4002586452695738,
+      "max_abs_prob_error": 0.22235035291560012,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n04": {
       "name": "spec_n04",
@@ -247,12 +308,19 @@
       "namespace": "fusion::models::rl_n04",
       "header": "weights_n04.hpp",
       "header_path": "inference/count_specialists_rl/weights_n04.hpp",
-      "header_sha256": "68af2061ef382908b7591bec20fa82e920ef30eae005aad7078a0af7338865e9",
+      "header_sha256": "8487c0987c0942d6d48c5b7ca31556965654a4e70975b89e55f623c86e85811a",
       "npz": "weights_n04.npz",
       "npz_path": "inference/count_specialists_rl/weights_n04.npz",
       "digest": "e85ca5c8f7ae8704ebf85c7d7017ee7a2067de663022fc2d122a918a944fc1ee",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.957,
+      "mean_abs_logp_error": 0.30185972263912364,
+      "max_abs_logp_error": 1.9868214820979304,
+      "max_abs_prob_error": 0.2274913601265457,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n05": {
       "name": "spec_n05",
@@ -260,12 +328,19 @@
       "namespace": "fusion::models::rl_n05",
       "header": "weights_n05.hpp",
       "header_path": "inference/count_specialists_rl/weights_n05.hpp",
-      "header_sha256": "4c5abbfac1d3b0a98a7689c530ae8ecded7436f0f6ea143cb08eb0f4523e983f",
+      "header_sha256": "6712ec3f332f6a2a76c3e95c00eae498f8d0ee2b2971b2ea2928ab063ed409f9",
       "npz": "weights_n05.npz",
       "npz_path": "inference/count_specialists_rl/weights_n05.npz",
       "digest": "fbcb6197916963d88a205eb344744a3ee5d3233a0a227fc77bc58f86cd5e3a5c",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.958,
+      "mean_abs_logp_error": 0.2866988081921862,
+      "max_abs_logp_error": 2.007493986380922,
+      "max_abs_prob_error": 0.2456598280285377,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n06": {
       "name": "spec_n06",
@@ -273,12 +348,19 @@
       "namespace": "fusion::models::rl_n06",
       "header": "weights_n06.hpp",
       "header_path": "inference/count_specialists_rl/weights_n06.hpp",
-      "header_sha256": "15a3eca03c5ecdd039dd70b9a4d20194a4645d086af7592d97fdbe31756e1e21",
+      "header_sha256": "fde6da0a82f3e7050691b60d3b00841e5bd57aef02933e05a043ae174cad902f",
       "npz": "weights_n06.npz",
       "npz_path": "inference/count_specialists_rl/weights_n06.npz",
       "digest": "854ec4f385a27d2cd257c57195c939db965a6ad9d6735458a7339f93bde5cccf",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.9605,
+      "mean_abs_logp_error": 0.3157546001531479,
+      "max_abs_logp_error": 2.235067459823494,
+      "max_abs_prob_error": 0.281921014671806,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n07": {
       "name": "spec_n07",
@@ -286,12 +368,19 @@
       "namespace": "fusion::models::rl_n07",
       "header": "weights_n07.hpp",
       "header_path": "inference/count_specialists_rl/weights_n07.hpp",
-      "header_sha256": "41d7dc0b110d369cefbe0b6e9e0182cba91e278b264f01adc8a92e234aadb37e",
+      "header_sha256": "29720734a77ac0cfb1b6269cbbffca59c5966a2417043ed5c4a0306e990d584c",
       "npz": "weights_n07.npz",
       "npz_path": "inference/count_specialists_rl/weights_n07.npz",
       "digest": "07c25cf5b52174776ce61e7ad0fb9e3757fe49517368baa7725e22bb46cbd3fb",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.961,
+      "mean_abs_logp_error": 0.30786842115564916,
+      "max_abs_logp_error": 1.9803724586814404,
+      "max_abs_prob_error": 0.26149698090098555,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n08": {
       "name": "spec_n08",
@@ -299,12 +388,19 @@
       "namespace": "fusion::models::rl_n08",
       "header": "weights_n08.hpp",
       "header_path": "inference/count_specialists_rl/weights_n08.hpp",
-      "header_sha256": "00ee75e005b38a27e266476741e50b916fad27a2d084bf0e856c55bd82827cf4",
+      "header_sha256": "3f9da20408b5e10fa29c0c09d4e7cb5c07809e644bee364a9fa08edb18ba8ca7",
       "npz": "weights_n08.npz",
       "npz_path": "inference/count_specialists_rl/weights_n08.npz",
       "digest": "9bc31cabda9b0c98e54a8217f7e036d57f6f5aa2b8bc99f5b5516524ff05d724",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.967,
+      "mean_abs_logp_error": 0.30376956990558757,
+      "max_abs_logp_error": 2.082355726678621,
+      "max_abs_prob_error": 0.18864444269385722,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n09": {
       "name": "spec_n09",
@@ -312,12 +408,19 @@
       "namespace": "fusion::models::rl_n09",
       "header": "weights_n09.hpp",
       "header_path": "inference/count_specialists_rl/weights_n09.hpp",
-      "header_sha256": "c93424603629a0d3d1f05bd510727682800b4c99f2d55e3d0992b522dc4eeb4f",
+      "header_sha256": "201570f2de8f11a0166505e4509bed779b6a21ebafef153ba2246f9d8139aaba",
       "npz": "weights_n09.npz",
       "npz_path": "inference/count_specialists_rl/weights_n09.npz",
       "digest": "4fdb955c89ac4ba47831dceb5d164df0de08fd33fd943a44cc945fa2a25f4dd7",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.9655,
+      "mean_abs_logp_error": 0.2842119230034285,
+      "max_abs_logp_error": 1.9518970220304084,
+      "max_abs_prob_error": 0.20644800017175302,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n10": {
       "name": "spec_n10",
@@ -325,12 +428,19 @@
       "namespace": "fusion::models::rl_n10",
       "header": "weights_n10.hpp",
       "header_path": "inference/count_specialists_rl/weights_n10.hpp",
-      "header_sha256": "6652f541ede3ec19ae36fe2a7c9676d671193b4e6ecc7d6e9ab83e5d04a79735",
+      "header_sha256": "5d771cd98f0cc087ed1bb314045d2e78b0d7efa6565c9dc97ca90bc72e188a58",
       "npz": "weights_n10.npz",
       "npz_path": "inference/count_specialists_rl/weights_n10.npz",
       "digest": "a5e344215f2569b9d3cd889c533175c077c0f3cc79bebd0cf312770443cd03de",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.962,
+      "mean_abs_logp_error": 0.28435691011936737,
+      "max_abs_logp_error": 1.7775121945374721,
+      "max_abs_prob_error": 0.20639436771869102,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n11": {
       "name": "spec_n11",
@@ -338,12 +448,19 @@
       "namespace": "fusion::models::rl_n11",
       "header": "weights_n11.hpp",
       "header_path": "inference/count_specialists_rl/weights_n11.hpp",
-      "header_sha256": "1740b5d8bc29db250c6b26e098425e47cb5a13a7001e46f57f2a97ae6629cf2d",
+      "header_sha256": "252a1dc87321c51191661023e22d5a36578722c16bec50accf822a348b24137a",
       "npz": "weights_n11.npz",
       "npz_path": "inference/count_specialists_rl/weights_n11.npz",
       "digest": "b2c17ef09e8c95751456b3ed8efebaddbacec0a20730ac55b469c5006abf1e7b",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.9635,
+      "mean_abs_logp_error": 0.3192407861231309,
+      "max_abs_logp_error": 2.5968520275654896,
+      "max_abs_prob_error": 0.2687015695639391,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n12": {
       "name": "spec_n12",
@@ -351,12 +468,19 @@
       "namespace": "fusion::models::rl_n12",
       "header": "weights_n12.hpp",
       "header_path": "inference/count_specialists_rl/weights_n12.hpp",
-      "header_sha256": "119cc1ef7ce32c8cc784e3fcb5be2d5a412d102181406038a24dc26c84dd046c",
+      "header_sha256": "f58771e8425077001e8b45e182cc3985aa41ca75c6ac137c9ecc2ae5faa833df",
       "npz": "weights_n12.npz",
       "npz_path": "inference/count_specialists_rl/weights_n12.npz",
       "digest": "8e088dcbdd63b97889b0de417abae1dfdf1e1e519e17415ab8bb3762793873b5",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.966,
+      "mean_abs_logp_error": 0.29548231829883026,
+      "max_abs_logp_error": 2.0396237903967886,
+      "max_abs_prob_error": 0.18374358905484806,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n13": {
       "name": "spec_n13",
@@ -364,12 +488,19 @@
       "namespace": "fusion::models::rl_n13",
       "header": "weights_n13.hpp",
       "header_path": "inference/count_specialists_rl/weights_n13.hpp",
-      "header_sha256": "fd6e7e36eb00130d8e02dc932118337bfcc354a1a5eff383d07a6acb0ef37ade",
+      "header_sha256": "446469f11f7677427178bbd0df63a9d37d9877195aac845eace0917182ac55d5",
       "npz": "weights_n13.npz",
       "npz_path": "inference/count_specialists_rl/weights_n13.npz",
       "digest": "74f763dbbe9e6f7366c084a0da982fc282ada11ee1e52de6532c18a2e9e267a0",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.968,
+      "mean_abs_logp_error": 0.29441383737083593,
+      "max_abs_logp_error": 1.9618212436211486,
+      "max_abs_prob_error": 0.1823121687701183,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n14": {
       "name": "spec_n14",
@@ -377,12 +508,19 @@
       "namespace": "fusion::models::rl_n14",
       "header": "weights_n14.hpp",
       "header_path": "inference/count_specialists_rl/weights_n14.hpp",
-      "header_sha256": "064be1f76af0b70ad9c550452acdd4fe2c9d38af89c37944ace935872e949729",
+      "header_sha256": "ebb073d968bba94d43b7cf891f50179aecdc0bbf608acfea39b72031883eb592",
       "npz": "weights_n14.npz",
       "npz_path": "inference/count_specialists_rl/weights_n14.npz",
       "digest": "9612c07a97c8698a2b967131a0f83c61e9f21f6ccfe492cc881b350f4d727810",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.9595,
+      "mean_abs_logp_error": 0.288036704165106,
+      "max_abs_logp_error": 1.7844918952496762,
+      "max_abs_prob_error": 0.19031096796153985,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "n15": {
       "name": "spec_n15",
@@ -390,12 +528,19 @@
       "namespace": "fusion::models::rl_n15",
       "header": "weights_n15.hpp",
       "header_path": "inference/count_specialists_rl/weights_n15.hpp",
-      "header_sha256": "225b4e5321a63cbb802a4ce2b45830dda457d6ee4521dab26d90013661fee431",
+      "header_sha256": "2c20a38a54374a56fc8846949652d245bb683492fbaee7e0b9bf5d2e07343e93",
       "npz": "weights_n15.npz",
       "npz_path": "inference/count_specialists_rl/weights_n15.npz",
       "digest": "501018bbec8d969cc1133cf8743968ac7b9d9e8c514bda20189decbc01f4569f",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "greedy_agreement": 0.961,
+      "mean_abs_logp_error": 0.27882985379270825,
+      "max_abs_logp_error": 2.024735794033937,
+      "max_abs_prob_error": 0.1776258264244704,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     },
     "general": {
       "name": "general_control",
@@ -403,12 +548,19 @@
       "namespace": "fusion::models::rl_general",
       "header": "weights_general.hpp",
       "header_path": "inference/count_specialists_rl/weights_general.hpp",
-      "header_sha256": "80a42490d709e8a088778cf3e2d849b13535336b7e8ab9c2fefb067ece76d133",
+      "header_sha256": "dfe6698c77635eaf01c3617ca7e7812a31d319692d5a245da9f44087a6c6ce12",
       "npz": "weights_general.npz",
       "npz_path": "inference/count_specialists_rl/weights_general.npz",
-      "digest": "71a530ccc042d68699387f01c5ac87e22e12ff2048abb3e9db810118fff98141",
-      "greedy_agreement": 1.0,
-      "mean_abs_logp_error": 0.0
+      "digest": "df7990261d37290a13c2868f8d42ee3c368b8d67c0ed5c723188bc0cd602a13b",
+      "greedy_agreement": 0.9605,
+      "mean_abs_logp_error": 0.2963406463806025,
+      "max_abs_logp_error": 1.9472806965963692,
+      "max_abs_prob_error": 0.18162770965837538,
+      "saturated": [
+        0,
+        0
+      ],
+      "eval_observations": 2000
     }
   }
 }

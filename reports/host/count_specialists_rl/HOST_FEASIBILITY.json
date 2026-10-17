@@ -1,23 +1,38 @@
 {
   "schema": "ctf-host-feasibility-receipt-1",
   "task": "T0068",
-  "kind": "offline inference microbenchmark: 8 concurrent worker threads evaluating exact-count RL actor dispatch and joint action scoring under native C++ mlp.hpp; official 2s/50ms host feasibility",
+  "kind": "live 8-worker game-level preflight gate and native inference microbenchmark for agent_v2_rl_csp",
   "workers": 8,
-  "evaluated_teams": 15,
-  "turns_evaluated_per_worker": 400,
-  "total_turns_evaluated": 3200,
-  "total_wall_seconds": 0.0049,
-  "init_budget_ms": 2000,
-  "init_measured_ms": 0.01,
-  "init_passed": true,
-  "turn_budget_ms": 50,
-  "turn_measured_ms_mean": 0.0081,
-  "turn_measured_ms_p50": 0.007,
-  "turn_measured_ms_p95": 0.013,
-  "turn_measured_ms_p99": 0.014,
-  "turn_measured_ms_max": 0.029,
-  "turn_passed": true,
-  "calls_per_turn": 15,
-  "never_runs_all_specialists": true,
-  "host_evidence_status": "development microbenchmark confirms single-call O(1) exact-count RL actor inference latency (0.014 ms p99) is orders of magnitude below the 50ms per-turn limit under 8-worker concurrency on desktop-g60ojud"
+  "preflight": {
+    "receipt": "reports/host/count_specialists_rl/PREFLIGHT.json",
+    "seed": 20262017,
+    "games_evaluated": 64,
+    "turn_coverage": 1.0,
+    "faults": 0,
+    "late": 0,
+    "dead": 0,
+    "refused": 0,
+    "inconsistent": 0,
+    "limits_ms": [2000.0, 50.0],
+    "gates_ms": {"first": 1800.0, "steady": 48.0},
+    "by_count": {
+      "2": {"steady_max_ms": 0.432, "p99_max_ms": 0.388, "p50_max_ms": 0.236, "first_max_ms": 3.8},
+      "5": {"steady_max_ms": 0.710, "p99_max_ms": 0.627, "p50_max_ms": 0.460, "first_max_ms": 7.4},
+      "8": {"steady_max_ms": 1.534, "p99_max_ms": 1.119, "p50_max_ms": 0.745, "first_max_ms": 22.0},
+      "15": {"steady_max_ms": 19.802, "p99_max_ms": 3.690, "p50_max_ms": 1.796, "first_max_ms": 57.6}
+    },
+    "passed": true
+  },
+  "microbenchmark": {
+    "evaluated_teams": 15,
+    "turns_evaluated": 3200,
+    "init_measured_ms": 0.01,
+    "turn_measured_ms_mean": 0.0081,
+    "turn_measured_ms_p50": 0.007,
+    "turn_measured_ms_p95": 0.013,
+    "turn_measured_ms_p99": 0.014,
+    "turn_measured_ms_max": 0.029,
+    "turn_passed": true
+  },
+  "host_evidence_status": "eight-worker host feasibility fully established by live 64-game preflight of deployed carrier agent_v2_rl_csp (max steady reply 19.8 ms on 15-team games, p99 3.69 ms, first reply 57.6 ms vs 2000ms budget, 0 faults/late/refused turns across all 64 games) and isolated O(1) actor dispatch microbenchmark"
 }
