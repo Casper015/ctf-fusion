@@ -1,7 +1,7 @@
 ---
 id: T0083
 title: "Host: release gate, general PPO policy G versus current default D"
-status: active
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/agent_v2_release_gate/, profiles/agent_v2_release_gate.json, docs/AGENT_V2_RELEASE_GATE_SEEDS.md]
@@ -21,7 +21,9 @@ Seeds reserved before play; passed preflight (or blocked handoff); complete rece
 
 ## Handoff
 
-Not started.
+*2026-10-17 09:24Z antigravity@desktop-g60ojud:*
+
+Formal release gate screen completed: G (agent_v2_rl_general_csp) vs current default D (agent_v2_p2xxl_direct) across 4,032 games (1,344 paired fixtures x 3 arms, 8 workers, seed 20262141). Preflight gate passed at seed 20262140 (128 games, 0 faults). Screen results: primary G - D is not shown (+0.00114 / +0.11 pp, 95% CI [-0.01158, +0.01385]); A/A agreement 1,344 / 1,344 identical scores (100.0%); 0 faults across all games. Per the frozen promotion rule ('G becomes the default only if G-D helps; not shown or hurts keeps D'), agent_v2_p2xxl_direct remains the official production default. Complete receipts landed under reports/host/agent_v2_release_gate/.
 
 ## Log
 
@@ -29,3 +31,4 @@ Not started.
 - 2026-10-17 09:08Z antigravity@desktop-g60ojud: claimed
 - 2026-10-17 09:13Z antigravity@desktop-g60ojud: note: preflight passed at seed 20262140 (128 games, 0 faults/late, max steady reply < 20 ms). Launching formal 4,032-game paired release gate screen under CPU lock (seed 20262141, 8 workers).
 - 2026-10-17 09:24Z antigravity@desktop-g60ojud: landed: a416f5f716 on main, 11 file(s)
+- 2026-10-17 09:24Z antigravity@desktop-g60ojud: done
