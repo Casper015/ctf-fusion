@@ -65,6 +65,9 @@
 #ifndef AGENT_V2_SEARCH_TAU
 #define AGENT_V2_SEARCH_TAU 0.0
 #endif
+#ifndef AGENT_V2_SEARCH_TEST_WORK_CAP
+#define AGENT_V2_SEARCH_TEST_WORK_CAP 0   // tests only: > 0 refuses the trajectory after this many in one turn
+#endif
 
 namespace agent_v2 {
 
@@ -218,10 +221,13 @@ struct Search {
         max_setup_us = std::max(max_setup_us, us(clock::now() - t_begin));
         std::array<double, kCandidates> mean{};
         Leaf leaf;
+        int done = 0;
         for (int ri = 0; ri < int(tree.roots.size()); ri++) {
             double sum = 0;
-            for (int smp = 0; smp < kSamples; smp++) {
-                if (!admit(estimate(AGENT_V2_SEARCH_TRAJ_US, max_traj_us))) return fallback(refuse_trajectory);
+            for (int smp = 0; smp < kSamples; smp++, done++) {
+                if (!admit(estimate(AGENT_V2_SEARCH_TRAJ_US, max_traj_us)) ||
+                    (AGENT_V2_SEARCH_TEST_WORK_CAP > 0 && done >= AGENT_V2_SEARCH_TEST_WORK_CAP))
+                    return fallback(refuse_trajectory);
                 const auto t0 = clock::now();
                 clock::time_point t_expand{};
                 auto expand = [&] {

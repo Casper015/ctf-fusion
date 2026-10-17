@@ -25,11 +25,13 @@
 #define FUSION_MAX_WIDTH 1024
 #endif
 #include <chrono>
+#include <cerrno>
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <set>
 #include <sstream>
 #include <string>
@@ -258,6 +260,136 @@ int check_tree(const char* path, int argc, char** argv) {
     return 0;
 }
 
+// T0076: the gate itself is independent of the critic's storage format.
+int check_gate() {
+    const double nan = std::numeric_limits<double>::quiet_NaN();
+    struct Case { std::vector<double> mean; double tau; int want; };
+    const Case cases[] = {
+        {{1, 1}, 0, 0}, {{0, .125}, .125, 0},
+        {{0, std::nextafter(.125, 1.0)}, .125, 1}, {{0, .25, .25}, .125, 1},
+        {{nan, 1}, 0, 0}, {{0, nan}, 0, 0}, {{1}, 0, 0},
+        {{0, -1, -2}, 0, 0}, {{-1, -2}, .1, 0}, {{-2, -1}, 0, 1},
+        {{0, .5, 1}, 0, 2}, {{1, 1, 0}, 0, 0}, {{0, 1, 1}, 0, 1},
+    };
+    int n = 0;
+    for (const auto& c : cases) {
+        const int got = agent_v2::gated_choice(c.mean.data(), int(c.mean.size()), c.tau);
+        if (got != c.want) return fail("gate case " + std::to_string(n) + " got " + std::to_string(got));
+        n++;
+    }
+    // Exhaust the ties/orderings of three small means at tau 0.
+    for (double a : {-1.0, 0.0, 1.0})
+        for (double b : {-1.0, 0.0, 1.0})
+            for (double c : {-1.0, 0.0, 1.0}) {
+                const double m[] = {a, b, c};
+                const int want = b > a ? (c > b ? 2 : 1) : (c > a ? 2 : 0);
+                if (agent_v2::gated_choice(m, 3, 0) != want) return fail("gate tau 0 ordering");
+                n++;
+            }
+    std::printf("ok gate cases %d\n", n);
+    return 0;
+}
+
+#if defined(AGENT_V2_CHECK_F64) && AGENT_V2_CHECK_F64
+// Same float inputs and weights as the FP32 critic, with double accumulation throughout.
+double critic_f64(const float* features) {
+    const auto& net = meow_rl_critic::kCritic;
+    std::vector<double> x(features, features + net.layers[0].in), y;
+    for (int li = 0; li < net.count; li++) {
+        const auto& l = net.layers[li];
+        y.resize(l.out);
+        for (int o = 0; o < l.out; o++) {
+            double v = l.b[o];
+            for (int i = 0; i < l.in; i++) v += double(l.w[o * l.in + i]) * x[i];
+            y[o] = l.hidden ? std::max(0.0, v) : v;
+        }
+        x.swap(y);
+    }
+    return x[0];
+}
+
+bool decimal(const std::string& s, uint64_t& out) {
+    if (s.empty() || s.find_first_not_of("0123456789") != std::string::npos) return false;
+    errno = 0;
+    out = std::strtoull(s.c_str(), nullptr, 10);
+    return errno != ERANGE;
+}
+
+int check_gatetree(const char* path, int argc, char** argv) {
+    uint64_t stride, roots;
+    if (argc < 3 || !decimal(argv[0], stride) || !stride || !decimal(argv[1], roots) ||
+        !roots || roots > agent_v2::kCandidates) return fail("gatetree stride/roots/specs");
+    struct Spec { uint64_t salt; int samples; };
+    std::vector<Spec> specs;
+    for (int i = 2; i < argc; i++) {
+        const std::string spec = argv[i];
+        const auto at = spec.find(':');
+        uint64_t salt, samples;
+        if (at == std::string::npos || !decimal(spec.substr(0, at), salt) ||
+            !decimal(spec.substr(at + 1), samples) || !samples || samples > agent_v2::kSamples)
+            return fail("gatetree spec " + spec);
+        specs.push_back({salt, int(samples)});
+    }
+    if (!std::ifstream(path).good()) return fail("gatetree stream unreadable");
+    RT rt;
+    agent_v2::Simulator sim;
+    for (auto& blk : blocks(slurp(path))) {
+        if (!rt.observe_block(blk).empty()) {
+            rt.refuse();
+            continue;
+        }
+        int64_t sc[3][5];
+        agent_v2::Actor::scores(rt.obs, sc);
+        const int joint = agent_v2::Actor::sample(sc, rt.obs, agent_v2::uniform(rt.seed, rt.s.turn));
+        if (uint64_t(rt.s.turn) % stride == 0) {
+            std::vector<int> root_list;
+            std::string trees;
+            for (const auto& spec : specs) {
+                agent_v2::Tree tree;
+                agent_v2::setup(rt, sc, joint, tree, spec.salt);
+                const int nr = std::min(int(roots), int(tree.roots.size()));
+                const std::vector<int> prefix(tree.roots.begin(), tree.roots.begin() + nr);
+                if (root_list.empty()) root_list = prefix;
+                else if (root_list != prefix) return fail("gatetree roots changed with salt");
+                std::string values = "[", terminals = "[";
+                double error = 0;
+                agent_v2::Leaf leaf;
+                for (int ri = 0; ri < nr; ri++) {
+                    values += ri ? ",[" : "[";
+                    terminals += ri ? ",[" : "[";
+                    for (int smp = 0; smp < spec.samples; smp++) {
+                        if (!agent_v2::trajectory(rt, tree, ri, smp, sim, leaf)) return fail("gatetree trajectory refused");
+                        double v = leaf.reward;
+                        if (!leaf.terminal) {
+                            v = meow_rl_critic::value(leaf.feats.data());
+                            const double f64 = critic_f64(leaf.feats.data());
+                            if (!std::isfinite(f64)) return fail("gatetree non-finite float64 value");
+                            error = std::max(error, std::abs(v - f64));
+                        }
+                        if (!std::isfinite(v)) return fail("gatetree non-finite value");
+                        char buf[64];
+                        std::snprintf(buf, sizeof buf, "%s%.17g", smp ? "," : "", v);
+                        values += buf;
+                        terminals += std::string(smp ? "," : "") + (leaf.terminal ? "1" : "0");
+                    }
+                    values += "]", terminals += "]";
+                }
+                char buf[160];
+                std::snprintf(buf, sizeof buf, "%s{\"salt\":\"%llu\",\"S\":%d,\"max_abs_f64\":%.17g,\"v\":",
+                              trees.empty() ? "" : ",", (unsigned long long)spec.salt, spec.samples, error);
+                trees += buf + values + "],\"terminal\":" + terminals + "]}";
+            }
+            std::printf("{\"turn\":%d,\"teams\":%d,\"me\":%d,\"actor\":%d,\"roots\":[", rt.s.turn,
+                        rt.cache.st.teams, rt.cache.st.me, joint);
+            for (size_t i = 0; i < root_list.size(); i++) std::printf("%s%d", i ? "," : "", root_list[i]);
+            std::printf("],\"trees\":[%s]}\n", trees.c_str());
+        }
+        rt.answer(joint);
+    }
+    return 0;
+}
+#endif
+
 int check_step() {
     std::string text, line;
     while (std::getline(std::cin, line)) {
@@ -318,6 +450,10 @@ int main(int argc, char** argv) {
     const std::string mode = argc > 1 ? argv[1] : "";
     if (mode == "step") return check_step();
     if (mode == "bank") return check_bank();
+    if (mode == "gate") return check_gate();
+#if defined(AGENT_V2_CHECK_F64) && AGENT_V2_CHECK_F64
+    if (mode == "gatetree" && argc > 2) return check_gatetree(argv[2], argc - 3, argv + 3);
+#endif
     if (mode == "resolver" && argc > 2) return check_resolver(argv[2]);
     if (mode == "p" && argc > 2) return check_p(argv[2]);
     if (mode == "isolation" && argc > 2) return check_isolation(argv[2]);
