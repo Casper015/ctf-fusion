@@ -16,8 +16,8 @@ Host feasibility was verified across two complementary tiers:
 1. **Live Game-Level 8-Worker Preflight Gate (`reports/host/count_specialists_rl/PREFLIGHT.json`)**: 64 full official matches (16 maps each across team counts 2, 5, 8, 15) evaluated simultaneously by 8 worker processes running the compiled carrier binary `agent_v2_rl_csp`.
    * **Turn Coverage:** 100% (zero refused turns, zero inconsistent states).
    * **Timing Compliance:** 0 faults, 0 late turns, 0 timeouts.
-   * **Max Steady Turn Reply:** 19.80 ms on 15-team games (well inside the 48.0 ms gate and 50.0 ms limit; < 1.6 ms on counts $\le 8$).
-   * **Max First Reply:** 57.6 ms on 15-team games (well inside the 1,800 ms gate and 2,000 ms limit).
+   * **Max Steady Turn Reply:** 6.76 ms on 15-team games (well inside the 48.0 ms gate and 50.0 ms limit; < 6.2 ms on counts $\le 8$).
+   * **Max First Reply:** 50.7 ms on 15-team games (well inside the 1,800 ms gate and 2,000 ms limit).
 2. **Native Actor Inference Microbenchmark**: 8 concurrent worker threads evaluating 3,200 turns (48,000 unit forward passes) of the quantized reference16 INT16 actor.
    * **Mean Actor Latency:** 0.0081 ms per turn.
    * **P99 Actor Latency:** 0.0140 ms per turn.
@@ -30,17 +30,17 @@ Across 64 full games (16 games $\times$ 4 counts) against the official reference
 
 | Team Count | Games | Turn Coverage | First Reply Max | Steady Reply P50 | Steady Reply P95 | Steady Reply P99 | Steady Reply Max | Limit / Gate | Status |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| 2 | 16 | 100% | 3.8 ms | 0.236 ms | 0.306 ms | 0.388 ms | 0.432 ms | 50.0 ms / 48.0 ms | **PASSED** |
-| 5 | 16 | 100% | 7.4 ms | 0.460 ms | 0.560 ms | 0.627 ms | 0.710 ms | 50.0 ms / 48.0 ms | **PASSED** |
-| 8 | 16 | 100% | 22.0 ms | 0.745 ms | 0.906 ms | 1.119 ms | 1.534 ms | 50.0 ms / 48.0 ms | **PASSED** |
-| 15 | 16 | 100% | 57.6 ms | 1.796 ms | 2.583 ms | 3.690 ms | 19.802 ms | 50.0 ms / 48.0 ms | **PASSED** |
+| 2 | 16 | 100% | 6.0 ms | 0.222 ms | 0.293 ms | 0.346 ms | 0.554 ms | 50.0 ms / 48.0 ms | **PASSED** |
+| 5 | 16 | 100% | 7.6 ms | 0.437 ms | 0.537 ms | 0.650 ms | 0.873 ms | 50.0 ms / 48.0 ms | **PASSED** |
+| 8 | 16 | 100% | 25.9 ms | 0.710 ms | 0.872 ms | 1.173 ms | 6.121 ms | 50.0 ms / 48.0 ms | **PASSED** |
+| 15 | 16 | 100% | 50.7 ms | 1.668 ms | 2.328 ms | 3.693 ms | 6.755 ms | 50.0 ms / 48.0 ms | **PASSED** |
 
 **Summary Preflight Diagnostics:**
 * Total matches evaluated: 64
 * Candidate faults / late / dead: **0 / 0 / 0**
 * Candidate refused turns: **0**
 * Turn coverage: **100%** (all game turns answered with valid orders)
-* Total wall time (8 workers): **7.2 seconds**
+* Total wall time (8 workers): **6.2 seconds**
 
 ---
 

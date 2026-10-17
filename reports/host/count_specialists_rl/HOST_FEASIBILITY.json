@@ -16,10 +16,10 @@
     "limits_ms": [2000.0, 50.0],
     "gates_ms": {"first": 1800.0, "steady": 48.0},
     "by_count": {
-      "2": {"steady_max_ms": 0.432, "p99_max_ms": 0.388, "p50_max_ms": 0.236, "first_max_ms": 3.8},
-      "5": {"steady_max_ms": 0.710, "p99_max_ms": 0.627, "p50_max_ms": 0.460, "first_max_ms": 7.4},
-      "8": {"steady_max_ms": 1.534, "p99_max_ms": 1.119, "p50_max_ms": 0.745, "first_max_ms": 22.0},
-      "15": {"steady_max_ms": 19.802, "p99_max_ms": 3.690, "p50_max_ms": 1.796, "first_max_ms": 57.6}
+      "2": {"steady_max_ms": 0.554, "p99_max_ms": 0.346, "p50_max_ms": 0.222, "first_max_ms": 6.0},
+      "5": {"steady_max_ms": 0.873, "p99_max_ms": 0.650, "p50_max_ms": 0.437, "first_max_ms": 7.6},
+      "8": {"steady_max_ms": 6.121, "p99_max_ms": 1.173, "p50_max_ms": 0.710, "first_max_ms": 25.9},
+      "15": {"steady_max_ms": 6.755, "p99_max_ms": 3.693, "p50_max_ms": 1.668, "first_max_ms": 50.7}
     },
     "passed": true
   },
@@ -34,5 +34,5 @@
     "turn_measured_ms_max": 0.029,
     "turn_passed": true
   },
-  "host_evidence_status": "eight-worker host feasibility fully established by live 64-game preflight of deployed carrier agent_v2_rl_csp (max steady reply 19.8 ms on 15-team games, p99 3.69 ms, first reply 57.6 ms vs 2000ms budget, 0 faults/late/refused turns across all 64 games) and isolated O(1) actor dispatch microbenchmark"
+  "host_evidence_status": "eight-worker host feasibility fully established by live 64-game preflight of deployed carrier agent_v2_rl_csp (max steady reply 6.76 ms on 15-team games, p99 3.69 ms, first reply 50.7 ms vs 2000ms budget, 0 faults/late/refused turns across all 64 games) and isolated O(1) actor dispatch microbenchmark"
 }
