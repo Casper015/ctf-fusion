@@ -1,7 +1,7 @@
 ---
 id: T0078
 title: "Host: original Meowmind search-on/off gap attribution"
-status: active
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/meowmind_gap/, profiles/meowmind_gap.json, docs/MEOWMIND_GAP_SEEDS.md]
@@ -21,7 +21,9 @@ Seeds reserved before play; passed preflight (or blocked handoff); complete rece
 
 ## Handoff
 
-Not started.
+*2026-10-17 09:47Z antigravity@desktop-g60ojud:*
+
+Original Meowmind search on/off gap attribution screen completed across 3,136 games (784 paired fixtures x 4 arms, 8 workers, seed 20262111). Preflight gate passed at seed 20262110 (192 games, 0 faults). Screen results: causal effect of Meowmind's search (ON - OFF) helps by +8.09 pp (Bonferroni CI [+0.0631, +0.0988], p < 1e-15); current gap (ON - V) helps by +6.61 pp (Bonferroni CI [+0.0488, +0.0834]); without search, Meowmind OFF (0.75413) is inferior to agent_v2 direct V (0.76894) by -1.48 pp. Attribution confirmed: the entire gap between Meowmind and agent_v2 is driven by Meowmind's lookahead search. Landed directly on main.
 
 ## Log
 
@@ -29,3 +31,4 @@ Not started.
 - 2026-10-17 09:29Z antigravity@desktop-g60ojud: claimed
 - 2026-10-17 09:32Z antigravity@desktop-g60ojud: note: preflight passed at seed 20262110 (192 games, 0 faults/late, max steady reply < 25 ms). Launching formal 3,136-game paired attribution screen under CPU lock (seed 20262111, 8 workers).
 - 2026-10-17 09:47Z antigravity@desktop-g60ojud: landed: 4e8041d0b2 on main, 11 file(s)
+- 2026-10-17 09:47Z antigravity@desktop-g60ojud: done
