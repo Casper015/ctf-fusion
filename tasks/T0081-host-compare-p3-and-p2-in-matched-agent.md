@@ -13,6 +13,8 @@ updated: 2026-10-17
 
 ## Goal
 
+Main comparison clarified by Casper: use the GENERAL P2 XXL (inference/models_pf_p2xxl_vm, pf_p2_xxl_s1) versus GENERAL P3 XXL (inference/models_pf_p3xxl_vm, pf_p3_xxl_s1) from the same T0011 feature-family study. Both serve one general policy across counts 2-15. Do not use the count-routed P2 bank as the main control; keep T0079 only as an external deployment reference. Pin both manifests, headers, feature-family and calibration identities. Own actor, FP32 critic, resolver, breadth, scenario keys, tau and deadline remain fixed. This clarification supersedes any older routing description below.
+
 Execute the P3 prediction experiment in bots/agent_v2/p3_search/README.md after its code PR and T0079 finish. No retraining or default promotion. Four arms use the same aligned T0059 actor, resolver and FP32 critic: P2 direct, P3 direct, P2 gated 8x4 search and P3 gated 8x4 search, tau 0.002. Use the existing P3 XXL bank (T0011 general model) through native P3 features/action/target heads at root and branches. This is a prediction-package comparison including feature/weight/routing differences, not proof of a single feature's causal effect.
 
 First run matched fixed-work diagnostics with existing public causal prefixes: identical input observations, actor, candidate list, random keys, tree breadth and critic. P2/P3 may produce different modeled orders and successors. Do not interpret a higher V prediction under its own model as real improvement. Preserve and bind code/model/tree receipts.
@@ -32,3 +34,4 @@ Not started.
 ## Log
 
 - 2026-10-17 07:50Z codex-p3search@caspers-macbook: created
+- 2026-10-17 07:56Z codex-p3search@caspers-macbook: amended goal
