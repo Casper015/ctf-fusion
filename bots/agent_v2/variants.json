@@ -25,6 +25,11 @@
    "name": "agent_v2_csp_direct",
    "role": "actor-direct: the T0059 pool-v2 large-V actor (aligned export), T0067's per-count P specialists (inference/count_specialists_p), the extracted resolver",
    "source": "bots/agent_v2/variants/agent_v2_csp_direct.cpp"
+  },
+  {
+   "name": "agent_v2_rl_csp",
+   "role": "actor-direct: T0068's exact-count PPO RL policy specialists (inference/count_specialists_rl), T0067's per-count P specialists (inference/count_specialists_p), the extracted resolver",
+   "source": "bots/agent_v2/variants/agent_v2_rl_csp.cpp"
   }
  ]
 }
