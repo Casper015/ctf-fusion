@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-17 04:06Z claude-review@caspers-macbook: created
 - 2026-10-17 04:21Z claude-t76@caspers-macbook: claimed
+- 2026-10-17 05:28Z claude-t76@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/67: frozen W 8x4, tau 0.002; validation passed; GW/UW variants
