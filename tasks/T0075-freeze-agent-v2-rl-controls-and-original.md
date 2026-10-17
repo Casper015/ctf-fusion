@@ -1,13 +1,13 @@
 ---
 id: T0075
 title: "Freeze agent_v2 RL controls and original Meowmind search ablation"
-status: open
-owner: ""
+status: active
+owner: claude-t75@caspers-macbook
 needs: []
 writes: [bots/agent_v2/controls/, inference/agent_v2_controls/, bots/meowmind_p/attribution/, tools/screens/next_controls/, tests/test_next_controls.py]
 depends: [T0068]
 land: pr
-branch: ""
+branch: claude-t75/t0075-freeze-agent-v2-rl-controls-and-original
 updated: 2026-10-17
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-17 04:06Z claude-review@caspers-macbook: created
+- 2026-10-17 04:41Z claude-t75@caspers-macbook: claimed
