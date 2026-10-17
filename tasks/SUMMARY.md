@@ -38,7 +38,7 @@ Open, but a dependency is not done yet.
 |---|---|---|---|
 | [T0002](T0002-p-only-stage-1-capacity-and-sampling.md) | host | T0001 | P-only stage 1: capacity and sampling screen at two plies |
 | [T0006](T0006-p-only-phase-5-tune-v-freeze-finalists.md) | host | T0005 | P-only phase 5: freeze the finalists and confirm them |
-| [T0081](T0081-host-compare-p3-and-p2-in-matched-agent.md) | host, ai-test | T0080 | Host compare P3 and P2 in matched agent_v2 search |
+| [T0081](T0081-host-compare-p3-and-p2-in-matched-agent.md) | host, ai-test | T0078, T0080 | Host compare P3 and P2 in matched agent_v2 search |
 
 ## Done
 
@@ -168,5 +168,6 @@ A task on the left must be done before those on the right can start.
 - [T0075](archive/T0075-freeze-agent-v2-rl-controls-and-original.md) → [T0077](archive/T0077-host-exact-count-rl-specialists-versus.md), [T0078](T0078-host-original-meowmind-search-on-off-gap.md)
 - [T0076](archive/T0076-freeze-agent-v2-search-override-gate-and.md) → [T0079](archive/T0079-host-gated-wider-agent-v2-search-versus.md), [T0080](T0080-wire-p3-opponent-prediction-into-agent.md)
 - [T0077](archive/T0077-host-exact-count-rl-specialists-versus.md) → [T0082](T0082-freeze-production-agent-v2-release.md), [T0083](T0083-host-release-gate-general-ppo-policy-g.md)
+- [T0078](T0078-host-original-meowmind-search-on-off-gap.md) → [T0081](T0081-host-compare-p3-and-p2-in-matched-agent.md)
 - [T0079](archive/T0079-host-gated-wider-agent-v2-search-versus.md) → [T0081](T0081-host-compare-p3-and-p2-in-matched-agent.md), [T0082](T0082-freeze-production-agent-v2-release.md)
 - [T0080](T0080-wire-p3-opponent-prediction-into-agent.md) → [T0081](T0081-host-compare-p3-and-p2-in-matched-agent.md)

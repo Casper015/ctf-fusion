@@ -43,7 +43,7 @@ python tools/repo/task.py show T0002    # one task: goal, done-when, handoff, lo
 |---|---|---|---|
 | [T0002](T0002-p-only-stage-1-capacity-and-sampling.md) | host | T0001 | P-only stage 1: capacity and sampling screen at two plies |
 | [T0006](T0006-p-only-phase-5-tune-v-freeze-finalists.md) | host | T0005 | P-only phase 5: freeze the finalists and confirm them |
-| [T0081](T0081-host-compare-p3-and-p2-in-matched-agent.md) | host, ai-test | T0080 | Host compare P3 and P2 in matched agent_v2 search |
+| [T0081](T0081-host-compare-p3-and-p2-in-matched-agent.md) | host, ai-test | T0078, T0080 | Host compare P3 and P2 in matched agent_v2 search |
 
 ### Recently finished (latest 10)
 

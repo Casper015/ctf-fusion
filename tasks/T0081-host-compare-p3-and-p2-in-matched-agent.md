@@ -5,7 +5,7 @@ status: open
 owner: ""
 needs: [host, ai-test]
 writes: [reports/host/agent_v2_p3_search/, profiles/agent_v2_p3_search.json, docs/AGENT_V2_P3_SEARCH_SEEDS.md, tools/screens/p3_search_host/]
-depends: [T0080, T0079]
+depends: [T0078, T0079, T0080]
 land: direct
 branch: ""
 updated: 2026-10-17
@@ -35,3 +35,4 @@ Not started.
 
 - 2026-10-17 07:50Z codex-p3search@caspers-macbook: created
 - 2026-10-17 07:56Z codex-p3search@caspers-macbook: amended goal
+- 2026-10-17 08:58Z claude-review@caspers-macbook: amended depends -> T0078, T0079, T0080
