@@ -1,13 +1,13 @@
 ---
 id: T0076
 title: "Freeze agent_v2 search override gate and wider fixed-work diagnostics"
-status: open
-owner: ""
+status: active
+owner: claude-t76@caspers-macbook
 needs: []
 writes: [inference/agent_v2/search.hpp, bots/agent_v2/search_gate/, tools/cpp/agent_v2/check.cpp, tools/screens/search_gate_offline/, tests/test_agent_v2_search_gate.py, docs/AGENT_V2_SEARCH_GATE.md, docs/SEARCH_GATE_DIAGNOSTIC_SEEDS.md]
 depends: []
 land: pr
-branch: ""
+branch: claude-t76/t0076-freeze-agent-v2-search-override-gate-and
 updated: 2026-10-17
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-17 04:06Z claude-review@caspers-macbook: created
+- 2026-10-17 04:21Z claude-t76@caspers-macbook: claimed
