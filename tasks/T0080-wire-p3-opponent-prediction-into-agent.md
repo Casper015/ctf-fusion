@@ -13,6 +13,8 @@ updated: 2026-10-17
 
 ## Goal
 
+Main comparison clarified by Casper: use the GENERAL P2 XXL (inference/models_pf_p2xxl_vm, pf_p2_xxl_s1) versus GENERAL P3 XXL (inference/models_pf_p3xxl_vm, pf_p3_xxl_s1) from the same T0011 feature-family study. Both serve one general policy across counts 2-15. Do not use the count-routed P2 bank as the main control; keep T0079 only as an external deployment reference. Pin both manifests, headers, feature-family and calibration identities. Own actor, FP32 critic, resolver, breadth, scenario keys, tau and deadline remain fixed. This clarification supersedes any older routing description below.
+
 Casper explicitly requested replacing P2 opponent prediction with P3 to test search strength. Add the existing P3 XXL bank and full P3 feature/conditional action/target path, including correct root and branch rules/history, without mixing legacy forecasts. Keep frozen actor, critic, resolver, candidate/scenario counts, threshold and deadline identical to matched P2 controls. Provide separate direct and gated-search variants and a P3-vs-P2 fixed-work harness. Preserve T0079 inputs/running jobs; do not promote defaults or start host games here.
 
 ## Done when
@@ -28,3 +30,4 @@ Not started.
 - 2026-10-17 07:46Z codex-p3search@caspers-macbook: created
 - 2026-10-17 07:46Z codex-p3search@caspers-macbook: claimed
 - 2026-10-17 07:50Z codex-p3search@caspers-macbook: amended writes -> bots/agent_v2/p3_search/, inference/agent_v2/p_bank.hpp, inference/agent_v2/predictor.hpp, tests/test_agent_v2_p3.py, tools/cpp/agent_v2/check.cpp, tools/screens/next_controls/MANIFEST.json
+- 2026-10-17 07:56Z codex-p3search@caspers-macbook: amended goal
