@@ -108,8 +108,8 @@ Both are listed in [bots/agent_v2/search_gate/variants.json](../bots/agent_v2/se
 
 **Completed work on the host is the open risk.** The gate only acts on completed trees: incomplete work plays the actor's order. Two parts of the admission arithmetic matter here; neither changed in T0076.
 - *No trajectory starts after 16.5 ms.* The variants keep `agent_v2_p2xxl_search_fp32`'s settings: deadline 30 ms, trajectory prior 8 ms, safety 150%, reply reserve 1.5 ms. An admitted trajectory needs `max(8 ms, worst seen) × 1.5 + 1.5 ms` before the deadline. So 32 trajectories plus setup must fit in about 16.5 ms, roughly 0.5 ms per trajectory.
-- *The worst-seen estimate never decays.* After one trajectory costs about 16 ms or more (for example a cold first critic call), setup is refused on every later turn of the game.
-- *On this Mac (not evidence, a mechanism check only):* both effects show. The existing 4×2 FP32 variant completed 1 tree in 400 turns of n04. GW completed 150 of 400 trees on n02 and 1 of 400 on n15. UW completed 100 on n02 and 17 on n15.
+- *The worst-seen estimate never decays.* Once any one trajectory in a game costs more than about 16 ms, setup admission (`setup + trajectory estimates + reserve`) exceeds the 30 ms budget. From then on the game refuses every search, a slow first call included.
+- A development-machine run showed both effects binding: most trees incomplete, and almost none at 15 teams. Those counts depend on that machine's speed, are not evidence, and are not recorded here.
 - *What T0079 must check:* host costs are unknown. Its preflight has to report completed trees (`search_used`) per arm and count, not only reply times. If few trees complete, GW and UW play the direct actor's order and the screen compares D with D.
 
 ## 4. Reproduce
