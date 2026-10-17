@@ -1,13 +1,13 @@
 ---
 id: T0083
 title: "Host: release gate, general PPO policy G versus current default D"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/agent_v2_release_gate/, profiles/agent_v2_release_gate.json, docs/AGENT_V2_RELEASE_GATE_SEEDS.md]
 depends: [T0077]
 land: direct
-branch: ""
+branch: antigravity/t0083-host-release-gate-general-ppo-policy-g
 updated: 2026-10-17
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-17 08:58Z claude-review@caspers-macbook: created
+- 2026-10-17 09:08Z antigravity@desktop-g60ojud: claimed
