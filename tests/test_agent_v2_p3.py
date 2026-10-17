@@ -6,6 +6,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from fusion import runner
+
 from tests.test_agent_v2 import (REPO, CXX, FLAGS, ACTORS, GAMES, stream, bundle_and_build,
                                 assert_valid_replies, build_check)
 
@@ -20,7 +22,7 @@ class P3Backend(unittest.TestCase):
         for family, mode in [('p2','direct'),('p3','direct'),('p3','gw8x4_fp32')]:
             name = f'agent_v2_p3exp_{family}_{mode}'
             cls.exes[family,mode] = bundle_and_build(VARIANTS / f'{name}.cpp', cls.tmp / name)
-        cls.check = cls.tmp / 'check_p3'
+        cls.check = cls.tmp / f'check_p3{runner.EXE}'
         build_check(cls.check, ('-DFUSION_TIER_P3XXL_VM=1',)).check_returncode()
 
     def test_actual_general_variants_replay_with_distinct_identities(self):
@@ -41,7 +43,7 @@ class P3Backend(unittest.TestCase):
                 if mode!='direct':self.assertIn('search_used',r.stderr)
 
     def test_general_p2_routes_one_model_at_every_count(self):
-        exe=self.tmp/'check_p2_general'
+        exe=self.tmp/f'check_p2_general{runner.EXE}'
         build_check(exe,('-DFUSION_TIER_P2GENERAL_VM=1',)).check_returncode()
         r=subprocess.run([str(exe),'bank'],text=True,capture_output=True,check=True)
         self.assertIn('bank models_pf_p2xxl_vm',r.stdout)
@@ -100,6 +102,7 @@ void check(RT& rt,agent_v2::Prediction& got,const fusion::State& state,const fus
 int main(int argc,char**argv){
     RT rt;std::ifstream in(argv[1]);std::string line,block;int count=0;
     while(std::getline(in,line)){
+        if(!line.empty()&&line.back()=='\r')line.pop_back();
         block+=line+"\n";
         if(line!="END")continue;
         assert(rt.observe_block(block).empty());block.clear();
@@ -117,8 +120,8 @@ int main(int argc,char**argv){
     assert(count==6);std::cout<<"ok root branch P3 parity\n";
 }
 ''')
-        exe=self.tmp/'parity'
-        subprocess.run([CXX,*FLAGS,'-I',str(REPO),'-I',str(REPO/'inference'),str(src),'-o',str(exe)],capture_output=True,text=True,check=True)
+        exe=self.tmp/f'parity{runner.EXE}'
+        subprocess.run([CXX,*FLAGS,*(['-static'] if runner.WINDOWS else []),'-I',str(REPO),'-I',str(REPO/'inference'),str(src),'-o',str(exe)],capture_output=True,text=True,check=True)
         for game in ['n02','n15']:
             text=stream(game).replace(' 100 34 10 15 8',' 100 17 10 15 8',1)
             self.assertNotEqual(text,stream(game))
