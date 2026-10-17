@@ -1,0 +1,913 @@
+{
+  "binary_sha256": {
+    "diag": "8b0039540e350bef72ba05e28543ea777948753e41df4f3d51280c8ada26aed8",
+    "narrow": "1a897882020706c1e7ea3a8964411f162440fb04ec9a7cbbec4cfdcc6633f4d5",
+    "wide": "60a3a40d3647c42b0787cb1629548af61eeccca0aedbedb14267814adb58b690"
+  },
+  "commands": [
+    {
+      "command": [
+        "/opt/homebrew/bin/g++-16",
+        "--version"
+      ],
+      "cwd": ".",
+      "kind": "compiler",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "g++-16 (Homebrew GCC 16.2.0) 16.2.0",
+        "Copyright (C) 2026 Free Software Foundation, Inc.",
+        "This is free software; see the source for copying conditions.  There is NO",
+        "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+        ""
+      ]
+    },
+    {
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": ".",
+      "kind": "git",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "01a6abe4e6b9a02c0e606051fbfca66ef9227f46"
+      ]
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/g++-16",
+        "-std=c++20",
+        "-O2",
+        "-w",
+        "-I",
+        "inference",
+        "-I",
+        "tools/cpp/meow_rl",
+        "-DFUSION_TIER_PXXL_VM=1",
+        "-DACTOR_HEADER=\"meow_rl/aligned/p2_large/actor.hpp\"",
+        "-DCRITIC_HEADER=\"meow_rl/aligned/p2_large/critic_fp32.hpp\"",
+        "-DAGENT_V2_CHECK_F64=1",
+        "-DAGENT_V2_SEARCH_CANDIDATES=8",
+        "-DAGENT_V2_SEARCH_SAMPLES=16",
+        "tools/cpp/agent_v2/check.cpp",
+        "-o",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag"
+      ],
+      "cwd": ".",
+      "kind": "build_diag",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": []
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/g++-16",
+        "-std=c++20",
+        "-O2",
+        "-w",
+        "-I",
+        "inference",
+        "-I",
+        "tools/cpp/meow_rl",
+        "-DFUSION_TIER_PXXL_VM=1",
+        "-DACTOR_HEADER=\"meow_rl/aligned/p2_large/actor.hpp\"",
+        "-DCRITIC_HEADER=\"meow_rl/aligned/p2_large/critic_fp32.hpp\"",
+        "-DAGENT_V2_CHECK_F64=1",
+        "-DAGENT_V2_SEARCH_CANDIDATES=8",
+        "-DAGENT_V2_SEARCH_SAMPLES=4",
+        "tools/cpp/agent_v2/check.cpp",
+        "-o",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/wide"
+      ],
+      "cwd": ".",
+      "kind": "build_wide",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": []
+    },
+    {
+      "command": [
+        "/opt/homebrew/bin/g++-16",
+        "-std=c++20",
+        "-O2",
+        "-w",
+        "-I",
+        "inference",
+        "-I",
+        "tools/cpp/meow_rl",
+        "-DFUSION_TIER_PXXL_VM=1",
+        "-DACTOR_HEADER=\"meow_rl/aligned/p2_large/actor.hpp\"",
+        "-DCRITIC_HEADER=\"meow_rl/aligned/p2_large/critic_fp32.hpp\"",
+        "-DAGENT_V2_CHECK_F64=1",
+        "-DAGENT_V2_SEARCH_CANDIDATES=4",
+        "-DAGENT_V2_SEARCH_SAMPLES=2",
+        "tools/cpp/agent_v2/check.cpp",
+        "-o",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/narrow"
+      ],
+      "cwd": ".",
+      "kind": "build_narrow",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/wide",
+        "gate"
+      ],
+      "cwd": ".",
+      "kind": "gate",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "ok gate cases 42"
+      ]
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n02-seat00.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n02-seat00.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "6d953b9743e27e66e208613e48a8fb1eac765637dbbc251c3892ca31593cefc0",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n02-seat01.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n02-seat01.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "b815bcfe8778bf04023367d904977ac9b93b39dda1cf058242529055613a76e0",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-seat00.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-seat00.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "dcd6874d32c0154d067a3fee9b9e170195efb132a97541c7afca26443a735d3c",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-seat01.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-seat01.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "d369b9b09a9d512d2a265514006964ffc3922b9d048328d280f37b802ab1e429",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-seat02.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-seat02.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "fc2dbd71677d3f6de553ed181f56c461015759f385430022e4262a012228cb7e",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-seat03.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-seat03.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "de516d99b67db5862517a16ad4580c909025e192e31292c5494f86ce181d6c88",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat00.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat00.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "03577e1512b6704819680c7899b504f4160d5efb62ffb0a61f24784df498b7a7",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat01.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat01.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "f71f21865985c401e08e4b49c994a82f31998b2ed49d8f918d20ba5a2be84fd6",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat02.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat02.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "4d2ed202f8f6fa03097e02846015186ff08eb1dfc7df2ba2fc251c6801ea78dc",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat03.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat03.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "3e96ec5ad0d17fd131028ef18b5241d0b617f442b9e268cecbfad353acbfa4a4",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat04.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat04.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "e8d920a34b205ea38de8e13d23c4a5bd05358d01790702c9447f31b8ae8d48c2",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat05.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat05.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "728b4ec0cf71784b5ad489b7bed854df1b327bf4c57289f5b6f2d54cb02080ed",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat06.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat06.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "37e864277a55a7ebba79a0dd4b99239f8e6f5acd99d7dcd3dc5fd3b1f7572a24",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat07.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat07.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "6c1b79b69435bfc16e8e5fac008c1c3b7401f90f3aee2c5bb951be948ad19e19",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat08.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat08.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "3bc125ca61525d029e8cfc1531dd12dd940e7c743b5474dec122a3efee0a95c9",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat09.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat09.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "d6db14a2b519055e9c8de9d011be0444206b5d494de4e705f458899cef58f82f",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat10.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat10.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "07c36bef4f27be46b4cd7fc3cb26755e2d3d026a5a60cbf39fab2d5f17326ba5",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat11.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat11.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "ac6d7a4a7d939a2f35093276e9cab9a94ecfef73a7f202dd9462172ed2b0e74f",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat12.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat12.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "4932e98516a32555a73ae36cbf74b2c817d0116931adb3bac820ac91c1454262",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat13.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat13.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "25ecdd11defb76b1067a19a39af4814008eff65b44f717c862b755a542158bdf",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/diag",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat14.txt",
+        "4",
+        "8",
+        "11708316565496032547:4",
+        "1777657907718882646:4",
+        "1268758686302217148:4",
+        "16854302777987583674:4",
+        "9448844429103577790:16"
+      ],
+      "cwd": ".",
+      "kind": "diagnostic",
+      "output_file": "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-seat14.jsonl",
+      "output_line_count": 100,
+      "output_sha256": "36ea427375f01c1e10f1da9c5861bde475dced6c1cee50973db35e2ef70b975a",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": []
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/wide",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n02-parity.txt",
+        "4",
+        "8",
+        "11708316565496032547:4"
+      ],
+      "comparison": "exact roots/value strings/terminal prefixes: 10 states, 8x4",
+      "cwd": ".",
+      "kind": "parity_wide",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "{\"turn\":4,\"teams\":2,\"me\":0,\"actor\":97,\"roots\":[97,87,99,82,95,84,85,96],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":4.7188517371399286e-08,\"v\":[[0.41498088836669922,0.38906997442245483,0.38208329677581787,0.38640910387039185],[0.41849008202552795,0.39565944671630859,0.38640910387039185,0.39019638299942017],[0.4103350043296814,0.39139357209205627,0.39139357209205627,0.39565944671630859],[0.40951421856880188,0.3829609751701355,0.37593096494674683,0.38168150186538696],[0.41087234020233154,0.3881523609161377,0.3881523609161377,0.39281922578811646],[0.40260875225067139,0.38572627305984497,0.38572627305984497,0.38572627305984497],[0.42172756791114807,0.3966904878616333,0.39389884471893311,0.40142363309860229],[0.40572041273117065,0.38676154613494873,0.39362791180610657,0.39389884471893311]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":8,\"teams\":2,\"me\":0,\"actor\":103,\"roots\":[103,53,102,100,118,123,3,52],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":5.9663267659715302e-08,\"v\":[[0.42873415350914001,0.43381670117378235,0.39947107434272766,0.41847318410873413],[0.42147278785705566,0.41761514544487,0.40245538949966431,0.41659244894981384],[0.41349911689758301,0.43340745568275452,0.46152803301811218,0.40934401750564575],[0.41868513822555542,0.41296285390853882,0.40061014890670776,0.39723873138427734],[0.43620714545249939,0.45011308789253235,0.45177948474884033,0.41847318410873413],[0.43769824504852295,0.4238731861114502,0.44665402173995972,0.40518802404403687],[0.42364591360092163,0.4246789813041687,0.40555953979492188,0.4087863564491272],[0.41230142116546631,0.4347611665725708,0.44582384824752808,0.40119588375091553]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":12,\"teams\":2,\"me\":0,\"actor\":50,\"roots\":[50,100,0,25,75],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":4.6653299334842302e-08,\"v\":[[0.42544436454772949,0.42535942792892456,0.41772958636283875,0.41735830903053284],[0.42458951473236084,0.40854105353355408,0.40581405162811279,0.42353701591491699],[0.42246019840240479,0.42386940121650696,0.42310535907745361,0.42310535907745361],[0.42246019840240479,0.42425611615180969,0.42310535907745361,0.42310535907745361],[0.4215654730796814,0.42425611615180969,0.42310535907745361,0.42310535907745361]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":16,\"teams\":2,\"me\":0,\"actor\":75,\"roots\":[75,25,0,100,50],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":2.8721561462496936e-08,\"v\":[[0.39406430721282959,0.39406430721282959,0.39406430721282959,0.39406430721282959],[0.3919869065284729,0.3919869065284729,0.3919869065284729,0.3919869065284729],[0.39835155010223389,0.39835155010223389,0.39835155010223389,0.39835155010223389],[0.395255446434021,0.395255446434021,0.395255446434021,0.395255446434021],[0.395255446434021,0.395255446434021,0.395255446434021,0.39404699206352234]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":20,\"teams\":2,\"me\":0,\"actor\":124,\"roots\":[124,114,74,122,64,24,120,104],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":4.608063880473523e-08,\"v\":[[0.48650485277175903,0.46986091136932373,0.49297040700912476,0.48125025629997253],[0.49153727293014526,0.47876346111297607,0.50202876329421997,0.48455032706260681],[0.48878726363182068,0.47424241900444031,0.49644851684570312,0.48459342122077942],[0.48009535670280457,0.46535181999206543,0.48536670207977295,0.47731566429138184],[0.49241232872009277,0.47918152809143066,0.504139244556427,0.48632067441940308],[0.48296487331390381,0.47236669063568115,0.48999008536338806,0.47797203063964844],[0.48208659887313843,0.4626462459564209,0.48721164464950562,0.47672778367996216],[0.4888952374458313,0.47261765599250793,0.49403730034828186,0.48338642716407776]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":24,\"teams\":2,\"me\":0,\"actor\":70,\"roots\":[70,120,55,20,50,60,72,105],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":5.8261298729878064e-08,\"v\":[[0.47061514854431152,0.46743124723434448,0.43071931600570679,0.45927160978317261],[0.5008508563041687,0.47099637985229492,0.42414921522140503,0.51534420251846313],[0.47061514854431152,0.46214410662651062,0.46893936395645142,0.47629380226135254],[0.5011405348777771,0.47363674640655518,0.44784903526306152,0.47538262605667114],[0.48326000571250916,0.46701550483703613,0.44110852479934692,0.46037894487380981],[0.47877481579780579,0.46701550483703613,0.4559074342250824,0.45305219292640686],[0.47648930549621582,0.48032012581825256,0.42693221569061279,0.48996078968048096],[0.5008508563041687,0.4806416928768158,0.45195966958999634,0.52382206916809082]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":28,\"teams\":2,\"me\":0,\"actor\":2,\"roots\":[2,0,54,114,10,12,109,50],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":3.9580600075250771e-08,\"v\":[[0.43764594197273254,0.43716931343078613,0.45228850841522217,0.43172642588615417],[0.40996208786964417,0.43073725700378418,0.43657368421554565,0.44924873113632202],[0.42560327053070068,0.45527669787406921,0.42870181798934937,0.44432780146598816],[0.4570503830909729,0.41483789682388306,0.44474589824676514,0.44334197044372559],[0.45712167024612427,0.41161972284317017,0.4067288339138031,0.42407751083374023],[0.43607878684997559,0.43063127994537354,0.41214746236801147,0.43527436256408691],[0.4447956383228302,0.46380385756492615,0.42871826887130737,0.43845739960670471],[0.41104546189308167,0.41286787390708923,0.40643298625946045,0.39244481921195984]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":32,\"teams\":2,\"me\":0,\"actor\":15,\"roots\":[15,5,0,20,10],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":2.7731189289337266e-08,\"v\":[[0.5033373236656189,0.50639939308166504,0.5033373236656189,0.5033373236656189],[0.49359232187271118,0.49654507637023926,0.49359232187271118,0.49359232187271118],[0.49960356950759888,0.5004381537437439,0.49960356950759888,0.49960356950759888],[0.49612349271774292,0.49677804112434387,0.49612349271774292,0.49612349271774292],[0.49612349271774292,0.49510100483894348,0.49612349271774292,0.49612349271774292]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":36,\"teams\":2,\"me\":0,\"actor\":20,\"roots\":[20,10,15,0,5],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":2.11156494511755e-08,\"v\":[[0.51382297277450562,0.51382297277450562,0.51382297277450562,0.51382297277450562],[0.51601326465606689,0.51601326465606689,0.51601326465606689,0.51601326465606689],[0.51281976699829102,0.51281976699829102,0.51281976699829102,0.51281976699829102],[0.51327610015869141,0.51281976699829102,0.51281976699829102,0.51327610015869141],[0.50562721490859985,0.51281976699829102,0.51281976699829102,0.50562721490859985]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":40,\"teams\":2,\"me\":0,\"actor\":67,\"roots\":[67,117,115,17,116,66,42,107],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":7.3631911567950681e-08,\"v\":[[0.58298510313034058,0.57954579591751099,0.58128029108047485,0.57964140176773071],[0.5778394341468811,0.57769531011581421,0.57975828647613525,0.5764736533164978],[0.53914153575897217,0.57595795392990112,0.57911449670791626,0.53771734237670898],[0.57079112529754639,0.56942290067672729,0.57196158170700073,0.56876844167709351],[0.57379347085952759,0.57301986217498779,0.5727725625038147,0.56965917348861694],[0.57658606767654419,0.57680326700210571,0.5754883885383606,0.57402795553207397],[0.56786829233169556,0.56751018762588501,0.56969219446182251,0.56649839878082275],[0.53309410810470581,0.53226214647293091,0.53252434730529785,0.52975946664810181]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}"
+      ]
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/narrow",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n02-parity.txt",
+        "4",
+        "4",
+        "11708316565496032547:2"
+      ],
+      "comparison": "exact roots/value strings/terminal prefixes: 10 states, 4x2",
+      "cwd": ".",
+      "kind": "parity_narrow",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "{\"turn\":4,\"teams\":2,\"me\":0,\"actor\":97,\"roots\":[97,87,99,82],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":3.3159390178116865e-08,\"v\":[[0.41498088836669922,0.38906997442245483],[0.41849008202552795,0.39565944671630859],[0.4103350043296814,0.39139357209205627],[0.40951421856880188,0.3829609751701355]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":8,\"teams\":2,\"me\":0,\"actor\":103,\"roots\":[103,53,102,100],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":5.9663267659715302e-08,\"v\":[[0.42873415350914001,0.43381670117378235],[0.42147278785705566,0.41761514544487],[0.41349911689758301,0.43340745568275452],[0.41868513822555542,0.41296285390853882]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":12,\"teams\":2,\"me\":0,\"actor\":50,\"roots\":[50,100,0,25],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":3.0608397816322963e-08,\"v\":[[0.42544436454772949,0.42535942792892456],[0.42458951473236084,0.40854105353355408],[0.42246019840240479,0.42386940121650696],[0.42246019840240479,0.42425611615180969]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":16,\"teams\":2,\"me\":0,\"actor\":75,\"roots\":[75,25,0,100],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":2.8721561462496936e-08,\"v\":[[0.39406430721282959,0.39406430721282959],[0.3919869065284729,0.3919869065284729],[0.39835155010223389,0.39835155010223389],[0.395255446434021,0.395255446434021]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":20,\"teams\":2,\"me\":0,\"actor\":124,\"roots\":[124,114,74,122],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":3.1056992422229257e-08,\"v\":[[0.48650485277175903,0.46986091136932373],[0.49153727293014526,0.47876346111297607],[0.48878726363182068,0.47424241900444031],[0.48009535670280457,0.46535181999206543]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":24,\"teams\":2,\"me\":0,\"actor\":70,\"roots\":[70,120,55,20],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":5.7717737034224115e-08,\"v\":[[0.47061514854431152,0.46743124723434448],[0.5008508563041687,0.47099637985229492],[0.47061514854431152,0.46214410662651062],[0.5011405348777771,0.47363674640655518]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":28,\"teams\":2,\"me\":0,\"actor\":2,\"roots\":[2,0,54,114],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":3.9580600075250771e-08,\"v\":[[0.43764594197273254,0.43716931343078613],[0.40996208786964417,0.43073725700378418],[0.42560327053070068,0.45527669787406921],[0.4570503830909729,0.41483789682388306]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":32,\"teams\":2,\"me\":0,\"actor\":15,\"roots\":[15,5,0,20],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":2.7731189289337266e-08,\"v\":[[0.5033373236656189,0.50639939308166504],[0.49359232187271118,0.49654507637023926],[0.49960356950759888,0.5004381537437439],[0.49612349271774292,0.49677804112434387]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":36,\"teams\":2,\"me\":0,\"actor\":20,\"roots\":[20,10,15,0],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":2.11156494511755e-08,\"v\":[[0.51382297277450562,0.51382297277450562],[0.51601326465606689,0.51601326465606689],[0.51281976699829102,0.51281976699829102],[0.51327610015869141,0.51281976699829102]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":40,\"teams\":2,\"me\":0,\"actor\":67,\"roots\":[67,117,115,17],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":4.078089654857564e-08,\"v\":[[0.58298510313034058,0.57954579591751099],[0.5778394341468811,0.57769531011581421],[0.53914153575897217,0.57595795392990112],[0.57079112529754639,0.56942290067672729]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}"
+      ]
+    },
+    {
+      "build": "wide",
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/wide",
+        "isolation",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n02-original.txt"
+      ],
+      "cwd": ".",
+      "kind": "isolation",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "ok isolation turns 400 trajectories 11692 branches 11660"
+      ]
+    },
+    {
+      "build": "narrow",
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/narrow",
+        "isolation",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n02-original.txt"
+      ],
+      "cwd": ".",
+      "kind": "isolation",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "ok isolation turns 400 trajectories 3158 branches 3150"
+      ]
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/wide",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-parity.txt",
+        "4",
+        "8",
+        "11708316565496032547:4"
+      ],
+      "comparison": "exact roots/value strings/terminal prefixes: 10 states, 8x4",
+      "cwd": ".",
+      "kind": "parity_wide",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "{\"turn\":4,\"teams\":4,\"me\":0,\"actor\":124,\"roots\":[124,122,74,112,49,72,121,99],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":2.6801653785213375e-08,\"v\":[[0.19855435192584991,0.19802321493625641,0.19851784408092499,0.19689455628395081],[0.20269559323787689,0.20176945626735687,0.20335353910923004,0.19652873277664185],[0.19689850509166718,0.19606165587902069,0.1966124027967453,0.19841058552265167],[0.20448462665081024,0.20438189804553986,0.20439118146896362,0.19751791656017303],[0.19906347990036011,0.19822630286216736,0.19850672781467438,0.19569799304008484],[0.20095856487751007,0.20004051923751831,0.20175287127494812,0.1983734518289566],[0.2026945948600769,0.20106002688407898,0.20210440456867218,0.19956232607364655],[0.19537590444087982,0.19458843767642975,0.19504062831401825,0.19466249644756317]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":8,\"teams\":4,\"me\":0,\"actor\":100,\"roots\":[100,102,104,103,25,27,29,50],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":1.6701097838023315e-08,\"v\":[[0.18848517537117004,0.20306754112243652,0.20137639343738556,0.19990749657154083],[0.18848517537117004,0.20306754112243652,0.20137639343738556,0.19990749657154083],[0.18848517537117004,0.20306754112243652,0.20137639343738556,0.19990749657154083],[0.18848517537117004,0.20306754112243652,0.20137639343738556,0.19990749657154083],[0.19797776639461517,0.20042838156223297,0.19646593928337097,0.19632540643215179],[0.19797776639461517,0.20042838156223297,0.19646593928337097,0.19632540643215179],[0.19797776639461517,0.20042838156223297,0.19646593928337097,0.19632540643215179],[0.18602246046066284,0.19982089102268219,0.19803030788898468,0.19761241972446442]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":12,\"teams\":4,\"me\":0,\"actor\":45,\"roots\":[45,48,25,28,30,47,33,27],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":2.2900479262899509e-08,\"v\":[[0.23110495507717133,0.24371080100536346,0.23321497440338135,0.23114679753780365],[0.22225753962993622,0.2280038446187973,0.226275235414505,0.2385256439447403],[0.22538475692272186,0.24408604204654694,0.22835297882556915,0.23525314033031464],[0.22538475692272186,0.23459507524967194,0.22835297882556915,0.23525314033031464],[0.22522236406803131,0.24477101862430573,0.22835297882556915,0.2337789386510849],[0.2233053594827652,0.22952400147914886,0.23321497440338135,0.23386047780513763],[0.22538475692272186,0.2364470511674881,0.22835297882556915,0.2337789386510849],[0.22325877845287323,0.23679313063621521,0.22835297882556915,0.23525314033031464]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":16,\"teams\":4,\"me\":0,\"actor\":25,\"roots\":[25,0,30,100,45,35,5,50],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":2.2764949036968574e-08,\"v\":[[0.2326827198266983,0.23220817744731903,0.2379695326089859,0.23677955567836761],[0.23103927075862885,0.22303628921508789,0.23206579685211182,0.23261862993240356],[0.23250317573547363,0.23220817744731903,0.2379695326089859,0.23976664245128632],[0.2308223694562912,0.22819080948829651,0.23284517228603363,0.23263727128505707],[0.23135903477668762,0.2341868132352829,0.24617739021778107,0.23428595066070557],[0.2326827198266983,0.23220817744731903,0.2379695326089859,0.23677955567836761],[0.23103927075862885,0.22303628921508789,0.23206579685211182,0.23478849232196808],[0.22532086074352264,0.22432981431484222,0.22112353146076202,0.22818669676780701]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":20,\"teams\":4,\"me\":0,\"actor\":90,\"roots\":[90,40,15,115,75,65,80,25],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":3.0548730267643265e-08,\"v\":[[0.2795027494430542,0.26737010478973389,0.27447670698165894,0.28126582503318787],[0.28617808222770691,0.26499903202056885,0.27598756551742554,0.28130632638931274],[0.2795027494430542,0.29197216033935547,0.27447670698165894,0.28126582503318787],[0.28617808222770691,0.27547726035118103,0.27598756551742554,0.28130632638931274],[0.27778074145317078,0.26473945379257202,0.27376270294189453,0.27992025017738342],[0.2795027494430542,0.29197216033935547,0.27447670698165894,0.28126582503318787],[0.26999360322952271,0.25877484679222107,0.26517695188522339,0.27079695463180542],[0.28529888391494751,0.26265266537666321,0.27577561140060425,0.27998313307762146]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":24,\"teams\":4,\"me\":0,\"actor\":24,\"roots\":[24,22,14,12,21,9,11,4],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":3.3392694220868435e-08,\"v\":[[0.29418176412582397,0.29847899079322815,0.2851029634475708,0.24774831533432007],[0.29183498024940491,0.29672032594680786,0.2828352153301239,0.24585218727588654],[0.29622268676757812,0.30232325196266174,0.28709200024604797,0.25055453181266785],[0.29372730851173401,0.29998058080673218,0.28423884510993958,0.24822445213794708],[0.28559678792953491,0.28916549682617188,0.27747425436973572,0.24263150990009308],[0.29139724373817444,0.2956264317035675,0.28729388117790222,0.24596084654331207],[0.28783074021339417,0.29274663329124451,0.27882289886474609,0.24480506777763367],[0.29533308744430542,0.2997393012046814,0.28584453463554382,0.24854312837123871]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":28,\"teams\":4,\"me\":0,\"actor\":24,\"roots\":[24,14,9,20,12,22,4,13],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":2.0039408243910373e-08,\"v\":[[0.30853188037872314,0.30853188037872314,0.34244483709335327,0.31540834903717041],[0.31540834903717041,0.31540834903717041,0.34244483709335327,0.31540834903717041],[0.30004099011421204,0.30004099011421204,0.33087325096130371,0.30004099011421204],[0.29705142974853516,0.29705142974853516,0.32699298858642578,0.29705142974853516],[0.30770257115364075,0.30770257115364075,0.33143341541290283,0.30770257115364075],[0.30181586742401123,0.30181586742401123,0.32427600026130676,0.30181586742401123],[0.31189149618148804,0.31189149618148804,0.34041005373001099,0.31189149618148804],[0.30024132132530212,0.30024132132530212,0.33361831307411194,0.30024132132530212]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":32,\"teams\":4,\"me\":0,\"actor\":114,\"roots\":[114,110,124,120,112,64,60,123],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":3.5535052567148284e-08,\"v\":[[0.27230188250541687,0.26887384057044983,0.27093625068664551,0.27542242407798767],[0.28043603897094727,0.27113121747970581,0.27025261521339417,0.27480489015579224],[0.27458471059799194,0.26907843351364136,0.26579776406288147,0.27472326159477234],[0.28517371416091919,0.26521903276443481,0.27687764167785645,0.27090272307395935],[0.27263405919075012,0.27605757117271423,0.26658105850219727,0.27372473478317261],[0.27143046259880066,0.26807901263237,0.26469609141349792,0.27386653423309326],[0.27821576595306396,0.27066442370414734,0.26963919401168823,0.27104353904724121],[0.28109630942344666,0.27115833759307861,0.26377922296524048,0.26803547143936157]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":36,\"teams\":4,\"me\":0,\"actor\":115,\"roots\":[115,65,105,55,100,90,15,40],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":3.7115281736888051e-08,\"v\":[[0.30228874087333679,0.30608671903610229,0.32796350121498108,0.26977890729904175],[0.32679185271263123,0.33027553558349609,0.32796350121498108,0.30258449912071228],[0.31541609764099121,0.30405160784721375,0.31234210729598999,0.30935126543045044],[0.31541609764099121,0.30405160784721375,0.31234210729598999,0.30935126543045044],[0.31987559795379639,0.27240714430809021,0.322532057762146,0.26214146614074707],[0.30310049653053284,0.31103202700614929,0.29395714402198792,0.28426861763000488],[0.30460891127586365,0.31241816282272339,0.29562744498252869,0.31033605337142944],[0.30310049653053284,0.31103202700614929,0.30614006519317627,0.30258449912071228]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":40,\"teams\":4,\"me\":0,\"actor\":85,\"roots\":[85,75,90,95,80,35,10,25],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":6.7990606589241054e-08,\"v\":[[0.33396095037460327,0.32943147420883179,0.30844864249229431,0.33614438772201538],[0.33438092470169067,0.32779914140701294,0.31987088918685913,0.31173467636108398],[0.33304482698440552,0.32564571499824524,0.32370290160179138,0.32792481780052185],[0.32350146770477295,0.32623136043548584,0.30436053872108459,0.33614438772201538],[0.32736250758171082,0.32779914140701294,0.30728736519813538,0.33166572451591492],[0.3288368284702301,0.32541823387145996,0.31583672761917114,0.31465017795562744],[0.33148714900016785,0.3284049928188324,0.30919000506401062,0.3345952033996582],[0.3291785717010498,0.32587608695030212,0.30963602662086487,0.31041327118873596]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}"
+      ]
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/narrow",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-parity.txt",
+        "4",
+        "4",
+        "11708316565496032547:2"
+      ],
+      "comparison": "exact roots/value strings/terminal prefixes: 10 states, 4x2",
+      "cwd": ".",
+      "kind": "parity_narrow",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "{\"turn\":4,\"teams\":4,\"me\":0,\"actor\":124,\"roots\":[124,122,74,112],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":2.6801653785213375e-08,\"v\":[[0.19855435192584991,0.19802321493625641],[0.20269559323787689,0.20176945626735687],[0.19689850509166718,0.19606165587902069],[0.20448462665081024,0.20438189804553986]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":8,\"teams\":4,\"me\":0,\"actor\":100,\"roots\":[100,102,104,103],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":1.0273882133926548e-08,\"v\":[[0.18848517537117004,0.20306754112243652],[0.18848517537117004,0.20306754112243652],[0.18848517537117004,0.20306754112243652],[0.18848517537117004,0.20306754112243652]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":12,\"teams\":4,\"me\":0,\"actor\":45,\"roots\":[45,48,25,28],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":1.210389594108463e-08,\"v\":[[0.23110495507717133,0.24371080100536346],[0.22225753962993622,0.2280038446187973],[0.22538475692272186,0.24408604204654694],[0.22538475692272186,0.23459507524967194]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":16,\"teams\":4,\"me\":0,\"actor\":25,\"roots\":[25,0,30,100],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":2.0107232628907568e-08,\"v\":[[0.2326827198266983,0.23220817744731903],[0.23103927075862885,0.22303628921508789],[0.23250317573547363,0.23220817744731903],[0.2308223694562912,0.22819080948829651]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":20,\"teams\":4,\"me\":0,\"actor\":90,\"roots\":[90,40,15,115],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":3.0548730267643265e-08,\"v\":[[0.2795027494430542,0.26737010478973389],[0.28617808222770691,0.26499903202056885],[0.2795027494430542,0.29197216033935547],[0.28617808222770691,0.27547726035118103]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":24,\"teams\":4,\"me\":0,\"actor\":24,\"roots\":[24,22,14,12],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":2.9079233576645436e-08,\"v\":[[0.29418176412582397,0.29847899079322815],[0.29183498024940491,0.29672032594680786],[0.29622268676757812,0.30232325196266174],[0.29372730851173401,0.29998058080673218]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":28,\"teams\":4,\"me\":0,\"actor\":24,\"roots\":[24,14,9,20],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":1.2434586749154874e-08,\"v\":[[0.30853188037872314,0.30853188037872314],[0.31540834903717041,0.31540834903717041],[0.30004099011421204,0.30004099011421204],[0.29705142974853516,0.29705142974853516]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":32,\"teams\":4,\"me\":0,\"actor\":114,\"roots\":[114,110,124,120],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":2.4036255596993072e-08,\"v\":[[0.27230188250541687,0.26887384057044983],[0.28043603897094727,0.27113121747970581],[0.27458471059799194,0.26907843351364136],[0.28517371416091919,0.26521903276443481]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":36,\"teams\":4,\"me\":0,\"actor\":115,\"roots\":[115,65,105,55],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":2.6625833093874007e-08,\"v\":[[0.30228874087333679,0.30608671903610229],[0.32679185271263123,0.33027553558349609],[0.31541609764099121,0.30405160784721375],[0.31541609764099121,0.30405160784721375]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":40,\"teams\":4,\"me\":0,\"actor\":85,\"roots\":[85,75,90,95],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":6.7990606589241054e-08,\"v\":[[0.33396095037460327,0.32943147420883179],[0.33438092470169067,0.32779914140701294],[0.33304482698440552,0.32564571499824524],[0.32350146770477295,0.32623136043548584]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}"
+      ]
+    },
+    {
+      "build": "wide",
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/wide",
+        "isolation",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-original.txt"
+      ],
+      "cwd": ".",
+      "kind": "isolation",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "ok isolation turns 400 trajectories 12428 branches 12396"
+      ]
+    },
+    {
+      "build": "narrow",
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/narrow",
+        "isolation",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n04-original.txt"
+      ],
+      "cwd": ".",
+      "kind": "isolation",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "ok isolation turns 400 trajectories 3200 branches 3192"
+      ]
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/wide",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-parity.txt",
+        "4",
+        "8",
+        "11708316565496032547:4"
+      ],
+      "comparison": "exact roots/value strings/terminal prefixes: 10 states, 8x4",
+      "cwd": ".",
+      "kind": "parity_wide",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "{\"turn\":4,\"teams\":15,\"me\":0,\"actor\":124,\"roots\":[124,109,121,74,122,104,114,24],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":4.3199043620045785e-08,\"v\":[[0.34222757816314697,0.34752711653709412,0.33940958976745605,0.34344929456710815],[0.34025543928146362,0.3433743417263031,0.34019950032234192,0.34363880753517151],[0.33293220400810242,0.34135037660598755,0.34697803854942322,0.3435521125793457],[0.34578090906143188,0.35415849089622498,0.3341737687587738,0.3378441333770752],[0.3365846574306488,0.33474791049957275,0.33478271961212158,0.33308905363082886],[0.34600859880447388,0.34979879856109619,0.3419417142868042,0.3458997905254364],[0.33953994512557983,0.35011610388755798,0.34708523750305176,0.33817934989929199],[0.34115996956825256,0.34778010845184326,0.33304029703140259,0.34074026346206665]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":8,\"teams\":15,\"me\":0,\"actor\":124,\"roots\":[124,121,74,122,99,114,120,104],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":6.106489708335161e-08,\"v\":[[0.34538888931274414,0.34166908264160156,0.34517699480056763,0.35228338837623596],[0.3573632538318634,0.34622412919998169,0.35576367378234863,0.36830738186836243],[0.34699612855911255,0.34222972393035889,0.34749901294708252,0.35338133573532104],[0.34035199880599976,0.34071958065032959,0.33897054195404053,0.34641754627227783],[0.34699612855911255,0.34222972393035889,0.34749901294708252,0.35338133573532104],[0.34784749150276184,0.34227293729782104,0.34492042660713196,0.3581068217754364],[0.34364888072013855,0.34050309658050537,0.34339240193367004,0.35027259588241577],[0.34730839729309082,0.34325110912322998,0.34681117534637451,0.35435599088668823]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":12,\"teams\":15,\"me\":0,\"actor\":124,\"roots\":[124,49,109,34,106,31,99,114],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":4.9543019908782071e-08,\"v\":[[0.38533776998519897,0.3614494800567627,0.36795663833618164,0.37939119338989258],[0.38533776998519897,0.36060571670532227,0.36795663833618164,0.38018614053726196],[0.37970340251922607,0.36335641145706177,0.3690720796585083,0.38696488738059998],[0.37898367643356323,0.36274856328964233,0.3690720796585083,0.37653344869613647],[0.36908230185508728,0.38005685806274414,0.38253957033157349,0.38696488738059998],[0.37138167023658752,0.38005685806274414,0.38253957033157349,0.38782605528831482],[0.38729381561279297,0.35988712310791016,0.4092009961605072,0.38104018568992615],[0.38801553845405579,0.37685763835906982,0.38220071792602539,0.38907188177108765]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":16,\"teams\":15,\"me\":0,\"actor\":31,\"roots\":[31,81,84,34,86,36,76,26],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":7.6316750807770006e-08,\"v\":[[0.42118054628372192,0.41638749837875366,0.42325258255004883,0.42432615160942078],[0.42118054628372192,0.41638749837875366,0.42325258255004883,0.42432615160942078],[0.42528045177459717,0.39289805293083191,0.40094351768493652,0.40669429302215576],[0.4215368926525116,0.3858954906463623,0.40324345231056213,0.40655112266540527],[0.44348675012588501,0.42175021767616272,0.42525774240493774,0.42419034242630005],[0.43436980247497559,0.42175021767616272,0.42525774240493774,0.42419034242630005],[0.43765294551849365,0.42554432153701782,0.4271693229675293,0.42514851689338684],[0.43765294551849365,0.42554432153701782,0.4271693229675293,0.42514851689338684]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":20,\"teams\":15,\"me\":0,\"actor\":82,\"roots\":[82,92,93,83,67,57,68,87],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":5.2208581402535259e-08,\"v\":[[0.47911280393600464,0.49280610680580139,0.48112648725509644,0.48112988471984863],[0.47911280393600464,0.49280610680580139,0.48112648725509644,0.48112988471984863],[0.47911280393600464,0.49159395694732666,0.47394371032714844,0.47089940309524536],[0.47911280393600464,0.49280610680580139,0.47394371032714844,0.48112988471984863],[0.46719720959663391,0.47240591049194336,0.46765923500061035,0.46035829186439514],[0.47025102376937866,0.48665827512741089,0.47361987829208374,0.46539482474327087],[0.45885050296783447,0.47240591049194336,0.46765923500061035,0.46192985773086548],[0.47923421859741211,0.49159395694732666,0.47654163837432861,0.47089940309524536]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":24,\"teams\":15,\"me\":0,\"actor\":63,\"roots\":[63,68,65,43,67,60,93,40],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":8.1779192362407827e-08,\"v\":[[0.36999547481536865,0.35940241813659668,0.35848718881607056,0.3769383430480957],[0.36668714880943298,0.34904780983924866,0.34756845235824585,0.37684014439582825],[0.35864317417144775,0.35629934072494507,0.35410484671592712,0.37698870897293091],[0.36131912469863892,0.36318144202232361,0.36158233880996704,0.37157684564590454],[0.38181710243225098,0.3558829128742218,0.34530168771743774,0.37848150730133057],[0.37246564030647278,0.35954433679580688,0.36472567915916443,0.37399667501449585],[0.36828473210334778,0.36318144202232361,0.36158233880996704,0.37559732794761658],[0.35410696268081665,0.36433345079421997,0.36549395322799683,0.3788800835609436]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":28,\"teams\":15,\"me\":0,\"actor\":96,\"roots\":[96,97,71,72,46,47,91,99],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":5.1288957469974861e-08,\"v\":[[0.35480475425720215,0.36757400631904602,0.38112390041351318,0.35837119817733765],[0.35435402393341064,0.36773425340652466,0.36916989088058472,0.36864340305328369],[0.35674148797988892,0.36960425972938538,0.34474971890449524,0.36520835757255554],[0.35435402393341064,0.36612403392791748,0.36916989088058472,0.36864340305328369],[0.37510892748832703,0.38840633630752563,0.37780177593231201,0.35837119817733765],[0.36622068285942078,0.36612647771835327,0.35994046926498413,0.36538910865783691],[0.38054734468460083,0.34970277547836304,0.36542409658432007,0.35133039951324463],[0.37583208084106445,0.36346834897994995,0.36172759532928467,0.37009450793266296]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":32,\"teams\":15,\"me\":0,\"actor\":51,\"roots\":[51,54,52,26,76,101,29,79],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":4.108033158090052e-08,\"v\":[[0.43190720677375793,0.38677844405174255,0.39760279655456543,0.34757190942764282],[0.4278828501701355,0.38905379176139832,0.39760279655456543,0.35269635915756226],[0.44665724039077759,0.38905379176139832,0.4110579788684845,0.35269635915756226],[0.43183544278144836,0.4021250307559967,0.39552542567253113,0.36289358139038086],[0.43190720677375793,0.40381735563278198,0.39760279655456543,0.36028927564620972],[0.43183544278144836,0.4021250307559967,0.39552542567253113,0.36289358139038086],[0.4016607403755188,0.39134201407432556,0.36714023351669312,0.34341257810592651],[0.40763860940933228,0.40328270196914673,0.39760279655456543,0.36323139071464539]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":36,\"teams\":15,\"me\":0,\"actor\":54,\"roots\":[54,29,104,25,26,50,51,79],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":5.959774340702495e-08,\"v\":[[0.34891891479492188,0.34104692935943604,0.36186274886131287,0.43425706028938293],[0.33866465091705322,0.41924282908439636,0.36547732353210449,0.42894726991653442],[0.33473587036132812,0.41850653290748596,0.36290207505226135,0.34024593234062195],[0.38167381286621094,0.40693584084510803,0.36696046590805054,0.44157058000564575],[0.34406661987304688,0.40461403131484985,0.33751171827316284,0.42442381381988525],[0.38140678405761719,0.33747571706771851,0.3640313446521759,0.44181033968925476],[0.33609426021575928,0.32366073131561279,0.32831898331642151,0.41300010681152344],[0.35122418403625488,0.33198690414428711,0.36290207505226135,0.43425706028938293]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}",
+        "{\"turn\":40,\"teams\":15,\"me\":0,\"actor\":22,\"roots\":[22,24,20,21,23,12,14,10],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":4,\"max_abs_f64\":6.1296414610723104e-08,\"v\":[[0.37201082706451416,0.39375525712966919,0.39607676863670349,0.39980804920196533],[0.36737710237503052,0.38824722170829773,0.39213985204696655,0.38998705148696899],[0.37028962373733521,0.39109846949577332,0.40067529678344727,0.39780500531196594],[0.4044840931892395,0.39052513241767883,0.41727599501609802,0.38584107160568237],[0.40844810009002686,0.36710593104362488,0.41672053933143616,0.3795013427734375],[0.37688338756561279,0.39697805047035217,0.40202894806861877,0.40489855408668518],[0.37143826484680176,0.39127722382545471,0.39636436104774475,0.39619937539100647],[0.37311559915542603,0.39538273215293884,0.40569370985031128,0.40251067280769348]],\"terminal\":[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]}]}"
+      ]
+    },
+    {
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/narrow",
+        "gatetree",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-parity.txt",
+        "4",
+        "4",
+        "11708316565496032547:2"
+      ],
+      "comparison": "exact roots/value strings/terminal prefixes: 10 states, 4x2",
+      "cwd": ".",
+      "kind": "parity_narrow",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "{\"turn\":4,\"teams\":15,\"me\":0,\"actor\":124,\"roots\":[124,109,121,74],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":3.4876515453419188e-08,\"v\":[[0.34222757816314697,0.34752711653709412],[0.34025543928146362,0.3433743417263031],[0.33293220400810242,0.34135037660598755],[0.34578090906143188,0.35415849089622498]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":8,\"teams\":15,\"me\":0,\"actor\":124,\"roots\":[124,121,74,122],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":6.106489708335161e-08,\"v\":[[0.34538888931274414,0.34166908264160156],[0.3573632538318634,0.34622412919998169],[0.34699612855911255,0.34222972393035889],[0.34035199880599976,0.34071958065032959]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":12,\"teams\":15,\"me\":0,\"actor\":124,\"roots\":[124,49,109,34],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":4.7068519026804978e-08,\"v\":[[0.38533776998519897,0.3614494800567627],[0.38533776998519897,0.36060571670532227],[0.37970340251922607,0.36335641145706177],[0.37898367643356323,0.36274856328964233]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":16,\"teams\":15,\"me\":0,\"actor\":31,\"roots\":[31,81,84,34],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":1.7551626874112713e-08,\"v\":[[0.42118054628372192,0.41638749837875366],[0.42118054628372192,0.41638749837875366],[0.42528045177459717,0.39289805293083191],[0.4215368926525116,0.3858954906463623]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":20,\"teams\":15,\"me\":0,\"actor\":82,\"roots\":[82,92,93,83],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":3.3089800399732638e-08,\"v\":[[0.47911280393600464,0.49280610680580139],[0.47911280393600464,0.49280610680580139],[0.47911280393600464,0.49159395694732666],[0.47911280393600464,0.49280610680580139]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":24,\"teams\":15,\"me\":0,\"actor\":63,\"roots\":[63,68,65,43],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":3.2544078321095071e-08,\"v\":[[0.36999547481536865,0.35940241813659668],[0.36668714880943298,0.34904780983924866],[0.35864317417144775,0.35629934072494507],[0.36131912469863892,0.36318144202232361]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":28,\"teams\":15,\"me\":0,\"actor\":96,\"roots\":[96,97,71,72],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":3.7357665572113063e-08,\"v\":[[0.35480475425720215,0.36757400631904602],[0.35435402393341064,0.36773425340652466],[0.35674148797988892,0.36960425972938538],[0.35435402393341064,0.36612403392791748]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":32,\"teams\":15,\"me\":0,\"actor\":51,\"roots\":[51,54,52,26],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":3.9434434884189074e-08,\"v\":[[0.43190720677375793,0.38677844405174255],[0.4278828501701355,0.38905379176139832],[0.44665724039077759,0.38905379176139832],[0.43183544278144836,0.4021250307559967]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":36,\"teams\":15,\"me\":0,\"actor\":54,\"roots\":[54,29,104,25],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":4.7374283662637851e-08,\"v\":[[0.34891891479492188,0.34104692935943604],[0.33866465091705322,0.41924282908439636],[0.33473587036132812,0.41850653290748596],[0.38167381286621094,0.40693584084510803]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}",
+        "{\"turn\":40,\"teams\":15,\"me\":0,\"actor\":22,\"roots\":[22,24,20,21],\"trees\":[{\"salt\":\"11708316565496032547\",\"S\":2,\"max_abs_f64\":6.1296414610723104e-08,\"v\":[[0.37201082706451416,0.39375525712966919],[0.36737710237503052,0.38824722170829773],[0.37028962373733521,0.39109846949577332],[0.4044840931892395,0.39052513241767883]],\"terminal\":[[0,0],[0,0],[0,0],[0,0]]}]}"
+      ]
+    },
+    {
+      "build": "wide",
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/wide",
+        "isolation",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-original.txt"
+      ],
+      "cwd": ".",
+      "kind": "isolation",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "ok isolation turns 400 trajectories 11916 branches 11884"
+      ]
+    },
+    {
+      "build": "narrow",
+      "command": [
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/narrow",
+        "isolation",
+        "/Users/casper/code/ctf-fusion.worktrees/T0076/build/search_gate_offline/n15-original.txt"
+      ],
+      "cwd": ".",
+      "kind": "isolation",
+      "passed": true,
+      "returncode": 0,
+      "stderr_lines": [],
+      "stdout_lines": [
+        "ok isolation turns 400 trajectories 3110 branches 3102"
+      ]
+    }
+  ],
+  "compiler": "/opt/homebrew/bin/g++-16",
+  "compiler_version": [
+    "g++-16 (Homebrew GCC 16.2.0) 16.2.0",
+    "Copyright (C) 2026 Free Software Foundation, Inc.",
+    "This is free software; see the source for copying conditions.  There is NO",
+    "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+    ""
+  ],
+  "flags": [
+    "-std=c++20",
+    "-O2",
+    "-w",
+    "-I",
+    "inference",
+    "-I",
+    "tools/cpp/meow_rl",
+    "-DFUSION_TIER_PXXL_VM=1",
+    "-DACTOR_HEADER=\"meow_rl/aligned/p2_large/actor.hpp\"",
+    "-DCRITIC_HEADER=\"meow_rl/aligned/p2_large/critic_fp32.hpp\"",
+    "-DAGENT_V2_CHECK_F64=1"
+  ],
+  "games": [
+    "n02",
+    "n04",
+    "n15"
+  ],
+  "git_head": "01a6abe4e6b9a02c0e606051fbfca66ef9227f46",
+  "input_sha256": {
+    "bots/p_only/tests/fixtures/stream_n02.txt.gz": "b918f94d171fe3e74f5642f919025d267e4ecbb2cd65ec0e36f09bd5af67df20",
+    "bots/p_only/tests/fixtures/stream_n04.txt.gz": "811fc7d03d4ea332cd9624a690a8f4d0f58ced60bb8b2d5d13019452ac1097af",
+    "bots/p_only/tests/fixtures/stream_n15.txt.gz": "80e25ed00e3b001db89c760e308c483d45c7c2f4f71ce37af8acf47c4f5fcb0a",
+    "inference/agent_v2/search.hpp": "fbd3cb46202078bb44baadee854ba6fb389d127025bc3481824491a283044278",
+    "inference/meow_rl/aligned/p2_large/actor.hpp": "5462db3232f342f290564ed649c15b29dd20dcc32e4c1a7097c54bc216f7ec8e",
+    "inference/meow_rl/aligned/p2_large/critic_fp32.hpp": "a0694ff7e474ebe5236035b7ed26307af329b03c1a093866f4257c3bc41707e2",
+    "tools/cpp/agent_v2/check.cpp": "75ce1e9fa376b4b3fce07b5437ea1d8127945c41e33f536361745596995fe6a5"
+  },
+  "passed": true,
+  "preregistered_states": true,
+  "salt_ref": "9448844429103577790",
+  "salts": [
+    "11708316565496032547",
+    "1777657907718882646",
+    "1268758686302217148",
+    "16854302777987583674"
+  ],
+  "schema": 1,
+  "smoke": false,
+  "states": 2100,
+  "stride": 4,
+  "trees_sha256": "57edea1af395807eadbfbbcd045f1091f209ad03abf3f057c49667054ac31e01"
+}
