@@ -1,0 +1,53 @@
+{
+ "agent_v2_rl_general_csp": {
+  "digest": "571d1e2ce6051c06860c93d4f11f8a60e937d9d6bc36c22d170b06cfa9b1ae38",
+  "components": {
+   "variant": "agent_v2_rl_general_csp",
+   "bundle_sha256": "c353d9cbc558f2433627c8cdf6d93c05d9a5b8e6b39d24bf55c7f2c2ace6c3c0",
+   "binary_sha256": "08d1d5602e4fbeac89f53844b925faf5529907e6e32c2bda9c029f7903dc32e3",
+   "inputs_sha256": "6c6580d779399ea484ff5cb86352c38146b6c8d5f62f74100ca3a385f30d5a10",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "3767576bcc0c712611a6334bb62d160f016c21a069d2388213301c6eb4c2da24",
+   "schedule": "f510d2a8476048a4b9db8fe6cc8bd690a8953a5b015c95042bc241b0c9b84e54",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ },
+ "agent_v2_p2xxl_direct": {
+  "digest": "b8414864b71b509a87926e8028be2ba6bc1e199b9610d92b56d70828dc5f28d1",
+  "components": {
+   "variant": "agent_v2_p2xxl_direct",
+   "bundle_sha256": "ee552c9bbd3c3b3d524644ec008d5fd85b34f5a997d6350756094fbc106c550c",
+   "binary_sha256": "d5329fc7f69ec22dab8a6e1177d8883abdb8ec7e17e66314d9e7ea6b883fe8e7",
+   "inputs_sha256": "013728ba1e3346ecf8cd3695da0244e6ccd5ea8740a38c40aafae0166e8449e7",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "3767576bcc0c712611a6334bb62d160f016c21a069d2388213301c6eb4c2da24",
+   "schedule": "f510d2a8476048a4b9db8fe6cc8bd690a8953a5b015c95042bc241b0c9b84e54",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ },
+ "agent_v2_rl_general_csp~aa": {
+  "digest": "571d1e2ce6051c06860c93d4f11f8a60e937d9d6bc36c22d170b06cfa9b1ae38",
+  "components": {
+   "variant": "agent_v2_rl_general_csp",
+   "bundle_sha256": "c353d9cbc558f2433627c8cdf6d93c05d9a5b8e6b39d24bf55c7f2c2ace6c3c0",
+   "binary_sha256": "08d1d5602e4fbeac89f53844b925faf5529907e6e32c2bda9c029f7903dc32e3",
+   "inputs_sha256": "6c6580d779399ea484ff5cb86352c38146b6c8d5f62f74100ca3a385f30d5a10",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "3767576bcc0c712611a6334bb62d160f016c21a069d2388213301c6eb4c2da24",
+   "schedule": "f510d2a8476048a4b9db8fe6cc8bd690a8953a5b015c95042bc241b0c9b84e54",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ }
+}

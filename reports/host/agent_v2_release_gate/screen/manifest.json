@@ -1,0 +1,331 @@
+{
+ "variants": {
+  "agent_v2_rl_general_csp": {
+   "name": "agent_v2_rl_general_csp",
+   "role": "arm G: compute-matched general PPO policy on every count; CSP P bank, extracted resolver, actor-direct, search disabled",
+   "source": "bots/agent_v2/controls/agent_v2_rl_general_csp.cpp",
+   "telemetry": "agent_v2",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\agent_v2_rl_general_csp.cpp",
+   "bundle_sha256": "c353d9cbc558f2433627c8cdf6d93c05d9a5b8e6b39d24bf55c7f2c2ace6c3c0",
+   "bundle_bytes": 60721110,
+   "binary": "build\\p_only\\bin\\agent_v2_rl_general_csp-c353d9cbc558.exe",
+   "binary_sha256": "08d1d5602e4fbeac89f53844b925faf5529907e6e32c2bda9c029f7903dc32e3",
+   "compile_seconds": 0.1,
+   "inputs": [
+    {
+     "path": "bots\\agent_v2\\controls\\agent_v2_rl_general_csp.cpp",
+     "sha256": "e5ec704e3f4f3d506c362e2b88f68ccb9be42a0e3e38b852afd0beb9f32c4fcf"
+    },
+    {
+     "path": "inference\\agent_v2_controls\\general_only.hpp",
+     "sha256": "a1de3a5f77c8a062ed7f475c32966b43a9f11bea1e86dec817046b6b14389a6b"
+    },
+    {
+     "path": "inference\\count_specialists_rl\\weights_general.hpp",
+     "sha256": "e3781e703671cd9974857be8afbef69b81bead85046f01a3c7277be6c30ba96c"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "bots\\agent_v2\\bot.hpp",
+     "sha256": "e5e9b1ed8697466ff56cfdc78b8796498eb2c745ad0b2dad875a5c45ebf96670"
+    },
+    {
+     "path": "inference\\agent_v2\\runtime.hpp",
+     "sha256": "b295e0dc465c1e21c459b44a48192840d229e05ee66d6618ee0490645c69e14f"
+    },
+    {
+     "path": "inference\\agent_v2\\core.hpp",
+     "sha256": "f9f8bef99c7e9f35aad5b20e8b1c1a723a18e8e9595c00c15e963fba2b5682a5"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\agent_v2\\features_meow_v1.hpp",
+     "sha256": "f2495d3d57f55dc0ad8b461ab6c7cf558cc7a9a07e968f1246777c06e7e526d8"
+    },
+    {
+     "path": "inference\\agent_v2\\meowmind_features.hpp",
+     "sha256": "f95416504f6f031e8eab5ec688953f8cbf490ca6feb1cd8e256590051bbd915a"
+    },
+    {
+     "path": "inference\\agent_v2\\predictor.hpp",
+     "sha256": "87d38e5f96ced9f985f1160f4790434045efd9e1573d87aedf30d5d4e3e9ade9"
+    },
+    {
+     "path": "inference\\agent_v2\\p_bank.hpp",
+     "sha256": "b46a98583a5f2d25f18020ca653fd50204ed74893b2b08802c50b88c2a1420a6"
+    },
+    {
+     "path": "inference\\count_specialists_p\\registry.hpp",
+     "sha256": "09741ed18f24afb463c4d9410de02da3add5ee1621a034954f6b593ad582d275"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n02.hpp",
+     "sha256": "cf6d78bebf91ab51eb1a0732fadc9b17a80e74d21fdc177c76764218e07f7957"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n03.hpp",
+     "sha256": "a1e6f7b576b045846c54377a61708b338539292d27327eb17d9b087fd3d93c34"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n04.hpp",
+     "sha256": "b0be263922e067e3381aebfc982b0199fd42fb2dfbf84f2ff15e6cef67804071"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n05.hpp",
+     "sha256": "a9f79adf73bdd1cfeefbbab8007ffe994eafab7a9c4f37b36e3d6757883eab1c"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n06.hpp",
+     "sha256": "939d85d48a2f916cd38c7cc64daa9470c1a69b63ae9579287144628bb09fed73"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n07.hpp",
+     "sha256": "e1bdef28f9ae56d8e25d91fbf8b60a525f4479b8693d0638868c8d26ea5ce0ee"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n08.hpp",
+     "sha256": "be03bb203c298307057d2deffc25fade78dd3c6df0b2eefaf6af5288bd426e5e"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n09.hpp",
+     "sha256": "53b8c3bec91e1527416a01c717ca5cc47213f2dff7f60dc8c9ac1c461e45d553"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n10.hpp",
+     "sha256": "92bb216af5b3aa82100212d69a47021514aa4bd3a81b2cbcae7c4c3af2d7cbe9"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n11.hpp",
+     "sha256": "20a1d25ff735ec8c8e18d76226e0e12817c0cac06d5c46fdbf21a0a60448e452"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n12.hpp",
+     "sha256": "cec886f79095b0101b940ea55c7c897a5c6cb29514b5ba431979e4ef398b9a81"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n13.hpp",
+     "sha256": "25c5ddc5080c61b95d3e03c8668a22a5bc3fe11c459462ccd8b2757210fb1c81"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n14.hpp",
+     "sha256": "3d797db5408f4bc73d41c500b157e3e868f22c3fa7e4e1f611edca617c885ef5"
+    },
+    {
+     "path": "inference\\count_specialists_p\\weights_n15.hpp",
+     "sha256": "7c410f7fcd678f7c6234c06627249a9eb3432b138c9590089fb5da4f63ce0d2a"
+    },
+    {
+     "path": "inference\\agent_v2\\resolver.hpp",
+     "sha256": "ec2a2753820b3bc034029cfffa9b9c04d4c90798fc505dcc12aee35a723d32d0"
+    },
+    {
+     "path": "inference\\agent_v2\\simulate.hpp",
+     "sha256": "7347bc9e01688897b5391d8e9da65c41c9bc86ed0eb6cd128331dde822b142df"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "tools\\cpp\\stream.hpp",
+     "sha256": "40de1a62ff395223cb0e7ec1695d6c88de877a6c13813d9228874765d057bcbb"
+    },
+    {
+     "path": "tools\\cpp\\meow_rl\\actor_int.hpp",
+     "sha256": "18a2fd123def697d816b4e11995cbb39d13aebf2574aa9e7b00e712db5cb79ae"
+    }
+   ]
+  },
+  "agent_v2_p2xxl_direct": {
+   "name": "agent_v2_p2xxl_direct",
+   "role": "arm D: current default; pool-v2 large-V actor (aligned export), P2 XXL opponent model, extracted resolver, actor-direct, search disabled",
+   "source": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp",
+   "telemetry": "agent_v2",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\agent_v2_p2xxl_direct.cpp",
+   "bundle_sha256": "ee552c9bbd3c3b3d524644ec008d5fd85b34f5a997d6350756094fbc106c550c",
+   "bundle_bytes": 32275296,
+   "binary": "build\\p_only\\bin\\agent_v2_p2xxl_direct-ee552c9bbd3c.exe",
+   "binary_sha256": "d5329fc7f69ec22dab8a6e1177d8883abdb8ec7e17e66314d9e7ea6b883fe8e7",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\agent_v2\\variants\\agent_v2_p2xxl_direct.cpp",
+     "sha256": "72d0efaddf0dabf2097bd47ea09d93ffbe0494e6b537da261d34ef2b1acd9350"
+    },
+    {
+     "path": "inference\\meow_rl\\aligned\\p2_large\\actor.hpp",
+     "sha256": "5462db3232f342f290564ed649c15b29dd20dcc32e4c1a7097c54bc216f7ec8e"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "bots\\agent_v2\\bot.hpp",
+     "sha256": "e5e9b1ed8697466ff56cfdc78b8796498eb2c745ad0b2dad875a5c45ebf96670"
+    },
+    {
+     "path": "inference\\agent_v2\\runtime.hpp",
+     "sha256": "b295e0dc465c1e21c459b44a48192840d229e05ee66d6618ee0490645c69e14f"
+    },
+    {
+     "path": "inference\\agent_v2\\core.hpp",
+     "sha256": "f9f8bef99c7e9f35aad5b20e8b1c1a723a18e8e9595c00c15e963fba2b5682a5"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\agent_v2\\features_meow_v1.hpp",
+     "sha256": "f2495d3d57f55dc0ad8b461ab6c7cf558cc7a9a07e968f1246777c06e7e526d8"
+    },
+    {
+     "path": "inference\\agent_v2\\meowmind_features.hpp",
+     "sha256": "f95416504f6f031e8eab5ec688953f8cbf490ca6feb1cd8e256590051bbd915a"
+    },
+    {
+     "path": "inference\\agent_v2\\predictor.hpp",
+     "sha256": "87d38e5f96ced9f985f1160f4790434045efd9e1573d87aedf30d5d4e3e9ade9"
+    },
+    {
+     "path": "inference\\agent_v2\\p_bank.hpp",
+     "sha256": "b46a98583a5f2d25f18020ca653fd50204ed74893b2b08802c50b88c2a1420a6"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\registry.hpp",
+     "sha256": "8ac015005b7eb4bba3f7e1635bfd39e7bc6a3d93bffc051d574f814ff6f20194"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_general.hpp",
+     "sha256": "4a3044c14f0983686a173a0a3ece1ac59b50252dbaeecda79406330fddd8d1d1"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n02.hpp",
+     "sha256": "39ba7d4c1b186eded47774dbf4ccd6cbc48def199fc859455ea6a2e5c51fdcb5"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n03.hpp",
+     "sha256": "ffc4e388cdcb49d02cd42c1e6d4d46c07c24bcfb47e26f65d427965c644434d2"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n04.hpp",
+     "sha256": "7f6c1bc30c46c71f8e2883b6f6c672867b1a2a405cfd032a24c4c2c7c8a729f3"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n05.hpp",
+     "sha256": "7824c1d5b945557fcd99d70bdd4049ef5eb26056ecece90b058147925a7709ff"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n06.hpp",
+     "sha256": "8ae640133aef2222d125f86ada348bb35c5f40fa5bb43855cc3f1348fec2b8e3"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n07.hpp",
+     "sha256": "1545a6ddf59857bd64d4b6b014009c629fd1e38037cf4c35fe9650c5ecb18c6c"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n08.hpp",
+     "sha256": "7fb7f88d43a1695a0481fc2b9341bbb38fb5ec3cadc30a282b2aa18a88f4b207"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n10.hpp",
+     "sha256": "02ab30b6dedf3b50fea278ee383d2a70a493a73b406c7df6b235da8793f4f935"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n12.hpp",
+     "sha256": "73e845b2259f9402c4f6f79ed0ebe3a4cbb438545cf0dc62ce53340e0b4a3451"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n15.hpp",
+     "sha256": "4d3d714aa88ab4a75528f899ebbdaafafbfe01dc6822d6566b9ad0485f52f6f2"
+    },
+    {
+     "path": "inference\\agent_v2\\resolver.hpp",
+     "sha256": "ec2a2753820b3bc034029cfffa9b9c04d4c90798fc505dcc12aee35a723d32d0"
+    },
+    {
+     "path": "inference\\agent_v2\\simulate.hpp",
+     "sha256": "7347bc9e01688897b5391d8e9da65c41c9bc86ed0eb6cd128331dde822b142df"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "tools\\cpp\\stream.hpp",
+     "sha256": "40de1a62ff395223cb0e7ec1695d6c88de877a6c13813d9228874765d057bcbb"
+    },
+    {
+     "path": "tools\\cpp\\meow_rl\\actor_int.hpp",
+     "sha256": "18a2fd123def697d816b4e11995cbb39d13aebf2574aa9e7b00e712db5cb79ae"
+    }
+   ]
+  }
+ },
+ "compiler": "g++.EXE (GCC) 15.2.0",
+ "flags": [
+  "-std=c++20",
+  "-O2",
+  "-static"
+ ],
+ "host": "DESKTOP-G60OJUD",
+ "platform": "Windows-10-10.0.19045-SP0",
+ "updated": "2026-10-17T02:13:32"
+}

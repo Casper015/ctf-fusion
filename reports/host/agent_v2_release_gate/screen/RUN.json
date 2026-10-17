@@ -1,0 +1,102 @@
+{
+ "created": "2026-10-17T02:23:12",
+ "smoke": false,
+ "config": {
+  "_comment": "Paired host release gate screen of task T0083: compute-matched general PPO policy G (agent_v2_rl_general_csp) vs current production default D (agent_v2_p2xxl_direct) + A/A copy of G. Fresh seed 20262141, exactly 8 workers under CPU lock, 2,000 ms first and 50 ms steady replies. 96 maps per count across counts 2-15 (1,344 fixtures, 4,032 games total across 3 arms). Primary contrast G-D at 95% single comparison; promotion rule: G becomes default only if G-D helps.",
+  "seed": 20262141,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 96,
+  "workers": 8,
+  "workers_exact": true,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "variants": "reports/host/agent_v2_release_gate/variants.json",
+  "margin": 0.0,
+  "preflight": "reports/host/agent_v2_release_gate/PREFLIGHT.json",
+  "reference": [
+   "Fable",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player4"
+  ],
+  "fixtures": 1344,
+  "games": 4032,
+  "work_dir": "data/host/agent_v2_release_gate/screen",
+  "report_dir": "reports/host/agent_v2_release_gate/screen",
+  "arms": [
+   "agent_v2_rl_general_csp",
+   "agent_v2_p2xxl_direct"
+  ],
+  "aa": [
+   "agent_v2_rl_general_csp"
+  ],
+  "comparisons": [
+   [
+    "agent_v2_rl_general_csp",
+    "agent_v2_p2xxl_direct"
+   ]
+  ],
+  "multiplicity": {
+   "method": "none",
+   "alpha": 0.05
+  }
+ },
+ "effective": {
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 96,
+  "turn_ms": 50,
+  "arms": [
+   "agent_v2_rl_general_csp",
+   "agent_v2_p2xxl_direct"
+  ],
+  "aa": [
+   "agent_v2_rl_general_csp"
+  ],
+  "workers": 8
+ },
+ "ctf_fusion_commit": "449c8957ceee13dfd46988abd4567c025fa73a2c",
+ "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+ "host": "DESKTOP-G60OJUD",
+ "os": "Windows-10-10.0.19045-SP0",
+ "cpu_count": 32,
+ "python": "3.14.3",
+ "wall_seconds": {
+  "build": 1.2,
+  "run": 554.1,
+  "analyze": 25.7,
+  "total": 581.1
+ },
+ "analysis_status": 0
+}

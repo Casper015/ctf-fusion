@@ -1,0 +1,17 @@
+{
+ "_comment": "Variants for task T0083 (Host release gate): general PPO policy G (agent_v2_rl_general_csp) vs current default D (agent_v2_p2xxl_direct).",
+ "variants": [
+  {
+   "name": "agent_v2_rl_general_csp",
+   "role": "arm G: compute-matched general PPO policy on every count; CSP P bank, extracted resolver, actor-direct, search disabled",
+   "source": "bots/agent_v2/controls/agent_v2_rl_general_csp.cpp",
+   "telemetry": "agent_v2"
+  },
+  {
+   "name": "agent_v2_p2xxl_direct",
+   "role": "arm D: current default; pool-v2 large-V actor (aligned export), P2 XXL opponent model, extracted resolver, actor-direct, search disabled",
+   "source": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp",
+   "telemetry": "agent_v2"
+  }
+ ]
+}
