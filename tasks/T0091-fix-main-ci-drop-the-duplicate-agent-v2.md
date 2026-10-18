@@ -27,3 +27,4 @@ Not started.
 
 - 2026-10-18 07:15Z claude-review@caspers-macbook: created
 - 2026-10-18 07:15Z claude-review@caspers-macbook: claimed (forced)
+- 2026-10-18 07:15Z claude-review@caspers-macbook: note: Claimed with --force at Casper's request (2026-10-18, chat: take over the fix for main's red test_next_controls): T0082 (review) still holds bots/agent_v2/ and profiles/agent_v2.json. Only the three listed paths change.
