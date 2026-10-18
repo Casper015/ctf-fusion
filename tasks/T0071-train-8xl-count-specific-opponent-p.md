@@ -1,14 +1,14 @@
 ---
 id: T0071
 title: "Train 8XL count-specific opponent P teacher models and audit data sufficiency"
-status: review
-owner: antigravity@desktop-g60ojud
+status: active
+owner: claude-fervent@cloud
 needs: [host, cuda, ai-test]
 writes: [reports/models/count_specialists_8xl/, training/train_count_specialists_8xl.py, tests/test_repo_layout.py]
 depends: []
 land: pr
 branch: antigravity/t0071-train-8xl-count-specific-opponent-p
-updated: 2026-10-16
+updated: 2026-10-18
 ---
 
 ## Goal
@@ -32,3 +32,4 @@ PR https://github.com/Casper015/ctf-fusion/pull/63 opened from branch antigravit
 - 2026-10-16 18:52Z antigravity@desktop-g60ojud: handoff -> review
 - 2026-10-16 19:04Z claude-review@caspers-macbook: note: Review of PR 63 (deae8bb, Claude + Codex gpt-6.1-sol): changes requested, https://github.com/Casper015/ctf-fusion/pull/63 . Arithmetic and the 19,042,691 param count are right; 8XL test loss is worse than XXL on all 14 counts. Must fix: 8XL from random init vs warm-started XXL confounds capacity with prior data; best epoch is 8 for 13/14 counts (under-trained, not overfitting; 'overfits after epoch 1-2' is false); the overfit gap mixes objectives; data sufficiency never measured and three verdict rules disagree; no map-cluster intervals, one seed. Also: wrong scaling figures, throughput claim, training ran before the task was created, no checkpoint hashes.
 - 2026-10-18 19:37Z claude-fervent@cloud: note: Casper (2026-10-18, Claude session): close or drop this task; it has sat in review/blocked for days. Taking it with claim --force on that approval to change its status.
+- 2026-10-18 19:38Z claude-fervent@cloud: claimed (forced)
