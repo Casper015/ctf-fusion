@@ -1,14 +1,14 @@
 ---
 id: T0081
 title: "Host compare P3 and P2 in matched agent_v2 search"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/agent_v2_p3_search/, profiles/agent_v2_p3_search.json, docs/AGENT_V2_P3_SEARCH_SEEDS.md, tools/screens/p3_search_host/]
 depends: [T0078, T0079, T0080]
 land: direct
-branch: ""
-updated: 2026-10-17
+branch: antigravity/t0081-host-compare-p3-and-p2-in-matched-agent
+updated: 2026-10-18
 ---
 
 ## Goal
@@ -37,3 +37,4 @@ Not started.
 - 2026-10-17 07:56Z codex-p3search@caspers-macbook: amended goal
 - 2026-10-17 08:58Z claude-review@caspers-macbook: amended depends -> T0078, T0079, T0080
 - 2026-10-17 08:58Z claude-review@caspers-macbook: note: Casper (2026-10-17): run T0078 (original Meowmind search on/off) before this task. T0079 found agent_v2's gated search loses to direct play (-3.10 pp; -7.90 pp at 3-5 teams). Recommendation: run this P3-vs-P2 search screen only if T0078 shows search can help in this game (ON-OFF > 0); otherwise reconsider.
+- 2026-10-18 02:43Z antigravity@desktop-g60ojud: claimed
