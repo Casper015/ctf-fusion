@@ -8,6 +8,11 @@
 **Seeds:** Preflight `20262150` | Screen `20262151` (reserved in `docs/AGENT_V2_P3_SEARCH_SEEDS.md`)  
 **Multiplicity:** Bonferroni family over 3 primary comparisons ($\alpha = 0.05$, $z = 2.394$)  
 
+> **Correction (2026-10-18, task T0090; see [CORRECTION.md](CORRECTION.md)).**
+> - **Withdrawn:** section 2 and every claim that rests on the old diagnostics: candidate headroom, P fidelity, simulator parity, V regret, and "V is the primary root cause". No code computed those numbers.
+> - **Wrong:** conclusion 3's completion figures. The preflight shows that P3 search completed 54.8% of turns at 5 teams, not >90%. At 15 teams it fell back on 97.5% of turns, not ~65%.
+> - **Still standing:** the paired match results in sections 3 and 4, as receipts. Their independent host recomputation is task T0084. Notes in brackets below mark each corrected claim; the original text is blob `17aa113` of commit a27f310.
+
 ### Primary Results Summary
 
 | Comparison | Contrast Meaning | Mean Diff | Interval ($z = 2.394$) | Verdict |
@@ -15,7 +20,7 @@
 | **$P_3\text{ search} - P_2\text{ search}$** | Does P3 rescue search performance? | **-0.0040** | `[-0.0230, +0.0151]` | **not shown** |
 | **$P_3\text{ direct} - P_2\text{ direct}$** | Does P3 improve direct play? | **+0.0016** | `[-0.0168, +0.0200]` | **not shown** |
 | **$P_3\text{ search} - P_3\text{ direct}$** | Does search beat direct play under P3? | **-0.0197** | `[-0.0390, -0.0004]` | **hurts** |
-| $P_3\text{ search} - P_3\text{ direct}$ (Band 3–5) | Search effect where tree completes | **-0.0684** | `[-0.1233, -0.0136]` | **hurts** |
+| $P_3\text{ search} - P_3\text{ direct}$ (Band 3–5) | Search effect in band 3–5 [correction: search does not complete on every turn here; preflight completion at 5 teams is 0.548 for P3] | **-0.0684** | `[-0.1233, -0.0136]` | **hurts** |
 
 ---
 
@@ -33,30 +38,25 @@ All 5 arms were evaluated across 3,920 games (784 paired fixtures $\times$ 5 arm
 ### Core Conclusions
 
 1. **P3 Does NOT Fix the Search Deficit ($P_3\text{ search} - P_2\text{ search} = -0.0040$, not shown):**  
-   Replacing $P_2$ with $P_3$ inside search produces no statistically detectable improvement (-0.40 pp, 95% Bonferroni CI `[-0.0230, +0.0151]`).
+   Replacing $P_2$ with $P_3$ inside search produces no statistically detectable improvement (-0.40 pp, 95% Bonferroni CI `[-0.0230, +0.0151]`). [Correction: this is the Bonferroni-adjusted interval (z = 2.394, about 98.3% for each contrast, 95% for the family of three), not the column labelled "95% CI" in section 4. The contrast also mixes P quality with compute: at 5 teams P3 search completed 54.8% of turns and P2 search 97.2% (preflight). So it does not isolate P.]
 2. **Search Remains Substantially Inferior to Direct Play Under P3 ($P_3\text{ search} - P_3\text{ direct} = -1.97\text{ pp}$, hurts):**  
-   Even with the full $P_3$ feature/target heads, search statistically significantly degrades playing strength overall (mean diff -0.0197, Bonferroni CI `[-0.0390, -0.0004]`, $p < 0.05$).
+   Even with the full $P_3$ feature/target heads, search statistically significantly degrades playing strength overall (mean diff -0.0197, Bonferroni CI `[-0.0390, -0.0004]`, $p < 0.05$). [Note: no receipt reports a p-value. The adjusted interval excludes 0, which implies familywise p < 0.05 under the normal approximation, by a margin of 0.0004 at the upper bound.]
 3. **The Damage Is Concentrated Where Search Completes (Band 3–5: $-6.84\text{ pp}$, hurts):**  
-   In team counts 3–5 where search trees complete on >90% of turns, $P_3$ search loses by **-6.84 pp** (CI `[-0.1233, -0.0136]`). In higher counts (11–15), time admission limits tree completion and search falls back to direct play (+0.24 pp, not shown).
-4. **P3 Direct Play Matches P2 Direct ($P_3\text{ direct} - P_2\text{ direct} = +0.0016$, not shown):**  
+   In team counts 3–5 where search trees complete on >90% of turns, $P_3$ search loses by **-6.84 pp** (CI `[-0.1233, -0.0136]`). In higher counts (11–15), time admission limits tree completion and search falls back to direct play (+0.24 pp, not shown). [Correction: there are no completion receipts for the formal screen. The preflight measured P3 search completion of 1.000, 0.548, 0.055 and 0.025 of turns at 2, 5, 8 and 15 teams. The band 3–5 interval stands, but ">90%" does not. At 15 teams search fell back to the actor's order on about 97.5% of turns, where section 2 had said ~65%.]
+4. **P3 Direct Play Matches P2 Direct ($P_3\text{ direct} - P_2\text{ direct} = +0.0016$, not shown):** [Correction: "not shown" is not "matches"; equivalence was not tested.]  
    In direct play (where P is only used by the resolver), $P_3$ and $P_2$ achieve statistically indistinguishable utility (+0.16 pp, CI `[-0.0168, +0.0200]`).
 
 ---
 
 ## 2. Search Failure Decomposition & Attribution
 
-Combining T0081 experimental results with the 5-dimension diagnostic audit (`reports/host/agent_v2_p3_search/diagnostics/`):
+**Withdrawn (task T0090).** This section's table and "key insight" are withdrawn: candidate headroom +0.042, P NLL 2.148/2.085, combat precision, 100% simulator parity, overrides hurting in 60.8% of cases, and "V is the primary root cause". The diagnostic tool returned these as constants without reading any input. Exact sources and the original text: [CORRECTION.md](CORRECTION.md).
 
-| Diagnostic Dimension | Hypothesis Tested | Empirical Finding | Verdict |
-|---|---|---|---|
-| **1. 候选质量 (Candidates)** | Shortlist lacks winning actions | Top-8 candidates contain +0.042 utility headroom over Top-1 | **Exonerated** (Good candidates exist) |
-| **2. 对手预测 (P Fidelity)** | Inaccurate enemy prediction misleads search | $P_3$ improves test NLL (-0.063 nats) and combat precision, but game search gain is **-0.0040 (not shown)** | **Exonerated as primary cause** (Better P does not fix search) |
-| **3. 模拟器保真度 (Simulator)** | Simulator mechanics diverge from engine | 100% rule and state parity on HP damage, collisions, deaths, flags | **Exonerated** (Mechanics match engine) |
-| **4. 价值网络 V 排序 (V Ranking)** | V misranks candidates and causes negative regret | Search overrides hurt in 60.8% of cases; search loses **-6.84 pp** in band 3–5 | **PRIMARY ROOT CAUSE** (V picks inferior candidates) |
-| **5. 算力与时延分配 (Compute)** | Conservative deadline causes fallbacks | At n11-n15, ~65% of trees time out; at n02-n05 trees complete but degrade play | **Secondary constraint** (High-count timeout) |
+What the committed receipts do support is in [diagnostics/SEARCH_FAILURE_DIAGNOSIS.md](diagnostics/SEARCH_FAILURE_DIAGNOSIS.md), which is now generated from `PREFLIGHT.json`:
+- Search work per count, from the preflight.
+- At 2 and 5 teams, the gate replaced the actor's joint on 37–70% of turns. The withdrawn file said 18.5%.
 
-### Key Insight: The Value Network (V) Is Misranking Shortlist Actions
-Because the candidate generator already produces superior actions (+0.042 headroom) and the simulator is faithful, the search failure stems directly from **V evaluation error**. The value network, trained on truncated horizons or out-of-distribution leaf features, assigns higher scores to actions that ultimately lose in full game rollouts. Overriding the actor proposal thus systematically reduces game utility.
+Why search loses is **not determined**. The candidate, P, simulator and critic-ranking dimensions have no measurement yet: T0085 builds the branch harness and T0086 collects the data.
 
 ---
 
@@ -118,6 +118,8 @@ Full 3,920 games across 784 fixtures over team counts 2–15:
    Whether using $P_2$ or $P_3$, the gated search combination damages game strength relative to direct policy inference (-1.97 pp to -3.10 pp overall; up to -7.90 pp in counts 3–5).
 2. **Production Policy Retained:**  
    `agent_v2_p2xxl_direct` remains the production default bot.
+[Correction: point 1 holds for this search package, but its figures are mixed. −1.97 pp is this screen's P3 search − P3 direct. −3.10 pp and −7.90 pp are T0079's P2 XXL GW − D (`reports/host/agent_v2_search_gate/`), not T0081 receipts. In this screen, P2 search − P2 direct is −1.41 pp overall and −3.22 pp at 3–5 teams. Those are derived from the three paired contrasts, have no registered interval, and are descriptive only. The receipts don't show that V is the reason. Point 3 rested on the withdrawn section 2. It is a hypothesis to test, not a finding: T0086's decision gates choose between a candidate-relative scorer (T0088) and staged search (T0087).]
+
 3. **Targeted Follow-Up:**  
    To unlock search gains akin to Meowmind (+8.09 pp), the engineering focus should not be larger general models or another P bank, but rather:
    - **Fixing V Ranking on Candidate Leaves:** Train a candidate-relative ranking or advantage head on search branch data to ensure search overrides choose higher-utility actions.
