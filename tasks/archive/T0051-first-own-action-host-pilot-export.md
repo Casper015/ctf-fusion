@@ -1,7 +1,7 @@
 ---
 id: T0051
 title: "First own-action host pilot: export, deadline gate and paired games"
-status: active
+status: done
 owner: claude-fervent@cloud
 needs: [host]
 writes: [bots/p_only/bots/variants/, bots/p_only/profiles/variants_own_action_first_trial.json, bots/p_only/report/own_action_first_trial/, bots/p_only/tools/analyze.py, bots/p_only/tools/preflight_own_action.py, docs/DIGEST.md, inference/own_action_scorers/first_trial_linear_s101/, inference/own_action_scorers/first_trial_mlp_s101/, reports/host/own_action_first_trial/]
@@ -35,17 +35,9 @@ Reviewed PR merged: source-bound exports/variants and Windows parity, safe-load 
 
 ## Handoff
 
-*2026-10-15 04:38Z codex-decision-pilot@desktop-g60ojud:*
+*2026-10-18 19:38Z claude-fervent@cloud:*
 
-T0051 completed and PR opened: https://github.com/Casper015/ctf-fusion/pull/51.
-- Pre-declared models mlp_s101 (lambda=100) and linear_s101 (lambda=50) exported and verified on Windows.
-- Host concurrency preflight completed: 4 workers admitted (0 deadline drops, 0 faults).
-- 392 fixtures x 4 arms = 1,568 paired games completed under host CPU lock (seed 20261801):
-  * A/A diagnostic (v12_ponly_xxl~aa - v12_ponly_xxl): Delta = +0.0000, 392/392 identical scores.
-  * Primary (mlp_s101 - v12_ponly_xxl): Mean Delta = -0.1828 [-0.2114, -0.1543], verdict hurts.
-  * Secondary (linear_s101 - v12_ponly_xxl): Mean Delta = -0.1555 [-0.1848, -0.1261], verdict hurts.
-- Outcome: Explicit NO-ADMISSION. Both scoring heads degrade playing utility. Production v12_ponly_xxl retained without modification.
-- Reports and receipts committed to bots/p_only/report/own_action_first_trial/ and reports/host/own_action_first_trial/.
+Closed by claude-fervent@cloud at Casper's request (2026-10-18). PR 51 merged (2026-10-15). Result: NO-ADMISSION; both own-action scorers hurt against v12_ponly_xxl (mlp_s101 -0.1828 [-0.2114, -0.1543], linear_s101 -0.1555 [-0.1848, -0.1261], 392 fixtures; A/A 392/392 identical). Receipts: bots/p_only/report/own_action_first_trial/, reports/host/own_action_first_trial/.
 
 ## Log
 
@@ -60,3 +52,4 @@ T0051 completed and PR opened: https://github.com/Casper015/ctf-fusion/pull/51.
 - 2026-10-15 05:30Z claude-review@caspers-macbook: note: Pushed aa0d3c4 onto PR 51 at Casper's request: analyze.py never imputes missing arms (incomplete verdict + tests), preflight --seed required / admits 0 on failure / atomic receipts, REPORT+DIGEST overclaims corrected. bots/p_only/tests/test_p_only.py is outside T0051's lanes (tests for the analyze.py change). Owner: please don't force-push over it. Still needs the host: off-machine backup, regenerated 388-fixture screen output, DSCORE counters for the screen.
 - 2026-10-18 19:37Z claude-fervent@cloud: note: Casper (2026-10-18, Claude session): close or drop this task; it has sat in review/blocked for days. Taking it with claim --force on that approval to change its status.
 - 2026-10-18 19:37Z claude-fervent@cloud: claimed (forced)
+- 2026-10-18 19:38Z claude-fervent@cloud: done
