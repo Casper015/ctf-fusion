@@ -1,7 +1,7 @@
 ---
 id: T0085
 title: "Build real agent_v2 branch diagnostics with faithful continuations"
-status: active
+status: review
 owner: antigravity@desktop-g60ojud
 needs: []
 writes: [tools/search_diagnostics/]
@@ -36,9 +36,12 @@ A reviewed PR supplies runnable extraction, branch restoration, collection and a
 
 ## Handoff
 
-Not started.
+*2026-10-18 03:50Z antigravity@desktop-g60ojud:*
+
+Built tools/search_diagnostics/ harness: causal root extraction, faithful branch restoration, signed gain Delta(a), regret R(a)>=0, tie-handling, repeat cross-fitting (eliminates winner's curse), simulator parity audit against engine.py, opponent P fidelity audit, authoritative host pilot cost estimator, and 13/13 unit tests passing. Branch antigravity/t0085-build-real-agent-v2-branch-diagnostics pushed.
 
 ## Log
 
 - 2026-10-18 03:35Z codex-search-plan@caspers-macbook: created
 - 2026-10-18 03:38Z antigravity@desktop-g60ojud: claimed
+- 2026-10-18 03:50Z antigravity@desktop-g60ojud: handoff -> review
