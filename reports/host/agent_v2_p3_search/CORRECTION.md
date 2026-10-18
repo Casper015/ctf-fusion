@@ -51,23 +51,23 @@ The status column uses three values:
 
 | Claim in REPORT.md | Receipt | Calculation and unit | Status |
 |---|---|---|---|
-| Three paired contrasts, overall and by band, with the Bonferroni intervals (z = 2.394) | `screen/screen.json` `comparisons`; `screen/SCREEN.md` | `bots/p_only/tools/run_screen.py` analysis: paired utility per fixture, map clusters, counts weighted equally | receipt only. REPORT.md matches screen.json. REPORT.md's "95% CI" column differs from `ci95` in the fourth decimal in several rows; screen.json is authoritative |
+| Three paired contrasts, overall and by band, with the Bonferroni intervals (z = 2.394) | `screen/screen.json` `comparisons`; `screen/SCREEN.md` | `bots/p_only/tools/run_screen.py` analysis: paired utility per fixture, map clusters, counts weighted equally | receipt only. The adjusted intervals and means in REPORT.md match screen.json. The "95% CI" column does not: 11 of its 15 rows differ from `ci95` by 0.0001–0.0003 (REPORT.md section 4, rows for counts 2, 3–5, 6–10 and 11–15 of P3 search − P2 search; overall, 2 and 3–5 of P3 direct − P2 direct; overall, 2, 3–5 and 11–15 of P3 search − P3 direct). screen.json is authoritative |
 | P3 search − P3 direct hurts, −0.0197 [−0.0390, −0.0004] | as above | as above | receipt only. The upper bound is 0.0004 from 0, so T0084's independent recomputation decides whether it holds |
-| A/A −0.0091 [−0.0196, +0.0014], 456 of 784 identical score vectors | `screen/screen.json` `rerun_noise`; SCREEN.md | identical binary replayed | receipt only. A/A is exactly 0 at 2 and 3 teams and nonzero from 4 teams up. That fits timed admission varying between runs, but it is not shown: T0084 must separate admission from RNG |
+| A/A −0.0091 [−0.0196, +0.0014], 456 of 784 identical score vectors | `screen/screen.json` `rerun_noise`; SCREEN.md | identical binary replayed | receipt only. The A/A mean difference is exactly 0 at 2, 3, 13, 14 and 15 teams and nonzero at 4–12. That pattern fits timed admission varying between runs: at 2 teams every tree completes, and at 15 almost none does. It is not shown: T0084 must separate admission from RNG |
 | Arm utilities, faults (0/0/2/3/4), late replies (0/0/0/3/2), opponent faults on P2 direct (2) | SCREEN.md arm table | per-game all-seat logs | receipt only. The P3 search arm reports 3 late replies, but its largest reply is 49.3 ms, under the 50 ms limit; T0084 must reconcile the timing convention and fault reasons |
-| Preflight passed: 256 games, 0 faults, late or dead; steady max 20.8 / 20.4 ms; first reply max 121.4 ms | `PREFLIGHT.json` | per-game rows | verified offline (row totals recomputed) |
+| Preflight passed: 256 games, 0 faults, late or dead; steady max 20.8 / 20.4 ms; first reply max 121.4 ms | `PREFLIGHT.json` | per-game rows | verified offline (row totals recomputed). One value in REPORT.md's preflight table is wrong: P3 search at 8 teams has a steady max of 18.629 ms, not 18.52 |
 | Search completes on >90% of turns at 3–5 teams | none | none | **wrong**. Preflight completion is 1.000 / 0.548 / 0.055 / 0.025 for P3 search and 1.000 / 0.972 / 0.118 / 0.025 for P2 search, at 2 / 5 / 8 / 15 teams. The formal screen has no completion receipt |
 | ~65% of trees time out at 11–15 teams | none | literal | withdrawn (about 97.5% fall back at 15) |
 | "P3 direct matches P2 direct" | screen.json | not shown | wording corrected: not shown is not equivalence |
 | Seeds 20262150 / 20262151 reserved before play | `docs/AGENT_V2_P3_SEARCH_SEEDS.md` | none | **not shown**. The ledger, profile, preflight and results all first appear in a27f310. T0081's task text names no seed, and the preflight (19:47–19:49 -0700) and screen ran before that commit |
 | Source bound to a commit | `screen/RUN.json` `ctf_fusion_commit` c1f774b | none | **incomplete**. c1f774b is the claim commit and does not contain `preflight.py` or `diagnose.py`. The preflight therefore ran from uncommitted files |
-| GPU training stopped | `PREFLIGHT.json` `host_before` / `host_after` | none | unaudited. These record 45% and 50% GPU utilization. The listed compute processes show no training job, but one PID was unreadable ("Insufficient Permissions") |
-| Fixed-work receipts on the native harness | none committed for T0081 | none | missing |
+| GPU training stopped | `PREFLIGHT.json` `host_before` / `host_after` | none | unaudited. These record 45% and 50% GPU utilization. The listed compute processes show no training job, but two PIDs were unreadable ("Insufficient Permissions") in each snapshot |
+| Fixed-work receipts on the native harness | none committed for T0081 | none | not evidenced: no committed receipt; whether it ran is unknown |
 | Roster overlap with the P2 and P3 training corpora | none | none | unaudited |
 
 ## Confound in the primary P contrast
 
-P3 search − P2 search is not a clean P comparison. Under the same time admission, the P3 package completed fewer trees: 0.548 of turns against P2's 0.972 at 5 teams, and 0.055 against 0.118 at 8 teams (preflight). Part of any difference therefore comes from compute, not from prediction quality. A P-only comparison needs fixed work or equal completion, which is the fixed-work harness that T0081 did not run.
+P3 search − P2 search is not a clean P comparison. Under the same time admission, the P3 package completed fewer trees: 0.548 of turns against P2's 0.972 at 5 teams, and 0.055 against 0.118 at 8 teams (preflight). So the contrast is confounded: a difference, or the lack of one, may partly reflect compute rather than prediction quality. The preflight alone cannot say how much of the formal-screen result that explains. A P-only comparison needs fixed work or equal completion; no committed T0081 receipt shows a fixed-work run.
 
 ## Left for T0084 (host)
 

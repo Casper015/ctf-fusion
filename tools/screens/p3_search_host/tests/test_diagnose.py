@@ -25,24 +25,27 @@ REPO = HERE.parents[3]
 COMMITTED = REPO / "reports" / "host" / "agent_v2_p3_search"
 
 
-def tail(turns, used, fallback, overrides, kept):
-    return (f"AGENTV2 turns {turns} refused 0 inconsistent 0 search_used {used} search_fallback {fallback} leaves 0 "
-            f"trajectories 0 refuse_setup 0 refuse_trajectory {fallback} refuse_expand 0 refuse_critic 0 refuse_late 0 "
-            f"max_setup_us 0 max_traj_us 0 max_expand_us 0 max_critic_us 0 max_search_us 0 branches 0 critic fp32 "
-            f"overrides {overrides} gate_kept {kept}")
+def counters(turns, used, fallback):
+    return {"turns": turns, "refused": 0, "inconsistent": 0, "search_used": used, "search_fallback": fallback,
+            "leaves": 0, "trajectories": 0, "refuse_setup": 0, "refuse_trajectory": fallback, "refuse_expand": 0,
+            "refuse_critic": 0, "refuse_late": 0, "max_setup_us": 0, "max_traj_us": 0, "max_expand_us": 0,
+            "max_critic_us": 0, "max_search_us": 0, "branches": 0, "critic": "fp32"}
+
+
+def tail(c, overrides, kept):
+    return ("AGENTV2 " + " ".join(f"{k} {c[k]}" for k in diagnose.LINE_FIELDS)
+            + f" critic {c['critic']} overrides {overrides} gate_kept {kept}")
 
 
 def game(variant, teams, i, used, fallback, overrides, kept, turns=100):
-    counters = {"turns": turns, "refused": 0, "inconsistent": 0, "search_used": used, "search_fallback": fallback,
-                "leaves": 0, "refuse_setup": 0, "refuse_trajectory": fallback, "refuse_expand": 0, "refuse_critic": 0,
-                "refuse_late": 0}
+    c = counters(turns, used, fallback)
     return {"variant": variant, "fixture_id": f"s1-n{teams:02d}-m{i:05d}", "teams": teams, "turns_played": turns,
-            "counters": counters, "stderr_tail": [tail(turns, used, fallback, overrides, kept)]}
+            "counters": c, "stderr_tail": [tail(c, overrides, kept)]}
 
 
 def synthetic() -> dict:
     return {
-        "schema": diagnose.PREFLIGHT_SCHEMA, "seed": 1,
+        "schema": diagnose.PREFLIGHT_SCHEMA, "seed": 1, "counts": [2, 5], "maps_per_count": 2,
         "variants": {"s": {"search": True}, "d": {"search": False}},
         "games": [game("s", 2, 0, 100, 0, 30, 10), game("s", 2, 1, 100, 0, 20, 0),
                   game("s", 5, 0, 40, 60, 4, 4), game("s", 5, 1, 0, 100, 0, 0),
@@ -91,10 +94,21 @@ class DiagnoseTest(unittest.TestCase):
         self.assertEqual(diagnose.main(["--preflight", str(p), "--expect-sha256", good, "--out", str(self.tmp / "o")]), 0)
 
     def test_corrupt_or_foreign_input_is_refused(self):
+        no_coverage = synthetic()
+        del no_coverage["maps_per_count"]
         for bad in ("{not json", json.dumps({"schema": "other", "games": [1]}),
-                    json.dumps({"schema": diagnose.PREFLIGHT_SCHEMA, "games": []}), json.dumps([1, 2])):
-            with self.subTest(bad=bad[:20]):
+                    json.dumps({"schema": diagnose.PREFLIGHT_SCHEMA, "games": []}), json.dumps([1, 2]),
+                    json.dumps(no_coverage)):
+            with self.subTest(bad=bad[:40]):
                 self.assertIn("refused", self.refused(["--preflight", str(self.put(bad)), "--out", str(self.tmp / "o")]))
+
+    def test_a_valid_change_in_the_input_changes_the_result(self):
+        data = synthetic()
+        before = diagnose.diagnose(self.put(data))["dimensions"]["dim5_compute_allocation"]["rows"]["s n05"]
+        data["games"][3] = game("s", 5, 1, 50, 50, 10, 5)
+        after = diagnose.diagnose(self.put(data))["dimensions"]["dim5_compute_allocation"]["rows"]["s n05"]
+        self.assertEqual((before["completed_share"], after["completed_share"]), (0.2, 0.45))
+        self.assertEqual((before["overrides"], after["overrides"]), (4, 14))
 
     def test_known_counts(self):
         rows = diagnose.diagnose(self.put(synthetic()))["dimensions"]["dim5_compute_allocation"]["rows"]
@@ -107,13 +121,20 @@ class DiagnoseTest(unittest.TestCase):
         self.assertEqual(rows["s n05"]["override_share_of_turns"], 0.02)
 
     def test_unreadable_games_never_count_as_measured(self):
+        def consistent(c, overrides=4, kept=4):
+            return lambda g: (g.update(counters=c), g.update(stderr_tail=[tail(c, overrides, kept)]))
+
         cases = {
             "no counters": lambda g: g.update(counters=None),
-            "short counters": lambda g: g["counters"].update(turns=99),
+            "row disagrees with stderr": lambda g: g["counters"].update(search_used=41),
+            "negative row counter": lambda g: g["counters"].update(search_fallback=-1),
             "no override line": lambda g: g.update(stderr_tail=["AGENTV2 turns 100 refused 0"]),
-            "stale override line": lambda g: g.update(stderr_tail=[tail(99, 40, 59, 4, 4)]),
-            "impossible overrides": lambda g: g.update(stderr_tail=[tail(100, 40, 60, 41, 0)]),
-            "used + fallback != turns": lambda g: g["counters"].update(search_fallback=59),
+            "truncated line": lambda g: g.update(stderr_tail=[g["stderr_tail"][0].rsplit(" gate_kept", 1)[0]]),
+            "stale line": consistent(counters(99, 40, 59)),
+            "impossible overrides": consistent(counters(100, 40, 60), overrides=41, kept=0),
+            "used + fallback != turns": consistent(counters(100, 40, 59) | {"turns": 100}),
+            "refusals != fallback": consistent(counters(100, 40, 60) | {"refuse_setup": 999999}),
+            "duplicate fixture": lambda g: g.update(fixture_id="s1-n05-m00001"),
         }
         for why, break_it in cases.items():
             with self.subTest(why=why):
@@ -124,7 +145,19 @@ class DiagnoseTest(unittest.TestCase):
                 self.assertEqual(alloc["rows"]["s n05"]["status"], "unavailable")
                 self.assertNotIn("completed_share", alloc["rows"]["s n05"])
                 self.assertEqual(alloc["rows"]["s n02"]["status"], "computed")
-                self.assertEqual(len(alloc["problems"]), 1)
+
+    def test_missing_or_extra_coverage_is_never_computed(self):
+        data = synthetic()
+        data["games"] = [g for g in data["games"] if not (g["variant"] == "s" and g["teams"] == 5)]
+        alloc = diagnose.diagnose(self.put(data))["dimensions"]["dim5_compute_allocation"]
+        self.assertEqual((alloc["status"], alloc["rows"]["s n05"]["status"]), ("partial", "unavailable"))
+        data = synthetic()
+        data["games"].append(game("s", 5, 2, 0, 100, 0, 0))
+        alloc = diagnose.diagnose(self.put(data))["dimensions"]["dim5_compute_allocation"]
+        self.assertEqual(alloc["rows"]["s n05"]["status"], "unavailable")
+        data = synthetic()
+        data["games"].append(game("s", 9, 0, 0, 100, 0, 0))
+        self.assertEqual(diagnose.diagnose(self.put(data))["dimensions"]["dim5_compute_allocation"]["status"], "partial")
 
     def test_no_dimension_reports_a_number_it_did_not_compute(self):
         report = diagnose.diagnose(self.put(synthetic()))

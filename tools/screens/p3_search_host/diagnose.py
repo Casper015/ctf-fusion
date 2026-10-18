@@ -30,9 +30,12 @@ PREFLIGHT_SCHEMA = "ctf-agent-v2-p3-search-preflight-1"
 WITHDRAWN = "a27f310"
 
 # The search-gate bot's cumulative stderr line (bots/agent_v2/search_gate/bot.hpp): the counters preflight.py parses,
-# then "overrides <n> gate_kept <n>", which preflight.py does not parse.
-TAIL_RE = re.compile(r"AGENTV2 turns (\d+) .*\boverrides (\d+) gate_kept (\d+)\s*$")
+# then "overrides <n> gate_kept <n>", which preflight.py does not parse. Every field is read and checked.
 REFUSALS = ("refuse_setup", "refuse_trajectory", "refuse_expand", "refuse_critic", "refuse_late")
+LINE_FIELDS = ("turns", "refused", "inconsistent", "search_used", "search_fallback", "leaves", "trajectories",
+               *REFUSALS, "max_setup_us", "max_traj_us", "max_expand_us", "max_critic_us", "max_search_us", "branches")
+TAIL_RE = re.compile(r"^AGENTV2 " + " ".join(rf"{k} (\d+)" for k in LINE_FIELDS)
+                     + r" critic (\S+) overrides (\d+) gate_kept (\d+)\s*$")
 
 UNAVAILABLE = {
     "dim1_candidate_quality": (
@@ -78,6 +81,10 @@ def load_preflight(path: Path, expect_sha256: str | None) -> tuple[dict, dict]:
         raise InputError(f"preflight schema is not {PREFLIGHT_SCHEMA!r}")
     if not isinstance(data.get("games"), list) or not data["games"]:
         raise InputError("preflight has no per-game rows")
+    counts, maps = data.get("counts"), data.get("maps_per_count")
+    if not (isinstance(counts, list) and counts and all(type(c) is int and c > 1 for c in counts)
+            and len(set(counts)) == len(counts) and type(maps) is int and maps > 0):
+        raise InputError("preflight does not declare its counts and maps_per_count")
     try:
         shown = path.resolve().relative_to(REPO).as_posix()
     except ValueError:
@@ -88,24 +95,26 @@ def load_preflight(path: Path, expect_sha256: str | None) -> tuple[dict, dict]:
 def game_work(row: dict) -> tuple[dict | None, str | None]:
     """One game's search work, or None and the reason it cannot be read."""
     c = row.get("counters")
-    if not c:
+    if not isinstance(c, dict) or not c:
         return None, "no counters"
-    if c.get("turns") != row.get("turns_played"):
-        return None, f"counters cover {c.get('turns')} of {row.get('turns_played')} turns"
-    if any(k not in c for k in ("search_used", "search_fallback", *REFUSALS)):
-        return None, "search or refusal counters missing"
-    if c["search_used"] + c["search_fallback"] != c["turns"]:
+    tails = row.get("stderr_tail") or [""]
+    m = TAIL_RE.match(tails[-1] if isinstance(tails, list) and isinstance(tails[-1], str) else "")
+    if not m:
+        return None, "the last stderr line is not a complete search-gate counter line"
+    line = dict(zip(LINE_FIELDS, map(int, m.groups()[:len(LINE_FIELDS)])))
+    line["overrides"], line["gate_kept"] = int(m.group(len(LINE_FIELDS) + 2)), int(m.group(len(LINE_FIELDS) + 3))
+    if any(c.get(k) != v for k, v in line.items() if k in LINE_FIELDS):
+        return None, "row counters disagree with the last stderr line"
+    if line["turns"] != row.get("turns_played"):
+        return None, f"counters cover {line['turns']} of {row.get('turns_played')} turns"
+    if line["search_used"] + line["search_fallback"] != line["turns"]:
         return None, "search_used + search_fallback != turns"
-    work = {"turns": c["turns"], "search_used": c["search_used"], "search_fallback": c["search_fallback"]}
-    work |= {k: c[k] for k in REFUSALS}
-    tail = (row.get("stderr_tail") or [""])[-1]
-    m = TAIL_RE.search(tail)
-    if not m or int(m.group(1)) != c["turns"]:
-        return None, "override counters missing from the last stderr line"
-    work["overrides"], work["gate_kept"] = int(m.group(2)), int(m.group(3))
-    if work["overrides"] + work["gate_kept"] > work["search_used"]:
+    if sum(line[k] for k in REFUSALS) != line["search_fallback"]:
+        return None, "refusal counters do not sum to search_fallback"
+    if line["overrides"] + line["gate_kept"] > line["search_used"]:
         return None, "overrides + gate_kept exceed completed trees"
-    return work, None
+    keys = ("turns", "search_used", "search_fallback", *REFUSALS, "overrides", "gate_kept")
+    return {k: line[k] for k in keys}, None
 
 
 def compute_allocation(data: dict, source: dict) -> dict:
@@ -113,14 +122,21 @@ def compute_allocation(data: dict, source: dict) -> dict:
     search = sorted(n for n, v in data.get("variants", {}).items() if v.get("search"))
     if not search:
         raise InputError("preflight lists no search variant")
+    counts, maps = sorted(data["counts"]), data["maps_per_count"]
     rows, problems = {}, []
     for name in search:
         games = [g for g in data["games"] if g.get("variant") == name]
-        if not games:
-            raise InputError(f"preflight has no games for {name}")
-        for count in sorted({g["teams"] for g in games}):
-            cell = [g for g in games if g["teams"] == count]
+        stray = sorted({g.get("teams") for g in games} - set(counts), key=str)
+        if stray:
+            problems.append(f"{name}: games at undeclared counts {stray}")
+        for count in counts:
+            cell = [g for g in games if g.get("teams") == count]
+            ids = [g.get("fixture_id") for g in cell]
             works, bad = [], []
+            if len(set(ids)) != len(ids):
+                bad.append("duplicate fixture ids")
+            if len(cell) != maps:
+                bad.append(f"{len(cell)} games, {maps} declared")
             for g in cell:
                 w, why = game_work(g)
                 if w:
@@ -131,7 +147,7 @@ def compute_allocation(data: dict, source: dict) -> dict:
             if bad:
                 problems += [f"{key} {b}" for b in bad]
                 rows[key] = {"variant": name, "teams": count, "games": len(cell), "status": "unavailable",
-                             "reason": f"{len(bad)} of {len(cell)} games unreadable"}
+                             "reason": "; ".join(bad[:3]) + (f" (+{len(bad) - 3} more)" if len(bad) > 3 else "")}
                 continue
             tot = {k: sum(w[k] for w in works) for k in works[0]}
             used = tot["search_used"]
@@ -144,8 +160,9 @@ def compute_allocation(data: dict, source: dict) -> dict:
     return {
         "status": "computed" if not problems else "partial",
         "source": source,
-        "scope": "preflight only: counts 2, 5, 8 and 15, 16 fixtures each. The formal screen's committed receipts "
-                 "carry no per-game counters, so the screen's own completion is unavailable.",
+        "scope": f"preflight only: counts {', '.join(map(str, counts))}, {maps} fixtures each declared. The formal "
+                 "screen's committed receipts carry no per-game counters, so the screen's own completion is "
+                 "unavailable.",
         "definitions": {
             "completed_share": "search_used / turns: turns whose tree completed (the gate then kept or replaced the "
                                "actor); the rest fell back to the actor's order",

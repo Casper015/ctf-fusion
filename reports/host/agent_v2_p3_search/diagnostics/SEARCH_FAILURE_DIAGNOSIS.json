@@ -50,7 +50,7 @@
         "bytes": 347295,
         "seed": 20262150
       },
-      "scope": "preflight only: counts 2, 5, 8 and 15, 16 fixtures each. The formal screen's committed receipts carry no per-game counters, so the screen's own completion is unavailable.",
+      "scope": "preflight only: counts 2, 5, 8, 15, 16 fixtures each declared. The formal screen's committed receipts carry no per-game counters, so the screen's own completion is unavailable.",
       "definitions": {
         "completed_share": "search_used / turns: turns whose tree completed (the gate then kept or replaced the actor); the rest fell back to the actor's order",
         "override_share_of_turns": "overrides / turns: completed trees whose best root replaced the actor",

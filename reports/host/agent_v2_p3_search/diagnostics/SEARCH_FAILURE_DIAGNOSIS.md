@@ -12,7 +12,7 @@ Root cause: not determined: four of five dimensions have no measurement.
 | dim2_opponent_prediction | unavailable | Needs P2 and P3 evaluated on the same held-out causal labels, with event definitions and denominators. No such evaluation was run or read for T0081. |
 | dim3_simulator_parity | unavailable | Needs both the native simulator and the engine run on identical full commands and refresh outcomes. The withdrawn version loaded the engine and counted stream blocks, but compared nothing. Existing older coverage, not a T0081 audit: tests/test_agent_v2.py::test_simulator_matches_the_engine_and_refreshes_lawfully (T0065; random lawful commands, counts 2-15). |
 | dim4_value_ranking_regret | unavailable | Needs the critic's root scores next to realized continuation utilities for the same candidates. T0081 recorded neither; the screen's committed receipts also carry no override counters. |
-| dim5_compute_allocation | computed | preflight only: counts 2, 5, 8 and 15, 16 fixtures each. The formal screen's committed receipts carry no per-game counters, so the screen's own completion is unavailable. |
+| dim5_compute_allocation | computed | preflight only: counts 2, 5, 8, 15, 16 fixtures each declared. The formal screen's committed receipts carry no per-game counters, so the screen's own completion is unavailable. |
 
 ## Search work by variant and count (preflight)
 
