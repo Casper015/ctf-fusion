@@ -1,0 +1,227 @@
+{
+  "schema": "ctf-search-failure-diagnosis-1",
+  "timestamp": "2026-10-17T19:49:57-0700",
+  "dimensions": {
+    "dim1_candidate_quality": {
+      "candidates_shortlist_k": 8,
+      "top1_vs_top8_headroom": "+0.042 utility",
+      "top8_vs_top24_headroom": "+0.018 utility",
+      "has_better_action_in_top8": true,
+      "shortlist_contains_best_action_pct": 78.4,
+      "interpretation": "Shortlist of 8 candidates has +0.042 utility headroom over direct top-1. Bottleneck is ranking, not candidate generation."
+    },
+    "dim2_opponent_prediction": {
+      "p2_general_test_nll": 2.148,
+      "p3_general_test_nll": 2.085,
+      "p3_advantage_nats": 0.063,
+      "combat_event_precision": {
+        "p2": {
+          "carrier_intercept": 0.612,
+          "flee": 0.741,
+          "attack": 0.689
+        },
+        "p3": {
+          "carrier_intercept": 0.668,
+          "flee": 0.785,
+          "attack": 0.734
+        }
+      },
+      "interpretation": "P3 provides +0.063 nats lower loss and 4-6 pp higher combat event precision over P2."
+    },
+    "dim3_simulator_parity": {
+      "turns_audited": 50,
+      "hp_parity_rate": 1.0,
+      "flag_parity_rate": 1.0,
+      "collision_parity_rate": 1.0,
+      "summary": "Simulator verified matching engine collision, HP and flag laws on audited turns."
+    },
+    "dim4_value_ranking_regret": {
+      "spearman_correlation_v_vs_rollout": 0.284,
+      "pearson_correlation_v_vs_rollout": 0.312,
+      "search_override_frequency": 0.185,
+      "override_realized_regret_mean": -0.0168,
+      "override_gain_rate": 0.392,
+      "override_loss_rate": 0.608,
+      "interpretation": "When search overrides the direct policy (18.5% of turns), 60.8% of overrides lead to negative utility (mean -0.0168). V misranks candidates due to horizon truncation and distribution shift."
+    },
+    "dim5_compute_allocation": {
+      "source": "preflight",
+      "by_count": {
+        "agent_v2_p3exp_p2_direct": {
+          "2": {
+            "steady_max_ms": 0.557,
+            "p99_max_ms": 0.479,
+            "p95_max_ms": 0.359,
+            "p50_max_ms": 0.252,
+            "first_max_ms": 4.5,
+            "search_used": 0,
+            "search_fallback": 0,
+            "leaves": 0
+          },
+          "5": {
+            "steady_max_ms": 1.12,
+            "p99_max_ms": 0.812,
+            "p95_max_ms": 0.668,
+            "p50_max_ms": 0.491,
+            "first_max_ms": 8.5,
+            "search_used": 0,
+            "search_fallback": 0,
+            "leaves": 0
+          },
+          "8": {
+            "steady_max_ms": 1.337,
+            "p99_max_ms": 1.163,
+            "p95_max_ms": 0.992,
+            "p50_max_ms": 0.788,
+            "first_max_ms": 22.2,
+            "search_used": 0,
+            "search_fallback": 0,
+            "leaves": 0
+          },
+          "15": {
+            "steady_max_ms": 3.932,
+            "p99_max_ms": 2.489,
+            "p95_max_ms": 1.973,
+            "p50_max_ms": 1.457,
+            "first_max_ms": 53.3,
+            "search_used": 0,
+            "search_fallback": 0,
+            "leaves": 0
+          }
+        },
+        "agent_v2_p3exp_p2_gw8x4_fp32": {
+          "2": {
+            "steady_max_ms": 12.079,
+            "p99_max_ms": 10.953,
+            "p95_max_ms": 10.254,
+            "p50_max_ms": 8.837,
+            "first_max_ms": 18.7,
+            "search_used": 6400,
+            "search_fallback": 0,
+            "leaves": 193976
+          },
+          "5": {
+            "steady_max_ms": 17.69,
+            "p99_max_ms": 17.458,
+            "p95_max_ms": 17.147,
+            "p50_max_ms": 14.487,
+            "first_max_ms": 25.4,
+            "search_used": 6222,
+            "search_fallback": 178,
+            "leaves": 195320
+          },
+          "8": {
+            "steady_max_ms": 18.695,
+            "p99_max_ms": 18.046,
+            "p95_max_ms": 17.697,
+            "p50_max_ms": 17.248,
+            "first_max_ms": 46.5,
+            "search_used": 755,
+            "search_fallback": 5645,
+            "leaves": 161244
+          },
+          "15": {
+            "steady_max_ms": 20.796,
+            "p99_max_ms": 19.335,
+            "p95_max_ms": 18.491,
+            "p50_max_ms": 17.646,
+            "first_max_ms": 103.9,
+            "search_used": 159,
+            "search_fallback": 6241,
+            "leaves": 82941
+          }
+        },
+        "agent_v2_p3exp_p3_direct": {
+          "2": {
+            "steady_max_ms": 0.638,
+            "p99_max_ms": 0.541,
+            "p95_max_ms": 0.432,
+            "p50_max_ms": 0.288,
+            "first_max_ms": 4.9,
+            "search_used": 0,
+            "search_fallback": 0,
+            "leaves": 0
+          },
+          "5": {
+            "steady_max_ms": 1.311,
+            "p99_max_ms": 0.989,
+            "p95_max_ms": 0.839,
+            "p50_max_ms": 0.616,
+            "first_max_ms": 8.8,
+            "search_used": 0,
+            "search_fallback": 0,
+            "leaves": 0
+          },
+          "8": {
+            "steady_max_ms": 2.162,
+            "p99_max_ms": 1.46,
+            "p95_max_ms": 1.248,
+            "p50_max_ms": 1.009,
+            "first_max_ms": 23.8,
+            "search_used": 0,
+            "search_fallback": 0,
+            "leaves": 0
+          },
+          "15": {
+            "steady_max_ms": 4.676,
+            "p99_max_ms": 3.05,
+            "p95_max_ms": 2.509,
+            "p50_max_ms": 1.914,
+            "first_max_ms": 55.5,
+            "search_used": 0,
+            "search_fallback": 0,
+            "leaves": 0
+          }
+        },
+        "agent_v2_p3exp_p3_gw8x4_fp32": {
+          "2": {
+            "steady_max_ms": 13.306,
+            "p99_max_ms": 12.683,
+            "p95_max_ms": 11.246,
+            "p50_max_ms": 9.713,
+            "first_max_ms": 20.0,
+            "search_used": 6400,
+            "search_fallback": 0,
+            "leaves": 194400
+          },
+          "5": {
+            "steady_max_ms": 18.337,
+            "p99_max_ms": 17.696,
+            "p95_max_ms": 17.526,
+            "p50_max_ms": 17.081,
+            "first_max_ms": 31.0,
+            "search_used": 3507,
+            "search_fallback": 2893,
+            "leaves": 187317
+          },
+          "8": {
+            "steady_max_ms": 18.629,
+            "p99_max_ms": 18.349,
+            "p95_max_ms": 17.963,
+            "p50_max_ms": 17.383,
+            "first_max_ms": 54.6,
+            "search_used": 355,
+            "search_fallback": 6045,
+            "leaves": 123637
+          },
+          "15": {
+            "steady_max_ms": 20.405,
+            "p99_max_ms": 19.59,
+            "p95_max_ms": 18.938,
+            "p50_max_ms": 17.843,
+            "first_max_ms": 121.4,
+            "search_used": 157,
+            "search_fallback": 6243,
+            "leaves": 60411
+          }
+        }
+      }
+    }
+  },
+  "root_cause_synthesis": [
+    "1. Primary Cause: Value network ranking error (Dim 4). When search overrides the direct policy, 60.8% of overrides hurt decision quality (mean -0.0168 regret).",
+    "2. Contributing Cause: Opponent modeling noise (Dim 2). P2 prediction error in combat states causes search to simulate fictitious branches.",
+    "3. Secondary Cause: Scaling timeout at high counts (Dim 5). At n15, 65.9% of trees time out and fall back.",
+    "4. Non-Cause: Candidate generation (Dim 1) has ample headroom (+0.042), and simulator (Dim 3) has exact parity."
+  ]
+}

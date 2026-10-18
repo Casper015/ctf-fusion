@@ -1,0 +1,114 @@
+{
+ "created": "2026-10-17T20:26:56",
+ "smoke": false,
+ "config": {
+  "_comment": "Paired host screen of task T0081: general P2 XXL vs general P3 XXL in direct play and gated 8x4 search (tau 0.002, FP32 critic) + A/A copy of P3 search. Fresh seed 20262151, exactly 8 workers, 2,000 ms first and 50 ms steady replies. 56 maps per count across counts 2-15 (784 fixtures, 3,920 games total across 5 arms). Three primary comparisons share one Bonferroni family (alpha=0.05).",
+  "seed": 20262151,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 56,
+  "workers": 8,
+  "workers_exact": true,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "variants": "bots/agent_v2/p3_search/variants.json",
+  "margin": 0.0,
+  "preflight": "reports/host/agent_v2_p3_search/PREFLIGHT.json",
+  "reference": [
+   "Fable",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player4"
+  ],
+  "fixtures": 784,
+  "games": 3920,
+  "work_dir": "data/host/agent_v2_p3_search/screen",
+  "report_dir": "reports/host/agent_v2_p3_search/screen",
+  "arms": [
+   "agent_v2_p3exp_p2_direct",
+   "agent_v2_p3exp_p3_direct",
+   "agent_v2_p3exp_p2_gw8x4_fp32",
+   "agent_v2_p3exp_p3_gw8x4_fp32"
+  ],
+  "aa": [
+   "agent_v2_p3exp_p3_gw8x4_fp32"
+  ],
+  "comparisons": [
+   [
+    "agent_v2_p3exp_p3_gw8x4_fp32",
+    "agent_v2_p3exp_p2_gw8x4_fp32"
+   ],
+   [
+    "agent_v2_p3exp_p3_direct",
+    "agent_v2_p3exp_p2_direct"
+   ],
+   [
+    "agent_v2_p3exp_p3_gw8x4_fp32",
+    "agent_v2_p3exp_p3_direct"
+   ]
+  ],
+  "multiplicity": {
+   "method": "bonferroni",
+   "alpha": 0.05
+  }
+ },
+ "effective": {
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 56,
+  "turn_ms": 50,
+  "arms": [
+   "agent_v2_p3exp_p2_direct",
+   "agent_v2_p3exp_p3_direct",
+   "agent_v2_p3exp_p2_gw8x4_fp32",
+   "agent_v2_p3exp_p3_gw8x4_fp32"
+  ],
+  "aa": [
+   "agent_v2_p3exp_p3_gw8x4_fp32"
+  ],
+  "workers": 8
+ },
+ "ctf_fusion_commit": "c1f774b9bc1ae35478083e7ad5b0cd0be0c3a87a",
+ "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+ "host": "DESKTOP-G60OJUD",
+ "os": "Windows-10-10.0.19045-SP0",
+ "cpu_count": 32,
+ "python": "3.14.3",
+ "wall_seconds": {
+  "build": 1.0,
+  "run": 2135.3,
+  "analyze": 22.2,
+  "total": 2158.6
+ },
+ "analysis_status": 0
+}

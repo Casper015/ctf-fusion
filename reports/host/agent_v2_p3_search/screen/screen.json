@@ -1,0 +1,516 @@
+{
+ "schedule": "66ca9a1b97a12d49a87a2657f193afcbdf882b7159e3035d2a07acb9af74ccd3",
+ "seed": 20262151,
+ "fixtures": 784,
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "incomplete": {},
+ "stale_rows": {},
+ "arms": {
+  "agent_v2_p3exp_p2_direct": {
+   "games": 784,
+   "binary_sha256": "3670d8907518d6f297ce8810a598f8c557a787b507317471f0365b6e0a4669ab",
+   "utility": 0.77332,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 2,
+   "opponent_dead": 0,
+   "opponent_late": 2,
+   "first_ms_max": 52.4,
+   "p99_ms_median": 1.092,
+   "p99_ms_worst": 6.186,
+   "max_ms": 15.768
+  },
+  "agent_v2_p3exp_p3_direct": {
+   "games": 784,
+   "binary_sha256": "46c430100118f3c0092f6331ad7b1058f8af740493b324f4b9dbf9af8b7cb99c",
+   "utility": 0.77495,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 58.0,
+   "p99_ms_median": 1.45,
+   "p99_ms_worst": 11.079,
+   "max_ms": 40.689
+  },
+  "agent_v2_p3exp_p2_gw8x4_fp32": {
+   "games": 784,
+   "binary_sha256": "634d4d1b6a9693db6953acf081b062fdb558cd839d8faf3cfa3b79141cb060b8",
+   "utility": 0.75922,
+   "faults": 2,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 106.2,
+   "p99_ms_median": 17.888,
+   "p99_ms_worst": 24.592,
+   "max_ms": 46.135
+  },
+  "agent_v2_p3exp_p3_gw8x4_fp32": {
+   "games": 784,
+   "binary_sha256": "91c4cf029427353667ea7100d356ecd6ee6614ef2a37f47a611741cd7490cb9d",
+   "utility": 0.75526,
+   "faults": 3,
+   "dead_games": 0,
+   "late_replies": 3,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 120.3,
+   "p99_ms_median": 18.085,
+   "p99_ms_worst": 32.736,
+   "max_ms": 49.315
+  },
+  "agent_v2_p3exp_p3_gw8x4_fp32~aa": {
+   "games": 784,
+   "binary_sha256": "91c4cf029427353667ea7100d356ecd6ee6614ef2a37f47a611741cd7490cb9d",
+   "utility": 0.74616,
+   "faults": 4,
+   "dead_games": 0,
+   "late_replies": 2,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 128.0,
+   "p99_ms_median": 18.117,
+   "p99_ms_worst": 40.308,
+   "max_ms": 48.211
+  }
+ },
+ "comparisons": {
+  "agent_v2_p3exp_p3_gw8x4_fp32 - agent_v2_p3exp_p2_gw8x4_fp32": {
+   "overall": {
+    "mean": -0.00396,
+    "ci95": [
+     -0.01953,
+     0.01161
+    ],
+    "se": 0.00795,
+    "fixtures": 784,
+    "verdict": "not shown",
+    "z": 2.394,
+    "ci": [
+     -0.02298,
+     0.01506
+    ],
+    "verdict_95": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": -0.02679,
+     "ci95": [
+      -0.08492,
+      0.03135
+     ],
+     "se": 0.02966,
+     "fixtures": 56,
+     "verdict": "not shown",
+     "z": 2.394,
+     "ci": [
+      -0.0978,
+      0.04422
+     ],
+     "verdict_95": "not shown"
+    },
+    "3-5": {
+     "mean": -0.02108,
+     "ci95": [
+      -0.064,
+      0.02184
+     ],
+     "se": 0.0219,
+     "fixtures": 168,
+     "verdict": "not shown",
+     "z": 2.394,
+     "ci": [
+      -0.0735,
+      0.03134
+     ],
+     "verdict_95": "not shown"
+    },
+    "6-10": {
+     "mean": 0.0136,
+     "ci95": [
+      -0.01098,
+      0.03819
+     ],
+     "se": 0.01254,
+     "fixtures": 280,
+     "verdict": "not shown",
+     "z": 2.394,
+     "ci": [
+      -0.01643,
+      0.04363
+     ],
+     "verdict_95": "not shown"
+    },
+    "11-15": {
+     "mean": -0.00668,
+     "ci95": [
+      -0.02902,
+      0.01566
+     ],
+     "se": 0.0114,
+     "fixtures": 280,
+     "verdict": "not shown",
+     "z": 2.394,
+     "ci": [
+      -0.03397,
+      0.0206
+     ],
+     "verdict_95": "not shown"
+    }
+   },
+   "per_count": {
+    "2": -0.02679,
+    "3": -0.05804,
+    "4": -0.0119,
+    "5": 0.0067,
+    "6": 0.03571,
+    "7": 0.00893,
+    "8": -0.00255,
+    "9": 0.01004,
+    "10": 0.01587,
+    "11": 0.02321,
+    "12": -0.00731,
+    "13": -0.01116,
+    "14": -0.01648,
+    "15": -0.02168
+   },
+   "improved": 257,
+   "unchanged": 261,
+   "degraded": 266,
+   "identical_scores": 1,
+   "fixtures": 784,
+   "scheduled": 784,
+   "missing": 0
+  },
+  "agent_v2_p3exp_p3_direct - agent_v2_p3exp_p2_direct": {
+   "overall": {
+    "mean": 0.00163,
+    "ci95": [
+     -0.01342,
+     0.01667
+    ],
+    "se": 0.00768,
+    "fixtures": 784,
+    "verdict": "not shown",
+    "z": 2.394,
+    "ci": [
+     -0.01675,
+     0.02001
+    ],
+    "verdict_95": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.01786,
+     "ci95": [
+      -0.04313,
+      0.07884
+     ],
+     "se": 0.03112,
+     "fixtures": 56,
+     "verdict": "not shown",
+     "z": 2.394,
+     "ci": [
+      -0.05663,
+      0.09235
+     ],
+     "verdict_95": "not shown"
+    },
+    "3-5": {
+     "mean": 0.01513,
+     "ci95": [
+      -0.02438,
+      0.05464
+     ],
+     "se": 0.02016,
+     "fixtures": 168,
+     "verdict": "not shown",
+     "z": 2.394,
+     "ci": [
+      -0.03313,
+      0.06339
+     ],
+     "verdict_95": "not shown"
+    },
+    "6-10": {
+     "mean": 0.00505,
+     "ci95": [
+      -0.01821,
+      0.02832
+     ],
+     "se": 0.01187,
+     "fixtures": 280,
+     "verdict": "not shown",
+     "z": 2.394,
+     "ci": [
+      -0.02337,
+      0.03347
+     ],
+     "verdict_95": "not shown"
+    },
+    "11-15": {
+     "mean": -0.01315,
+     "ci95": [
+      -0.03602,
+      0.00973
+     ],
+     "se": 0.01167,
+     "fixtures": 280,
+     "verdict": "not shown",
+     "z": 2.394,
+     "ci": [
+      -0.04109,
+      0.01479
+     ],
+     "verdict_95": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.01786,
+    "3": 0.00893,
+    "4": 0.02976,
+    "5": 0.0067,
+    "6": -0.01071,
+    "7": -0.00446,
+    "8": 0.01403,
+    "9": 0.03237,
+    "10": -0.00595,
+    "11": 0.02143,
+    "12": 0.0138,
+    "13": -0.0625,
+    "14": -0.02953,
+    "15": -0.00893
+   },
+   "improved": 259,
+   "unchanged": 278,
+   "degraded": 247,
+   "identical_scores": 10,
+   "fixtures": 784,
+   "scheduled": 784,
+   "missing": 0
+  },
+  "agent_v2_p3exp_p3_gw8x4_fp32 - agent_v2_p3exp_p3_direct": {
+   "overall": {
+    "mean": -0.01968,
+    "ci95": [
+     -0.0355,
+     -0.00386
+    ],
+    "se": 0.00807,
+    "fixtures": 784,
+    "verdict": "hurts",
+    "z": 2.394,
+    "ci": [
+     -0.039,
+     -0.00036
+    ],
+    "verdict_95": "hurts"
+   },
+   "bands": {
+    "2": {
+     "mean": -0.08036,
+     "ci95": [
+      -0.17635,
+      0.01564
+     ],
+     "se": 0.04898,
+     "fixtures": 56,
+     "verdict": "not shown",
+     "z": 2.394,
+     "ci": [
+      -0.19761,
+      0.03689
+     ],
+     "verdict_95": "not shown"
+    },
+    "3-5": {
+     "mean": -0.06845,
+     "ci95": [
+      -0.11339,
+      -0.02352
+     ],
+     "se": 0.02293,
+     "fixtures": 168,
+     "verdict": "hurts",
+     "z": 2.394,
+     "ci": [
+      -0.12334,
+      -0.01357
+     ],
+     "verdict_95": "hurts"
+    },
+    "6-10": {
+     "mean": -0.00032,
+     "ci95": [
+      -0.02404,
+      0.02339
+     ],
+     "se": 0.0121,
+     "fixtures": 280,
+     "verdict": "not shown",
+     "z": 2.394,
+     "ci": [
+      -0.02929,
+      0.02864
+     ],
+     "verdict_95": "not shown"
+    },
+    "11-15": {
+     "mean": 0.00236,
+     "ci95": [
+      -0.01507,
+      0.01978
+     ],
+     "se": 0.00889,
+     "fixtures": 280,
+     "verdict": "not shown",
+     "z": 2.394,
+     "ci": [
+      -0.01892,
+      0.02364
+     ],
+     "verdict_95": "not shown"
+    }
+   },
+   "per_count": {
+    "2": -0.08036,
+    "3": -0.10714,
+    "4": -0.09821,
+    "5": 0.0,
+    "6": 0.02679,
+    "7": -0.01488,
+    "8": -0.02679,
+    "9": 0.00335,
+    "10": 0.00992,
+    "11": -0.01071,
+    "12": -0.00568,
+    "13": 0.02827,
+    "14": 0.00755,
+    "15": -0.00765
+   },
+   "improved": 192,
+   "unchanged": 386,
+   "degraded": 206,
+   "identical_scores": 155,
+   "fixtures": 784,
+   "scheduled": 784,
+   "missing": 0
+  }
+ },
+ "multiplicity": {
+  "method": "bonferroni",
+  "alpha": 0.05,
+  "comparisons": 3,
+  "z": 2.394
+ },
+ "rerun_noise": {
+  "agent_v2_p3exp_p3_gw8x4_fp32~aa - agent_v2_p3exp_p3_gw8x4_fp32": {
+   "overall": {
+    "mean": -0.0091,
+    "ci95": [
+     -0.01962,
+     0.00142
+    ],
+    "se": 0.00537,
+    "fixtures": 784,
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 56,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": -0.01959,
+     "ci95": [
+      -0.05166,
+      0.01247
+     ],
+     "se": 0.01636,
+     "fixtures": 168,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": -0.0116,
+     "ci95": [
+      -0.03303,
+      0.00984
+     ],
+     "se": 0.01094,
+     "fixtures": 280,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": -0.00213,
+     "ci95": [
+      -0.00825,
+      0.00399
+     ],
+     "se": 0.00312,
+     "fixtures": 280,
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.0,
+    "4": -0.03869,
+    "5": -0.02009,
+    "6": 0.00893,
+    "7": -0.04613,
+    "8": -0.00255,
+    "9": -0.00335,
+    "10": -0.01488,
+    "11": -0.01875,
+    "12": 0.00812,
+    "13": 0.0,
+    "14": 0.0,
+    "15": 0.0
+   },
+   "improved": 87,
+   "unchanged": 587,
+   "degraded": 110,
+   "identical_scores": 456,
+   "fixtures": 784,
+   "scheduled": 784,
+   "missing": 0
+  }
+ },
+ "network_calls": {},
+ "identities": {
+  "agent_v2_p3exp_p2_direct": "cb6348874a2e8f500c87f353cbd6d9a5d14858d31a0cbed3e694bf88d9c994f8",
+  "agent_v2_p3exp_p3_direct": "954efe3f6aed459f539bf8a7d412e82c0a0b44c7f1384fc91dce6a41816c7859",
+  "agent_v2_p3exp_p2_gw8x4_fp32": "55f1d76ba03e632d822770c99e3cccd9a93d0ede1d76ff1fc3fa53a4eba53fd5",
+  "agent_v2_p3exp_p3_gw8x4_fp32": "8768805e281c277a17b506bce70378c85be25b3216ff9537fc3cf4f5aa2be2e6",
+  "agent_v2_p3exp_p3_gw8x4_fp32~aa": "8768805e281c277a17b506bce70378c85be25b3216ff9537fc3cf4f5aa2be2e6"
+ }
+}
