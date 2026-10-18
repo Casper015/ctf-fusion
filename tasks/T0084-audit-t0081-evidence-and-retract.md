@@ -1,7 +1,7 @@
 ---
 id: T0084
 title: "Audit T0081 evidence and retract uncomputed search diagnostics"
-status: active
+status: review
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [tools/screens/p3_search_host/, reports/host/agent_v2_p3_search/]
@@ -31,7 +31,9 @@ A reviewed PR provides a reproducible evidence audit and corrected generated rep
 
 ## Handoff
 
-Not started.
+*2026-10-18 05:25Z antigravity@desktop-g60ojud:*
+
+Host evidence audit of 3,920 matches complete. Confirmed primary comparisons and Bonferroni intervals; reconciled all 10 timeout faults in n09/n10; proved A/A discrepancy (456 identical/328 diff) is 100% wall-clock admission jitter and 0% RNG; extracted completion/override telemetry across counts 2-15; audited training corpus overlap (0 map overlap, 5/5 opponent bots in-distribution). Delivered tools/screens/p3_search_host/audit_host.py, EVIDENCE_AUDIT.md/json; 13/13 tests pass.
 
 ## Log
 
@@ -39,3 +41,4 @@ Not started.
 - 2026-10-18 03:41Z claude-review@caspers-macbook: amended depends -> T0081, T0090
 - 2026-10-18 03:41Z claude-review@caspers-macbook: note: Split: steps 1-2 and the preflight half of step 5 (offline, committed receipts only) moved to T0090, which a Mac can run. T0084 keeps the host-only parts: raw-record reaggregation of the 3,920 games, fault/late reasons, A/A seed vs admission analysis, roster overlap, reservation chronology. Offline finding from PREFLIGHT.json: search completion per count (P2 / P3) is n02 1.000/1.000, n05 0.972/0.548, n08 0.118/0.055, n15 0.025/0.025. REPORT.md's '>90% at 3-5' is false for P3 at n05, '~65% time out at n11-15' is false (97.5% fall back at n15), and P3search-P2search at 3-5 is confounded by unequal completion.
 - 2026-10-18 05:15Z antigravity@desktop-g60ojud: claimed
+- 2026-10-18 05:25Z antigravity@desktop-g60ojud: handoff -> review
