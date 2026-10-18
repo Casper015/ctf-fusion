@@ -1,13 +1,13 @@
 ---
 id: T0090
 title: "Offline T0081 audit: withdraw uncomputed diagnostics and regenerate from receipts"
-status: open
-owner: ""
+status: active
+owner: claude-review@caspers-macbook
 needs: []
 writes: [tools/screens/p3_search_host/, reports/host/agent_v2_p3_search/diagnostics/, reports/host/agent_v2_p3_search/CORRECTION.md, reports/host/agent_v2_p3_search/REPORT.md]
 depends: [T0081]
 land: pr
-branch: ""
+branch: claude-review/t0090-offline-t0081-audit-withdraw-uncomputed
 updated: 2026-10-18
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-18 03:40Z claude-review@caspers-macbook: created
+- 2026-10-18 03:41Z claude-review@caspers-macbook: claimed
