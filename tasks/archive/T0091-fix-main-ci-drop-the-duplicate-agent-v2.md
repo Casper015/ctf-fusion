@@ -1,7 +1,7 @@
 ---
 id: T0091
 title: "Fix main CI: drop the duplicate agent_v2_rl_general_csp registration"
-status: active
+status: done
 owner: claude-review@caspers-macbook
 needs: []
 writes: [bots/agent_v2/variants.json, bots/agent_v2/variants/agent_v2_rl_general_csp.cpp, profiles/agent_v2.json, tests/test_agent_v2.py]
@@ -21,7 +21,9 @@ updated: 2026-10-18
 
 ## Handoff
 
-Not started.
+*2026-10-18 07:57Z claude-review@caspers-macbook:*
+
+Merged PR 75 (e0dc3ab057): removed the duplicate bots/agent_v2/variants/agent_v2_rl_general_csp.cpp registration; G stays buildable from bots/agent_v2/controls/variants.json (the source T0083 evaluated); T0082's profile test now checks that. Default unchanged.
 
 ## Log
 
@@ -31,3 +33,4 @@ Not started.
 - 2026-10-18 07:29Z claude-review@caspers-macbook: note: PR opened from branch claude-review/t0091-... (78466b0); tests.test_next_controls OK locally.
 - 2026-10-18 07:29Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/75
 - 2026-10-18 07:32Z claude-review@caspers-macbook: amended writes -> bots/agent_v2/variants.json, bots/agent_v2/variants/agent_v2_rl_general_csp.cpp, profiles/agent_v2.json, tests/test_agent_v2.py
+- 2026-10-18 07:57Z claude-review@caspers-macbook: done
