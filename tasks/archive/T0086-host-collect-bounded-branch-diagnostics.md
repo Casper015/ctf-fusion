@@ -1,7 +1,7 @@
 ---
 id: T0086
 title: "Host collect bounded branch diagnostics and select the next intervention"
-status: active
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md, profiles/search_branch_diagnostics.json, reports/host/search_branch_diagnostics/, tools/search_diagnostics/]
@@ -32,7 +32,9 @@ All bounded artifacts or a documented integrity/cost stop are archived with veri
 
 ## Handoff
 
-Not started.
+*2026-10-18 10:30Z antigravity@desktop-g60ojud:*
+
+result: reports/host/search_branch_diagnostics/REPORT.md; Gate A permitted (T0088), Gate C cleared (parity 0 diffs), Gate D permitted (T0087)
 
 ## Log
 
@@ -40,3 +42,4 @@ Not started.
 - 2026-10-18 08:40Z antigravity@desktop-g60ojud: claimed
 - 2026-10-18 08:58Z antigravity@desktop-g60ojud: amended writes -> docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md, profiles/search_branch_diagnostics.json, reports/host/search_branch_diagnostics/, tools/search_diagnostics/
 - 2026-10-18 10:30Z antigravity@desktop-g60ojud: landed: 5c20cc4656 on main, 19 file(s)
+- 2026-10-18 10:30Z antigravity@desktop-g60ojud: done
