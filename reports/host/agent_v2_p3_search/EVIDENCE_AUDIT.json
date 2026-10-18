@@ -1,0 +1,1786 @@
+{
+ "schema": "ctf-agent-v2-p3-host-audit-2",
+ "seed": 20262151,
+ "schedule": "66ca9a1b97a12d49a87a2657f193afcbdf882b7159e3035d2a07acb9af74ccd3",
+ "fixtures": 784,
+ "games": 3920,
+ "arms": [
+  "agent_v2_p3exp_p2_direct",
+  "agent_v2_p3exp_p2_gw8x4_fp32",
+  "agent_v2_p3exp_p3_direct",
+  "agent_v2_p3exp_p3_gw8x4_fp32",
+  "agent_v2_p3exp_p3_gw8x4_fp32~aa"
+ ],
+ "match_records": {
+  "status": "computed",
+  "expected": 3920,
+  "missing": 0
+ },
+ "comparisons": {
+  "agent_v2_p3exp_p3_gw8x4_fp32 - agent_v2_p3exp_p2_gw8x4_fp32": {
+   "overall": {
+    "mean": -0.003959934269245495,
+    "se": 0.007946495984342326,
+    "fixtures": 784,
+    "ci95": [
+     -0.019535066398556452,
+     0.011615197860065464
+    ],
+    "z": 2.394,
+    "ci": [
+     -0.022983845655761025,
+     0.015063977117270033
+    ],
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": -0.026785714285714284,
+     "se": 0.02966162760425632,
+     "fixtures": 56,
+     "ci95": [
+      -0.08492250439005668,
+      0.0313510758186281
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.09779565077030393,
+      0.044224222198875354
+     ],
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": -0.02108134920634921,
+     "se": 0.021897913235136682,
+     "fixtures": 168,
+     "ci95": [
+      -0.0640012591472171,
+      0.021838560734518685
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.07350495349126643,
+      0.03134225507856801
+     ],
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": 0.01360189909297052,
+     "se": 0.012543808635861253,
+     "fixtures": 280,
+     "ci95": [
+      -0.010983965833317535,
+      0.03818776401925858
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.01642797878128132,
+      0.04363177696722236
+     ],
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": -0.006683762665905524,
+     "se": 0.011397569084982347,
+     "fixtures": 280,
+     "ci95": [
+      -0.029022998072470926,
+      0.015655472740659877
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.03396954305535326,
+      0.020602017723542216
+     ],
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": -0.026785714285714284,
+    "3": -0.05803571428571429,
+    "4": -0.01190476190476191,
+    "5": 0.006696428571428571,
+    "6": 0.03571428571428571,
+    "7": 0.008928571428571423,
+    "8": -0.002551020408163266,
+    "9": 0.010044642857142858,
+    "10": 0.015873015873015876,
+    "11": 0.02321428571428572,
+    "12": -0.0073051948051948016,
+    "13": -0.011160714285714298,
+    "14": -0.016483516483516484,
+    "15": -0.021683673469387755
+   },
+   "family": "comparisons",
+   "receipt": {
+    "reproduces": true,
+    "max_abs_diff": 5.1978600654634805e-06,
+    "mismatches": []
+   }
+  },
+  "agent_v2_p3exp_p3_direct - agent_v2_p3exp_p2_direct": {
+   "overall": {
+    "mean": 0.0016268223698070654,
+    "se": 0.0076777577042747135,
+    "fixtures": 784,
+    "ci95": [
+     -0.013421582730571374,
+     0.016675227470185506
+    ],
+    "z": 2.394,
+    "ci": [
+     -0.0167537295742266,
+     0.020007374313840733
+    ],
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.017857142857142856,
+     "se": 0.03111636547495638,
+     "fixtures": 56,
+     "ci95": [
+      -0.04313093347377165,
+      0.07884521918805737
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.056635436089902715,
+      0.09234972180418843
+     ],
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": 0.015128968253968254,
+     "se": 0.020158643832333255,
+     "fixtures": 168,
+     "ci95": [
+      -0.024381973657404923,
+      0.054639910165341435
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.03313082508063756,
+      0.06338876158857407
+     ],
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": 0.005053146258503404,
+     "se": 0.011870900779464524,
+     "fixtures": 280,
+     "ci95": [
+      -0.018213819269247065,
+      0.028320111786253873
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.023365790207534667,
+      0.033472082724541476
+     ],
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": -0.013146853146853144,
+     "se": 0.01167095059701581,
+     "fixtures": 280,
+     "ci95": [
+      -0.03602191631700413,
+      0.00972821002329784
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.041087108876108995,
+      0.014793402582402707
+     ],
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.017857142857142856,
+    "3": 0.008928571428571428,
+    "4": 0.029761904761904764,
+    "5": 0.006696428571428571,
+    "6": -0.010714285714285718,
+    "7": -0.004464285714285712,
+    "8": 0.014030612244897966,
+    "9": 0.03236607142857143,
+    "10": -0.005952380952380948,
+    "11": 0.021428571428571432,
+    "12": 0.013798701298701302,
+    "13": -0.0625,
+    "14": -0.029532967032967032,
+    "15": -0.008928571428571423
+   },
+   "family": "comparisons",
+   "receipt": {
+    "reproduces": true,
+    "max_abs_diff": 5.436089902714769e-06,
+    "mismatches": []
+   }
+  },
+  "agent_v2_p3exp_p3_gw8x4_fp32 - agent_v2_p3exp_p3_direct": {
+   "overall": {
+    "mean": -0.019681914245052,
+    "se": 0.008070117432808104,
+    "fixtures": 784,
+    "ci95": [
+     -0.03549934441335588,
+     -0.0038644840767481196
+    ],
+    "z": 2.394,
+    "ci": [
+     -0.0390017753791946,
+     -0.0003620531109094008
+    ],
+    "verdict": "hurts"
+   },
+   "bands": {
+    "2": {
+     "mean": -0.08035714285714286,
+     "se": 0.04897784039462854,
+     "fixtures": 56,
+     "ci95": [
+      -0.17635371003061479,
+      0.015639424316329073
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.1976100927618836,
+      0.03689580704759787
+     ],
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": -0.06845238095238095,
+     "se": 0.022926600765330044,
+     "fixtures": 168,
+     "ci95": [
+      -0.11338851845242784,
+      -0.02351624345233406
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.12333866318458107,
+      -0.013566098720180816
+     ],
+     "verdict": "hurts"
+    },
+    "6-10": {
+     "mean": -0.00032242063492063453,
+     "se": 0.012099640425979441,
+     "fixtures": 280,
+     "ci95": [
+      -0.024037715869840336,
+      0.02339287459999907
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.029288959814715416,
+      0.02864411854487415
+     ],
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": 0.0023559178916321756,
+     "se": 0.008888935548868158,
+     "fixtures": 280,
+     "ci95": [
+      -0.015066395784149414,
+      0.019778231567413766
+     ],
+     "z": 2.394,
+     "ci": [
+      -0.018924193812358193,
+      0.023636029595622547
+     ],
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": -0.08035714285714286,
+    "3": -0.10714285714285714,
+    "4": -0.09821428571428571,
+    "5": 0.0,
+    "6": 0.026785714285714298,
+    "7": -0.014880952380952387,
+    "8": -0.02678571428571429,
+    "9": 0.0033482142857142855,
+    "10": 0.009920634920634922,
+    "11": -0.010714285714285716,
+    "12": -0.005681818181818181,
+    "13": 0.028273809523809517,
+    "14": 0.007554945054945056,
+    "15": -0.007653061224489798
+   },
+   "family": "comparisons",
+   "receipt": {
+    "reproduces": true,
+    "max_abs_diff": 5.807047597873594e-06,
+    "mismatches": []
+   }
+  },
+  "agent_v2_p3exp_p3_gw8x4_fp32~aa - agent_v2_p3exp_p3_gw8x4_fp32": {
+   "overall": {
+    "mean": -0.009099674772506405,
+    "se": 0.005365975846106006,
+    "fixtures": 784,
+    "ci95": [
+     -0.019616987430874176,
+     0.0014176378858613663
+    ],
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "se": 0.0,
+     "fixtures": 56,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": -0.019593253968253968,
+     "se": 0.016360402358671273,
+     "fixtures": 168,
+     "ci95": [
+      -0.05165964259124966,
+      0.012473134654741723
+     ],
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": -0.011596513605442175,
+     "se": 0.010937594233084104,
+     "fixtures": 280,
+     "ci95": [
+      -0.033034198302287016,
+      0.00984117109140267
+     ],
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": -0.0021266233766233764,
+     "se": 0.0031229824901604928,
+     "fixtures": 280,
+     "ci95": [
+      -0.008247669057337943,
+      0.003994422304091189
+     ],
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.0,
+    "4": -0.038690476190476185,
+    "5": -0.020089285714285716,
+    "6": 0.00892857142857143,
+    "7": -0.04613095238095238,
+    "8": -0.002551020408163261,
+    "9": -0.0033482142857142855,
+    "10": -0.014880952380952378,
+    "11": -0.01875,
+    "12": 0.008116883116883118,
+    "13": 0.0,
+    "14": 0.0,
+    "15": 0.0
+   },
+   "family": "rerun_noise",
+   "receipt": {
+    "reproduces": true,
+    "max_abs_diff": 4.422304091189315e-06,
+    "mismatches": []
+   }
+  }
+ },
+ "faults": {
+  "turn_ms": 50,
+  "per_arm": {
+   "agent_v2_p3exp_p2_direct": {
+    "faults": 0,
+    "late": 0,
+    "opponent_faults": 2,
+    "opponent_late": 2,
+    "games_with_any": 1,
+    "by_count": {
+     "9": 1
+    },
+    "receipt": {
+     "faults": 0,
+     "late_replies": 0,
+     "opponent_faults": 2,
+     "opponent_late": 2
+    },
+    "matches_receipt": true
+   },
+   "agent_v2_p3exp_p3_direct": {
+    "faults": 0,
+    "late": 0,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "games_with_any": 0,
+    "by_count": {},
+    "receipt": {
+     "faults": 0,
+     "late_replies": 0,
+     "opponent_faults": 0,
+     "opponent_late": 0
+    },
+    "matches_receipt": true
+   },
+   "agent_v2_p3exp_p2_gw8x4_fp32": {
+    "faults": 2,
+    "late": 0,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "games_with_any": 2,
+    "by_count": {
+     "9": 2
+    },
+    "receipt": {
+     "faults": 2,
+     "late_replies": 0,
+     "opponent_faults": 0,
+     "opponent_late": 0
+    },
+    "matches_receipt": true
+   },
+   "agent_v2_p3exp_p3_gw8x4_fp32": {
+    "faults": 3,
+    "late": 3,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "games_with_any": 3,
+    "by_count": {
+     "9": 2,
+     "10": 1
+    },
+    "receipt": {
+     "faults": 3,
+     "late_replies": 3,
+     "opponent_faults": 0,
+     "opponent_late": 0
+    },
+    "matches_receipt": true
+   },
+   "agent_v2_p3exp_p3_gw8x4_fp32~aa": {
+    "faults": 4,
+    "late": 2,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "games_with_any": 4,
+    "by_count": {
+     "9": 3,
+     "10": 1
+    },
+    "receipt": {
+     "faults": 4,
+     "late_replies": 2,
+     "opponent_faults": 0,
+     "opponent_late": 0
+    },
+    "matches_receipt": true
+   }
+  },
+  "details": [
+   {
+    "fixture_id": "s20262151-n09-m00018",
+    "arm": "agent_v2_p3exp_p2_gw8x4_fp32",
+    "teams": 9,
+    "faults": 1,
+    "late": 0,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "max_ms": 27.496,
+    "match_record": "n09/s20262151-n09-m00018-3b776eb82e.json.gz",
+    "events": [
+     {
+      "turn": 392,
+      "seat": 6,
+      "bot": "@candidate",
+      "reason": "timeout (>50 ms)",
+      "role": "candidate"
+     }
+    ],
+    "late_by_seat": {}
+   },
+   {
+    "fixture_id": "s20262151-n09-m00018",
+    "arm": "agent_v2_p3exp_p3_gw8x4_fp32~aa",
+    "teams": 9,
+    "faults": 1,
+    "late": 0,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "max_ms": 28.844,
+    "match_record": "n09/s20262151-n09-m00018-e43b131506.json.gz",
+    "events": [
+     {
+      "turn": 347,
+      "seat": 6,
+      "bot": "@candidate",
+      "reason": "timeout (>50 ms)",
+      "role": "candidate"
+     }
+    ],
+    "late_by_seat": {}
+   },
+   {
+    "fixture_id": "s20262151-n09-m00020",
+    "arm": "agent_v2_p3exp_p2_gw8x4_fp32",
+    "teams": 9,
+    "faults": 1,
+    "late": 0,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "max_ms": 46.135,
+    "match_record": "n09/s20262151-n09-m00020-3b776eb82e.json.gz",
+    "events": [
+     {
+      "turn": 233,
+      "seat": 0,
+      "bot": "@candidate",
+      "reason": "timeout (>50 ms)",
+      "role": "candidate"
+     }
+    ],
+    "late_by_seat": {}
+   },
+   {
+    "fixture_id": "s20262151-n09-m00021",
+    "arm": "agent_v2_p3exp_p2_direct",
+    "teams": 9,
+    "faults": 0,
+    "late": 0,
+    "opponent_faults": 2,
+    "opponent_late": 2,
+    "max_ms": 15.768,
+    "match_record": "n09/s20262151-n09-m00021-8912dbfb2b.json.gz",
+    "events": [
+     {
+      "turn": 326,
+      "seat": 2,
+      "bot": "Player4",
+      "reason": "timeout (>50 ms)",
+      "role": "opponent"
+     },
+     {
+      "turn": 326,
+      "seat": 6,
+      "bot": "Kimi",
+      "reason": "timeout (>50 ms)",
+      "role": "opponent"
+     }
+    ],
+    "late_by_seat": {
+     "Player4": 1,
+     "Kimi": 1
+    }
+   },
+   {
+    "fixture_id": "s20262151-n09-m00021",
+    "arm": "agent_v2_p3exp_p3_gw8x4_fp32",
+    "teams": 9,
+    "faults": 1,
+    "late": 1,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "max_ms": 19.096,
+    "match_record": "n09/s20262151-n09-m00021-5813e559ca.json.gz",
+    "events": [
+     {
+      "turn": 47,
+      "seat": 3,
+      "bot": "@candidate",
+      "reason": "timeout (>50 ms)",
+      "role": "candidate"
+     }
+    ],
+    "late_by_seat": {
+     "@candidate": 1
+    }
+   },
+   {
+    "fixture_id": "s20262151-n09-m00021",
+    "arm": "agent_v2_p3exp_p3_gw8x4_fp32~aa",
+    "teams": 9,
+    "faults": 1,
+    "late": 0,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "max_ms": 30.188,
+    "match_record": "n09/s20262151-n09-m00021-e43b131506.json.gz",
+    "events": [
+     {
+      "turn": 42,
+      "seat": 3,
+      "bot": "@candidate",
+      "reason": "timeout (>50 ms)",
+      "role": "candidate"
+     }
+    ],
+    "late_by_seat": {}
+   },
+   {
+    "fixture_id": "s20262151-n09-m00043",
+    "arm": "agent_v2_p3exp_p3_gw8x4_fp32",
+    "teams": 9,
+    "faults": 1,
+    "late": 1,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "max_ms": 34.962,
+    "match_record": "n09/s20262151-n09-m00043-5813e559ca.json.gz",
+    "events": [
+     {
+      "turn": 182,
+      "seat": 8,
+      "bot": "@candidate",
+      "reason": "timeout (>50 ms)",
+      "role": "candidate"
+     }
+    ],
+    "late_by_seat": {
+     "@candidate": 1
+    }
+   },
+   {
+    "fixture_id": "s20262151-n09-m00043",
+    "arm": "agent_v2_p3exp_p3_gw8x4_fp32~aa",
+    "teams": 9,
+    "faults": 1,
+    "late": 1,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "max_ms": 48.211,
+    "match_record": "n09/s20262151-n09-m00043-e43b131506.json.gz",
+    "events": [
+     {
+      "turn": 183,
+      "seat": 8,
+      "bot": "@candidate",
+      "reason": "timeout (>50 ms)",
+      "role": "candidate"
+     }
+    ],
+    "late_by_seat": {
+     "@candidate": 1
+    }
+   },
+   {
+    "fixture_id": "s20262151-n10-m00015",
+    "arm": "agent_v2_p3exp_p3_gw8x4_fp32",
+    "teams": 10,
+    "faults": 1,
+    "late": 1,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "max_ms": 33.227,
+    "match_record": "n10/s20262151-n10-m00015-5813e559ca.json.gz",
+    "events": [
+     {
+      "turn": 393,
+      "seat": 0,
+      "bot": "@candidate",
+      "reason": "timeout (>50 ms)",
+      "role": "candidate"
+     }
+    ],
+    "late_by_seat": {
+     "@candidate": 1
+    }
+   },
+   {
+    "fixture_id": "s20262151-n10-m00015",
+    "arm": "agent_v2_p3exp_p3_gw8x4_fp32~aa",
+    "teams": 10,
+    "faults": 1,
+    "late": 1,
+    "opponent_faults": 0,
+    "opponent_late": 0,
+    "max_ms": 31.619,
+    "match_record": "n10/s20262151-n10-m00015-e43b131506.json.gz",
+    "events": [
+     {
+      "turn": 342,
+      "seat": 0,
+      "bot": "@candidate",
+      "reason": "timeout (>50 ms)",
+      "role": "candidate"
+     }
+    ],
+    "late_by_seat": {
+     "@candidate": 1
+    }
+   }
+  ],
+  "match_records": "10 of 10 games with a fault or late reply have their record",
+  "event_reasons": {
+   "timeout (>50 ms)": 11
+  },
+  "event_roles": {
+   "candidate": 9,
+   "opponent": 2
+  },
+  "candidate_fault_games": 9,
+  "candidate_fault_games_max_ms_below_deadline": 9
+ },
+ "search_telemetry": {
+  "status": "computed",
+  "per_arm": {
+   "agent_v2_p3exp_p2_direct": {
+    "2": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "3": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "4": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "5": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "6": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "7": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "8": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "9": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "10": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "11": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "12": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "13": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "14": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "15": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    }
+   },
+   "agent_v2_p3exp_p3_direct": {
+    "2": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "3": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "4": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "5": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "6": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "7": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "8": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "9": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "10": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "11": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "12": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "13": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "14": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    },
+    "15": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 0,
+     "search_fallback": 0,
+     "overrides": null,
+     "gate_kept": null,
+     "completion": null,
+     "override_rate": null,
+     "max_search_us_median": null
+    }
+   },
+   "agent_v2_p3exp_p2_gw8x4_fp32": {
+    "2": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 22400,
+     "search_fallback": 0,
+     "overrides": 15178,
+     "gate_kept": 3237,
+     "completion": 1.0,
+     "override_rate": 0.6775892857142857,
+     "max_search_us_median": 11092.0
+    },
+    "3": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 22399,
+     "search_fallback": 1,
+     "overrides": 16574,
+     "gate_kept": 2497,
+     "completion": 0.9999553571428571,
+     "override_rate": 0.7399437474887272,
+     "max_search_us_median": 13629.5
+    },
+    "4": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 22392,
+     "search_fallback": 8,
+     "overrides": 16074,
+     "gate_kept": 2552,
+     "completion": 0.9996428571428572,
+     "override_rate": 0.7178456591639871,
+     "max_search_us_median": 15603.0
+    },
+    "5": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 21916,
+     "search_fallback": 484,
+     "overrides": 15534,
+     "gate_kept": 2583,
+     "completion": 0.9783928571428572,
+     "override_rate": 0.7087972257711261,
+     "max_search_us_median": 16630.0
+    },
+    "6": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 14880,
+     "search_fallback": 7520,
+     "overrides": 10615,
+     "gate_kept": 1840,
+     "completion": 0.6642857142857143,
+     "override_rate": 0.7133736559139785,
+     "max_search_us_median": 17675.0
+    },
+    "7": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 4026,
+     "search_fallback": 18374,
+     "overrides": 2463,
+     "gate_kept": 487,
+     "completion": 0.17973214285714287,
+     "override_rate": 0.6117734724292101,
+     "max_search_us_median": 20062.0
+    },
+    "8": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 2090,
+     "search_fallback": 20310,
+     "overrides": 1018,
+     "gate_kept": 240,
+     "completion": 0.09330357142857143,
+     "override_rate": 0.48708133971291867,
+     "max_search_us_median": 22611.5
+    },
+    "9": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 1433,
+     "search_fallback": 20967,
+     "overrides": 588,
+     "gate_kept": 130,
+     "completion": 0.06397321428571429,
+     "override_rate": 0.41032798325191905,
+     "max_search_us_median": 30013.5
+    },
+    "10": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 1404,
+     "search_fallback": 20996,
+     "overrides": 520,
+     "gate_kept": 136,
+     "completion": 0.06267857142857143,
+     "override_rate": 0.37037037037037035,
+     "max_search_us_median": 33028.0
+    },
+    "11": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 1027,
+     "search_fallback": 21373,
+     "overrides": 375,
+     "gate_kept": 87,
+     "completion": 0.045848214285714284,
+     "override_rate": 0.36514118792599803,
+     "max_search_us_median": 33843.5
+    },
+    "12": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 870,
+     "search_fallback": 21530,
+     "overrides": 275,
+     "gate_kept": 67,
+     "completion": 0.038839285714285715,
+     "override_rate": 0.3160919540229885,
+     "max_search_us_median": 36033.5
+    },
+    "13": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 653,
+     "search_fallback": 21747,
+     "overrides": 167,
+     "gate_kept": 40,
+     "completion": 0.029151785714285713,
+     "override_rate": 0.2557427258805513,
+     "max_search_us_median": 39911.0
+    },
+    "14": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 636,
+     "search_fallback": 21764,
+     "overrides": 96,
+     "gate_kept": 22,
+     "completion": 0.028392857142857143,
+     "override_rate": 0.1509433962264151,
+     "max_search_us_median": 43376.0
+    },
+    "15": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 558,
+     "search_fallback": 21842,
+     "overrides": 78,
+     "gate_kept": 14,
+     "completion": 0.024910714285714286,
+     "override_rate": 0.13978494623655913,
+     "max_search_us_median": 45593.0
+    }
+   },
+   "agent_v2_p3exp_p3_gw8x4_fp32": {
+    "2": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 22400,
+     "search_fallback": 0,
+     "overrides": 15232,
+     "gate_kept": 3276,
+     "completion": 1.0,
+     "override_rate": 0.68,
+     "max_search_us_median": 11465.0
+    },
+    "3": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 22400,
+     "search_fallback": 0,
+     "overrides": 16569,
+     "gate_kept": 2492,
+     "completion": 1.0,
+     "override_rate": 0.7396875,
+     "max_search_us_median": 15098.5
+    },
+    "4": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 21856,
+     "search_fallback": 544,
+     "overrides": 15654,
+     "gate_kept": 2465,
+     "completion": 0.9757142857142858,
+     "override_rate": 0.7162335285505125,
+     "max_search_us_median": 16670.5
+    },
+    "5": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 15531,
+     "search_fallback": 6869,
+     "overrides": 10686,
+     "gate_kept": 1811,
+     "completion": 0.6933482142857142,
+     "override_rate": 0.6880432683021055,
+     "max_search_us_median": 16971.5
+    },
+    "6": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 1973,
+     "search_fallback": 20427,
+     "overrides": 1034,
+     "gate_kept": 249,
+     "completion": 0.08808035714285714,
+     "override_rate": 0.5240750126710593,
+     "max_search_us_median": 21317.0
+    },
+    "7": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 1496,
+     "search_fallback": 20904,
+     "overrides": 597,
+     "gate_kept": 183,
+     "completion": 0.06678571428571428,
+     "override_rate": 0.39906417112299464,
+     "max_search_us_median": 25086.5
+    },
+    "8": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 1251,
+     "search_fallback": 21149,
+     "overrides": 525,
+     "gate_kept": 168,
+     "completion": 0.055848214285714286,
+     "override_rate": 0.4196642685851319,
+     "max_search_us_median": 29733.0
+    },
+    "9": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 547,
+     "search_fallback": 21853,
+     "overrides": 126,
+     "gate_kept": 30,
+     "completion": 0.02441964285714286,
+     "override_rate": 0.2303473491773309,
+     "max_search_us_median": 38066.0
+    },
+    "10": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 481,
+     "search_fallback": 21919,
+     "overrides": 82,
+     "gate_kept": 14,
+     "completion": 0.021473214285714286,
+     "override_rate": 0.1704781704781705,
+     "max_search_us_median": 40176.0
+    },
+    "11": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 387,
+     "search_fallback": 22013,
+     "overrides": 63,
+     "gate_kept": 10,
+     "completion": 0.017276785714285713,
+     "override_rate": 0.16279069767441862,
+     "max_search_us_median": 42325.0
+    },
+    "12": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 352,
+     "search_fallback": 22048,
+     "overrides": 46,
+     "gate_kept": 11,
+     "completion": 0.015714285714285715,
+     "override_rate": 0.13068181818181818,
+     "max_search_us_median": 46023.0
+    },
+    "13": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 385,
+     "search_fallback": 22015,
+     "overrides": 46,
+     "gate_kept": 8,
+     "completion": 0.0171875,
+     "override_rate": 0.11948051948051948,
+     "max_search_us_median": 49926.0
+    },
+    "14": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 539,
+     "search_fallback": 21861,
+     "overrides": 46,
+     "gate_kept": 7,
+     "completion": 0.0240625,
+     "override_rate": 0.08534322820037106,
+     "max_search_us_median": 53288.0
+    },
+    "15": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 508,
+     "search_fallback": 21892,
+     "overrides": 40,
+     "gate_kept": 5,
+     "completion": 0.02267857142857143,
+     "override_rate": 0.07874015748031496,
+     "max_search_us_median": 57407.0
+    }
+   },
+   "agent_v2_p3exp_p3_gw8x4_fp32~aa": {
+    "2": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 22400,
+     "search_fallback": 0,
+     "overrides": 15232,
+     "gate_kept": 3276,
+     "completion": 1.0,
+     "override_rate": 0.68,
+     "max_search_us_median": 11446.5
+    },
+    "3": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 22400,
+     "search_fallback": 0,
+     "overrides": 16569,
+     "gate_kept": 2492,
+     "completion": 1.0,
+     "override_rate": 0.7396875,
+     "max_search_us_median": 15150.5
+    },
+    "4": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 21828,
+     "search_fallback": 572,
+     "overrides": 15790,
+     "gate_kept": 2487,
+     "completion": 0.9744642857142857,
+     "override_rate": 0.7233828110683526,
+     "max_search_us_median": 16660.5
+    },
+    "5": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 15534,
+     "search_fallback": 6866,
+     "overrides": 10768,
+     "gate_kept": 1847,
+     "completion": 0.6934821428571428,
+     "override_rate": 0.6931891335135831,
+     "max_search_us_median": 16827.5
+    },
+    "6": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 1879,
+     "search_fallback": 20521,
+     "overrides": 962,
+     "gate_kept": 248,
+     "completion": 0.08388392857142857,
+     "override_rate": 0.5119744544970729,
+     "max_search_us_median": 20537.5
+    },
+    "7": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 1474,
+     "search_fallback": 20926,
+     "overrides": 588,
+     "gate_kept": 185,
+     "completion": 0.06580357142857143,
+     "override_rate": 0.3989145183175034,
+     "max_search_us_median": 25119.0
+    },
+    "8": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 1203,
+     "search_fallback": 21197,
+     "overrides": 478,
+     "gate_kept": 145,
+     "completion": 0.053705357142857145,
+     "override_rate": 0.39733998337489607,
+     "max_search_us_median": 28653.0
+    },
+    "9": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 585,
+     "search_fallback": 21815,
+     "overrides": 131,
+     "gate_kept": 33,
+     "completion": 0.02611607142857143,
+     "override_rate": 0.22393162393162394,
+     "max_search_us_median": 37359.0
+    },
+    "10": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 521,
+     "search_fallback": 21879,
+     "overrides": 97,
+     "gate_kept": 14,
+     "completion": 0.023258928571428573,
+     "override_rate": 0.18618042226487524,
+     "max_search_us_median": 40858.0
+    },
+    "11": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 394,
+     "search_fallback": 22006,
+     "overrides": 59,
+     "gate_kept": 8,
+     "completion": 0.017589285714285714,
+     "override_rate": 0.14974619289340102,
+     "max_search_us_median": 41489.5
+    },
+    "12": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 350,
+     "search_fallback": 22050,
+     "overrides": 55,
+     "gate_kept": 13,
+     "completion": 0.015625,
+     "override_rate": 0.15714285714285714,
+     "max_search_us_median": 44849.5
+    },
+    "13": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 385,
+     "search_fallback": 22015,
+     "overrides": 45,
+     "gate_kept": 8,
+     "completion": 0.0171875,
+     "override_rate": 0.11688311688311688,
+     "max_search_us_median": 49147.5
+    },
+    "14": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 538,
+     "search_fallback": 21862,
+     "overrides": 46,
+     "gate_kept": 7,
+     "completion": 0.024017857142857143,
+     "override_rate": 0.08550185873605948,
+     "max_search_us_median": 53054.0
+    },
+    "15": {
+     "games": 56,
+     "with_counters": 56,
+     "complete": true,
+     "turns": 22400,
+     "search_used": 508,
+     "search_fallback": 21892,
+     "overrides": 40,
+     "gate_kept": 5,
+     "completion": 0.02267857142857143,
+     "override_rate": 0.07874015748031496,
+     "max_search_us_median": 57311.5
+    }
+   }
+  }
+ },
+ "aa_rerun": {
+  "agent_v2_p3exp_p3_gw8x4_fp32~aa - agent_v2_p3exp_p3_gw8x4_fp32": {
+   "counters": "computed",
+   "total": {
+    "differing": 328,
+    "differing_counters_differ": 315,
+    "differing_counters_equal": 13,
+    "identical": 456,
+    "identical_counters_differ": 57,
+    "identical_counters_equal": 399
+   },
+   "per_count": {
+    "2": {
+     "games": 56,
+     "identical": 56,
+     "identical_counters_equal": 56
+    },
+    "3": {
+     "games": 56,
+     "identical": 56,
+     "identical_counters_equal": 56
+    },
+    "4": {
+     "games": 56,
+     "differing": 56,
+     "differing_counters_differ": 55,
+     "differing_counters_equal": 1
+    },
+    "5": {
+     "games": 56,
+     "differing": 56,
+     "differing_counters_differ": 56
+    },
+    "6": {
+     "games": 56,
+     "differing": 56,
+     "differing_counters_differ": 53,
+     "differing_counters_equal": 3
+    },
+    "7": {
+     "games": 56,
+     "differing": 37,
+     "differing_counters_differ": 36,
+     "differing_counters_equal": 1,
+     "identical": 19,
+     "identical_counters_differ": 12,
+     "identical_counters_equal": 7
+    },
+    "8": {
+     "games": 56,
+     "differing": 52,
+     "differing_counters_differ": 51,
+     "differing_counters_equal": 1,
+     "identical": 4,
+     "identical_counters_differ": 2,
+     "identical_counters_equal": 2
+    },
+    "9": {
+     "games": 56,
+     "differing": 22,
+     "differing_counters_differ": 20,
+     "differing_counters_equal": 2,
+     "identical": 34,
+     "identical_counters_differ": 15,
+     "identical_counters_equal": 19
+    },
+    "10": {
+     "games": 56,
+     "differing": 28,
+     "differing_counters_differ": 25,
+     "differing_counters_equal": 3,
+     "identical": 28,
+     "identical_counters_differ": 11,
+     "identical_counters_equal": 17
+    },
+    "11": {
+     "games": 56,
+     "differing": 13,
+     "differing_counters_differ": 12,
+     "differing_counters_equal": 1,
+     "identical": 43,
+     "identical_counters_differ": 9,
+     "identical_counters_equal": 34
+    },
+    "12": {
+     "games": 56,
+     "differing": 8,
+     "differing_counters_differ": 7,
+     "differing_counters_equal": 1,
+     "identical": 48,
+     "identical_counters_differ": 4,
+     "identical_counters_equal": 44
+    },
+    "13": {
+     "games": 56,
+     "identical": 56,
+     "identical_counters_differ": 3,
+     "identical_counters_equal": 53
+    },
+    "14": {
+     "games": 56,
+     "identical": 56,
+     "identical_counters_differ": 1,
+     "identical_counters_equal": 55
+    },
+    "15": {
+     "games": 56,
+     "identical": 56,
+     "identical_counters_equal": 56
+    }
+   }
+  }
+ },
+ "corpus_overlap": {
+  "screen_distinct_map_seeds": 784,
+  "screen_opponent_seats": {
+   "Fable": 1173,
+   "GLM": 1190,
+   "Kimi": 1175,
+   "MiMo": 1154,
+   "Player4": 1188
+  },
+  "corpora": []
+ },
+ "not_audited": {
+  "fixed_work_receipts": "whether the committed fixed-work receipts ran the native harness: no receipt input here",
+  "job_interleaving": "the order games ran in and the reservation chronology: the rows carry no wall-clock times",
+  "admission_vs_rng_per_turn": "the final counters show whether two runs admitted search on a different number of turns, not on which turns; separating admission from RNG needs per-turn admission logs"
+ }
+}
