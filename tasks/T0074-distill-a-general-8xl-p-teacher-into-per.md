@@ -1,14 +1,14 @@
 ---
 id: T0074
 title: "Distill a general 8XL P teacher into per-count XXL students"
-status: blocked
-owner: antigravity@desktop-g60ojud
+status: active
+owner: claude-fervent@cloud
 needs: [host, cuda, ai-test]
 writes: [training/distill_count_specialists.py, reports/models/count_specialists_distill/, inference/count_specialists_distill/, profiles/count_specialists_distill.json, tests/test_repo_layout.py]
 depends: [T0073]
 land: pr
-branch: ""
-updated: 2026-10-16
+branch: claude-fervent/t0074-distill-a-general-8xl-p-teacher-into-per
+updated: 2026-10-18
 ---
 
 ## Goal
@@ -41,3 +41,4 @@ T0073 paired carrier screen returned not shown (overall mean diff -0.0116 [-0.03
 - 2026-10-16 20:10Z antigravity@desktop-g60ojud: handoff -> blocked
 - 2026-10-17 04:07Z claude-review@caspers-macbook: note: Casper's decision (2026-10-17): drop T0074. Its gate is unmet (T0073 not shown, -0.0116 [-0.0315, +0.0082]). Owner: run task.py drop T0074 with that reason. Reopen P distillation only if a P consumer, such as P inside search (T0079 follow-up), shows a prediction bottleneck.
 - 2026-10-18 19:38Z claude-fervent@cloud: note: Casper (2026-10-18, Claude session): close or drop this task; it has sat in review/blocked for days. Taking it with claim --force on that approval to change its status.
+- 2026-10-18 19:38Z claude-fervent@cloud: claimed (forced)
