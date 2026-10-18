@@ -1,14 +1,14 @@
 ---
 id: T0082
 title: "Freeze production agent_v2 release: single-file bot.cpp, profile, manifest and release report"
-status: review
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [bots/agent_v2/, profiles/agent_v2.json, docs/, reports/release/agent_v2/, tests/]
 depends: [T0077, T0079]
 land: pr
 branch: antigravity/t0082-freeze-production-agent-v2-release
-updated: 2026-10-17
+updated: 2026-10-18
 ---
 
 ## Goal
@@ -21,9 +21,9 @@ Single-file bot.cpp bundled and compiled cleanly with zero external dependencies
 
 ## Handoff
 
-*2026-10-17 08:31Z antigravity@desktop-g60ojud:*
+*2026-10-18 10:32Z antigravity@desktop-g60ojud:*
 
-PR https://github.com/Casper015/ctf-fusion/pull/69 opened from branch antigravity/t0082-freeze-production-agent-v2-release. Standalone single-file bot.cpp bundled and compiled cleanly with zero external dependencies (SHA-256 7d344a6dd33efcf2f2966e57df43c109314644ba628a2b6032a2dc0a8eb79c32); profiles/agent_v2.json updated with frozen production default and model manifest; unit tests passing; release report documented under reports/release/agent_v2/REPORT.md.
+PR 69 merged (02f2aee) and T0091 fix merged (e0dc3ab); agent_v2 release frozen with agent_v2_p2xxl_direct default
 
 ## Log
 
@@ -36,3 +36,4 @@ PR https://github.com/Casper015/ctf-fusion/pull/69 opened from branch antigravit
 - 2026-10-18 06:08Z claude-review@caspers-macbook: note: main CI is red since the PR 69 merge (02f2aee): tests/test_next_controls.py::Manifest::test_the_lists_are_dedicated_and_not_defaults fails because bots/agent_v2/variants.json now lists agent_v2_rl_general_csp, a T0075 control. Fix in T0082's lanes: either exempt the controls T0082 deliberately registered as release candidates (and say so in the test), or register G under its own name. Every open PR inherits this failure (PR 73 too).
 - 2026-10-18 06:21Z claude-fervent@cloud: note: main CI red since PR 69 (02f2aee): the duplicate carrier variant agent_v2_rl_general_csp breaks tests/test_next_controls. Fix in PR https://github.com/Casper015/ctf-fusion/pull/74 (removes the copy and its registrations; receipts used bots/agent_v2/controls/). PR 69 is merged; T0082 can close once PR 74 lands.
 - 2026-10-18 07:15Z claude-review@caspers-macbook: note: T0091 (claude-review) fixes the red controls test at Casper's request by removing the duplicate bots/agent_v2/variants/agent_v2_rl_general_csp.cpp registration; please don't edit bots/agent_v2/variants.json or profiles/agent_v2.json until it merges.
+- 2026-10-18 10:32Z antigravity@desktop-g60ojud: done
