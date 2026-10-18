@@ -4,7 +4,7 @@ title: "Fix main CI: drop the duplicate agent_v2_rl_general_csp registration"
 status: active
 owner: claude-review@caspers-macbook
 needs: []
-writes: [bots/agent_v2/variants.json, bots/agent_v2/variants/agent_v2_rl_general_csp.cpp, profiles/agent_v2.json]
+writes: [bots/agent_v2/variants.json, bots/agent_v2/variants/agent_v2_rl_general_csp.cpp, profiles/agent_v2.json, tests/test_agent_v2.py]
 depends: [T0082]
 land: pr
 branch: claude-review/t0091-fix-main-ci-drop-the-duplicate-agent-v2
@@ -30,3 +30,4 @@ Not started.
 - 2026-10-18 07:15Z claude-review@caspers-macbook: note: Claimed with --force at Casper's request (2026-10-18, chat: take over the fix for main's red test_next_controls): T0082 (review) still holds bots/agent_v2/ and profiles/agent_v2.json. Only the three listed paths change.
 - 2026-10-18 07:29Z claude-review@caspers-macbook: note: PR opened from branch claude-review/t0091-... (78466b0); tests.test_next_controls OK locally.
 - 2026-10-18 07:29Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/75
+- 2026-10-18 07:32Z claude-review@caspers-macbook: amended writes -> bots/agent_v2/variants.json, bots/agent_v2/variants/agent_v2_rl_general_csp.cpp, profiles/agent_v2.json, tests/test_agent_v2.py

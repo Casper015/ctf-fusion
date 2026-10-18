@@ -17,7 +17,7 @@ Someone holds these; their `writes` are reserved.
 | [T0082](T0082-freeze-production-agent-v2-release.md) | review | antigravity@desktop-g60ojud | Freeze production agent_v2 release: single-file bot.cpp, profile, manifest and release report | bots/agent_v2/, profiles/agent_v2.json, docs/, reports/release/agent_v2/, tests/ |
 | [T0084](T0084-audit-t0081-evidence-and-retract.md) | review | antigravity@desktop-g60ojud | Audit T0081 evidence and retract uncomputed search diagnostics | tools/screens/p3_search_host/, reports/host/agent_v2_p3_search/ |
 | [T0085](T0085-build-real-agent-v2-branch-diagnostics.md) | active | claude-review@caspers-macbook | Build real agent_v2 branch diagnostics with faithful continuations | README.md, tests/test_repo_layout.py, tools/README.md, tools/search_diagnostics/ |
-| [T0091](T0091-fix-main-ci-drop-the-duplicate-agent-v2.md) | active | claude-review@caspers-macbook | Fix main CI: drop the duplicate agent_v2_rl_general_csp registration | bots/agent_v2/variants.json, bots/agent_v2/variants/agent_v2_rl_general_csp.cpp, profiles/agent_v2.json |
+| [T0091](T0091-fix-main-ci-drop-the-duplicate-agent-v2.md) | active | claude-review@caspers-macbook | Fix main CI: drop the duplicate agent_v2_rl_general_csp registration | bots/agent_v2/variants.json, bots/agent_v2/variants/agent_v2_rl_general_csp.cpp, profiles/agent_v2.json, tests/test_agent_v2.py |
 
 ## Ready to claim
 
