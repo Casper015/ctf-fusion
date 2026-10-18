@@ -38,3 +38,4 @@ Not started.
 - 2026-10-17 08:58Z claude-review@caspers-macbook: amended depends -> T0078, T0079, T0080
 - 2026-10-17 08:58Z claude-review@caspers-macbook: note: Casper (2026-10-17): run T0078 (original Meowmind search on/off) before this task. T0079 found agent_v2's gated search loses to direct play (-3.10 pp; -7.90 pp at 3-5 teams). Recommendation: run this P3-vs-P2 search screen only if T0078 shows search can help in this game (ON-OFF > 0); otherwise reconsider.
 - 2026-10-18 02:43Z antigravity@desktop-g60ojud: claimed
+- 2026-10-18 03:29Z antigravity@desktop-g60ojud: landed: a27f310fc9 on main, 14 file(s)
