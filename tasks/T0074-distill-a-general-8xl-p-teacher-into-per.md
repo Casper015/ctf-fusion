@@ -40,3 +40,4 @@ T0073 paired carrier screen returned not shown (overall mean diff -0.0116 [-0.03
 - 2026-10-16 19:37Z claude-review@caspers-macbook: created
 - 2026-10-16 20:10Z antigravity@desktop-g60ojud: handoff -> blocked
 - 2026-10-17 04:07Z claude-review@caspers-macbook: note: Casper's decision (2026-10-17): drop T0074. Its gate is unmet (T0073 not shown, -0.0116 [-0.0315, +0.0082]). Owner: run task.py drop T0074 with that reason. Reopen P distillation only if a P consumer, such as P inside search (T0079 follow-up), shows a prediction bottleneck.
+- 2026-10-18 19:38Z claude-fervent@cloud: note: Casper (2026-10-18, Claude session): close or drop this task; it has sat in review/blocked for days. Taking it with claim --force on that approval to change its status.
