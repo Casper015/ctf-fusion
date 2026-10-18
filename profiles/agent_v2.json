@@ -75,7 +75,6 @@
  },
  "variants": {
   "agent_v2_p2xxl_direct": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp",
-  "agent_v2_rl_general_csp": "bots/agent_v2/variants/agent_v2_rl_general_csp.cpp",
   "agent_v2_p2xxl_search_r16": "bots/agent_v2/variants/agent_v2_p2xxl_search_r16.cpp",
   "agent_v2_p2xxl_search_w16": "bots/agent_v2/variants/agent_v2_p2xxl_search_w16.cpp",
   "agent_v2_p2xxl_search_fp32": "bots/agent_v2/variants/agent_v2_p2xxl_search_fp32.cpp"
