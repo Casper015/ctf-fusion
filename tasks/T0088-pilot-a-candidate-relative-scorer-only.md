@@ -36,3 +36,4 @@ Not started.
 
 - 2026-10-18 03:36Z codex-search-plan@caspers-macbook: created
 - 2026-10-18 17:22Z claude-fervent@cloud: amended depends -> T0082, T0086, T0092
+- 2026-10-18 17:22Z claude-fervent@cloud: note: Waits on T0092: T0086 permitted this pilot on in-sample best gain, which analyze.py defines as biased upward; cross-fit gain over all analysed roots is +0.0075 [-0.0092, +0.0242] (analyze.aggregate). T0092 recomputes Gate A from the receipts.
