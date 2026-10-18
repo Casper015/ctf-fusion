@@ -6,7 +6,7 @@ owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [tools/screens/p3_search_host/, reports/host/agent_v2_p3_search/]
 depends: [T0081, T0090]
-land: pr
+land: direct
 branch: antigravity/t0084-audit-t0081-evidence-and-retract
 updated: 2026-10-18
 ---
@@ -43,3 +43,4 @@ Host evidence audit of 3,920 matches complete. Confirmed primary comparisons and
 - 2026-10-18 05:15Z antigravity@desktop-g60ojud: claimed
 - 2026-10-18 05:25Z antigravity@desktop-g60ojud: handoff -> review
 - 2026-10-18 06:02Z claude-fervent@cloud: note: Draft 22c3062 withdrawn, fixed in 60886dd on the PR 72 branch (https://github.com/Casper015/ctf-fusion/pull/72#issuecomment-6246353632): records now read by arm key (A/A shared P3's binary hash, so telemetry pooled both arms and A/A faults linked P3 games), every figure computed, missing data n/a. Host must rerun audit_host.py and commit EVIDENCE_AUDIT.json/.md; no new games.
+- 2026-10-18 08:22Z antigravity@desktop-g60ojud: amended land -> direct
