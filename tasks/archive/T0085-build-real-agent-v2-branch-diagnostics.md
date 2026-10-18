@@ -1,7 +1,7 @@
 ---
 id: T0085
 title: "Build real agent_v2 branch diagnostics with faithful continuations"
-status: active
+status: done
 owner: claude-review@caspers-macbook
 needs: []
 writes: [README.md, tests/test_repo_layout.py, tools/README.md, tools/search_diagnostics/]
@@ -36,9 +36,9 @@ A reviewed PR supplies runnable extraction, branch restoration, collection and a
 
 ## Handoff
 
-*2026-10-18 03:50Z antigravity@desktop-g60ojud:*
+*2026-10-18 08:10Z claude-review@caspers-macbook:*
 
-Built tools/search_diagnostics/ harness: causal root extraction, faithful branch restoration, signed gain Delta(a), regret R(a)>=0, tie-handling, repeat cross-fitting (eliminates winner's curse), simulator parity audit against engine.py, opponent P fidelity audit, authoritative host pilot cost estimator, and 13/13 unit tests passing. Branch antigravity/t0085-build-real-agent-v2-branch-diagnostics pushed.
+Merged PR 73 (a7df772) at Casper's request before CI finished (ubuntu 3.10/3.13, layout and torch had passed; macOS, e2e and P-only were pending). tools/search_diagnostics/: native root tool and continuation bot on the real agent_v2 runtime (checked reply-for-reply against production), faithful-replay-v1 branches with registered env/actor keys, manifest-bound collection with primary reuse for the extended set, event- and immunity-gated parity, factual P audit with training-label projection, map-cluster analysis, T0086-design estimator. Runbook: tools/search_diagnostics/README.md. Dev-machine numbers are not evidence; T0086 runs it on the host.
 
 ## Log
 
@@ -53,3 +53,4 @@ Built tools/search_diagnostics/ harness: causal root extraction, faithful branch
 - 2026-10-18 05:42Z claude-review@caspers-macbook: note: Rewrite committed on claude-review/t0085-real-branch-diagnostics (650b9f6, rebased on main; keeps 0e714b0 as bb85f81). Native root tool and continuation bot on the real agent_v2 runtime, both checked reply-for-reply against the production p2general binary; faithful-replay-v1 branches refuse any divergence; registered env/actor keys; manifest-bound collection; event-gated parity (dev Mac: 640 steps, 0 differences); factual P audit; map-cluster analysis; T0086-design estimator (336 roots, 12,544 episodes, time measured or modelled-and-labelled). 28 local tests pass (6 need AI_TEST_ROOT). Codex review and core suite running; PR next. Dev-machine numbers are not evidence.
 - 2026-10-18 05:52Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/73 (head eb35f6a) supersedes PR 71 (closed). Adds the override stratum (offline fixed-work gate), root context and continuation-fault counts. 31 harness tests pass on the Mac with AI_TEST_ROOT. Codex review pending (usage limit).
 - 2026-10-18 07:54Z claude-review@caspers-macbook: note: Codex (gpt-6.1-sol high) review of eb35f6a posted on PR 73: changes requested, 7 must-fix (row binding, malformed recorded root reply counted complete, extended set over T0086's cap, seed consumption, 24-root gate, P target labels, parity immunity). All confirmed and fixed in 25a5a92; parity also caught a harness bug (same-step return+pickup). 40 harness tests pass.
+- 2026-10-18 08:10Z claude-review@caspers-macbook: done
