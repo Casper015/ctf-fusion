@@ -1,7 +1,7 @@
 ---
 id: T0081
 title: "Host compare P3 and P2 in matched agent_v2 search"
-status: active
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/agent_v2_p3_search/, profiles/agent_v2_p3_search.json, docs/AGENT_V2_P3_SEARCH_SEEDS.md, tools/screens/p3_search_host/]
@@ -29,7 +29,9 @@ Pinned variants and identity-bound fixed-work diagnostics delivered; eight-worke
 
 ## Handoff
 
-Not started.
+*2026-10-18 03:29Z antigravity@desktop-g60ojud:*
+
+Paired host screen of P3 vs P2 in matched agent_v2 search completed across 3,920 games (784 fixtures x 5 arms, 8 workers, seed 20262151). Preflight gate passed at seed 20262150 (256 games, 0 faults). Screen results: P3search - P2search not shown (-0.0040 [-0.0230, +0.0151]); P3direct - P2direct not shown (+0.0016 [-0.0168, +0.0200]); P3search - P3direct hurts by -1.97 pp (Bonferroni CI [-0.0390, -0.0004]; in band 3-5 where search completes, search hurts by -6.84 pp). P3 does not fix search. Failure decomposition diagnostic suite delivered in tools/screens/p3_search_host/diagnose.py and reports/host/agent_v2_p3_search/diagnostics/.
 
 ## Log
 
@@ -39,3 +41,4 @@ Not started.
 - 2026-10-17 08:58Z claude-review@caspers-macbook: note: Casper (2026-10-17): run T0078 (original Meowmind search on/off) before this task. T0079 found agent_v2's gated search loses to direct play (-3.10 pp; -7.90 pp at 3-5 teams). Recommendation: run this P3-vs-P2 search screen only if T0078 shows search can help in this game (ON-OFF > 0); otherwise reconsider.
 - 2026-10-18 02:43Z antigravity@desktop-g60ojud: claimed
 - 2026-10-18 03:29Z antigravity@desktop-g60ojud: landed: a27f310fc9 on main, 14 file(s)
+- 2026-10-18 03:29Z antigravity@desktop-g60ojud: done
