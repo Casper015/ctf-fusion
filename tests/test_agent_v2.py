@@ -444,7 +444,12 @@ class Profile(unittest.TestCase):
         self.assertTrue(prof["production_default"].startswith("agent_v2_p2xxl_direct"))
         vars_json = json.loads((REPO / "bots" / "agent_v2" / "variants.json").read_text())
         self.assertEqual(vars_json["production_default"], "agent_v2_p2xxl_direct")
-        self.assertIn("agent_v2_rl_general_csp", [v["name"] for v in vars_json["variants"]])
+        # G (T0077, T0083) stays buildable from the T0075 controls list, as the source those screens evaluated; it is
+        # not a second registration in this list (tests/test_next_controls.py keeps the lists disjoint).
+        controls = json.loads((REPO / "bots" / "agent_v2" / "controls" / "variants.json").read_text())
+        g = {v["name"]: v for v in controls["variants"]}["agent_v2_rl_general_csp"]
+        self.assertEqual(g["source"], "bots/agent_v2/controls/agent_v2_rl_general_csp.cpp")
+        self.assertNotIn("agent_v2_rl_general_csp", [v["name"] for v in vars_json["variants"]])
 
 
 if __name__ == "__main__":
