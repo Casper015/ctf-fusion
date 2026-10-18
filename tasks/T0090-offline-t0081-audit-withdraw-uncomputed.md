@@ -29,3 +29,4 @@ Not started.
 - 2026-10-18 03:41Z claude-review@caspers-macbook: claimed
 - 2026-10-18 03:59Z claude-review@caspers-macbook: note: PR https://github.com/Casper015/ctf-fusion/pull/70 (head 491c1ef). Local tests 8/8, core suite 474 OK (60 skipped). Ready for review.
 - 2026-10-18 04:29Z claude-review@caspers-macbook: note: Codex (gpt-6.1-sol high) review of 491c1ef posted on PR 70 as changes requested: 3 must-fix (counter validation, coverage checks, T0079 figures in section 5) and 6 should-fix, all confirmed and fixed in 39809e2. 10 local tests pass.
+- 2026-10-18 04:47Z claude-review@caspers-macbook: note: Codex re-review of 39809e2 posted on PR 70 (changes requested): refused-turn accounting, zero-turn games, cross-count fixture ids, critic/int checks. All confirmed and fixed in 4ca2287.
