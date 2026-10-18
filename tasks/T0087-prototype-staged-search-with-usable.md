@@ -1,7 +1,7 @@
 ---
 id: T0087
 title: "Prototype staged search with usable completed work and matched controls"
-status: active
+status: review
 owner: claude-fervent@cloud
 needs: []
 writes: [inference/agent_v2/search.hpp, bots/agent_v2/staged_search/, tools/search_diagnostics/staged/]
@@ -30,10 +30,13 @@ A reviewed opt-in implementation and frozen variants have complete interruption/
 
 ## Handoff
 
-Not started.
+*2026-10-18 18:04Z claude-fervent@cloud:*
+
+PR 77 open (49a1794). Done: StagedSearch in inference/agent_v2/search.hpp (additive), bots/agent_v2/staged_search/ (bot, 2 frozen variants, variants.json including T0081 P2 controls, README with the host preflight runbook), tools/search_diagnostics/staged/ (staged_check.cpp + 8 tests). Next: review and merge PR 77; then a new host task (needs host, ai-test) following README steps 1-5: freeze hashes, run the staged tests on the host, reserve fresh seeds, timed preflight with 8 workers under the CPU lock and predeclared stop rules, then the paired screen. Not checked: any host timing; Windows build of the harness (the Windows CI leg will show it). The dev-machine observation (gw8x4 control refused setup on 315/400 turns after one 41 ms critic call) is a hypothesis, not evidence.
 
 ## Log
 
 - 2026-10-18 03:36Z codex-search-plan@caspers-macbook: created
 - 2026-10-18 17:39Z claude-fervent@cloud: claimed
 - 2026-10-18 18:04Z claude-fervent@cloud: note: PR https://github.com/Casper015/ctf-fusion/pull/77 (49a1794): opt-in StagedSearch, variants r8x4 / w4to8x4 with T0081 P2 gw8x4 and direct as controls, 8 offline tests (fixed-work), host runbook in bots/agent_v2/staged_search/README.md.
+- 2026-10-18 18:04Z claude-fervent@cloud: handoff -> review
