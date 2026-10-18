@@ -168,8 +168,18 @@ class Engine(unittest.TestCase):
         cls.match_path = cls.tmp / "n02" / f"{fx.match_id}.json.gz"
         matchlog.save(cls.match_path, cls.match)
         tool = diag_build.binary_path(cls.ids["root_tool"])
-        plan = select_roots(cls.match, 0, [("unconditioned", 1)], "test")
-        cls.root = extract_root(cls.match_path, cls.match, 0, plan[0], cls.ids["root_tool"], tool, "test")
+        plan = select_roots(cls.match, 0, [("unconditioned", 2)], "test")
+        cls.roots_dir = cls.tmp / "roots"
+        cls.roots = []
+        for row in plan:
+            r, leaves = extract_root(cls.match_path, cls.match, 0, row, cls.ids["root_tool"], tool, "test")
+            d = cls.roots_dir / "n02"
+            d.mkdir(parents=True, exist_ok=True)
+            (d / r["leaf_features"]["file"]).write_bytes(leaves)
+            from tools.search_diagnostics.schemas import write_gz  # noqa: PLC0415
+            write_gz(d / f"{r['root_id']}.json.gz", r)
+            cls.roots.append(r)
+        cls.root = cls.roots[0]
         from tools.search_diagnostics.branch import commands_for  # noqa: PLC0415
         cls.commands = commands_for(cls.match, 0, diag_build.binary_path(cls.ids["continuation_bot"]), cls.root_dir,
                                     REPO / "build" / "roster")
@@ -198,12 +208,70 @@ class Engine(unittest.TestCase):
         from tools.search_diagnostics.branch import BranchRefused  # noqa: PLC0415
         m = copy.deepcopy(self.match)
         m["blocks"][3] = m["blocks"][3].replace("SCORE 0 0", "SCORE 1 0")
-        with self.assertRaisesRegex(BranchRefused, "block differs"):
+        with self.assertRaisesRegex(BranchRefused, "input differs"):
+            self.play(match=m)
+        m = copy.deepcopy(self.match)
+        m["init"] = m["init"].replace("MAP", "MAP ", 1)
+        with self.assertRaisesRegex(BranchRefused, "turn-1 input differs"):
             self.play(match=m)
         m = copy.deepcopy(self.match)
         m["replies"][4][1] = None
         with self.assertRaisesRegex(BranchRefused, "recorded fault"):
             self.play(match=m)
+        m = copy.deepcopy(self.match)
+        m["faults"] = [[3, 1, "timeout (>50 ms)"]]
+        with self.assertRaisesRegex(BranchRefused, "recorded a fault"):
+            self.play(match=m)
+
+    def test_a_malformed_recorded_root_reply_is_never_a_complete_branch(self):
+        from tools.search_diagnostics.branch import BranchRefused, tokens  # noqa: PLC0415
+        t = self.root["turn"]
+        m = copy.deepcopy(self.match)
+        m["replies"][t - 1][1] = "999 " + " ".join(tokens(m["replies"][t - 1][1])[1:])
+        with self.assertRaisesRegex(BranchRefused, "diverged"):
+            self.play(match=m)
+
+    def test_another_engine_is_refused(self):
+        from tools.search_diagnostics.branch import BranchRefused, commands_for  # noqa: PLC0415
+        m = copy.deepcopy(self.match)
+        m["engine_sha256"] = "0" * 64
+        with self.assertRaisesRegex(BranchRefused, "engine differs"):
+            commands_for(m, 0, diag_build.binary_path(self.ids["continuation_bot"]), self.root_dir, REPO / "build" / "roster")
+
+    def test_collection_binds_resumes_reuses_and_never_replays(self):
+        from tools.search_diagnostics.analyze import analyze  # noqa: PLC0415
+        from tools.search_diagnostics.collect import collect, row_path  # noqa: PLC0415
+        from tools.search_diagnostics.schemas import read_gz, write_gz  # noqa: PLC0415
+        base = Path(tempfile.mkdtemp())
+        ledger = base / "TEST_SEEDS.md"
+        ledger.write_text("| 31415926 | test | Reserved |\n| 27182818 | other test | Reserved |\n")
+        args = dict(roots_dir=self.roots_dir, matches_dir=self.tmp, build=self.ids, ai_test=self.root_dir, repeats=1,
+                    seed=31415926, ledger=ledger, workers=2, dev=True)
+        first = collect(out=base / "primary", cand_set="primary", **args)
+        self.assertEqual((first["played"], first["episodes_played"]), (2, 16))
+        again = collect(out=base / "primary", cand_set="primary", **args)
+        self.assertEqual((again["kept"], again["played"]), (2, 0))
+        ext = collect(out=base / "extended", cand_set="extended", reuse_dir=base / "primary", **args)
+        extra = sum(len(r["candidate_sets"]["extended"]) - len(r["candidate_sets"]["primary"]) for r in self.roots)
+        self.assertEqual(ext["episodes_played"], extra)
+        with self.assertRaisesRegex(ValidationError, "already consumed"):
+            collect(out=base / "copy", cand_set="primary", **args)
+        out = analyze(self.roots_dir, base / "extended")
+        self.assertEqual(out["analysed"] + sum(out["excluded"].values()), 2)
+        p = row_path(base / "primary", self.root)
+        row = read_gz(p)
+        row["branches"][0]["utility"] = 1.0 - row["branches"][0]["utility"]
+        write_gz(p, row)
+        with self.assertRaises(ValidationError):
+            collect(out=base / "primary", cand_set="primary", **args)
+
+    def test_extraction_writes_the_leaf_features_it_records(self):
+        from tools.search_diagnostics.schemas import verify_leaves  # noqa: PLC0415
+        for r in self.roots:
+            p = self.roots_dir / "n02" / r["leaf_features"]["file"]
+            verify_leaves(r, p)
+            self.assertEqual(p.stat().st_size, r["leaf_features"]["rows"] * 416 * 4)
+            self.assertGreater(r["leaf_features"]["rows"], 0)
 
     def test_extraction_refuses_a_seat_the_package_did_not_play(self):
         from tools.search_diagnostics.extract import RootRefused, extract_root  # noqa: PLC0415
@@ -231,16 +299,15 @@ class Engine(unittest.TestCase):
         m["created"] = "later"
         matchlog.save(changed, m)
         with self.assertRaisesRegex(ValidationError, "changed since"):
-            _job((self.root, changed, "primary", 1, 5, self.ids, str(self.root_dir), "id"))
+            _job((self.root, changed, "primary", [0], 1, 5, self.ids, str(self.root_dir), "id", None))
 
-    def test_parity_compares_and_gates_on_coverage(self):
-        from tools.search_diagnostics.parity import audit, build_check  # noqa: PLC0415
+    def test_parity_passes_with_default_coverage_and_gates_on_it(self):
+        from tools.search_diagnostics.parity import COVERAGE, audit, build_check  # noqa: PLC0415
         exe = build_check(OUT / "check")
-        rep = audit(self.engine, exe, [3], 60, 7, minimums={k: 0 for k in ("death", "respawn", "pickup", "drop",
-                                                                         "capture", "return", "attack",
-                                                                         "simultaneous_attack", "refresh")})
-        self.assertEqual((rep["status"], rep["differences"], rep["steps_compared"]), ("passed", 0, 60))
-        strict = audit(self.engine, exe, [2], 1, 7, minimums={"capture": 5})
+        rep = audit(self.engine, exe, [2, 5, 8, 15], 400, 4242)
+        self.assertEqual((rep["status"], rep["differences"], rep["short_of_minimum"]), ("passed", 0, {}))
+        self.assertTrue(all(rep["coverage"][k] >= 1 for k in COVERAGE))
+        strict = audit(self.engine, exe, [2], 1, 7)
         self.assertEqual(strict["status"], "insufficient_coverage")
 
 

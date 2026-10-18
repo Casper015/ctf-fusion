@@ -1,7 +1,9 @@
 """Registered scenario seeds and the common random keys of a collection (task T0085).
 
-A collection takes one scenario seed, which must be reserved in the ledger the run names (for T0086,
-docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md) and must not appear in any other seed ledger. Every branch of root r, repeat
+A collection takes one scenario seed. When a collection starts, the seed must have a line marked "reserved" (and none
+marked "used" or "consumed") in the ledger the run names (for T0086, docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md), and must
+not appear in any other seed ledger; collect.py also refuses it when another collection beside the output already
+used it. Mark it used in the ledger once the collection is complete. Every branch of root r, repeat
 k, whatever its candidate, uses the same two keys:
 
   env_key   = key(seed, root, k, "env")    reseeds the engine's flag-refresh RNG (engine.Game.flag_rng) just before
@@ -49,8 +51,11 @@ def check_seed(seed: int, ledger: Path, ledgers_dir: Path = REPO / "docs") -> di
     if not ledger.is_file():
         raise ValidationError(f"seed ledger {ledger} not found")
     word = re.compile(rf"(?<!\d){seed}(?!\d)")
-    if not word.search(ledger.read_text(encoding="utf-8")):
-        raise ValidationError(f"seed {seed} is not reserved in {ledger}")
+    lines = [ln for ln in ledger.read_text(encoding="utf-8").splitlines() if word.search(ln)]
+    if not any(re.search(r"\breserved\b", ln, re.I) for ln in lines):
+        raise ValidationError(f"seed {seed} has no line marked reserved in {ledger}")
+    if any(re.search(r"\b(used|consumed)\b", ln, re.I) for ln in lines):
+        raise ValidationError(f"seed {seed} is marked used or consumed in {ledger}")
     others = []
     for p in sorted(Path(ledgers_dir).glob("*SEEDS*.md")):
         if p.resolve() == ledger.resolve():

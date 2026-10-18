@@ -83,7 +83,7 @@ Run from the repository root, with `AI_TEST_ROOT` set and every evidence step un
    python -m tools.search_diagnostics.cli analyze --roots ROOTS --rows ROWS --splits SPLITS.json --out ANALYSIS.json
    ```
 
-Outputs are never overwritten, and a collection with another identity is refused.
+Reports (`SELECTION.json`, P, parity and analysis outputs) are never overwritten. Collection rows are written once, and a stored row that no longer validates stops the run instead of being replayed. A collection with another identity is refused.
 
 ## Tests
 

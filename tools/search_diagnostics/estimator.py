@@ -8,7 +8,8 @@ branches. Every branch is a whole game: the faithful protocol replays the causal
 before the root, so a branch costs about one full game whatever the root turn.
 
 Wall time comes only from measured branches: --measured reads a collection's rows (wall_s of complete branches, per
-team count). A count without measured branches has no time estimate, and then neither has the total; no step time
+team count, from process start to the end of the game). A source game is costed at its count's branch time (a branch
+plays a whole game too); that is an approximation, and the output says so. A count without measured branches has no time estimate, and then neither has the total; no step time
 is assumed. With --model linear-teams, counts without measurements get a least-squares line of branch wall time
 against team count, fitted on the measured branches (two or more measured counts required); those counts are
 labelled "modelled, not measured".
@@ -79,11 +80,11 @@ def estimate(design: dict | None = None, measured: dict[int, dict] | None = None
         "cpu_hours": cpu / 3600 if cpu is not None else None,
         "wall_hours": cpu / 3600 / d["workers"] if cpu is not None else None,
         "time_status": ("unavailable: measure every team count, or pass --model linear-teams" if cpu is None else
-                        "measured on the given rows" if not fit else
+                        "branch time measured on the given rows; source games costed at branch time" if not fit else
                         f"partly modelled: wall_s = {fit[0]:.3f} + {fit[1]:.3f} x teams on unmeasured counts"),
         "per_count": per_count,
-        "notes": "an estimate until the full run is timed; parallel overheads and opponent start-up are inside the "
-                 "measured wall_s only if the smoke ran under the same worker count",
+        "notes": "an estimate until the full run is timed: wall_s includes bot start-up and the prefix replay, and "
+                 "parallel contention only as far as the smoke ran under the same worker count",
     }
 
 

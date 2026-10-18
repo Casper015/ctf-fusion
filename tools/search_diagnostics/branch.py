@@ -5,10 +5,11 @@ One branch plays candidate c of root (match, seat, t) in repeat k to the end of 
   1. the official engine is rebuilt from the match's map and flag seeds; every bot of the match is a fresh process
      (our seat: the package's continuation bot with the repeat's actor key from turn t + 1; the opponents: their
      recorded programs, whose hashes must equal the match's);
-  2. turns 1 .. t - 1 replay the record: every reproduced TURN block must equal the recorded one, every bot is fed
-     exactly what it saw, every bot's reply must equal its recorded reply (by order), and the engine steps the
-     recorded orders. Any difference refuses the branch with the reason: a process whose replies diverge has a
-     different private state than in the source game, and no branch from it is called faithful;
+  2. turns 1 .. t - 1 replay the record: every reproduced input (turn 1: each seat's INIT and the TURN block) must
+     equal the recorded one, every bot is fed exactly what it saw, every bot's reply must equal its recorded reply
+     token for token (comments aside), the recorded reply must be one the engine accepts, and the engine steps the
+     recorded orders. A recorded fault in the prefix or at the root, a reply that differs, a malformed recorded
+     reply or a bot fault refuses the branch with the reason;
   3. turn t: the block must again equal the record; every bot answers under the official limit, and every answer
      must again equal the record (our seat's is the baseline order). The engine's flag-refresh RNG is reseeded with
      the repeat's environment key, then it steps the opponents' recorded orders and our candidate order. The
@@ -18,9 +19,11 @@ One branch plays candidate c of root (match, seat, t) in repeat k to the end of 
      factual is reused. The outcome is our seat's terminal pairwise utility (fusion.labels.pairwise_outcome).
 
 Our continuation process forced to play candidate c at t keeps no state of its own computed order (agent_v2's
-History holds observed states only; inference/agent_v2/core.hpp), so its memory after t is the branch's. Opponent
-processes answered the root exactly as recorded and played it, so theirs is too. Opponent randomness after t is
-their own and is not controlled; each row says so.
+History holds observed states only; inference/agent_v2/core.hpp), so its memory after t is the branch's. For the
+opponents the protocol establishes only what it observes: every reply through the root equals the record. Their
+private state is assumed to be a function of their inputs (deterministic programs); a program that is not is
+caught only when its replies diverge. Each row records this assumption, and their randomness after t is their own
+(not controlled). The engine must be the one the source game was played with (its SHA-256).
 """
 from __future__ import annotations
 
@@ -41,13 +44,13 @@ class BranchRefused(Exception):
     """The branch cannot be played faithfully; the message is the reason."""
 
 
-def _decode(game, i: int, line: str | None) -> dict:
-    if line is None:
-        return {}
-    try:
-        return game.decode(i, line)
-    except ValueError:
-        return {}
+def tokens(line: str | None) -> list[str] | None:
+    """A reply's tokens with its turn number, without a comment."""
+    return None if line is None else line.partition("#")[0].split()
+
+
+def recorded_faults(match: dict, upto: int) -> list:
+    return [f for f in match.get("faults", []) if f[0] <= upto]
 
 
 def play_branch(engine, match: dict, root: dict, candidate: int, env_key: int, actor_key: int,
@@ -55,24 +58,27 @@ def play_branch(engine, match: dict, root: dict, candidate: int, env_key: int, a
                 bot_factory: Callable[..., object] = runner.Bot) -> dict:
     """One branch result (status complete), or BranchRefused."""
     seat, turn = root["source"]["seat"], root["turn"]
+    if recorded_faults(match, turn):
+        raise BranchRefused(f"the source game recorded a fault at or before the root: {recorded_faults(match, turn)[0]}")
     order = root["candidates"][candidate]["order"]
     if order_of(order) is None or not order.startswith(f"{turn} "):
         raise BranchRefused(f"candidate {candidate} is not an order for turn {turn}")
     cmds = [list(c) for c in commands]
     cmds[seat] = cmds[seat] + [str(actor_key), str(turn + 1)]
     names = [s["name"] for s in match["seats"]]
+    started = time.perf_counter()
     game = engine.Game(match["teams"], match["map_seed"], flag_seed=match["flag_seed"])
     bots = [bot_factory(c, n, (limits[0], PREFIX_LIMIT)) for c, n in zip(cmds, names)]
     faults: dict[str, list] = {"prefix": [], "root": [], "continuation": []}
-    started = time.perf_counter()
     try:
         while not game.done:
             t = game.turn + 1
             inputs = [game.encode(i) for i in range(match["teams"])]
             if t <= turn:
-                block = matchlog.split_init(inputs[0])[1] if t == 1 else inputs[0]
-                if block != match["blocks"][t - 1]:
-                    raise BranchRefused(f"the engine's turn-{t} block differs from the recorded one")
+                want = ([matchlog.init_for_seat(match["init"], i) + match["blocks"][0] for i in range(match["teams"])]
+                        if t == 1 else [match["blocks"][t - 1]] * match["teams"])
+                if inputs != want:
+                    raise BranchRefused(f"the engine's turn-{t} input differs from the recorded one")
             if t == turn:
                 for b in bots:
                     b.turn_limit = limits[1]
@@ -87,22 +93,30 @@ def play_branch(engine, match: dict, root: dict, candidate: int, env_key: int, a
                 for i, (got, want) in enumerate(zip(lines, match["replies"][t - 1])):
                     if want is None:
                         raise BranchRefused(f"seat {i}'s recorded reply at turn {t} is missing (a recorded fault)")
-                    if order_of(got) != order_of(want):
+                    if tokens(got) != tokens(want):
                         raise BranchRefused(f"seat {i} ({names[i]}) diverged from the record at turn {t}"
                                             f"{' (root)' if t == turn else ''}: {want!r} recorded, {got!r} replayed")
                 lines = list(match["replies"][t - 1])
                 if t == turn:
                     lines[seat] = order
-                    game.flag_rng.seed(env_key)
             orders = {}
             for i, (b, line) in enumerate(zip(bots, lines)):
-                orders[i] = _decode(game, i, line)
-                if t > turn and line is not None:
-                    if orders[i]:
-                        b.ok()
-                    else:
-                        b.strike(t, "malformed output")
-                        faults["continuation"].append([t, i, "malformed output"])
+                if line is None:
+                    orders[i] = {}
+                    continue
+                try:
+                    orders[i] = game.decode(i, line)
+                except ValueError as exc:
+                    if t <= turn:
+                        raise BranchRefused(f"seat {i}'s {'candidate' if t == turn and i == seat else 'recorded'} "
+                                            f"order at turn {t} is rejected by the engine: {exc}") from None
+                    orders[i] = {}
+                    b.strike(t, f"malformed output: {exc}")
+                    faults["continuation"].append([t, i, f"malformed output: {exc}"])
+                    continue
+                b.ok()
+            if t == turn:
+                game.flag_rng.seed(env_key)
             game.step(orders)
         result = game.result()
     finally:
@@ -114,6 +128,7 @@ def play_branch(engine, match: dict, root: dict, candidate: int, env_key: int, a
         "final_score": score, "utility": float(pairwise_outcome(score)[seat]), "final_turn": result["turns"],
         "terminal": bool(game.done), "faults": faults, "wall_s": round(time.perf_counter() - started, 3),
         "opponent_randomness": "uncontrolled (unmodified opponent processes)",
+        "opponent_state": "assumed a function of their inputs; every reply through the root equalled the record",
     }
 
 
@@ -134,8 +149,12 @@ def play_root(engine, match: dict, root: dict, candidates: list[int], keys: list
 
 def commands_for(match: dict, seat: int, continuation_bot: Path, ai_test: Path, build_dir: Path) -> list[list[str]]:
     """Every seat's command: our seat the continuation bot, each opponent its pool program, whose SHA-256 must equal
-    the one the match recorded (a changed opponent is refused, never substituted)."""
-    from fusion.paths import bot_path, load_pool, sha256  # noqa: PLC0415
+    the one the match recorded (a changed opponent is refused, never substituted). The engine must be the source
+    game's too."""
+    from fusion.paths import bot_path, engine_path, load_pool, sha256  # noqa: PLC0415
+
+    if sha256(engine_path(ai_test)) != match["engine_sha256"]:
+        raise BranchRefused("the engine differs from the one the source game was played with")
 
     pool = {e["name"]: e for e in load_pool()["bots"]}
     out = []

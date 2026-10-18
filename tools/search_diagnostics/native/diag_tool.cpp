@@ -6,11 +6,13 @@
 // block, refuse it (all-stay) or draw the actor's joint with uniform(seed, turn), resolve the complete default order
 // with assign_v1, commit. Nothing here has a deadline.
 //
-//   diag_tool root <stream> <turn>   one JSON line: the replies of turns < turn, then at `turn` the actor's scores,
+//   diag_tool root <stream> <turn> [<leaves.f32>]   one JSON line: the replies of turns < turn, then at `turn` the actor's scores,
 //                                    feasible mask, sampled joint, complete default order, and the search tree's roots
 //                                    (the sampled joint first, then the feasible joints by prior; inference/agent_v2/
 //                                    search.hpp roots()) with each root's complete order and per-scenario values
-//                                    (terminal reward, or the critic of the two-ply leaf; same streams as the bot's tree)
+//                                    (terminal reward, or the critic of the two-ply leaf; same streams as the bot's tree);
+//                                    with <leaves.f32>, every non-terminal leaf's 416 float32 value features, in
+//                                    (root, scenario) order, each candidate naming its rows (-1: terminal)
 //   diag_tool pmarg <stream>         one JSON line per answered turn: for every predicted opponent unit P's movement
 //                                    marginals, the feasible moves, and per move P(wait, pickup, drop, attack) and
 //                                    P(target slot), with the slots' unit ids
@@ -91,7 +93,13 @@ std::string answer(RT& rt, int64_t (&sc)[3][5], int& joint) {
     return rt.commit();
 }
 
-int root(const char* path, int turn) {
+int root(const char* path, int turn, const char* leaves_path) {
+    FILE* leaves = leaves_path ? std::fopen(leaves_path, "wb") : nullptr;
+    if (leaves_path && !leaves) {
+        std::printf("error cannot write %s\n", leaves_path);
+        return 1;
+    }
+    long rows = 0;
     RT rt;
     std::string replies = "[", refused = "[";
     int64_t sc[3][5];
@@ -136,36 +144,44 @@ int root(const char* path, int turn) {
         std::string cands = "[";
         for (int ri = 0; ri < int(tree.roots.size()); ri++) {
             const int j = tree.roots[ri];
-            std::string values = "[", terminal = "[", leaves = "[";
+            std::string values = "[", terminal = "[", hashes = "[", at = "[";
             for (int smp = 0; smp < agent_v2::kSamples; smp++) {
                 agent_v2::trajectory(rt, tree, ri, smp, sim, leaf);
                 double v = leaf.reward;
                 uint64_t lh = 0;
+                long row = -1;
                 if (!leaf.terminal) {
                     v = meow_rl_critic::value(leaf.feats.data());
                     lh = fnv(1469598103934665603ull, leaf.feats.data(), sizeof(float) * leaf.feats.size());
+                    if (leaves) {
+                        std::fwrite(leaf.feats.data(), sizeof(float), leaf.feats.size(), leaves);
+                        row = rows++;
+                    }
                 }
                 values += (smp ? "," : "") + num(v);
                 terminal += std::string(smp ? "," : "") + (leaf.terminal ? "1" : "0");
-                leaves += std::string(smp ? "," : "") + quoted(hex(lh));
+                hashes += std::string(smp ? "," : "") + quoted(hex(lh));
+                at += std::string(smp ? "," : "") + std::to_string(row);
             }
             const auto z = sc[0][j / 25] + sc[1][j / 5 % 5] + sc[2][j % 5];
             cands += std::string(ri ? "," : "") + "{\"joint\":" + std::to_string(j) + ",\"prior\":" + std::to_string(z) +
                      ",\"reply\":" + quoted(agent_v2::reply_text(rt.s.turn, tree.root_orders[ri])) + ",\"values\":" + values +
-                     "],\"terminal\":" + terminal + "],\"leaf_feature_fnv\":" + leaves + "]}";
+                     "],\"terminal\":" + terminal + "],\"leaf_feature_fnv\":" + hashes + "],\"leaf_rows\":" + at + "]}";
         }
         cands += "]";
+        if (leaves) std::fclose(leaves);
         std::printf("{\"schema\":\"ctf-diag-native-root-1\",%s,\"turn\":%d,\"teams\":%d,\"me\":%d,\"seed\":\"%s\",\"uniform\":%s,"
                     "\"state_key\":\"%s\",\"parent_key\":\"%s\",\"policy_feature_fnv\":\"%s\",\"mask\":\"%s\",\"scores\":%s,"
                     "\"sampled_joint\":%d,\"default_reply\":%s,\"tree_T\":\"%s\",\"replies\":%s],\"refused_turns\":%s],"
-                    "\"candidates\":%s}\n",
+                    "\"leaf_dim\":%d,\"leaf_rows\":%ld,\"candidates\":%s}\n",
                     identity(rt).c_str(), rt.s.turn, rt.cache.st.teams, rt.cache.st.me, hex(rt.seed).c_str(), num(u).c_str(),
                     hex(agent_v2::state_key(rt.s)).c_str(), hex(rt.hist.parent() ? agent_v2::state_key(*rt.hist.parent()) : 0).c_str(),
                     hex(feat_hash).c_str(), mask.c_str(), scores.c_str(), joint,
                     quoted(agent_v2::reply_text(rt.s.turn, def.orders)).c_str(), hex(tree.T).c_str(), replies.c_str(),
-                    refused.c_str(), cands.c_str());
+                    refused.c_str(), int(agent_v2::kVF), leaves ? rows : -1L, cands.c_str());
         return 0;
     }
+    if (leaves) std::fclose(leaves);
     std::printf("error the stream ends before turn %d\n", turn);
     return 1;
 }
@@ -256,9 +272,9 @@ int gate(const char* path, double tau) {
 
 int main(int argc, char** argv) {
     const std::string mode = argc > 1 ? argv[1] : "";
-    if (mode == "root" && argc == 4) return root(argv[2], std::atoi(argv[3]));
+    if (mode == "root" && (argc == 4 || argc == 5)) return root(argv[2], std::atoi(argv[3]), argc == 5 ? argv[4] : nullptr);
     if (mode == "pmarg" && argc == 3) return pmarg(argv[2]);
     if (mode == "gate" && argc == 4) return gate(argv[2], std::atof(argv[3]));
-    std::fprintf(stderr, "usage: diag_tool root <stream> <turn> | diag_tool pmarg <stream> | diag_tool gate <stream> <tau>\n");
+    std::fprintf(stderr, "usage: diag_tool root <stream> <turn> [<leaves.f32>] | diag_tool pmarg <stream> | diag_tool gate <stream> <tau>\n");
     return 2;
 }

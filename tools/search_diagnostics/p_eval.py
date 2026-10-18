@@ -6,15 +6,18 @@ marginals, the feasible moves and, per move, P(wait, pickup, drop, attack) and P
 ids. The labels are the opponents' recorded replies of the same turn (what they actually submitted). Never an
 alternative state: this is not oracle forecasting.
 
-Events (each with its own denominator):
-  move    every predicted living unit with a recorded, well-formed reply; label = its submitted move
-  act     ... whose submitted move is feasible for P (P has no action head for an infeasible move: excluded, counted);
-          label = wait / pickup / drop / attack; an action that P's feasibility mask (printed by the tool) marks as
-          without effect after that move (a pickup off a flag cell, a drop without a flag, an attack by a carrier or
-          an immune unit; the engine ignores those) is scored as wait and counted. The mask judges the intended
-          destination, before any blocking
-  target  ... that submitted an attack; label = the slot holding the target. A target in no slot is out of P's
-          support: counted, never scored
+Labels are feasibility-projected requests, the rule P was trained on (fusion/labels.py label_match): what the unit
+asked for, projected onto what P's feasibility masks (printed by the tool) allow. They are not the engine's
+realized actions: the masks judge the intended destination, before any blocking. Events (each with its own
+denominator):
+  move    every predicted living unit with a recorded, well-formed reply; label = its submitted move, or stay when
+          that move is infeasible (counted)
+  act     the same units; label = wait / pickup / drop / attack after the projected move. An action the mask marks
+          as without effect (a pickup off a flag cell, a drop without a flag, an attack by a carrier or an immune
+          unit) is wait (counted); so is an attack whose target is neither in P's eight candidate slots nor an enemy
+          within reach beyond the slot cap (counted)
+  target  units whose act label is attack on a target in one of the slots; label = that slot. An attack on an enemy
+          beyond the slot cap keeps its act label but has no target label (counted)
 Per event: count, mean negative log-likelihood (natural log), top-1 accuracy, expected calibration error over ten
 equal-width bins of the top-1 probability, and every exclusion by reason. A label with probability 0 is counted
 apart and makes the event's NLL unavailable (it is infinite), never clipped. Every probability vector must be
@@ -30,8 +33,9 @@ from collections import Counter
 from pathlib import Path
 
 from fusion import matchlog
-from fusion.protocol import parse_reply
-from tools.search_diagnostics.schemas import NATIVE_P, SCHEMA_P_FIDELITY, ValidationError, finite
+from fusion.labels import _hittable_beyond_cap
+from fusion.protocol import ATTACK, WAIT, parse_block, parse_reply
+from tools.search_diagnostics.schemas import NATIVE_P, SCHEMA_P_FIDELITY, ValidationError, finite, sha256_file, sha256_text
 
 EVENTS = ("move", "act", "target")
 TOL = 1e-6
@@ -98,14 +102,23 @@ class Tally:
 
 def evaluate_match(tool: Path, match: dict, seat: int, tallies: dict) -> dict:
     stream = matchlog.init_for_seat(match["init"], seat) + "".join(match["blocks"])
-    rows = run_pmarg(tool, stream)
+    out = score_rows(run_pmarg(tool, stream), match, tallies)
+    return {"match_id": match["match_id"], "teams": match["teams"], "seat": seat, **out,
+            "stream_sha256": sha256_text(stream)}
+
+
+def score_rows(rows: list[dict], match: dict, tallies: dict) -> dict:
+    """Score the tool's P rows of one match against its recorded replies (the label rules above)."""
     model = rows[0]["predictor"]
-    turns = 0
+    size = int(match["init"].split("\n", 1)[0].split()[3])
+    turns, refused = 0, []
     for row in rows:
         if "refused" in row:
+            refused.append([row["turn"], row["refused"]])
             continue
         t = row["turn"]
         replies = match["replies"][t - 1]
+        units = parse_block(match["blocks"][t - 1]).units
         turns += 1
         for u in row["units"]:
             uid, team, k = u["uid"], u["uid"] // 3, u["uid"] % 3
@@ -116,25 +129,29 @@ def evaluate_match(tool: Path, match: dict, seat: int, tallies: dict) -> dict:
                 tallies["move"].excluded["no well-formed recorded reply"] += 1
                 continue
             r = req[k]
-            tallies["move"].add(move, r.move)
-            if u["legal"][r.move] != "1":
-                tallies["act"].excluded["submitted move infeasible for P"] += 1
-                continue
-            act = check_distribution(u["act"][r.move], w + " act")
-            label = r.act
-            if u["act_legal"][r.move][label] != "1":
-                label = 0                                  # the engine ignores an action without effect: a wait
+            m = r.move
+            if u["legal"][m] != "1":
+                m = 0
+                tallies["move"].relabelled["infeasible move projected to stay"] += 1
+            tallies["move"].add(move, m)
+            act = check_distribution(u["act"][m], w + " act")
+            a = r.act
+            if u["act_legal"][m][a] != "1":
+                a = WAIT
                 tallies["act"].relabelled["effectless action scored as wait"] += 1
-            tallies["act"].add(act, label)
-            if r.act != 3:
-                continue
             slots = u["cand"]
-            if r.target not in slots:
-                tallies["target"].excluded["target outside P's candidate slots"] += 1
-                continue
-            tgt = check_distribution(u["target"][r.move], w + " target")
-            tallies["target"].add(tgt, slots.index(r.target))
-    return {"match_id": match["match_id"], "teams": match["teams"], "turns": turns, "predictor": model}
+            if a == ATTACK and r.target not in slots:
+                _, _, x, y, *_ = units[uid]
+                if _hittable_beyond_cap(units, r.target, team, y * size + x, size):
+                    tallies["target"].excluded["enemy beyond P's slot cap (act label kept)"] += 1
+                else:
+                    a = WAIT
+                    tallies["act"].relabelled["attack without a valid target scored as wait"] += 1
+            tallies["act"].add(act, a)
+            if a == ATTACK and r.target in slots:
+                tgt = check_distribution(u["target"][m], w + " target")
+                tallies["target"].add(tgt, slots.index(r.target))
+    return {"turns": turns, "refused_turns": refused, "predictor": model}
 
 
 def evaluate(tool_identity: dict, tool: Path, match_paths: list[Path], seat_name: str) -> dict:
@@ -147,14 +164,15 @@ def evaluate(tool_identity: dict, tool: Path, match_paths: list[Path], seat_name
     for p in match_paths:
         match = matchlog.load(p)
         tallies = by_count.setdefault(match["teams"], {e: Tally() for e in EVENTS})
-        games.append(evaluate_match(tool, match, designated_seat(match, seat_name), tallies))
+        games.append({**evaluate_match(tool, match, designated_seat(match, seat_name), tallies),
+                      "match_file": p.name, "match_sha256": sha256_file(p)})
     return {
         "schema": SCHEMA_P_FIDELITY, "package": tool_identity["package"],
         "tool_binary_sha256": tool_identity["binary_sha256"], "games": games,
         "event_definitions": {
-            "move": "every predicted living opponent unit with a well-formed recorded reply; label: its submitted move",
-            "act": "those whose submitted move is feasible for P; label: wait / pickup / drop / attack, an effectless action counted and scored as wait",
-            "target": "those that submitted an attack on a unit in one of P's eight candidate slots; label: that slot",
+            "move": "every predicted living opponent unit with a well-formed recorded reply; label: its submitted move, stay when infeasible",
+            "act": "the same units; label: wait / pickup / drop / attack after the projected move, effectless or targetless actions as wait",
+            "target": "units whose act label is attack on a target in one of P's eight candidate slots; label: that slot",
         },
         "by_count": {str(n): {e: t.report() for e, t in tallies.items()} for n, tallies in sorted(by_count.items())},
         "scope": "factual states of recorded games only; P2/P3 differences here are prediction differences, not strength",

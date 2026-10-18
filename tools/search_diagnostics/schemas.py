@@ -1,7 +1,8 @@
 """Record schemas and validation of the agent_v2 branch diagnostics (task T0085).
 
-Every record is plain JSON. Validation fails closed: a missing field, a wrong type, a non-finite number or a broken
-binding raises ValidationError, and nothing is filled in with a default (missing evidence is never zero).
+Every record is plain JSON. The validators below fail closed on what they check (the fields each one names, their
+types, finiteness, and the bindings between records): a violation raises ValidationError, and nothing is filled in
+with a default (missing evidence is never zero).
 """
 from __future__ import annotations
 
@@ -118,6 +119,23 @@ def validate_root(root: dict) -> dict:
     tool = need(root, "tool", dict, w)
     need(tool, "binary_sha256", str, w + " tool")
     need(tool, "package", str, w + " tool")
+    tree = need(tool, "tree", list, w + " tool")
+    if len(tree) != 2 or not all(isinstance(x, int) and not isinstance(x, bool) and x > 0 for x in tree):
+        raise ValidationError(f"{w}: tool tree {tree!r}")
+    samples = tree[1]
+    model = need(root, "model", dict, w)
+    for k in ("carrier", "actor", "actor_digest", "predictor_kind", "predictor", "critic", "resolver"):
+        need(model, k, str, w + " model")
+    policy = need(root, "policy", dict, w)
+    for k in ("seed", "state_key", "parent_key", "policy_feature_fnv", "mask", "tree_T"):
+        need(policy, k, str, w + " policy")
+    need(policy, "sampled_joint", int, w + " policy")
+    leaves = need(root, "leaf_features", dict, w)
+    for k in ("file", "sha256"):
+        need(leaves, k, str, w + " leaf_features")
+    n_rows = need(leaves, "rows", int, w + " leaf_features")
+    if need(leaves, "dim", int, w + " leaf_features") != 416:
+        raise ValidationError(f"{w}: leaf feature dim {leaves['dim']}")
     base = need(root, "baseline", dict, w)
     need(base, "order", str, w + " baseline")
     if base.get("verified") is not True:
@@ -125,7 +143,7 @@ def validate_root(root: dict) -> dict:
     cands = need(root, "candidates", list, w)
     if len(cands) < 2:
         raise ValidationError(f"{w}: fewer than two candidates")
-    seen = set()
+    seen, rows_seen = set(), []
     for i, c in enumerate(cands):
         cw = f"{w} candidate {i}"
         if need(c, "index", int, cw) != i:
@@ -135,8 +153,18 @@ def validate_root(root: dict) -> dict:
             raise ValidationError(f"{cw}: duplicate order {order!r}")
         seen.add(order)
         need(c, "joint", int, cw)
-        finite(need(c, "v_values", list, cw), cw + " v_values")
-    if cands[0]["order"] != base["order"]:
+        vals = finite(need(c, "v_values", list, cw), cw + " v_values")
+        term = need(c, "v_terminal", list, cw)
+        at = need(c, "leaf_rows", list, cw)
+        if not (len(vals) == len(term) == len(at) == samples):
+            raise ValidationError(f"{cw}: {len(vals)} values, {len(term)} terminal flags, {len(at)} leaf rows for {samples} samples")
+        for v, x, r in zip(vals, term, at):
+            if x not in (0, 1) or isinstance(r, bool) or not isinstance(r, int) or (r == -1) != (x == 1):
+                raise ValidationError(f"{cw}: leaf row {r!r} does not match terminal flag {x!r}")
+        rows_seen.extend(r for r in at if r >= 0)
+    if sorted(rows_seen) != list(range(n_rows)):
+        raise ValidationError(f"{w}: leaf rows are not 0 .. {n_rows - 1}, each once")
+    if cands[0]["order"] != base["order"] or cands[0]["joint"] != policy["sampled_joint"]:
         raise ValidationError(f"{w}: candidate 0 is not the baseline")
     sets = need(root, "candidate_sets", dict, w)
     for name, idx in sets.items():
@@ -145,15 +173,32 @@ def validate_root(root: dict) -> dict:
     return root
 
 
-def validate_branch(b: dict, where: str) -> dict:
-    """One branch result inside a row."""
+def verify_leaves(root: dict, path: Path) -> None:
+    """The root's leaf-feature sidecar must exist with the recorded hash and size."""
+    lf = root["leaf_features"]
+    path = Path(path)
+    if not path.is_file():
+        raise ValidationError(f"root {root['root_id']}: leaf features {path} missing")
+    if path.stat().st_size != lf["rows"] * lf["dim"] * 4 or sha256_file(path) != lf["sha256"]:
+        raise ValidationError(f"root {root['root_id']}: leaf features {path} changed")
+
+
+def validate_branch(b: dict, where: str, teams: int | None = None, seat: int | None = None) -> dict:
+    """One branch result inside a row; with teams and seat, the score's length and the utility it implies."""
     for k, kind in (("candidate", int), ("repeat", int), ("env_key", int), ("actor_key", int), ("status", str)):
         need(b, k, kind, where)
     if b["status"] == "complete":
-        finite(need(b, "final_score", list, where), where + " final_score")
+        score = finite(need(b, "final_score", list, where), where + " final_score")
         u = need(b, "utility", (int, float), where)
         if not 0.0 <= u <= 1.0:
             raise ValidationError(f"{where}: utility {u} outside [0, 1]")
+        if teams is not None:
+            if len(score) != teams or not 0 <= seat < teams:
+                raise ValidationError(f"{where}: {len(score)} scores for {teams} teams")
+            want = sum(1.0 if score[seat] > x else 0.5 if score[seat] == x else 0.0
+                       for i, x in enumerate(score) if i != seat) / (teams - 1)
+            if abs(u - want) > 1e-9:
+                raise ValidationError(f"{where}: utility {u} is not the score's pairwise outcome {want}")
         if need(b, "final_turn", int, where) != 400 or b.get("terminal") is not True:
             raise ValidationError(f"{where}: not played to the end")
         faults = need(b, "faults", dict, where)

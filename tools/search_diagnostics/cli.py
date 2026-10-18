@@ -59,8 +59,9 @@ def cmd_extract(a) -> dict:
     out = Path(a.out)
     if out.exists() and any(out.iterdir()):
         raise ValidationError(f"{out} is not empty: roots are extracted once")
-    rule = (f"plan {a.plan}; salt {a.salt}; margin 5; gate tau {a.tau}; outcome-blind (unit positions, HP, carried flags "
-            f"and reply presence; never scores, events or the result)")
+    rule = (f"plan {a.plan}; salt {a.salt}; margin 5; gate tau {a.tau}; outcome-blind: the strata read unit positions, "
+            f"HP, carried flags and reply presence, never the result; the override stratum runs the package's models "
+            f"(P, actor, critic) on each recorded state, which includes the public scores")
     kept, refused = 0, []
     for p in _matches(a.matches, a.counts):
         match = matchlog.load(p)
@@ -68,12 +69,15 @@ def cmd_extract(a) -> dict:
         overrides = run_gate(tool, match, seat, a.tau) if any(s == "override" for s, _ in plan) else None
         for row in select_roots(match, seat, plan, a.salt, overrides):
             try:
-                r = extract_root(p, match, seat, row, build["root_tool"], tool, rule)
+                r, leaves = extract_root(p, match, seat, row, build["root_tool"], tool, rule)
             except RootRefused as e:
                 refused.append({"match": match["match_id"], "teams": match["teams"], "turn": row["turn"],
                                 "stratum": row["stratum"], "reason": str(e)})
                 continue
-            write_gz(out / f"n{match['teams']:02d}" / f"{r['root_id']}.json.gz", r)
+            d = out / f"n{match['teams']:02d}"
+            d.mkdir(parents=True, exist_ok=True)
+            (d / r["leaf_features"]["file"]).write_bytes(leaves)
+            write_gz(d / f"{r['root_id']}.json.gz", r)
             kept += 1
     _write(str(out / "SELECTION.json"), {"rule": rule, "plan": plan, "salt": a.salt, "kept": kept, "refused": refused,
                                          "root_tool": build["root_tool"]["binary_sha256"]})
@@ -83,7 +87,7 @@ def cmd_extract(a) -> dict:
 def cmd_collect(a) -> dict:
     from tools.search_diagnostics.collect import collect  # noqa: PLC0415
     return collect(Path(a.roots), Path(a.matches), _build(a.build), Path(a.out), ai_test_root(a.ai_test), a.set,
-                   a.repeats, a.scenario_seed, Path(a.seed_ledger), a.workers, a.dev)
+                   a.repeats, a.scenario_seed, Path(a.seed_ledger), a.workers, a.dev, Path(a.reuse) if a.reuse else None)
 
 
 def cmd_peval(a) -> dict:
@@ -106,7 +110,7 @@ def cmd_parity(a) -> dict:
 def cmd_analyze(a) -> dict:
     from tools.search_diagnostics.analyze import analyze  # noqa: PLC0415
     splits = json.loads(Path(a.splits).read_text(encoding="utf-8")) if a.splits else None
-    report = analyze(Path(a.roots), Path(a.rows), a.tau, splits)
+    report = analyze(Path(a.roots), Path(a.rows), a.tau, splits, a.counts)
     _write(a.out, report)
     return {"out": a.out, "analysed": report["analysed"], "excluded": report["excluded"]}
 
@@ -142,10 +146,11 @@ def main(argv=None) -> int:
     p.add_argument("--scenario-seed", type=int, required=True)
     p.add_argument("--workers", type=int, default=8)
     p.add_argument("--dev", action="store_true", help="allow another worker count; the manifest says not evidence")
+    p.add_argument("--reuse", help="the primary collection an extended set reuses")
     p.add_argument("--ai-test")
     p = sub.add_parser("parity", help="native simulator step against the engine")
     p.add_argument("--counts", type=int, nargs="+", default=[2, 5, 8, 15])
-    p.add_argument("--steps", type=int, default=160)
+    p.add_argument("--steps", type=int, default=400, help="steps per team count (400: whole games)")
     p.add_argument("--seed", type=int, required=True)
     p.add_argument("--out", required=True)
     p.add_argument("--ai-test")
@@ -154,6 +159,7 @@ def main(argv=None) -> int:
     p.add_argument("--rows", required=True)
     p.add_argument("--splits")
     p.add_argument("--tau", type=float, default=0.002)
+    p.add_argument("--counts", type=int, nargs="*", default=list(range(2, 16)), help="registered counts (missing ones are listed)")
     p.add_argument("--out", required=True)
     p = sub.add_parser("estimate", help="exact episode counts; measured time or none")
     p.add_argument("--measured", help="a collection's rows directory (a smoke)")

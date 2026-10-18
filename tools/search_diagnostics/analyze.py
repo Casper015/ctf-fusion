@@ -17,15 +17,23 @@ and counted by reason, never imputed), U[c][r] is candidate c's terminal utility
                         when either is constant)
   continuation_faults   faults after the root, summed over the root's branches (complete branches keep them; they are
                         reported, not hidden)
-  v_gate                the frozen search gate on the critic's means (inference/agent_v2/search.hpp gated_choice,
-                        tau): its pick, whether it overrides the baseline, and that pick's gain. The critic does not
-                        see the repeats, so this gain carries no repeat selection bias
+  v_gate                the frozen search gate on the critic's means over the first 8 roots, the 8x4 package's tree
+                        (inference/agent_v2/search.hpp gated_choice, tau): its pick, whether it overrides the
+                        baseline, and that pick's gain. With the critic, gate, roots and scenarios fixed before the
+                        branches, the pick does not select on the evaluation repeats, so its gain carries no repeat
+                        selection bias. On an extended row, v_gate24 is the same rule over all 24 roots: a
+                        counterfactual wider gate, not the frozen one
+  gain_repeat_sd        per candidate, the standard deviation over repeats of the paired difference U[c][r] - U[0][r],
+                        averaged over the non-baseline candidates: how much a single repeat moves a paired gain
 
-Aggregation is per stratum (the unconditioned stratum estimates the population of eligible turns; tactical strata
-are reported separately and represent nothing else), per exact team count, over source maps: roots of one map are
-averaged first (the cluster), counts are weighted equally, and the standard error comes from the spread of map
-means within each count. A count with fewer than two maps has no standard error, and then neither has the overall
-estimate. Intervals are normal-approximation 95% intervals and are labelled as such.
+Aggregation is per split and stratum, per exact team count, over source maps. Within a count, roots of one map are
+averaged first (the cluster); maps then count equally, and counts count equally. The estimand is therefore the
+equal-weight mean over counts of the equal-weight mean over maps of the stratum's sampled roots: for the
+unconditioned stratum, of turns drawn uniformly from each map's eligible turns. It is not a pooled-turn mean, and the
+recorded selection weights (eligible / selected turns) are reported per root, not applied. Tactical strata are
+reported separately and represent only themselves. The standard error comes from the spread of map means within
+each count; a count with fewer than two maps has none, and then neither has the overall estimate. Registered counts
+without analysed roots are listed as missing, never averaged as zero. Intervals are normal-approximation 95%.
 """
 from __future__ import annotations
 
@@ -33,10 +41,12 @@ import math
 from collections import Counter, defaultdict
 from pathlib import Path
 
-from tools.search_diagnostics.collect import validate_row
-from tools.search_diagnostics.schemas import SCHEMA_ANALYSIS, ValidationError, read_gz, validate_root
+from tools.search_diagnostics.collect import load_manifest, load_roots, validate_row
+from tools.search_diagnostics.schemas import SCHEMA_ANALYSIS, ValidationError, read_gz
 
-METRICS = ("in_sample_best_gain", "cross_fit_gain", "v_gate_gain", "v_override", "v_spearman", "baseline_repeat_sd")
+METRICS = ("in_sample_best_gain", "cross_fit_gain", "v_gate_gain", "v_override", "v_spearman", "baseline_repeat_sd",
+           "gain_repeat_sd")
+GATE_ROOTS = 8
 
 
 def average_ranks(xs: list[float]) -> list[float]:
@@ -97,7 +107,13 @@ def root_metrics(root: dict, row: dict, tau: float) -> dict:
         ca, cb = pick(a), pick(b)
         cross = (mean([u[ca, r] - u[0, r] for r in b]) + mean([u[cb, r] - u[0, r] for r in a])) / 2
     vmean = [mean(root["candidates"][c]["v_values"]) for c in cands]
-    v_pick = cands[gated_choice(vmean, tau)]
+    gate = [c for c in cands if c < GATE_ROOTS]
+    v_pick = gate[gated_choice(vmean[:len(gate)], tau)]
+    v_pick24 = cands[gated_choice(vmean, tau)] if len(cands) > GATE_ROOTS else None
+
+    def sd_of(xs):
+        return math.sqrt(sum((x - mean(xs)) ** 2 for x in xs) / (len(xs) - 1)) if len(xs) > 1 else None
+    paired = [sd_of([u[c, r] - u[0, r] for r in reps]) for c in cands if c != 0]
     base = [u[0, r] for r in reps]
     sd = math.sqrt(sum((x - mean(base)) ** 2 for x in base) / (len(base) - 1)) if len(base) > 1 else None
     return {
@@ -108,11 +124,14 @@ def root_metrics(root: dict, row: dict, tau: float) -> dict:
         "cross_fit_gain": cross, "v_mean": vmean, "v_spearman": spearman(vmean, mu),
         "v_gate_pick": v_pick, "v_override": float(v_pick != 0), "v_gate_gain": gain[v_pick],
         "baseline_repeat_sd": sd, "context": root.get("context"),
+        "gain_repeat_sd": None if not paired or None in paired else sum(paired) / len(paired),
+        "v_gate24_pick": v_pick24, "v_gate24_gain": gain[v_pick24] if v_pick24 is not None else None,
+        "selection_weight": root["selection"]["weight"],
         "continuation_faults": sum(len(b["faults"]["continuation"]) for b in row["branches"]),
     }
 
 
-def aggregate(rows: list[dict], metric: str) -> dict:
+def aggregate(rows: list[dict], metric: str, counts: list[int] | None = None) -> dict:
     by_count: dict[int, dict[str, list[float]]] = defaultdict(lambda: defaultdict(list))
     missing = 0
     for m in rows:
@@ -126,34 +145,35 @@ def aggregate(rows: list[dict], metric: str) -> dict:
         mean = sum(xs) / len(xs)
         se = math.sqrt(sum((x - mean) ** 2 for x in xs) / (len(xs) - 1) / len(xs)) if len(xs) > 1 else None
         per_count[str(n)] = {"maps": len(xs), "roots": sum(len(v) for v in maps.values()), "mean": mean, "se": se}
+    absent = sorted(set(counts or []) - {int(n) for n in per_count})
     if not per_count:
-        return {"status": "unavailable: no roots with this metric", "missing_roots": missing}
+        return {"status": "unavailable: no roots with this metric", "missing_roots": missing, "missing_counts": absent}
     vals = list(per_count.values())
     mean = sum(v["mean"] for v in vals) / len(vals)
     se = None if any(v["se"] is None for v in vals) else math.sqrt(sum(v["se"] ** 2 for v in vals)) / len(vals)
     return {"status": "computed", "counts": len(vals), "mean_equal_count_weight": mean, "se": se,
             "ci95_normal": [mean - 1.96 * se, mean + 1.96 * se] if se is not None else None,
             "se_status": "computed" if se is not None else "unavailable: a count has fewer than two maps",
-            "missing_roots": missing, "per_count": per_count}
+            "missing_roots": missing, "missing_counts": absent,
+            "scope": "the analysed counts only" if absent else "every registered count", "per_count": per_count}
 
 
-def analyze(roots_dir: Path, rows_dir: Path, tau: float = 0.002, splits: dict | None = None) -> dict:
-    roots = {}
-    for p in sorted(Path(roots_dir).rglob("*.json.gz")):
-        r = validate_root(read_gz(p))
-        if r["root_id"] in roots:
-            raise ValidationError(f"duplicate root {r['root_id']}")
-        roots[r["root_id"]] = r
+def analyze(roots_dir: Path, rows_dir: Path, tau: float = 0.002, splits: dict | None = None,
+            counts: list[int] | None = None) -> dict:
+    man = load_manifest(rows_dir)
+    roots = load_roots(roots_dir)
     excluded: Counter = Counter()
     per_root, seen = [], set()
     for p in sorted(Path(rows_dir).glob("n[0-9][0-9]/*.json.gz")):
-        row = validate_row(read_gz(p))
-        if row["root_id"] in seen:
-            raise ValidationError(f"duplicate row for root {row['root_id']}")
-        seen.add(row["root_id"])
-        root = roots.get(row["root_id"])
+        rid = p.name[:-len(".json.gz")]
+        if rid in seen:
+            raise ValidationError(f"duplicate row for root {rid}")
+        seen.add(rid)
+        root = roots.get(rid)
         if root is None:
-            raise ValidationError(f"row {row['root_id']} has no root record")
+            raise ValidationError(f"row {rid} has no root record")
+        row = validate_row(read_gz(p), man["identity_digest"], root, man["candidate_set"], man["repeats"],
+                           man["scenario_seed"])
         refused = [b["reason"] for b in row["branches"] if b["status"] != "complete"]
         if refused:
             excluded[refused[0].split(":")[0]] += 1
@@ -166,9 +186,10 @@ def analyze(roots_dir: Path, rows_dir: Path, tau: float = 0.002, splits: dict | 
     for m in per_root:
         groups[(m["split"], m["stratum"])].append(m)
     return {
-        "schema": SCHEMA_ANALYSIS, "tau": tau, "roots": len(roots), "analysed": len(per_root),
+        "schema": SCHEMA_ANALYSIS, "tau": tau, "collection": man["identity_digest"], "evidence": man["evidence"],
+        "candidate_set": man["candidate_set"], "roots": len(roots), "analysed": len(per_root),
         "excluded": {k: v for k, v in excluded.items() if v},
-        "groups": {f"{s}/{st}": {metric: aggregate(ms, metric) for metric in METRICS}
+        "groups": {f"{s}/{st}": {metric: aggregate(ms, metric, counts) for metric in METRICS}
                    for (s, st), ms in sorted(groups.items())},
         "per_root": per_root,
         "notes": __doc__.split("\n\n", 1)[1],
