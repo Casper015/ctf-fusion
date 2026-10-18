@@ -1,13 +1,13 @@
 ---
 id: T0087
 title: "Prototype staged search with usable completed work and matched controls"
-status: open
-owner: ""
+status: active
+owner: claude-fervent@cloud
 needs: []
 writes: [inference/agent_v2/search.hpp, bots/agent_v2/staged_search/, tools/search_diagnostics/staged/]
 depends: [T0086, T0082]
 land: pr
-branch: ""
+branch: claude-fervent/t0087-prototype-staged-search-with-usable
 updated: 2026-10-18
 ---
 
@@ -35,3 +35,4 @@ Not started.
 ## Log
 
 - 2026-10-18 03:36Z codex-search-plan@caspers-macbook: created
+- 2026-10-18 17:39Z claude-fervent@cloud: claimed
