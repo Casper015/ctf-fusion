@@ -1,292 +1,152 @@
-"""Faithful branch restoration and continuation harness (T0085).
+"""Faithful branch continuations from a root (task T0085, protocol faithful-replay-v1).
 
-Preserves:
-  - Official engine.py Game state INCLUDING hidden RNG and map/flag seeds for evaluator use.
-  - Full causal prefix replay into live bot processes (reconstructing persistent state, memory, caches).
-  - Submitted opponent commands at root turn t are held COMMON across all candidate branches.
-  - From turn t+1 to terminal, all bots are live and reactive to the counterfactual branch state.
-  - Factual future opponent replies are NEVER reused as counterfactual ground truth.
-  - Complete episode rollouts to terminal pairwise rank utility U_T.
-  - Fault tracking by phase: prefix, root-turn discarded, and continuation.
+One branch plays candidate c of root (match, seat, t) in repeat k to the end of the game:
+
+  1. the official engine is rebuilt from the match's map and flag seeds; every bot of the match is a fresh process
+     (our seat: the package's continuation bot with the repeat's actor key from turn t + 1; the opponents: their
+     recorded programs, whose hashes must equal the match's);
+  2. turns 1 .. t - 1 replay the record: every reproduced TURN block must equal the recorded one, every bot is fed
+     exactly what it saw, every bot's reply must equal its recorded reply (by order), and the engine steps the
+     recorded orders. Any difference refuses the branch with the reason: a process whose replies diverge has a
+     different private state than in the source game, and no branch from it is called faithful;
+  3. turn t: the block must again equal the record; every bot answers under the official limit, and every answer
+     must again equal the record (our seat's is the baseline order). The engine's flag-refresh RNG is reseeded with
+     the repeat's environment key, then it steps the opponents' recorded orders and our candidate order. The
+     opponents' submitted commands are therefore common to every candidate, and every candidate of a repeat meets
+     the same refresh draws;
+  4. turns t + 1 .. 400 are live under the official limits: every bot observes the branch and answers; nothing
+     factual is reused. The outcome is our seat's terminal pairwise utility (fusion.labels.pairwise_outcome).
+
+Our continuation process forced to play candidate c at t keeps no state of its own computed order (agent_v2's
+History holds observed states only; inference/agent_v2/core.hpp), so its memory after t is the branch's. Opponent
+processes answered the root exactly as recorded and played it, so theirs is too. Opponent randomness after t is
+their own and is not controlled; each row says so.
 """
 from __future__ import annotations
 
-import copy
-import math
 import time
-from typing import Any, Callable
+from pathlib import Path
+from typing import Callable
 
-from fusion import matchlog
+from fusion import matchlog, runner
 from fusion.labels import pairwise_outcome
-from fusion.paths import REPO
-from fusion.protocol import parse_block, parse_reply
-from tools.search_diagnostics.schemas import (
-    BranchResult,
-    CandidateOrder,
-    RootRecord,
-    SCHEMA_BRANCH,
-    ValidationError,
-    fnv64,
-)
+from tools.search_diagnostics.extract import order_of
+from tools.search_diagnostics.schemas import PROTOCOL
 
 LIMITS = (2.0, 0.05)
-PREFIX_LIMIT = 5.0
+PREFIX_LIMIT = 5.0     # seconds per reply while a bot replays the recorded prefix (no timing is measured there)
 
 
-class PrefixDivergenceError(ValidationError):
-    """Raised when replayed prefix diverges from recorded public state or legal orders."""
+class BranchRefused(Exception):
+    """The branch cannot be played faithfully; the message is the reason."""
 
 
-def recorded_orders(game: Any, match: dict[str, Any], turn: int) -> dict[int, Any]:
-    """Decode recorded orders for a given turn from match replies."""
-    orders: dict[int, Any] = {}
-    replies = match.get("replies", [])
-    if turn - 1 >= len(replies):
-        return orders
-    turn_replies = replies[turn - 1]
-    for i, line in enumerate(turn_replies):
-        if line is not None:
-            try:
-                orders[i] = game.decode(i, line)
-            except (ValueError, KeyError):
-                orders[i] = {}
-        else:
-            orders[i] = {}
-    return orders
+def _decode(game, i: int, line: str | None) -> dict:
+    if line is None:
+        return {}
+    try:
+        return game.decode(i, line)
+    except ValueError:
+        return {}
 
 
-def play_branch(
-    engine: Any,
-    match: dict[str, Any],
-    seat: int,
-    turn: int,
-    candidate_order: str,
-    bot_commands: list[list[str]],
-    bot_names: list[str] | None = None,
-    limits: tuple[float, float] = LIMITS,
-    prefix_limit: float = PREFIX_LIMIT,
-    shared_opponent_replies: list[str | None] | None = None,
-    bot_factory: Callable[..., Any] | None = None,
-) -> tuple[BranchResult, list[str | None]]:
-    """Execute a faithful branch continuation rollout from root turn t to terminal.
-
-    Args:
-        engine: official engine module (from fusion.paths.load_engine).
-        match: source match dict (must contain teams, map_seed, flag_seed, blocks, replies).
-        seat: our seat index.
-        turn: root turn t.
-        candidate_order: candidate order line to execute for our seat at turn t.
-        bot_commands: list of command arg-lists for each seat.
-        bot_names: optional names for each seat.
-        limits: (first_limit_s, turn_limit_s).
-        prefix_limit: limit during prefix replay.
-        shared_opponent_replies: opponent replies held common at root turn t.
-        bot_factory: optional factory to construct bots (defaults to fusion.runner.Bot).
-
-    Returns:
-        (BranchResult, turn_t_opponent_replies)
-    """
-    from fusion import runner  # noqa: PLC0415
-
-    teams = int(match.get("teams", len(bot_commands)))
-    map_seed = int(match["map_seed"])
-    flag_seed = int(match.get("flag_seed", 0))
-
-    # 1. Restore official engine including hidden state
-    game = engine.Game(teams, map_seed, flag_seed=flag_seed)
-
-    names = bot_names or [s.get("name", f"seat{i}") for i, s in enumerate(match.get("seats", []))]
-    if len(names) < teams:
-        names = [f"seat{i}" for i in range(teams)]
-
-    make_bot = bot_factory or (lambda cmd, name, lim: runner.Bot(cmd, name, lim))
-    bots = [make_bot(cmd, name, (limits[0], prefix_limit)) for cmd, name in zip(bot_commands, names)]
-
-    t0_start = time.perf_counter()
-    prefix_faults = 0
-    continuation_faults = 0
-    prefix_mismatches = 0
-    root_faults: list[tuple[int, int, str]] = []
-    root_computed_replies: list[str | None] = []
-    effective_root_replies: list[str | None] = []
-
+def play_branch(engine, match: dict, root: dict, candidate: int, env_key: int, actor_key: int,
+                commands: list[list[str]], limits: tuple[float, float] = LIMITS,
+                bot_factory: Callable[..., object] = runner.Bot) -> dict:
+    """One branch result (status complete), or BranchRefused."""
+    seat, turn = root["source"]["seat"], root["turn"]
+    order = root["candidates"][candidate]["order"]
+    if order_of(order) is None or not order.startswith(f"{turn} "):
+        raise BranchRefused(f"candidate {candidate} is not an order for turn {turn}")
+    cmds = [list(c) for c in commands]
+    cmds[seat] = cmds[seat] + [str(actor_key), str(turn + 1)]
+    names = [s["name"] for s in match["seats"]]
+    game = engine.Game(match["teams"], match["map_seed"], flag_seed=match["flag_seed"])
+    bots = [bot_factory(c, n, (limits[0], PREFIX_LIMIT)) for c, n in zip(cmds, names)]
+    faults: dict[str, list] = {"prefix": [], "root": [], "continuation": []}
+    started = time.perf_counter()
     try:
         while not game.done:
             t = game.turn + 1
-            inputs = [game.encode(i) for i in range(teams)]
-
+            inputs = [game.encode(i) for i in range(match["teams"])]
+            if t <= turn:
+                block = matchlog.split_init(inputs[0])[1] if t == 1 else inputs[0]
+                if block != match["blocks"][t - 1]:
+                    raise BranchRefused(f"the engine's turn-{t} block differs from the recorded one")
             if t == turn:
-                # Switch bots to official continuation limit (50 ms)
                 for b in bots:
                     b.turn_limit = limits[1]
                     b.strikes = 0
-
-            # Query all bots
-            starts = [b.send(text) for b, text in zip(bots, inputs)]
-            lines = [b.receive(t0, t) for b, t0 in zip(bots, starts)]
-
-            if t < turn:
-                # Causal prefix replay phase
-                rec_lines = match.get("replies", [])[t - 1] if t - 1 < len(match.get("replies", [])) else []
-                for i, (got, rec) in enumerate(zip(lines, rec_lines)):
-                    if got != rec:
-                        prefix_mismatches += 1
-                for b in bots:
-                    if getattr(b, "faults", None):
-                        prefix_faults += sum(1 for ft, _ in b.faults if ft == t)
-                # Engine steps with the factual recorded orders to ensure faithful state progression
-                orders = recorded_orders(game, match, t)
-                game.step(orders)
-
-            elif t == turn:
-                # Root turn branching phase
-                root_computed_replies = list(lines)
-                for i, (b, got) in enumerate(zip(bots, lines)):
-                    reasons = [r for tt, r in getattr(b, "faults", []) if tt == t]
-                    if got is None and not reasons:
-                        reasons.append("no reply (dead)" if getattr(b, "dead", False) else "no reply")
-                    if got is not None:
-                        try:
-                            game.decode(i, got)
-                        except (ValueError, KeyError) as exc:
-                            reasons.append(f"malformed output: {exc}")
-                    for r in reasons:
-                        root_faults.append((t, i, r))
-
-                # Opponent commands at turn t: held common across all candidate branches!
-                if shared_opponent_replies is not None:
-                    branch_lines = list(shared_opponent_replies)
-                else:
-                    # If not externally supplied, hold what the opponent bots just computed
-                    branch_lines = list(lines)
-
-                # Ensure learner seat plays the counterfactual candidate order
-                branch_lines[seat] = candidate_order
-                effective_root_replies = list(branch_lines)
-
-                orders = {}
-                for i, (b, ln) in enumerate(zip(bots, branch_lines)):
-                    if ln is None:
-                        orders[i] = {}
-                        continue
-                    try:
-                        orders[i] = game.decode(i, ln)
-                        if hasattr(b, "ok"):
-                            b.ok()
-                    except (ValueError, KeyError) as exc:
-                        orders[i] = {}
-                        if hasattr(b, "strike"):
-                            b.strike(t, f"malformed root output: {exc}")
-
-                game.step(orders)
-
-            else:
-                # Live continuation phase (t > turn)
-                # All bots observe and react to the counterfactual branch state
-                orders = {}
-                for i, (b, ln) in enumerate(zip(bots, lines)):
-                    if ln is None:
-                        orders[i] = {}
-                        continue
-                    try:
-                        orders[i] = game.decode(i, ln)
-                        if hasattr(b, "ok"):
-                            b.ok()
-                    except (ValueError, KeyError) as exc:
-                        orders[i] = {}
-                        if hasattr(b, "strike"):
-                            b.strike(t, f"malformed continuation output: {exc}")
-                        continuation_faults += 1
-
-                for b in bots:
-                    if getattr(b, "faults", None):
-                        continuation_faults += sum(1 for ft, _ in b.faults if ft == t)
-
-                game.step(orders)
-
-        raw_score = list(game.result()["score"])
-        utility = float(pairwise_outcome(raw_score)[seat])
-
+            sent = [b.send(x) for b, x in zip(bots, inputs)]
+            lines = [b.receive(s, t) for b, s in zip(bots, sent)]
+            phase = "prefix" if t < turn else "root" if t == turn else "continuation"
+            faults[phase] += [[t, i, r] for i, b in enumerate(bots) for tt, r in b.faults if tt == t]
+            if t <= turn:
+                if faults[phase]:
+                    raise BranchRefused(f"{phase} fault at turn {t}: {faults[phase][0]}")
+                for i, (got, want) in enumerate(zip(lines, match["replies"][t - 1])):
+                    if want is None:
+                        raise BranchRefused(f"seat {i}'s recorded reply at turn {t} is missing (a recorded fault)")
+                    if order_of(got) != order_of(want):
+                        raise BranchRefused(f"seat {i} ({names[i]}) diverged from the record at turn {t}"
+                                            f"{' (root)' if t == turn else ''}: {want!r} recorded, {got!r} replayed")
+                lines = list(match["replies"][t - 1])
+                if t == turn:
+                    lines[seat] = order
+                    game.flag_rng.seed(env_key)
+            orders = {}
+            for i, (b, line) in enumerate(zip(bots, lines)):
+                orders[i] = _decode(game, i, line)
+                if t > turn and line is not None:
+                    if orders[i]:
+                        b.ok()
+                    else:
+                        b.strike(t, "malformed output")
+                        faults["continuation"].append([t, i, "malformed output"])
+            game.step(orders)
+        result = game.result()
     finally:
         for b in bots:
-            if hasattr(b, "close"):
-                b.close()
-
-    elapsed_ms = (time.perf_counter() - t0_start) * 1000.0
-    match_id = str(match.get("match_id", "synthetic"))
-    root_id = fnv64(f"{match_id}:{seat}:{turn}")
-    repeat_key = fnv64(f"{root_id}:{time.time_ns()}")
-
-    result = BranchResult(
-        schema=SCHEMA_BRANCH,
-        root_id=root_id,
-        candidate_index=0,  # caller sets candidate_index
-        repeat_id=0,        # caller sets repeat_id
-        repeat_key=repeat_key,
-        final_score=raw_score,
-        pairwise_utility=utility,
-        faults_prefix=prefix_faults,
-        faults_root_discarded=len(root_faults),
-        faults_continuation=continuation_faults,
-        latency_ms=elapsed_ms,
-        prefix_mismatch_count=prefix_mismatches,
-    )
-    return result, effective_root_replies
+            b.close()
+    score = list(result["score"])
+    return {
+        "candidate": candidate, "status": "complete", "protocol": PROTOCOL, "env_key": env_key, "actor_key": actor_key,
+        "final_score": score, "utility": float(pairwise_outcome(score)[seat]), "final_turn": result["turns"],
+        "terminal": bool(game.done), "faults": faults, "wall_s": round(time.perf_counter() - started, 3),
+        "opponent_randomness": "uncontrolled (unmodified opponent processes)",
+    }
 
 
-def run_faithful_root_rollouts(
-    engine: Any,
-    match: dict[str, Any],
-    root: RootRecord,
-    bot_commands: list[list[str]],
-    repeats: int = 4,
-    bot_factory: Callable[..., Any] | None = None,
-) -> list[BranchResult]:
-    """Execute complete rollouts for all candidates of a root across shared repeats.
+def play_root(engine, match: dict, root: dict, candidates: list[int], keys: list[dict], commands: list[list[str]],
+              limits: tuple[float, float] = LIMITS, bot_factory: Callable[..., object] = runner.Bot) -> list[dict]:
+    """Every (candidate, repeat) branch of a root; refused branches are kept with their reasons."""
+    out = []
+    for k in keys:
+        for c in candidates:
+            base = {"candidate": c, "repeat": k["repeat"], "env_key": k["env_key"], "actor_key": k["actor_key"]}
+            try:
+                b = play_branch(engine, match, root, c, k["env_key"], k["actor_key"], commands, limits, bot_factory)
+                out.append({**b, **base})
+            except BranchRefused as e:
+                out.append({**base, "status": "refused", "reason": str(e)})
+    return out
 
-    Guarantees:
-      - Candidate 0 (baseline) and candidates 1..K-1 share the exact same root turn t opponent commands on repeat r.
-      - Each repeat r evaluates the baseline and all candidates.
-      - All results are validated and input-bound.
-    """
-    all_results: list[BranchResult] = []
 
-    for r in range(repeats):
-        # 1. Roll out Candidate 0 (the direct baseline order) first
-        base_cand = root.candidates[0]
-        base_res, shared_opp = play_branch(
-            engine=engine,
-            match=match,
-            seat=root.seat,
-            turn=root.turn,
-            candidate_order=base_cand.order,
-            bot_commands=bot_commands,
-            shared_opponent_replies=None,
-            bot_factory=bot_factory,
-        )
-        base_res.candidate_index = 0
-        base_res.repeat_id = r
-        base_res.root_id = root.root_id
-        base_res.validate()
-        all_results.append(base_res)
+def commands_for(match: dict, seat: int, continuation_bot: Path, ai_test: Path, build_dir: Path) -> list[list[str]]:
+    """Every seat's command: our seat the continuation bot, each opponent its pool program, whose SHA-256 must equal
+    the one the match recorded (a changed opponent is refused, never substituted)."""
+    from fusion.paths import bot_path, load_pool, sha256  # noqa: PLC0415
 
-        # 2. Roll out alternative candidates holding opponent replies common at turn t
-        for c_idx in range(1, len(root.candidates)):
-            cand = root.candidates[c_idx]
-            cand_res, _ = play_branch(
-                engine=engine,
-                match=match,
-                seat=root.seat,
-                turn=root.turn,
-                candidate_order=cand.order,
-                bot_commands=bot_commands,
-                shared_opponent_replies=shared_opp,
-                bot_factory=bot_factory,
-            )
-            cand_res.candidate_index = c_idx
-            cand_res.repeat_id = r
-            cand_res.root_id = root.root_id
-            cand_res.validate()
-            all_results.append(cand_res)
-
-    return all_results
+    pool = {e["name"]: e for e in load_pool()["bots"]}
+    out = []
+    for i, s in enumerate(match["seats"]):
+        if i == seat:
+            out.append([str(continuation_bot)])
+            continue
+        if s["name"] not in pool:
+            raise BranchRefused(f"seat {i} ({s['name']}) is not in the pool")
+        path = bot_path(pool[s["name"]], ai_test)
+        if sha256(path) != s["sha256"]:
+            raise BranchRefused(f"seat {i} ({s['name']}) changed since the match was played")
+        out.append(runner.command_for(path, build_dir))
+    return out

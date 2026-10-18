@@ -1,121 +1,94 @@
-# Agent V2 Search Diagnostics (`tools/search_diagnostics/`)
+# agent_v2 branch diagnostics (task T0085)
 
-Authoritative, input-bound diagnostic harness for investigating why candidate search underperforms direct policy evaluation in `agent_v2`, delivering faithful causal branching, simulator parity audits, opponent $P$ fidelity verification, and winner's-curse-free evaluation (task T0085).
+This folder measures what agent_v2's root candidates are worth when every candidate is played to the end of the game. It measures that the same way for every candidate, under one frozen continuation policy. It also checks the simulator's mechanics against the engine and P's predictions against what opponents actually did.
 
----
+Every number these tools write is computed from rows. When evidence is absent, the output says "unavailable" and gives the reason.
 
-## 1. Background & Empirical Motivation
+Nothing here is a strength screen or training data for a deployed model. The host collection that uses this harness is task T0086.
 
-Recent host experiments established clear diagnostic evidence:
-- **T0078 (Meowmind Search Ablation):** Search provided **+8.09** utility points `[+6.31, +9.88]`, proving that tree search can substantially improve tactical play in this game.
-- **T0079 (agent_v2 Gated Search):** `agent_v2` search degraded performance by **-3.10** `[-4.47, -1.74]`.
-- **T0081 (P3 vs P2 Search Screen, 3,920 games):** Upgrading opponent prediction from $P_2$ to $P_3$ did **not** rescue search ($-0.0040$ `[-0.0230, +0.0151]`), and $P_3\text{ search} - P_3\text{ direct}$ degraded performance by **-0.0197** `[-0.0390, -0.0004]`, reaching **-0.0684** in completed 3–5 team trees.
+## What each part does
 
-Prior exploratory scripts contained mock placeholders or synthetic labels. Task **T0085** delivers the real, mathematically rigorous, input-bound diagnostic harness to isolate whether failures arise from:
-1. **Simulator mechanics divergence** (engine rules vs native simulator).
-2. **Opponent prediction error** ($P$ fidelity on actual next-turn transitions).
-3. **Candidate generation failure** (lack of positive-gain actions in shortlists).
-4. **Value re-ranking / evaluation error** ($V$ ordering vs realized rollout returns).
+| File | Role |
+|---|---|
+| `native/diag_tool.cpp` | Replays a seat's recorded stream through the real agent_v2 runtime (the direct bot's code path). `root`: at turn t it prints the replies of turns before t; the actor's scores, feasible mask and sampled joint; the complete `assign_v1` default order; and the search tree's roots, each with its complete order and the critic's per-scenario values. `pmarg`: P's movement, action and target distributions at every factual state. |
+| `native/continuation_bot.cpp` | The frozen direct continuation policy π_c: the production direct bot plus one switch, an actor key applied from turn t + 1. With key 0, and before that turn, it answers exactly like the production binary (tested reply by reply). |
+| `packages.json`, `build.py` | The packages that can be built: the production default D (`p2xxl_direct`), general P2 (`p2general`) and general P3 (`p3general`). Both programs are bundled into one source each, whose SHA-256 is their identity. |
+| `extract.py` | Selects roots outcome-blind and extracts them. A root is kept only when the package reproduces the seat's recorded replies before t and its default order equals the recorded reply at t. The baseline is therefore the order actually sent, not the prior's top joint. Candidate sets are nested prefixes: `primary` (8) and `extended` (24), both starting with the baseline. |
+| `branch.py` | The faithful protocol `faithful-replay-v1`. The engine is rebuilt from the match's seeds, and every bot is a fresh process fed its exact causal prefix. Any reproduced block or reply that differs from the record refuses the branch. At t, the opponents' recorded commands are common to every candidate; the environment key reseeds the engine's refresh RNG, and our seat plays the candidate. From t + 1 everything is live to turn 400. |
+| `seeds.py` | Registered scenario seed and common random keys. The seed must be reserved in the run's ledger and absent from every other `docs/*SEEDS*.md`. Repeat k of a root uses the same `env_key` and `actor_key` for every candidate; repeats use independent keys. The opponents' own randomness is not controlled, and each row says so. |
+| `collect.py` | Writes an immutable `MANIFEST.json` (collector identity), then one row per root, bound to the root record's hash. Resuming keeps only equal rows. Exactly 8 workers, unless `--dev` (the manifest then says not evidence). |
+| `p_eval.py` | Factual P fidelity per team count and event (move, act, target): count, NLL, top-1 accuracy, 10-bin ECE, and every exclusion and relabelling by reason. Probability vectors are validated; a label with probability 0 makes that NLL unavailable. |
+| `parity.py` | The native simulator step (`tools/cpp/agent_v2/check.cpp step`) against the engine on identical full commands with controlled refresh outcomes. It passes only with zero differences and the event coverage minimums met. |
+| `analyze.py` | Per root: signed paired gains over the baseline; the in-sample best gain (labelled biased); shortlist regret against the best observed mean; average ranks with ties; a disjoint-fold cross-fit gain (the baseline may be selected); the critic's rank correlation with outcomes; and the frozen gate's pick and its gain. Aggregates per stratum and exact count, by source-map cluster, with counts weighted equally. A standard error exists only when every count has two or more maps. |
+| `estimator.py` | Exact episode counts for T0086's registered design. Wall time only from measured branches. |
+| `tests/` | `test_unit.py` (no compiler) and `test_integration.py`. The integration tests check the native programs against the production binary, the 8×4 prefix of the tree, faithful and keyed branches, refusal of a diverging process (`chaos_bot.py`), of a changed record and of a changed source file, and parity. |
 
----
+What the protocol does not do:
+- It does not restore a process from memory. It replays the record, and refuses when a replay diverges.
+- It never reuses a factual future reply on another branch.
+- It never feeds hidden state to a model.
 
-## 2. Core Architectural Guarantees
+Our continuation process keeps no state of the order it computed at t: `History` holds observed states only (`inference/agent_v2/core.hpp`), and the encoder is `const`. So forcing candidate c at t leaves its memory consistent with the branch.
 
-### A. Real Causal Root Extraction (`extract.py`)
-- **Actually Sampled Baseline:** Captures the true direct joint action $j_{\text{sample}} \in [0, 125)$ sampled by the policy, which is **not** necessarily the top-prior argmax action.
-- **Nested Shortlists:** Produces unique candidate sets containing $j_{\text{sample}}$ (sizes 8 and optionally 24).
-- **Exact Self-Comparison:** Candidate 0 is designated as the exact direct baseline order, guaranteeing $\Delta(a_{\text{base}}) \equiv 0$ on every repeat.
-- **Resolver Completion:** Expands joint moves into complete orders using official `assign_v1` rules (carriers wait, immune units cannot attack, no drops, valid target distances).
+## Runbook (host, task T0086)
 
-### B. Faithful Branch Restoration (`branch.py`)
-- **Hidden RNG Preservation:** Restores official `engine.py` `Game` state including hidden RNG and map/flag seeds for evaluator use.
-- **Full Causal Prefix Replay:** Feeds recorded turns $1 \dots t-1$ into live bot processes (`fusion.runner.Bot`) to reconstruct internal memory, caches, and history. Divergent prefixes fail closed with `PrefixDivergenceError`.
-- **Common Opponent Commands at Turn $t$:** All sibling candidate branches share the exact same submitted opponent commands at root turn $t$.
-- **Reactive Live Continuations:** From turn $t+1$ to terminal, opponent bots observe and react live to the counterfactual branch state. Factual future opponent replies are **never** reused as counterfactual ground truth.
+Run from the repository root, with `AI_TEST_ROOT` set and every evidence step under the CPU lease. The seeds and the selection salt are T0086's: reserve them in `docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md` before any game.
 
-### C. Signed Baseline Gain & Regret (`analyze.py`)
-- **Signed Baseline Gain:**
-  $$\Delta(a) = \mathbb{E}[U_T \mid \text{root } a, \pi_c] - \mathbb{E}[U_T \mid a_{\text{direct}}, \pi_c]$$
-  where $U_T \in [0, 1]$ is terminal pairwise rank utility (`fusion.labels.pairwise_outcome`).
-- **Non-Negative Regret:**
-  $$\hat{R}(a) = \max_{a'} \mathbb{E}[U_T \mid a'] - \mathbb{E}[U_T \mid a] \ge 0$$
-  Explicitly distinguished: signed baseline gain is **not** negative regret.
-- **Fractional Tie-Handling:** Candidates with tied utilities receive their average fractional rank (e.g. ties for 1st receive rank 1.5).
-- **Winner's Curse Elimination (Cross-Fitting):** Evaluates apparent best candidates on disjoint repeat partitions (e.g., choosing on even repeats, evaluating on odd repeats) to prevent order-statistic maximization bias.
-- **Map Clustering:** Grouping roots by `map_seed` ensures games remain strictly isolated across cross-validation splits.
+1. **Build** the package and record its identity:
 
-### D. Mechanics Parity vs Opponent $P$ Error (`parity.py`, `p_eval.py`)
-- **Simulator Parity:** Steps native simulator and `engine.py` on identical full commands, verifying HP, positions, immunity, scores, flag status, and simultaneous attacks.
-- **$P$ Model Fidelity:** Evaluates movement distribution calibration (ECE), log-loss, and attack targeting on factual observed opponent moves, properly accounting for eligible unit denominators.
+   ```bash
+   python -m tools.search_diagnostics.cli build p2general --out build/search_diagnostics
+   ```
 
----
+2. **Play the source games** with the package's production variant in the designated seat. Use a screen profile with `keep_matches` (`bots/p_only/tools/run_screen.py`), whose records name the seat `@candidate`. Copy the kept `nXX/` folders to a sources directory.
 
-## 3. Command Line Interface Reference
+3. **Extract roots.** Refused roots are listed with their reasons in `ROOTS/SELECTION.json` and are not replaced:
 
-The CLI entrypoint is `tools/search_diagnostics/cli.py`:
+   ```bash
+   python -m tools.search_diagnostics.cli extract --matches SOURCES --build build/search_diagnostics/p2general.json \
+       --plan unconditioned:1,contact:1,carrier:1 --salt <reserved salt> --out ROOTS
+   ```
+
+4. **Smoke** with at most 16 branches (for example 2 roots of different team counts, `--repeats 1`), on its own ledgered seed and its own output directory. Then estimate from it; with fewer measured counts than registered, `--model linear-teams` fills the rest, labelled as modelled:
+
+   ```bash
+   python -m tools.search_diagnostics.cli estimate --measured SMOKE_ROWS --model linear-teams --markdown
+   ```
+
+5. **Collect**, once per candidate set:
+
+   ```bash
+   python tools/repo/task.py lock cpu --task T0086 -- python -m tools.search_diagnostics.cli collect --roots ROOTS \
+       --matches SOURCES --build build/search_diagnostics/p2general.json --set primary --repeats 4 \
+       --scenario-seed <reserved> --seed-ledger docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md --workers 8 --out ROWS
+   ```
+
+   For the 24-candidate subset, run it again on the subset's roots with `--set extended` and its own output directory.
+
+6. **Parity** and **P** on the same sources:
+
+   ```bash
+   python -m tools.search_diagnostics.cli parity --seed <reserved> --out PARITY.json
+   ```
+
+   ```bash
+   python -m tools.search_diagnostics.cli peval --matches SOURCES --build build/search_diagnostics/p3general.json --out P3.json
+   ```
+
+   Run `peval` once for each package.
+
+7. **Analyze** with T0086's map splits (`{"<match_id>": "train" | "validation" | "holdout"}`):
+
+   ```bash
+   python -m tools.search_diagnostics.cli analyze --roots ROOTS --rows ROWS --splits SPLITS.json --out ANALYSIS.json
+   ```
+
+Outputs are never overwritten, and a collection with another identity is refused.
+
+## Tests
 
 ```bash
-# Dry-run pilot cost estimation
-python -m tools.search_diagnostics.cli estimate --markdown
-
-# Simulator parity check against official engine.py
-python -m tools.search_diagnostics.cli parity --check build/check.exe --ai-test c:/Users/caspe/OneDrive/Code/AI_Test
-
-# Cross-fit statistical analysis of branch continuations
-python -m tools.search_diagnostics.cli analyze --roots roots.json --branches branches.json --out report.json
+python -m unittest discover -s tools/search_diagnostics/tests -t .
 ```
 
----
-
-## 4. Host Pilot Runbook & Cost Estimation
-
-Per repository lease constraints:
-- Executed on host machine `desktop-g60ojud`.
-- Exactly 8 game workers under the CPU lease (`tools/repo/task.py lock cpu`).
-- GPU training must be stopped during CPU execution.
-- Bot processes run under official limits (2000 ms init, 50 ms turns).
-
-### Authoritative Pilot Budget Table
-
-Derived formulaically via `estimator.py` across 14 team counts (2..15):
-
-| Parameter | Value | Unit |
-|---|---:|---|
-| Team Counts | 14 (2..15) | counts |
-| Base Matches per Count | 16 | matches |
-| Total Base Matches | 224 | matches |
-| Total Causal Roots | 224 | roots |
-| Candidates per Root ($K$) | 8 | orders |
-| Repeats per Candidate ($R$) | 4 | seeds |
-| **Total Continuation Games** | **7,168** | **games** |
-| Average Continuation Length | 300 | turns |
-| Total Engine Steps | 2,150,400 | steps |
-| Total Bot Turn Inferences | 18,278,400 | calls |
-| Workers (CPU lease) | 8 | workers |
-| Step Latency Budget | 50.0 | ms |
-| Total Compute Budget | 29.87 | CPU-hours |
-| **Estimated Wall-Clock Runtime** | **3.73** | **hours** |
-| Row Manifest Disk Size | 3.50 | MB |
-
----
-
-## 5. Verification & Test Suite
-
-Run the full unit and integration test suite:
-
-```powershell
-python -m unittest tools.search_diagnostics.test_search_diagnostics
-```
-
-The test suite covers:
-1. `test_baseline_exact_self_comparison_requirement`: Validates Candidate 0 is the direct baseline order.
-2. `test_baseline_exact_self_comparison_has_zero_gain`: Proves $\Delta(a_{\text{base}}) \equiv 0$ on all repeats and mean.
-3. `test_regret_is_distinct_from_negative_signed_gain`: Proves $\hat{R}(a) \ge 0$ is relative to the best candidate, distinct from $\Delta$.
-4. `test_fractional_ranking_with_ties`: Verifies proper fractional tie handling.
-5. `test_cross_fitting_eliminates_winners_curse_on_noise`: Demonstrates on synthetic pure noise that naive oracle max has positive bias ($> +0.05$), while cross-fitting yields unbiased zero ($\pm 0.035$).
-6. `test_wrong_state_history_refused`: Fails closed on missing or corrupted history.
-7. `test_corrupted_branch_receipt_rejected`: Fails closed on invalid probabilities or utilities.
-8. `test_duplicate_candidate_joints_rejected`: Fails closed on duplicate actions.
-9. `test_map_clustering_keeps_same_map_together`: Verifies no map leakage across folds.
-10. `test_p_fidelity_metrics_computation`: Validates ECE, cross-entropy, and denominators.
-11. `test_estimator_mathematical_consistency`: Verifies exact derivation of rollout steps and hours.
+The integration tests need a C++ compiler; their engine part also needs `AI_TEST_ROOT`. Without these they skip, which is reported. The tests live in this folder because `tests/` belongs to other tasks' lanes, so CI does not run them.

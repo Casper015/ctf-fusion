@@ -1,336 +1,168 @@
-"""Causal root extraction with actually sampled direct baselines (T0085).
+"""Root selection and extraction through the real agent_v2 runtime (task T0085).
 
-Extracts from recorded match logs or seat streams:
-  - Raw public state at root turn t (TURN block).
-  - Causal history (INIT + turns 1..t-1 prefix).
-  - Actually sampled direct joint action and its completed default order.
-  - Prior-ranked candidate joints (nested sizes 8 or 24).
-  - Resolver-completed orders for all candidates.
-  - Candidate 0 is the exact baseline order (self-comparison).
-  - Frozen model identities and checksums.
-  - Fail-closed checks on wrong-state histories or corrupted receipts.
+Source games are match records (fusion/matchlog.py, schema ctf-fusion-match-1) with one designated seat played by
+the package's production variant. For each selected root turn t of that seat:
+
+  1. the seat's exact causal stream (its INIT and the recorded TURN blocks 1 .. t) is replayed through the package's
+     native root tool (native/diag_tool.cpp), which runs the direct bot's code path;
+  2. the tool's replies for turns 1 .. t - 1 must equal the seat's recorded replies, and its complete default order
+     at t must equal the recorded reply at t. Only then is the baseline the order the deployed bot actually sent
+     (the sampled joint, not the prior's top joint), and only then is the root kept; otherwise it is refused with
+     the reason;
+  3. the candidates are the tool's tree roots: the sampled joint first, then the feasible joints by prior
+     (inference/agent_v2/search.hpp roots()), each with its complete assign_v1 order and the critic's per-scenario
+     values. Candidate sets are nested prefixes: "primary" (8) and "extended" (24).
+
+Root selection is public and outcome-blind: it reads the recorded TURN blocks' unit positions, HP and carried flags
+(the strata below) and whether the seat's reply exists, never a score, an event or the result. Eligibility is
+decided per turn, so the set of eligible turns spans the whole game. Rules (strata):
+  unconditioned  every turn in [MARGIN + 2, 400 - MARGIN]
+  contact        ... where a living unit of ours and a living enemy are within Manhattan distance 3
+  carrier        ... where one of our units carries a flag
+Within a stratum the turns with the smallest SHA-256 of (salt, match, stratum, turn) are taken; strata are disjoint
+(earlier strata first). Each root records its population weight: eligible turns / selected turns of its stratum.
 """
 from __future__ import annotations
 
-import argparse
-import copy
-import gzip
+import hashlib
 import json
-import math
-import os
+import subprocess
+import tempfile
 from pathlib import Path
-from typing import Any
 
 from fusion import matchlog
-from fusion.paths import REPO
-from fusion.protocol import DELTAS, MOVES, MOVE_INDEX, Block, parse_block, parse_reply
+from fusion.protocol import parse_block
 from tools.search_diagnostics.schemas import (
-    CandidateOrder,
-    RootRecord,
-    SCHEMA_ROOT,
-    ValidationError,
-    fnv64,
-    sha256_text,
+    NATIVE_ROOT, SCHEMA_ROOT, ValidationError, digest, sha256_file, sha256_text, validate_root,
 )
 
-
-def joint_to_moves(joint: int) -> tuple[int, int, int]:
-    """Decompose joint index in [0, 125) into (m0, m1, m2) where mk in 0..4."""
-    if not (0 <= joint < 125):
-        raise ValidationError(f"joint index {joint} out of bounds [0, 125)")
-    return (joint // 25, (joint // 5) % 5, joint % 5)
+MARGIN = 5
+RULES = ("unconditioned", "contact", "carrier")
+SETS = {"primary": 8, "extended": 24}
 
 
-def moves_to_joint(moves: tuple[int, int, int]) -> int:
-    """Compose (m0, m1, m2) into joint index in [0, 125)."""
-    return moves[0] * 25 + moves[1] * 5 + moves[2]
+class RootRefused(Exception):
+    """A root that cannot be extracted faithfully; the message is the reason."""
 
 
-def resolve_order(block: Block, seat: int, moves: tuple[int, int, int], turn: int) -> str:
-    """Resolve joint movement tuple into a complete legal order line adhering to assign_v1 rules.
-
-    Rules (tools/cpp/agent_v2/check.cpp, inference/agent_v2/resolver.hpp):
-      - Carriers must wait ('-').
-      - Living non-immune units can attack living non-immune adjacent enemies.
-      - Units on a flag pickup ('P').
-      - No dropping ('X').
-      - Only positive-value attacks.
-    """
-    my_units = [block.units[3 * seat + k] for k in range(3)]
-    enemy_units = [u for u in block.units if u[1] != seat and u[4] > 0 and u[6] <= 0]
-    tokens = [str(turn)]
-
-    for k in range(3):
-        uid, team, x, y, hp, flag, respawn_at = my_units[k]
-        m = moves[k]
-        mv_char = MOVES[m]
-
-        if hp <= 0 or respawn_at > 0 or x < 0:
-            # Unit dead or in respawn
-            tokens.extend([mv_char, "-"])
-            continue
-
-        if flag >= 0:
-            # Carrier always waits
-            tokens.extend([mv_char, "-"])
-            continue
-
-        # Check destination
-        dx, dy = DELTAS[m]
-        dest_x, dest_y = x + dx, y + dy
-
-        # Check if adjacent to an enemy unit for attack (Manhattan distance <= 3)
-        # In agent_v2 assign_v1, an attack target must be a living non-immune enemy
-        target_uid = -1
-        min_enemy_dist = 999
-        for eu in enemy_units:
-            e_id, e_team, ex, ey, e_hp, e_flag, e_respawn = eu
-            dist = abs(dest_x - ex) + abs(dest_y - ey)
-            if dist <= 3 and dist < min_enemy_dist:
-                min_enemy_dist = dist
-                target_uid = e_id
-
-        if target_uid >= 0:
-            tokens.extend([mv_char, str(target_uid)])
-        else:
-            tokens.extend([mv_char, "P" if k == 0 and turn % 7 == 0 else "-"])
-
-    return " ".join(tokens)
+def order_of(line: str | None) -> str | None:
+    """A reply's complete order without its turn number and comment."""
+    if line is None:
+        return None
+    return " ".join(line.partition("#")[0].split()[1:])
 
 
-def build_candidate_set(
-    prior_scores: list[float],
-    sampled_joint: int,
-    block: Block,
-    seat: int,
-    turn: int,
-    target_k: int = 8,
-    leaf_scores: list[float] | None = None,
-) -> list[CandidateOrder]:
-    """Build a nested candidate set containing the sampled baseline as candidate 0.
-
-    Args:
-        prior_scores: 125 float scores from actor network.
-        sampled_joint: actually sampled direct joint (not necessarily argmax).
-        block: parsed public Block at turn t.
-        seat: our seat index.
-        turn: turn number.
-        target_k: size of candidate set (e.g. 8 or 24).
-        leaf_scores: optional list of critic scores from search tree.
-
-    Returns:
-        List of CandidateOrder objects with candidate 0 as the exact baseline.
-    """
-    if len(prior_scores) != 125:
-        raise ValidationError(f"expected 125 prior scores, got {len(prior_scores)}")
-    if not (0 <= sampled_joint < 125):
-        raise ValidationError(f"sampled joint {sampled_joint} out of bounds")
-    if target_k < 1 or target_k > 125:
-        raise ValidationError(f"target_k {target_k} out of bounds [1, 125]")
-
-    # Rank all 125 joints descending by prior score; ties broken deterministically by joint index
-    ranked = sorted(range(125), key=lambda j: (-prior_scores[j], j))
-    rank_map = {j: r for r, j in enumerate(ranked)}
-
-    # Baseline is candidate 0
-    cands: list[CandidateOrder] = []
-    base_moves = joint_to_moves(sampled_joint)
-    base_order = resolve_order(block, seat, base_moves, turn)
-    base_leaf = leaf_scores[0] if (leaf_scores and len(leaf_scores) > 0) else None
-
-    cands.append(
-        CandidateOrder(
-            index=0,
-            joint=sampled_joint,
-            moves=base_moves,
-            order=base_order,
-            prior_score=prior_scores[sampled_joint],
-            prior_rank=rank_map[sampled_joint],
-            is_baseline=True,
-            leaf_score=base_leaf,
-        )
-    )
-
-    # Add top prior-ranked candidates distinct from sampled_joint until target_k is reached
-    for j in ranked:
-        if len(cands) >= target_k:
-            break
-        if j == sampled_joint:
-            continue
-        moves = joint_to_moves(j)
-        order = resolve_order(block, seat, moves, turn)
-        leaf = leaf_scores[len(cands)] if (leaf_scores and len(leaf_scores) > len(cands)) else None
-        cands.append(
-            CandidateOrder(
-                index=len(cands),
-                joint=j,
-                moves=moves,
-                order=order,
-                prior_score=prior_scores[j],
-                prior_rank=rank_map[j],
-                is_baseline=False,
-                leaf_score=leaf,
-            )
-        )
-
-    return cands
+def designated_seat(match: dict, name: str) -> int:
+    seats = [i for i, s in enumerate(match["seats"]) if s["name"] == name]
+    if len(seats) != 1:
+        raise ValidationError(f"{match['match_id']}: needs exactly one seat named {name}, found {seats}")
+    return seats[0]
 
 
-def extract_root_from_match(
-    match: dict[str, Any],
-    seat: int,
-    turn: int,
-    actor_scores: list[float],
-    sampled_joint: int,
-    model_identities: dict[str, str],
-    target_k: int = 8,
-    stratum: str = "general",
-    stratum_weight: float = 1.0,
-    leaf_scores: list[float] | None = None,
-) -> RootRecord:
-    """Extract a single RootRecord from a loaded match structure."""
-    blocks = match.get("blocks", [])
-    if not blocks or turn > len(blocks):
-        raise ValidationError(f"turn {turn} exceeds match blocks length {len(blocks)}")
-    if turn < 2:
-        raise ValidationError("roots must be after turn 1 (requiring causal history)")
-
-    block_text = blocks[turn - 1]
-    parsed_blk = parse_block(block_text)
-
-    # Construct causal prefix text (turns 1..t-1)
-    # The agent reads INIT + TURN 1..t-1
-    init_text = match.get("init", "")
-    prefix_parts = [init_text]
-    for prev_t in range(turn - 1):
-        prefix_parts.append(blocks[prev_t])
-    prefix_text = "\n".join(prefix_parts)
-    prefix_sha256 = sha256_text(prefix_text)
-
-    # Build candidates
-    candidates = build_candidate_set(
-        prior_scores=actor_scores,
-        sampled_joint=sampled_joint,
-        block=parsed_blk,
-        seat=seat,
-        turn=turn,
-        target_k=target_k,
-        leaf_scores=leaf_scores,
-    )
-
-    match_id = str(match.get("match_id", "synthetic"))
-    root_id = fnv64(f"{match_id}:{seat}:{turn}:{prefix_sha256[:16]}")
-
-    record = RootRecord(
-        schema=SCHEMA_ROOT,
-        root_id=root_id,
-        match_id=match_id,
-        map_seed=int(match.get("map_seed", 0)),
-        flag_seed=int(match.get("flag_seed", 0)),
-        teams=int(match.get("teams", len(match.get("seats", [])))),
-        seat=seat,
-        turn=turn,
-        block_text=block_text,
-        prefix_sha256=prefix_sha256,
-        baseline_joint=sampled_joint,
-        baseline_order=candidates[0].order,
-        candidates=candidates,
-        model_identities=model_identities,
-        random_keys={"root_key": fnv64(f"{root_id}:rnd")},
-        stratum=stratum,
-        stratum_weight=stratum_weight,
-    )
-    record.validate()
-    return record
+def in_stratum(block_text: str, seat: int, stratum: str) -> bool:
+    if stratum == "unconditioned":
+        return True
+    b = parse_block(block_text)
+    ours = [u for u in b.units if u[1] == seat and u[2] >= 0 and u[4] > 0]
+    if stratum == "carrier":
+        return any(u[5] >= 0 for u in ours)
+    if stratum == "contact":
+        foes = [u for u in b.units if u[1] != seat and u[2] >= 0 and u[4] > 0]
+        return any(abs(a[2] - e[2]) + abs(a[3] - e[3]) <= 3 for a in ours for e in foes)
+    raise ValidationError(f"unknown stratum {stratum}; known: {RULES}")
 
 
-def extract_roots_from_stream(
-    stream_path: Path,
-    turns: list[int],
-    seat: int,
-    teams: int,
-    map_seed: int,
-    flag_seed: int,
-    actor_scores_fn: Any,
-    sampled_joint_fn: Any,
-    model_identities: dict[str, str],
-    target_k: int = 8,
-) -> list[RootRecord]:
-    """Extract roots from a raw seat stream file (.txt or .gz)."""
-    raw_data = stream_path.read_bytes()
-    if stream_path.suffix == ".gz":
-        raw_data = gzip.decompress(raw_data)
-    text = raw_data.decode("utf-8")
+def select_roots(match: dict, seat: int, plan: list[tuple[str, int]], salt: str) -> list[dict]:
+    """The planned roots of one match: [{"turn", "stratum", "weight", "eligible"}], outcome-blind."""
+    taken: set[int] = set()
+    out = []
+    last = len(match["blocks"])
+    for stratum, count in plan:
+        if count < 1:
+            raise ValidationError(f"stratum {stratum}: count {count}")
+        eligible = [t for t in range(MARGIN + 2, min(last, 400 - MARGIN) + 1)
+                    if t not in taken and match["replies"][t - 1][seat] is not None
+                    and in_stratum(match["blocks"][t - 1], seat, stratum)]
+        ranked = sorted(eligible, key=lambda t: hashlib.sha256(f"{salt}/{match['match_id']}/{stratum}/{t}".encode()).digest())
+        chosen = sorted(ranked[:count])
+        for t in chosen:
+            taken.add(t)
+            out.append({"turn": t, "stratum": stratum, "eligible": len(eligible),
+                        "weight": len(eligible) / len(chosen)})
+    return out
 
-    # Split into blocks ending with END
-    raw_blocks = [b.strip() + "\nEND" for b in text.split("END\n") if b.strip()]
-    if not raw_blocks:
-        raise ValidationError(f"stream {stream_path} contains no valid blocks")
 
-    # The first block contains INIT and TURN 1
-    init_text = raw_blocks[0][: raw_blocks[0].find("TURN")] if "TURN" in raw_blocks[0] else ""
-    turn_blocks: dict[int, str] = {}
-    for blk in raw_blocks:
-        if "TURN" in blk:
-            parsed = parse_block(blk[blk.find("TURN"):])
-            turn_blocks[parsed.turn] = blk[blk.find("TURN"):]
+def prefix_digest(match: dict, turn: int) -> str:
+    """Every seat's recorded inputs and replies before the root, and the root block."""
+    return digest({"init": match["init"], "blocks": match["blocks"][:turn], "replies": match["replies"][:turn - 1]})
 
-    roots: list[RootRecord] = []
-    seen_ids: set[str] = set()
 
-    for t in turns:
-        if t not in turn_blocks:
-            raise ValidationError(f"requested turn {t} not found in stream {stream_path}")
-        if t < 2:
-            raise ValidationError("requested turn must be >= 2 for causal prefix")
+def run_root_tool(tool: Path, stream: str, turn: int) -> dict:
+    with tempfile.TemporaryDirectory(prefix="diag_root_") as d:
+        p = Path(d) / "stream.txt"
+        p.write_text(stream, encoding="utf-8", newline="\n")
+        r = subprocess.run([str(tool), "root", str(p), str(turn)], capture_output=True, text=True, timeout=600)
+    if r.returncode != 0:
+        raise RootRefused(f"root tool: {(r.stdout or r.stderr).strip()[:300]}")
+    try:
+        out = json.loads(r.stdout)
+    except json.JSONDecodeError as e:
+        raise ValidationError(f"root tool printed no JSON: {e}") from None
+    if out.get("schema") != NATIVE_ROOT:
+        raise ValidationError(f"root tool schema {out.get('schema')!r}")
+    return out
 
-        # Causal prefix up to t-1
-        prefix_parts = [init_text]
-        for prev_t in range(1, t):
-            if prev_t in turn_blocks:
-                prefix_parts.append(turn_blocks[prev_t])
-        prefix_text = "\n".join(prefix_parts)
-        prefix_sha256 = sha256_text(prefix_text)
 
-        blk_text = turn_blocks[t]
-        parsed_blk = parse_block(blk_text)
-
-        # Get actor prior scores and sampled baseline joint
-        scores = actor_scores_fn(t, blk_text, prefix_text)
-        sampled_joint = sampled_joint_fn(t, scores)
-
-        candidates = build_candidate_set(
-            prior_scores=scores,
-            sampled_joint=sampled_joint,
-            block=parsed_blk,
-            seat=seat,
-            turn=t,
-            target_k=target_k,
-        )
-
-        root_id = fnv64(f"{stream_path.name}:{seat}:{t}:{prefix_sha256[:16]}")
-        if root_id in seen_ids:
-            raise ValidationError(f"duplicate root detected: {root_id}")
-        seen_ids.add(root_id)
-
-        root = RootRecord(
-            schema=SCHEMA_ROOT,
-            root_id=root_id,
-            match_id=stream_path.stem,
-            map_seed=map_seed,
-            flag_seed=flag_seed,
-            teams=teams,
-            seat=seat,
-            turn=t,
-            block_text=blk_text,
-            prefix_sha256=prefix_sha256,
-            baseline_joint=sampled_joint,
-            baseline_order=candidates[0].order,
-            candidates=candidates,
-            model_identities=model_identities,
-            random_keys={"root_key": fnv64(f"{root_id}:rnd")},
-        )
-        root.validate()
-        roots.append(root)
-
-    return roots
+def extract_root(match_path: Path, match: dict, seat: int, plan_row: dict, tool_identity: dict, tool: Path,
+                 rule: str) -> dict:
+    """One root record, or RootRefused with the reason."""
+    turn = plan_row["turn"]
+    if not 2 <= turn <= len(match["blocks"]):
+        raise RootRefused(f"turn {turn} is not in the match")
+    stream = matchlog.init_for_seat(match["init"], seat) + "".join(match["blocks"][:turn])
+    native = run_root_tool(tool, stream, turn)
+    if native["turn"] != turn or native["teams"] != match["teams"] or native["me"] != seat:
+        raise ValidationError(f"root tool answered turn {native['turn']} seat {native['me']} of {native['teams']} teams")
+    recorded = [r[seat] for r in match["replies"][:turn]]
+    if any(r is None for r in recorded):
+        raise RootRefused("the seat's recorded prefix has a missing reply (a recorded fault)")
+    if len(native["replies"]) != turn - 1:
+        raise ValidationError(f"root tool replayed {len(native['replies'])} turns, expected {turn - 1}")
+    for t, (got, want) in enumerate(zip(native["replies"], recorded), start=1):
+        if order_of(got) != order_of(want):
+            raise RootRefused(f"the package does not reproduce the seat's recorded reply at turn {t}: "
+                              f"{want!r} recorded, {got!r} replayed")
+    if order_of(native["default_reply"]) != order_of(recorded[-1]):
+        raise RootRefused(f"the package's default order {native['default_reply']!r} is not the recorded reply "
+                          f"{recorded[-1]!r} at the root")
+    cands = []
+    for i, c in enumerate(native["candidates"]):
+        cands.append({"index": i, "joint": c["joint"], "prior": c["prior"], "order": c["reply"], "v_values": c["values"],
+                      "v_terminal": c["terminal"], "leaf_feature_fnv": c["leaf_feature_fnv"]})
+    if cands[0]["joint"] != native["sampled_joint"] or cands[0]["order"] != native["default_reply"]:
+        raise ValidationError("the tool's first root is not the sampled joint's default order")
+    s = match["seats"][seat]
+    root_id = sha256_text(f"{match['match_id']}/{seat}/{turn}")[:16]
+    record = {
+        "schema": SCHEMA_ROOT, "root_id": root_id, "turn": turn,
+        "source": {"match_file": Path(match_path).name, "match_sha256": sha256_file(match_path),
+                   "match_id": match["match_id"], "teams": match["teams"], "map_seed": match["map_seed"],
+                   "flag_seed": match["flag_seed"], "seat": seat, "seat_name": s["name"], "seat_sha256": s["sha256"],
+                   "seats": [{"name": x["name"], "sha256": x["sha256"]} for x in match["seats"]],
+                   "engine_sha256": match["engine_sha256"]},
+        "selection": {"rule": rule, "stratum": plan_row["stratum"], "eligible": plan_row["eligible"],
+                      "weight": plan_row["weight"]},
+        "history": {"seat_stream": stream, "seat_stream_sha256": sha256_text(stream),
+                    "prefix_digest": prefix_digest(match, turn), "root_block_sha256": sha256_text(match["blocks"][turn - 1])},
+        "tool": {"package": tool_identity["package"], "binary_sha256": tool_identity["binary_sha256"],
+                 "bundle_sha256": tool_identity["bundle_sha256"], "tree": tool_identity["tree"]},
+        "model": {k: native[k] for k in ("carrier", "actor", "actor_digest", "predictor_kind", "predictor", "critic",
+                                          "resolver", "resolver_scenarios", "tree_candidates", "tree_samples")},
+        "policy": {k: native[k] for k in ("seed", "uniform", "state_key", "parent_key", "policy_feature_fnv", "mask",
+                                           "scores", "sampled_joint", "tree_T", "refused_turns")},
+        "baseline": {"order": native["default_reply"], "joint": native["sampled_joint"], "verified": True,
+                     "check": "native replies of turns 1..t-1 and the default order at t equal the recorded replies"},
+        "candidates": cands,
+        "candidate_sets": {k: list(range(min(n, len(cands)))) for k, n in SETS.items()},
+    }
+    return validate_root(record)
