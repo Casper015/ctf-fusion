@@ -4,7 +4,7 @@ title: "Host collect bounded branch diagnostics and select the next intervention
 status: active
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
-writes: [reports/host/search_branch_diagnostics/, profiles/search_branch_diagnostics.json, docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md]
+writes: [docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md, profiles/search_branch_diagnostics.json, reports/host/search_branch_diagnostics/, tools/search_diagnostics/]
 depends: [T0084, T0085]
 land: direct
 branch: antigravity/t0086-host-collect-bounded-branch-diagnostics
@@ -38,3 +38,4 @@ Not started.
 
 - 2026-10-18 03:36Z codex-search-plan@caspers-macbook: created
 - 2026-10-18 08:40Z antigravity@desktop-g60ojud: claimed
+- 2026-10-18 08:58Z antigravity@desktop-g60ojud: amended writes -> docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md, profiles/search_branch_diagnostics.json, reports/host/search_branch_diagnostics/, tools/search_diagnostics/

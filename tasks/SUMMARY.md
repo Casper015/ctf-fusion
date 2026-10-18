@@ -15,7 +15,7 @@ Someone holds these; their `writes` are reserved.
 | [T0071](T0071-train-8xl-count-specific-opponent-p.md) | review | antigravity@desktop-g60ojud | Train 8XL count-specific opponent P teacher models and audit data sufficiency | reports/models/count_specialists_8xl/, training/train_count_specialists_8xl.py, tests/test_repo_layout.py |
 | [T0074](T0074-distill-a-general-8xl-p-teacher-into-per.md) | blocked | antigravity@desktop-g60ojud | Distill a general 8XL P teacher into per-count XXL students | training/distill_count_specialists.py, reports/models/count_specialists_distill/, inference/count_specialists_distill/, profiles/count_specialists_distill.json, tests/test_repo_layout.py |
 | [T0082](T0082-freeze-production-agent-v2-release.md) | review | antigravity@desktop-g60ojud | Freeze production agent_v2 release: single-file bot.cpp, profile, manifest and release report | bots/agent_v2/, profiles/agent_v2.json, docs/, reports/release/agent_v2/, tests/ |
-| [T0086](T0086-host-collect-bounded-branch-diagnostics.md) | active | antigravity@desktop-g60ojud | Host collect bounded branch diagnostics and select the next intervention | reports/host/search_branch_diagnostics/, profiles/search_branch_diagnostics.json, docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md |
+| [T0086](T0086-host-collect-bounded-branch-diagnostics.md) | active | antigravity@desktop-g60ojud | Host collect bounded branch diagnostics and select the next intervention | docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md, profiles/search_branch_diagnostics.json, reports/host/search_branch_diagnostics/, tools/search_diagnostics/ |
 
 ## Ready to claim
 
