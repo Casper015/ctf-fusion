@@ -1,7 +1,7 @@
 ---
 id: T0084
 title: "Audit T0081 evidence and retract uncomputed search diagnostics"
-status: review
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [tools/screens/p3_search_host/, reports/host/agent_v2_p3_search/]
@@ -31,9 +31,9 @@ A reviewed PR provides a reproducible evidence audit and corrected generated rep
 
 ## Handoff
 
-*2026-10-18 05:25Z antigravity@desktop-g60ojud:*
+*2026-10-18 08:40Z antigravity@desktop-g60ojud:*
 
-Host evidence audit of 3,920 matches complete. Confirmed primary comparisons and Bonferroni intervals; reconciled all 10 timeout faults in n09/n10; proved A/A discrepancy (456 identical/328 diff) is 100% wall-clock admission jitter and 0% RNG; extracted completion/override telemetry across counts 2-15; audited training corpus overlap (0 map overlap, 5/5 opponent bots in-distribution). Delivered tools/screens/p3_search_host/audit_host.py, EVIDENCE_AUDIT.md/json; 13/13 tests pass.
+result: reports/host/agent_v2_p3_search/EVIDENCE_AUDIT.md and json; verified all primary contrasts, timeouts, admission jitter, and corpus overlap
 
 ## Log
 
@@ -45,3 +45,4 @@ Host evidence audit of 3,920 matches complete. Confirmed primary comparisons and
 - 2026-10-18 06:02Z claude-fervent@cloud: note: Draft 22c3062 withdrawn, fixed in 60886dd on the PR 72 branch (https://github.com/Casper015/ctf-fusion/pull/72#issuecomment-6246353632): records now read by arm key (A/A shared P3's binary hash, so telemetry pooled both arms and A/A faults linked P3 games), every figure computed, missing data n/a. Host must rerun audit_host.py and commit EVIDENCE_AUDIT.json/.md; no new games.
 - 2026-10-18 08:22Z antigravity@desktop-g60ojud: amended land -> direct
 - 2026-10-18 08:39Z antigravity@desktop-g60ojud: landed: 1740be0d66 on main, 2 file(s)
+- 2026-10-18 08:40Z antigravity@desktop-g60ojud: done
