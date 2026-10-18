@@ -1,13 +1,13 @@
 ---
 id: T0092
 title: "Offline T0086 correction: compute the gates from receipts, withdraw in-sample headroom claims"
-status: open
-owner: ""
+status: active
+owner: claude-fervent@cloud
 needs: []
 writes: [tools/search_diagnostics/summarize_pilot.py, tools/search_diagnostics/tests/test_summarize_pilot.py, reports/host/search_branch_diagnostics/REPORT.json, reports/host/search_branch_diagnostics/REPORT.md, reports/host/search_branch_diagnostics/CORRECTION.md]
 depends: [T0086]
 land: pr
-branch: ""
+branch: claude-fervent/t0092-offline-t0086-correction-compute-the
 updated: 2026-10-18
 ---
 
@@ -31,3 +31,4 @@ Not started.
 ## Log
 
 - 2026-10-18 17:22Z claude-fervent@cloud: created
+- 2026-10-18 17:22Z claude-fervent@cloud: claimed
