@@ -182,6 +182,8 @@ def extract_root(match_path: Path, match: dict, seat: int, plan_row: dict, tool_
     for i, c in enumerate(native["candidates"]):
         cands.append({"index": i, "joint": c["joint"], "prior": c["prior"], "order": c["reply"], "v_values": c["values"],
                       "v_terminal": c["terminal"], "leaf_feature_fnv": c["leaf_feature_fnv"], "leaf_rows": c["leaf_rows"]})
+    if len(cands) < 2:
+        raise RootRefused("fewer than two candidates")
     if cands[0]["joint"] != native["sampled_joint"] or cands[0]["order"] != native["default_reply"]:
         raise ValidationError("the tool's first root is not the sampled joint's default order")
     s = match["seats"][seat]

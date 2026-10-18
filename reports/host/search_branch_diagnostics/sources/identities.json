@@ -1,0 +1,19 @@
+{
+ "agent_v2_p3exp_p2_direct": {
+  "digest": "a1a6d1bde3015561f130caa0d6b16fd50d1a0eae1c65f4e5c4e8d8ac7d460e4e",
+  "components": {
+   "variant": "agent_v2_p3exp_p2_direct",
+   "bundle_sha256": "465e1b786b1eac2f3195427f0dc517246fb3c1254cd189a2bc5d45889293bb65",
+   "binary_sha256": "3670d8907518d6f297ce8810a598f8c557a787b507317471f0365b6e0a4669ab",
+   "inputs_sha256": "9993db54c449d9d9b4807ffc3092d51792e447e8265281bdb432b97697491a63",
+   "models": [],
+   "stats": true,
+   "runner_sha256": "3767576bcc0c712611a6334bb62d160f016c21a069d2388213301c6eb4c2da24",
+   "schedule": "5135e7483b6aa2bb196e162bb9eafb900e9e82777091397e6a4e813de5477768",
+   "limits_ms": [
+    2000,
+    50
+   ]
+  }
+ }
+}

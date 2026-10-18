@@ -1,0 +1,187 @@
+{
+ "schema": "ctf-host-search-branch-diagnostics-report-1",
+ "task": "T0086",
+ "status": "complete",
+ "host": "desktop-g60ojud",
+ "workers": 8,
+ "source_matches": {
+  "total": 112,
+  "seed": 20262160,
+  "faults": 0,
+  "max_reply_ms": 6.146,
+  "splits": {
+   "train": 56,
+   "validation": 28,
+   "holdout": 28
+  }
+ },
+ "roots": {
+  "total_extracted": 334,
+  "refused": 2,
+  "refusal_reasons": {
+   "fewer than two candidates": 2
+  }
+ },
+ "episodes": {
+  "smoke": 16,
+  "primary_collected": 10312,
+  "extended_collected": 1436,
+  "total_collected": 11764,
+  "cap": 12544
+ },
+ "parity": {
+  "steps_compared": 1600,
+  "differences": 0,
+  "status": "passed"
+ },
+ "opponent_prediction_fidelity": {
+  "P2": {
+   "move": {
+    "nll": 0.8965840672205285,
+    "top1_accuracy": 0.6544257401859396,
+    "ece_10bin": 0.012021650189171031
+   },
+   "act": {
+    "nll": 0.15870059639876288,
+    "top1_accuracy": 0.9298982355122326,
+    "ece_10bin": 0.004880447421371249
+   },
+   "target": {
+    "nll": 0.2173219725012374,
+    "top1_accuracy": 0.9077453980233423,
+    "ece_10bin": 0.01065253483086007
+   }
+  },
+  "P3": {
+   "move": {
+    "nll": 0.8540086482369935,
+    "top1_accuracy": 0.6694849148520311,
+    "ece_10bin": 0.009636869406056141
+   },
+   "act": {
+    "nll": 0.11315929496975798,
+    "top1_accuracy": 0.949991693838322,
+    "ece_10bin": 0.006018667774639115
+   },
+   "target": {
+    "nll": 0.21750935720575076,
+    "top1_accuracy": 0.9076527966830096,
+    "ece_10bin": 0.0102148265372549
+   }
+  }
+ },
+ "primary_analysis": {
+  "holdout/contact": {
+   "counts": 11,
+   "in_sample_best_gain": 0.06500270562770563,
+   "cross_fit_gain": 0.009963474025974027,
+   "v_gate_gain": -0.011424512987012986,
+   "v_override_rate": 0.7727272727272727,
+   "v_spearman": 0.0809635299066105,
+   "gain_repeat_sd": 0.12410480339639375
+  },
+  "holdout/override": {
+   "counts": 12,
+   "in_sample_best_gain": 0.0483467920967921,
+   "cross_fit_gain": -0.026620341464091465,
+   "v_gate_gain": 0.02739500083250083,
+   "v_override_rate": 1.0,
+   "v_spearman": 0.0029794249582333395,
+   "gain_repeat_sd": 0.12814775070905648
+  },
+  "holdout/unconditioned": {
+   "counts": 12,
+   "in_sample_best_gain": 0.06489748677248677,
+   "cross_fit_gain": -0.002171887718762718,
+   "v_gate_gain": -0.010354662698412696,
+   "v_override_rate": 0.5,
+   "v_spearman": 0.07590150603947356,
+   "gain_repeat_sd": 0.11292571572707281
+  },
+  "train/contact": {
+   "counts": 14,
+   "in_sample_best_gain": 0.07916688965796108,
+   "cross_fit_gain": -0.02524372948480091,
+   "v_gate_gain": 0.005864398498327075,
+   "v_override_rate": 0.7678571428571429,
+   "v_spearman": 0.024369790795685874,
+   "gain_repeat_sd": 0.15849739634421312
+  },
+  "train/override": {
+   "counts": 13,
+   "in_sample_best_gain": 0.07799638262378647,
+   "cross_fit_gain": 0.015990800065319295,
+   "v_gate_gain": -0.004678201072431843,
+   "v_override_rate": 1.0,
+   "v_spearman": 0.06884052470467414,
+   "gain_repeat_sd": 0.1465373111258093
+  },
+  "train/unconditioned": {
+   "counts": 12,
+   "in_sample_best_gain": 0.1048776455026455,
+   "cross_fit_gain": 0.015203055046805046,
+   "v_gate_gain": 0.020777847730972732,
+   "v_override_rate": 0.7430555555555555,
+   "v_spearman": 0.055603230299467066,
+   "gain_repeat_sd": 0.18753515271355672
+  },
+  "validation/contact": {
+   "counts": 13,
+   "in_sample_best_gain": 0.08784692871231334,
+   "cross_fit_gain": 0.01788972245703015,
+   "v_gate_gain": -0.004827944491406032,
+   "v_override_rate": 0.7307692307692307,
+   "v_spearman": -0.1138842290000923,
+   "gain_repeat_sd": 0.12566091758142922
+  },
+  "validation/override": {
+   "counts": 11,
+   "in_sample_best_gain": 0.07936438561438562,
+   "cross_fit_gain": 0.0005520521145521183,
+   "v_gate_gain": 0.01466138028638029,
+   "v_override_rate": 1.0,
+   "v_spearman": -0.14914655404976365,
+   "gain_repeat_sd": 0.12382448207052801
+  },
+  "validation/unconditioned": {
+   "counts": 12,
+   "in_sample_best_gain": 0.062064064407814416,
+   "cross_fit_gain": -0.000753066378066377,
+   "v_gate_gain": 0.011952457264957266,
+   "v_override_rate": 0.6666666666666666,
+   "v_spearman": 0.07909725164699352,
+   "gain_repeat_sd": 0.1031962551081234
+  }
+ },
+ "extended_analysis": {
+  "train/unconditioned": {
+   "counts": 7,
+   "in_sample_best_gain": 0.0775297619047619,
+   "cross_fit_gain": -0.053720238095238106,
+   "v_gate_gain": 0.01651785714285714,
+   "v_gate24_gain": null
+  }
+ },
+ "decision_gates": {
+  "Gate_A_candidate_relative_scorer": {
+   "decision": "PERMITTED",
+   "rationale": "Candidate headroom exists in-sample (+0.048 to +0.105), but existing V ranking is practically uninformative (Spearman rho in [-0.11, +0.08]) and search gate overrides direct policy in 50-100% of roots with non-positive realized gain (-0.011 to +0.027). T0088 candidate-relative scorer pilot is justified and permitted.",
+   "follow_up": "T0088"
+  },
+  "Gate_B_no_opportunity_defer": {
+   "decision": "DEFERRED / REJECTED",
+   "rationale": "Gate A triggered; candidate headroom is non-zero, rejecting Gate B.",
+   "follow_up": null
+  },
+  "Gate_C_mechanics_parity_repair": {
+   "decision": "CLEARED",
+   "rationale": "Simulator step parity against the official engine passed 1,600/1,600 steps with 0 differences across 11 core mechanics events; no mechanics repair needed.",
+   "follow_up": null
+  },
+  "Gate_D_staged_search_experiment": {
+   "decision": "PERMITTED",
+   "rationale": "In host screens (T0081/T0084), all-or-nothing 50 ms deadline caused 97.5% fallback dropouts at high player counts and 41.8% scheduling jitter across identical A/A binaries. T0087 staged search prototype with usable completed work is permitted.",
+   "follow_up": "T0087"
+  }
+ }
+}

@@ -1,0 +1,52 @@
+{
+ "schedule": "5135e7483b6aa2bb196e162bb9eafb900e9e82777091397e6a4e813de5477768",
+ "seed": 20262160,
+ "fixtures": 112,
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "incomplete": {},
+ "stale_rows": {},
+ "arms": {
+  "agent_v2_p3exp_p2_direct": {
+   "games": 112,
+   "binary_sha256": "3670d8907518d6f297ce8810a598f8c557a787b507317471f0365b6e0a4669ab",
+   "utility": 0.68149,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 48.6,
+   "p99_ms_median": 0.943,
+   "p99_ms_worst": 3.314,
+   "max_ms": 6.146
+  }
+ },
+ "comparisons": {},
+ "multiplicity": {
+  "method": "none",
+  "alpha": 0.05,
+  "comparisons": 0,
+  "z": 1.96
+ },
+ "rerun_noise": {},
+ "network_calls": {},
+ "identities": {
+  "agent_v2_p3exp_p2_direct": "a1a6d1bde3015561f130caa0d6b16fd50d1a0eae1c65f4e5c4e8d8ac7d460e4e"
+ }
+}

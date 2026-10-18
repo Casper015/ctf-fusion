@@ -1,0 +1,42 @@
+{
+ "_comment": "Diagnostic pilot source matches for task T0086: 8 fresh maps per count across counts 2-15 = 112 matches. Opponents from the approved training/development pool v2 with lineage provenance. Seat is played by agent_v2_p3exp_p2_direct (general P2 package, direct play). Matches are kept to extract causal roots.",
+ "seed": 20262160,
+ "teams": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+ "maps_per_count": 8,
+ "workers": 8,
+ "workers_exact": true,
+ "first_ms": 2000,
+ "turn_ms": 50,
+ "keep_matches": true,
+ "variants": "bots/agent_v2/p3_search/variants.json",
+ "reference": [
+  "Sol",
+  "Astra",
+  "Opus",
+  "Sonnet",
+  "DeepSeek",
+  "Qwen",
+  "Player5",
+  "Baseline"
+ ],
+ "fixtures": 112,
+ "games": 112,
+ "work_dir": "data/host/search_branch_diagnostics/sources",
+ "report_dir": "reports/host/search_branch_diagnostics/sources",
+ "arms": [
+  "agent_v2_p3exp_p2_direct"
+ ],
+ "aa": [],
+ "map_splits": {
+  "train_dev": [0, 1, 2, 3],
+  "validation": [4, 5],
+  "holdout": [6, 7]
+ },
+ "candidate_expansion_subset": {
+  "maps_per_count": 2,
+  "map_indices": [0, 1],
+  "roots_per_map": 1,
+  "root_stratum": "unconditioned",
+  "extended_candidates": 24
+ }
+}

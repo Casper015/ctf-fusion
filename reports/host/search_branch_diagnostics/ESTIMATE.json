@@ -1,0 +1,182 @@
+{
+ "schema": "ctf-diag-estimate-2",
+ "design": {
+  "counts": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 8,
+  "roots_per_map": 3,
+  "candidates": 8,
+  "repeats": 4,
+  "subset_maps_per_count": 2,
+  "subset_roots_per_map": 1,
+  "subset_candidates": 24,
+  "smoke_branches": 16,
+  "workers": 8
+ },
+ "roots": 336,
+ "primary_episodes": 10752,
+ "subset_episodes": 1792,
+ "episodes": 12544,
+ "source_games": 112,
+ "smoke_branches_max": 16,
+ "cpu_hours": 1.642203888888889,
+ "wall_hours": 0.20527548611111113,
+ "time_status": "partly modelled: wall_s = 0.055 + 0.049 x teams on unmeasured counts",
+ "per_count": {
+  "2": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 8,
+   "branch_wall_s": 0.151875,
+   "cpu_seconds": 137.29500000000002,
+   "time_status": "measured"
+  },
+  "3": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.20037500000000003,
+   "cpu_seconds": 181.139,
+   "time_status": "modelled, not measured (linear-teams)"
+  },
+  "4": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.248875,
+   "cpu_seconds": 224.983,
+   "time_status": "modelled, not measured (linear-teams)"
+  },
+  "5": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 8,
+   "branch_wall_s": 0.297375,
+   "cpu_seconds": 268.827,
+   "time_status": "measured"
+  },
+  "6": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.34587500000000004,
+   "cpu_seconds": 312.67100000000005,
+   "time_status": "modelled, not measured (linear-teams)"
+  },
+  "7": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.39437500000000003,
+   "cpu_seconds": 356.51500000000004,
+   "time_status": "modelled, not measured (linear-teams)"
+  },
+  "8": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.442875,
+   "cpu_seconds": 400.35900000000004,
+   "time_status": "modelled, not measured (linear-teams)"
+  },
+  "9": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.491375,
+   "cpu_seconds": 444.20300000000003,
+   "time_status": "modelled, not measured (linear-teams)"
+  },
+  "10": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.539875,
+   "cpu_seconds": 488.04699999999997,
+   "time_status": "modelled, not measured (linear-teams)"
+  },
+  "11": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.588375,
+   "cpu_seconds": 531.891,
+   "time_status": "modelled, not measured (linear-teams)"
+  },
+  "12": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.6368750000000001,
+   "cpu_seconds": 575.7350000000001,
+   "time_status": "modelled, not measured (linear-teams)"
+  },
+  "13": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.6853750000000001,
+   "cpu_seconds": 619.5790000000001,
+   "time_status": "modelled, not measured (linear-teams)"
+  },
+  "14": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.733875,
+   "cpu_seconds": 663.423,
+   "time_status": "modelled, not measured (linear-teams)"
+  },
+  "15": {
+   "roots": 24,
+   "primary_episodes": 768,
+   "subset_episodes": 128,
+   "source_games": 8,
+   "measured_branches": 0,
+   "branch_wall_s": 0.782375,
+   "cpu_seconds": 707.267,
+   "time_status": "modelled, not measured (linear-teams)"
+  }
+ },
+ "notes": "an estimate until the full run is timed: wall_s includes bot start-up and the prefix replay, and parallel contention only as far as the smoke ran under the same worker count"
+}

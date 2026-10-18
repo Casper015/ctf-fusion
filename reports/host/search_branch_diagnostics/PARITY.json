@@ -1,0 +1,45 @@
+{
+ "schema": "ctf-diag-parity-2",
+ "status": "passed",
+ "steps_compared": 1600,
+ "team_counts": [
+  2,
+  5,
+  8,
+  15
+ ],
+ "steps_per_count": 400,
+ "seed": 20262164,
+ "check_binary_sha256": "000a22e53e475f48829949eba20974cd1f1b34e19353f3ea180291a09b1b5b5b",
+ "engine_sha256": "07e43f6210c640d87a9161193a71c394fde157f816af004d37a68ecc1e36a14a",
+ "coverage": {
+  "death": 204,
+  "respawn": 203,
+  "pickup": 29,
+  "drop": 15,
+  "capture": 12,
+  "return": 21,
+  "attack": 686,
+  "simultaneous_attack": 10,
+  "refresh": 21,
+  "attack_on_immune": 397,
+  "attack_by_immune": 3
+ },
+ "minimums": {
+  "death": 1,
+  "respawn": 1,
+  "pickup": 1,
+  "drop": 1,
+  "capture": 1,
+  "return": 1,
+  "attack": 1,
+  "simultaneous_attack": 1,
+  "refresh": 1,
+  "attack_on_immune": 1,
+  "attack_by_immune": 1
+ },
+ "short_of_minimum": {},
+ "differences": 0,
+ "first_differences": [],
+ "scope": "refreshes controlled (engine refresh positions given to the native step); respawn immunity compared only through attacks and HP; no P involved"
+}
