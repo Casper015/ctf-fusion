@@ -12,14 +12,6 @@
 > - **Withdrawn:** section 2 and every claim that rests on the old diagnostics: candidate headroom, P fidelity, simulator parity, V regret, and "V is the primary root cause". No code computed those numbers.
 > - **Wrong:** conclusion 3's completion figures. The preflight shows that P3 search completed 54.8% of turns at 5 teams, not >90%. At 15 teams it fell back on 97.5% of turns, not ~65%.
 > - **Still standing:** the paired match results in sections 3 and 4, as receipts. Their independent host recomputation is task T0084. Notes in brackets below mark each corrected claim; the original text is blob `17aa113` of commit a27f310.
-> 
-> **Host Evidence Audit (2026-10-18, task T0084; see [EVIDENCE_AUDIT.md](EVIDENCE_AUDIT.md)).**
-> - **Independent Reaggregation Verified:** Reaggregation of all 3,920 raw matches confirms the primary contrasts, band breakdowns, and Bonferroni intervals exactly.
-> - **Faults & Latency Reconciled:** All 10 faults were timeout (>50 ms) strikes occurring strictly in n09 and n10; `runner.py`'s `max_ms` reports in-time replies (<50 ms), while timed-out replies are handled via `self.late` and stale queues.
-> - **A/A Discrepancy Attribution:** Discrepancy (456 identical / 328 differing) is 100% caused by wall-clock admission jitter at the 50 ms deadline boundary (counts 4..12) and 0% by RNG. Counts 2, 3, 13, 14, 15 are 100% identical.
-> - **Empirical Telemetry:** Full search completion and override telemetry confirmed across all 14 team counts: P2 search completes 97.8% at n05 (P3 only 69.3%) and 66.4% at n06 (P3 only 8.6%). Completed search overrides direct play ~70% of the time at 2..5 teams.
-> - **Corpus Overlap:** 0 map overlap (100% fresh maps); all 5 reference bots in-distribution (9,000+ matches each in training data).
-
 
 ### Primary Results Summary
 
