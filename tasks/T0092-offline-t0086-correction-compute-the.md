@@ -1,7 +1,7 @@
 ---
 id: T0092
 title: "Offline T0086 correction: compute the gates from receipts, withdraw in-sample headroom claims"
-status: active
+status: review
 owner: claude-fervent@cloud
 needs: []
 writes: [tools/search_diagnostics/summarize_pilot.py, tools/search_diagnostics/tests/test_summarize_pilot.py, reports/host/search_branch_diagnostics/REPORT.json, reports/host/search_branch_diagnostics/REPORT.md, reports/host/search_branch_diagnostics/CORRECTION.md]
@@ -26,10 +26,13 @@ A reviewed PR: summarize_pilot.py computes every figure and gate from committed 
 
 ## Handoff
 
-Not started.
+*2026-10-18 17:29Z claude-fervent@cloud:*
+
+PR 76 open (f8eea26). Done: summarize_pilot.py computes figures and gates from the committed receipts, REPORT.md rendered from REPORT.json, CORRECTION.md. Next: review and merge PR 76, then task.py done T0092. T0088 then stays waiting (Gate A not permitted): unblocking it needs new evidence, e.g. more repeats or maps so cross_fit_gain can be shown above zero; that would be a new pre-registered host task. Not checked: nothing here needs the host.
 
 ## Log
 
 - 2026-10-18 17:22Z claude-fervent@cloud: created
 - 2026-10-18 17:22Z claude-fervent@cloud: claimed
 - 2026-10-18 17:29Z claude-fervent@cloud: note: PR https://github.com/Casper015/ctf-fusion/pull/76 (f8eea26): gates recomputed from receipts. A not permitted (cross_fit_gain +0.0075 [-0.0092, +0.0242] over all roots), B applies (uncertainty), C not triggered, D permitted -> T0087. 12 new tests; --check passes.
+- 2026-10-18 17:29Z claude-fervent@cloud: handoff -> review
