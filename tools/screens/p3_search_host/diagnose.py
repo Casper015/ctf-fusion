@@ -30,7 +30,9 @@ PREFLIGHT_SCHEMA = "ctf-agent-v2-p3-search-preflight-1"
 WITHDRAWN = "a27f310"
 
 # The search-gate bot's cumulative stderr line (bots/agent_v2/search_gate/bot.hpp): the counters preflight.py parses,
-# then "overrides <n> gate_kept <n>", which preflight.py does not parse. Every field is read and checked.
+# then "overrides <n> gate_kept <n>", which preflight.py does not parse. Every field is read; the row's counters
+# must repeat it exactly, and the counts must satisfy the runtime's accounting (inference/agent_v2/runtime.hpp decide():
+# a refused block returns before search, so turns = search_used + search_fallback + refused).
 REFUSALS = ("refuse_setup", "refuse_trajectory", "refuse_expand", "refuse_critic", "refuse_late")
 LINE_FIELDS = ("turns", "refused", "inconsistent", "search_used", "search_fallback", "leaves", "trajectories",
                *REFUSALS, "max_setup_us", "max_traj_us", "max_expand_us", "max_critic_us", "max_search_us", "branches")
@@ -81,6 +83,10 @@ def load_preflight(path: Path, expect_sha256: str | None) -> tuple[dict, dict]:
         raise InputError(f"preflight schema is not {PREFLIGHT_SCHEMA!r}")
     if not isinstance(data.get("games"), list) or not data["games"]:
         raise InputError("preflight has no per-game rows")
+    if not all(isinstance(g, dict) for g in data["games"]):
+        raise InputError("preflight has a game row that is not an object")
+    if type(data.get("seed")) is not int:
+        raise InputError("preflight does not declare its seed")
     counts, maps = data.get("counts"), data.get("maps_per_count")
     if not (isinstance(counts, list) and counts and all(type(c) is int and c > 1 for c in counts)
             and len(set(counts)) == len(counts) and type(maps) is int and maps > 0):
@@ -102,13 +108,16 @@ def game_work(row: dict) -> tuple[dict | None, str | None]:
     if not m:
         return None, "the last stderr line is not a complete search-gate counter line"
     line = dict(zip(LINE_FIELDS, map(int, m.groups()[:len(LINE_FIELDS)])))
+    critic = m.group(len(LINE_FIELDS) + 1)
     line["overrides"], line["gate_kept"] = int(m.group(len(LINE_FIELDS) + 2)), int(m.group(len(LINE_FIELDS) + 3))
-    if any(c.get(k) != v for k, v in line.items() if k in LINE_FIELDS):
+    if any(type(c.get(k)) is not int or c[k] != line[k] for k in LINE_FIELDS) or c.get("critic") != critic:
         return None, "row counters disagree with the last stderr line"
-    if line["turns"] != row.get("turns_played"):
-        return None, f"counters cover {line['turns']} of {row.get('turns_played')} turns"
-    if line["search_used"] + line["search_fallback"] != line["turns"]:
-        return None, "search_used + search_fallback != turns"
+    if type(row.get("turns_played")) is not int or row["turns_played"] <= 0:
+        return None, "no turns played"
+    if line["turns"] != row["turns_played"]:
+        return None, f"counters cover {line['turns']} of {row['turns_played']} turns"
+    if line["search_used"] + line["search_fallback"] + line["refused"] != line["turns"]:
+        return None, "search_used + search_fallback + refused != turns"
     if sum(line[k] for k in REFUSALS) != line["search_fallback"]:
         return None, "refusal counters do not sum to search_fallback"
     if line["overrides"] + line["gate_kept"] > line["search_used"]:
@@ -122,7 +131,7 @@ def compute_allocation(data: dict, source: dict) -> dict:
     search = sorted(n for n, v in data.get("variants", {}).items() if v.get("search"))
     if not search:
         raise InputError("preflight lists no search variant")
-    counts, maps = sorted(data["counts"]), data["maps_per_count"]
+    counts, maps, seed = sorted(data["counts"]), data["maps_per_count"], data["seed"]
     rows, problems = {}, []
     for name in search:
         games = [g for g in data["games"] if g.get("variant") == name]
@@ -133,10 +142,12 @@ def compute_allocation(data: dict, source: dict) -> dict:
             cell = [g for g in games if g.get("teams") == count]
             ids = [g.get("fixture_id") for g in cell]
             works, bad = [], []
+            # The schedule's fixture ids (roster.strength.schedule): s<seed>-n<teams>-m<map index>.
+            want = {f"s{seed}-n{count:02d}-m{i:05d}" for i in range(maps)}
             if len(set(ids)) != len(ids):
                 bad.append("duplicate fixture ids")
-            if len(cell) != maps:
-                bad.append(f"{len(cell)} games, {maps} declared")
+            if set(ids) != want:
+                bad.append(f"fixture ids are not the {maps} declared for seed {seed} at {count} teams")
             for g in cell:
                 w, why = game_work(g)
                 if w:

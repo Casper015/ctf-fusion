@@ -94,11 +94,13 @@ class DiagnoseTest(unittest.TestCase):
         self.assertEqual(diagnose.main(["--preflight", str(p), "--expect-sha256", good, "--out", str(self.tmp / "o")]), 0)
 
     def test_corrupt_or_foreign_input_is_refused(self):
-        no_coverage = synthetic()
+        no_coverage, no_seed, null_game = synthetic(), synthetic(), synthetic()
         del no_coverage["maps_per_count"]
+        del no_seed["seed"]
+        null_game["games"].append(None)
         for bad in ("{not json", json.dumps({"schema": "other", "games": [1]}),
                     json.dumps({"schema": diagnose.PREFLIGHT_SCHEMA, "games": []}), json.dumps([1, 2]),
-                    json.dumps(no_coverage)):
+                    json.dumps(no_coverage), json.dumps(no_seed), json.dumps(null_game)):
             with self.subTest(bad=bad[:40]):
                 self.assertIn("refused", self.refused(["--preflight", str(self.put(bad)), "--out", str(self.tmp / "o")]))
 
@@ -128,6 +130,15 @@ class DiagnoseTest(unittest.TestCase):
             "no counters": lambda g: g.update(counters=None),
             "row disagrees with stderr": lambda g: g["counters"].update(search_used=41),
             "negative row counter": lambda g: g["counters"].update(search_fallback=-1),
+            "float row counter": lambda g: g["counters"].update(search_used=40.0),
+            "critic differs": lambda g: g.update(stderr_tail=[g["stderr_tail"][0].replace("critic fp32", "critic junk")]),
+            "negative in both": lambda g: (g["counters"].update(search_fallback=-1),
+                                           g.update(stderr_tail=[g["stderr_tail"][0].replace(
+                                               "search_fallback 60", "search_fallback -1")])),
+            "refused turn counted as search": consistent(counters(100, 40, 60) | {"refused": 1}),
+            "zero turns": lambda g: (consistent(counters(0, 0, 0))(g), g.update(turns_played=0)),
+            "fixture from another count": lambda g: g.update(fixture_id="s1-n02-m00000"),
+            "fixture from another seed": lambda g: g.update(fixture_id="s2-n05-m00000"),
             "no override line": lambda g: g.update(stderr_tail=["AGENTV2 turns 100 refused 0"]),
             "truncated line": lambda g: g.update(stderr_tail=[g["stderr_tail"][0].rsplit(" gate_kept", 1)[0]]),
             "stale line": consistent(counters(99, 40, 59)),
