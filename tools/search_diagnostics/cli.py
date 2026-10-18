@@ -52,19 +52,21 @@ def cmd_build(a) -> dict:
 
 def cmd_extract(a) -> dict:
     from tools.search_diagnostics.build import binary_path  # noqa: PLC0415
-    from tools.search_diagnostics.extract import RootRefused, designated_seat, extract_root, select_roots  # noqa: PLC0415
+    from tools.search_diagnostics.extract import RootRefused, designated_seat, extract_root, run_gate, select_roots  # noqa: PLC0415
     build = _build(a.build)
     tool = binary_path(build["root_tool"])
     plan = [(s.split(":")[0], int(s.split(":")[1])) for s in a.plan.split(",")]
     out = Path(a.out)
     if out.exists() and any(out.iterdir()):
         raise ValidationError(f"{out} is not empty: roots are extracted once")
-    rule = f"plan {a.plan}; salt {a.salt}; margin 5; outcome-blind (blocks up to the root and reply presence only)"
+    rule = (f"plan {a.plan}; salt {a.salt}; margin 5; gate tau {a.tau}; outcome-blind (unit positions, HP, carried flags "
+            f"and reply presence; never scores, events or the result)")
     kept, refused = 0, []
     for p in _matches(a.matches, a.counts):
         match = matchlog.load(p)
         seat = designated_seat(match, a.seat_name)
-        for row in select_roots(match, seat, plan, a.salt):
+        overrides = run_gate(tool, match, seat, a.tau) if any(s == "override" for s, _ in plan) else None
+        for row in select_roots(match, seat, plan, a.salt, overrides):
             try:
                 r = extract_root(p, match, seat, row, build["root_tool"], tool, rule)
             except RootRefused as e:
@@ -129,8 +131,9 @@ def main(argv=None) -> int:
         p.add_argument("--counts", type=int, nargs="*")
         p.add_argument("--out", required=True)
         if name == "extract":
-            p.add_argument("--plan", required=True, help="stratum:count,... (unconditioned, contact, carrier)")
+            p.add_argument("--plan", required=True, help="stratum:count,... (unconditioned, contact, carrier, override)")
             p.add_argument("--salt", required=True, help="the registered selection salt")
+            p.add_argument("--tau", type=float, default=0.002, help="the frozen gate's tau, for the override stratum")
     p = sub.add_parser("collect", help="play the branches of extracted roots")
     for k in ("--roots", "--matches", "--build", "--seed-ledger", "--out"):
         p.add_argument(k, required=True)

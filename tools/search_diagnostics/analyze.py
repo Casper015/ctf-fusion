@@ -15,6 +15,8 @@ and counted by reason, never imputed), U[c][r] is candidate c's terminal utility
                         selecting on these repeats realizes on fresh ones, not an oracle maximum
   v_spearman            rank correlation of the critic's mean leaf value per candidate with mean U (unavailable
                         when either is constant)
+  continuation_faults   faults after the root, summed over the root's branches (complete branches keep them; they are
+                        reported, not hidden)
   v_gate                the frozen search gate on the critic's means (inference/agent_v2/search.hpp gated_choice,
                         tau): its pick, whether it overrides the baseline, and that pick's gain. The critic does not
                         see the repeats, so this gain carries no repeat selection bias
@@ -105,7 +107,8 @@ def root_metrics(root: dict, row: dict, tau: float) -> dict:
         "shortlist_regret": [best - m for m in mu], "in_sample_best_gain": max(gain.values()),
         "cross_fit_gain": cross, "v_mean": vmean, "v_spearman": spearman(vmean, mu),
         "v_gate_pick": v_pick, "v_override": float(v_pick != 0), "v_gate_gain": gain[v_pick],
-        "baseline_repeat_sd": sd,
+        "baseline_repeat_sd": sd, "context": root.get("context"),
+        "continuation_faults": sum(len(b["faults"]["continuation"]) for b in row["branches"]),
     }
 
 

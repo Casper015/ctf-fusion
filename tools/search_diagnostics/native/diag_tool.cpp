@@ -14,8 +14,13 @@
 //   diag_tool pmarg <stream>         one JSON line per answered turn: for every predicted opponent unit P's movement
 //                                    marginals, the feasible moves, and per move P(wait, pickup, drop, attack) and
 //                                    P(target slot), with the slots' unit ids
+//   diag_tool gate <stream> <tau>    one JSON line per answered turn: whether the frozen search gate (inference/agent_v2/
+//                                    search.hpp gated_choice over the first 8 roots x the tree's samples, fixed work, no
+//                                    deadline) would replace the actor's joint, and its pick. Root selection's "override"
+//                                    stratum reads this; it is the gate's offline decision, not what a timed bot did
 // Exit 0 on success; 1 with "error ..." on stdout when the stream ends before `turn` or the root turn is refused.
 #define AGENT_V2_TREE_ONLY 1
+#include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <fstream>
@@ -215,12 +220,45 @@ int pmarg(const char* path) {
     return 0;
 }
 
+int gate(const char* path, double tau) {
+    RT rt;
+    agent_v2::Simulator sim;
+    agent_v2::Leaf leaf;
+    int64_t sc[3][5];
+    int joint = -1;
+    for (auto& b : blocks(path)) {
+        if (!rt.observe_block(b).empty()) {
+            rt.refuse();
+            continue;
+        }
+        agent_v2::Actor::scores(rt.obs, sc);
+        joint = agent_v2::Actor::sample(sc, rt.obs, agent_v2::uniform(rt.seed, rt.s.turn));
+        agent_v2::Tree tree;
+        agent_v2::setup(rt, sc, joint, tree);
+        const int n = std::min(8, int(tree.roots.size()));
+        std::vector<double> mean(n, 0.0);
+        for (int ri = 0; ri < n; ri++) {
+            for (int smp = 0; smp < agent_v2::kSamples; smp++) {
+                agent_v2::trajectory(rt, tree, ri, smp, sim, leaf);
+                mean[ri] += leaf.terminal ? leaf.reward : meow_rl_critic::value(leaf.feats.data());
+            }
+            mean[ri] /= agent_v2::kSamples;
+        }
+        const int pick = agent_v2::gated_choice(mean.data(), n, tau);
+        std::printf("{\"turn\":%d,\"override\":%d,\"pick\":%d,\"roots\":%d}\n", rt.s.turn, pick != 0, pick, n);
+        rt.tactics = rt.resolve(joint);
+        rt.commit();
+    }
+    return 0;
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
     const std::string mode = argc > 1 ? argv[1] : "";
     if (mode == "root" && argc == 4) return root(argv[2], std::atoi(argv[3]));
     if (mode == "pmarg" && argc == 3) return pmarg(argv[2]);
-    std::fprintf(stderr, "usage: diag_tool root <stream> <turn> | diag_tool pmarg <stream>\n");
+    if (mode == "gate" && argc == 4) return gate(argv[2], std::atof(argv[3]));
+    std::fprintf(stderr, "usage: diag_tool root <stream> <turn> | diag_tool pmarg <stream> | diag_tool gate <stream> <tau>\n");
     return 2;
 }

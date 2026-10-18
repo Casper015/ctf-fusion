@@ -19,6 +19,9 @@ decided per turn, so the set of eligible turns spans the whole game. Rules (stra
   unconditioned  every turn in [MARGIN + 2, 400 - MARGIN]
   contact        ... where a living unit of ours and a living enemy are within Manhattan distance 3
   carrier        ... where one of our units carries a flag
+  override       ... where the frozen search gate, run offline with fixed work (diag_tool gate: the first 8 roots x
+                 the tree's samples, tau as registered), would replace the actor's joint. This is the gate's
+                 decision on the recorded states, not what a timed search bot did there
 Within a stratum the turns with the smallest SHA-256 of (salt, match, stratum, turn) are taken; strata are disjoint
 (earlier strata first). Each root records its population weight: eligible turns / selected turns of its stratum.
 """
@@ -37,7 +40,7 @@ from tools.search_diagnostics.schemas import (
 )
 
 MARGIN = 5
-RULES = ("unconditioned", "contact", "carrier")
+RULES = ("unconditioned", "contact", "carrier", "override")
 SETS = {"primary": 8, "extended": 24}
 
 
@@ -59,9 +62,13 @@ def designated_seat(match: dict, name: str) -> int:
     return seats[0]
 
 
-def in_stratum(block_text: str, seat: int, stratum: str) -> bool:
+def in_stratum(block_text: str, seat: int, stratum: str, turn: int = 0, overrides: set[int] | None = None) -> bool:
     if stratum == "unconditioned":
         return True
+    if stratum == "override":
+        if overrides is None:
+            raise ValidationError("the override stratum needs the gate's offline decisions (run_gate)")
+        return turn in overrides
     b = parse_block(block_text)
     ours = [u for u in b.units if u[1] == seat and u[2] >= 0 and u[4] > 0]
     if stratum == "carrier":
@@ -72,7 +79,8 @@ def in_stratum(block_text: str, seat: int, stratum: str) -> bool:
     raise ValidationError(f"unknown stratum {stratum}; known: {RULES}")
 
 
-def select_roots(match: dict, seat: int, plan: list[tuple[str, int]], salt: str) -> list[dict]:
+def select_roots(match: dict, seat: int, plan: list[tuple[str, int]], salt: str,
+                 overrides: set[int] | None = None) -> list[dict]:
     """The planned roots of one match: [{"turn", "stratum", "weight", "eligible"}], outcome-blind."""
     taken: set[int] = set()
     out = []
@@ -82,7 +90,7 @@ def select_roots(match: dict, seat: int, plan: list[tuple[str, int]], salt: str)
             raise ValidationError(f"stratum {stratum}: count {count}")
         eligible = [t for t in range(MARGIN + 2, min(last, 400 - MARGIN) + 1)
                     if t not in taken and match["replies"][t - 1][seat] is not None
-                    and in_stratum(match["blocks"][t - 1], seat, stratum)]
+                    and in_stratum(match["blocks"][t - 1], seat, stratum, t, overrides)]
         ranked = sorted(eligible, key=lambda t: hashlib.sha256(f"{salt}/{match['match_id']}/{stratum}/{t}".encode()).digest())
         chosen = sorted(ranked[:count])
         for t in chosen:
@@ -90,6 +98,30 @@ def select_roots(match: dict, seat: int, plan: list[tuple[str, int]], salt: str)
             out.append({"turn": t, "stratum": stratum, "eligible": len(eligible),
                         "weight": len(eligible) / len(chosen)})
     return out
+
+
+def run_gate(tool: Path, match: dict, seat: int, tau: float) -> set[int]:
+    """The turns where the frozen gate would override the actor on the seat's recorded states (fixed work)."""
+    stream = matchlog.init_for_seat(match["init"], seat) + "".join(match["blocks"])
+    with tempfile.TemporaryDirectory(prefix="diag_gate_") as d:
+        p = Path(d) / "stream.txt"
+        p.write_text(stream, encoding="utf-8", newline="\n")
+        r = subprocess.run([str(tool), "gate", str(p), repr(float(tau))], capture_output=True, text=True, timeout=3600)
+    if r.returncode != 0:
+        raise ValidationError(f"gate failed: {(r.stdout or r.stderr)[:300]}")
+    rows = [json.loads(x) for x in r.stdout.splitlines() if x.strip()]
+    if not rows:
+        raise ValidationError("gate printed nothing")
+    return {row["turn"] for row in rows if row["override"]}
+
+
+def context(block_text: str, seat: int) -> dict:
+    """Public context of the root state: our score gap to the best other team, carriers, contact."""
+    b = parse_block(block_text)
+    others = [s for i, s in enumerate(b.score) if i != seat]
+    return {"score_gap": b.score[seat] - max(others), "our_carriers": sum(1 for u in b.units if u[1] == seat and u[5] >= 0),
+            "enemy_carriers": sum(1 for u in b.units if u[1] != seat and u[5] >= 0),
+            "contact": in_stratum(block_text, seat, "contact")}
 
 
 def prefix_digest(match: dict, turn: int) -> str:
@@ -152,6 +184,7 @@ def extract_root(match_path: Path, match: dict, seat: int, plan_row: dict, tool_
                    "engine_sha256": match["engine_sha256"]},
         "selection": {"rule": rule, "stratum": plan_row["stratum"], "eligible": plan_row["eligible"],
                       "weight": plan_row["weight"]},
+        "context": context(match["blocks"][turn - 1], seat),
         "history": {"seat_stream": stream, "seat_stream_sha256": sha256_text(stream),
                     "prefix_digest": prefix_digest(match, turn), "root_block_sha256": sha256_text(match["blocks"][turn - 1])},
         "tool": {"package": tool_identity["package"], "binary_sha256": tool_identity["binary_sha256"],

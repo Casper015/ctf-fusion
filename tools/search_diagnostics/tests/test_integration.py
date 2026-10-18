@@ -118,6 +118,18 @@ class Native(unittest.TestCase):
         self.assertEqual(len(eight), 8)
         self.assertEqual(eight, wide[:8])
 
+    def test_the_offline_gate_agrees_with_the_root_tool(self):
+        from tools.search_diagnostics.analyze import gated_choice  # noqa: PLC0415
+        d = Path(tempfile.mkdtemp())
+        (d / "s.txt").write_text("".join(self.blocks[:60]))
+        r = subprocess.run([str(self.tool), "gate", str(d / "s.txt"), "0.002"], capture_output=True, text=True)
+        rows = [json.loads(x) for x in r.stdout.splitlines()]
+        self.assertEqual([x["turn"] for x in rows], list(range(1, 61)))
+        for turn in (20, 40, 60):
+            j = self.root(turn)
+            means = [sum(c["values"]) / len(c["values"]) for c in j["candidates"][:8]]
+            self.assertEqual(rows[turn - 1]["pick"], gated_choice(means, 0.002))
+
     def test_pmarg_prints_valid_distributions(self):
         from tools.search_diagnostics.p_eval import check_distribution, run_pmarg  # noqa: PLC0415
         rows = run_pmarg(self.tool, "".join(self.blocks[:30]))
@@ -202,6 +214,15 @@ class Engine(unittest.TestCase):
         row = {"turn": self.root["turn"], "stratum": "unconditioned", "eligible": 1, "weight": 1.0}
         with self.assertRaisesRegex(RootRefused, "does not reproduce"):
             extract_root(self.match_path, m, 0, row, self.ids["root_tool"], tool, "test")
+
+    def test_the_override_stratum_reads_the_offline_gate(self):
+        from tools.search_diagnostics.extract import run_gate, select_roots  # noqa: PLC0415
+        tool = diag_build.binary_path(self.ids["root_tool"])
+        overrides = run_gate(tool, self.match, 0, 0.002)
+        rows = select_roots(self.match, 0, [("override", 2)], "test", overrides)
+        self.assertTrue(all(r["turn"] in overrides for r in rows))
+        with self.assertRaises(ValidationError):
+            select_roots(self.match, 0, [("override", 1)], "test")
 
     def test_collection_refuses_a_changed_source_file(self):
         from tools.search_diagnostics.collect import _job  # noqa: PLC0415
