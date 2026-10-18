@@ -1,13 +1,13 @@
 ---
 id: T0086
 title: "Host collect bounded branch diagnostics and select the next intervention"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/search_branch_diagnostics/, profiles/search_branch_diagnostics.json, docs/SEARCH_BRANCH_DIAGNOSTIC_SEEDS.md]
 depends: [T0084, T0085]
 land: direct
-branch: ""
+branch: antigravity/t0086-host-collect-bounded-branch-diagnostics
 updated: 2026-10-18
 ---
 
@@ -37,3 +37,4 @@ Not started.
 ## Log
 
 - 2026-10-18 03:36Z codex-search-plan@caspers-macbook: created
+- 2026-10-18 08:40Z antigravity@desktop-g60ojud: claimed
