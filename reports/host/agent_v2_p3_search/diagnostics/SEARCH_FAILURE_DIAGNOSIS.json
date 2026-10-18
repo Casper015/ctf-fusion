@@ -1,227 +1,217 @@
 {
-  "schema": "ctf-search-failure-diagnosis-1",
-  "timestamp": "2026-10-17T19:49:57-0700",
-  "dimensions": {
-    "dim1_candidate_quality": {
-      "candidates_shortlist_k": 8,
-      "top1_vs_top8_headroom": "+0.042 utility",
-      "top8_vs_top24_headroom": "+0.018 utility",
-      "has_better_action_in_top8": true,
-      "shortlist_contains_best_action_pct": 78.4,
-      "interpretation": "Shortlist of 8 candidates has +0.042 utility headroom over direct top-1. Bottleneck is ranking, not candidate generation."
-    },
-    "dim2_opponent_prediction": {
-      "p2_general_test_nll": 2.148,
-      "p3_general_test_nll": 2.085,
-      "p3_advantage_nats": 0.063,
-      "combat_event_precision": {
-        "p2": {
-          "carrier_intercept": 0.612,
-          "flee": 0.741,
-          "attack": 0.689
-        },
-        "p3": {
-          "carrier_intercept": 0.668,
-          "flee": 0.785,
-          "attack": 0.734
-        }
-      },
-      "interpretation": "P3 provides +0.063 nats lower loss and 4-6 pp higher combat event precision over P2."
-    },
-    "dim3_simulator_parity": {
-      "turns_audited": 50,
-      "hp_parity_rate": 1.0,
-      "flag_parity_rate": 1.0,
-      "collision_parity_rate": 1.0,
-      "summary": "Simulator verified matching engine collision, HP and flag laws on audited turns."
-    },
-    "dim4_value_ranking_regret": {
-      "spearman_correlation_v_vs_rollout": 0.284,
-      "pearson_correlation_v_vs_rollout": 0.312,
-      "search_override_frequency": 0.185,
-      "override_realized_regret_mean": -0.0168,
-      "override_gain_rate": 0.392,
-      "override_loss_rate": 0.608,
-      "interpretation": "When search overrides the direct policy (18.5% of turns), 60.8% of overrides lead to negative utility (mean -0.0168). V misranks candidates due to horizon truncation and distribution shift."
-    },
-    "dim5_compute_allocation": {
-      "source": "preflight",
-      "by_count": {
-        "agent_v2_p3exp_p2_direct": {
-          "2": {
-            "steady_max_ms": 0.557,
-            "p99_max_ms": 0.479,
-            "p95_max_ms": 0.359,
-            "p50_max_ms": 0.252,
-            "first_max_ms": 4.5,
-            "search_used": 0,
-            "search_fallback": 0,
-            "leaves": 0
-          },
-          "5": {
-            "steady_max_ms": 1.12,
-            "p99_max_ms": 0.812,
-            "p95_max_ms": 0.668,
-            "p50_max_ms": 0.491,
-            "first_max_ms": 8.5,
-            "search_used": 0,
-            "search_fallback": 0,
-            "leaves": 0
-          },
-          "8": {
-            "steady_max_ms": 1.337,
-            "p99_max_ms": 1.163,
-            "p95_max_ms": 0.992,
-            "p50_max_ms": 0.788,
-            "first_max_ms": 22.2,
-            "search_used": 0,
-            "search_fallback": 0,
-            "leaves": 0
-          },
-          "15": {
-            "steady_max_ms": 3.932,
-            "p99_max_ms": 2.489,
-            "p95_max_ms": 1.973,
-            "p50_max_ms": 1.457,
-            "first_max_ms": 53.3,
-            "search_used": 0,
-            "search_fallback": 0,
-            "leaves": 0
-          }
-        },
-        "agent_v2_p3exp_p2_gw8x4_fp32": {
-          "2": {
-            "steady_max_ms": 12.079,
-            "p99_max_ms": 10.953,
-            "p95_max_ms": 10.254,
-            "p50_max_ms": 8.837,
-            "first_max_ms": 18.7,
-            "search_used": 6400,
-            "search_fallback": 0,
-            "leaves": 193976
-          },
-          "5": {
-            "steady_max_ms": 17.69,
-            "p99_max_ms": 17.458,
-            "p95_max_ms": 17.147,
-            "p50_max_ms": 14.487,
-            "first_max_ms": 25.4,
-            "search_used": 6222,
-            "search_fallback": 178,
-            "leaves": 195320
-          },
-          "8": {
-            "steady_max_ms": 18.695,
-            "p99_max_ms": 18.046,
-            "p95_max_ms": 17.697,
-            "p50_max_ms": 17.248,
-            "first_max_ms": 46.5,
-            "search_used": 755,
-            "search_fallback": 5645,
-            "leaves": 161244
-          },
-          "15": {
-            "steady_max_ms": 20.796,
-            "p99_max_ms": 19.335,
-            "p95_max_ms": 18.491,
-            "p50_max_ms": 17.646,
-            "first_max_ms": 103.9,
-            "search_used": 159,
-            "search_fallback": 6241,
-            "leaves": 82941
-          }
-        },
-        "agent_v2_p3exp_p3_direct": {
-          "2": {
-            "steady_max_ms": 0.638,
-            "p99_max_ms": 0.541,
-            "p95_max_ms": 0.432,
-            "p50_max_ms": 0.288,
-            "first_max_ms": 4.9,
-            "search_used": 0,
-            "search_fallback": 0,
-            "leaves": 0
-          },
-          "5": {
-            "steady_max_ms": 1.311,
-            "p99_max_ms": 0.989,
-            "p95_max_ms": 0.839,
-            "p50_max_ms": 0.616,
-            "first_max_ms": 8.8,
-            "search_used": 0,
-            "search_fallback": 0,
-            "leaves": 0
-          },
-          "8": {
-            "steady_max_ms": 2.162,
-            "p99_max_ms": 1.46,
-            "p95_max_ms": 1.248,
-            "p50_max_ms": 1.009,
-            "first_max_ms": 23.8,
-            "search_used": 0,
-            "search_fallback": 0,
-            "leaves": 0
-          },
-          "15": {
-            "steady_max_ms": 4.676,
-            "p99_max_ms": 3.05,
-            "p95_max_ms": 2.509,
-            "p50_max_ms": 1.914,
-            "first_max_ms": 55.5,
-            "search_used": 0,
-            "search_fallback": 0,
-            "leaves": 0
-          }
-        },
-        "agent_v2_p3exp_p3_gw8x4_fp32": {
-          "2": {
-            "steady_max_ms": 13.306,
-            "p99_max_ms": 12.683,
-            "p95_max_ms": 11.246,
-            "p50_max_ms": 9.713,
-            "first_max_ms": 20.0,
-            "search_used": 6400,
-            "search_fallback": 0,
-            "leaves": 194400
-          },
-          "5": {
-            "steady_max_ms": 18.337,
-            "p99_max_ms": 17.696,
-            "p95_max_ms": 17.526,
-            "p50_max_ms": 17.081,
-            "first_max_ms": 31.0,
-            "search_used": 3507,
-            "search_fallback": 2893,
-            "leaves": 187317
-          },
-          "8": {
-            "steady_max_ms": 18.629,
-            "p99_max_ms": 18.349,
-            "p95_max_ms": 17.963,
-            "p50_max_ms": 17.383,
-            "first_max_ms": 54.6,
-            "search_used": 355,
-            "search_fallback": 6045,
-            "leaves": 123637
-          },
-          "15": {
-            "steady_max_ms": 20.405,
-            "p99_max_ms": 19.59,
-            "p95_max_ms": 18.938,
-            "p50_max_ms": 17.843,
-            "first_max_ms": 121.4,
-            "search_used": 157,
-            "search_fallback": 6243,
-            "leaves": 60411
-          }
-        }
-      }
+  "schema": "ctf-search-failure-diagnosis-2",
+  "task": "T0081 diagnostics, corrected by T0090",
+  "withdrawn": {
+    "commit": "a27f310",
+    "record": "reports/host/agent_v2_p3_search/CORRECTION.md"
+  },
+  "inputs": {
+    "preflight": {
+      "path": "reports/host/agent_v2_p3_search/PREFLIGHT.json",
+      "sha256": "bbcc68937436bd7133368088a8df514da64345d78a98b8ba437528923838fcb8",
+      "bytes": 347295,
+      "seed": 20262150
     }
   },
-  "root_cause_synthesis": [
-    "1. Primary Cause: Value network ranking error (Dim 4). When search overrides the direct policy, 60.8% of overrides hurt decision quality (mean -0.0168 regret).",
-    "2. Contributing Cause: Opponent modeling noise (Dim 2). P2 prediction error in combat states causes search to simulate fictitious branches.",
-    "3. Secondary Cause: Scaling timeout at high counts (Dim 5). At n15, 65.9% of trees time out and fall back.",
-    "4. Non-Cause: Candidate generation (Dim 1) has ample headroom (+0.042), and simulator (Dim 3) has exact parity."
-  ]
+  "dimensions": {
+    "dim1_candidate_quality": {
+      "status": "unavailable",
+      "reason": "Needs terminal utilities of continuations from each root candidate under a frozen continuation policy. T0081 collected none; the harness is T0085 and the collection T0086.",
+      "needs": [
+        "branch continuation rows with candidate orders, scenario keys and terminal utilities"
+      ]
+    },
+    "dim2_opponent_prediction": {
+      "status": "unavailable",
+      "reason": "Needs P2 and P3 evaluated on the same held-out causal labels, with event definitions and denominators. No such evaluation was run or read for T0081.",
+      "needs": [
+        "held-out P evaluation receipt for both general packages on identical labels"
+      ]
+    },
+    "dim3_simulator_parity": {
+      "status": "unavailable",
+      "reason": "Needs both the native simulator and the engine run on identical full commands and refresh outcomes. The withdrawn version loaded the engine and counted stream blocks, but compared nothing. Existing older coverage, not a T0081 audit: tests/test_agent_v2.py::test_simulator_matches_the_engine_and_refreshes_lawfully (T0065; random lawful commands, counts 2-15).",
+      "needs": [
+        "paired native/engine transition records on the T0081 binaries"
+      ]
+    },
+    "dim4_value_ranking_regret": {
+      "status": "unavailable",
+      "reason": "Needs the critic's root scores next to realized continuation utilities for the same candidates. T0081 recorded neither; the screen's committed receipts also carry no override counters.",
+      "needs": [
+        "per-root critic scores and continuation utilities (T0086)"
+      ]
+    },
+    "dim5_compute_allocation": {
+      "status": "computed",
+      "source": {
+        "path": "reports/host/agent_v2_p3_search/PREFLIGHT.json",
+        "sha256": "bbcc68937436bd7133368088a8df514da64345d78a98b8ba437528923838fcb8",
+        "bytes": 347295,
+        "seed": 20262150
+      },
+      "scope": "preflight only: counts 2, 5, 8 and 15, 16 fixtures each. The formal screen's committed receipts carry no per-game counters, so the screen's own completion is unavailable.",
+      "definitions": {
+        "completed_share": "search_used / turns: turns whose tree completed (the gate then kept or replaced the actor); the rest fell back to the actor's order",
+        "override_share_of_turns": "overrides / turns: completed trees whose best root replaced the actor",
+        "gate_kept": "completed trees whose best root beat the actor by at most tau"
+      },
+      "rows": {
+        "agent_v2_p3exp_p2_gw8x4_fp32 n02": {
+          "variant": "agent_v2_p3exp_p2_gw8x4_fp32",
+          "teams": 2,
+          "games": 16,
+          "status": "computed",
+          "turns": 6400,
+          "search_used": 6400,
+          "search_fallback": 0,
+          "refuse_setup": 0,
+          "refuse_trajectory": 0,
+          "refuse_expand": 0,
+          "refuse_critic": 0,
+          "refuse_late": 0,
+          "overrides": 4234,
+          "gate_kept": 963,
+          "completed_share": 1.0,
+          "override_share_of_turns": 0.6616,
+          "override_share_of_completed": 0.6616
+        },
+        "agent_v2_p3exp_p2_gw8x4_fp32 n05": {
+          "variant": "agent_v2_p3exp_p2_gw8x4_fp32",
+          "teams": 5,
+          "games": 16,
+          "status": "computed",
+          "turns": 6400,
+          "search_used": 6222,
+          "search_fallback": 178,
+          "refuse_setup": 0,
+          "refuse_trajectory": 178,
+          "refuse_expand": 0,
+          "refuse_critic": 0,
+          "refuse_late": 0,
+          "overrides": 4448,
+          "gate_kept": 723,
+          "completed_share": 0.9722,
+          "override_share_of_turns": 0.695,
+          "override_share_of_completed": 0.7149
+        },
+        "agent_v2_p3exp_p2_gw8x4_fp32 n08": {
+          "variant": "agent_v2_p3exp_p2_gw8x4_fp32",
+          "teams": 8,
+          "games": 16,
+          "status": "computed",
+          "turns": 6400,
+          "search_used": 755,
+          "search_fallback": 5645,
+          "refuse_setup": 0,
+          "refuse_trajectory": 5645,
+          "refuse_expand": 0,
+          "refuse_critic": 0,
+          "refuse_late": 0,
+          "overrides": 382,
+          "gate_kept": 86,
+          "completed_share": 0.118,
+          "override_share_of_turns": 0.0597,
+          "override_share_of_completed": 0.506
+        },
+        "agent_v2_p3exp_p2_gw8x4_fp32 n15": {
+          "variant": "agent_v2_p3exp_p2_gw8x4_fp32",
+          "teams": 15,
+          "games": 16,
+          "status": "computed",
+          "turns": 6400,
+          "search_used": 159,
+          "search_fallback": 6241,
+          "refuse_setup": 0,
+          "refuse_trajectory": 6241,
+          "refuse_expand": 0,
+          "refuse_critic": 0,
+          "refuse_late": 0,
+          "overrides": 20,
+          "gate_kept": 5,
+          "completed_share": 0.0248,
+          "override_share_of_turns": 0.0031,
+          "override_share_of_completed": 0.1258
+        },
+        "agent_v2_p3exp_p3_gw8x4_fp32 n02": {
+          "variant": "agent_v2_p3exp_p3_gw8x4_fp32",
+          "teams": 2,
+          "games": 16,
+          "status": "computed",
+          "turns": 6400,
+          "search_used": 6400,
+          "search_fallback": 0,
+          "refuse_setup": 0,
+          "refuse_trajectory": 0,
+          "refuse_expand": 0,
+          "refuse_critic": 0,
+          "refuse_late": 0,
+          "overrides": 4263,
+          "gate_kept": 952,
+          "completed_share": 1.0,
+          "override_share_of_turns": 0.6661,
+          "override_share_of_completed": 0.6661
+        },
+        "agent_v2_p3exp_p3_gw8x4_fp32 n05": {
+          "variant": "agent_v2_p3exp_p3_gw8x4_fp32",
+          "teams": 5,
+          "games": 16,
+          "status": "computed",
+          "turns": 6400,
+          "search_used": 3507,
+          "search_fallback": 2893,
+          "refuse_setup": 0,
+          "refuse_trajectory": 2893,
+          "refuse_expand": 0,
+          "refuse_critic": 0,
+          "refuse_late": 0,
+          "overrides": 2388,
+          "gate_kept": 430,
+          "completed_share": 0.548,
+          "override_share_of_turns": 0.3731,
+          "override_share_of_completed": 0.6809
+        },
+        "agent_v2_p3exp_p3_gw8x4_fp32 n08": {
+          "variant": "agent_v2_p3exp_p3_gw8x4_fp32",
+          "teams": 8,
+          "games": 16,
+          "status": "computed",
+          "turns": 6400,
+          "search_used": 355,
+          "search_fallback": 6045,
+          "refuse_setup": 0,
+          "refuse_trajectory": 6045,
+          "refuse_expand": 0,
+          "refuse_critic": 0,
+          "refuse_late": 0,
+          "overrides": 119,
+          "gate_kept": 45,
+          "completed_share": 0.0555,
+          "override_share_of_turns": 0.0186,
+          "override_share_of_completed": 0.3352
+        },
+        "agent_v2_p3exp_p3_gw8x4_fp32 n15": {
+          "variant": "agent_v2_p3exp_p3_gw8x4_fp32",
+          "teams": 15,
+          "games": 16,
+          "status": "computed",
+          "turns": 6400,
+          "search_used": 157,
+          "search_fallback": 6243,
+          "refuse_setup": 0,
+          "refuse_trajectory": 6243,
+          "refuse_expand": 0,
+          "refuse_critic": 0,
+          "refuse_late": 0,
+          "overrides": 12,
+          "gate_kept": 3,
+          "completed_share": 0.0245,
+          "override_share_of_turns": 0.0019,
+          "override_share_of_completed": 0.0764
+        }
+      },
+      "problems": []
+    }
+  },
+  "root_cause": "not determined: four of five dimensions have no measurement"
 }
