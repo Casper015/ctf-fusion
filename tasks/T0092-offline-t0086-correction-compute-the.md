@@ -32,3 +32,4 @@ Not started.
 
 - 2026-10-18 17:22Z claude-fervent@cloud: created
 - 2026-10-18 17:22Z claude-fervent@cloud: claimed
+- 2026-10-18 17:29Z claude-fervent@cloud: note: PR https://github.com/Casper015/ctf-fusion/pull/76 (f8eea26): gates recomputed from receipts. A not permitted (cross_fit_gain +0.0075 [-0.0092, +0.0242] over all roots), B applies (uncertainty), C not triggered, D permitted -> T0087. 12 new tests; --check passes.
