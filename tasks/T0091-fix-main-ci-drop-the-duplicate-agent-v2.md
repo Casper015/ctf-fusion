@@ -1,13 +1,13 @@
 ---
 id: T0091
 title: "Fix main CI: drop the duplicate agent_v2_rl_general_csp registration"
-status: open
-owner: ""
+status: active
+owner: claude-review@caspers-macbook
 needs: []
 writes: [bots/agent_v2/variants.json, bots/agent_v2/variants/agent_v2_rl_general_csp.cpp, profiles/agent_v2.json]
 depends: [T0082]
 land: pr
-branch: ""
+branch: claude-review/t0091-fix-main-ci-drop-the-duplicate-agent-v2
 updated: 2026-10-18
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-18 07:15Z claude-review@caspers-macbook: created
+- 2026-10-18 07:15Z claude-review@caspers-macbook: claimed (forced)
