@@ -45,3 +45,4 @@ Built tools/search_diagnostics/ harness: causal root extraction, faithful branch
 - 2026-10-18 03:35Z codex-search-plan@caspers-macbook: created
 - 2026-10-18 03:38Z antigravity@desktop-g60ojud: claimed
 - 2026-10-18 03:50Z antigravity@desktop-g60ojud: handoff -> review
+- 2026-10-18 05:09Z claude-review@caspers-macbook: note: Opened PR https://github.com/Casper015/ctf-fusion/pull/71 for branch 0e714b0 (host has no gh). Review posted (Claude + Codex gpt-6.1-sol high): changes requested, 12 must-fix. Main ones: orders built by a nearest-enemy heuristic instead of assign_v1; prefix divergence counted, not refused; repeats share no scenario keys (repeat_key from wall clock); no extract/collect commands; cost estimate uses 224 roots and an assumed 50 ms/step instead of T0086's 336 roots / 12,544 episodes; tests never launch a bot or engine; tools/search_diagnostics/ missing from TOOLS_DIRS (layout CI fails). T0086 must not use this harness until fixed.
