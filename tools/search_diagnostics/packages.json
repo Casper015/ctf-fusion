@@ -1,0 +1,28 @@
+{
+ "_comment": "agent_v2 packages the branch diagnostics can build (task T0085, tools/search_diagnostics/README.md). Each names the defines and headers of a committed variant; production_variant is that variant's source, against which the integration test checks the continuation bot reply for reply. The root tool's tree uses tree_candidates x tree_samples; its first 8 roots are the 8x4 search packages' roots (search.hpp roots() is a prefix order).",
+ "packages": {
+  "p2xxl_direct": {
+   "role": "the production default D (agent_v2_p2xxl_direct): P2 XXL bank, pool-v2 large actor",
+   "defines": {"FUSION_MAX_WIDTH": "1024", "FUSION_TIER_PXXL_VM": "1"},
+   "actor": "inference/meow_rl/aligned/p2_large/actor.hpp",
+   "critic": "inference/meow_rl/aligned/p2_large/critic_fp32.hpp",
+   "production_variant": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp"
+  },
+  "p2general": {
+   "role": "general P2 XXL (T0081's agent_v2_p3exp_p2_*), the pinned initial configuration for T0086's primary labels",
+   "defines": {"FUSION_MAX_WIDTH": "1024", "FUSION_TIER_P2GENERAL_VM": "1"},
+   "actor": "inference/meow_rl/aligned/p2_large/actor.hpp",
+   "critic": "inference/meow_rl/aligned/p2_large/critic_fp32.hpp",
+   "production_variant": "bots/agent_v2/p3_search/variants/agent_v2_p3exp_p2_direct.cpp"
+  },
+  "p3general": {
+   "role": "general P3 XXL (T0081's agent_v2_p3exp_p3_*), for factual P diagnostics",
+   "defines": {"FUSION_MAX_WIDTH": "1024", "FUSION_TIER_P3XXL_VM": "1"},
+   "actor": "inference/meow_rl/aligned/p2_large/actor.hpp",
+   "critic": "inference/meow_rl/aligned/p2_large/critic_fp32.hpp",
+   "production_variant": "bots/agent_v2/p3_search/variants/agent_v2_p3exp_p3_direct.cpp"
+  }
+ },
+ "tree_candidates": 24,
+ "tree_samples": 4
+}

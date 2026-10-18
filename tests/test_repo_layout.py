@@ -13,7 +13,7 @@ REPO = Path(__file__).resolve().parents[1]
 
 ROOT_DIRS = {".github", "bots", "docs", "fusion", "inference", "profiles", "reports", "roster", "tasks", "tests", "tools", "training"}
 ROOT_FILES = {".gitattributes", ".gitignore", "AGENTS.md", "CLAUDE.md", "CONTRIBUTING.md", "README.md", "compile_flags.txt", "requirements-dev.txt", "requirements.txt"}
-TOOLS_DIRS = {"cpp", "host", "pipeline", "reporting", "repo", "screens"}
+TOOLS_DIRS = {"cpp", "host", "pipeline", "reporting", "repo", "screens", "search_diagnostics"}
 TOOLS_FILES = {"random_bot.py", "noise_bot.py", "README.md"}   # the bots are named by path in committed pools: do not move
 REPORT_DIRS = {"models", "host", "eval", "reviews"}
 TIERS = {"s", "m", "l", "xl", "xxl"}
