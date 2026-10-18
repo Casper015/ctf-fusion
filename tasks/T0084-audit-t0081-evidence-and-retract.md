@@ -37,3 +37,4 @@ Not started.
 
 - 2026-10-18 03:35Z codex-search-plan@caspers-macbook: created
 - 2026-10-18 03:41Z claude-review@caspers-macbook: amended depends -> T0081, T0090
+- 2026-10-18 03:41Z claude-review@caspers-macbook: note: Split: steps 1-2 and the preflight half of step 5 (offline, committed receipts only) moved to T0090, which a Mac can run. T0084 keeps the host-only parts: raw-record reaggregation of the 3,920 games, fault/late reasons, A/A seed vs admission analysis, roster overlap, reservation chronology. Offline finding from PREFLIGHT.json: search completion per count (P2 / P3) is n02 1.000/1.000, n05 0.972/0.548, n08 0.118/0.055, n15 0.025/0.025. REPORT.md's '>90% at 3-5' is false for P3 at n05, '~65% time out at n11-15' is false (97.5% fall back at n15), and P3search-P2search at 3-5 is confounded by unequal completion.
