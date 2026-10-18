@@ -5,7 +5,7 @@ status: open
 owner: ""
 needs: [host, cuda, ai-test]
 writes: [training/agent_v2_ranker/, inference/agent_v2_ranker/, bots/agent_v2/ranker/, tools/search_diagnostics/ranker/, reports/models/agent_v2_ranker/, profiles/agent_v2_ranker_pilot.json]
-depends: [T0086, T0082]
+depends: [T0082, T0086, T0092]
 land: pr
 branch: ""
 updated: 2026-10-18
@@ -35,3 +35,4 @@ Not started.
 ## Log
 
 - 2026-10-18 03:36Z codex-search-plan@caspers-macbook: created
+- 2026-10-18 17:22Z claude-fervent@cloud: amended depends -> T0082, T0086, T0092
