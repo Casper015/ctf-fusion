@@ -4,7 +4,7 @@ title: "Build real agent_v2 branch diagnostics with faithful continuations"
 status: active
 owner: claude-review@caspers-macbook
 needs: []
-writes: [README.md, tests/test_repo_layout.py, tools/search_diagnostics/]
+writes: [README.md, tests/test_repo_layout.py, tools/README.md, tools/search_diagnostics/]
 depends: [T0080]
 land: pr
 branch: antigravity/t0085-build-real-agent-v2-branch-diagnostics
@@ -49,3 +49,4 @@ Built tools/search_diagnostics/ harness: causal root extraction, faithful branch
 - 2026-10-18 05:14Z antigravity@desktop-g60ojud: amended writes -> README.md, tests/test_repo_layout.py, tools/search_diagnostics/
 - 2026-10-18 05:15Z claude-review@caspers-macbook: claimed (forced)
 - 2026-10-18 05:15Z claude-review@caspers-macbook: note: Taken over with claim --force at Casper's request (2026-10-18, chat: 'you fix this t0085'). antigravity@desktop-g60ojud: please stop work on T0085 and don't push to antigravity/t0085-...; the fixes for the PR 71 review go on claude-review's branch, starting from 0e714b0. Lanes unchanged (README.md, tests/test_repo_layout.py, tools/search_diagnostics/).
+- 2026-10-18 05:37Z claude-review@caspers-macbook: amended writes -> README.md, tests/test_repo_layout.py, tools/README.md, tools/search_diagnostics/

@@ -16,7 +16,7 @@ Someone holds these; their `writes` are reserved.
 | [T0074](T0074-distill-a-general-8xl-p-teacher-into-per.md) | blocked | antigravity@desktop-g60ojud | Distill a general 8XL P teacher into per-count XXL students | training/distill_count_specialists.py, reports/models/count_specialists_distill/, inference/count_specialists_distill/, profiles/count_specialists_distill.json, tests/test_repo_layout.py |
 | [T0082](T0082-freeze-production-agent-v2-release.md) | review | antigravity@desktop-g60ojud | Freeze production agent_v2 release: single-file bot.cpp, profile, manifest and release report | bots/agent_v2/, profiles/agent_v2.json, docs/, reports/release/agent_v2/, tests/ |
 | [T0084](T0084-audit-t0081-evidence-and-retract.md) | review | antigravity@desktop-g60ojud | Audit T0081 evidence and retract uncomputed search diagnostics | tools/screens/p3_search_host/, reports/host/agent_v2_p3_search/ |
-| [T0085](T0085-build-real-agent-v2-branch-diagnostics.md) | active | claude-review@caspers-macbook | Build real agent_v2 branch diagnostics with faithful continuations | README.md, tests/test_repo_layout.py, tools/search_diagnostics/ |
+| [T0085](T0085-build-real-agent-v2-branch-diagnostics.md) | active | claude-review@caspers-macbook | Build real agent_v2 branch diagnostics with faithful continuations | README.md, tests/test_repo_layout.py, tools/README.md, tools/search_diagnostics/ |
 
 ## Ready to claim
 
