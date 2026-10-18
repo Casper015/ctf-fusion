@@ -1,13 +1,13 @@
 ---
 id: T0085
 title: "Build real agent_v2 branch diagnostics with faithful continuations"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: []
 writes: [tools/search_diagnostics/]
 depends: [T0080]
 land: pr
-branch: ""
+branch: antigravity/t0085-build-real-agent-v2-branch-diagnostics
 updated: 2026-10-18
 ---
 
@@ -41,3 +41,4 @@ Not started.
 ## Log
 
 - 2026-10-18 03:35Z codex-search-plan@caspers-macbook: created
+- 2026-10-18 03:38Z antigravity@desktop-g60ojud: claimed
