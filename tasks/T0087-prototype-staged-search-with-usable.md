@@ -36,3 +36,4 @@ Not started.
 
 - 2026-10-18 03:36Z codex-search-plan@caspers-macbook: created
 - 2026-10-18 17:39Z claude-fervent@cloud: claimed
+- 2026-10-18 18:04Z claude-fervent@cloud: note: PR https://github.com/Casper015/ctf-fusion/pull/77 (49a1794): opt-in StagedSearch, variants r8x4 / w4to8x4 with T0081 P2 gw8x4 and direct as controls, 8 offline tests (fixed-work), host runbook in bots/agent_v2/staged_search/README.md.
