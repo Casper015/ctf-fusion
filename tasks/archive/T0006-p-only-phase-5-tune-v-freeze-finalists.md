@@ -1,14 +1,14 @@
 ---
 id: T0006
 title: "P-only phase 5: freeze the finalists and confirm them"
-status: open
+status: dropped
 owner: ""
 needs: [host]
 writes: [bots/p_only/report/confirm/]
 depends: [T0004, T0005, T0013]
 land: pr
 branch: ""
-updated: 2026-10-12
+updated: 2026-10-18
 ---
 
 ## Goal
@@ -27,7 +27,9 @@ Confirmation with at least 10,000 independent map groups over counts 2-15 (at le
 
 ## Handoff
 
-Not started. Choose the confirmation seed only when the finalists are frozen, and keep it unseen until then.
+*2026-10-18 19:39Z claude-fervent@cloud:*
+
+Closed by claude-fervent@cloud at Casper's request (2026-10-18). The P-only line is paused (its prerequisites T0001 and T0005 were dropped the same day); the agent_v2 carrier is the active line. Reopen as a new task if P-only work resumes.
 
 ## Log
 
@@ -36,3 +38,4 @@ Not started. Choose the confirmation seed only when the finalists are frozen, an
 - 2026-10-11 01:32Z claude-ci@caspers-macbook: amended depends -> T0004, T0005, T0014; title -> P-only phase 5: freeze the finalists and confirm them; goal
 - 2026-10-12 05:58Z codex-rl-plan@caspers-macbook: amended depends -> T0004, T0005, T0013; goal
 - 2026-10-12 05:58Z codex-rl-plan@caspers-macbook: note: Casper authorized retiring T0012/T0014; removed the V-pilot dependency and added the P-feature deployment screen T0013. Future distilled-P or T0034 candidates need separate deployment admission before this confirmation.
+- 2026-10-18 19:39Z claude-fervent@cloud: dropped
