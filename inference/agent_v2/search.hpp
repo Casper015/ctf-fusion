@@ -25,6 +25,7 @@
 #include <chrono>
 #include <cmath>
 #include <cstdint>
+#include <limits>
 #include <vector>
 
 #include "runtime.hpp"
@@ -269,6 +270,188 @@ struct Search {
         rt.tel.search_used++;
         max_search_us = std::max(max_search_us, us(clock::now() - t_begin));
         return tree.roots[pick];
+    }
+};
+#endif
+
+// ---- Staged search (task T0087, bots/agent_v2/staged_search/README.md): opt-in, StagedSearch below. ---------------
+// The same tree as Search (roots, scenarios, trajectories, critic, gate and tau, admission estimates and reply reserve,
+// all unchanged), worked through a frozen schedule of checkpoints. Checkpoint i compares the first k_i roots (the
+// actor's joint first) over scenarios 0..s_i-1, so every compared root has the same completed scenarios. Work runs
+// scenario-major: each round gives every root of the checkpoint its next scenario. A completed checkpoint's decision
+// (gated_choice over its means) is fixed and never revised by later partial work. When work stops (a refused
+// admission, the deadline, or the fixed-work cap), the bot plays the last completed checkpoint's decision, or the
+// default order when none completed; trajectories finished after that checkpoint are discarded and counted. The last
+// checkpoint is the whole kCandidates x kSamples tree, summed in Search's order, so a run that completes the schedule
+// decides exactly as Search does. Nothing is cached: each trajectory is a function of (tree, root, scenario) alone,
+// which tools/search_diagnostics/staged checks.
+//
+// AGENT_V2_STAGED_SCHEDULE: the checkpoints as "{k, s}, ..." (empty: full-width rounds {kCandidates, 1} ...
+// {kCandidates, kSamples}); k and s never decrease, each step raises one, the last is {kCandidates, kSamples}.
+// AGENT_V2_STAGED_FIXED_WORK >= 0: the deterministic mode for offline checks: no clock, work stops after that many
+// trajectories (StagedSearch::work_cap; -1, the default, is the timed mode). It is never a timing or strength arm.
+#ifndef AGENT_V2_STAGED_SCHEDULE
+#define AGENT_V2_STAGED_SCHEDULE
+#endif
+#ifndef AGENT_V2_STAGED_FIXED_WORK
+#define AGENT_V2_STAGED_FIXED_WORK -1
+#endif
+
+struct Checkpoint {
+    int k = 0, s = 0;
+};
+struct Schedule {
+    std::array<Checkpoint, 64> at{};
+    int n = 0;
+};
+
+constexpr Schedule staged_schedule() {
+    constexpr Checkpoint user[] = {{0, 0}, AGENT_V2_STAGED_SCHEDULE};   // a sentinel keeps the list non-empty
+    constexpr int given = int(sizeof user / sizeof user[0]) - 1;
+    Schedule out;
+    if (given == 0)
+        for (int s = 1; s <= kSamples; s++) out.at[out.n++] = {kCandidates, s};
+    else
+        for (int i = 1; i <= given && out.n < int(out.at.size()); i++) out.at[out.n++] = user[i];
+    return out;
+}
+
+constexpr bool valid_schedule(const Schedule& sch) {
+    if (sch.n < 1 || sch.n > int(sch.at.size())) return false;
+    const int k_min = kCandidates < 2 ? 1 : 2;
+    for (int i = 0; i < sch.n; i++) {
+        const Checkpoint c = sch.at[i];
+        if (c.k < k_min || c.k > kCandidates || c.s < 1 || c.s > kSamples) return false;
+        if (i && (c.k < sch.at[i - 1].k || c.s < sch.at[i - 1].s || (c.k == sch.at[i - 1].k && c.s == sch.at[i - 1].s)))
+            return false;
+    }
+    return sch.at[sch.n - 1].k == kCandidates && sch.at[sch.n - 1].s == kSamples;
+}
+
+inline constexpr Schedule kStagedSchedule = staged_schedule();
+static_assert(valid_schedule(kStagedSchedule), "AGENT_V2_STAGED_SCHEDULE: monotone checkpoints ending at the full tree");
+
+// The mean of root ri over scenarios 0..s-1, summed in scenario order (Search's order, so the full tree matches it).
+inline double checkpoint_mean(const double (&val)[kCandidates][kSamples], int ri, int s) {
+    double sum = 0;
+    for (int smp = 0; smp < s; smp++) sum += val[ri][smp];
+    return sum / s;
+}
+
+#ifndef AGENT_V2_TREE_ONLY
+struct StagedSearch {
+    enum Point { kAdmitSetup = 0, kAdmitTrajectory, kAdmitExpand, kAdmitCritic, kLate, kWorkCap, kComplete };
+    Simulator sim;
+    long work_cap = AGENT_V2_STAGED_FIXED_WORK;   // >= 0: fixed-work mode (no clock); -1: timed
+    // Test hooks, off by default: refuse admission `force_point` at trajectory index `force_at` (kLate: discard that
+    // trajectory as if it finished after the deadline); give trajectory `nan_at` a NaN value.
+    int force_point = -1;
+    long force_at = -1, nan_at = -1;
+    // Cumulative over the game. Per turn with a search: decided (a checkpoint's decision) or a fallback (none).
+    long max_setup_us = 0, max_traj_us = 0, max_expand_us = 0, max_critic_us = 0, max_search_us = 0;
+    long trajectories = 0, discarded = 0, checkpoints = 0, complete = 0, decided = 0, eff_candidates = 0, eff_scenarios = 0;
+    long overrides = 0, baseline_kept = 0, gate_kept = 0;
+    long refuse_setup = 0, refuse_trajectory = 0, refuse_expand = 0, refuse_critic = 0, refuse_late = 0, stopped_work_cap = 0;
+    // The last turn: completed checkpoints, the decision checkpoint's (k, s), means and pick, trajectories, why it stopped.
+    struct Record {
+        int checkpoints = 0, k = 0, s = 0, pick = 0, stop = -1;
+        long done = 0;
+        std::vector<int> roots;
+        std::vector<double> mean;
+    } last;
+
+    static long us(std::chrono::steady_clock::duration d) { return long(std::chrono::duration_cast<std::chrono::microseconds>(d).count()); }
+    static long estimate(long prior, long seen) { return std::max(prior, seen) * AGENT_V2_SEARCH_SAFETY_PCT / 100; }
+
+    template <class R>
+    int choose(R& rt, const int64_t (&sc)[3][5], int joint, std::chrono::steady_clock::time_point started) {
+        using clock = std::chrono::steady_clock;
+        const auto t_begin = clock::now();
+        const bool timed = work_cap < 0;
+        const auto deadline = started + std::chrono::milliseconds(rt.s.turn == 1 ? AGENT_V2_SEARCH_FIRST_MS : AGENT_V2_SEARCH_DEADLINE_MS);
+        const long reserve = estimate(AGENT_V2_SEARCH_REPLY_US, 0);
+        long cell = 0, at_checkpoint = 0;
+        last = Record{};
+        Tree tree;
+        auto admit = [&](long cost, Point p) {
+            if (force_point == p && force_at == cell) return false;
+            return !timed || clock::now() + std::chrono::microseconds(cost + reserve) <= deadline;
+        };
+        auto stop = [&](long& counter, Point why) {
+            counter++;
+            last.stop = why, last.done = cell;
+            max_search_us = std::max(max_search_us, us(clock::now() - t_begin));
+            if (!last.checkpoints) {
+                rt.tel.search_fallback++;
+                return joint;
+            }
+            discarded += cell - at_checkpoint;
+            rt.tel.search_used++;
+            decided++, eff_candidates += last.k, eff_scenarios += last.s;
+            if (last.pick) overrides++;
+            else {
+                baseline_kept++;
+                if (gated_choice(last.mean.data(), last.k, 0.0)) gate_kept++;
+            }
+            return tree.roots[last.pick];
+        };
+        if (!admit(estimate(AGENT_V2_SEARCH_SETUP_US, max_setup_us) + estimate(AGENT_V2_SEARCH_TRAJ_US, max_traj_us), kAdmitSetup))
+            return stop(refuse_setup, kAdmitSetup);
+        setup(rt, sc, joint, tree);
+        last.roots = tree.roots;
+        max_setup_us = std::max(max_setup_us, us(clock::now() - t_begin));
+        const int n = int(tree.roots.size());
+        double val[kCandidates][kSamples] = {};
+        bool have[kCandidates][kSamples] = {};
+        Leaf leaf;
+        for (int c = 0; c < kStagedSchedule.n; c++) {
+            const int k = std::min(kStagedSchedule.at[c].k, n), s = kStagedSchedule.at[c].s;
+            if (last.checkpoints && k == last.k && s == last.s) continue;   // fewer feasible roots: the same comparison
+            for (int smp = 0; smp < s; smp++)
+                for (int ri = 0; ri < k; ri++) {
+                    if (have[ri][smp]) continue;
+                    if (!timed && cell >= work_cap) return stop(stopped_work_cap, kWorkCap);
+                    if (!admit(estimate(AGENT_V2_SEARCH_TRAJ_US, max_traj_us), kAdmitTrajectory)) return stop(refuse_trajectory, kAdmitTrajectory);
+                    const auto t0 = clock::now();
+                    clock::time_point t_expand{};
+                    auto expand = [&] {
+                        t_expand = clock::now();
+                        return admit(estimate(AGENT_V2_SEARCH_EXPAND_US, max_expand_us), kAdmitExpand);
+                    };
+                    auto spent = [&] { max_traj_us = std::max(max_traj_us, us(clock::now() - t0)); };
+                    if (!trajectory(rt, tree, ri, smp, sim, leaf, expand)) {
+                        spent();
+                        return stop(refuse_expand, kAdmitExpand);
+                    }
+                    if (leaf.plies == 2) max_expand_us = std::max(max_expand_us, us(clock::now() - t_expand));
+                    double v = leaf.reward;
+                    if (!leaf.terminal) {
+                        if (!admit(estimate(AGENT_V2_SEARCH_CRITIC_US, max_critic_us), kAdmitCritic)) {
+                            spent();
+                            return stop(refuse_critic, kAdmitCritic);
+                        }
+                        const auto t1 = clock::now();
+                        v = meow_rl_critic::value(leaf.feats.data());
+                        max_critic_us = std::max(max_critic_us, us(clock::now() - t1));
+                        rt.tel.leaves++;
+                    }
+                    spent();
+                    if (cell == nan_at) v = std::numeric_limits<double>::quiet_NaN();
+                    trajectories++;
+                    const bool late = (timed && clock::now() > deadline) || (force_point == kLate && force_at == cell);
+                    cell++;
+                    if (late) return stop(refuse_late, kLate);           // its work is discarded with the rest
+                    val[ri][smp] = v, have[ri][smp] = true;
+                }
+            std::array<double, kCandidates> mean{};
+            for (int ri = 0; ri < k; ri++) mean[ri] = checkpoint_mean(val, ri, s);
+            last.checkpoints++, last.k = k, last.s = s;
+            last.mean.assign(mean.begin(), mean.begin() + k);
+            last.pick = gated_choice(mean.data(), k, kTau);
+            at_checkpoint = cell;
+            checkpoints++;
+        }
+        return stop(complete, kComplete);
     }
 };
 #endif

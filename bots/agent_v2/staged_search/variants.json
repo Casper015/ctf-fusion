@@ -1,0 +1,16 @@
+{
+ "_comment": "T0087 staged-search variants (bots/agent_v2/staged_search/README.md), with T0081's P2 arms included as source-bound controls: agent_v2_p3exp_p2_gw8x4_fp32 is the same tree without checkpoints, agent_v2_p3exp_p2_direct the same carrier without search. Build: python bots/p_only/tools/build.py --variants bots/agent_v2/staged_search/variants.json agent_v2_staged_p2_r8x4_fp32 agent_v2_staged_p2_w4to8x4_fp32 agent_v2_p3exp_p2_gw8x4_fp32 agent_v2_p3exp_p2_direct. Opt-in, not screened, not a production default.",
+ "include": ["bots/agent_v2/p3_search/variants.json"],
+ "variants": [
+  {
+   "name": "agent_v2_staged_p2_r8x4_fp32",
+   "role": "experimental (T0087): staged search, full-width rounds 8:1,8:2,8:3,8:4 over the gw8x4 tree; P2 general XXL, tau 0.002, FP32 critic",
+   "source": "bots/agent_v2/staged_search/variants/agent_v2_staged_p2_r8x4_fp32.cpp"
+  },
+  {
+   "name": "agent_v2_staged_p2_w4to8x4_fp32",
+   "role": "experimental (T0087): staged search, widening schedule 4:1,4:2,8:2,8:3,8:4 over the same tree",
+   "source": "bots/agent_v2/staged_search/variants/agent_v2_staged_p2_w4to8x4_fp32.cpp"
+  }
+ ]
+}
