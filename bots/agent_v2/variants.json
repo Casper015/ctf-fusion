@@ -8,11 +8,6 @@
    "source": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp"
   },
   {
-   "name": "agent_v2_rl_general_csp",
-   "role": "RL variant: actor-direct with T0068 compute-matched general PPO policy (rl_general) on every count, T0067 per-count opponent P specialists (FUSION_TIER_CSP), extracted resolver",
-   "source": "bots/agent_v2/variants/agent_v2_rl_general_csp.cpp"
-  },
-  {
    "name": "agent_v2_p2xxl_search_r16",
    "role": "experimental: + bounded two-ply search with the reference16 critic; P for every prediction",
    "source": "bots/agent_v2/variants/agent_v2_p2xxl_search_r16.cpp"

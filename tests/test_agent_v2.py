@@ -444,7 +444,8 @@ class Profile(unittest.TestCase):
         self.assertTrue(prof["production_default"].startswith("agent_v2_p2xxl_direct"))
         vars_json = json.loads((REPO / "bots" / "agent_v2" / "variants.json").read_text())
         self.assertEqual(vars_json["production_default"], "agent_v2_p2xxl_direct")
-        self.assertIn("agent_v2_rl_general_csp", [v["name"] for v in vars_json["variants"]])
+        # G is a dedicated control (bots/agent_v2/controls/, tests/test_next_controls.py), never a carrier variant
+        self.assertNotIn("agent_v2_rl_general_csp", [v["name"] for v in vars_json["variants"]])
 
 
 if __name__ == "__main__":
