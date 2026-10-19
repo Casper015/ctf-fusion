@@ -1,13 +1,13 @@
 ---
 id: T0094
 title: "Host: rank the strongest bots (ctf_duel_challenger, Meowmind, Meowmind+P3, agent_v2) in one paired screen"
-status: open
-owner: ""
+status: active
+owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/strongest_bot/, profiles/strongest_bot_screen.json, docs/STRONGEST_BOT_SEEDS.md]
 depends: [T0093]
 land: direct
-branch: ""
+branch: antigravity/t0094-host-rank-the-strongest-bots-ctf-duel
 updated: 2026-10-19
 ---
 
@@ -37,3 +37,4 @@ Not started.
 ## Log
 
 - 2026-10-19 17:11Z claude-fervent@cloud: created
+- 2026-10-19 22:16Z antigravity@desktop-g60ojud: claimed
