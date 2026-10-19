@@ -1,13 +1,13 @@
 ---
 id: T0093
 title: "Add the uploaded ctf_duel_challenger bot as a buildable variant"
-status: open
-owner: ""
+status: active
+owner: claude-fervent@cloud
 needs: []
 writes: [bots/challengers/]
 depends: []
 land: direct
-branch: ""
+branch: claude-fervent/t0093-add-the-uploaded-ctf-duel-challenger-bot
 updated: 2026-10-19
 ---
 
@@ -26,3 +26,4 @@ Not started.
 ## Log
 
 - 2026-10-19 17:08Z claude-fervent@cloud: created
+- 2026-10-19 17:09Z claude-fervent@cloud: claimed
