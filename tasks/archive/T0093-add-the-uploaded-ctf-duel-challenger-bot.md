@@ -1,7 +1,7 @@
 ---
 id: T0093
 title: "Add the uploaded ctf_duel_challenger bot as a buildable variant"
-status: active
+status: done
 owner: claude-fervent@cloud
 needs: []
 writes: [bots/challengers/]
@@ -21,10 +21,13 @@ bots/challengers/ holds the unmodified file, README and variants.json; build.py 
 
 ## Handoff
 
-Not started.
+*2026-10-19 18:42Z claude-fervent@cloud:*
+
+Landed edd7c1a: bots/challengers/ctf_duel_challenger.cpp (unmodified, sha256 79bb5106...), README (provenance, MIT license, hashes) and variants.json (challenger + original Meowmind, Meowmind+P3, agent_v2_p2xxl_direct). build.py builds it; dev replay of n02/n04/n15 answered 400/400 turns (not evidence). Core tests 475 OK. Next: host task T0094 ranks the contenders.
 
 ## Log
 
 - 2026-10-19 17:08Z claude-fervent@cloud: created
 - 2026-10-19 17:09Z claude-fervent@cloud: claimed
 - 2026-10-19 18:41Z claude-fervent@cloud: landed: edd7c1a178 on main, 3 file(s)
+- 2026-10-19 18:42Z claude-fervent@cloud: done
