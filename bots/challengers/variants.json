@@ -1,0 +1,11 @@
+{
+ "_comment": "Contenders for the strongest-bot ranking (bots/challengers/README.md): the uploaded ctf_duel_challenger, plus the lists that hold the original Meowmind (search on/off), Meowmind with our P3, and agent_v2_p2xxl_direct. Build: python bots/p_only/tools/build.py --variants bots/challengers/variants.json ctf_duel_challenger meowmind_search_on meowmind_p3_xxl meowmind_p3_distill_xxl agent_v2_p2xxl_direct. Not screened.",
+ "include": ["bots/meowmind_p/attribution/variants.json", "bots/meow_rl/variants.json", "bots/agent_v2/variants.json"],
+ "variants": [
+  {
+   "name": "ctf_duel_challenger",
+   "role": "external (uploaded 2026-10-19, MIT, meow-ai-arena contributors): MeowMind-family learned policy/value search, unmodified",
+   "source": "bots/challengers/ctf_duel_challenger.cpp"
+  }
+ ]
+}
