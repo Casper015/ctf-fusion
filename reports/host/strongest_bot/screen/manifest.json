@@ -1,0 +1,244 @@
+{
+ "variants": {
+  "meowmind_search_on": {
+   "name": "meowmind_search_on",
+   "role": "ON: original Meowmind with NN_SEARCH=1",
+   "source": "bots/meowmind_p/attribution/meowmind_search_on.cpp",
+   "telemetry": "meowmind",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\meowmind_search_on.cpp",
+   "bundle_sha256": "12e87b0728a55bd3001f848e9389e7f81b89fb28f4fcb0437bbb7eba310d5e0e",
+   "bundle_bytes": 859404,
+   "binary": "build\\p_only\\bin\\meowmind_search_on-12e87b0728a5.exe",
+   "binary_sha256": "ece986d0cbd75ffae44d6632746c83054b28a4ff06895c30d7e0b003d2e788eb",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\meowmind_p\\attribution\\meowmind_search_on.cpp",
+     "sha256": "ae9270f172ca6805ed9aea34a53915147a94127fe8fd299a5742124798863901"
+    },
+    {
+     "path": "bots\\meowmind_p\\meowmind-ctf-374-20261011.cpp",
+     "sha256": "cc7b730cf77c087c8c7f415b3b7d07101c3f003924d3a845a2ea3b81588794bc"
+    }
+   ]
+  },
+  "meowmind_p3_distill_xxl": {
+   "name": "meowmind_p3_distill_xxl",
+   "role": "Meowmind with our distilled P3 XXL in opponent mixture",
+   "source": "bots/meowmind_p/meowmind_p_distill_xxl_both.cpp",
+   "telemetry": "meowmind",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\meowmind_p3_distill_xxl.cpp",
+   "bundle_sha256": "f9cd1d619553708a5f95578a015a1c79d9ed19ff7d183a55431a0a9e23685e3a",
+   "bundle_bytes": 4973184,
+   "binary": "build\\p_only\\bin\\meowmind_p3_distill_xxl-f9cd1d619553.exe",
+   "binary_sha256": "bcffab2270cafb5ff59de1ea54827be15a9bf6647908b834093234a582bcbf09",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\meowmind_p\\meowmind_p_distill_xxl_both.cpp",
+     "sha256": "680ccd22501f99c59c0f4ee7cab1d170d1b1aa1078eecf563fc17d26785e3e14"
+    }
+   ]
+  },
+  "meowmind_p3_xxl": {
+   "name": "meowmind_p3_xxl",
+   "role": "Meowmind with our P3 XXL in opponent mixture",
+   "source": "bots/meowmind_p/meowmind_p_t0011_xxl_both.cpp",
+   "telemetry": "meowmind",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\meowmind_p3_xxl.cpp",
+   "bundle_sha256": "1cf0d07a7bc7a88ad0521ea90ea4c03b8610871d4808ad988d09f539f395eae8",
+   "bundle_bytes": 4816623,
+   "binary": "build\\p_only\\bin\\meowmind_p3_xxl-1cf0d07a7bc7.exe",
+   "binary_sha256": "93ce877ed01447077ddb9c4a35b2c5dbccbe193b32cafa688379aa2d37bd4961",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\meowmind_p\\meowmind_p_t0011_xxl_both.cpp",
+     "sha256": "a27b73001fd42c96bb9a76f0c7b4f317c7acf9038ad57b2941671b1fe98614d3"
+    }
+   ]
+  },
+  "agent_v2_p2xxl_direct": {
+   "name": "agent_v2_p2xxl_direct",
+   "role": "V: agent_v2_p2xxl_direct, deployed actor-direct default",
+   "source": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp",
+   "telemetry": "agent_v2",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\agent_v2_p2xxl_direct.cpp",
+   "bundle_sha256": "ee552c9bbd3c3b3d524644ec008d5fd85b34f5a997d6350756094fbc106c550c",
+   "bundle_bytes": 32275296,
+   "binary": "build\\p_only\\bin\\agent_v2_p2xxl_direct-ee552c9bbd3c.exe",
+   "binary_sha256": "d5329fc7f69ec22dab8a6e1177d8883abdb8ec7e17e66314d9e7ea6b883fe8e7",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\agent_v2\\variants\\agent_v2_p2xxl_direct.cpp",
+     "sha256": "72d0efaddf0dabf2097bd47ea09d93ffbe0494e6b537da261d34ef2b1acd9350"
+    },
+    {
+     "path": "inference\\meow_rl\\aligned\\p2_large\\actor.hpp",
+     "sha256": "5462db3232f342f290564ed649c15b29dd20dcc32e4c1a7097c54bc216f7ec8e"
+    },
+    {
+     "path": "inference\\mlp.hpp",
+     "sha256": "0f101fe5e5b987241a8d61a5c5a9c40c4429cae0f4018179aa8061bf41ecfb66"
+    },
+    {
+     "path": "inference\\simd.hpp",
+     "sha256": "9459d16e54779dd685ea1c192eb1b968d7a7f1ba029a34b940af60e3e743a453"
+    },
+    {
+     "path": "bots\\agent_v2\\bot.hpp",
+     "sha256": "e5e9b1ed8697466ff56cfdc78b8796498eb2c745ad0b2dad875a5c45ebf96670"
+    },
+    {
+     "path": "inference\\agent_v2\\runtime.hpp",
+     "sha256": "b295e0dc465c1e21c459b44a48192840d229e05ee66d6618ee0490645c69e14f"
+    },
+    {
+     "path": "inference\\agent_v2\\core.hpp",
+     "sha256": "f9f8bef99c7e9f35aad5b20e8b1c1a723a18e8e9595c00c15e963fba2b5682a5"
+    },
+    {
+     "path": "inference\\sim.hpp",
+     "sha256": "0bbd898b4f14da7ecfe00ae754a828e75ab6d0a8b89e7d6ec7c1f88c3b4f85cd"
+    },
+    {
+     "path": "inference\\state.hpp",
+     "sha256": "2989883a4fa496a11882310aaab22d6004c49f84fc114a61c8916a142fc9f206"
+    },
+    {
+     "path": "inference\\agent_v2\\features_meow_v1.hpp",
+     "sha256": "f2495d3d57f55dc0ad8b461ab6c7cf558cc7a9a07e968f1246777c06e7e526d8"
+    },
+    {
+     "path": "inference\\agent_v2\\meowmind_features.hpp",
+     "sha256": "f95416504f6f031e8eab5ec688953f8cbf490ca6feb1cd8e256590051bbd915a"
+    },
+    {
+     "path": "inference\\agent_v2\\predictor.hpp",
+     "sha256": "87d38e5f96ced9f985f1160f4790434045efd9e1573d87aedf30d5d4e3e9ade9"
+    },
+    {
+     "path": "inference\\agent_v2\\p_bank.hpp",
+     "sha256": "b46a98583a5f2d25f18020ca653fd50204ed74893b2b08802c50b88c2a1420a6"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\registry.hpp",
+     "sha256": "8ac015005b7eb4bba3f7e1635bfd39e7bc6a3d93bffc051d574f814ff6f20194"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_general.hpp",
+     "sha256": "4a3044c14f0983686a173a0a3ece1ac59b50252dbaeecda79406330fddd8d1d1"
+    },
+    {
+     "path": "inference\\adapter.hpp",
+     "sha256": "b949c993c4b9f54cd26d301a0522896ac0abc7d131b1c11bc177d6e679a72bd1"
+    },
+    {
+     "path": "inference\\policy.hpp",
+     "sha256": "386de1c84a1fcaa378c4f4e82112451108249c32868dae5810d78a9803fed613"
+    },
+    {
+     "path": "inference\\features.hpp",
+     "sha256": "7dbafbe1ffe039f6a06384f5b074699dc179ea20c8f049769749abbc3dd92db8"
+    },
+    {
+     "path": "inference\\value.hpp",
+     "sha256": "a61e253f134cde1ea23a9626feeb57dad5200dad5a2ff161e1fe2676e803dedf"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n02.hpp",
+     "sha256": "39ba7d4c1b186eded47774dbf4ccd6cbc48def199fc859455ea6a2e5c51fdcb5"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n03.hpp",
+     "sha256": "ffc4e388cdcb49d02cd42c1e6d4d46c07c24bcfb47e26f65d427965c644434d2"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n04.hpp",
+     "sha256": "7f6c1bc30c46c71f8e2883b6f6c672867b1a2a405cfd032a24c4c2c7c8a729f3"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n05.hpp",
+     "sha256": "7824c1d5b945557fcd99d70bdd4049ef5eb26056ecece90b058147925a7709ff"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n06.hpp",
+     "sha256": "8ae640133aef2222d125f86ada348bb35c5f40fa5bb43855cc3f1348fec2b8e3"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n07.hpp",
+     "sha256": "1545a6ddf59857bd64d4b6b014009c629fd1e38037cf4c35fe9650c5ecb18c6c"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n08.hpp",
+     "sha256": "7fb7f88d43a1695a0481fc2b9341bbb38fb5ec3cadc30a282b2aa18a88f4b207"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n10.hpp",
+     "sha256": "02ab30b6dedf3b50fea278ee383d2a70a493a73b406c7df6b235da8793f4f935"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n12.hpp",
+     "sha256": "73e845b2259f9402c4f6f79ed0ebe3a4cbb438545cf0dc62ce53340e0b4a3451"
+    },
+    {
+     "path": "inference\\models_pxxl_vm\\weights_n15.hpp",
+     "sha256": "4d3d714aa88ab4a75528f899ebbdaafafbfe01dc6822d6566b9ad0485f52f6f2"
+    },
+    {
+     "path": "inference\\agent_v2\\resolver.hpp",
+     "sha256": "ec2a2753820b3bc034029cfffa9b9c04d4c90798fc505dcc12aee35a723d32d0"
+    },
+    {
+     "path": "inference\\agent_v2\\simulate.hpp",
+     "sha256": "7347bc9e01688897b5391d8e9da65c41c9bc86ed0eb6cd128331dde822b142df"
+    },
+    {
+     "path": "bots\\p_only\\include\\ponly.hpp",
+     "sha256": "9667b4e0fb282b5fdea38e523a51f9af74e03eb76af8218de3823e68963bcf28"
+    },
+    {
+     "path": "tools\\cpp\\stream.hpp",
+     "sha256": "40de1a62ff395223cb0e7ec1695d6c88de877a6c13813d9228874765d057bcbb"
+    },
+    {
+     "path": "tools\\cpp\\meow_rl\\actor_int.hpp",
+     "sha256": "18a2fd123def697d816b4e11995cbb39d13aebf2574aa9e7b00e712db5cb79ae"
+    }
+   ]
+  },
+  "ctf_duel_challenger": {
+   "name": "ctf_duel_challenger",
+   "role": "external: MeowMind-family learned policy/value search, unmodified",
+   "source": "bots/challengers/ctf_duel_challenger.cpp",
+   "telemetry": "meowmind",
+   "stats": true,
+   "bundle": "build\\p_only\\src\\ctf_duel_challenger.cpp",
+   "bundle_sha256": "07170382a5ea5a485ba94a745799d22efc9fe7ed789fd3f8304f7328fda61409",
+   "bundle_bytes": 174857,
+   "binary": "build\\p_only\\bin\\ctf_duel_challenger-07170382a5ea.exe",
+   "binary_sha256": "5cf33419427fcb7cc5f7fd8ff083fd57b76ea73bf1d70e3ac99e3df8ad35f19e",
+   "compile_seconds": 0.0,
+   "inputs": [
+    {
+     "path": "bots\\challengers\\ctf_duel_challenger.cpp",
+     "sha256": "79bb510681ce0ca1958c96f3eee423e8e89af11b58b7e150def2db3dfa2c3f5d"
+    }
+   ]
+  }
+ },
+ "compiler": "g++.EXE (GCC) 15.2.0",
+ "flags": [
+  "-std=c++20",
+  "-O2",
+  "-static"
+ ],
+ "host": "DESKTOP-G60OJUD",
+ "platform": "Windows-10-10.0.19045-SP0",
+ "updated": "2026-10-19T15:23:02"
+}

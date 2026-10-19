@@ -1,0 +1,120 @@
+{
+ "created": "2026-10-19T15:51:30",
+ "smoke": false,
+ "config": {
+  "_comment": "Paired host screen for task T0094 (Strongest bot ranking screen): ctf_duel_challenger vs meowmind_search_on vs meowmind_p3_xxl vs meowmind_p3_distill_xxl vs agent_v2_p2xxl_direct + A/A copy of ctf_duel_challenger. Fresh seed 20262171, exactly 8 workers under CPU lock, 2,000 ms first and 50 ms steady replies. 56 maps per count across counts 2-15 (784 fixtures, 4,704 games total across 6 arms). Four primary comparisons share one Bonferroni family (alpha=0.05).",
+  "seed": 20262171,
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 56,
+  "workers": 8,
+  "workers_exact": true,
+  "first_ms": 2000,
+  "turn_ms": 50,
+  "keep_matches": true,
+  "variants": "reports/host/strongest_bot/variants.json",
+  "margin": 0.0,
+  "preflight": "reports/host/strongest_bot/PREFLIGHT.json",
+  "reference": [
+   "Fable",
+   "MiMo",
+   "Kimi",
+   "GLM",
+   "Player4"
+  ],
+  "fixtures": 784,
+  "games": 4704,
+  "work_dir": "data/host/strongest_bot/screen",
+  "report_dir": "reports/host/strongest_bot/screen",
+  "arms": [
+   "ctf_duel_challenger",
+   "meowmind_search_on",
+   "meowmind_p3_xxl",
+   "meowmind_p3_distill_xxl",
+   "agent_v2_p2xxl_direct"
+  ],
+  "aa": [
+   "ctf_duel_challenger"
+  ],
+  "comparisons": [
+   [
+    "ctf_duel_challenger",
+    "meowmind_search_on"
+   ],
+   [
+    "ctf_duel_challenger",
+    "agent_v2_p2xxl_direct"
+   ],
+   [
+    "meowmind_p3_xxl",
+    "meowmind_search_on"
+   ],
+   [
+    "meowmind_p3_distill_xxl",
+    "meowmind_search_on"
+   ]
+  ],
+  "multiplicity": {
+   "method": "bonferroni",
+   "alpha": 0.05
+  }
+ },
+ "effective": {
+  "teams": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15
+  ],
+  "maps_per_count": 56,
+  "turn_ms": 50,
+  "arms": [
+   "ctf_duel_challenger",
+   "meowmind_search_on",
+   "meowmind_p3_xxl",
+   "meowmind_p3_distill_xxl",
+   "agent_v2_p2xxl_direct"
+  ],
+  "aa": [
+   "ctf_duel_challenger"
+  ],
+  "workers": 8
+ },
+ "ctf_fusion_commit": "f3873936541afea725d7ffff057bcef0b33626a2",
+ "ai_test_commit": "988831c0af42fb0ec290c98f1f168df994574f9e",
+ "host": "DESKTOP-G60OJUD",
+ "os": "Windows-10-10.0.19045-SP0",
+ "cpu_count": 32,
+ "python": "3.14.3",
+ "wall_seconds": {
+  "build": 0.6,
+  "run": 1681.1,
+  "analyze": 27.0,
+  "total": 1708.9
+ },
+ "analysis_status": 0
+}

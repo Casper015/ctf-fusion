@@ -1,0 +1,35 @@
+{
+ "_comment": "Variants for task T0094 (Strongest bot ranking screen): ctf_duel_challenger, meowmind_search_on, meowmind_p3_xxl, meowmind_p3_distill_xxl, agent_v2_p2xxl_direct.",
+ "variants": [
+  {
+   "name": "ctf_duel_challenger",
+   "role": "external: MeowMind-family learned policy/value search, unmodified",
+   "source": "bots/challengers/ctf_duel_challenger.cpp",
+   "telemetry": "meowmind"
+  },
+  {
+   "name": "meowmind_search_on",
+   "role": "ON: original Meowmind with NN_SEARCH=1",
+   "source": "bots/meowmind_p/attribution/meowmind_search_on.cpp",
+   "telemetry": "meowmind"
+  },
+  {
+   "name": "meowmind_p3_xxl",
+   "role": "Meowmind with our P3 XXL in opponent mixture",
+   "source": "bots/meowmind_p/meowmind_p_t0011_xxl_both.cpp",
+   "telemetry": "meowmind"
+  },
+  {
+   "name": "meowmind_p3_distill_xxl",
+   "role": "Meowmind with our distilled P3 XXL in opponent mixture",
+   "source": "bots/meowmind_p/meowmind_p_distill_xxl_both.cpp",
+   "telemetry": "meowmind"
+  },
+  {
+   "name": "agent_v2_p2xxl_direct",
+   "role": "V: agent_v2_p2xxl_direct, deployed actor-direct default",
+   "source": "bots/agent_v2/variants/agent_v2_p2xxl_direct.cpp",
+   "telemetry": "agent_v2"
+  }
+ ]
+}

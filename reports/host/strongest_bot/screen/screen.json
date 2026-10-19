@@ -1,0 +1,639 @@
+{
+ "schedule": "3f18319e8916af678d8229b8c5a448c3f00703bff480224d19f2ee58bd417829",
+ "seed": 20262171,
+ "fixtures": 784,
+ "team_counts": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "incomplete": {},
+ "stale_rows": {},
+ "arms": {
+  "ctf_duel_challenger": {
+   "games": 784,
+   "binary_sha256": "5cf33419427fcb7cc5f7fd8ff083fd57b76ea73bf1d70e3ac99e3df8ad35f19e",
+   "utility": 0.84285,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 80.6,
+   "p99_ms_median": 10.722,
+   "p99_ms_worst": 13.199,
+   "max_ms": 14.465
+  },
+  "meowmind_search_on": {
+   "games": 784,
+   "binary_sha256": "ece986d0cbd75ffae44d6632746c83054b28a4ff06895c30d7e0b003d2e788eb",
+   "utility": 0.83169,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 77.3,
+   "p99_ms_median": 10.694,
+   "p99_ms_worst": 13.047,
+   "max_ms": 14.025
+  },
+  "meowmind_p3_xxl": {
+   "games": 784,
+   "binary_sha256": "93ce877ed01447077ddb9c4a35b2c5dbccbe193b32cafa688379aa2d37bd4961",
+   "utility": 0.86533,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 76.4,
+   "p99_ms_median": 10.566,
+   "p99_ms_worst": 12.887,
+   "max_ms": 13.86
+  },
+  "meowmind_p3_distill_xxl": {
+   "games": 784,
+   "binary_sha256": "bcffab2270cafb5ff59de1ea54827be15a9bf6647908b834093234a582bcbf09",
+   "utility": 0.86526,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 78.1,
+   "p99_ms_median": 10.56,
+   "p99_ms_worst": 12.907,
+   "max_ms": 14.53
+  },
+  "agent_v2_p2xxl_direct": {
+   "games": 784,
+   "binary_sha256": "d5329fc7f69ec22dab8a6e1177d8883abdb8ec7e17e66314d9e7ea6b883fe8e7",
+   "utility": 0.77602,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 46.6,
+   "p99_ms_median": 0.858,
+   "p99_ms_worst": 2.535,
+   "max_ms": 4.152
+  },
+  "ctf_duel_challenger~aa": {
+   "games": 784,
+   "binary_sha256": "5cf33419427fcb7cc5f7fd8ff083fd57b76ea73bf1d70e3ac99e3df8ad35f19e",
+   "utility": 0.8386,
+   "faults": 0,
+   "dead_games": 0,
+   "late_replies": 0,
+   "opponent_faults": 0,
+   "opponent_dead": 0,
+   "opponent_late": 0,
+   "first_ms_max": 83.3,
+   "p99_ms_median": 10.742,
+   "p99_ms_worst": 13.653,
+   "max_ms": 15.32
+  }
+ },
+ "comparisons": {
+  "ctf_duel_challenger - meowmind_search_on": {
+   "overall": {
+    "mean": 0.01116,
+    "ci95": [
+     -0.00264,
+     0.02496
+    ],
+    "se": 0.00704,
+    "fixtures": 784,
+    "verdict": "not shown",
+    "z": 2.4977,
+    "ci": [
+     -0.00643,
+     0.02875
+    ],
+    "verdict_95": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 56,
+     "verdict": "not shown",
+     "z": 2.4977,
+     "ci": [
+      0.0,
+      0.0
+     ],
+     "verdict_95": "not shown"
+    },
+    "3-5": {
+     "mean": 0.02976,
+     "ci95": [
+      -0.01111,
+      0.07063
+     ],
+     "se": 0.02085,
+     "fixtures": 168,
+     "verdict": "not shown",
+     "z": 2.4977,
+     "ci": [
+      -0.02232,
+      0.08185
+     ],
+     "verdict_95": "not shown"
+    },
+    "6-10": {
+     "mean": 0.00486,
+     "ci95": [
+      -0.01825,
+      0.02798
+     ],
+     "se": 0.01179,
+     "fixtures": 280,
+     "verdict": "not shown",
+     "z": 2.4977,
+     "ci": [
+      -0.02459,
+      0.03432
+     ],
+     "verdict_95": "not shown"
+    },
+    "11-15": {
+     "mean": 0.00853,
+     "ci95": [
+      -0.01041,
+      0.02746
+     ],
+     "se": 0.00966,
+     "fixtures": 280,
+     "verdict": "not shown",
+     "z": 2.4977,
+     "ci": [
+      -0.0156,
+      0.03266
+     ],
+     "verdict_95": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.08036,
+    "4": -0.0,
+    "5": 0.00893,
+    "6": 0.04643,
+    "7": -0.01339,
+    "8": 0.00765,
+    "9": -0.01339,
+    "10": -0.00298,
+    "11": 0.02321,
+    "12": 0.02922,
+    "13": -0.01637,
+    "14": 0.03846,
+    "15": -0.03189
+   },
+   "improved": 253,
+   "unchanged": 310,
+   "degraded": 221,
+   "identical_scores": 3,
+   "fixtures": 784,
+   "scheduled": 784,
+   "missing": 0
+  },
+  "ctf_duel_challenger - agent_v2_p2xxl_direct": {
+   "overall": {
+    "mean": 0.06684,
+    "ci95": [
+     0.05207,
+     0.08161
+    ],
+    "se": 0.00754,
+    "fixtures": 784,
+    "verdict": "helps",
+    "z": 2.4977,
+    "ci": [
+     0.04802,
+     0.08566
+    ],
+    "verdict_95": "helps"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.02679,
+     "ci95": [
+      -0.01206,
+      0.06563
+     ],
+     "se": 0.01982,
+     "fixtures": 56,
+     "verdict": "not shown",
+     "z": 2.4977,
+     "ci": [
+      -0.02272,
+      0.07629
+     ],
+     "verdict_95": "not shown"
+    },
+    "3-5": {
+     "mean": 0.07267,
+     "ci95": [
+      0.03386,
+      0.11147
+     ],
+     "se": 0.0198,
+     "fixtures": 168,
+     "verdict": "helps",
+     "z": 2.4977,
+     "ci": [
+      0.02322,
+      0.12212
+     ],
+     "verdict_95": "helps"
+    },
+    "6-10": {
+     "mean": 0.07889,
+     "ci95": [
+      0.05358,
+      0.10421
+     ],
+     "se": 0.01292,
+     "fixtures": 280,
+     "verdict": "helps",
+     "z": 2.4977,
+     "ci": [
+      0.04663,
+      0.11116
+     ],
+     "verdict_95": "helps"
+    },
+    "11-15": {
+     "mean": 0.05929,
+     "ci95": [
+      0.03769,
+      0.0809
+     ],
+     "se": 0.01102,
+     "fixtures": 280,
+     "verdict": "helps",
+     "z": 2.4977,
+     "ci": [
+      0.03176,
+      0.08683
+     ],
+     "verdict_95": "helps"
+    }
+   },
+   "per_count": {
+    "2": 0.02679,
+    "3": 0.07589,
+    "4": 0.03274,
+    "5": 0.10938,
+    "6": 0.09107,
+    "7": -0.00149,
+    "8": 0.11862,
+    "9": 0.11384,
+    "10": 0.07242,
+    "11": 0.07321,
+    "12": 0.07062,
+    "13": 0.06399,
+    "14": 0.0625,
+    "15": 0.02615
+   },
+   "improved": 349,
+   "unchanged": 277,
+   "degraded": 158,
+   "identical_scores": 0,
+   "fixtures": 784,
+   "scheduled": 784,
+   "missing": 0
+  },
+  "meowmind_p3_xxl - meowmind_search_on": {
+   "overall": {
+    "mean": 0.03363,
+    "ci95": [
+     0.021,
+     0.04627
+    ],
+    "se": 0.00644,
+    "fixtures": 784,
+    "verdict": "helps",
+    "z": 2.4977,
+    "ci": [
+     0.01754,
+     0.04973
+    ],
+    "verdict_95": "helps"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 56,
+     "verdict": "not shown",
+     "z": 2.4977,
+     "ci": [
+      0.0,
+      0.0
+     ],
+     "verdict_95": "not shown"
+    },
+    "3-5": {
+     "mean": 0.05605,
+     "ci95": [
+      0.02096,
+      0.09114
+     ],
+     "se": 0.01791,
+     "fixtures": 168,
+     "verdict": "helps",
+     "z": 2.4977,
+     "ci": [
+      0.01133,
+      0.10077
+     ],
+     "verdict_95": "helps"
+    },
+    "6-10": {
+     "mean": 0.03347,
+     "ci95": [
+      0.01212,
+      0.05481
+     ],
+     "se": 0.01089,
+     "fixtures": 280,
+     "verdict": "helps",
+     "z": 2.4977,
+     "ci": [
+      0.00627,
+      0.06066
+     ],
+     "verdict_95": "helps"
+    },
+    "11-15": {
+     "mean": 0.02708,
+     "ci95": [
+      0.00832,
+      0.04584
+     ],
+     "se": 0.00957,
+     "fixtures": 280,
+     "verdict": "helps",
+     "z": 2.4977,
+     "ci": [
+      0.00317,
+      0.05099
+     ],
+     "verdict_95": "helps"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.11607,
+    "4": 0.02976,
+    "5": 0.02232,
+    "6": 0.09464,
+    "7": 0.05506,
+    "8": 0.0051,
+    "9": 0.00558,
+    "10": 0.00694,
+    "11": 0.05179,
+    "12": 0.00487,
+    "13": 0.01786,
+    "14": 0.05769,
+    "15": 0.00319
+   },
+   "improved": 288,
+   "unchanged": 309,
+   "degraded": 187,
+   "identical_scores": 3,
+   "fixtures": 784,
+   "scheduled": 784,
+   "missing": 0
+  },
+  "meowmind_p3_distill_xxl - meowmind_search_on": {
+   "overall": {
+    "mean": 0.03357,
+    "ci95": [
+     0.02054,
+     0.0466
+    ],
+    "se": 0.00665,
+    "fixtures": 784,
+    "verdict": "helps",
+    "z": 2.4977,
+    "ci": [
+     0.01696,
+     0.05018
+    ],
+    "verdict_95": "helps"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 56,
+     "verdict": "not shown",
+     "z": 2.4977,
+     "ci": [
+      0.0,
+      0.0
+     ],
+     "verdict_95": "not shown"
+    },
+    "3-5": {
+     "mean": 0.05357,
+     "ci95": [
+      0.01607,
+      0.09107
+     ],
+     "se": 0.01913,
+     "fixtures": 168,
+     "verdict": "helps",
+     "z": 2.4977,
+     "ci": [
+      0.00578,
+      0.10136
+     ],
+     "verdict_95": "helps"
+    },
+    "6-10": {
+     "mean": 0.03168,
+     "ci95": [
+      0.00931,
+      0.05405
+     ],
+     "se": 0.01141,
+     "fixtures": 280,
+     "verdict": "helps",
+     "z": 2.4977,
+     "ci": [
+      0.00318,
+      0.06019
+     ],
+     "verdict_95": "helps"
+    },
+    "11-15": {
+     "mean": 0.03017,
+     "ci95": [
+      0.01214,
+      0.0482
+     ],
+     "se": 0.0092,
+     "fixtures": 280,
+     "verdict": "helps",
+     "z": 2.4977,
+     "ci": [
+      0.00719,
+      0.05315
+     ],
+     "verdict_95": "helps"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.09821,
+    "4": 0.03571,
+    "5": 0.02679,
+    "6": 0.07679,
+    "7": 0.04613,
+    "8": -0.00765,
+    "9": 0.03125,
+    "10": 0.0119,
+    "11": 0.04464,
+    "12": 0.0414,
+    "13": 0.03497,
+    "14": 0.03365,
+    "15": -0.00383
+   },
+   "improved": 280,
+   "unchanged": 327,
+   "degraded": 177,
+   "identical_scores": 1,
+   "fixtures": 784,
+   "scheduled": 784,
+   "missing": 0
+  }
+ },
+ "multiplicity": {
+  "method": "bonferroni",
+  "alpha": 0.05,
+  "comparisons": 4,
+  "z": 2.4977
+ },
+ "rerun_noise": {
+  "ctf_duel_challenger~aa - ctf_duel_challenger": {
+   "overall": {
+    "mean": -0.00425,
+    "ci95": [
+     -0.01394,
+     0.00544
+    ],
+    "se": 0.00495,
+    "fixtures": 784,
+    "verdict": "not shown"
+   },
+   "bands": {
+    "2": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 56,
+     "verdict": "not shown"
+    },
+    "3-5": {
+     "mean": 0.0,
+     "ci95": [
+      0.0,
+      0.0
+     ],
+     "se": 0.0,
+     "fixtures": 168,
+     "verdict": "not shown"
+    },
+    "6-10": {
+     "mean": -0.01085,
+     "ci95": [
+      -0.0289,
+      0.0072
+     ],
+     "se": 0.00921,
+     "fixtures": 280,
+     "verdict": "not shown"
+    },
+    "11-15": {
+     "mean": -0.00105,
+     "ci95": [
+      -0.02131,
+      0.01922
+     ],
+     "se": 0.01034,
+     "fixtures": 280,
+     "verdict": "not shown"
+    }
+   },
+   "per_count": {
+    "2": 0.0,
+    "3": 0.0,
+    "4": 0.0,
+    "5": 0.0,
+    "6": -0.02679,
+    "7": 0.01339,
+    "8": -0.02934,
+    "9": 0.01228,
+    "10": -0.02381,
+    "11": 0.00357,
+    "12": -0.00081,
+    "13": -0.00893,
+    "14": -0.00481,
+    "15": 0.00574
+   },
+   "improved": 183,
+   "unchanged": 406,
+   "degraded": 195,
+   "identical_scores": 242,
+   "fixtures": 784,
+   "scheduled": 784,
+   "missing": 0
+  }
+ },
+ "network_calls": {},
+ "identities": {
+  "ctf_duel_challenger": "bc50895e95d46e47cf1f6d0ac6cd5486def43d66de67b336213048b2441531a1",
+  "meowmind_search_on": "6b3df13bd44795b4f44775effbd2d1b3c0623ca2f2343ac94e46ccdfc85304ac",
+  "meowmind_p3_xxl": "2c7de03eb6216a4b539118f74aaa53ea018a98d2fa4a85c8cbb3f81eaf784eb2",
+  "meowmind_p3_distill_xxl": "f451ba825dcfb46a22cb31b5539d63916be8f7981229a73ecf047139efc7a652",
+  "agent_v2_p2xxl_direct": "74d6c6e5d1afaa33812fc07ac89020d1af938e3ed85f605859bb1059508001b5",
+  "ctf_duel_challenger~aa": "bc50895e95d46e47cf1f6d0ac6cd5486def43d66de67b336213048b2441531a1"
+ }
+}
