@@ -1,7 +1,7 @@
 ---
 id: T0094
 title: "Host: rank the strongest bots (ctf_duel_challenger, Meowmind, Meowmind+P3, agent_v2) in one paired screen"
-status: active
+status: done
 owner: antigravity@desktop-g60ojud
 needs: [host, ai-test]
 writes: [reports/host/strongest_bot/, profiles/strongest_bot_screen.json, docs/STRONGEST_BOT_SEEDS.md]
@@ -32,10 +32,13 @@ Seeds reserved and checked; preflight receipt; the frozen config; the 4,704-game
 
 ## Handoff
 
-Not started.
+*2026-10-19 23:21Z antigravity@desktop-g60ojud:*
+
+result: reports/host/strongest_bot/REPORT.md; 4,704 paired screen games completed (seed 20262171, 8 workers, 0 faults/late). Tier 1: meowmind_p3_xxl (0.86533) and meowmind_p3_distill_xxl (0.86526) both +0.0336 over meowmind_search_on (helps); Tier 2: ctf_duel_challenger (0.84285) beats agent_v2_p2xxl_direct by +0.0668 (helps), diff vs meowmind_search_on +0.0112 (not shown); Tier 3: agent_v2_p2xxl_direct (0.77602); AA noise -0.0043 (not shown).
 
 ## Log
 
 - 2026-10-19 17:11Z claude-fervent@cloud: created
 - 2026-10-19 22:16Z antigravity@desktop-g60ojud: claimed
 - 2026-10-19 23:21Z antigravity@desktop-g60ojud: landed: 3d3c13a355 on main, 11 file(s)
+- 2026-10-19 23:21Z antigravity@desktop-g60ojud: done
